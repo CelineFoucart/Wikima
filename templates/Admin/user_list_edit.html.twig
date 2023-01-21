@@ -1,0 +1,11 @@
+{% if 'ROLE_SUPER_ADMIN' not in object.roles %}
+	<a href="{{ admin.generateObjectUrl('edit', object) }}" class="btn btn-sm btn-default edit_link" title="Éditer">
+		<i class="fas fa-pencil-alt" aria-hidden="true"></i>
+		Éditer
+	</a>
+{% elseif 'ROLE_SUPER_ADMIN' in object.roles and is_granted('ROLE_SUPER_ADMIN') %}
+	<a href="{{ admin.generateObjectUrl('edit', object) }}" class="btn btn-sm btn-default edit_link" title="Éditer">
+		<i class="fas fa-pencil-alt" aria-hidden="true"></i>
+		Éditer
+	</a>
+{% endif %}

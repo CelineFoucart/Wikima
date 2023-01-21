@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Galerie de
+	{{ category.title }}
+	| Catégorie
+{% endblock %}
+
+{% block description %}
+	{{ category.description }}
+{% endblock %}
+
+{% block body %}
+	{% include "category/components/_header.html.twig" with {images: true} %}
+	<section class="row justify-content-between">
+		{% if category.pages is not empty %}
+			<div class="col-md-12">
+				<p class="text-end m-2">
+					{% for page in category.pages %}
+						<a href="{{ path('app_page', {slug: page.slug}) }}" class="label mx-1" data-bs-toggle="tooltip" title="{{ page.description ? page.description : 'Aucune description' }}">
+							<i class="bi bi-file-earmark-text"></i>
+							{{ page.title }}
+						</a>
+					{% endfor %}
+				</p>
+			</div>
+		{% endif %}
+		<article class="col-md-7 p-4">
+			<h2 class="h2 text-center my-4">Les images de cette catégorie</h1>
+
+			{% include "image/components/_list.html.twig" with {images: images} only %}
+
+		</article>
+		{% include "category/components/_aside.html.twig" %}
+	</section>
+{% endblock %}

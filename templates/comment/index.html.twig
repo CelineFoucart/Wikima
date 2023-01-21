@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commentaires | {{ article.title }}{% endblock %}
+
+{% block description %}Consultez les commentaires de l'article : {{ article.description }}{% endblock %}
+
+{% block body %}
+<article>
+    <header class="pt-4 bg-item header-item border-bottom">
+        {{ include('article/components/_header.html.twig', {comments:true}) }}
+    </header>
+
+    <section class="p-5 px-4">
+        <h2 class="display-6 mb-4">
+            {{ comments.getTotalItemCount }} commentaire{{comments.getTotalItemCount > 1 ? 's':'' }}
+        </h2>
+
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+
+        {% for comment in comments %}
+            {{ include('comment/components/_comment.html.twig') }}
+        {% else %}
+            <p class="my-5 fw-bold text-center">Il n'y a aucun commentaire.</p>
+        {% endfor %}
+
+        <hr class="my-5 mx-5">
+        <div class="navigation">
+            {{ knp_pagination_render(comments) }}
+        </div>
+
+        <article class="mx-5">
+            <h3 class="h4 mb-4">Laisser un commentaire</h3>
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {{ include('comment/components/_form.html.twig') }}
+            {% else %}
+                <p class="text-center">
+                    Veuillez vous <a href="{{ path('app_login') }}">connecter</a> pour laisser un commentaire.
+                </p>
+            {% endif %}
+        </article>
+    </section>
+</article>
+{% endblock %}

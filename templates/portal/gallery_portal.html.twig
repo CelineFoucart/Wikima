@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Galerie de
+	{{ portal.title|capitalize }}
+	| Portail
+{% endblock %}
+
+{% block description %}
+	{{ portal.description }}
+{% endblock %}
+
+{% block body %}
+	<article>
+		{% include "portal/components/_header.html.twig" with {images:true} %}
+
+		<div class="my-4">
+			{% include "image/components/_list.html.twig" with {images: images} only %}
+		</div>
+	</article>
+{% endblock %}

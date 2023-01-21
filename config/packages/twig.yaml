@@ -1,0 +1,14 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    form_themes: ['bootstrap_5_layout.html.twig']
+
+    globals:
+        app_name: '%env(WIKI_NAME)%'
+        app_description: '%env(WIKI_DESCRIPTION)%'
+        enable_contact: '%env(bool:ENABLE_CONTACT)%'
+        enable_login: '%env(bool:ENABLE_LOGIN)%'
+        enable_registration: '%env(bool:ENABLE_REGISTRATION)%'
+
+when@test:
+    twig:
+        strict_variables: true

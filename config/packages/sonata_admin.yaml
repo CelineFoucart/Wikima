@@ -1,0 +1,47 @@
+sonata_admin:
+    security:
+        handler: sonata.admin.security.handler.role
+
+    title: 'Administration'
+    templates:
+        layout: Admin/extend_layout.html.twig
+    dashboard:
+        blocks:
+             -
+                position: top
+                class: col-md-12
+                type: sonata.block.service.text
+                settings: 
+                    content: >
+                        <h1 class="dashboard-title">Tableau de bord</h1>
+                        <p class="description">Bienvenue sur le panneau d'administration. 
+                        Ici, vous allez pouvoir gérer l'encyclopédie et son contenu.</p>
+             - { type: sonata.admin.block.admin_list, position: left }
+             -
+                position: right
+                type:     sonata.admin.block.admin_preview
+                settings:
+                    code:  admin.article
+                    icon:  fas fa-magic
+                    limit: 7
+                    text:  Latest Edited Articles
+                    filters:
+                        _sort_by:    createdAt
+                        _sort_order: DESC
+             -
+                position: right
+                type:     sonata.admin.block.stats
+                settings:
+                    code:  admin.article
+                    icon:  fas fa-magic
+                    text:  published articles
+                    color: bg-blue
+
+    assets:
+        extra_stylesheets: [ assets/admin.css ]
+            
+
+sonata_block:
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts: [admin]

@@ -1,0 +1,55 @@
+{% extends 'base_print.html.twig' %}
+
+{% block title %}
+	{{ article.title }}
+{% endblock %}
+
+{% block body %}
+	<article>
+		<header>
+			<p class="meta-data">
+				<span>
+					Par
+					<strong>{{ article.author ? article.author.username : 'Anonyme' }}</strong>
+				</span>
+				<span>
+					Publié le
+					<strong>{{ article.createdAt|date('d/m/Y, h:i') }}</strong>
+				</span>
+			</p>
+			<h1>{{ article.title }}</h1>
+			<p class="parents">
+				{{ portals|join(', ')}}
+			</p>
+		</header>
+		<p>
+			{{ article.content|raw }}
+		</p>
+
+		{% if article.sections is not empty %}
+			<aside>
+				<p class="summary-title">
+					<strong>Sommaire&nbsp;:</strong>
+				</p>
+				<ol>
+					{% for section in article.sections %}
+						<li>{{ section.title }}</li>
+					{% endfor %}
+				</ol>
+			</aside>
+		{% endif %}
+
+
+		{% set index = 1 %}
+		{% for section in article.sections %}
+			<section>
+				<h2>{{ index }}.
+					{{ section.title }}</h2>
+				<div>{{ section.content|raw }}</div>
+			</section>
+
+			{% set index = index + 1 %}
+		{% endfor %}
+
+	</article>
+{% endblock %}

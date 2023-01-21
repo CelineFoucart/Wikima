@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index des articles
+{% endblock %}
+
+{% block body %}
+	<section class="mt-5 container-fluid">
+		<div class="row justify-content-between">
+			<div class="col-md-4 mt-3">
+				{% include "components/layout/_advance_search_form.html.twig" %}
+			</div>
+			<div class="col-md-8">
+				<h1 class="text-center display-4 mb-4">Les articles</h1>
+				<p class="text-muted text-center pb-4 lead">Explorer les articles disponibles sur le site.</p>
+
+				<div class="row gy-3">
+					{% for article in articles %}
+						<div class="col-md-6">
+							{% include "article/components/_card.html.twig" with {item: article} only %}
+						</div>
+					{% else %}
+						<div class="alert alert-danger">Votre recherche n'a rien donné</div>
+					{% endfor %}
+				</div>
+
+				<div class="navigation">
+					{{ knp_pagination_render(articles) }}
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

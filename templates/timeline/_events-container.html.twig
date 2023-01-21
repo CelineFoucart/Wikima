@@ -1,0 +1,28 @@
+{% set position = 'left' %}
+<section class="timeline">
+    <ul class="timeline-list"> 
+        {% for event in timeline.events %}
+            {% if position == 'left' %}
+                {% set class_name = 'timeline-panel-container' %}
+                {% set position = 'right' %}
+            {% else %}
+                {% set class_name = 'timeline-panel-container-inverted' %}
+                {% set position = 'left' %}
+            {% endif %}
+            <li id="{{ event.id }}">
+                <div class="{{ class_name }}">
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h3>{{ event.title }}</h3>
+                            <h4>{{ event.duration }}</h4>
+                        </div>
+                        <div class="black-divider"></div>
+                        <div class="timeline-body">
+                            {{ event.presentation|raw }}
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</section>

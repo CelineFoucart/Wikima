@@ -1,0 +1,16 @@
+{% extends "base_email.html.twig" %}
+
+{% block title %}
+    {{ contact.subject }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="title">Bonjour !</h1>
+
+    <p class="description text-center">Vous avez reçu un mail de {{ contact.username }}.</p>
+
+    <h2 class="subtitle">Message de {{ contact.username }}</h2>
+    
+    <p class="description">{{ contact.content }}.</p>
+
+{% endblock %}

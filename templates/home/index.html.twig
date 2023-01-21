@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil |
+	{{ app_name }}
+{% endblock %}
+
+{% block body %}
+	{{ include('home/_header.html.twig') }}
+	<article class="mt-5">
+		<aside class="text-center">
+			{{ get_statistics() }}
+		</aside>
+
+		<div class="row justify-content-between">
+			<div class="col-md-7">
+				<section class="overview">
+					<h2 class="overview__title">Présentation générale</h2>
+					<div class="overview__content">
+						{% if overview is null %}
+							Renseignez une présentation de l'encyclopédie
+						{% else %}
+							{{ overview.content|raw }}
+						{% endif %}
+					</div>
+					<div class="row mt-4">
+						<div class="col-6 col-md-3 text-end">
+							<a href="{{ path('app_portal_index') }}" class="text-decoration-none fw-bold">
+								<i class="bi bi-tag-fill me-1"></i>
+								Portails
+							</a>
+						</div>
+						<div class="col-6 col-md-3 text-md-center text-lg-center text-xl-center">
+							<a href="{{ path('app_article_index') }}" class="text-decoration-none fw-bold">
+								<i class="bi bi-file-earmark-text me-1"></i>
+								Articles
+							</a>
+						</div>
+						<div class="col-6 col-md-3 text-end text-md-start text-lg-start text-xl-start">
+							<a href="{{ path('app_timeline_index') }}" class="text-decoration-none fw-bold">
+								<i class="bi bi-hourglass me-1"></i>
+								Chronologie
+							</a>
+						</div>
+						<div class="col-6 col-md-3">
+							<a href="{{ path('app_image_index') }}" class="text-decoration-none fw-bold">
+								<i class="bi bi-image me-1"></i>
+								Galerie
+							</a>
+						</div>
+					</div>
+				</section>
+			</div>
+			<div class="col-md-4">
+				<aside class="category-section">
+					<h2 class="h4">Catégories</h2>
+					<ul class="list-unstyled">
+						{% for category in categories %}
+							<li>
+								<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="text-decoration-none">
+									<i class="bi bi-folder-fill me-1"></i>
+									{{ category.title }}
+								</a>
+							</li>
+						{% else %}
+							<li>Aucune catégorie</li>
+						{% endfor %}
+					</ul>
+				</aside>
+			</div>
+		</div>
+	</article>
+	<hr class="m-5">
+	<article class="my-5 px-5">
+		<h2 class="mb-5">Articles récents</h2>
+		{{ include('components/layout/_row_link_list.html.twig', {path: 'app_article_show', items: articles}) }}
+	</article>
+{% endblock %}

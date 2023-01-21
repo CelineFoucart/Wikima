@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}L'encyclopédie
+				{{ app_name }}
+			{% endblock %}
+		</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="{% block description %}Bienvenue sur {{ app_name }} - {{ app_description }} {% endblock %}">
+		<link rel="shortcut icon" href="/assets/favicon.png" type="image/png">
+		<link href="{{ asset('assets/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</head>
+	<body>
+		<div class="container d-flex flex-column h-100 p-0 position-relative">
+
+			{{ include('includes/_navbar.html.twig') }}
+
+			<main class="flex-fill bg-main border-item"> {% block body %}{% endblock %}
+				</main>
+
+				{{ include('includes/_footer.html.twig') }}
+			</div>
+			<script src="{{ asset('assets/bootstrap/bootstrap.bundle.min.js') }}"></script>
+		</body>
+	</html>

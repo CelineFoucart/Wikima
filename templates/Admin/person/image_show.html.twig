@@ -1,0 +1,14 @@
+<tr class="sonata-ba-view-container">
+	<th>Image</th>
+	<td>
+		{% if object.image %}
+			<div class="image-block" style="margin-bottom: 5px;">
+				{% include "image/components/_thumbnail.html.twig" with {image:object.image} %}
+			</div>
+		{% endif %}
+		<a href="{{ path('admin_app_person_image', {id: object.id}) }}" class="btn btn-sm btn-default view_link" title="Télécharger">
+			<i class="fas fa-image"></i>
+			Gérer l'image
+		</a>
+	</td>
+</tr>

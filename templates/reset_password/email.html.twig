@@ -1,0 +1,21 @@
+{% extends "base_email.html.twig" %}
+
+{% block title %}
+    Réinitialiser mon mot de passe
+{% endblock %}
+
+{% block body %}
+    <h1 class="title">Bonjour !</h1>
+
+    <p class="description">Pour réinitialiser votre mot de passe, veuillez visiter le lien suivant :</p>
+
+    <p class="text-center">
+        <a href="{{ url('app_reset_password', {token: resetToken.token}) }}" class="account">
+            Réinitialiser
+        </a>
+    </p>
+
+    <p class="description">Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
+
+    <p class="description"><br>A bientôt !</p>
+{% endblock %}

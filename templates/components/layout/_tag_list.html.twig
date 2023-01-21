@@ -1,0 +1,9 @@
+<ul class="children-list">
+	{% for item in items %}
+		<li>
+			{{ include('components/utils/_tag_link.html.twig', {item: item, path: path}) }}
+		</li>
+	{% else %}
+		<li>Aucun élément trouvé</li>
+	{% endfor %}
+</ul>

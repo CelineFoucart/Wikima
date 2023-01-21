@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Personnages de
+	{{ category.title|capitalize }}
+	| Catégorie
+{% endblock %}
+
+{% block description %}
+	{{ category.description }}
+{% endblock %}
+
+{% block body %}
+	{% include "category/components/_header.html.twig" with {persons: true} %}
+	<section class="row justify-content-between">
+		{% if category.pages is not empty %}
+			<div class="col-md-12">
+				<p class="text-end m-2">
+					{% for page in category.pages %}
+						<a href="{{ path('app_page', {slug: page.slug}) }}" class="label mx-1" data-bs-toggle="tooltip" title="{{ page.description ? page.description : 'Aucune description' }}">
+							<i class="bi bi-file-earmark-text"></i>
+							{{ page.title }}
+						</a>
+					{% endfor %}
+				</p>
+			</div>
+		{% endif %}
+		<article class="col-md-7 p-4">
+			<h2 class="h2 text-center my-4">Les personnages de cette catégorie</h1>
+			{% set plural = persons.getTotalItemCount > 1 ? 's' : '' %}
+
+			<p class="mb-4">
+				<span class="fw-bold">{{ persons.getTotalItemCount }}</span>
+				personnage{{ plural }}
+				trouvé{{ plural }}.
+			</p>
+
+			<div class="row ps-3">
+				{% for person in persons %}
+					<div class="col-md-6 mb-3">
+						{% include "person/_person_card.html.twig" %}
+					</div>
+				{% else %}
+					<div class="col-12">
+						<div class="text-center text-muted">Aucun personnage trouvé</div>
+					</div>
+				{% endfor %}
+			</div>
+
+			<div class="navigation">
+				{{ knp_pagination_render(persons) }}
+			</div>
+
+		</article>
+		{% include "category/components/_aside.html.twig" %}
+	</section>
+{% endblock %}

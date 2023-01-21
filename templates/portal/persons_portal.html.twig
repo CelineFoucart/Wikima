@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Personnages de
+	{{ portal.title|capitalize }}
+	| Portail
+{% endblock %}
+
+{% block description %}
+	{{ portal.description }}
+{% endblock %}
+
+{% block body %}
+	<article>
+		{% include "portal/components/_header.html.twig" with {persons:true} %}
+
+		<div class="m-4">
+			<p class="mb-4">
+				{% set plural = persons.getTotalItemCount > 1 ? 's' : '' %}
+				<span class="fw-bold">{{ persons.getTotalItemCount }}</span>
+				personnage{{ plural }}
+				trouvé{{ plural }}.
+			</p>
+
+			<div class="row">
+				{% for person in persons %}
+					<div class="col-md-4 col-lg-3 my-2">
+						{% include "person/_person_card.html.twig" %}
+					</div>
+				{% else %}
+					<div class="col-12">
+						<div class="text-center text-muted">Aucun personnage trouvé</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</article>
+{% endblock %}

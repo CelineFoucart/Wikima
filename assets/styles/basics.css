@@ -1,0 +1,43 @@
+.bg-default {
+    background-color: var(--secondary);
+}
+
+.bg-default .btn-outline-light:hover {
+    color: var(--secondary);
+}
+
+.bg-default-light {
+    background-color: var(--secondary-light);
+}
+
+.bg-main {
+    background-color: #fff;
+}
+
+.border-item,
+.navbar.navbar-expand-lg,
+footer {
+    border-left: 1px solid #ECECEC;
+    border-right: 1px solid #ECECEC;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 3rem;
+}
+
+.breadcrumb a {
+    text-decoration: none;
+}
+
+@media (min-width:768px) {
+    .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0 3rem;
+    }
+}
+
+.navbar {
+    z-index: 3000;
+}

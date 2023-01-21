@@ -1,0 +1,66 @@
+{% extends '@SonataAdmin/standard_layout.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link rel="shortcut icon" href="/assets/favicon.png" type="image/png">
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('assets/admin.js') }}"></script>
+{% endblock %}
+
+{% block sonata_head_title %}
+	{% if _title is not empty %}
+		{{ _title|striptags|raw }}
+	{% else %}
+		{% if action is defined %}
+			{{ render_breadcrumbs_for_title(admin, action) }}
+		{% endif %}
+	{% endif %}
+{% endblock %}
+
+{% set current_route = app.request.attributes.get('_route') %}
+
+{% block side_bar_before_nav %}
+	<ul class="sidebar-menu tree">
+		<li class="first treeview {{ current_route == 'sonata_admin_dashboard' ? 'active' : '' }}">
+			<a href="{{ path('sonata_admin_dashboard') }}">
+				<i class="fa fa-tachometer" aria-hidden="true"></i>
+				<span>Tableau de bord</span>
+			</a>
+		</li>
+		{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+			<li class="treeview {{ current_route == 'admin_app_overview' ? 'active' : '' }}">
+				<a href="{{ path('admin_app_overview') }}">
+					<i class="fa fa-info-circle" aria-hidden="true"></i>
+					<span>Informations</span>
+				</a>
+			</li>
+		{% endif %}
+	</ul>
+{% endblock %}
+
+{% block side_bar_after_nav_content %}
+	<p style="padding: 0 10px; margin:0; color: #b8c7ce">
+		Connecté(e) en tant que :
+		<br>
+		<strong style="color: #fff">{{ app.user.username }}</strong>
+	</p>
+	<ul class="sidebar-menu tree">
+		<li class="first treeview">
+			<a href="{{ path('app_home') }}">
+				<i class="fas fa-globe" aria-hidden="true"></i>
+				<span>Index de
+					{{ app_name }}</span>
+			</a>
+		</li>
+
+		<li class="treeview">
+			<a href="{{ path('app_logout') }}">
+				<i class="fas fa-sign-out-alt"></i>
+				<span>Déconnexion</span>
+			</a>
+		</li>
+	</ul>
+{% endblock %}

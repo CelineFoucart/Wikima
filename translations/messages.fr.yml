@@ -1,0 +1,110 @@
+Previous: Précédent
+Next: Suivant
+This value should not be blank.: Cette valeur ne peut pas être vide.
+This value is not a valid email.: Cette valeur n'est pas un email valide.
+You should agree to our terms.: Vous devez accepter nos conditions.
+Please enter a password: Veuillez entrer un mot de passe
+This value name must be at least 10 characters long: Cette valeur doit faire au moins 10 caractères
+Your password should be at least 6 characters: Votre mot de passe doit faire au moins 6 caractères
+There is already an account with this username: Il y a déjà un compte avec ce nom d'utilisateur
+There is already a page with this title: Il y a déjà une page avec ce titre
+Password: Mot de passe
+New password: Nouveau mot de passe
+Current password: Mot de passe actuel
+Repeat Password: Confirmer le mot de passe
+Register: Inscription
+Agree terms: Accepter les conditions d'utilisation
+Your comment: Votre commentaire
+Search an article...: Rechercher un article...
+Search...: Recherche...
+ID: ID
+Title: Titre
+Category: Catégorie
+Created At: Création
+Author: Auteur
+Pseudo: Pseudo
+Username: Nom d'utilisateur
+Email: Email
+Subject: Sujet
+Content: Contenu
+Portal: Portail
+Slug: Slug
+Keywords: Mots clés
+Portals: Portails
+Description: Description
+Categories: Catégories
+Image file: Fichier de l'image
+Category List: Liste des catégories
+Category Create: Création d'une catégorie
+Portal List: Liste des portails
+Relations: Relations
+Updated At: Mise à jour
+Meta Data: Méta données
+Children:	Enfants
+Articles:	Articles
+Parents:	Parents
+Status: Statut
+Users: Membres
+User: Membre
+Is Verified: Confirmé
+User List: Liste des utilisateurs
+Informations: Informations
+Roles: Roles
+Administrator: Administrateur
+Founder Administrator: Administrateur Fondateur
+Editor: Contributeur
+General: Général
+Article List: Liste des articles
+Article Body: Corps de l'article
+Article Create: Création d'un article
+Portal Create: Création d'un portail
+Comments: Commentaires
+Comment: Commentaire
+Comment List: Liste des commentaires
+Image List: Liste des images
+Image File: Fichier de l'image
+Image Create: Création d'une image
+Image: Image
+Filename: Fichier
+Backup: Sauvegarde
+Backup List: Historique des sauvegardes
+Latest Edited Articles: Derniers articles édités
+batch: sélectionner
+published articles: articles publiés
+Pages: Pages
+Page List: Liste des pages
+Page Create: Création d'une page
+Id: Id
+Actions: Actions
+Timeline: Chronologie
+Timeline List: Liste des chronologies
+Timeline Create: Création d'une chronologie
+timelineOrder: Ordre chronologique
+Article: Article
+Duration: Date ou durée
+Presentation: Présentation
+Timeline order: Ordre dans la chronologie
+Person: Personnage
+Person List: Liste des personnages
+Person Create: Création d'un personnage
+Identity: Identité
+Firstname: Prénom
+Lastname: Nom de famille
+Fullname: Nom complet
+Nationality: Nationalité
+Birthday: Date de naissance
+Birthday Place: Lieu de naissance
+Death Date: Date de mort
+Death Place: Lieu de mort
+Job: Emploi
+Full Presentation: Présentation détaillée
+Biography: Biographie
+Personality: Personnalité
+Generality: Généralité
+Full Biography: Biographie complète
+In Short: En bref
+Is Draft: Brouillon
+draft: Brouillon
+Is Private: Privé
+private: Privé
+Name: Nom

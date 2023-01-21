@@ -1,0 +1,22 @@
+<article class="rounded shadow-sm border mx-5 p-3 my-3">
+    <header class="d-flex">
+        {{ include('components/utils/_user-icon.html.twig') }}
+        <div class="ms-3">
+            <h4 class="h5 mb-2">
+                {{ comment.author.username }}
+                {% if app.user is not null and app.user.id == comment.author.id %}
+                    <span class="fs-6">
+                        [ <a href="{{ path('app_comment_edit', {id: comment.id}) }}">éditer</a> | 
+                        <a href="{{ path('app_comment_delete', {id: comment.id}) }}" class="text-danger">supprimer</a> ]
+                    </span>
+                {% endif %}
+            </h4>
+            <small class="text-muted">
+                <i class="bi bi-calendar3 me-1"></i>
+                Le {{ comment.createdAt|date('d/m/Y, à H:i')}}
+            </small>
+        </div>
+    </header>
+    
+    <p class="mt-2 mb-0 text-muted">{{ comment.content|nl2br}}</p>
+</article>

@@ -1,0 +1,52 @@
+{% extends 'base_print.html.twig' %}
+
+{% block title %}
+	{{ portal.title }}
+{% endblock %}
+
+{% block body %}
+	<header>
+		<p class="parents">
+			<strong>Catégories :</strong>
+			{{ categories|join(', ')}}
+		</p>
+		<h1>{{ portal.title }}</h1>
+		<p class="description">{{ portal.description }}</p>
+	</header>
+
+	{% if portal.articles is not empty %}
+		<aside>
+			<p class="summary-title">
+				<strong>Sommaire&nbsp;:</strong>
+			</p>
+			<ol>
+				{% for article in portal.articles %}
+					<li>{{ article.title }}</li>
+				{% endfor %}
+			</ol>
+		</aside>
+	{% endif %}
+
+	{% set index = 1 %}
+	{% for article in portal.articles %}
+		<article>
+			<h2>{{ index }}.
+				{{ article.title }}</h2>
+			<div>{{ article.content|raw }}</div>
+
+			{% set subindex = 1 %}
+			{% for section in article.sections %}
+				<section>
+					<h3>{{ index }}.{{ subindex }}.
+						{{ section.title }}</h3>
+					<div>{{ section.content|raw }}</div>
+				</section>
+				{% set subindex = subindex + 1 %}
+			{% endfor %}
+
+			{% set index = index + 1 %}
+		</article>
+	{% endfor %}
+
+
+{% endblock %}

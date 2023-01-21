@@ -1,0 +1,36 @@
+{% extends 'Admin/extend_layout.html.twig' %}
+
+{% block sonata_head_title %}
+    Gérer la présentation du site
+{% endblock sonata_head_title %}
+
+{% block sonata_admin_content %}
+    <div class="content">
+        <section class="sonata-ba-content">
+            <div class="row">
+                <header class="col-12">
+                    <div class="cms-block cms-block-element">
+                        <h1 class="dashboard-title">Gérer la présentation de l'encyclopédie</h1> 
+                        <p class="description">Cette présentation est affichée sur l'index et parle du but de l'encyclopédie, de son sujet.</p>
+                    </div>
+                </header>
+            </div>
+            {% include "Admin/components/_flashes.html.twig" %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h2 class="box-title">Présentation de l'encyclopédie</h2>
+                        </div>
+                        <div class="box-body">
+                            {{ form_start(form) }}
+                                {{ form_widget(form) }}
+                                <button type="submit" class="btn btn-success" style="margin-top: 15px;">Mettre à jour</button> 
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

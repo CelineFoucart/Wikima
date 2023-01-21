@@ -1,0 +1,79 @@
+{% if articles is not defined %}
+	{% set articles = false %}
+{% endif %}
+{% if images is not defined %}
+	{% set images = false %}
+{% endif %}
+{% if persons is not defined %}
+	{% set persons = false %}
+{% endif %}
+
+<header class="pt-4 bg-item header-item border-bottom">
+	<div class="container-fluid">
+		<div class="row border-bottom pb-4 pb-md-3 align-items-center">
+			<div class="col-md-6">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_home') }}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_portal_index') }}">Portails</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">{{ portal.title|capitalize }}</li>
+					</ol>
+				</nav>
+			</div>
+			<div class="col-md-6">{{ include('includes/_search.html.twig') }}</div>
+		</div>
+		<div class="item-heading position-relative">
+			<div class="p-2 position-absolute top-0" style="right:-10px">
+				<div class="dropdown">
+					<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
+						<i class="bi bi-wrench-adjustable me-1"></i>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+						<li>
+							<a class="dropdown-item" href="{{ path('app_print_portal', {slug: portal.slug}) }}" target="_blank">Aperçu avant impression</a>
+						</li>
+						{% if is_granted('ROLE_ADMIN') %}
+							<li>
+								<a class="dropdown-item" href="{{ path('admin_app_portal_edit', {id:portal.id}) }}">
+									Gérer
+								</a>
+							</li>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+			<h1 class="mb-3">{{ portal.title|capitalize }}</h1>
+			<p class="lead mb-4">{{ portal.description }}</p>
+			<p>
+				{% for category in portal.categories %}
+					<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1" data-bs-toggle="tooltip" title="{{ category.description ? category.description : 'Aucune description' }}">
+						<i class="bi bi-folder-fill me-1"></i>
+						{{ category.title }}
+					</a>
+				{% endfor %}
+			</p>
+		</div>
+
+		<ul class="nav nav-tabs border-bottom-0 mt-3">
+			<li class="nav-item">
+				<a class="nav-link {{ articles ? 'active': '' }}" href="{{ path('app_portal_show', {slug:portal.slug}) }}">
+					Articles
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link {{ persons ? 'active': '' }}" href="{{ path('app_portal_persons', {slug:portal.slug}) }}">
+					Personnages
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link {{ images ? 'active': '' }}" href="{{ path('app_portal_gallery', {slug:portal.slug}) }}">
+					Galerie d'images
+				</a>
+			</li>
+		</ul>
+	</div>
+</header>

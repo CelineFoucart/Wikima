@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ portal.title|capitalize}}
+	| Portail
+{% endblock %}
+
+{% block description %}
+	{{ portal.description }}
+{% endblock %}
+
+{% block body %}
+	<article>
+		{% include "portal/components/_header.html.twig" with {articles:true}   %}
+
+		<div class="py-5 px-4">
+			<p class="text-end mb-4">
+				{% for page in portal.pages %}
+					<a href="{{ path('app_page', {slug: page.slug}) }}" class="label mx-1">
+						<i class="bi bi-file-earmark-text"></i>
+						{{ page.title }}
+					</a>
+				{% endfor %}
+			</p>
+
+			<div class="grid-2">
+				{{ include('components/layout/_single_col_list.html.twig',{path: 'app_article_show', items: articles, handlePrivate: true}) }}
+			</div>
+
+			<div class="navigation">
+				{{ knp_pagination_render(articles) }}
+			</div>
+		</div>
+	</article>
+{% endblock %}

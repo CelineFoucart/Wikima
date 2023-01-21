@@ -1,0 +1,27 @@
+.user-icon {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    background-color: #cfcdcd;
+    position: relative;
+}
+
+.user-icon .body, .user-icon .head {
+    border-radius: 50%;
+    background-color: #fff;
+    position: absolute;
+}
+
+.user-icon .body {
+    height: 36px;
+    width: 36px;
+    left: 7px;
+    bottom: -14px
+}
+
+.head {
+    top: 9px;
+    left: 14px;
+    width: 22px;
+    height: 22px;
+}

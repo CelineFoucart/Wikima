@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Consulter les articles de
+	{{ user.username }}
+{% endblock %}
+
+{% block body %}
+	{{ include('home/_header.html.twig') }}
+	<article class="mt-5 container-fluid">
+		<h2 class="list-title">
+			Consulter les articles de
+			{{ user.username }}
+		</h2>
+		{% set plural = articles.getTotalItemCount > 1 ? 's' : '' %}
+		<p class="mb-4 p-2">{{ user.username }}
+			a écrit
+			<span class="fw-bold">{{ articles.getTotalItemCount }}</span>
+			article{{ plural }}.</p>
+
+		<table class="table table-stripped">
+			<thead>
+				<tr>
+					<th>Titre</th>
+					<th>Date de création</th>
+					<th>Dernière mise à jour</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<body>
+				{% for article in articles %}
+					<tr>
+						<td>
+							{{ article.title }}
+							{% if article.isPrivate %}
+								<i class="bi bi-file-lock fw-bold, text-danger" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
+							{% endif %}
+						</td>
+						<td>{{ article.createdAt|date('d/m/Y à H:i') }}</td>
+						<td>{{ article.updatedAt ? article.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+						<td>
+							<a href="{{ path('app_article_show', {slug:article.slug}) }}" class="btn btn-primary btn-sm">
+								<i class="bi bi-eye-fill" data-bs-toggle="tooltip" title="Afficher"></i>
+							</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="4" class="text-center">Aucun article</td>
+					</tr>
+				{% endfor %}
+			</body>
+		</table>
+
+		<div class="navigation">
+			{{ knp_pagination_render(articles) }}
+		</div>
+	</article>
+{% endblock %}

@@ -1,0 +1,164 @@
+/* -----------------------
+ * Design Timeline 
+ * -----------------------
+ *
+ * Use it to create a timeline section. Usage:
+ * 
+ * ```html
+ * <div class="timeline">
+ *		<ul class="timeline-list"> 
+ *			<li>
+ *          	<div class="timeline-panel-container">
+ *                  <div class="timeline-panel">
+ *                      <div class="timeline-heading"><h3></h3></div>
+ *                      <div class="black-divider"></div>
+ *                      <div class="timeline-body"></div>
+ *                  </div>
+ *              </div>
+ *          </li>
+ *		</ul>
+ * </div>
+ * ```
+ */
+
+/* Container  */
+.timeline {
+	box-sizing: border-box;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+/* List element */
+.timeline-list {
+	padding: 30px 10px;
+	position: relative;
+	list-style: none;
+	box-sizing: border-box;
+}
+.timeline-list:before{
+	top: 0;
+	bottom: 0;
+	position: absolute;
+	content: " ";
+	width: 5px;
+	background: #000;
+	left: 50%;
+	margin-left: -2.5px;
+}
+.timeline-list > li {
+	margin-bottom: 20px;
+	position: relative;	
+	box-sizing: border-box;
+}
+.timeline-list > li:after {
+	clear: both;	
+}
+.timeline-list > li:before, .timeline-list > li:after {
+	content: " ";
+	display: table;
+}
+
+/* timeline event left */
+.timeline-panel-container {
+	width: 50%;
+	float: left;	
+}
+
+/* timeline event right */
+.timeline-panel-container-inverted  {
+	width: 50%;
+	float: right;
+}
+
+
+/* timeline block event */
+.timeline-panel {
+	width: 80%;
+	float: right; 
+	margin-right: 20px;
+	border: 1px solid rgb(167, 215, 249);
+    box-shadow: 0px 0px 3px 1px rgb(189, 216, 251);
+    background-color: #e7f4fd;
+	padding: 20px 25px;
+	position: relative;
+    border-radius: 10px;
+}
+.timeline-panel-container-inverted .timeline-panel {
+	float: left;
+	margin-left: 20px;
+}
+.timeline-panel:after {
+	position: absolute;
+	top: 27px;
+	right: -14px;
+	display: inline-block;
+	border-top: 14px solid transparent;
+	border-left: 14px solid rgb(167, 215, 249);
+	border-right: 0 solid rgb(167, 215, 249);
+	border-bottom: 14px solid transparent;
+	content: " ";
+}
+.timeline-panel-container-inverted .timeline-panel:after {
+	border-left-width: 0;
+	border-right-width: 14px;
+	left: -14px;
+	right: auto;
+}
+
+/* timeline event block */
+.timeline-heading {
+	text-align: center;
+}
+.timeline-heading p {
+	text-align: center;
+}
+.timeline-heading p a {
+	color: black;
+	text-decoration: none;
+}
+
+.timeline-heading h3 {
+	font-variant-caps: small-caps;
+	margin-top: 5px;
+	font-size: 25px;
+	border: none;
+	margin-bottom: 8px;
+	text-align: center;
+}
+.timeline-heading h3 a {
+	color: #000;
+	text-decoration: none;
+}
+.timeline-heading h3 a:visited {
+	color: #000;
+}
+.timeline-heading h3 a:hover {
+	text-decoration: underline;
+}
+.timeline-heading h4 {
+	margin-top: 0;
+	margin-bottom: 8px;
+	font-size: 15.5px;
+	font-style: italic;
+	text-align: center;
+	border-bottom: none;
+}
+
+/* timeline event body */
+.timeline-body figure {
+	text-align: center;
+	margin-top: 10px 0 0 0;
+}
+.timeline-body figure img {
+	width: 270px;
+	margin: 0 auto;
+}
+.black-divider {
+	width: 100px;
+	height: 2px;
+	margin: 18px auto;
+	background-color: #000;
+}
+.timeline-body ul {
+	list-style-type: disc;
+}

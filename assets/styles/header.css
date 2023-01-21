@@ -1,0 +1,78 @@
+.heading {
+    padding-bottom: 2rem;
+    color: rgba(33, 37, 41, 0.8);
+}
+
+.heading-title {
+    font-size: 3rem;
+    font-weight: 500;
+    text-align: center;
+    padding-bottom: 1rem;
+}
+
+.index-header {
+    background: linear-gradient(180deg, var(--secondary) 13.54%, rgb(168, 215, 252, .2) 100%);
+    border-bottom: 1px solid #A8D7FC;
+    padding: 3rem;
+    position: relative;
+}
+
+.img-header-left,
+.img-header-right {
+    width: 156px;
+    height: 172px;
+    opacity: 0.4;
+}
+
+.img-header-left {
+    background: url(img/Terraformed_Mars_left.png) no-repeat;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+}
+
+.img-header-right {
+    background: url(img/Terraformed_Mars_right.png) no-repeat;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+}
+
+.index-header .search-row {
+    max-width: 320px;
+}
+
+.search-row {
+    position: relative;
+    margin: 0 auto;
+    padding: 0 10px;
+}
+
+.search-btn {
+    color: #8F9FAD;
+    background: transparent;
+    border: none;
+    border-left: 1px solid #ced4da;
+    transition: all .3s;
+    position: absolute;
+    right: 15px;
+    top: 0;
+    bottom: 0;
+}
+
+.search-btn:hover {
+    color: #6f7477;
+}
+
+@media (min-width:768px) {
+    .index-header .search-row {
+        max-width: 400px;
+    }
+}
+
+@media (min-width:992px) {
+    .heading-title {
+        padding: 2rem 0 1rem;
+        font-size: 5rem;
+    }
+}

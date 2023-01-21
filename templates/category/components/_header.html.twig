@@ -1,0 +1,68 @@
+{% if articles is not defined %}
+	{% set articles = false %}
+{% endif %}
+{% if images is not defined %}
+	{% set images = false %}
+{% endif %}
+{% if persons is not defined %}
+	{% set persons = false %}
+{% endif %}
+
+<header class="pt-4 pb-0 bg-item header-item border-bottom">
+	<div class="container-fluid">
+		<div class="row border-bottom align-items-center">
+			<div class="col-md-6 pb-3">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_home') }}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_category_index') }}">Catégories</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">{{ category.title|capitalize }}</li>
+					</ol>
+				</nav>
+			</div>
+			<div class="col-md-6">{{ include('includes/_search.html.twig') }}</div>
+		</div>
+		<div class="item-heading position-relative">
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class="p-2 position-absolute top-0" style="right:-10px">
+					<div class="dropdown">
+						<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
+							<i class="bi bi-wrench-adjustable me-1"></i>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+							<li>
+								<a class="dropdown-item" href="{{ path('admin_app_category_edit', {id:category.id}) }}">
+									Gérer
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			{% endif %}
+			<h1 class="mb-3">{{ category.title|capitalize }}</h1>
+			<p class="lead mb-3">{{ category.description }}</p>
+		</div>
+
+		<ul class="nav nav-tabs border-bottom-0">
+			<li class="nav-item">
+				<a class="nav-link {{ articles ? 'active': '' }}" href="{{ path('app_category_show', {slug:category.slug}) }}">
+					Articles
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link {{ persons ? 'active': '' }}" href="{{ path('app_category_persons', {slug:category.slug}) }}">
+					Personnages
+				</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link {{ images ? 'active': '' }}" href="{{ path('app_category_gallery', {slug:category.slug}) }}">
+					Galerie d'images
+				</a>
+			</li>
+		</ul>
+	</div>
+</header>

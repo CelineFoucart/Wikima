@@ -1,0 +1,73 @@
+:root {
+    --primary: #FFFFFF;
+    --secondary: #3087C9;
+    --secondary-light: #F3FAFE;
+}
+
+body {
+    height: 100vh;
+    background-color: rgb(245, 247, 250, .5);
+}
+
+.text-default {
+    color: var(--secondary);
+}
+
+.person-label {
+    text-decoration: none;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.person-label::after {
+    content: "\2022";
+    font-size: 14px;
+    display: inline-block;
+}
+
+.person-label:last-of-type::after {
+    content: '';
+}
+
+.about-person {
+    padding: 5px;
+    border: 1px solid var(--secondary);
+    margin: 0 auto 10px;
+    max-width: 250px;
+}
+
+@media (min-width: 400px) {
+    .about-person {
+        float: right;
+        margin: 0;
+        margin-left: 10px;
+    }
+}
+
+.about-person-title {
+    background: var(--secondary);
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    font-variant: small-caps;
+    font-size: 1.1rem;
+}
+
+.about-person img {
+    max-width: 100%;
+}
+
+.about-person table {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 0.9rem;
+}
+
+.about-person table th {
+    padding-right: 5px;
+    width: 120px;
+}
+
+.about-person table td {
+    min-width: 125px;
+}

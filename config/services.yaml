@@ -1,0 +1,91 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    app.enable.registration: '%env(bool:ENABLE_REGISTRATION)%' 
+    app.enable.contact: '%env(bool:ENABLE_CONTACT)%' 
+    app.enable.login: '%env(bool:ENABLE_LOGIN)%'  
+    app.website.name: '%env(WIKI_NAME)%'
+    app.contact.mail: '%env(CONTACT_EMAIL)%' 
+    app.contact.name: '%env(CONTACT_NAME)%'
+    app.backup.folder: '%kernel.project_dir%/backup'
+    locale: fr
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        bind:
+            $enableRegistration: '%app.enable.registration%'
+            $enableContact: '%app.enable.contact%'
+            $enableLogin: '%app.enable.login%'
+            $websiteName: '%app.website.name%'
+            $contactMail: '%app.contact.mail%'
+            $contactName: '%app.contact.name%'
+            $backupFolder: '%app.backup.folder%'
+    
+    admin.category:
+        class: App\Admin\CategoryAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Category, manager_type: orm, label: Category, group: Wiki}
+    admin.portal:
+        class: App\Admin\PortalAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Portal, manager_type: orm, label: Portal, group: Wiki}
+    admin.article:
+        class: App\Admin\ArticleAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Article, controller: App\Controller\Admin\ArticleAdminController, manager_type: orm, label: Article, group: Wiki}
+    admin.timeline:
+        class: App\Admin\TimelineAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Timeline, controller: App\Controller\Admin\TimelineAdminController, manager_type: orm, group: Wiki, label: Timeline }
+    admin.image:
+        class: App\Admin\ImageAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Image, manager_type: orm, label: Image, group: Wiki}
+        
+    admin.user:
+        class: App\Admin\UserAdmin
+        calls:
+            - [setTemplate, ['edit', 'Admin/user_edit.html.twig']]
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\User, manager_type: orm, label: User, group: Users}
+    admin.comment:
+        class: App\Admin\CommentAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Comment, manager_type: orm, label: Comment, group: Users}
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    Faker\Factory: ~
+
+    App\DataFixtures\HashPasswordProvider:
+        tags: [ { name: nelmio_alice.faker.provider } ]
+
+    admin.page:
+        class: App\Admin\PageAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Page, controller: ~, manager_type: orm, group: Administration, label: Pages }
+
+    admin.backup:
+        class: App\Admin\BackupAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Backup, controller: App\Controller\Admin\BackupAdminController, manager_type: orm, group: Administration, label: Backup }
+
+    admin.person:
+        class: App\Admin\PersonAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Person, controller: App\Controller\Admin\PersonAdminController, manager_type: orm, group: Wiki, label: Person }

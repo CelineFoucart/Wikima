@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Index des portails{% endblock %}
+
+{% block body %}
+    {{ include('home/_header.html.twig') }}
+    <article class="my-5 container-fluid">
+        <h2 class="list-title">Les portails</h2>
+        <p class="text-center text-muted fs-5 mb-4">Explorer les portails disponibles sur le site</p>
+
+        {{ include('components/layout/_row_link_list.html.twig', {path: 'app_portal_show', items: portals}) }}
+
+        <div class="navigation">
+            {{ knp_pagination_render(portals) }}
+        </div>
+    </article>
+
+
+{% endblock %}

@@ -1,0 +1,6 @@
+{{ form_start(form, {'action': path('app_article_index'), 'method': 'GET'}) }}
+    <div class="search-row">
+        {{ form_widget(form) }}
+        <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>
+    </div>
+{{ form_end(form) }}

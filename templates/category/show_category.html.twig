@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ category.title|capitalize }}
+	| Catégorie
+{% endblock %}
+
+{% block description %}
+	{{ category.description }}
+{% endblock %}
+
+{% block body %}
+	{% include "category/components/_header.html.twig" with {articles: true} %}
+	<section class="row justify-content-between">
+		{% if category.pages is not empty %}
+			<div class="col-md-12">
+				<p class="text-end m-2">
+					{% for page in category.pages %}
+						<a href="{{ path('app_page', {slug: page.slug}) }}" class="label mx-1" data-bs-toggle="tooltip" title="{{ page.description ? page.description : 'Aucune description' }}">
+							<i class="bi bi-file-earmark-text"></i>
+							{{ page.title }}
+						</a>
+					{% endfor %}
+				</p>
+			</div>
+		{% endif %}
+		<article class="col-md-7 p-4">
+			<h2 class="h2 text-center my-4">Les articles de cette catégorie</h1>
+
+			{{ include('components/layout/_single_col_list.html.twig',{path: 'app_article_show', items: articles, handlePrivate: true}) }}
+
+			<div class="navigation">
+				{{ knp_pagination_render(articles) }}
+			</div>
+
+		</article>
+		{% include "category/components/_aside.html.twig" %}
+	</section>
+{% endblock %}

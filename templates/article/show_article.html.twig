@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ article.title|capitalize }}
+	| Article
+{% endblock %}
+
+{% block description %}
+	{{ article.description }}
+{% endblock %}
+
+{% set has_sections = article.sections is not empty %}
+
+{% block body %}
+	<article>
+		<header class="pt-4 bg-item header-item border-bottom">
+			{{ include('article/components/_header.html.twig', {reading:true}) }}
+		</header>
+
+		<div class="pt-5 px-4 {{ has_sections ? 'article-grid' : '' }}">
+			<div class="article-content article-intro pb-3">
+				{{ article.content|raw }}
+			</div>
+
+			{% if has_sections %}
+				<div class="article-summary" data-controller="toggle">
+					<aside class="category-section sticky-lg-top" style="top: 10px">
+						<div class="clearfix">
+							<span title="afficher ou cacher" role="button" data-action="click->toggle#toggle" data-toggle-target="action" class="float-end">
+								<i class="bi bi-chevron-down"></i>
+							</span>
+							<h2 class="h6">Sommaire</h2>
+						</div>
+						<ol class="mb-0" data-toggle-target="content">
+							{% for section in article.sections %}
+								<li class="fs-6">
+									<a href="#part{{ section.id }}" class="text-dark">{{ section.title }}</a>
+								</li>
+							{% endfor %}
+						</ol>
+					</aside>
+				</div>
+
+				<div class="article-content article-sections">
+					{% for section in article.sections %}
+						<section id="part{{ section.id }}" class="mt-4">
+							<h3 class="border-bottom h2 pb-1">{{ section.title }}</h3>
+							<p>{{ section.content|raw }}</p>
+						</section>
+					{% endfor %}
+				</div>
+			{% endif %}
+		</div>
+		<section class="pb-5 px-4">
+			<hr>
+			<h3 class="mt-4 h5 mb-3 mt-0">Images associées à cet article</h3>
+			{% include "image/components/_not_paginated_list.html.twig" with {images: article.images} %}
+		</section>
+	</article>
+{% endblock %}

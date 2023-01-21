@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de FAQ |
+	{{ app_name }}
+{% endblock %}
+
+{% block body %}
+	{{ include('home/_header.html.twig', { heading_title: 'Aide', heading_description: "Vous avez une question ? Consultez cette FAQ." }) }}
+
+	<article class="py-5 px-5 row justify-content-center">
+		<header class="col-12 mb-4">
+			<h2 class="text-uppercase text-center mb-5 text-default h1">FAQ</h2>
+		</header>
+
+		<section class="col-md-6 mb-4">
+			<h3 class="mb-3 text-default h6">
+				<i class="bi bi-question-circle-fill"></i>
+				A quoi sert
+				{{ app_name }}
+				?
+			</h3>
+			<p>
+				<strong>{{ app_name }}</strong>
+				est un outil permettant de rassembler sous forme d'encyclopédie des informations sur un univers imaginaire, dans le cadre d'une série, d'un film, d'un jeu de rôle ou d'un texte romanesque. Il comprend une partie encyclopédie, une partie personnage, une partie chronologie et une galerie d'image. Les utilisateurs peuvent laisser des commentaires.</p>
+		</section>
+
+		<section class="col-md-6 mb-4">
+			<h3 class="mb-3 text-default h6">
+				<i class="bi bi-question-circle-fill"></i>
+				Quels rôles ont les utilisateurs de
+				{{ app_name }}
+				?
+			</h3>
+			<p>Les
+				<strong>administrateurs fondateurs</strong>
+				ont le plus haut contrôle sur le site. Viennent ensuite les
+				<strong>administrateurs</strong>. Comme les premiers, ils peuvent éditer n'importe quel contenu du site et modèrent les commentaires. Les
+				<strong>contributeurs</strong>
+				peuvent ajouter des images, créer des articles et éditer ceux qu'ils ont rédigé. Les simples
+				<strong>utilisateurs</strong>
+				peuvent laisser des commentaires.</p>
+		</section>
+	</article>
+
+
+{% endblock %}

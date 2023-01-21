@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+{% block activePerson %}active
+{% endblock %}
+
+{% block title %}
+	Index des personnages
+{% endblock %}
+
+{% block body %}
+	{{ include('home/_header.html.twig', { heading_title: 'Personnages', heading_description: "Liste des personnages importants" }) }}
+
+	<article class="mt-5 container-fluid">
+		<header class="text-center">
+			<h2 class="h4">
+				Galerie des personnages
+			</h2>
+			<p class="w-75 m-auto pt-3 lh-lg text-muted">
+				Ici, vous pouvez voir l'ensemble des personages de
+				{{ app_name }}
+				ou les filtrer.
+			</p>
+		</header>
+		<div class="row justify-content-between my-5">
+			<aside class="col-md-4">
+				{% include "components/layout/_advance_search_form.html.twig" 
+            with {form: form, index_path: 'app_person_index'} only %}
+			</aside>
+
+			<section class="col-md-8">
+				<h3 class="border-bottom display-6 mb-2 mt-0">Liste des personnages</h3>
+				<div class="row">
+					{% for person in persons %}
+						<div class="col-md-6 col-lg-4 my-2">
+							{% include "person/_person_card.html.twig" %}
+						</div>
+					{% else %}
+						<div class="col-12">
+							<div class="alert alert-danger">Aucun personnage trouvé</div>
+						</div>
+					{% endfor %}
+				</div>
+			</section>
+		</div>
+	</article>
+{% endblock %}

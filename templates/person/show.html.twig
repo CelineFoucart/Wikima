@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+{% block activePerson %}active
+{% endblock %}
+
+{% block title %}
+	{{ person }}
+	| Personnages
+{% endblock %}
+
+{% block description %}
+	{{ person.description }}
+{% endblock %}
+
+{% block body %}
+	<header class="bg-default-light border-bottom">
+		<div class="pt-3 border-bottom container-fluid">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{{ path('app_person_index') }}">Personnages</a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">{{ person }}</li>
+				</ol>
+			</nav>
+		</div>
+		<div class="item-heading position-relative">
+			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+				<div class="p-2 position-absolute top-0" style="right:0px">
+					<a href="{{ path('admin_app_person_edit', {id: person.id}) }}" class="btn btn-outline-secondary" title="administrer">
+						<i class="bi bi-pencil-fill"></i>
+					</a>
+				</div>
+			{% endif %}
+			<p>
+				{% for category in person.categories %}
+					<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1">
+						<i class="bi bi-folder-fill me-1"></i>
+						{{ category.title }}
+					</a>
+				{% endfor %}
+			</p>
+			<h1 class="mb-4">
+				<i class="bi bi-person-fill me-1"></i>
+				{{ person }}
+			</h1>
+
+			<p class="lead mb-4">{{ person.description }}</p>
+			<p>
+				{% for portal in person.portals %}
+					{{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show'}) }}
+				{% endfor %}
+			</p>
+		</div>
+	</header>
+	<section class="mt-4 px-4 container-fluid">
+		<aside class="about-person">
+			<h2 class="about-person-title p-1">{{ person }}</h2>
+			{% if person.image %}
+				<div class="text-center mb-2">
+					<a href="{{ path('app_image_show', {slug: person.image.slug}) }}">
+						<img src="{{ vich_uploader_asset(person.image)|imagine_filter('gallery_thumbnail') }}" alt="{{ person.image.title }}">
+					</a>
+				</div>
+			{% endif %}
+
+			<h3 class="h6 bg-default-light p-1 text-center">Identité</h3>
+			<table>
+				<tbody>
+					<tr>
+						<th>Prénom</th>
+						<td>{{ person.firstname }}</td>
+					</tr>
+					<tr>
+						<th>Nom</th>
+						<td>{{ person.lastname ? person.lastname : '-' }}</td>
+					</tr>
+					<tr>
+						<th>Nom complet</th>
+						<td>{{ person.fullname ? person.fullname : person }}</td>
+					</tr>
+					<tr>
+						<th>Parents</th>
+						<td>{{ person.parents ? person.parents : '-' }}</td>
+					</tr>
+					<tr>
+						<th>Nationalité</th>
+						<td>{{ person.nationality ? person.nationality : '-' }}</td>
+					</tr>
+					<tr>
+						<th>Profession</th>
+						<td>{{ person.job ? person.job : '-' }}</td>
+					</tr>
+				</tbody>
+			</table>
+
+			{% if person.birthday or person.birthdayPlace %}
+				<h3 class="h6 bg-default-light p-1 text-center">Naissance</h3>
+				<table>
+					<tbody>
+						<tr>
+							<th>Date</th>
+							<td>{{ person.birthday ? person.birthday : '-' }}</td>
+						</tr>
+						<tr>
+							<th>Lieu</th>
+							<td>{{ person.birthdayPlace ? person.birthdayPlace : '-' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			{% endif %}
+
+			{% if person.deathDate or person.deathPlace  %}
+				<h3 class="h6 bg-default-light p-1 text-center">Mort</h3>
+				<table>
+					<tbody>
+						<tr>
+							<th>Date</th>
+							<td>{{ person.deathDate ? person.deathDate : '-' }}</td>
+						</tr>
+						<tr>
+							<th>Lieu</th>
+							<td>{{ person.deathPlace ? person.deathDate : '-' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			{% endif %}
+		</aside>
+		<div id="presentation" class="article-content">
+			{{ person.presentation|raw }}
+		</div>
+
+		{% if person.biography or person.personality %}
+			<div class="m-4" data-controller="toggle">
+				<div class="category-section" style="max-width:273px">
+					<div>
+						<span title="afficher ou cacher" role="button" data-action="click->toggle#toggle" data-toggle-target="action" class="float-end">
+							<i class="bi bi-chevron-down"></i>
+						</span>
+						<h2 class="h6">Sommaire</h2>
+					</div>
+					<ol class="mb-0" data-toggle-target="content">
+						{% if person.biography %}
+							<li class="fs-6">
+								<a href="#biography" class="text-dark">Biographie</a>
+							</li>
+						{% endif %}
+						{% if person.personality %}
+							<li class="fs-6">
+								<a href="#personality" class="text-dark">Personnalité</a>
+							</li>
+						{% endif %}
+						{# <li class="fs-6"><a href="#gallery" class="text-dark">Galerie</a></li> #}
+					</ol>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if person.biography %}
+			<div id="biography" class="article-content">
+				<h2 class="h2 pb-1 overflow-hidden">Biographie</h2>
+				{{ person.biography|raw }}
+			</div>
+		{% endif %}
+
+		{% if person.personality %}
+			<div id="personality" class="article-content">
+				<h2 class="h2 pb-1 overflow-hidden">Personnalité</h2>
+				{{ person.personality|raw }}
+			</div>
+		{% endif %}
+
+		{# <div id="gallery"></div> #}
+	</section>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base_email.html.twig" %}
+
+{% block title %}
+    Confirmer mon email
+{% endblock %}
+
+{% block body %}
+    <h1 class="title">
+        BIENVENUE SUR <span style="color: #3087C9;">{{ app_name|upper }}</span>
+    </h1>
+
+    <p class="description">
+        Nous vous remercions d&#8217;avoir complété votre inscription sur {{ app_name }}. Cet e-mail confirme que votre compte est activé et que vous pouvez dès à présent poster des commentaires sur les articles.
+    </p>
+
+    <p class="description">Vous pouvez visiter votre compte à tout moment en cliquant sur le lien ci-dessous :</p>
+
+    <p class="text-center">
+        <a href="{{ url('app_profile') }}" class="account">Mon profil</a>
+    </p>
+
+    <h2 class="subtitle">Confirmer mon email</h2>
+    <p class="description">Pour commencer, veuillez cliquer sur le lien ci-dessous pour confirmer votre adresse e-mail.</p>
+
+    <p class="text-center">
+        <a href="{{ signedUrl }}" class="validate">Confirmer mon email</a>
+    </p>
+
+    <p class="description">
+        Ce lien expirera dans {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+    </p>
+
+    <p class="description">
+        <br>
+        A bientôt !
+    </p>
+{% endblock %}

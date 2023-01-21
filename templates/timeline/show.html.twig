@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ timeline.title }}
+	| Chronologie
+{% endblock %}
+
+{% block body %}
+	<header class="pt-3 bg-item header-item border-bottom">
+		<div class="container-fluid">
+			<div class="row border-bottom pb-4 pb-md-3 align-items-center">
+				<div class="col-md-6">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_home') }}">Accueil</a>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_timeline_index') }}">Chronologies</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">{{ timeline.title|capitalize }}</li>
+						</ol>
+					</nav>
+				</div>
+				<div class="col-md-6 text-end">
+					{% for category in timeline.categories %}
+						<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1" data-bs-placement="bottom" data-bs-toggle="tooltip" title="{{ category.description ? category.description : 'Aucune description' }}">
+							<i class="bi bi-folder-fill me-1"></i>
+							{{ category.title }}
+						</a>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="item-heading position-relative">
+				{% if is_granted('ROLE_ADMIN') %}
+					<div class="p-2 position-absolute top-0" style="right:-10px">
+						<div class="btn-group">
+							<a href="{{ path('admin_app_timeline_edit', {id:timeline.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
+								<i class="bi bi-pencil-fill"></i>
+							</a>
+							<a href="{{ path('admin_app_timeline_event', {id:timeline.id}) }}" class="btn btn-outline-secondary btn-sm" title="gérer les événements">
+								<i class="bi bi-plus-circle-fill"></i>
+							</a>
+						</div>
+					</div>
+				{% endif %}
+
+				<h1 class="display-3 text-center mb-3">
+					{{ timeline.title|capitalize }}
+				</h1>
+				<p class="lead text-center">{{ timeline.description }}</p>
+				<aside class="my-1 text-center">
+					{% for portal in timeline.portals %}
+						{{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show', position: 'bottom'}) }}
+					{% endfor %}
+				</aside>
+			</div>
+		</div>
+	</header>
+
+	<article class="my-3 container-fluid">
+		{% if timeline.events is empty %}
+			<p class="text-center">Cette chronologie est vide.</p>
+		{% else %}
+			{% include "timeline/_events-container.html.twig" %}
+		{% endif %}
+	</article>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ page.title }}
+	|
+	{{ app_name }}
+{% endblock %}
+
+{% block body %}
+	{{ include('home/_header.html.twig', { heading_title: page.title, heading_description: page.description }) }}
+
+	{% set has_relations = page.categories is not empty or page.portals is not empty %}
+
+	<article class="mt-5 px-5">
+		{% if is_granted('ROLE_ADMIN') %}
+			<div class="mb-3 text-end">
+				<a href="{{ path('admin_app_page_edit', {id:page.id}) }}" class="btn btn-sm btn-outline-secondary" title="administrer">
+					<i class="bi bi-pencil-fill"></i>
+				</a>
+			</div>
+		{% endif %}
+
+		<div class="row">
+			<div class=" {{ has_relations ? " col-10" : " col-12" }}">
+				{{ page.content|raw }}
+			</div>
+
+			{% if has_relations %}
+				<div class="col-2">
+					{% if page.categories is not empty %}
+						<h3 class="h5 fw-bold">CATEGORIES :</h3>
+						{% for category in page.categories %}
+							<div class="mb-1">
+								<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1 mb-1">
+									<i class="bi bi-folder-fill me-1"></i>
+									{{ category.title }}
+								</a>
+							</div>
+						{% endfor %}
+					{% endif %}
+
+					{% if page.portals is not empty %}
+						<h3 class="h5 fw-bold mt-4">PORTAIL :</h3>
+						{% for portal in page.portals %}
+							<div class="mb-1">
+								<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="label mx-1">
+									<i class="bi bi-tag-fill me-1"></i>
+									{{ portal.title }}
+								</a>
+							</div>
+						{% endfor %}
+					{% endif %}
+				</div>
+			{% endif %}
+		</div>
+	</article>
+{% endblock %}

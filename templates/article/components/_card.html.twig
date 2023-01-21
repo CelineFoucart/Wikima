@@ -1,0 +1,29 @@
+<article class="card shadow-sm h-100">
+	<div class="card-body">
+		<h2 class="card-title h5 mb-3">
+			{% if item.isPrivate %}
+				<i class="bi bi-file-lock" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
+			{% endif %}
+			<a href="{{ path('app_article_show', {slug: item.slug}) }}" class="text-decoration-none">
+				{{ item.title|capitalize }}
+			</a>
+		</h2>
+		<p class="card-text">{{ item.description }}</p>
+	</div>
+	<div class="card-footer text-muted">
+		<span class="me-2">
+			<i class="bi bi-person-fill me-1"></i>
+			{% if item.author is not null %}
+				Par
+				{{ item.author.username }}
+			{% else %}
+				Par Anonyme
+			{% endif %}
+		</span>
+		<span>
+			<i class="bi bi-calendar3 me-1"></i>
+			Le
+			{{ item.createdAt|date('d/m/Y') }}
+		</span>
+	</div>
+</article>

@@ -1,0 +1,64 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des chronologies
+{% endblock %}
+
+{% block body %}
+	{{ include('home/_header.html.twig') }}
+	<article class="my-5 px-5 container-fluid">
+		<header class="text-center">
+			<h2 class="h2">Index des chronologies</h2>
+			<p class="w-75 m-auto pt-3 lh-lg text-muted">Ici s'affichent l'ensemble des chronologies disponibles sur
+				{{ app_name }}. Cliquez sur une chronologie pour consulter les événements qu'elle regroupe.</p>
+		</header>
+
+		<div class="row justify-content-between my-5">
+			<aside class="col-md-4">
+				{% include "components/layout/_advance_search_form.html.twig" 
+            with {form: form, index_path: 'app_timeline_index'} only %}
+			</aside>
+
+			<section class="col-md-8">
+				<h3 class="border-bottom display-6 mb-2 mt-0">
+					Chronologies de
+					{{ app_name }}
+				</h3>
+				<p class="mb-4">
+					{% set plural = timelines.getTotalItemCount > 1 ? 's' : '' %}
+					<span class="fw-bold">{{ timelines.getTotalItemCount }}</span>
+					chronologie{{ plural }}
+					trouvée{{ plural }}.
+				</p>
+
+				<div class="row gy-3">
+					{% for timeline in timelines %}
+						<div class="col-md-6">
+							<article class="card shadow-sm h-100">
+								<div class="card-body">
+									<h2 class="card-title h5 mb-3">
+										<a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}" class="text-decoration-none">
+											{{ timeline.title|capitalize }}
+										</a>
+									</h2>
+									<p class="card-text">{{ timeline.description }}</p>
+								</div>
+								<div class="card-footer text-muted">
+									<span>
+										<i class="bi bi-calendar3 me-1"></i>
+										Le
+										{{ timeline.createdAt|date('d/m/Y') }}
+									</span>
+								</div>
+							</article>
+						</div>
+					{% else %}
+						<p class="alert alert-danger">Votre recherche n'a donné aucun résultat</p>
+					{% endfor %}
+				</div>
+				<div class="navigation">
+					{{ knp_pagination_render(timelines) }}
+				</div>
+			</section>
+		</div>
+	</article>
+{% endblock %}

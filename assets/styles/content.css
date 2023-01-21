@@ -1,0 +1,171 @@
+.list-title {
+    text-align: center;
+    padding: 2rem 0 1rem;
+    font-size: 2.1rem;
+    font-weight: 600;
+}
+
+.navigation {
+    margin-top: 2.5rem;
+}
+
+.navigation .pagination {
+    justify-content: center;
+}
+
+.bg-item {
+    background-color: var(--secondary-light);
+}
+
+.item-heading {
+    padding: 1.5rem 10px 1rem;
+}
+
+.header-item .breadcrumb {
+    padding: 0 15px 0.5rem;
+}
+
+.aside {
+    padding: 4rem 1rem 1rem;
+}
+
+.children-list {
+    margin-top: 10px;
+    list-style: none;
+    padding: 0;
+}
+
+.children-list>li {
+    padding: 10px;
+}
+
+.label-title {
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #6c757d;
+}
+
+.label {
+    text-decoration: none;
+    background-color: #f8f9fa;
+    border-radius: 0.3rem;
+    padding: 1px 0.5rem 1px 2px;
+    border: 1px solid #dee2e6;
+    color: #6c757d;
+    transition: all .15s ease-in-out;
+}
+
+.label:hover {
+    color: var(--secondary);
+    background-color: var(--secondary-light);
+    border-color: var(--secondary);
+}
+
+.article-content {
+    line-height: 1.85rem;
+    text-align: justify;
+}
+
+.article-content h2 {
+    font-size: 1.45rem;
+}
+
+.article-content h3 {
+    font-size: 1.05rem;
+}
+
+.article-content blockquote {
+    padding-left: 20px;
+    padding-right: 8px;
+    border-left: 5px solid #ccc;
+    font-style: italic;
+    margin: 10px 2rem;
+}
+
+.image-container {
+    border: 1px solid var(--secondary);
+    background-color: var(--secondary-light);
+    color: var(--secondary);
+    width: 180px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container img {
+    max-width: 150px;
+}
+
+.form-article-title {
+    border: 1px solid #d1d1d1;
+}
+
+@media (min-width: 768px) {
+    .list-title {
+        font-size: 2.9rem;
+    }
+
+    .header-item .breadcrumb {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.article-summary {
+    margin: 1rem 0;
+}
+
+/* grid template article */
+@media (min-width: 992px) {
+    .article-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+    }
+
+    .article-intro {
+        grid-column-start: 1;
+    }
+
+    .article-summary {
+        grid-column-start: 2;
+        grid-row: 1 / span 2;
+        margin: 0;
+    }
+
+    .article-sections {
+        grid-column-start: 1;
+    }
+}
+
+/* formulaires de login/register */
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+
+.btn-default {
+    background-color: var(--secondary);
+    border: 1px solid var(--secondary);
+    color: var(--primary);
+    box-shadow: 0 4px 9px -4px #3b71ca;
+}
+
+.btn-default:hover {
+    box-shadow: 0 8px 9px -4px rgb(59 113 202 / 30%), 0 4px 18px 0 rgb(59 113 202 / 20%);
+    color: var(--primary);
+}
+
+.form-image {
+    width: 100%;
+    height: 100%;
+    background: url(img/Terraformed_Mars.png) no-repeat center;
+    opacity: .7;
+    /* width: 310px;
+    height: 313px; */
+}

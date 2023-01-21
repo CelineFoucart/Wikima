@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ image.title|capitalize }}
+	|
+	{{ app_name }}
+{% endblock %}
+
+{% block description %}
+	{{ image.description }}
+{% endblock %}
+
+{% block body %}
+	<header class="bg-default-light border-bottom">
+		<div class="pt-3 border-bottom container-fluid">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{{ path('app_home') }}">Accueil</a>
+					</li>
+					<li class="breadcrumb-item">
+						<a href="{{ path('app_image_index') }}">Galerie</a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">{{ image.title }}</li>
+				</ol>
+			</nav>
+		</div>
+		<div class="item-heading">
+			<h1 class="mb-5">
+				<i class="bi bi-image me-1"></i>
+				{{ image.title }}</h1>
+
+			<p class="lead mb-3">{{ image.description }}</p>
+		</div>
+	</header>
+
+	<section class="my-4 container-fluid">
+		<div class="row">
+			<div class="col-md-5">
+				<h2 class="h3 mb-2">Informations sur l'image</h2>
+				<p class="text-muted mb-4">Cliquer sur l'image pour l'afficher en grand.</p>
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Fichier</th>
+							<td>{{ image.filename }}</td>
+						</tr>
+						<tr>
+							<th>Nom</th>
+							<td>{{ image.title }}</td>
+						</tr>
+						<tr>
+							<th>Mots clé</th>
+							<td>{{ image.keywords }}</td>
+						</tr>
+						<tr>
+							<th>Catégories</th>
+							<td>
+								<ul class="list-unstyled">
+									{% for category in image.categories %}
+										<li>
+											<a href="{{ path('app_category_show', {slug: category.slug }) }}" class="text-decoration-none">
+												<i class="bi bi-folder-fill me-1"></i>
+												{{ category.title }}
+											</a>
+										</li>
+									{% endfor %}
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th>Portails</th>
+							<td>
+								<ul class="list-unstyled">
+									{% for portal in image.portals %}
+										<li>
+											<a href="{{ path('app_portal_show', {slug: portal.slug }) }}" class="text-decoration-none">
+												<i class="bi bi-tag-fill me-1"></i>
+												{{ portal.title }}
+											</a>
+										</li>
+									{% endfor %}
+								</ul>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-7 d-flex justify-content-center align-items-center">
+				{% include "image/components/_medium.html.twig" with {image:image} %}
+			</div>
+		</div>
+	</section>
+{% endblock %}

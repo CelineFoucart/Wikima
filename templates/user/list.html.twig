@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contributeurs de
+	{{ app_name }}
+{% endblock %}
+
+{% set title_page = "Liste des membres de "~ app_name %}
+
+{% block body %}
+	{{ include('home/_header.html.twig', { heading_title: title_page, heading_description: "Cliquez sur un pseudo pour obtenir plus d'information sur le membre." }) }}
+
+	<section class="py-5 container-fluid">
+		<h2>Les contributeurs de
+			{{ app_name }}</h2>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Pseudo</th>
+					<th>Roles</th>
+					<th>Contributions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
+					<tr>
+						<td>
+							<a href="{{ path('app_user_show', {id:user.id}) }}">{{ user.username }}</a>
+						</td>
+						<td>
+							{{ format_roles(user.roles) }}
+						</td>
+						<td>
+							<a href="{{ path('app_article_user', {id: user.id}) }}">articles publiés</a>
+						</td>
+					</tr>
+				{% else %}
+					<tr>
+						<td colspan="3" class="text-center">Aucun membre trouvé</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<div class="navigation">
+			{{ knp_pagination_render(users) }}
+		</div>
+	</section>
+{% endblock %}
