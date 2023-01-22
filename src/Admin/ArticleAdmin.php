@@ -9,7 +9,7 @@ use App\Entity\User;
 use DateTime;
 use DateTimeImmutable;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use phpDocumentor\Reflection\Types\Boolean;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -36,8 +36,16 @@ final class ArticleAdmin extends AbstractAdmin
                 ])
             ->end()
             ->with('Meta Data', ['class' => 'col-md-4'])
-                ->add('title', TextType::class)
-                ->add('slug', TextType::class)
+                ->add('title', TextType::class, [
+                    'attr' => [
+                        'data-action' => 'slug',
+                    ],
+                ])
+                ->add('slug', TextType::class, [
+                    'attr' => [
+                        'data-target' => 'slug',
+                    ],
+                ])
                 ->add('keywords', TextType::class)
                 ->add('description', TextareaType::class, [
                     'attr' => [
@@ -49,11 +57,11 @@ final class ArticleAdmin extends AbstractAdmin
                     'choice_label' => 'title',
                     'multiple' => true,
                 ])
-                ->add('isDraft', Boolean::class, [
+                ->add('isDraft', CheckboxType::class, [
                     'label' => 'draft',
                     'required' => false,
                 ])
-                ->add('isPrivate', Boolean::class, [
+                ->add('isPrivate', CheckboxType::class, [
                     'label' => 'private',
                     'required' => false,
                 ])

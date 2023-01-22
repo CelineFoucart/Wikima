@@ -50,6 +50,7 @@ final class ImageAdmin extends AbstractAdmin
                 'class' => Portal::class,
                 'choice_label' => 'title',
                 'multiple' => true,
+                'required' => false,
             ])
             ->add('categories', EntityType::class, [
                 'class' => Category::class,
