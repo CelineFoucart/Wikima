@@ -27,7 +27,12 @@
 						or is_granted('ROLE_ADMIN') %}
 						<li>
 							<a class="dropdown-item" href="{{ path('admin_app_article_section', {id:article.id}) }}">
-								Gérer
+								Gérer le contenu textuel
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('admin_app_article_gallery', {id:article.id}) }}">
+								Gérer la galerie
 							</a>
 						</li>
 					{% endif %}

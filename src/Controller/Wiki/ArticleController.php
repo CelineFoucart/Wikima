@@ -20,7 +20,7 @@ final class ArticleController extends AbstractController
     ) {
     }
 
-    #[Route('/articles/{slug}', name: 'app_article_show', requirements: ['slug' => '[a-z\-]*'])]
+    #[Route('/articles/{slug}', name: 'app_article_show')]
     #[Entity('article', expr: 'repository.findBySlug(slug)')]
     public function article(Article $article): Response
     {

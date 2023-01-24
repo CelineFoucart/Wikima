@@ -28,8 +28,8 @@ class Page
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\Regex('/^login|register|contact|portals|articles|category/i', match: false)]
     #[Assert\NotBlank]
+    #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255)]

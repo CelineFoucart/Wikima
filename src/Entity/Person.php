@@ -42,6 +42,7 @@ class Person
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]

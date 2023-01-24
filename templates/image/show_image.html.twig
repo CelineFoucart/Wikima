@@ -25,10 +25,27 @@
 				</ol>
 			</nav>
 		</div>
-		<div class="item-heading">
+		<div class="item-heading position-relative">
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class="pt-2 pe-3 position-absolute top-0" style="right:-10px">
+					<div class="dropdown">
+						<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
+							<i class="bi bi-wrench-adjustable me-1"></i>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+							<li>
+								<a class="dropdown-item" href="{{ path('admin_app_image_edit', {id:image.id}) }}">
+									Gérer
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			{% endif %}
 			<h1 class="mb-5">
 				<i class="bi bi-image me-1"></i>
-				{{ image.title }}</h1>
+				{{ image.title }}
+			</h1>
 
 			<p class="lead mb-3">{{ image.description }}</p>
 		</div>

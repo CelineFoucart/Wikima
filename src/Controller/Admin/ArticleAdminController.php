@@ -13,6 +13,7 @@ use App\Form\ArticleType;
 use App\Form\SectionType;
 use App\Repository\ArticleRepository;
 use App\Repository\ImageRepository;
+use App\Repository\PortalRepository;
 use App\Repository\SectionRepository;
 use App\Security\Voter\VoterHelper;
 use DateTime;
@@ -27,7 +28,8 @@ final class ArticleAdminController extends CRUDController
     public function __construct(
         private SectionRepository $sectionRepository,
         private ArticleRepository $articleRepository,
-        private ImageRepository $imageRepository
+        private ImageRepository $imageRepository,
+        private PortalRepository $portalRepository
     ) {
     }
 
@@ -100,6 +102,23 @@ final class ArticleAdminController extends CRUDController
             'images' => $images,
             'form' => $form->createView(),
         ]);
+    }
+
+    protected function preCreate(Request $request, object $object): ?Response
+    {
+        $portalId = $request->query->getInt('portal');
+        if (0 === $portalId) {
+            return null;
+        }
+
+        $portal = $this->portalRepository->find($portalId);
+        if (!$portal) {
+            return null;
+        }
+
+        $object->addPortal($portal);
+
+        return null;
     }
 
     private function getSection(int $sectionId, $article): Section

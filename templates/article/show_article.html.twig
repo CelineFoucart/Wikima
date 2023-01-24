@@ -18,7 +18,7 @@
 		</header>
 
 		<div class="pt-5 px-4 {{ has_sections ? 'article-grid' : '' }}">
-			<div class="article-content article-intro pb-3">
+			<div class="article-content article-intro ">
 				{{ article.content|raw }}
 			</div>
 
@@ -43,7 +43,7 @@
 
 				<div class="article-content article-sections">
 					{% for section in article.sections %}
-						<section id="part{{ section.id }}" class="mt-4">
+						<section id="part{{ section.id }}">
 							<h2 class="border-bottom h2 pb-1">{{ section.title }}</h2>
 							<p>{{ section.content|raw }}</p>
 						</section>

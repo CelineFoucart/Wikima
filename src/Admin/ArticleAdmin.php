@@ -9,13 +9,13 @@ use App\Entity\User;
 use DateTime;
 use DateTimeImmutable;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -47,11 +47,7 @@ final class ArticleAdmin extends AbstractAdmin
                     ],
                 ])
                 ->add('keywords', TextType::class)
-                ->add('description', TextareaType::class, [
-                    'attr' => [
-                        'style' => 'height:115px',
-                    ],
-                ])
+                ->add('description', TextareaType::class)
                 ->add('portals', EntityType::class, [
                     'class' => Portal::class,
                     'choice_label' => 'title',

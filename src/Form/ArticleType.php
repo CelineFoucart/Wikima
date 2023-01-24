@@ -34,11 +34,7 @@ class ArticleType extends AbstractType
                 'choice_label' => 'title',
                 'multiple' => true,
             ])
-            ->add('description', TextareaType::class, [
-                'attr' => [
-                    'rows' => '3',
-                ],
-            ])
+            ->add('description', TextareaType::class)
             ->add('content', CKEditorType::class, [
                 'config' => ['toolbar' => 'full'],
             ])

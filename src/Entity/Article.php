@@ -29,6 +29,7 @@ class Article
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
+    #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255)]
