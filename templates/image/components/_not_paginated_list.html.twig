@@ -1,8 +1,6 @@
-<div class="row g-3">
+<div class="d-flex flex-wrap p-2" style="gap:7px">
 	{% for image in images %}
-		<div class="col-sm-6 col-lg-4 col-xl-3">
-			{% include "image/components/_thumbnail.html.twig" with {image:image} %}
-		</div>
+		{% include "image/components/_thumbnail.html.twig" with {image:image} %}
 	{% else %}
 		<div class="mt-4 text-muted text-center">Il n'y a aucune image dans cette section.</div>
 	{% endfor %}

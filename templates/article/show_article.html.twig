@@ -44,7 +44,7 @@
 				<div class="article-content article-sections">
 					{% for section in article.sections %}
 						<section id="part{{ section.id }}" class="mt-4">
-							<h3 class="border-bottom h2 pb-1">{{ section.title }}</h3>
+							<h2 class="border-bottom h2 pb-1">{{ section.title }}</h2>
 							<p>{{ section.content|raw }}</p>
 						</section>
 					{% endfor %}

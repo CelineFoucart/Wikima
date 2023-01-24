@@ -71,7 +71,13 @@
 }
 
 .article-content h3 {
-    font-size: 1.05rem;
+    font-size: 1.25rem;
+}
+
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+    font-size: 1rem;
 }
 
 .article-content blockquote {

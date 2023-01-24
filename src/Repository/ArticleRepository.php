@@ -110,7 +110,8 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->getDefaultQueryBuilder()
             ->andWhere('a.slug = :slug')
             ->setParameter('slug', $slug)
-            ->orderBy('s.position')
+            ->addOrderBy('s.position')
+            ->addOrderBy('s.id')
             ->getQuery()
             ->getOneOrNullResult()
         ;

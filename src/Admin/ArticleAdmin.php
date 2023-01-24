@@ -127,13 +127,13 @@ final class ArticleAdmin extends AbstractAdmin
     public function preUpdate(object $article): void
     {
         $article->setUpdatedAt(new DateTime());
-        $user = $this->token->getToken()->getUser();
-        $article->setAuthor($user);
     }
 
     public function prePersist(object $article): void
     {
         $article->setCreatedAt(new DateTimeImmutable());
+        $user = $this->token->getToken()->getUser();
+        $article->setAuthor($user);
     }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void

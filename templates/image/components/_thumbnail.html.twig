@@ -1,4 +1,4 @@
-<div class="image-container m-auto" data-bs-toggle="tooltip" title="{{ image.description ? image.description : 'Aucune description' }}">
+<div class="image-container" data-bs-toggle="tooltip" title="{{ image.description ? image.description : 'Aucune description' }}">
 	<a href="{{ path('app_image_show', {slug: image.slug}) }}">
 		<img src="{{ vich_uploader_asset(image)|imagine_filter('gallery_thumbnail') }}" alt="{{ image.title }}">
 	</a>
