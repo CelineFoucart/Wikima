@@ -66,9 +66,9 @@ final class PersonAdminController extends CRUDController
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            $images = $this->imageRepository->search($searchData, $excludes);
+            $images = $this->imageRepository->search($searchData, $excludes, 15);
         } else {
-            $images = $this->imageRepository->findPaginated($page, $excludes);
+            $images = $this->imageRepository->findPaginated($page, $excludes, 15);
         }
 
         return $this->render('Admin/person/image_person.html.twig', [

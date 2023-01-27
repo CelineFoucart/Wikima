@@ -20,6 +20,7 @@ use App\Security\Voter\VoterHelper;
 use DateTime;
 use DateTimeImmutable;
 use Sonata\AdminBundle\Controller\CRUDController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -107,9 +108,9 @@ final class ArticleAdminController extends CRUDController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $images = $this->imageRepository->search($searchData, $excludes);
+            $images = $this->imageRepository->search($searchData, $excludes, 15);
         } else {
-            $images = $this->imageRepository->findPaginated($page, $excludes);
+            $images = $this->imageRepository->findPaginated($page, $excludes, 15);
         }
 
         return $this->render('Admin/article/gallery.html.twig', [
@@ -191,5 +192,17 @@ final class ArticleAdminController extends CRUDController
                 $this->addFlash('success', "L'image a bien été enlevée de l'article.");
             }
         }
+    }
+
+    /**
+     * Redirect the user to section action if this choice is edit.
+     */
+    protected function redirectTo(Request $request, object $object): RedirectResponse
+    {
+        if (null !== $request->get('btn_create_and_edit')) {
+            return $this->redirectToRoute('admin_app_article_section', ['id' => $object->getId()]);
+        }
+
+        return parent::redirectTo($request, $object);
     }
 }

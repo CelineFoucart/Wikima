@@ -136,8 +136,6 @@ final class ArticleAdmin extends AbstractAdmin
     {
         $collection
             ->add('section', $this->getRouterIdParameter().'/section')
-            ->add('gallery', $this->getRouterIdParameter().'/gallery')
-            ->remove('edit')
-            ->remove('show');
+            ->add('gallery', $this->getRouterIdParameter().'/gallery');
     }
 }
