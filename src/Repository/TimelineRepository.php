@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Data\SearchData;
+use App\Entity\Portal;
 use App\Entity\Timeline;
 use App\Service\PaginatorService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -58,6 +59,20 @@ class TimelineRepository extends ServiceEntityRepository
     public function findPaginated(int $page = 1, int $limit = 10): PaginationInterface
     {
         $query = $this->createQueryBuilder('t')->orderBy('t.title', 'ASC');
+
+        return $this->paginatorService->setLimit($limit)->paginate($query, $page);
+    }
+
+    /**
+     * Returns a pagination of Timeline by Portal.
+     */
+    public function findTimelinesByPortal(Portal $portal, int $page = 1, int $limit = 10): PaginationInterface
+    {
+        $query = $this->getDefaultQuery()
+            ->andWhere('p.id = :id')
+            ->setParameter('id', $portal->getId())
+            ->orderBy('t.title', 'ASC')
+        ;
 
         return $this->paginatorService->setLimit($limit)->paginate($query, $page);
     }

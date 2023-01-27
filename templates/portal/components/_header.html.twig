@@ -7,6 +7,9 @@
 {% if persons is not defined %}
 	{% set persons = false %}
 {% endif %}
+{% if timelines is not defined %}
+	{% set timelines = false %}
+{% endif %}
 
 <header class="pt-4 bg-item header-item border-bottom">
 	<div class="container-fluid">
@@ -73,8 +76,13 @@
 				</a>
 			</li>
 			<li class="nav-item">
+				<a class="nav-link {{ timelines ? 'active': '' }}" href="{{ path('app_portal_timelines', {slug:portal.slug}) }}">
+					Chronologie
+				</a>
+			</li>
+			<li class="nav-item">
 				<a class="nav-link {{ images ? 'active': '' }}" href="{{ path('app_portal_gallery', {slug:portal.slug}) }}">
-					Galerie d'images
+					Galerie
 				</a>
 			</li>
 		</ul>

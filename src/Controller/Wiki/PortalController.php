@@ -10,6 +10,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\ImageRepository;
 use App\Repository\PersonRepository;
 use App\Repository\PortalRepository;
+use App\Repository\TimelineRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -57,6 +58,19 @@ final class PortalController extends AbstractController
 
         return $this->render('portal/gallery_portal.html.twig', [
             'images' => $imageRepository->findByPortal($portal, $page),
+            'portal' => $portal,
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+        ]);
+    }
+
+    #[Route('/portals/{slug}/timelines', name: 'app_portal_timelines')]
+    #[Entity('portals', expr: 'repository.findBySlug(slug)')]
+    public function timelines(Portal $portal, Request $request, TimelineRepository $timelineRepository): Response
+    {
+        $page = $request->query->getInt('page', 1);
+
+        return $this->render('portal/timelines_portal.html.twig', [
+            'timelines' => $timelineRepository->findTimelinesByPortal($portal, $page),
             'portal' => $portal,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);

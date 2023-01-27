@@ -33,23 +33,7 @@
 				<div class="row gy-3">
 					{% for timeline in timelines %}
 						<div class="col-md-6">
-							<article class="card shadow-sm h-100">
-								<div class="card-body">
-									<h2 class="card-title h5 mb-3">
-										<a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}" class="text-decoration-none">
-											{{ timeline.title|capitalize }}
-										</a>
-									</h2>
-									<p class="card-text">{{ timeline.description }}</p>
-								</div>
-								<div class="card-footer text-muted">
-									<span>
-										<i class="bi bi-calendar3 me-1"></i>
-										Le
-										{{ timeline.createdAt|date('d/m/Y') }}
-									</span>
-								</div>
-							</article>
+							{% include "timeline/components/_timeline_card.html.twig" %}
 						</div>
 					{% else %}
 						<p class="alert alert-danger">Votre recherche n'a donné aucun résultat</p>
