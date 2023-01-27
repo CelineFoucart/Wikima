@@ -80,7 +80,7 @@ final class ArticleAdminController extends CRUDController
         $page = $request->query->getInt('page', 1);
 
         $image = (new Image())->setPortals($article->getPortals());
-        $formImage = $this->createForm(ImageType::class, $image, ['allow_extra_fields' => true]);
+        $formImage = $this->createForm(ImageType::class, $image);
         $formImage->handleRequest($request);
 
         if ($formImage->isSubmitted() && $formImage->isValid()) {
@@ -103,7 +103,7 @@ final class ArticleAdminController extends CRUDController
             return $item->getId();
         }, $article->getImages()->toArray());
         $searchData = (new SearchData())->setPage($page);
-        $form = $this->createForm(AdvancedSearchType::class, $searchData);
+        $form = $this->createForm(AdvancedSearchType::class, $searchData, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
