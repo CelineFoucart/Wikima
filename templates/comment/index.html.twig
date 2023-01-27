@@ -32,7 +32,7 @@
 
         <article class="mx-5">
             <h3 class="h4 mb-4">Laisser un commentaire</h3>
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('ROLE_USER') %}
                 {{ include('comment/components/_form.html.twig') }}
             {% else %}
                 <p class="text-center">

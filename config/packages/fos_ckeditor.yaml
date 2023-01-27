@@ -8,6 +8,26 @@ fos_ck_editor:
             htmlEncodeOutput: false
             allowedContent: true
             removePlugins: 'exportpdf'
+            format_tags: 'p;h2;h3;h4;h5;pre'
+    toolbars:
+        configs: 
+            basic: ['@basic.basic_styles', '@basic.paragraph', '@basic.links']
+        items:
+            basic.basic_styles: ["Bold", "Italic",  'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
+            basic.paragraph: [
+                'NumberedList',
+                'BulletedList',
+                '-',
+                'Outdent',
+                'Indent',
+                '-',
+                'Blockquote',
+                '-',
+                'JustifyLeft',
+                'JustifyCenter',
+                'JustifyRight',
+                'JustifyBlock',
+            ]
 
 twig:
     form_themes:

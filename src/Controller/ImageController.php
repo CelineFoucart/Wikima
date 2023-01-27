@@ -27,9 +27,9 @@ class ImageController extends AbstractController
         $imageForm->handleRequest($request);
         
         if ($imageForm->isSubmitted() && $imageForm->isValid()) {
-            $images = $this->imageRepository->search($search);
+            $images = $this->imageRepository->search($search, [], 12);
         } else {
-            $images = $this->imageRepository->findPaginated($search->getPage());
+            $images = $this->imageRepository->findPaginated($search->getPage(), [], 12);
         }
 
         return $this->render('image/gallery.html.twig', [

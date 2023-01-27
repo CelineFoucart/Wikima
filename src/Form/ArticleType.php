@@ -36,7 +36,7 @@ class ArticleType extends AbstractType
             ])
             ->add('description', TextareaType::class)
             ->add('content', CKEditorType::class, [
-                'config' => ['toolbar' => 'full'],
+                'config' => ['toolbar' => 'full', 'format_tags' => 'p;h2;h3;h4;h5;h6;pre'],
             ])
             ->add('isDraft', CheckboxType::class, [
                 'label' => 'draft',

@@ -16,7 +16,7 @@ class SectionType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('content', CKEditorType::class, [
-                'config' => ['toolbar' => 'full'],
+                'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
             ])
         ;
     }

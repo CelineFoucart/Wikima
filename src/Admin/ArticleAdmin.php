@@ -32,7 +32,7 @@ final class ArticleAdmin extends AbstractAdmin
         $form
             ->with('Article body', ['class' => 'col-md-8'])
                 ->add('content', CKEditorType::class, [
-                    'config' => ['toolbar' => 'full'],
+                    'config' => ['toolbar' => 'full', 'format_tags' => 'p;h2;h3;h4;h5;h6;pre'],
                 ])
             ->end()
             ->with('Meta Data', ['class' => 'col-md-4'])
