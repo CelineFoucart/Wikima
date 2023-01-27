@@ -173,6 +173,13 @@ class Image
         return $this;
     }
 
+    public function setCategories(Collection $categories): self
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Portal>
      */
@@ -186,6 +193,13 @@ class Image
         if (!$this->portals->contains($portal)) {
             $this->portals[] = $portal;
         }
+
+        return $this;
+    }
+
+    public function setPortals(Collection $portals): self
+    {
+        $this->portals = $portals;
 
         return $this;
     }

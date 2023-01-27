@@ -42,12 +42,11 @@ final class PersonAdminController extends CRUDController
             $excludes[] = $person->getImage()->getId();
         }
 
-        $image = new Image();
+        $image = (new Image())->setPortals($person->getPortals())->setCategories($person->getCategories());
         $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $image->setSlug($this->editorService->updateSlug($image->getTitle()));
             $this->imageRepository->add($image, true);
             $person->setImage($image);
             $this->personRepository->add($person, true);

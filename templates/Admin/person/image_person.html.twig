@@ -87,15 +87,24 @@
 							{{ form_row(form.title) }}
 						</div>
 						<div class="col-md-6">
-							{{ form_row(form.keywords) }}
+							<div class="form-group">
+								{{ form_label(form.slug) }}
+								<div class="sonata-ba-field sonata-ba-field-standard-natural">
+									{{ form_widget(form.slug) }}
+								</div>
+								{{ form_errors(form.slug) }}
+							</div>
 						</div>
 					</div>
 					{{ form_row(form.description) }}
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-4">
+							{{ form_row(form.keywords) }}
+						</div>
+						<div class="col-md-4">
 							{{ form_row(form.categories) }}
 						</div>
-						<div class="col-md-6">
+						<div class="col-md-4">
 							{{ form_row(form.portals) }}
 						</div>
 					</div>

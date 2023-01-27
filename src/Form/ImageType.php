@@ -18,7 +18,16 @@ class ImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class)
+            ->add('title', TextType::class, [
+                'attr' => [
+                    'data-action' => 'slug',
+                ],
+            ])
+            ->add('slug', TextType::class, [
+                'attr' => [
+                    'data-target' => 'slug',
+                ],
+            ])
             ->add('keywords', TextType::class)
             ->add('description', TextareaType::class, [
                 'attr' => [

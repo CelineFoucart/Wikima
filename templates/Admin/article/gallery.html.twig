@@ -63,6 +63,11 @@
 				<div class="box-header">
 					<h3 class="box-title">Galerie de
 						{{ article.title }}</h3>
+					<div class="box-tools pull-right">
+						<button type="button" class="btn btn-primary bt-sm" data-toggle="modal" data-target="#form-modal">
+							Uploader
+						</button>
+					</div>
 				</div>
 				<div class="box-body">
 					<div class="image-container">
@@ -84,6 +89,36 @@
 					</div>
 				</div>
 			</article>
+
+			<div class="modal fade" id="form-modal" tabindex="-1" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">×</span>
+							</button>
+							<h5 class="modal-title">Uploader une image</h5>
+						</div>
+						{{ form_start(formImage) }}
+						<div class="modal-body">
+							{{ form_row(formImage.title) }}
+							<div class="form-group">
+								{{ form_label(formImage.slug) }}
+								<div class="sonata-ba-field sonata-ba-field-standard-natural">
+									{{ form_widget(formImage.slug) }}
+								</div>
+								{{ form_errors(formImage.slug) }}
+							</div>
+							{{ form_rest(formImage) }}
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default pull-left" data-dismiss="modal">Fermer</button>
+							<button type="submit" class="btn btn-primary">Ajouter</button>
+						</div>
+						{{ form_end(formImage) }}
+					</div>
+				</div>
+			</div>
 
 			<div class="row">
 				<aside class="col-md-4">

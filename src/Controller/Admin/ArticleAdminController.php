@@ -10,6 +10,7 @@ use App\Entity\Image;
 use App\Entity\Section;
 use App\Form\AdvancedSearchType;
 use App\Form\ArticleType;
+use App\Form\ImageType;
 use App\Form\SectionType;
 use App\Repository\ArticleRepository;
 use App\Repository\ImageRepository;
@@ -77,6 +78,20 @@ final class ArticleAdminController extends CRUDController
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
         $page = $request->query->getInt('page', 1);
 
+        $image = (new Image())->setPortals($article->getPortals());
+        $formImage = $this->createForm(ImageType::class, $image);
+        $formImage->handleRequest($request);
+
+        if ($formImage->isSubmitted() && $formImage->isValid()) {
+            $this->imageRepository->add($image, true);
+            $article->addImage($image);
+            $this->imageRepository->add($image, true);
+            $this->articleRepository->add($article, true);
+            $this->addFlash('success', "L'image a bien été ajoutée.");
+
+            return $this->redirectToRoute('admin_app_article_gallery', ['id' => $article->getId()]);
+        }
+
         if ('POST' === $request->getMethod()) {
             $this->handleGallery($request, $article);
 
@@ -101,6 +116,7 @@ final class ArticleAdminController extends CRUDController
             'article' => $article,
             'images' => $images,
             'form' => $form->createView(),
+            'formImage' => $formImage->createView(),
         ]);
     }
 
