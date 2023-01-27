@@ -25,7 +25,7 @@ class ImageController extends AbstractController
         ;
         $imageForm = $this->createForm(AdvancedSearchType::class, $search);
         $imageForm->handleRequest($request);
-
+        
         if ($imageForm->isSubmitted() && $imageForm->isValid()) {
             $images = $this->imageRepository->search($search);
         } else {

@@ -27,6 +27,7 @@ body {
 
 .person-label:last-of-type::after {
     content: '';
+    display: none;
 }
 
 .about-person {
@@ -70,4 +71,17 @@ body {
 
 .about-person table td {
     min-width: 125px;
+}
+
+.choices__input, .choices__inner {
+    background-color: #fff;
+}
+
+.choices__list--multiple .choices__item {
+    background-color: var(--secondary);
+    border: 1px solid var(--secondary);
+}
+
+.choices[data-type*=select-multiple] .choices__button, .choices[data-type*=text] .choices__button {
+    border-left: 1px solid #f8f9fa;
 }

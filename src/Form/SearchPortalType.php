@@ -20,15 +20,17 @@ class SearchPortalType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Search...',
-                    'class' => 'form-control rounded-pill',
+                    'class' => 'form-control search-input',
                 ],
             ])
             ->add('portals', EntityType::class, [
                 'label' => false,
                 'required' => false,
                 'class' => Portal::class,
-                'expanded' => true,
                 'multiple' => true,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ]
             ])
         ;
     }
