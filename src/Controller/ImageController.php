@@ -23,7 +23,7 @@ class ImageController extends AbstractController
         $search = (new SearchData())
             ->setPage($request->query->getInt('page', 1))
         ;
-        $imageForm = $this->createForm(AdvancedSearchType::class, $search);
+        $imageForm = $this->createForm(AdvancedSearchType::class, $search, ['allow_extra_fields' => true]);
         $imageForm->handleRequest($request);
         
         if ($imageForm->isSubmitted() && $imageForm->isValid()) {

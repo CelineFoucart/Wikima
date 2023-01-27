@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class SearchPortalType extends AbstractType
 {
@@ -33,7 +34,6 @@ class SearchPortalType extends AbstractType
                     'data-choices' => 'choices'
                 ]
             ])
-            ->add('page', HiddenType::class, [ 'label' => false,'required' => false, 'mapped' => false])
         ;
     }
 
@@ -43,6 +43,7 @@ class SearchPortalType extends AbstractType
             'data_class' => SearchData::class,
             'method' => 'GET',
             'csrf_protection' => false,
+            'allow_extra_fields ' => true,
         ]);
     }
 

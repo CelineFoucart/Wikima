@@ -48,7 +48,7 @@ final class ArticleController extends AbstractController
         $page = $request->query->getInt('page', 1);
 
         $search = (new SearchData())->setPage($page);
-        $form = $this->createForm(SearchPortalType::class, $search);
+        $form = $this->createForm(SearchPortalType::class, $search, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
 
         return $this->render('article/index_article.html.twig', [

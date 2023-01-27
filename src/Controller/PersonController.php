@@ -23,7 +23,7 @@ class PersonController extends AbstractController
     public function index(Request $request): Response
     {
         $search = (new SearchData())->setPage($request->query->getInt('page', 1));
-        $form = $this->createForm(AdvancedSearchType::class, $search);
+        $form = $this->createForm(AdvancedSearchType::class, $search, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -134,8 +134,10 @@
 							{{ form_widget(form.categories) }}
 							<h4 class="mt-4 mb-3 fw-bold">Par portail</h3>
 							{{ form_widget(form.portals) }}
-							<a href="{{ path('admin_app_article_gallery', {id: article.id}) }}" class="btn btn-primary">Tout afficher</a>
-							<button type="submit" class="btn btn-primary">Rechercher</button>
+							<div style="margin-top:10px">
+								<a href="{{ path('admin_app_article_gallery', {id: article.id}) }}" class="btn btn-primary">Tout afficher</a>
+								<button type="submit" class="btn btn-primary">Rechercher</button>
+							</div>
 							{{ form_end(form) }}
 						</div>
 					</div>
