@@ -4,6 +4,10 @@
 {% if reading is not defined %}
 	{% set reading = false %}
 {% endif %}
+{% if gallery is not defined %}
+	{% set gallery = false %}
+{% endif %}
+
 
 <div class="container-fluid">
 	<div class="border-bottom pb-3 pb-md-2">
@@ -70,6 +74,11 @@
 		<li class="nav-item">
 			<a class="nav-link {{ reading ? 'active': '' }}" href="{{ path('app_article_show', {slug:article.slug}) }}">
 				Lecture
+			</a>
+		</li>
+		<li class="nav-item">
+			<a href="{{ path('app_article_show_gallery', {slug:article.slug}) }}" class="nav-link {{ gallery ? 'active': '' }}">
+				Galerie
 			</a>
 		</li>
 		<li class="nav-item">
