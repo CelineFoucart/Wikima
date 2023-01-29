@@ -22,11 +22,9 @@ final class HomeController extends AbstractController
     public function index(CategoryRepository $categoryRepository, ArticleRepository $articleRepository, AboutRepository $aboutRepository): Response
     {
         $categories = $categoryRepository->findAll();
-        $articles = $articleRepository->findLastArticles();
 
         return $this->render('home/index.html.twig', [
             'categories' => $categories,
-            'articles' => $articles,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'overview' => $aboutRepository->findAboutRow('overview'),
         ]);

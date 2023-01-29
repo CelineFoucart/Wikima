@@ -22,32 +22,6 @@
 							{{ overview.content|raw }}
 						{% endif %}
 					</div>
-					<div class="row mt-4">
-						<div class="col-6 col-md-3 text-end">
-							<a href="{{ path('app_portal_index') }}" class="text-decoration-none fw-bold">
-								<i class="bi bi-tag-fill me-1"></i>
-								Portails
-							</a>
-						</div>
-						<div class="col-6 col-md-3 text-md-center text-lg-center text-xl-center">
-							<a href="{{ path('app_article_index') }}" class="text-decoration-none fw-bold">
-								<i class="bi bi-file-earmark-text me-1"></i>
-								Articles
-							</a>
-						</div>
-						<div class="col-6 col-md-3 text-end text-md-start text-lg-start text-xl-start">
-							<a href="{{ path('app_timeline_index') }}" class="text-decoration-none fw-bold">
-								<i class="bi bi-hourglass me-1"></i>
-								Chronologie
-							</a>
-						</div>
-						<div class="col-6 col-md-3">
-							<a href="{{ path('app_image_index') }}" class="text-decoration-none fw-bold">
-								<i class="bi bi-image me-1"></i>
-								Galerie
-							</a>
-						</div>
-					</div>
 				</section>
 			</div>
 			<div class="col-md-4">
@@ -71,7 +45,89 @@
 	</article>
 	<hr class="m-5">
 	<article class="my-5 px-5">
-		<h2 class="mb-5">Articles récents</h2>
-		{{ include('components/layout/_row_link_list.html.twig', {path: 'app_article_show', items: articles}) }}
+		<h2 class="mb-5">Explorer {{ app_name }}</h2>
+		<div class="row">
+			<div class="col-md-4 mb-3">
+				<div class="card shadow-sm">
+					<div class="card-header">
+						<h3 class="card-title h5 mb-0">
+							<a href="{{ path('app_category_index') }}" class="text-decoration-none">
+								<i class="bi bi-folder-fill me-1"></i>
+								Consulter l'encyclopédie
+							</a>
+						</h3>
+					</div>
+					<div class="card-body">
+						<p class="card-text">Explorer les articles, les catégories et les portails de {{ app_name }}.</p>
+						<a href="{{ path('app_portal_index') }}" class="text-decoration-none card-link">
+							Portails
+							<i class="bi bi-box-arrow-up-right"></i>
+						</a>
+						<a href="{{ path('app_article_index') }}" class="text-decoration-none card-link">
+							Articles
+							<i class="bi bi-box-arrow-up-right"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-3">
+				<div class="card shadow-sm">
+					<div class="card-header">
+						<h3 class="card-title h5 mb-0">
+							<a href="{{ path('app_person_index') }}" class="text-decoration-none">
+								<i class="bi bi-person-fill me-1"></i>
+								Consulter les personnages
+							</a>
+						</h3>
+					</div>
+					<div class="card-body">
+						<p class="card-text">Explorer les différents personnages renseignés dans {{ app_name }}.</p>
+						<a href="{{ path('app_person_index') }}" class="card-link text-decoration-none">
+							Personnages
+							<i class="bi bi-box-arrow-up-right"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-3">
+				<div class="card shadow-sm">
+					<div class="card-header">
+						<h3 class="card-title h5 mb-0">
+							<a href="{{ path('app_person_index') }}" class="text-decoration-none">
+								<i class="bi bi-hourglass me-1"></i>
+								Consulter les chronologies
+							</a>
+						</h3>
+					</div>
+					<div class="card-body">
+						<p class="card-text">Explorer les événement marquants, organisés en chronologies.</p>
+						<a href="{{ path('app_timeline_index') }}" class="card-link text-decoration-none">
+							Chronologies
+							<i class="bi bi-box-arrow-up-right"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4 mb-3">
+				<div class="card shadow-sm">
+					<div class="card-header">
+						<h3 class="card-title h5 mb-0">
+							<a href="{{ path('app_person_index') }}" class="text-decoration-none">
+								<i class="bi bi-image me-1"></i>
+								Consulter la galerie
+							</a>
+						</h3>
+					</div>
+					<div class="card-body">
+						<p class="card-text">Explorer les images de la galerie de {{ app_name }}, organisées en portails et catégories.</p>
+						<a href="{{ path('app_image_index') }}" class="text-decoration-none card-link">
+							Images
+							<i class="bi bi-box-arrow-up-right"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 	</article>
 {% endblock %}

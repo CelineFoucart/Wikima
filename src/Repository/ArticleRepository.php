@@ -54,21 +54,6 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Article[] Returns an array of Article objects
-     */
-    public function findLastArticles(): array
-    {
-        return $this->createQueryBuilder('a')
-            ->orderBy('a.createdAt', 'DESC')
-            ->andWhere('a.isDraft IS NULL OR a.isDraft = 0')
-            ->andWhere('a.isPrivate IS NULL OR a.isPrivate = 0')
-            ->setMaxResults(6)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-
-    /**
      * Returns a pagination of articles by portals.
      */
     public function findByPortals(array $portals, int $page, int $limit = 10, bool $hidePrivate = true): PaginationInterface
