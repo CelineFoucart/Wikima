@@ -30,7 +30,7 @@ final class PersonAdminController extends CRUDController
     #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')")]
     public function imageAction(?int $id, Request $request): Response
     {
-        $person = $this->personRepository->find($id);
+        $person = $this->personRepository->findById($id);
 
         if (!$person instanceof Person) {
             throw new NotFoundHttpException(sprintf('unable to find the object with id: %s', $id));
@@ -52,11 +52,21 @@ final class PersonAdminController extends CRUDController
             $this->personRepository->add($person, true);
 
             $this->addFlash('success', "L'image a bien été ajoutée au personnage.");
+            $uri = $request->server->get('REQUEST_URI');
+
+            if ($uri) {
+                return $this->redirect($uri);
+            }
 
             return $this->redirectToRoute('admin_app_person_image', ['id' => $person->getId()]);
         }
         if ('POST' === $request->getMethod()) {
             $this->handleImage($request, $person);
+            $uri = $request->server->get('REQUEST_URI');
+
+            if ($uri) {
+                return $this->redirect($uri);
+            }
 
             return $this->redirectToRoute('admin_app_person_image', ['id' => $person->getId()]);
         }

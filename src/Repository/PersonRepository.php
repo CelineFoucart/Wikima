@@ -120,11 +120,23 @@ class PersonRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findById(int $id): ?Person
+    {
+        return $this->getDefaultQuery()
+            ->andWhere('p.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     private function getDefaultQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('p')
             ->leftJoin('p.categories', 'c')
             ->addSelect('c')
+            ->leftJoin('p.image', 'i')
+            ->addSelect('i')
             ->leftJoin('p.portals', 'pt')
             ->addSelect('pt')
             ->orderBy('p.firstname', 'ASC')

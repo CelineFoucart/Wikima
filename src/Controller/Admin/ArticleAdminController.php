@@ -90,11 +90,16 @@ final class ArticleAdminController extends CRUDController
             $this->articleRepository->add($article, true);
             $this->addFlash('success', "L'image a bien été ajoutée.");
 
-            return $this->redirectToRoute('admin_app_article_gallery', ['id' => $article->getId()]);
+            return $this->redirectToRoute('admin_app_article_gallery',  ['id' => $article->getId()]);
         }
 
         if ('POST' === $request->getMethod()) {
             $this->handleGallery($request, $article);
+            $uri = $request->server->get('REQUEST_URI');
+
+            if ($uri) {
+                return $this->redirect($uri);
+            }
 
             return $this->redirectToRoute('admin_app_article_gallery', ['id' => $article->getId()]);
         }
@@ -118,23 +123,6 @@ final class ArticleAdminController extends CRUDController
             'form' => $form->createView(),
             'formImage' => $formImage->createView(),
         ]);
-    }
-
-    protected function preCreate(Request $request, object $object): ?Response
-    {
-        $portalId = $request->query->getInt('portal');
-        if (0 === $portalId) {
-            return null;
-        }
-
-        $portal = $this->portalRepository->find($portalId);
-        if (!$portal) {
-            return null;
-        }
-
-        $object->addPortal($portal);
-
-        return null;
     }
 
     private function getSection(int $sectionId, $article): Section
@@ -191,6 +179,23 @@ final class ArticleAdminController extends CRUDController
                 $this->addFlash('success', "L'image a bien été enlevée de l'article.");
             }
         }
+    }
+
+    protected function preCreate(Request $request, object $object): ?Response
+    {
+        $portalId = $request->query->getInt('portal');
+        if (0 === $portalId) {
+            return null;
+        }
+
+        $portal = $this->portalRepository->find($portalId);
+        if (!$portal) {
+            return null;
+        }
+
+        $object->addPortal($portal);
+
+        return null;
     }
 
     /**
