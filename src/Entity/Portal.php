@@ -5,10 +5,16 @@ namespace App\Entity;
 use App\Repository\PortalRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
+/**
+ * @Vich\Uploadable
+ */
 #[ORM\Entity(repositoryClass: PortalRepository::class)]
 #[UniqueEntity('slug')]
 class Portal
@@ -70,6 +76,17 @@ class Portal
 
     #[ORM\ManyToMany(targetEntity: Person::class, mappedBy: 'portals')]
     private $people;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $presentation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $banner = null;
+
+    /**
+     * @Vich\UploadableField(mapping="upload_images", fileNameProperty="banner")
+     */
+    private ?File $imageBanner = null;
 
     public function __construct()
     {
@@ -324,5 +341,45 @@ class Portal
         }
 
         return $this;
+    }
+
+    public function getPresentation(): ?string
+    {
+        return $this->presentation;
+    }
+
+    public function setPresentation(?string $presentation): self
+    {
+        $this->presentation = $presentation;
+
+        return $this;
+    }
+
+    public function getBanner(): ?string
+    {
+        return $this->banner;
+    }
+
+    public function setBanner(?string $banner): self
+    {
+        $this->banner = $banner;
+
+        return $this;
+    }
+
+    public function setImageBanner(File $imageBanner = null): self
+    {
+        $this->imageBanner = $imageBanner;
+
+        if ($imageBanner) {
+            $this->updatedAt = new \DateTime('now');
+        }
+
+        return $this;
+    }
+
+    public function getImageBanner(): ?File
+    {
+        return $this->imageBanner;
     }
 }

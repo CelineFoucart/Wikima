@@ -10,6 +10,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ImageRepository;
 use App\Repository\PersonRepository;
+use App\Service\AlphabeticalHelperService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,15 +33,25 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/{slug}', name: 'app_category_show')]
-    public function category(Category $category, Request $request): Response
+    public function category(Category $category): Response
+    {
+        return $this->render('category/show_category.html.twig', [
+            'category' => $category,
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+        ]);
+    }
+
+    #[Route('/category/{slug}/articles', name: 'app_category_show_article')]
+    public function article(Category $category, Request $request, AlphabeticalHelperService $helper): Response
     {
         $page = $request->query->getInt('page', 1);
         $articles = $this->articleRepository->findByPortals($category->getPortals()->toArray(), $page, 10, $this->hidePrivate());
 
-        return $this->render('category/show_category.html.twig', [
+        return $this->render('category/show_category_article.html.twig', [
             'category' => $category,
             'articles' => $articles,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'items' => $helper->formatArray($articles->getItems()),
         ]);
     }
 

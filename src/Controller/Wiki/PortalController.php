@@ -11,6 +11,7 @@ use App\Repository\ImageRepository;
 use App\Repository\PersonRepository;
 use App\Repository\PortalRepository;
 use App\Repository\TimelineRepository;
+use App\Service\AlphabeticalHelperService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ final class PortalController extends AbstractController
 
     #[Route('/portals/{slug}', name: 'app_portal_show')]
     #[Entity('portals', expr: 'repository.findBySlug(slug)')]
-    public function portal(Portal $portal, Request $request): Response
+    public function portal(Portal $portal, Request $request, AlphabeticalHelperService $helper): Response
     {
         $page = $request->query->getInt('page', 1);
         $articles = $this->articleRepository->findByPortals([$portal], $page, 16, $this->hidePrivate());
@@ -36,17 +37,21 @@ final class PortalController extends AbstractController
             'portal' => $portal,
             'articles' => $articles,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'items' => $helper->formatArray($articles->getItems()),
         ]);
     }
 
     #[Route('/portals', name: 'app_portal_index')]
-    public function index(Request $request): Response
+    public function index(Request $request, AlphabeticalHelperService $helper): Response
     {
         $page = $request->query->getInt('page', 1);
 
+        $portals = $this->portalRepository->findPaginated($page);
+
         return $this->render('portal/index_portal.html.twig', [
-            'portals' => $this->portalRepository->findPaginated($page),
+            'portals' => $portals,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'items' => $helper->formatArray($portals->getItems()),
         ]);
     }
 

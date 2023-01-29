@@ -13,7 +13,10 @@
 	<article>
 		{% include "portal/components/_header.html.twig" with {timelines:true} %}
 
-		<div class="my-4">
+		<div class="m-4">
+			<h2 class="content-title-section">
+				Les chronologies du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
+			</h2>
 			{% set plural = timelines.getTotalItemCount > 1 ? 's' : '' %}
 
 			<p class="mb-4 p-2">

@@ -8,6 +8,7 @@ This value name must be at least 10 characters long: Cette valeur doit faire au 
 Your password should be at least 6 characters: Votre mot de passe doit faire au moins 6 caractères
 There is already an account with this username: Il y a déjà un compte avec ce nom d'utilisateur
 There is already a page with this title: Il y a déjà une page avec ce titre
+Informations Et Relations: Informations Et Relations
 Password: Mot de passe
 New password: Nouveau mot de passe
 Current password: Mot de passe actuel
@@ -108,3 +109,7 @@ draft: Brouillon
 Is Private: Privé
 private: Privé
 Name: Nom
+Image Banner: Image de la bannière
+Illustration: Illustration
+banner_help: Pour la bannière, choisissez un fichier qui fait maximum 1320px par 300px. Pour qu'il ne soit pas trop pixellisé, ne pas mettre un fichier trop petit.
+Banner: Bannière

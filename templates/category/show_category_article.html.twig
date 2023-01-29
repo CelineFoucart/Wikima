@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ category.title|capitalize }}
+	| Catégorie
+{% endblock %}
+
+{% block description %}
+	{{ category.description }}
+{% endblock %}
+
+{% block body %}
+	{% include "category/components/_header.html.twig" with {articles: true} %}
+    <article class="p-4">
+        <h2 class="content-title-section">
+            Les articles de la catégorie &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
+        </h2>
+        <p>
+            Cette catégorie comprend <strong>{{ articles.totalItemCount }}</strong> articles, dont les <strong>{{articles|length}}</strong> articles ci-dessous.
+        </p>
+
+        <div class="column-3">
+            {% for key, elements in items %}
+                <div class="mb-4">
+                    <h3 class="h4 mb-0 fw-bold">{{ key }}</h3>
+                    <ul>
+                        {% for item in elements %}
+                            <li data-bs-toggle="tooltip" title="{{ item.description ? item.description : 'Aucune description' }}">
+                                <a href="{{ path('app_article_show', {slug: item.slug}) }}" class="text-decoration-none">
+                                    {{ item.title }}
+                                    {% if item.isPrivate %}
+                                        <i class="bi bi-file-lock fw-bold, text-danger" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
+                                    {% endif %}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <p class="text-muted">Aucun element trouvé</p>
+            {% endfor %}
+        </div>
+
+        <div class="navigation">
+            {{ knp_pagination_render(articles) }}
+        </div>
+    </article>
+{% endblock %}

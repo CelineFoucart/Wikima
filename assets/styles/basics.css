@@ -21,6 +21,11 @@ footer {
     border-right: 1px solid #ECECEC;
 }
 
+.column-3 {
+    column-count: 1;
+    gap: 10px;
+}
+
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr;
@@ -35,6 +40,17 @@ footer {
     .grid-2 {
         grid-template-columns: repeat(2, 1fr);
         gap: 0 3rem;
+    }
+
+    .column-3 {
+        column-count: 2;
+    }
+}
+
+@media (min-width:992px) {
+
+    .column-3 {
+        column-count: 3;
     }
 }
 

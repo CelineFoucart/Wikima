@@ -7,6 +7,7 @@ namespace App\Admin;
 use App\Entity\Category;
 use DateTime;
 use DateTimeImmutable;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -15,6 +16,8 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\Image;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 final class PortalAdmin extends AbstractAdmin
 {
@@ -32,14 +35,31 @@ final class PortalAdmin extends AbstractAdmin
                         'data-target' => 'slug',
                     ],
                 ])
+                ->add('presentation', CKEditorType::class, [
+                    'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
+                ])
+            ->end()
+            ->with('Informations et relations', ['class' => 'col-md-3'])
                 ->add('keywords', TextType::class)
                 ->add('description', TextareaType::class)
-            ->end()
-            ->with('Relations', ['class' => 'col-md-3'])
                 ->add('categories', EntityType::class, [
                     'class' => Category::class,
                     'choice_label' => 'title',
                     'multiple' => true,
+                ])
+            ->end()
+            ->with('Illustration', ['class' => 'col-md-3'])
+                ->add('imageBanner', VichImageType::class, [
+                    'constraints' => [
+                        new Image([
+                            'minWidth' => 800,
+                            'maxWidth' => 1320,
+                            'minHeight' => 200,
+                            'maxHeight' => 300,
+                        ])
+                        ],
+                        'help' => "banner_help",
+                        'required' => false,
                 ])
             ->end()
         ;
@@ -93,6 +113,10 @@ final class PortalAdmin extends AbstractAdmin
                     ->add('slug')
                     ->add('keywords')
                     ->add('description')
+                    ->add('presentation', null, [
+                        'safe' => true,
+                    ])
+                    ->add('banner')
                 ->end()
                 ->with('Meta data', ['class' => 'col-md-3'])
                     ->add('createdAt', null, [

@@ -13,18 +13,34 @@
 	<article>
 		{% include "portal/components/_header.html.twig" with {articles:true}   %}
 
-		<div class="py-5 px-4">
-			<p class="text-end mb-4">
-				{% for page in portal.pages %}
-					<a href="{{ path('app_page', {slug: page.slug}) }}" class="label mx-1">
-						<i class="bi bi-file-earmark-text"></i>
-						{{ page.title }}
-					</a>
-				{% endfor %}
+		<div class="pt-1 py-5 px-4">
+			<h2 class="content-title-section">
+				Les articles du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
+			</h2>
+			<p>
+				Ce portail comprend <strong>{{ articles.totalItemCount }}</strong> articles, dont les <strong>{{articles|length}}</strong> articles ci-dessous.
 			</p>
 
-			<div class="grid-2">
-				{{ include('components/layout/_single_col_list.html.twig',{path: 'app_article_show', items: articles, handlePrivate: true}) }}
+			<div class="column-3">
+				{% for key, elements in items %}
+					<div class="mb-4">
+						<h3 class="h4 mb-0 fw-bold">{{ key }}</h3>
+						<ul>
+							{% for item in elements %}
+								<li data-bs-toggle="tooltip" title="{{ item.description ? item.description : 'Aucune description' }}">
+									<a href="{{ path('app_article_show', {slug: item.slug}) }}" class="text-decoration-none">
+										{{ item.title }}
+										{% if item.isPrivate %}
+											<i class="bi bi-file-lock fw-bold, text-danger" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
+										{% endif %}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% else %}
+					<p class="text-muted">Aucun element trouvé</p>
+				{% endfor %}
 			</div>
 
 			<div class="navigation">

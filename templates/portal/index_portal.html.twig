@@ -8,7 +8,24 @@
         <h2 class="list-title">Les portails</h2>
         <p class="text-center text-muted fs-5 mb-4">Explorer les portails disponibles sur le site</p>
 
-        {{ include('components/layout/_row_link_list.html.twig', {path: 'app_portal_show', items: portals}) }}
+        <div class="column-3 mx-2 mt-5">
+            {% for key, elements in items %}
+                <div class="mb-4">
+                    <h3 class="h4 mb-0 fw-bold">{{ key }}</h3>
+                    <ul>
+                        {% for item in elements %}
+                            <li data-bs-toggle="tooltip" title="{{ item.description ? item.description : 'Aucune description' }}">
+                                <a href="{{ path('app_portal_show', {slug: item.slug}) }}" class="text-decoration-none">
+                                    {{ item.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <p class="text-muted">Aucun element trouvé</p>
+            {% endfor %}
+        </div>
 
         <div class="navigation">
             {{ knp_pagination_render(portals) }}

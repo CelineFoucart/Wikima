@@ -13,7 +13,11 @@
 	<article>
 		{% include "portal/components/_header.html.twig" with {images:true} %}
 
-		<div class="my-4">
+		<div class="m-4">
+			<h2 class="content-title-section">
+				Les images du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
+			</h2>
+
 			{% include "image/components/_list.html.twig" with {images: images} only %}
 		</div>
 	</article>
