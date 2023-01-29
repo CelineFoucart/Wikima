@@ -31,7 +31,7 @@ final class PortalController extends AbstractController
     public function portal(Portal $portal, Request $request, AlphabeticalHelperService $helper): Response
     {
         $page = $request->query->getInt('page', 1);
-        $articles = $this->articleRepository->findByPortals([$portal], $page, 16, $this->hidePrivate());
+        $articles = $this->articleRepository->findByPortals([$portal], $page, 30, $this->hidePrivate());
 
         return $this->render('portal/show_portal.html.twig', [
             'portal' => $portal,

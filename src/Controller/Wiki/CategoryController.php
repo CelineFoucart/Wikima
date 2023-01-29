@@ -45,7 +45,7 @@ final class CategoryController extends AbstractController
     public function article(Category $category, Request $request, AlphabeticalHelperService $helper): Response
     {
         $page = $request->query->getInt('page', 1);
-        $articles = $this->articleRepository->findByPortals($category->getPortals()->toArray(), $page, 10, $this->hidePrivate());
+        $articles = $this->articleRepository->findByPortals($category->getPortals()->toArray(), $page, 30, $this->hidePrivate());
 
         return $this->render('category/show_category_article.html.twig', [
             'category' => $category,
