@@ -52,7 +52,7 @@ class BackupService
     {
         try {
             $this->setFilename();
-            $command = "mysqldump -u ".$this->user." -p \"".$this->password."\" ". $this->dbname;
+            $command = "mysqldump --user=".$this->user." --password=\"".$this->password."\" --databases ". $this->dbname;
             $dump = shell_exec($command);
             $this->filesystem->dumpFile($this->backupFolder . DIRECTORY_SEPARATOR . $this->filename, $dump);
         } catch (\Exception $e) {
