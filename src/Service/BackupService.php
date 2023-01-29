@@ -4,7 +4,7 @@ namespace App\Service;
 
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Ifsnop\Mysqldump\Mysqldump;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class BackupService
@@ -29,6 +29,7 @@ class BackupService
     private ?string $filename = null;
     private ?DateTimeImmutable $date = null;
     private array   $errors = [];
+    private Filesystem $filesystem;
 
     /**
      * Constructor of BackupService.
@@ -36,11 +37,12 @@ class BackupService
      * @param EntityManagerInterface $entityManager
      * @param string                 $backupFolder
      */
-    public function __construct(EntityManagerInterface $entityManager, string $backupFolder)
+    public function __construct(EntityManagerInterface $entityManager, string $backupFolder, Filesystem $filesystem)
     { 
         $dbparams = $entityManager->getConnection()->getParams();
         $this->setBackupFolder($backupFolder);
         $this->setSettings($dbparams);
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -50,10 +52,11 @@ class BackupService
     {
         try {
             $this->setFilename();
-            $dump = new Mysqldump($this->dsn,  $this->user, $this->password);
-            $dump->start($this->backupFolder . DIRECTORY_SEPARATOR . $this->filename);
+            $command = "mysqldump -u ".$this->user." -p \"".$this->password."\" ". $this->dbname;
+            $dump = shell_exec($command);
+            $this->filesystem->dumpFile($this->backupFolder . DIRECTORY_SEPARATOR . $this->filename, $dump);
         } catch (\Exception $e) {
-            $this->errors['save'] = ['mysqldump-php error: ' . $e->getMessage()];
+            $this->errors['save'] = ['mysqldump error: ' . $e->getMessage()];
         }
 
         return $this;
