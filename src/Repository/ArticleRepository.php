@@ -56,7 +56,7 @@ class ArticleRepository extends ServiceEntityRepository
     /**
      * Returns a pagination of articles by portals.
      */
-    public function findByPortals(array $portals, int $page, int $limit = 10, bool $hidePrivate = true): PaginationInterface
+    public function findByPortals(array $portals, int $page, int $limit = 30, bool $hidePrivate = true): PaginationInterface
     {
         $query = $this->createQueryBuilder('a')
             ->orderBy('a.title', 'ASC')
