@@ -10,6 +10,7 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -85,7 +86,9 @@ final class PageAdmin extends AbstractAdmin
         $show
             ->with('Content', ['class' => 'col-md-9'])
                 ->add('id')
-                ->add('title')
+                ->add('title', null, [
+                    'template' => 'Admin/components/_show_title.html.twig',
+                ])
                 ->add('slug')
                 ->add('description')
                 ->add('content', null, [

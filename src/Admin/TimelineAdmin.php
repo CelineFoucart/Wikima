@@ -11,7 +11,9 @@ use DateTimeImmutable;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\TemplateType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -94,6 +96,10 @@ final class TimelineAdmin extends AbstractAdmin
                 'multiple' => true,
                 'required' => false,
             ])
+            ->add('preview', TemplateType::class, [
+                'template' => 'Admin/components/_preview.html.twig',
+                'label' => false,
+            ])
         ;
     }
 
@@ -101,7 +107,9 @@ final class TimelineAdmin extends AbstractAdmin
     {
         $show
             ->add('id')
-            ->add('title')
+            ->add('title', null, [
+                'template' => 'Admin/components/_show_title.html.twig',
+            ])
             ->add('slug')
             ->add('description')
             ->add('createdAt', null, [

@@ -42,11 +42,17 @@
 						{% if is_granted('ROLE_ADMIN') %}
 							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_portal_edit', {id:portal.id}) }}">
-									Gérer
+									Editer le portail
 								</a>
 							</li>
 							<a class="dropdown-item" href="{{ path('admin_app_article_create', {portal:portal.id}) }}">
 								Ajouter un article
+							</a>
+							<a class="dropdown-item" href="{{ path('admin_app_timeline_create', {portal:portal.id}) }}">
+								Ajouter une chronologie
+							</a>
+							<a class="dropdown-item" href="{{ path('admin_app_person_create', {portal:portal.id}) }}">
+								Ajouter un personnage
 							</a>
 						{% endif %}
 					</ul>
@@ -93,22 +99,11 @@
 	<img src="{{ vich_uploader_asset(portal) }}" class="img-fluid" alt="bannière de {{ portal.title }}">
 {% endif %}
 
-	<p class="text-end mb-4 mt-1">
-		{% for page in portal.pages %}
-			<a href="{{ path('app_page', {slug: page.slug}) }}" class="label mx-1">
-				<i class="bi bi-file-earmark-text"></i>
-				{{ page.title }}
-			</a>
-		{% endfor %}
-	</p>
-
-{% if portal.presentation %}
-	<div class="element-presentation">
-		<h2><strong>{{ portal.title }}</strong>, qu'est-ce que c'est ?</h2>
-		<div class="content">
-			{{ portal.presentation|raw }}
-		</div>
-	</div>
-{% endif %}
-
-
+<p class="text-end mb-4 mt-1">
+	{% for page in portal.pages %}
+		<a href="{{ path('app_page', {slug: page.slug}) }}" class="label mx-1">
+			<i class="bi bi-file-earmark-text"></i>
+			{{ page.title }}
+		</a>
+	{% endfor %}
+</p>

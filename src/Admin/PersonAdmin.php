@@ -11,7 +11,9 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\TemplateType;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -72,7 +74,7 @@ final class PersonAdmin extends AbstractAdmin
     {
         $form
             ->tab('Generality')
-                ->with('Name', ['class' => 'col-md-6'])
+                ->with('Identity', ['class' => 'col-md-6 hidden-header'])
                     ->add('firstname', TextType::class, [
                         'attr' => [
                             'data-type' => 'firstname',
@@ -93,11 +95,30 @@ final class PersonAdmin extends AbstractAdmin
                             'data-target' => 'slug-character',
                         ],
                     ])
+                    ->add('description', TextareaType::class, [
+                        'required' => false,
+                    ])
+                    ->add('preview', TemplateType::class, [
+                        'template' => 'Admin/components/_preview.html.twig',
+                        'label' => false,
+                    ])
                 ->end()
-                ->with('Informations', ['class' => 'col-md-6'])
+                ->with('Informations', ['class' => 'col-md-6 hidden-header'])
                     ->add('parents')
                     ->add('nationality')
                     ->add('job')
+                    ->add('portals', EntityType::class, [
+                        'class' => Portal::class,
+                        'choice_label' => 'title',
+                        'multiple' => true,
+                        'required' => false,
+                    ])
+                    ->add('categories', EntityType::class, [
+                        'class' => Category::class,
+                        'choice_label' => 'title',
+                        'multiple' => true,
+                        'required' => false,
+                    ])
                 ->end()
             ->end()
 
@@ -127,28 +148,6 @@ final class PersonAdmin extends AbstractAdmin
                     ])
                 ->end()
             ->end()
-            ->tab('Meta Data')
-                ->with('Meta Data', ['class' => 'hidden-header'])
-                    ->add('description', TextareaType::class, [
-                        'required' => false,
-                        'attr' => [
-                            'style' => 'height:115px',
-                        ],
-                    ])
-                    ->add('portals', EntityType::class, [
-                        'class' => Portal::class,
-                        'choice_label' => 'title',
-                        'multiple' => true,
-                        'required' => false,
-                    ])
-                    ->add('categories', EntityType::class, [
-                        'class' => Category::class,
-                        'choice_label' => 'title',
-                        'multiple' => true,
-                        'required' => false,
-                    ])
-                ->end()
-            ->end()
         ;
     }
 
@@ -157,9 +156,9 @@ final class PersonAdmin extends AbstractAdmin
         $show
             ->with('In Short', ['class' => 'col-md-12'])
                 ->add('id')
-                ->add('firstname')
-                ->add('lastname')
-                ->add('fullname')
+                ->add('fullname', null, [
+                    'template' => 'Admin/person/_person_name.html.twig',
+                ])
                 ->add('slug')
                 ->add('nationality')
                 ->add('job')

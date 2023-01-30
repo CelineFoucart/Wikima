@@ -11,7 +11,9 @@ use Liip\ImagineBundle\Imagine\Cache\CacheManager;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\TemplateType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -57,6 +59,10 @@ final class ImageAdmin extends AbstractAdmin
                 'choice_label' => 'title',
                 'multiple' => true,
             ])
+            ->add('preview', TemplateType::class, [
+                'template' => 'Admin/components/_preview.html.twig',
+                'label' => false,
+            ])
         ;
 
         if (null === $entity->getId()) {
@@ -92,7 +98,9 @@ final class ImageAdmin extends AbstractAdmin
         $show
             ->with('Informations', ['class' => 'col-sm-12 col-lg-6'])
                 ->add('filename', 'file', ['template' => 'Admin/image.html.twig'])
-                ->add('title')
+                ->add('title', null, [
+                    'template' => 'Admin/components/_show_title.html.twig',
+                ])
                 ->add('slug')
                 ->add('keywords')
                 ->add('description')

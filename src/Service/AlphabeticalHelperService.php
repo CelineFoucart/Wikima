@@ -9,7 +9,7 @@ class AlphabeticalHelperService
         $orderedItems = [];
         
         foreach ($items as $item) {
-            $title = $item->getTitle();
+            $title = strtolower($item->getTitle());
             $title = preg_replace('#é|è|ë|ê#', 'e', $title);
             $title = preg_replace('#â|à|ä#', 'a', $title);
             $title = preg_replace('#ù|ü|û#', 'u', $title);

@@ -9,8 +9,10 @@ use App\Entity\Image;
 use App\Entity\Person;
 use App\Form\AdvancedSearchType;
 use App\Form\ImageType;
+use App\Repository\CategoryRepository;
 use App\Repository\ImageRepository;
 use App\Repository\PersonRepository;
+use App\Repository\PortalRepository;
 use App\Service\EditorService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sonata\AdminBundle\Controller\CRUDController;
@@ -23,7 +25,9 @@ final class PersonAdminController extends CRUDController
     public function __construct(
         private PersonRepository $personRepository,
         private ImageRepository $imageRepository,
-        private EditorService $editorService
+        private EditorService $editorService,
+        private CategoryRepository $categoryRepository,
+        private PortalRepository $portalRepository
     ) {
     }
 
@@ -110,5 +114,25 @@ final class PersonAdminController extends CRUDController
                 $this->addFlash('success', "L'image a bien été enlevée.");
             }
         }
+    }
+
+    protected function preCreate(Request $request, object $object): ?Response
+    {
+        $categoryId = $request->query->getInt('category');
+        if (0 !== $categoryId) {
+            $category = $this->categoryRepository->find($categoryId);
+            if ($category) {
+                $object->addCategory($category);
+            }
+        }
+
+        $portalId = $request->query->getInt('portal');
+        if (0 !== $portalId) {
+            $portal = $this->portalRepository->find($portalId);
+            if ($portal) {
+                $object->addPortal($portal);
+            }
+        }
+        return null;
     }
 }

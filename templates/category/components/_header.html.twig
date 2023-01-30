@@ -42,12 +42,18 @@
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_category_edit', {id:category.id}) }}">
-									Gérer
+									Editer la catégorie
 								</a>
 								<a class="dropdown-item" href="{{ path('admin_app_portal_create', {category:category.id}) }}">
 									Ajouter un portail
 								</a>
 							</li>
+							<a class="dropdown-item" href="{{ path('admin_app_timeline_create', {category:category.id}) }}">
+								Ajouter une chronologie
+							</a>
+							<a class="dropdown-item" href="{{ path('admin_app_person_create', {category:category.id}) }}">
+								Ajouter un personnage
+							</a>
 						</ul>
 					</div>
 				</div>
@@ -93,14 +99,5 @@
 				</a>
 			{% endfor %}
 		</p>			
-	{% endif %}
-
-	{% if category.presentation %}
-		<div class="element-presentation">
-			<h2><strong>{{ category.title }}</strong>, qu'est-ce que c'est ?</h2>
-			<div class="content">
-				{{ category.presentation|raw }}
-			</div>
-		</div>
 	{% endif %}
 </section>

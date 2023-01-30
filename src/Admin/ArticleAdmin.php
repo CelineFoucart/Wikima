@@ -12,8 +12,10 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -117,6 +119,30 @@ final class ArticleAdmin extends AbstractAdmin
                     'delete' => [],
                 ],
             ])
+        ;
+    }
+
+    protected function configureShowFields(ShowMapper $show): void
+    {
+        $show
+            ->add('id')
+            ->add('title', null, [
+                'template' => 'Admin/components/_show_title.html.twig',
+            ])
+            ->add('keywords')
+            ->add('description')
+            ->add('content', null, [
+                'safe' => true
+            ])
+            ->add('createdAt', null, [
+                'format' => 'd/m/Y à H:i',
+            ])
+            ->add('updatedAt', null, [
+                'format' => 'd/m/Y à H:i',
+            ])
+            ->add('isDraft')
+            ->add('isPrivate')
+            ->add('author')
         ;
     }
 

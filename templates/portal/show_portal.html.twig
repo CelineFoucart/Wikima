@@ -12,7 +12,14 @@
 {% block body %}
 	<article>
 		{% include "portal/components/_header.html.twig" with {articles:true}   %}
-
+		{% if portal.presentation %}
+			<div class="element-presentation">
+				<h2><strong>{{ portal.title }}</strong>, qu'est-ce que c'est ?</h2>
+				<div class="content">
+					{{ portal.presentation|raw }}
+				</div>
+			</div>
+		{% endif %}
 		<div class="pt-1 py-5 px-4">
 			<h2 class="content-title-section">
 				Les articles du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;

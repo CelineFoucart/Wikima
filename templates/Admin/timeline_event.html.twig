@@ -62,9 +62,9 @@
 	<script src="{{ asset('assets/admin.js') }}"></script>
 	<script>
 		window.onload = () => {
-let url = "{{ path('api_timeline_event', {'id': timeline.id}) }}";
-sortable('#events', url);
-}
+			let url = "{{ path('api_timeline_event', {'id': timeline.id}) }}";
+			sortable('#events', url);
+		}
 	</script>
 {% endblock %}
 
@@ -107,36 +107,34 @@ sortable('#events', url);
 								</div>
 							</div>
 						</div>
-						<div class="box-body">
+						<div class="box-body table-responsive no-padding {{ timeline.events|length > 5 ? 'scroll-y' : '' }}">
 							{% if timeline.events is empty %}
-								<p>Aucun événement</p>
+								<p class="box-body">Aucun événement</p>
 							{% else %}
-								<div class="box-body table-responsive no-padding">
-									<table class="table">
-										<tbody id="events">
-											{% for event in timeline.events %}
-												<tr class="sonata-ba-view-container handle" id="{{ event.id }}">
-													<td>
-														<div class="pull-right">
-															<a href="{{ path('admin_app_timeline_event', {id:timeline.id, event: event.id}) }}" class="btn btn-default btn-sm" title="Editer">
-																<i class="fas fa-edit" aria-hidden="true"></i>
-															</a>
-															<form method="post" action="{{ path('admin_app_event_delete', {'id': event.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet élément ?');" style="display:inline-block">
-																<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
-																<button class="btn btn-danger btn-sm" title="Supprimer">
-																	<i class="fa fa-trash-o"></i>
-																</button>
-															</form>
-														</div>
-														<h4>{{ event.title }}</h4>
-														<p>{{ event.duration }}</p>
-														{{ event.presentation|striptags|raw|u.truncate(190, '...', false)|raw }}
-													</td>
-												</tr>
-											{% endfor %}
-										</tbody>
-									</table>
-								</div>
+								<table class="table">
+									<tbody id="events">
+										{% for event in timeline.events %}
+											<tr class="sonata-ba-view-container handle" id="{{ event.id }}">
+												<td>
+													<div class="pull-right">
+														<a href="{{ path('admin_app_timeline_event', {id:timeline.id, event: event.id}) }}" class="btn btn-default btn-sm" title="Editer">
+															<i class="fas fa-edit" aria-hidden="true"></i>
+														</a>
+														<form method="post" action="{{ path('admin_app_event_delete', {'id': event.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet élément ?');" style="display:inline-block">
+															<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
+															<button class="btn btn-danger btn-sm" title="Supprimer">
+																<i class="fa fa-trash-o"></i>
+															</button>
+														</form>
+													</div>
+													<h4>{{ event.title }}</h4>
+													<p>{{ event.duration }}</p>
+													{{ event.presentation|striptags|raw|u.truncate(190, '...', false)|raw }}
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
 							{% endif %}
 						</div>
 						<div class="box-footer">

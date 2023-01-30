@@ -7,7 +7,9 @@ namespace App\Controller\Admin;
 use App\Entity\Event;
 use App\Entity\Timeline;
 use App\Form\TimelineEventType;
+use App\Repository\CategoryRepository;
 use App\Repository\EventRepository;
+use App\Repository\PortalRepository;
 use App\Repository\TimelineRepository;
 use DateTime;
 use DateTimeImmutable;
@@ -21,7 +23,9 @@ final class TimelineAdminController extends CRUDController
 {
     public function __construct(
         private EventRepository $eventRepository,
-        private TimelineRepository $timelineRepository
+        private TimelineRepository $timelineRepository,
+        private CategoryRepository $categoryRepository,
+        private PortalRepository $portalRepository
     ) {
     }
 
@@ -83,5 +87,25 @@ final class TimelineAdminController extends CRUDController
         }
 
         return $timeline;
+    }
+
+    protected function preCreate(Request $request, object $object): ?Response
+    {
+        $categoryId = $request->query->getInt('category');
+        if (0 !== $categoryId) {
+            $category = $this->categoryRepository->find($categoryId);
+            if ($category) {
+                $object->addCategory($category);
+            }
+        }
+
+        $portalId = $request->query->getInt('portal');
+        if (0 !== $portalId) {
+            $portal = $this->portalRepository->find($portalId);
+            if ($portal) {
+                $object->addPortal($portal);
+            }
+        }
+        return null;
     }
 }

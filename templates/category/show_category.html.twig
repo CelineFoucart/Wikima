@@ -11,6 +11,14 @@
 
 {% block body %}
 	{% include "category/components/_header.html.twig" with {portals: true} %}
+	{% if category.presentation %}
+		<div class="element-presentation">
+			<h2><strong>{{ category.title }}</strong>, qu'est-ce que c'est ?</h2>
+			<div class="content">
+				{{ category.presentation|raw }}
+			</div>
+		</div>
+	{% endif %}
 	<article class="row justify-content-between m-4">
 		<div class="col-12">
 			<h2 class="content-title-section">

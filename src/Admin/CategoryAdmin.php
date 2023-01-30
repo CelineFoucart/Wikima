@@ -10,7 +10,9 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Form\Type\TemplateType;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,6 +23,8 @@ final class CategoryAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $form): void
     {
+
+
         $form
             ->with('Content', ['class' => 'col-md-9'])
                 ->add('title', TextType::class, [
@@ -35,6 +39,10 @@ final class CategoryAdmin extends AbstractAdmin
                 ])
                 ->add('presentation', CKEditorType::class, [
                     'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
+                ])
+                ->add('preview', TemplateType::class, [
+                    'template' => 'Admin/components/_preview.html.twig',
+                    'label' => false,
                 ])
             ->end()
             ->with('Informations', ['class' => 'col-md-3'])
@@ -93,7 +101,9 @@ final class CategoryAdmin extends AbstractAdmin
     {
         $show
             ->with('Category', ['class' => 'col-md-9'])
-                ->add('title')
+                ->add('title', null, [
+                    'template' => 'Admin/components/_show_title.html.twig',
+                ])
                 ->add('slug')
                 ->add('keywords')
                 ->add('description')
