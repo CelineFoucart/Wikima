@@ -11,6 +11,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\ImageRepository;
 use App\Repository\PersonRepository;
 use App\Service\AlphabeticalHelperService;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -74,7 +75,17 @@ final class CategoryController extends AbstractController
 
         return $this->render('category/category_persons.html.twig', [
             'category' => $category,
-            'persons' => $personRepository->findByParent('category', $category, $page),
+            'persons' => $personRepository->findByParent($category, 'category', $page),
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+        ]);
+    }
+
+    #[Route('/category/{slug}/notes', name: 'app_category_notes')]
+    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+    public function notes(Category $category): Response
+    {
+        return $this->render('category/category_note.html.twig', [
+            'category' => $category,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }

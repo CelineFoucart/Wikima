@@ -1,0 +1,10 @@
+<th>
+    Catégorie
+</th>
+<td>
+    {% if object.category %}
+        <a href="{{ path('app_category_notes', {slug: object.category.slug}) }}" title="Consulter">
+            <i class="fas fa-book-reader"></i> {{ object.category }}
+        </a>
+    {% endif %}
+</td>

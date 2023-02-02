@@ -88,6 +88,9 @@ class Portal
      */
     private ?File $imageBanner = null;
 
+    #[ORM\OneToMany(mappedBy: 'portal', targetEntity: Note::class)]
+    private Collection $notes;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -96,6 +99,7 @@ class Portal
         $this->pages = new ArrayCollection();
         $this->timelines = new ArrayCollection();
         $this->people = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -381,5 +385,35 @@ class Portal
     public function getImageBanner(): ?File
     {
         return $this->imageBanner;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): self
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setPortal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): self
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getPortal() === $this) {
+                $note->setPortal(null);
+            }
+        }
+
+        return $this;
     }
 }

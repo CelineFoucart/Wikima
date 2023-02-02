@@ -1,4 +1,34 @@
-<div class="card shadow-sm h-100">
+<div class="about-block">
+	<div class="about-title px-1 bg-light border"> 
+		<p class="mb-0">
+			<a href="{{ path('app_person_show', {slug: person.slug}) }}" class="text-decoration-none text-reset stretched-link fs-5">
+				{{ person.firstname }} {{ person.lastname }}
+			</a>
+		</p>
+		<div>
+			<i class="bi bi-tag-fill small me-1"></i>
+			{% for portal in person.portals %}
+				<span class="person-label small">
+					{{ portal.title }}
+				</span>
+			{% else %}
+				<span>Aucun portail</span>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="about-card">
+		<div class="content-card">
+			{% if person.image %}
+				<img src="{{ vich_uploader_asset(person.image)|imagine_filter('card_image') }}" alt="{{ person.image.title }}" class="about-img">
+			{% endif %}
+			<div class="about-content-card">
+				<p>{{ person.presentation|striptags|raw|u.truncate(100, '...', false)|raw }}</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+{# <div class="card shadow-sm h-100">
 	<div class="card-header text-uppercase">
 		<i class="bi bi-folder-fill text-secondary me-1"></i>
 		{% for category in person.categories %}
@@ -10,7 +40,7 @@
 		{% endfor %}
 	</div>
 	{% if person.image %}
-		<img src="{{ vich_uploader_asset(person.image)|imagine_filter('card_image') }}" alt="{{ person.image.title }}" class="card-img-top">
+		<img src="{{ vich_uploader_asset(person.image)|imagine_filter('card_image') }}" alt="{{ person.image.title }}" class="about-img">
 	{% else %}
 		<svg class="bd-placeholder-img" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveaspectratio="xMidYMid slice" focusable="false">
 			<title>Illustration du personnage</title>
@@ -35,4 +65,4 @@
 			<span>Aucun portail</span>
 		{% endfor %}
 	</div>
-</div>
+</div> #}

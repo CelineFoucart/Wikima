@@ -47,17 +47,34 @@ services:
         class: App\Admin\ImageAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Image, manager_type: orm, label: Image, group: Wiki}
-        
+    admin.person:
+        class: App\Admin\PersonAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Person, controller: App\Controller\Admin\PersonAdminController, manager_type: orm, group: Person, label: Person }
+
+    admin.note:
+        class: App\Admin\NoteAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Note, controller: App\Controller\Admin\NoteAdminController, manager_type: orm, group: Wiki, label: Note }
+    admin.page:
+        class: App\Admin\PageAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Page, controller: ~, manager_type: orm, group: Administration, label: Pages }
+
+    admin.backup:
+        class: App\Admin\BackupAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Backup, controller: App\Controller\Admin\BackupAdminController, manager_type: orm, group: Administration, label: Backup }
     admin.user:
         class: App\Admin\UserAdmin
         calls:
             - [setTemplate, ['edit', 'Admin/user_edit.html.twig']]
         tags:
-            - { name: sonata.admin, model_class: App\Entity\User, manager_type: orm, label: User, group: Users}
+            - { name: sonata.admin, model_class: App\Entity\User, manager_type: orm, label: User, group: Administration}
     admin.comment:
         class: App\Admin\CommentAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Comment, manager_type: orm, label: Comment, group: Users}
+            - { name: sonata.admin, model_class: App\Entity\Comment, manager_type: orm, label: Comment, group: Administration}
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -74,18 +91,3 @@ services:
 
     App\DataFixtures\HashPasswordProvider:
         tags: [ { name: nelmio_alice.faker.provider } ]
-
-    admin.page:
-        class: App\Admin\PageAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\Page, controller: ~, manager_type: orm, group: Administration, label: Pages }
-
-    admin.backup:
-        class: App\Admin\BackupAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\Backup, controller: App\Controller\Admin\BackupAdminController, manager_type: orm, group: Administration, label: Backup }
-
-    admin.person:
-        class: App\Admin\PersonAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\Person, controller: App\Controller\Admin\PersonAdminController, manager_type: orm, group: Wiki, label: Person }

@@ -52,6 +52,7 @@ security:
             - ROLE_ADMIN_IMAGE_CREATE
             - ROLE_ADMIN_PERSON_LIST
             - ROLE_ADMIN_PERSON_SHOW
+            - ROLE_ADMIN_NOTE_ALL
         ROLE_ADMIN: 
             - ROLE_ADMIN_ARTICLE_ALL
             - ROLE_ADMIN_CATEGORY_ALL
@@ -62,6 +63,7 @@ security:
             - ROLE_ADMIN_PAGE_ALL
             - ROLE_ADMIN_COMMENT_ALL
             - ROLE_ADMIN_PERSON_ALL
+            - ROLE_ADMIN_NOTE_ALL
         ROLE_SUPER_ADMIN:
             - ROLE_ADMIN_ARTICLE_ALL
             - ROLE_ADMIN_CATEGORY_ALL

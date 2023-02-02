@@ -10,6 +10,9 @@
 {% if timelines is not defined %}
 	{% set timelines = false %}
 {% endif %}
+{% if notes is not defined %}
+	{% set notes = false %}
+{% endif %}
 
 <header class="pt-4 bg-item header-item">
 	<div class="container-fluid">
@@ -45,15 +48,21 @@
 									Editer le portail
 								</a>
 							</li>
-							<a class="dropdown-item" href="{{ path('admin_app_article_create', {portal:portal.id}) }}">
-								Ajouter un article
-							</a>
-							<a class="dropdown-item" href="{{ path('admin_app_timeline_create', {portal:portal.id}) }}">
-								Ajouter une chronologie
-							</a>
-							<a class="dropdown-item" href="{{ path('admin_app_person_create', {portal:portal.id}) }}">
-								Ajouter un personnage
-							</a>
+							<li>
+								<a class="dropdown-item" href="{{ path('admin_app_article_create', {portal:portal.id}) }}">
+									Ajouter un article
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('admin_app_timeline_create', {portal:portal.id}) }}">
+									Ajouter une chronologie
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('admin_app_person_create', {portal:portal.id}) }}">
+									Ajouter un personnage
+								</a>
+							</li>
 						{% endif %}
 					</ul>
 				</div>
@@ -92,6 +101,11 @@
 				Galerie
 			</a>
 		</div>
+		{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
+			<div class="item {{ notes ? 'active': '' }}">
+				<a href="{{ path('app_portal_notes', {slug: portal.slug}) }}">Notes</a>
+			</div>
+		{% endif %}
 	</nav>
 </header>
 

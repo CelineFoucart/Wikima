@@ -130,10 +130,14 @@ class Person
     #[ORM\ManyToOne(targetEntity: Image::class, inversedBy: 'people')]
     private $image;
 
+    #[ORM\ManyToMany(targetEntity: PersonType::class, inversedBy: 'people')]
+    private Collection $type;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->portals = new ArrayCollection();
+        $this->type = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -385,6 +389,30 @@ class Person
     public function setImage(?Image $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersonType>
+     */
+    public function getType(): Collection
+    {
+        return $this->type;
+    }
+
+    public function addType(PersonType $type): self
+    {
+        if (!$this->type->contains($type)) {
+            $this->type->add($type);
+        }
+
+        return $this;
+    }
+
+    public function removeType(PersonType $type): self
+    {
+        $this->type->removeElement($type);
 
         return $this;
     }

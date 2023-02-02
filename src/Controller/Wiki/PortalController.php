@@ -13,6 +13,7 @@ use App\Repository\PortalRepository;
 use App\Repository\TimelineRepository;
 use App\Service\AlphabeticalHelperService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -89,7 +90,17 @@ final class PortalController extends AbstractController
 
         return $this->render('portal/persons_portal.html.twig', [
             'portal' => $portal,
-            'persons' => $personRepository->findByParent('category', $portal, $page),
+            'persons' => $personRepository->findByParent($portal, 'category', $page),
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+        ]);
+    }
+
+    #[Route('/portals/{slug}/notes', name: 'app_portal_notes')]
+    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+    public function notes(Portal $portal): Response
+    {
+        return $this->render('portal/note_portal.html.twig', [
+            'portal' => $portal,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }

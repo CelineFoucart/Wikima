@@ -69,7 +69,7 @@ class PersonRepository extends ServiceEntityRepository
      *
      * @return void
      */
-    public function findByParent(string $parentType = 'category', $parent, int $page): PaginationInterface
+    public function findByParent($parent, string $parentType = 'category', int $page = 1): PaginationInterface
     {
         $builder = $this->getDefaultQuery();
         $where = ('category' === $parentType) ? 'c.id IN (:parents)' : 'pt.id IN (:parents)';
