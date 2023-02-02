@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+{% block activePerson %}active{% endblock %}
+
+{% block title %}
+	Personnages du type {{ type }}
+{% endblock %}
+
+{% block body %}
+    {{ include('home/_header.html.twig', { heading_title:  type, heading_description: "Liste des personnages du type "~ type }) }}
+
+    <article class="container-fluid">
+        <p class="mt-2">
+            <a href="{{ path('app_person_index') }}" class="text-decoration-none"><i class="bi bi-arrow-left me-1"></i> Retour à l'index des personnages</a>
+        </p>
+		<header class="text-center mt-5 pb-4">
+            <p class="w-75 m-auto mb-2">
+                {% for tag in types %}
+                    <a href="{{ path('app_person_type', {slug: tag.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none me-1">
+                        {{ tag }}
+                    </a>
+                {% endfor %}
+            </p>
+			<h2 class="h4">
+				Galerie des personnages de type <strong>{{ type }}</strong>
+			</h2>
+			<p class="w-75 m-auto pt-2 lh-lg text-muted">
+				{{ type.description }}
+			</p>
+		</header>
+        <div class="row">
+            {% for person in persons %}
+                <div class="col-md-6 my-2">
+                    {{ include("person/_person_card.html.twig", {disable_type: true}) }}
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <div class="mt-2 text-muted text-center">Aucun personnage trouvé</div>
+                </div>
+            {% endfor %}
+        </div>
+    </article>
+{% endblock %}

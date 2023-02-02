@@ -12,14 +12,12 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 final class NoteAdmin extends AbstractAdmin
 {
-
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
@@ -40,7 +38,7 @@ final class NoteAdmin extends AbstractAdmin
             ->addIdentifier('id')
             ->add('title')
             ->add('isProcessed', null, [
-                'editable' => true
+                'editable' => true,
             ])
             ->add('createdAt', null, [
                 'format' => 'd/m/Y à H:i',
@@ -104,7 +102,7 @@ final class NoteAdmin extends AbstractAdmin
                 'template' => 'Admin/note/_portal.html.twig',
             ])
             ->add('isProcessed', null, [
-                'editable' => true
+                'editable' => true,
             ])
         ;
     }
@@ -113,7 +111,7 @@ final class NoteAdmin extends AbstractAdmin
     {
         $note->setUpdatedAt(new DateTime());
     }
-    
+
     public function prePersist(object $note): void
     {
         $note->setCreatedAt(new DateTimeImmutable())->setIsProcessed(false);

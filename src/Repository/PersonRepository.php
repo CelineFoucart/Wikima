@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Data\SearchData;
 use App\Entity\Person;
+use App\Entity\PersonType;
 use App\Service\PaginatorService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
@@ -69,16 +70,28 @@ class PersonRepository extends ServiceEntityRepository
      *
      * @return void
      */
-    public function findByParent($parent, string $parentType = 'category', int $page = 1): PaginationInterface
+    public function findByParent($parent, string $parentType = 'category', int $page = 1, int $type = 0, int $limit = 20): PaginationInterface
     {
         $builder = $this->getDefaultQuery();
         $where = ('category' === $parentType) ? 'c.id IN (:parents)' : 'pt.id IN (:parents)';
         $builder->andWhere($where)->setParameter('parents', [$parent->getId()]);
 
-        return $this->paginatorService->paginate($builder, $page);
+        if ($type  > 0) {
+            $builder->andWhere('t.id IN (:type)')->setParameter('type', [$type]);
+        }
+
+        return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
     }
 
-    public function search(SearchData $search): PaginationInterface
+    public function findByType(PersonType $personType, int $page = 1, int $limit = 20): PaginationInterface
+    {
+        $builder = $this->getDefaultQuery();
+        $builder->andWhere('t.id IN (:type)')->setParameter('type', [$personType->getId()]);
+
+        return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
+    }
+
+    public function search(SearchData $search, int $limit = 20): PaginationInterface
     {
         $builder = $this->getDefaultQuery();
 
@@ -107,7 +120,7 @@ class PersonRepository extends ServiceEntityRepository
             ;
         }
 
-        return $this->paginatorService->paginate($builder, $search->getPage());
+        return $this->paginatorService->setLimit($limit)->paginate($builder, $search->getPage());
     }
 
     public function findBySlug(string $slug): ?Person
@@ -135,6 +148,8 @@ class PersonRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->leftJoin('p.categories', 'c')
             ->addSelect('c')
+            ->leftJoin('p.type', 't')
+            ->addSelect('t')
             ->leftJoin('p.image', 'i')
             ->addSelect('i')
             ->leftJoin('p.portals', 'pt')

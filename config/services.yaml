@@ -91,3 +91,8 @@ services:
 
     App\DataFixtures\HashPasswordProvider:
         tags: [ { name: nelmio_alice.faker.provider } ]
+
+    admin.person_type:
+        class: App\Admin\PersonTypeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\PersonType, controller: ~, manager_type: orm, group: Person, label: PersonType }

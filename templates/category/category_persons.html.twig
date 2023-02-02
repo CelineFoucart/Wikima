@@ -2,7 +2,6 @@
 
 {% block title %}Personnages de
 	{{ category.title|capitalize }}
-	| Catégorie
 {% endblock %}
 
 {% block description %}
@@ -15,15 +14,42 @@
         <h2 class="content-title-section">
             Les personnages de la catégorie &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
         </h2>
-		{% set plural = persons.getTotalItemCount > 1 ? 's' : '' %}
+		<div class="row">
+			<div class="col-md-8">
+				{% set plural = persons.getTotalItemCount > 1 ? 's' : '' %}
+				<p class="mb-4">
+					<span class="fw-bold">{{ persons.getTotalItemCount }}</span>
+					personnage{{ plural }}
+					{% if type %}
+						du type <strong>{{ type }}</strong>
+					{% endif %}
+					trouvé{{ plural }}.
+				</p>
+			</div>
+			<div class="col-md-4 text-end">
+				<div class="dropdown">
+					<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+						Filtrer
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+						<li>
+							<a href="{{ path('app_category_persons', {slug: category.slug}) }}" class="dropdown-item fw-bold">
+								Tous les personnages
+							</a>
+						</li>
+						{% for type in types %}
+							<li>
+								<a class="dropdown-item" href="{{ path('app_category_persons', {slug: category.slug, type: type.slug}) }}">
+									{{ type }}
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
 
-		<p class="mb-4">
-			<span class="fw-bold">{{ persons.getTotalItemCount }}</span>
-			personnage{{ plural }}
-			trouvé{{ plural }}.
-		</p>
-
-		<div class="row ps-3">
+		<div class="row mt-3">
 			{% for person in persons %}
 				<div class="col-md-4 mb-3">
 					{% include "person/_person_card.html.twig" %}

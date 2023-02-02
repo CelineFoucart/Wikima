@@ -6,6 +6,7 @@ namespace App\Admin;
 
 use App\Entity\Category;
 use App\Entity\Person;
+use App\Entity\PersonType;
 use App\Entity\Portal;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -19,24 +20,15 @@ use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 final class PersonAdmin extends AbstractAdmin
 {
-    private SluggerInterface $slugger;
-
-    public function __construct(SluggerInterface $slugger)
-    {
-        $this->slugger = $slugger;
-    }
-
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
             ->add('firstname')
             ->add('lastname')
             ->add('fullname')
-            ->add('slug')
             ->add('nationality')
             ->add('job')
             ->add('birthday')
@@ -44,8 +36,7 @@ final class PersonAdmin extends AbstractAdmin
             ->add('deathDate')
             ->add('deathPlace')
             ->add('parents')
-            ->add('description')
-            ->add('presentation')
+            ->add('type')
         ;
     }
 
@@ -57,7 +48,7 @@ final class PersonAdmin extends AbstractAdmin
             ->add('nationality')
             ->add('birthday')
             ->add('deathDate')
-            ->add('description')
+            ->add('type')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'read' => ['template' => 'Admin/show.html.twig'],
@@ -97,6 +88,9 @@ final class PersonAdmin extends AbstractAdmin
                     ])
                     ->add('description', TextareaType::class, [
                         'required' => false,
+                        'attr' => [
+                            'style' => 'height: 73px'
+                        ]
                     ])
                     ->add('preview', TemplateType::class, [
                         'template' => 'Admin/components/_preview.html.twig',
@@ -115,6 +109,12 @@ final class PersonAdmin extends AbstractAdmin
                     ])
                     ->add('categories', EntityType::class, [
                         'class' => Category::class,
+                        'choice_label' => 'title',
+                        'multiple' => true,
+                        'required' => false,
+                    ])
+                    ->add('type', EntityType::class, [
+                        'class' => PersonType::class,
                         'choice_label' => 'title',
                         'multiple' => true,
                         'required' => false,
@@ -161,6 +161,7 @@ final class PersonAdmin extends AbstractAdmin
                 ])
                 ->add('slug')
                 ->add('nationality')
+                ->add('type')
                 ->add('job')
                 ->add('parents')
                 ->add('birthday')
@@ -182,24 +183,6 @@ final class PersonAdmin extends AbstractAdmin
                 ])
             ->end()
         ;
-    }
-
-    public function preUpdate(object $person): void
-    {
-        $person->setSlug($this->generateSlug($person));
-    }
-
-    public function prePersist(object $person): void
-    {
-        $person->setSlug($this->generateSlug($person));
-    }
-
-    private function generateSlug(Person $person): string
-    {
-        $firstname = $person->getFirstname();
-        $lastname = $person->getLastname() ? ' '.$person->getLastname() : '';
-
-        return (string) $this->slugger->slug(strtolower($firstname.$lastname));
     }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void

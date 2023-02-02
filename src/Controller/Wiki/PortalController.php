@@ -3,12 +3,14 @@
 namespace App\Controller\Wiki;
 
 use App\Entity\Data\SearchData;
+use App\Entity\PersonType;
 use App\Entity\Portal;
 use App\Entity\User;
 use App\Form\SearchType;
 use App\Repository\ArticleRepository;
 use App\Repository\ImageRepository;
 use App\Repository\PersonRepository;
+use App\Repository\PersonTypeRepository;
 use App\Repository\PortalRepository;
 use App\Repository\TimelineRepository;
 use App\Service\AlphabeticalHelperService;
@@ -84,14 +86,30 @@ final class PortalController extends AbstractController
 
     #[Route('/portals/{slug}/persons', name: 'app_portal_persons')]
     #[Entity('portals', expr: 'repository.findBySlug(slug)')]
-    public function persons(Portal $portal, Request $request, PersonRepository $personRepository): Response
+    public function persons(Portal $portal, Request $request, PersonRepository $personRepository, PersonTypeRepository $personTypeRepository): Response
     {
+        $types = $personTypeRepository->findAll();
         $page = $request->query->getInt('page', 1);
+        $typeSlug = $request->query->get('type');
+
+        $results = array_filter($types, function(PersonType $personType) use ($typeSlug) {
+            return $personType->getSlug() === $typeSlug;
+        });
+
+        if (!empty($results)) {
+            $type = $results[array_key_first($results)];
+            $typeId = $type->getId();
+        } else {
+            $type = null;
+            $typeId = 0;
+        }
 
         return $this->render('portal/persons_portal.html.twig', [
             'portal' => $portal,
-            'persons' => $personRepository->findByParent($portal, 'category', $page),
+            'persons' => $personRepository->findByParent($portal, 'category', $page, $typeId),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'types' => $types,
+            'type' => $type,
         ]);
     }
 

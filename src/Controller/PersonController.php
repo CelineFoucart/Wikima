@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Data\SearchData;
 use App\Entity\Person;
+use App\Entity\PersonType;
 use App\Form\AdvancedSearchType;
 use App\Repository\PersonRepository;
+use App\Repository\PersonTypeRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class PersonController extends AbstractController
 {
     public function __construct(
-        private PersonRepository $personRepository
+        private PersonRepository $personRepository,
+        private PersonTypeRepository $personTypeRepository
     ) {
     }
 
@@ -35,6 +38,7 @@ class PersonController extends AbstractController
         return $this->render('person/index.html.twig', [
             'persons' => $persons,
             'form' => $form->createView(),
+            'types' => $this->personTypeRepository->findAll(),
         ]);
     }
 
@@ -44,6 +48,20 @@ class PersonController extends AbstractController
     {
         return $this->render('person/show.html.twig', [
             'person' => $person,
+        ]);
+    }
+
+    #[Route('/type/persons/{slug}', name: 'app_person_type')]
+    public function type(PersonType $personType, Request $request): Response
+    {
+        $page = $request->query->getInt('page', 1);
+
+        $persons = $this->personRepository->findByType($personType, $page);
+
+        return $this->render('person/type.html.twig', [
+            'persons' => $persons,
+            'type' => $personType,
+            'types' => $this->personTypeRepository->findAll(),
         ]);
     }
 }

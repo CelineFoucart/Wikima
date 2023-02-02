@@ -50,6 +50,10 @@
 							</div>
 						</div>
 					</div>
+				{% else %}
+					<p class="text-center text-muted">
+						Aucun portail
+					</p>
 				{% endfor %}
 			</div>
 		</div>
@@ -62,7 +66,7 @@
 					</a>
 				</p>
 			{% else %}
-				<p>Aucune chronologie</p>
+				<p class="text-center text-muted">Aucune chronologie</p>
 			{% endfor %}
 		</aside>
 	</section>

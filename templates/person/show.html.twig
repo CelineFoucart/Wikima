@@ -126,6 +126,13 @@
 			{% endif %}
 		</aside>
 		<div id="presentation" class="article-content">
+			<div>
+				{% for tag in person.type %}
+					<a href="{{ path('app_person_type', {slug: tag.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none">
+						{{ tag }}
+					</a>
+				{% endfor %}
+			</div>
 			{{ person.presentation|raw }}
 		</div>
 

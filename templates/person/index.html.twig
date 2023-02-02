@@ -10,7 +10,7 @@
 	{{ include('home/_header.html.twig', { heading_title: 'Personnages', heading_description: "Liste des personnages importants" }) }}
 
 	<article class="mt-5 container-fluid">
-		<header class="text-center">
+		<header class="text-center mt-5">
 			<h2 class="h4">
 				Galerie des personnages
 			</h2>
@@ -28,6 +28,13 @@
 
 			<section class="col-md-8">
 				<h3 class="border-bottom display-6 mb-2 mt-0">Liste des personnages</h3>
+				<p>
+					{% for type in types %}
+						<a href="{{ path('app_person_type', {slug: type.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none me-1">
+							{{ type }}
+						</a>
+					{% endfor %}
+				</p>
 				<div class="row">
 					{% for person in persons %}
 						<div class="col-md-6 my-2">

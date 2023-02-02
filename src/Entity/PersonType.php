@@ -99,4 +99,9 @@ class PersonType
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return ($this->title) ? $this->title : 'Type';
+    }
 }

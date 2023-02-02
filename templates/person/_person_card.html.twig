@@ -1,5 +1,17 @@
+{% if disable_type is not defined %}
+	{% set disable_type = false %}
+{% endif %}
 <div class="about-block">
 	<div class="about-title px-1 bg-light border"> 
+	{% if disable_type  == false %}
+		<small>
+			{% for tag in person.type %}
+				<span class="badge rounded-pill bg-secondary">{{ tag }}</span>
+			{% else %}
+				<span class="badge rounded-pill bg-secondary">Non tagué</span>
+			{% endfor %}
+		</small>
+	{% endif %}
 		<p class="mb-0">
 			<a href="{{ path('app_person_show', {slug: person.slug}) }}" class="text-decoration-none text-reset stretched-link fs-5">
 				{{ person.firstname }} {{ person.lastname }}
@@ -27,42 +39,3 @@
 		</div>
 	</div>
 </div>
-
-{# <div class="card shadow-sm h-100">
-	<div class="card-header text-uppercase">
-		<i class="bi bi-folder-fill text-secondary me-1"></i>
-		{% for category in person.categories %}
-			<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="person-label text-secondary">
-				{{ category.title }}
-			</a>
-		{% else %}
-			<span>Aucune categorie</span>
-		{% endfor %}
-	</div>
-	{% if person.image %}
-		<img src="{{ vich_uploader_asset(person.image)|imagine_filter('card_image') }}" alt="{{ person.image.title }}" class="about-img">
-	{% else %}
-		<svg class="bd-placeholder-img" width="100%" height="180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Image cap" preserveaspectratio="xMidYMid slice" focusable="false">
-			<title>Illustration du personnage</title>
-			<rect width="100%" height="100%" fill="#868e96"></rect>
-			<text x="25%" y="50%" fill="#dee2e6" dy=".3em">Aucune illustration</text>
-		</svg>
-	{% endif %}
-	<div class="card-body">
-		<h5 class="card-title">
-			<a href="{{ path('app_person_show', {slug: person.slug}) }}">{{ person.firstname }}
-				{{ person.lastname }}</a>
-		</h5>
-		<p class="card-text">{{ person.presentation|striptags|raw|u.truncate(200, '...', false)|raw }}</p>
-	</div>
-	<div class="card-footer small">
-		<i class="bi bi-tag-fill text-muted me-1"></i>
-		{% for portal in person.portals %}
-			<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="person-label text-secondary">
-				{{ portal.title }}
-			</a>
-		{% else %}
-			<span>Aucun portail</span>
-		{% endfor %}
-	</div>
-</div> #}
