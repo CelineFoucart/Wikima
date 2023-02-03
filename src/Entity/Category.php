@@ -88,6 +88,9 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Note::class)]
     private Collection $notes;
 
+    #[ORM\ManyToMany(targetEntity: Place::class, mappedBy: 'categories')]
+    private Collection $places;
+
     public function __construct()
     {
         $this->portals = new ArrayCollection();
@@ -96,6 +99,7 @@ class Category
         $this->timelines = new ArrayCollection();
         $this->people = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->places = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -384,6 +388,33 @@ class Category
             if ($note->getCategory() === $this) {
                 $note->setCategory(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Place>
+     */
+    public function getPlaces(): Collection
+    {
+        return $this->places;
+    }
+
+    public function addPlace(Place $place): self
+    {
+        if (!$this->places->contains($place)) {
+            $this->places->add($place);
+            $place->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlace(Place $place): self
+    {
+        if ($this->places->removeElement($place)) {
+            $place->removeCategory($this);
         }
 
         return $this;

@@ -76,12 +76,16 @@ class Image
     #[ORM\OneToMany(mappedBy: 'image', targetEntity: Person::class)]
     private $people;
 
+    #[ORM\OneToMany(mappedBy: 'illustration', targetEntity: Place::class)]
+    private Collection $places;
+    
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->portals = new ArrayCollection();
         $this->articles = new ArrayCollection();
         $this->people = new ArrayCollection();
+        $this->places = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -295,6 +299,36 @@ class Image
             // set the owning side to null (unless already changed)
             if ($person->getImage() === $this) {
                 $person->setImage(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Place>
+     */
+    public function getPlaces(): Collection
+    {
+        return $this->places;
+    }
+
+    public function addPlace(Place $place): self
+    {
+        if (!$this->places->contains($place)) {
+            $this->places->add($place);
+            $place->setIllustration($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlace(Place $place): self
+    {
+        if ($this->places->removeElement($place)) {
+            // set the owning side to null (unless already changed)
+            if ($place->getIllustration() === $this) {
+                $place->setIllustration(null);
             }
         }
 

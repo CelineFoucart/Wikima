@@ -53,7 +53,7 @@ final class PersonAdmin extends AbstractAdmin
                 'actions' => [
                     'read' => ['template' => 'Admin/show.html.twig'],
                     'show' => [],
-                    'image' => ['template' => 'Admin/person/image_action.html.twig'],
+                    'image' => ['template' => 'Admin/components/image_action.html.twig'],
                     'edit' => [],
                     'delete' => [],
                 ],
@@ -125,10 +125,10 @@ final class PersonAdmin extends AbstractAdmin
             ->tab('Biography')
                 ->with('Full biography', ['class' => 'col-md-8'])
                     ->add('presentation', CKEditorType::class, [
-                        'config' => ['toolbar' => 'full'],
+                        'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
                     ])
                     ->add('biography', CKEditorType::class, [
-                        'config' => ['toolbar' => 'full'],
+                        'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
                         'required' => false,
                     ])
                 ->end()

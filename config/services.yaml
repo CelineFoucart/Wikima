@@ -51,7 +51,14 @@ services:
         class: App\Admin\PersonAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Person, controller: App\Controller\Admin\PersonAdminController, manager_type: orm, group: Person, label: Person }
-
+    admin.place_type:
+        class: App\Admin\PlaceTypeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\PlaceType, controller: ~, manager_type: orm, group: Place, label: PlaceType }
+    admin.place:
+        class: App\Admin\PlaceAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Place, controller: App\Controller\Admin\PlaceAdminController, manager_type: orm, group: Place, label: Place }
     admin.note:
         class: App\Admin\NoteAdmin
         tags:

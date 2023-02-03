@@ -1,7 +1,7 @@
 {% extends 'Admin/extend_layout.html.twig' %}
 
 {% block sonata_head_title %}
-	Gérer l'image de "{{ person }}"
+	Gérer l'image de "{{ place }}"
 {% endblock sonata_head_title %}
 
 {% block sonata_breadcrumb %}
@@ -13,10 +13,10 @@
 				</a>
 			</li>
 			<li>
-				<a href="{{ path('admin_app_person_list') }}">Liste des personnages</a>
+				<a href="{{ path('admin_app_place_list') }}">Liste des lieux</a>
 			</li>
 			<li class="active">
-				<span>{{ person }}</span>
+				<span>{{ place }}</span>
 			</li>
 		</ol>
 	</div>
@@ -26,7 +26,7 @@
 	<nav class="navbar navbar-default" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Gérer l'image de "{{ person }}"</a>
+				<a class="navbar-brand" href="#">Gérer l'image de "{{ place }}"</a>
 			</div>
 
 			<div class="navbar-collapse">
@@ -37,28 +37,28 @@
 						</a>
 						<ul class="dropdown-menu" role="menu">
 							<li>
-								<a class="sonata-action-element" href="{{ path('admin_app_person_create') }}">
+								<a class="sonata-action-element" href="{{ path('admin_app_place_create') }}">
 									<i class="fas fa-plus-circle" aria-hidden="true"></i>
 									Ajouter
 								</a>
 							</li>
 
 							<li>
-								<a class="sonata-action-element" href="{{ path('admin_app_person_show', {id: person.id}) }}">
+								<a class="sonata-action-element" href="{{ path('admin_app_place_show', {id: place.id}) }}">
 									<i class="fas fa-eye" aria-hidden="true"></i>
 									Afficher
 								</a>
 							</li>
 
 							<li>
-								<a class="sonata-action-element" href="{{ path('admin_app_person_edit', {id: person.id}) }}">
+								<a class="sonata-action-element" href="{{ path('admin_app_place_edit', {id: place.id}) }}">
 									<i class="fas fa-edit" aria-hidden="true"></i>
 									Éditer
 								</a>
 							</li>
 
 							<li>
-								<a class="sonata-action-element" href="{{ path('admin_app_person_list') }}">
+								<a class="sonata-action-element" href="{{ path('admin_app_place_list') }}">
 									<i class="fas fa-list" aria-hidden="true"></i>
 									Retourner à la liste
 								</a>
@@ -75,43 +75,43 @@
 	<div class="sonata-ba-show">
 		{% include "Admin/components/_flashes.html.twig" %}
 
-		{% if person.image is null %}
+		{% if place.illustration is null %}
 			{{ include('Admin/components/_upload_image.html.twig') }}
 		{% else %}
 			<div class="box box-primary">
 				<div class="box-header">
-					<h3 class="box-title">Illustration du personnage</h3>
+					<h3 class="box-title">Illustration du lieu</h3>
 				</div>
 				<div class="box-body table-responsive no-padding">
 					<table class="table">
 						<tbody>
 							<tr class="sonata-ba-view-container">
 								<th>Fichier</th>
-								<td>{{ person.image.filename }}</td>
+								<td>{{ place.illustration.filename }}</td>
 								<td rowspan="4" style="width: 180px;">
 									<div class="image-block" style="margin-bottom: 5px;">
-										{% include "image/components/_thumbnail.html.twig" with {image:person.image} %}
+										{% include "image/components/_thumbnail.html.twig" with {image:place.illustration} %}
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<th>Nom</th>
-								<td>{{ person.image.title }}</td>
+								<td>{{ place.illustration.title }}</td>
 							</tr>
 							<tr>
 								<th>Mots clé</th>
-								<td>{{ person.image.keywords }}</td>
+								<td>{{ place.illustration.keywords }}</td>
 							</tr>
 							<tr>
 								<th>Action</th>
 								<td>
 									<form action="" method="post">
-										<a class="btn btn-default" href="{{ path('admin_app_image_edit', {id: person.image.id}) }}">
+										<a class="btn btn-default" href="{{ path('admin_app_image_edit', {id: place.illustration.id}) }}">
 											<i class="fas fa-edit" aria-hidden="true"></i>
 											Éditer les informations
 										</a>
-										<input type="hidden" name="imageId" value="{{ person.image.id }}">
-										<input type="hidden" name="_token" value="{{ csrf_token('image' ~ person.image.id) }}">
+										<input type="hidden" name="imageId" value="{{ place.illustration.id }}">
+										<input type="hidden" name="_token" value="{{ csrf_token('image' ~ place.illustration.id) }}">
 										<input type="hidden" name="delete" value="delete">
 										<button type="submit" class="btn btn-danger">Enlever</button>
 									</form>
@@ -139,7 +139,7 @@
 							<h4 class="mt-4 mb-3 fw-bold">Par portail</h3>
 							{{ form_widget(searchForm.portals) }}
 							<div class="div" style="margin-top: 10px">
-								<a href="{{ path('admin_app_person_image', {id: person.id}) }}" class="btn btn-primary">Tout afficher</a>
+								<a href="{{ path('admin_app_place_image', {id: place.id}) }}" class="btn btn-primary">Tout afficher</a>
 								<button type="submit" class="btn btn-primary">Rechercher</button>
 							</div>
 							{{ form_end(searchForm) }}

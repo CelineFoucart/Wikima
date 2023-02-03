@@ -52,6 +52,8 @@ security:
             - ROLE_ADMIN_IMAGE_CREATE
             - ROLE_ADMIN_PERSON_LIST
             - ROLE_ADMIN_PERSON_SHOW
+            - ROLE_ADMIN_PLACE_LIST
+            - ROLE_ADMIN_PLACE_SHOW
             - ROLE_ADMIN_NOTE_ALL
         ROLE_ADMIN: 
             - ROLE_ADMIN_ARTICLE_ALL
@@ -64,6 +66,7 @@ security:
             - ROLE_ADMIN_COMMENT_ALL
             - ROLE_ADMIN_PERSON_ALL
             - ROLE_ADMIN_NOTE_ALL
+            - ROLE_ADMIN_PLACE_ALL
         ROLE_SUPER_ADMIN:
             - ROLE_ADMIN_ARTICLE_ALL
             - ROLE_ADMIN_CATEGORY_ALL
@@ -72,6 +75,8 @@ security:
             - ROLE_ADMIN_TIMELINE_ALL
             - ROLE_ADMIN_USER_ALL
             - ROLE_ADMIN_BACKUP_ALL
+            - ROLE_ADMIN_NOTE_ALL
+            - ROLE_ADMIN_PLACE_ALL
             - ROLE_ALLOWED_TO_SWITCH
             - ROLE_ADMIN
 

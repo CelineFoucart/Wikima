@@ -2,16 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\PersonTypeRepository;
+use App\Repository\PlaceTypeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: PersonTypeRepository::class)]
+#[ORM\Entity(repositoryClass: PlaceTypeRepository::class)]
 #[UniqueEntity('slug')]
-class PersonType
+class PlaceType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -38,12 +38,12 @@ class PersonType
     )]
     private ?string $description = null;
 
-    #[ORM\ManyToMany(targetEntity: Person::class, mappedBy: 'type')]
-    private Collection $people;
+    #[ORM\ManyToMany(targetEntity: Place::class, mappedBy: 'types')]
+    private Collection $places;
 
     public function __construct()
     {
-        $this->people = new ArrayCollection();
+        $this->places = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -88,27 +88,27 @@ class PersonType
     }
 
     /**
-     * @return Collection<int, Person>
+     * @return Collection<int, Place>
      */
-    public function getPeople(): Collection
+    public function getPlaces(): Collection
     {
-        return $this->people;
+        return $this->places;
     }
 
-    public function addPerson(Person $person): self
+    public function addPlace(Place $place): self
     {
-        if (!$this->people->contains($person)) {
-            $this->people->add($person);
-            $person->addType($this);
+        if (!$this->places->contains($place)) {
+            $this->places->add($place);
+            $place->addType($this);
         }
 
         return $this;
     }
 
-    public function removePerson(Person $person): self
+    public function removePlace(Place $place): self
     {
-        if ($this->people->removeElement($person)) {
-            $person->removeType($this);
+        if ($this->places->removeElement($place)) {
+            $place->removeType($this);
         }
 
         return $this;
@@ -116,6 +116,6 @@ class PersonType
 
     public function __toString()
     {
-        return ($this->title) ? $this->title : 'Type de personnage';
+        return ($this->title) ? $this->title : 'Type de lieu';
     }
 }

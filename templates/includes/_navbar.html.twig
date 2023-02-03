@@ -12,7 +12,7 @@
 					</a>
 				</li>
 				<li class="nav-item dropdown me-3">
-					<a class="nav-link dropdown-toggle {{ active_links(app.request, ['app_article_index', 'app_portal_index', 'app_person_index', 'app_image_index', 'app_category_index'], false) }}" href="#" id="pages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<a class="nav-link dropdown-toggle {{ active_links(app.request, ['app_article_index', 'app_portal_index', 'app_person_index', 'app_image_index', 'app_category_index', 'app_place_index'], false) }}" href="#" id="pages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Encyclopédie
 					</a>
 					<ul class="dropdown-menu text-capitalize" aria-labelledby="pages">
@@ -39,6 +39,11 @@
 						<li>
 							<a class="dropdown-item" href="{{ path('app_person_index') }}">
 								Personnages
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('app_place_index') }}">
+								Lieux
 							</a>
 						</li>
 						<li>
@@ -96,6 +101,12 @@
 									<a class="dropdown-item" href="{{ path('admin_app_person_list') }}">
 										<i class="bi bi-person-fill me-1"></i>
 										Personnages
+									</a>
+								</li>
+								<li>
+									<a href="{{ path('admin_app_place_list') }}" class="dropdown-item">
+										<i class="bi bi-globe me-1"></i>
+										Lieux
 									</a>
 								</li>
 							{% endif %}

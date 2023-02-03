@@ -91,6 +91,9 @@ class Portal
     #[ORM\OneToMany(mappedBy: 'portal', targetEntity: Note::class)]
     private Collection $notes;
 
+    #[ORM\ManyToMany(targetEntity: Place::class, mappedBy: 'portals')]
+    private Collection $places;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -100,6 +103,7 @@ class Portal
         $this->timelines = new ArrayCollection();
         $this->people = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->places = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -412,6 +416,33 @@ class Portal
             if ($note->getPortal() === $this) {
                 $note->setPortal(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Place>
+     */
+    public function getPlaces(): Collection
+    {
+        return $this->places;
+    }
+
+    public function addPlace(Place $place): self
+    {
+        if (!$this->places->contains($place)) {
+            $this->places->add($place);
+            $place->addPortal($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlace(Place $place): self
+    {
+        if ($this->places->removeElement($place)) {
+            $place->removePortal($this);
         }
 
         return $this;

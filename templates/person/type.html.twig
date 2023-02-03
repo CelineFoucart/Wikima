@@ -7,7 +7,7 @@
 
 {% block body %}
     {{ include('home/_header.html.twig', { heading_title:  type, heading_description: "Liste des personnages du type "~ type }) }}
-
+    
     <article class="container-fluid">
         <p class="mt-2">
             <a href="{{ path('app_person_index') }}" class="text-decoration-none"><i class="bi bi-arrow-left me-1"></i> Retour à l'index des personnages</a>
