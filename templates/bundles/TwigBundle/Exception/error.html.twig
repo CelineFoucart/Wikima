@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Erreur
+{% endblock %}
+
+{% block body %}
+    {{ include('home/_header.html.twig') }}
+
+    <section class="py-5 row justify-content-center">
+		<div class="col-12 col-md-9 col-lg-7">
+			<div class="card shadow mx-5 border-0 rounded-3">
+				<div class="card-body text-center">
+					<h2 class="mb-3 text-danger">Oups ! Il y a eu une erreur</h2>
+                    <p class="text-danger">
+                        Il semble qu'il y ait eu une erreur inattendue. Elle sera résolue dans les plus brefs délais.
+                    </p>
+                    <a href="{{ path('app_contact') }}" class="btn-danger btn">contacter l'administrateur</a> 
+                    <a href="{{ path('app_home') }}" class="btn-danger btn">Retourner à l'accueil</a>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

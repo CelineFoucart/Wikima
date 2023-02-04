@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Erreur 404
+{% endblock %}
+
+{% block body %}
+    {{ include('home/_header.html.twig') }}
+
+    <section class="py-5 row justify-content-center">
+		<div class="col-12 col-md-9 col-lg-7">
+			<div class="card shadow mx-5 border-0 rounded-3">
+				<div class="card-body">
+					<h2 class="text-center mb-5 text-danger">Cette page n'existe pas</h2>
+                    <p class="text-danger">
+                        La page demandée n'existe pas. Vérifiez s'il y a une erreur dans le lien ou 
+                        <a href="{{ path('app_home') }}" class="text-danger fw-bold">retournez à l'accueil</a>.
+                    </p>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}
