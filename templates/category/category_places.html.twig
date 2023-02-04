@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Lieux de
+	{{ category.title|capitalize }}
+{% endblock %}
+
+{% block description %}
+	{{ category.description }}
+{% endblock %}
+
+{% block body %}
+    <article>
+		{% include "category/components/_header.html.twig" with {places:true} %}
+		<div class="m-4">
+			<h2 class="content-title-section">
+				Les lieux de la catégorie &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
+			</h2>
+			<div class="row">
+				<div class="col-md-8">
+					<p class="mb-4">
+						<span class="fw-bold">{{ places.getTotalItemCount }}</span>
+						lieu{{ places.getTotalItemCount > 1 ? 'x' : '' }}
+						{% if type %}
+							du type <strong>{{ type }}</strong>
+						{% endif %}
+						trouvé{{ places.getTotalItemCount > 1 ? 's' : '' }}.
+					</p>
+				</div>
+				<div class="col-md-4 text-end">
+					<div class="dropdown">
+						<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+							Filtrer
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+							<li>
+								<a href="{{ path('app_category_places', {slug: category.slug}) }}" class="dropdown-item fw-bold">
+									Tous les lieux
+								</a>
+							</li>
+							{% for type in types %}
+								<li>
+									<a class="dropdown-item" href="{{ path('app_category_places', {slug: category.slug, type: type.slug}) }}">
+										{{ type }}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div class="row mt-3">
+				{% for place in places %}
+					<div class="col-md-4 my-2">
+						{% include "place/_place_card.html.twig" %}
+					</div>
+				{% else %}
+					<div class="col-12">
+						<div class="text-center text-muted">Aucun lieu trouvé</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	</article>
+{% endblock %}

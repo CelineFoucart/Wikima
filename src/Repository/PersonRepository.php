@@ -2,16 +2,18 @@
 
 namespace App\Repository;
 
-use App\Entity\Data\SearchData;
 use App\Entity\Person;
+use App\Entity\Portal;
+use App\Entity\Category;
 use App\Entity\PersonType;
-use App\Service\PaginatorService;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
+use App\Entity\Data\SearchData;
+use App\Service\PaginatorService;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Person|null find($id, $lockMode = null, $lockVersion = null)
@@ -56,7 +58,7 @@ class PersonRepository extends ServiceEntityRepository
     /**
      * Returns a pagination of persons.
      */
-    public function findAllPaginated(int $page = 1, int $limit = 10): PaginationInterface
+    public function findAllPaginated(int $page = 1, int $limit = 20): PaginationInterface
     {
         $query = $this->getDefaultQuery();
 
@@ -64,11 +66,11 @@ class PersonRepository extends ServiceEntityRepository
     }
 
     /**
-     * Undocumented function.
+     * Find a person by parent.
      *
      * @param Category|Portal $parent
      *
-     * @return void
+     * @return PaginationInterface
      */
     public function findByParent($parent, string $parentType = 'category', int $page = 1, int $type = 0, int $limit = 20): PaginationInterface
     {

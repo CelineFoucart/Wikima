@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Lieux du type {{ type }}
+{% endblock %}
+
+{% block body %}
+    {{ include('home/_header.html.twig', { heading_title:  type, heading_description: "Liste des lieux du type "~ type }) }}
+
+    <article class="container-fluid">
+        <p class="mt-2">
+            <a href="{{ path('app_place_index') }}" class="text-decoration-none"><i class="bi bi-arrow-left me-1"></i> Retour à l'index des lieux</a>
+        </p>
+		<header class="text-center mt-5 pb-4">
+            <p class="w-75 m-auto mb-2">
+                {% for tag in types %}
+                    <a href="{{ path('app_place_type', {slug: tag.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none me-1">
+                        {{ tag }}
+                    </a>
+                {% endfor %}
+            </p>
+			<h2 class="h4">
+				Galerie des lieux de type <strong>{{ type }}</strong>
+			</h2>
+			<p class="w-75 m-auto pt-2 lh-lg text-muted">
+				{{ type.description }}
+			</p>
+		</header>
+        <div class="row">
+            {% for place in places %}
+                <div class="col-md-6 col-lg-4 my-2">
+                    {% include 'place/_place_card.html.twig' %}
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="navigation">
+            {{ knp_pagination_render(places) }}
+        </div>
+    </article>
+{% endblock %}

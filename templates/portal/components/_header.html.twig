@@ -7,11 +7,8 @@
 {% if persons is not defined %}
 	{% set persons = false %}
 {% endif %}
-{% if timelines is not defined %}
-	{% set timelines = false %}
-{% endif %}
-{% if notes is not defined %}
-	{% set notes = false %}
+{% if places is not defined %}
+	{% set places = false %}
 {% endif %}
 
 <header class="pt-4 bg-item header-item">
@@ -35,7 +32,7 @@
 		<div class="item-heading position-relative">
 			<div class="p-2 position-absolute top-0" style="right:-10px">
 				<div class="dropdown">
-					<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
+					<button class="btn btn-outline-secondary btn-sm dropdown-toggle w-100" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
 						<i class="bi bi-wrench-adjustable me-1"></i>
 					</button>
 					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -63,9 +60,19 @@
 									Ajouter un personnage
 								</a>
 							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('admin_app_place_create', {portal:portal.id}) }}">
+									Ajouter un lieu
+								</a>
+							</li>
 						{% endif %}
 					</ul>
 				</div>
+				{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
+					<a href="{{ path('app_portal_notes', {slug: portal.slug}) }}" class="btn btn-outline-secondary btn-sm mt-1" title="note">
+						Notes
+					</a>
+				{% endif %}
 			</div>
 			<p style="width:90%">
 				{% for category in portal.categories %}
@@ -82,30 +89,25 @@
 
 	<nav class="tab-default mt-3">
 		<div class="item {{ articles ? 'active': '' }}">
-			<a href="{{ path('app_portal_show', {slug:portal.slug}) }}">
-				Articles
+			<a href="{{ path('app_portal_show', {slug:portal.slug}) }}" data-bs-toggle="tooltip" title="Articles">
+				<i class="bi bi-file-earmark-text"></i>
 			</a>
 		</div>
 		<div class="item {{ persons ? 'active': '' }}">
-			<a href="{{ path('app_portal_persons', {slug:portal.slug}) }}">
-				Personnages
+			<a href="{{ path('app_portal_persons', {slug:portal.slug}) }}" data-bs-toggle="tooltip" title="Personnages">
+				<i class="bi bi-person-fill"></i>
 			</a>
 		</div>
-		<div class="item {{ timelines ? 'active': '' }}">
-			<a href="{{ path('app_portal_timelines', {slug:portal.slug}) }}">
-				Chronologie
+		<div class="item {{ places ? 'active': '' }}">
+			<a href="{{ path('app_portal_places', {slug:portal.slug}) }}" data-bs-toggle="tooltip" title="Lieux">
+				<i class="bi bi-globe"></i>
 			</a>
 		</div>
 		<div class="item {{ images ? 'active': '' }}">
-			<a href="{{ path('app_portal_gallery', {slug:portal.slug}) }}">
-				Galerie
+			<a href="{{ path('app_portal_gallery', {slug:portal.slug}) }}" data-bs-toggle="tooltip" title="Galerie">
+				<i class="bi bi-image"></i>
 			</a>
 		</div>
-		{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
-			<div class="item {{ notes ? 'active': '' }}">
-				<a href="{{ path('app_portal_notes', {slug: portal.slug}) }}">Notes</a>
-			</div>
-		{% endif %}
 	</nav>
 </header>
 

@@ -20,7 +20,7 @@
 				</div>
 			</div>
 		{% endif %}
-		<div class="pt-1 py-5 px-4">
+		<section class="pt-1 py-5 px-4">
 			<h2 class="content-title-section">
 				Les articles du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
 			</h2>
@@ -53,6 +53,30 @@
 			<div class="navigation">
 				{{ knp_pagination_render(articles) }}
 			</div>
-		</div>
+		</section>
+
+		<section class="pt-1 py-5 px-4">
+			<h2 class="content-title-section">
+				Les chronologies du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
+			</h2>
+			{% set total = portal.timelines|length %}
+			{% set plural = total > 1 ? 's' : '' %}
+
+			<p class="mb-2 p-2">
+				<span class="fw-bold">{{ total }}</span>
+				chronologie{{ plural }}
+				trouvée{{ plural }}.
+			</p>
+
+			<div class="row p-2">
+				{% for timeline in portal.timelines %}
+					<div class="col-md-6 col-lg-4 mb-2">
+						{% include "timeline/components/_timeline_card.html.twig" %}
+					</div>
+				{% else %}
+					<div class="col-12 text-center text-muted">Aucune chronologie n'a été trouvée</div>
+				{% endfor %}
+			</div>
+		</section>
 	</article>
 {% endblock %}

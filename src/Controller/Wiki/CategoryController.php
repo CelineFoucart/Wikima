@@ -5,6 +5,7 @@ namespace App\Controller\Wiki;
 use App\Entity\Category;
 use App\Entity\Data\SearchData;
 use App\Entity\PersonType;
+use App\Entity\PlaceType;
 use App\Entity\User;
 use App\Form\SearchType;
 use App\Repository\ArticleRepository;
@@ -12,6 +13,8 @@ use App\Repository\CategoryRepository;
 use App\Repository\ImageRepository;
 use App\Repository\PersonRepository;
 use App\Repository\PersonTypeRepository;
+use App\Repository\PlaceRepository;
+use App\Repository\PlaceTypeRepository;
 use App\Service\AlphabeticalHelperService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -77,7 +80,7 @@ final class CategoryController extends AbstractController
         $page = $request->query->getInt('page', 1);
         $typeSlug = $request->query->get('type');
 
-        $results = array_filter($types, function(PersonType $personType) use ($typeSlug) {
+        $results = array_filter($types, function(PlaceType $personType) use ($typeSlug) {
             return $personType->getSlug() === $typeSlug;
         });
 
@@ -92,6 +95,34 @@ final class CategoryController extends AbstractController
         return $this->render('category/category_persons.html.twig', [
             'category' => $category,
             'persons' => $personRepository->findByParent($category, 'category', $page, $typeId),
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'types' => $types,
+            'type' => $type,
+        ]);
+    }
+
+    #[Route('/category/{slug}/places', name: 'app_category_places')]
+    public function places(Category $category, Request $request, PlaceRepository $placeRepository, PlaceTypeRepository $placeTypeRepository): Response
+    {
+        $types = $placeTypeRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $typeSlug = $request->query->get('type');
+
+        $results = array_filter($types, function(PlaceType $placeType) use ($typeSlug) {
+            return $placeType->getSlug() === $typeSlug;
+        });
+
+        if (!empty($results)) {
+            $type = $results[array_key_first($results)];
+            $typeId = $type->getId();
+        } else {
+            $type = null;
+            $typeId = 0;
+        }
+
+        return $this->render('category/category_places.html.twig', [
+            'category' => $category,
+            'places' => $placeRepository->findByParent($category, 'category', $page, $typeId),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,

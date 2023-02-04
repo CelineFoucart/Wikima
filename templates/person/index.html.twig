@@ -1,13 +1,12 @@
 {% extends 'base.html.twig' %}
-{% block activePerson %}active
-{% endblock %}
+{% block activePerson %}active{% endblock %}
 
 {% block title %}
 	Index des personnages
 {% endblock %}
 
 {% block body %}
-	{{ include('home/_header.html.twig', { heading_title: 'Personnages', heading_description: "Liste des personnages importants" }) }}
+	{{ include('home/_header.html.twig') }}
 
 	<article class="mt-5 container-fluid">
 		<header class="text-center mt-5">
@@ -42,9 +41,13 @@
 						</div>
 					{% else %}
 						<div class="col-12">
-							<div class="alert alert-danger">Aucun personnage trouvé</div>
+							<div class="text-muted">Aucun personnage n'a été trouvé</div>
 						</div>
 					{% endfor %}
+				</div>
+
+				<div class="navigation">
+					{{ knp_pagination_render(persons) }}
 				</div>
 			</section>
 		</div>

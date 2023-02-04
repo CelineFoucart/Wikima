@@ -1,0 +1,170 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ place }} | Lieu
+{% endblock %}
+
+{% block body %}
+	<header class="bg-default-light border-bottom">
+		<div class="pt-3 border-bottom container-fluid">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<a href="{{ path('app_place_index') }}">Lieux</a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">{{ place }}</li>
+				</ol>
+			</nav>
+		</div>
+		<div class="item-heading position-relative">
+			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+				<div class="p-2 position-absolute top-0" style="right:0px">
+					<a href="{{ path('admin_app_place_edit', {id: place.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
+						<i class="bi bi-pencil-fill"></i>
+					</a>
+					<a href="{{ path('admin_app_place_image', {id: place.id}) }}" class="btn btn-outline-secondary btn-sm" title="gérer l'image">
+						<i class="bi bi-image"></i>
+					</a>
+				</div>
+			{% endif %}
+			<p>
+				{% for category in place.categories %}
+					<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1">
+						<i class="bi bi-folder-fill me-1"></i>
+						{{ category.title }}
+					</a>
+				{% endfor %}
+			</p>
+			<h1 class="mb-2">
+				<i class="bi bi-globe me-1"></i>
+				{{ place }}
+			</h1>
+		</div>
+	</header>
+	<section class="mt-4 px-4 container-fluid">
+		<aside class="about-person">
+			<h2 class="about-person-title p-1">{{ place }}</h2>
+			{% if place.illustration %}
+				<div class="text-center mb-1">
+					<a href="{{ path('app_image_show', {slug: place.illustration.slug}) }}">
+						<img src="{{ vich_uploader_asset(place.illustration)|imagine_filter('card_image') }}" alt="{{ place.illustration.title }}">
+					</a>
+				</div>
+			{% endif %}
+
+			{% if place.mapFile %}
+				<h3 class="h6 bg-default-light p-1 text-center">Carte</h3>
+				{% set map_link = vich_uploader_asset(place) %}
+				<a href="{{ map_link }}"><img src="{{ map_link }}" alt="Image situation {{ place }}"></a>
+			{% endif %}
+
+			{% if place.situation %}
+				<h3 class="h6 bg-default-light p-1 text-center mt-1">Situation</h3>
+				<table>
+					<tbody>
+						<tr>
+							<td>{{ place.situation }}</td>
+						</tr>
+					</tbody>
+				</table>
+			{% endif %}
+
+			<h3 class="h6 bg-default-light p-1 text-center">Informations générales</h3>
+			<table>
+				<tbody>
+					<tr>
+						<th class="align-top">Controlé par</th>
+						<td>{{ place.dominatedBy ? place.dominatedBy : '-' }}</td>
+					</tr>
+					<tr>
+						<th class="align-top">Capitale</th>
+						<td>{{ place.capitaleCity ? place.capitaleCity : '-' }}</td>
+					</tr>
+					{% if place.localisations is not empty %}
+						<tr>
+							<th class="align-top">Localisations</th>
+							<td>{{ join_links(place.localisations.toArray(), 'app_place_show') }}</td>
+						</tr>
+					{% endif %}
+					{% if place.places is not empty %}
+						<tr>
+							<th class="align-top">Lieux associés</th>
+							<td>{{ join_links(place.places.toArray(), 'app_place_show') }}</td>
+						</tr>
+					{% endif %}
+					<tr>
+						<th class="align-top">Population</th>
+						<td>{{ place.population ? place.population : '-' }}</td>
+					</tr>
+				</tbody>
+			</table>
+			<h3 class="h6 bg-default-light p-1 text-center">Portails</h3>
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<ul class="ps-0 mb-0">
+								{% for portal in place.portals %}
+									<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="text-decoration-none">
+										<i class="bi bi-tag-fill small me-1"></i>
+										{{ portal }}
+									</a>
+								{% endfor %}
+							</ul>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</aside>
+
+		<div id="presentation" class="article-content">
+			<div>
+				{% for tag in place.types %}
+					<a href="{{ path('app_place_type', {slug: tag.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none">
+						{{ tag }}
+					</a>
+				{% endfor %}
+			</div>
+			{{ place.description|raw }}
+		</div>
+
+		{% if place.history or place.presentation %}
+			<div class="m-4" data-controller="toggle">
+				<div class="category-section" style="max-width:273px">
+					<div>
+						<span title="afficher ou cacher" role="button" data-action="click->toggle#toggle" data-toggle-target="action" class="float-end">
+							<i class="bi bi-chevron-down"></i>
+						</span>
+						<h2 class="h6">Sommaire</h2>
+					</div>
+					<ol class="mb-0" data-toggle-target="content">
+						{% if place.history %}
+							<li class="fs-6">
+								<a href="#history" class="text-dark">Histoire</a>
+							</li>
+						{% endif %}
+						{% if place.presentation %}
+							<li class="fs-6">
+								<a href="#presentation" class="text-dark">Présentation</a>
+							</li>
+						{% endif %}
+					</ol>
+				</div>
+			</div>
+		{% endif %}
+
+		{% if place.history %}
+			<div id="history" class="article-content">
+				<h2 class="h2 pb-1 overflow-hidden">Histoire</h2>
+				{{ place.history|raw }}
+			</div>
+		{% endif %}
+
+		{% if place.presentation %}
+			<div id="presentation" class="article-content">
+				<h2 class="h2 pb-1 overflow-hidden">Présentation</h2>
+				{{ place.presentation|raw }}
+			</div>
+		{% endif %}
+	</section>
+{% endblock %}

@@ -63,20 +63,6 @@ class TimelineRepository extends ServiceEntityRepository
         return $this->paginatorService->setLimit($limit)->paginate($query, $page);
     }
 
-    /**
-     * Returns a pagination of Timeline by Portal.
-     */
-    public function findTimelinesByPortal(Portal $portal, int $page = 1, int $limit = 10): PaginationInterface
-    {
-        $query = $this->getDefaultQuery()
-            ->andWhere('p.id = :id')
-            ->setParameter('id', $portal->getId())
-            ->orderBy('t.title', 'ASC')
-        ;
-
-        return $this->paginatorService->setLimit($limit)->paginate($query, $page);
-    }
-
     public function search(SearchData $search): PaginationInterface
     {
         $builder = $this->createQueryBuilder('t')

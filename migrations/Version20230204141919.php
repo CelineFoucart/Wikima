@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230203181027 extends AbstractMigration
+final class Version20230204141919 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -26,7 +26,7 @@ final class Version20230203181027 extends AbstractMigration
         $this->addSql('ALTER TABLE place_category ADD CONSTRAINT FK_2C17FE4212469DE2 FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE place_portal ADD CONSTRAINT FK_A9609499DA6A219 FOREIGN KEY (place_id) REFERENCES place (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE place_portal ADD CONSTRAINT FK_A9609499B887E1DD FOREIGN KEY (portal_id) REFERENCES portal (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE place ADD illustration_id INT DEFAULT NULL, ADD updated_at DATETIME DEFAULT NULL, DROP illustration');
+        $this->addSql('ALTER TABLE place ADD illustration_id INT DEFAULT NULL, ADD updated_at DATETIME DEFAULT NULL, DROP illustration, CHANGE history history LONGTEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE place ADD CONSTRAINT FK_741D53CD5926566C FOREIGN KEY (illustration_id) REFERENCES image (id)');
         $this->addSql('CREATE INDEX IDX_741D53CD5926566C ON place (illustration_id)');
     }
@@ -42,6 +42,6 @@ final class Version20230203181027 extends AbstractMigration
         $this->addSql('DROP TABLE place_portal');
         $this->addSql('ALTER TABLE place DROP FOREIGN KEY FK_741D53CD5926566C');
         $this->addSql('DROP INDEX IDX_741D53CD5926566C ON place');
-        $this->addSql('ALTER TABLE place ADD illustration VARCHAR(255) DEFAULT NULL, DROP illustration_id, DROP updated_at');
+        $this->addSql('ALTER TABLE place ADD illustration VARCHAR(255) DEFAULT NULL, DROP illustration_id, DROP updated_at, CHANGE history history LONGTEXT NOT NULL');
     }
 }

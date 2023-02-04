@@ -29,7 +29,7 @@
 		</header>
         <div class="row">
             {% for person in persons %}
-                <div class="col-md-6 my-2">
+                <div class="col-md-6 col-lg-4 my-2">
                     {{ include("person/_person_card.html.twig", {disable_type: true}) }}
                 </div>
             {% else %}
@@ -37,6 +37,10 @@
                     <div class="mt-2 text-muted text-center">Aucun personnage trouvé</div>
                 </div>
             {% endfor %}
+        </div>
+
+        <div class="navigation">
+            {{ knp_pagination_render(persons) }}
         </div>
     </article>
 {% endblock %}

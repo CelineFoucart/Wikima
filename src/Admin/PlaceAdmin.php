@@ -103,7 +103,7 @@ final class PlaceAdmin extends AbstractAdmin
                     'constraints' => [
                         new Image([
                             'minWidth' => 200,
-                            'maxWidth' => 250,
+                            'maxWidth' => 300,
                         ]),
                         ],
                         'help' => 'banner_help',

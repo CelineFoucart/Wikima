@@ -84,7 +84,7 @@ class Place
     )]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $history = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]

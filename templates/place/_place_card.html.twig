@@ -1,0 +1,42 @@
+<div class="about-block">
+	<div class="about-title px-1 bg-light border">
+		<small>
+			{% for tag in place.types %}
+				<span class="badge rounded-pill bg-secondary">{{ tag }}</span>
+			{% else %}
+				<span class="badge rounded-pill bg-secondary">Non tagué</span>
+			{% endfor %}
+		</small>
+		<p class="mb-0">
+			<a href="{{ path('app_place_show', {slug: place.slug}) }}" class="text-decoration-none text-reset stretched-link fs-5">
+				{{ place.title }}
+			</a>
+		</p>
+		<div>
+			<i class="bi bi-tag-fill small me-1"></i>
+			{% for portal in place.portals %}
+				<span class="person-label small">
+					{{ portal.title }}
+				</span>
+			{% else %}
+				<span class="small">Aucun portail</span>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="about-card">
+		<div class="content-card">
+			{% if place.illustration %}
+				<img src="{{ vich_uploader_asset(place.illustration)|imagine_filter('card_image') }}" alt="{{ place.illustration.title }}" class="about-img">
+			{% endif %}
+
+			<div class="about-content-card">
+				<h3 class="h6 mb-0">{{ place.title }}</h3>
+				{% if place.description %}
+					<p>{{ place.description|striptags|raw|u.truncate(100, '...', false)|raw }}</p>
+				{% else %}
+					<p>Aucune description disponible pour ce lieu.</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>

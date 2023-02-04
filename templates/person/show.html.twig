@@ -26,8 +26,11 @@
 		<div class="item-heading position-relative">
 			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
 				<div class="p-2 position-absolute top-0" style="right:0px">
-					<a href="{{ path('admin_app_person_edit', {id: person.id}) }}" class="btn btn-outline-secondary" title="administrer">
+					<a href="{{ path('admin_app_person_edit', {id: person.id}) }}" class="btn btn-outline-secondary btn-sm" title="administrer">
 						<i class="bi bi-pencil-fill"></i>
+					</a>
+					<a href="{{ path('admin_app_person_image', {id: person.id}) }}" class="btn btn-outline-secondary btn-sm" title="gérer l'image">
+						<i class="bi bi-image"></i>
 					</a>
 				</div>
 			{% endif %}
@@ -44,12 +47,7 @@
 				{{ person }}
 			</h1>
 
-			<p class="lead mb-4">{{ person.description }}</p>
-			<p>
-				{% for portal in person.portals %}
-					{{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show'}) }}
-				{% endfor %}
-			</p>
+			<p class="lead mb-2">{{ person.description }}</p>
 		</div>
 	</header>
 	<section class="mt-4 px-4 container-fluid">
@@ -67,27 +65,27 @@
 			<table>
 				<tbody>
 					<tr>
-						<th>Prénom</th>
+						<th class="align-top">Prénom</th>
 						<td>{{ person.firstname }}</td>
 					</tr>
 					<tr>
-						<th>Nom</th>
+						<th class="align-top">Nom</th>
 						<td>{{ person.lastname ? person.lastname : '-' }}</td>
 					</tr>
 					<tr>
-						<th>Nom complet</th>
+						<th class="align-top">Nom complet</th>
 						<td>{{ person.fullname ? person.fullname : person }}</td>
 					</tr>
 					<tr>
-						<th>Parents</th>
+						<th class="align-top">Parents</th>
 						<td>{{ person.parents ? person.parents : '-' }}</td>
 					</tr>
 					<tr>
-						<th>Nationalité</th>
+						<th class="align-top">Nationalité</th>
 						<td>{{ person.nationality ? person.nationality : '-' }}</td>
 					</tr>
 					<tr>
-						<th>Profession</th>
+						<th class="align-top">Profession</th>
 						<td>{{ person.job ? person.job : '-' }}</td>
 					</tr>
 				</tbody>
@@ -97,12 +95,12 @@
 				<h3 class="h6 bg-default-light p-1 text-center">Naissance</h3>
 				<table>
 					<tbody>
-						<tr>
-							<th>Date</th>
+						<tr class="align-top">
+							<th class="align-top">Date</th>
 							<td>{{ person.birthday ? person.birthday : '-' }}</td>
 						</tr>
-						<tr>
-							<th>Lieu</th>
+						<tr class="align-top">
+							<th class="align-top">Lieu</th>
 							<td>{{ person.birthdayPlace ? person.birthdayPlace : '-' }}</td>
 						</tr>
 					</tbody>
@@ -114,16 +112,33 @@
 				<table>
 					<tbody>
 						<tr>
-							<th>Date</th>
+							<th class="align-top">Date</th>
 							<td>{{ person.deathDate ? person.deathDate : '-' }}</td>
 						</tr>
 						<tr>
-							<th>Lieu</th>
+							<th class="align-top">Lieu</th>
 							<td>{{ person.deathPlace ? person.deathPlace : '-' }}</td>
 						</tr>
 					</tbody>
 				</table>
 			{% endif %}
+			<h3 class="h6 bg-default-light p-1 text-center">Portails</h3>
+			<table>
+				<tbody>
+					<tr>
+						<td>
+							<ul class="ps-0 mb-0">
+								{% for portal in person.portals %}
+									<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="text-decoration-none">
+										<i class="bi bi-tag-fill small me-1"></i>
+										{{ portal }}
+									</a>
+								{% endfor %}
+							</ul>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</aside>
 		<div id="presentation" class="article-content">
 			<div>
@@ -156,7 +171,6 @@
 								<a href="#personality" class="text-dark">Personnalité</a>
 							</li>
 						{% endif %}
-						{# <li class="fs-6"><a href="#gallery" class="text-dark">Galerie</a></li> #}
 					</ol>
 				</div>
 			</div>
@@ -175,7 +189,5 @@
 				{{ person.personality|raw }}
 			</div>
 		{% endif %}
-
-		{# <div id="gallery"></div> #}
 	</section>
 {% endblock %}

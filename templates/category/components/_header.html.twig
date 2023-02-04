@@ -13,8 +13,8 @@
 {% if portals is not defined %}
 	{% set portals = false %}
 {% endif %}
-{% if notes is not defined %}
-	{% set notes = false %}
+{% if places is not defined %}
+	{% set places = false %}
 {% endif %}
 
 <header class="pt-4 pb-0 bg-item header-item">
@@ -39,7 +39,7 @@
 			{% if is_granted('ROLE_ADMIN') %}
 				<div class="p-2 position-absolute top-0" style="right:-10px">
 					<div class="dropdown">
-						<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
+						<button class="btn btn-outline-secondary w-100 btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
 							<i class="bi bi-wrench-adjustable me-1"></i>
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -63,8 +63,16 @@
 									Ajouter un personnage
 								</a>
 							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('admin_app_place_create', {category:category.id}) }}">
+									Ajouter un lieu
+								</a>
+							</li>
 						</ul>
 					</div>
+					{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
+						<a href="{{ path('app_category_notes', {slug: category.slug}) }}" class="btn btn-outline-secondary btn-sm mt-1" title="note">Notes</a>
+					{% endif %}
 				</div>
 			{% endif %}
 			<h1 class="mb-3">{{ category.title|capitalize }}</h1>
@@ -73,30 +81,30 @@
 	</div>
 	<nav class="tab-default mt-3">
 		<div class="item {{ portals ? 'active': '' }}">
-			<a href="{{ path('app_category_show', {slug:category.slug}) }}">
-				Catégorie
+			<a href="{{ path('app_category_show', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Catégorie">
+				<i class="bi bi-folder-fill"></i>
 			</a>
 		</div>
 		<div class="item {{ articles ? 'active': '' }}">
-			<a href="{{ path('app_category_show_article', {slug:category.slug}) }}">
-				Articles
+			<a href="{{ path('app_category_show_article', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Articles">
+				<i class="bi bi-file-earmark-text"></i>
 			</a>
 		</div>
 		<div class="item {{ persons ? 'active': '' }}">
-			<a href="{{ path('app_category_persons', {slug:category.slug}) }}">
-				Personnages
+			<a href="{{ path('app_category_persons', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Personnages">
+				<i class="bi bi-person-fill"></i>
+			</a>
+		</div>
+		<div class="item {{ places ? 'active': '' }}">
+			<a href="{{ path('app_category_places', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Lieux">
+				<i class="bi bi-globe"></i>
 			</a>
 		</div>
 		<div class="item {{ images ? 'active': '' }}">
-			<a href="{{ path('app_category_gallery', {slug:category.slug}) }}">
-				Galerie
+			<a href="{{ path('app_category_gallery', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Galerie">
+				<i class="bi bi-image"></i>
 			</a>
 		</div>
-		{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
-			<div class="item {{ notes ? 'active': '' }}">
-				<a href="{{ path('app_category_notes', {slug: category.slug}) }}">Notes</a>
-			</div>
-		{% endif %}
 	</nav>
 </header>
 <section>

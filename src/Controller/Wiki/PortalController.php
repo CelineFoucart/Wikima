@@ -4,6 +4,7 @@ namespace App\Controller\Wiki;
 
 use App\Entity\Data\SearchData;
 use App\Entity\PersonType;
+use App\Entity\PlaceType;
 use App\Entity\Portal;
 use App\Entity\User;
 use App\Form\SearchType;
@@ -11,6 +12,8 @@ use App\Repository\ArticleRepository;
 use App\Repository\ImageRepository;
 use App\Repository\PersonRepository;
 use App\Repository\PersonTypeRepository;
+use App\Repository\PlaceRepository;
+use App\Repository\PlaceTypeRepository;
 use App\Repository\PortalRepository;
 use App\Repository\TimelineRepository;
 use App\Service\AlphabeticalHelperService;
@@ -71,19 +74,6 @@ final class PortalController extends AbstractController
         ]);
     }
 
-    #[Route('/portals/{slug}/timelines', name: 'app_portal_timelines')]
-    #[Entity('portals', expr: 'repository.findBySlug(slug)')]
-    public function timelines(Portal $portal, Request $request, TimelineRepository $timelineRepository): Response
-    {
-        $page = $request->query->getInt('page', 1);
-
-        return $this->render('portal/timelines_portal.html.twig', [
-            'timelines' => $timelineRepository->findTimelinesByPortal($portal, $page),
-            'portal' => $portal,
-            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
-        ]);
-    }
-
     #[Route('/portals/{slug}/persons', name: 'app_portal_persons')]
     #[Entity('portals', expr: 'repository.findBySlug(slug)')]
     public function persons(Portal $portal, Request $request, PersonRepository $personRepository, PersonTypeRepository $personTypeRepository): Response
@@ -106,7 +96,36 @@ final class PortalController extends AbstractController
 
         return $this->render('portal/persons_portal.html.twig', [
             'portal' => $portal,
-            'persons' => $personRepository->findByParent($portal, 'category', $page, $typeId),
+            'persons' => $personRepository->findByParent($portal, 'portal', $page, $typeId),
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'types' => $types,
+            'type' => $type,
+        ]);
+    }
+
+    #[Route('/portals/{slug}/places', name: 'app_portal_places')]
+    #[Entity('portals', expr: 'repository.findBySlug(slug)')]
+    public function place(Portal $portal, Request $request, PlaceTypeRepository $placeTypeRepository, PlaceRepository $placeRepository): Response
+    {
+        $types = $placeTypeRepository->findAll();
+        $page = $request->query->getInt('page', 1);
+        $typeSlug = $request->query->get('type');
+
+        $results = array_filter($types, function(PlaceType $placeType) use ($typeSlug) {
+            return $placeType->getSlug() === $typeSlug;
+        });
+
+        if (!empty($results)) {
+            $type = $results[array_key_first($results)];
+            $typeId = $type->getId();
+        } else {
+            $type = null;
+            $typeId = 0;
+        }
+
+        return $this->render('portal/place_portal.html.twig', [
+            'portal' => $portal,
+            'places' => $placeRepository->findByParent($portal, 'category', $page, $typeId),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,
