@@ -42,8 +42,6 @@ final class PlaceAdmin extends AbstractAdmin
             ->add('title')
             ->add('slug')
             ->add('types')
-            ->add('categories')
-            ->add('portals')
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'read' => ['template' => 'Admin/show.html.twig'],
@@ -99,6 +97,15 @@ final class PlaceAdmin extends AbstractAdmin
                 ->add('population', TextType::class, [
                     'required' => false,
                 ])
+                ->add('languages', TextType::class, [
+                    'required' => false,
+                ])
+                ->add('size', TextType::class, [
+                    'required' => false,
+                ])
+                ->add('isInhabitable', TextType::class, [
+                    'required' => false,
+                ])
                 ->add('imageMap', VichImageType::class, [
                     'constraints' => [
                         new Image([
@@ -106,7 +113,7 @@ final class PlaceAdmin extends AbstractAdmin
                             'maxWidth' => 300,
                         ]),
                         ],
-                        'help' => 'banner_help',
+                        'help' => 'map_help',
                         'required' => false,
                 ])
             ->end()
@@ -167,6 +174,9 @@ final class PlaceAdmin extends AbstractAdmin
                 ->add('categories')
                 ->add('portals')
                 ->add('types')
+                ->add('languages')
+                ->add('size')
+                ->add('isInhabitable')
             ->end()
         ;
     }

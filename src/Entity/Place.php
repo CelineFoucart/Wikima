@@ -111,6 +111,15 @@ class Place
     #[ORM\ManyToOne(inversedBy: 'places')]
     private ?Image $illustration = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $size = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $isInhabitable = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $languages = null;
+
     public function __construct()
     {
         $this->localisations = new ArrayCollection();
@@ -409,6 +418,42 @@ class Place
     public function setIllustration(?Image $illustration): self
     {
         $this->illustration = $illustration;
+
+        return $this;
+    }
+
+    public function getSize(): ?string
+    {
+        return $this->size;
+    }
+
+    public function setSize(?string $size): self
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    public function getIsInhabitable(): ?string
+    {
+        return $this->isInhabitable;
+    }
+
+    public function setIsInhabitable(?string $isInhabitable): self
+    {
+        $this->isInhabitable = $isInhabitable;
+
+        return $this;
+    }
+
+    public function getLanguages(): ?string
+    {
+        return $this->languages;
+    }
+
+    public function setLanguages(?string $languages): self
+    {
+        $this->languages = $languages;
 
         return $this;
     }

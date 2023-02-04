@@ -63,7 +63,7 @@
 				<table>
 					<tbody>
 						<tr>
-							<td>{{ place.situation }}</td>
+							<td>{{ place.situation|nl2br }}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -76,10 +76,28 @@
 						<th class="align-top">Controlé par</th>
 						<td>{{ place.dominatedBy ? place.dominatedBy : '-' }}</td>
 					</tr>
-					<tr>
-						<th class="align-top">Capitale</th>
-						<td>{{ place.capitaleCity ? place.capitaleCity : '-' }}</td>
-					</tr>
+					{% if place.capitaleCity %}
+						<tr>
+							<th class="align-top">Capitale</th>
+							<td>{{ place.capitaleCity }}</td>
+						</tr>
+					{% endif %}
+					{% if place.isInhabitable %}
+						<tr>
+							<th class="align-top">
+								Habitable
+							</th>
+							<td>
+								{{ place.isInhabitable|nl2br }}
+							</td>
+						</tr>
+					{% endif %}
+					{% if place.languages %}
+						<tr>
+							<th class="align-top">Langues</th>
+							<td>{{ place.languages|nl2br }} </td>
+						</tr>
+					{% endif %}
 					{% if place.localisations is not empty %}
 						<tr>
 							<th class="align-top">Localisations</th>
@@ -92,10 +110,18 @@
 							<td>{{ join_links(place.places.toArray(), 'app_place_show') }}</td>
 						</tr>
 					{% endif %}
-					<tr>
-						<th class="align-top">Population</th>
-						<td>{{ place.population ? place.population : '-' }}</td>
-					</tr>
+					{% if place.population %}
+						<tr>
+							<th class="align-top">Population</th>
+							<td>{{ place.population }}</td>
+						</tr>
+					{% endif %}
+					{% if place.size %}
+						<tr>
+							<th class="align-top">Taille</th>
+							<td>{{ place.size|nl2br }}</td>
+						</tr>
+					{% endif %}
 				</tbody>
 			</table>
 			<h3 class="h6 bg-default-light p-1 text-center">Portails</h3>
@@ -103,12 +129,14 @@
 				<tbody>
 					<tr>
 						<td>
-							<ul class="ps-0 mb-0">
+							<ul class="ps-0 mb-0 list-unstyled">
 								{% for portal in place.portals %}
 									<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="text-decoration-none">
 										<i class="bi bi-tag-fill small me-1"></i>
 										{{ portal }}
 									</a>
+								{% else %}
+									<li class="text-center">-</li>
 								{% endfor %}
 							</ul>
 						</td>
