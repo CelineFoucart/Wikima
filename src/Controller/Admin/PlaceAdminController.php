@@ -13,6 +13,7 @@ use App\Repository\ImageRepository;
 use App\Repository\PlaceRepository;
 use App\Repository\PortalRepository;
 use App\Repository\CategoryRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sonata\AdminBundle\Controller\CRUDController;
@@ -50,7 +51,7 @@ final class PlaceAdminController extends CRUDController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->imageRepository->add($image, true);
             $place->setIllustration($image);
-            $this->placeRepository->add($place, true);
+            $this->placeRepository->save($place, true);
 
             $this->addFlash('success', "L'image a bien été ajoutée au lieu.");
             $uri = $request->server->get('REQUEST_URI');
