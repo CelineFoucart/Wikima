@@ -40,8 +40,7 @@ body {
 @media (min-width: 400px) {
     .about-person {
         float: right;
-        margin: 0;
-        margin-left: 10px;
+        margin: 0 0 10px 10px;
     }
 }
 
@@ -71,6 +70,12 @@ body {
 
 .about-person table td {
     min-width: 125px;
+}
+
+.about-person::after {
+    content: ' ';
+    clear: both;
+    display: inline-block;
 }
 
 .choices__input, .choices__inner {
