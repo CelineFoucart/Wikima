@@ -72,12 +72,6 @@ body {
     min-width: 125px;
 }
 
-.about-person::after {
-    content: ' ';
-    clear: both;
-    display: inline-block;
-}
-
 .choices__input, .choices__inner {
     background-color: #fff;
 }
