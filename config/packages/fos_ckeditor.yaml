@@ -12,6 +12,19 @@ fos_ck_editor:
     toolbars:
         configs: 
             basic: ['@basic.basic_styles', '@basic.paragraph', '@basic.links']
+            full: [ 
+                '@full.document', 
+                '@full.clipboard',
+                '@full.editing', 
+                '@full.links',
+                '@full.insert',
+                '@full.colors',
+                '@full.tools',
+                '/',
+                '@full.basic_styles',
+                '@full.paragraph',
+                '@full.styles',
+            ]
         items:
             basic.basic_styles: ["Bold", "Italic",  'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'RemoveFormat']
             basic.paragraph: [
@@ -28,6 +41,7 @@ fos_ck_editor:
                 'JustifyRight',
                 'JustifyBlock',
             ]
+            full.styles: ['Styles', 'Format', 'Font', 'FontSize']
 
 twig:
     form_themes:

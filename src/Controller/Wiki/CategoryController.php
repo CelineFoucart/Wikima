@@ -80,7 +80,7 @@ final class CategoryController extends AbstractController
         $page = $request->query->getInt('page', 1);
         $typeSlug = $request->query->get('type');
 
-        $results = array_filter($types, function(PlaceType $personType) use ($typeSlug) {
+        $results = array_filter($types, function(PersonType $personType) use ($typeSlug) {
             return $personType->getSlug() === $typeSlug;
         });
 
