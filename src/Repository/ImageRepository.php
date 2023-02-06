@@ -76,7 +76,7 @@ class ImageRepository extends ServiceEntityRepository
         return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
     }
 
-    public function findByCategory(Category $category, int $page, int $limit = 12): PaginationInterface
+    public function findByCategory(Category $category, int $page, int $limit = 24): PaginationInterface
     {
         $builder = $this->createQueryBuilder('i')
             ->leftJoin('i.categories', 'c')
@@ -88,7 +88,7 @@ class ImageRepository extends ServiceEntityRepository
         return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
     }
 
-    public function findByPortal(Portal $portal, int $page, int $limit = 21): PaginationInterface
+    public function findByPortal(Portal $portal, int $page, int $limit = 24): PaginationInterface
     {
         $builder = $this->createQueryBuilder('i')
             ->leftJoin('i.portals', 'p')

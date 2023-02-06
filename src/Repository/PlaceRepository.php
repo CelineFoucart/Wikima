@@ -71,7 +71,7 @@ class PlaceRepository extends ServiceEntityRepository
      *
      * @return PaginationInterface
      */
-    public function findByParent($parent, string $parentType = 'category', int $page = 1, int $type = 0, int $limit = 20): PaginationInterface
+    public function findByParent($parent, string $parentType = 'category', int $page = 1, int $type = 0, int $limit = 24): PaginationInterface
     {
         $builder = $this->getDefaultQuery();
         $where = ('category' === $parentType) ? 'c.id IN (:parents)' : 'pt.id IN (:parents)';
