@@ -177,6 +177,7 @@ final class PlaceAdmin extends AbstractAdmin
                 ->add('languages')
                 ->add('size')
                 ->add('isInhabitable')
+                ->add('illustration', null, ['template' => 'Admin/_place_illustration.html.twig'])
             ->end()
         ;
     }

@@ -59,7 +59,7 @@
 			<div class="tab-content">
 				<div class="tab-pane fade active in" id="tab_1">
 					<div class="row" style="margin-top:15px">
-						<div class="col-md-6 col-lg-7">
+						<div class="col-md-6 col-lg-8">
 							<div class="box box-primary">
 								<div class="box-header">
 									<h3 class="box-title">Modifier ou ajouter une section</h4>
@@ -75,7 +75,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-md-6 col-lg-5">
+						<div class="col-md-6 col-lg-4">
 							<div class="box box-primary">
 								<div class="box-header">
 									<h3 class="box-title">Sections de l'article</h3>
@@ -100,12 +100,12 @@
 													<tr class="sonata-ba-view-container handle" id="{{ section.id }}">
 														<td>
 															<div class="pull-right">
-																<a href="{{ path('admin_app_article_section', {id:article.id, section: section.id}) }}" class="btn btn-default" title="Editer">
+																<a href="{{ path('admin_app_article_section', {id:article.id, section: section.id}) }}" class="btn btn-default btn-sm" title="Editer">
 																	<i class="fas fa-edit" aria-hidden="true"></i>
 																</a>
 																<form method="post" action="{{ path('admin_app_section_delete', {'id': section.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet élément ?');" style="display:inline-block">
 																	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ section.id) }}">
-																	<button class="btn btn-danger" title="Supprimer">
+																	<button class="btn btn-danger btn-sm" title="Supprimer">
 																		<i class="fa fa-trash-o"></i>
 																	</button>
 																</form>

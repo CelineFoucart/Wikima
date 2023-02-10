@@ -1,8 +1,13 @@
-{% if object.slug %}
-    {% set route_name = 'app_' ~ admin.classnameLabel|lower ~ "_show" %}
+{% set classname = admin.classnameLabel|lower %}
+{% if object.slug and object.id %}
+    {% set route_name = 'app_' ~ classname ~ "_show" %}
     {% set path_to_public = path(route_name, {slug: object.slug}) %}
-
-    <a href="{{ path_to_public }}" title="Consulter">
-        <i class="fas fa-book-reader"></i> Ouvrir dans l'encyclopédie
-    </a>
+    <div>
+        <a href="{{ path_to_public }}" title="Consulter">
+            <i class="fas fa-book-reader"></i> Ouvrir dans l'encyclopédie
+        </a>
+    </div>
+    {% if classname == 'person' or classname == 'place' %}
+        <div><a href="{{ path('admin_app_'~ classname ~'_image', {id: object.id}) }}"><i class="fas fa-upload"></i> Uploader une image</a></div>
+    {% endif %}
 {% endif %}

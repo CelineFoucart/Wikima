@@ -147,8 +147,12 @@
 					{{ include('Admin/components/_item_gallery.html.twig', {title: 'Galerie de '~ app_name}) }}
 				</article>
 			</div>
-
-
 		</div>
 	</div>
+	<script>
+		const error = document.querySelector('.is-invalid');
+		if (error) {
+			$('#form-modal').modal('show');
+		}
+	</script>
 {% endblock %}

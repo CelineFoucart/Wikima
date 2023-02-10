@@ -48,17 +48,18 @@ final class PlaceAdminController extends CRUDController
         $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->imageRepository->add($image, true);
-            $place->setIllustration($image);
-            $this->placeRepository->save($place, true);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $this->imageRepository->add($image, true);
+                $place->setIllustration($image);
+                $this->placeRepository->save($place, true);
 
-            $this->addFlash('success', "L'image a bien été ajoutée au lieu.");
-            $uri = $request->server->get('REQUEST_URI');
+                $this->addFlash('success', "L'image a bien été ajoutée au lieu.");
+                $uri = $request->server->get('REQUEST_URI');
 
-            return $this->redirectToRoute('admin_app_place_image', ['id' => $place->getId()]);
-        }
-        if ('POST' === $request->getMethod()) {
+                return $this->redirectToRoute('admin_app_place_image', ['id' => $place->getId()]);
+            }
+        }else if ('POST' === $request->getMethod()) {
             $status = $this->handleImage($request, $place);
             $uri = $request->server->get('REQUEST_URI');
 

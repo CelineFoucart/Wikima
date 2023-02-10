@@ -143,7 +143,7 @@ final class PersonAdmin extends AbstractAdmin
             ->tab('Personality')
                 ->with('Personality', ['class' => 'hidden-header'])
                     ->add('personality', CKEditorType::class, [
-                        'config' => ['toolbar' => 'full'],
+                        'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
                         'required' => false,
                     ])
                 ->end()

@@ -21,7 +21,7 @@ liip_imagine:
         card_image:
             filters:
                 thumbnail:
-                    size: [305, 180]
+                    size: [305, 280]
                     mode: outbound
 
         medium_image:

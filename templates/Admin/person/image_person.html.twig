@@ -44,6 +44,12 @@
 							</li>
 
 							<li>
+								<a class="sonata-action-element" href="{{ path('app_person_show', {slug: person.slug}) }}">
+									<i class="fas fa-book-reader" aria-hidden="true"></i> Consulter
+								</a>
+							</li>
+
+							<li>
 								<a class="sonata-action-element" href="{{ path('admin_app_person_show', {id: person.id}) }}">
 									<i class="fas fa-eye" aria-hidden="true"></i>
 									Afficher
@@ -106,9 +112,13 @@
 								<th>Action</th>
 								<td>
 									<form action="" method="post">
+										<a class="btn btn-default" href="{{ path('app_person_show', {slug: person.slug}) }}">
+											<i class="fas fa-eye" aria-hidden="true"></i>
+											Afficher l'article
+										</a>
 										<a class="btn btn-default" href="{{ path('admin_app_image_edit', {id: person.image.id}) }}">
 											<i class="fas fa-edit" aria-hidden="true"></i>
-											Éditer les informations
+											Éditer l'image
 										</a>
 										<input type="hidden" name="imageId" value="{{ person.image.id }}">
 										<input type="hidden" name="_token" value="{{ csrf_token('image' ~ person.image.id) }}">

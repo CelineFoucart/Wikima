@@ -44,6 +44,12 @@
 							</li>
 
 							<li>
+								<a class="sonata-action-element" href="{{ path('app_place_show', {slug: place.slug}) }}">
+									<i class="fas fa-book-reader" aria-hidden="true"></i> Consulter
+								</a>
+							</li>
+
+							<li>
 								<a class="sonata-action-element" href="{{ path('admin_app_place_show', {id: place.id}) }}">
 									<i class="fas fa-eye" aria-hidden="true"></i>
 									Afficher
@@ -106,6 +112,10 @@
 								<th>Action</th>
 								<td>
 									<form action="" method="post">
+										<a class="btn btn-default" href="{{ path('app_place_show', {slug: place.slug}) }}">
+											<i class="fas fa-eye" aria-hidden="true"></i>
+											Afficher le lieu
+										</a>
 										<a class="btn btn-default" href="{{ path('admin_app_image_edit', {id: place.illustration.id}) }}">
 											<i class="fas fa-edit" aria-hidden="true"></i>
 											Éditer les informations

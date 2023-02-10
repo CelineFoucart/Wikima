@@ -78,22 +78,25 @@ final class ArticleAdminController extends CRUDController
         $article = $this->getArticle($id);
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
         $page = $request->query->getInt('page', 1);
-
         $image = (new Image())->setPortals($article->getPortals());
         $formImage = $this->createForm(ImageType::class, $image);
         $formImage->handleRequest($request);
 
-        if ($formImage->isSubmitted() && $formImage->isValid()) {
-            $this->imageRepository->add($image, true);
-            $article->addImage($image);
-            $this->imageRepository->add($image, true);
-            $this->articleRepository->add($article, true);
-            $this->addFlash('success', "L'image a bien été ajoutée.");
-
-            return $this->redirectToRoute('admin_app_article_gallery',  ['id' => $article->getId()]);
-        }
-
-        if ('POST' === $request->getMethod()) {
+        if ($formImage->isSubmitted()) {
+            if ($formImage->isValid()) {
+                $this->imageRepository->add($image, true);
+                $article->addImage($image);
+                $this->imageRepository->add($image, true);
+                $this->articleRepository->add($article, true);
+                $this->addFlash('success', "L'image a bien été ajoutée.");
+                return $this->redirectToRoute('admin_app_article_gallery',  ['id' => $article->getId()]);
+            } else {
+                $this->addFlash(
+                    'error',
+                    "La soumission a échoué, car le formulaire n'est pas valide"
+                );
+            }
+        } elseif ('POST' === $request->getMethod()) {
             $this->handleGallery($request, $article);
             $uri = $request->server->get('REQUEST_URI');
 

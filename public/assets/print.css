@@ -85,3 +85,35 @@ a:visited {
     font-size: 1.1rem;
     margin-top: 1rem;
 }
+
+dl {
+    margin: 0 4rem 1rem;
+    padding: 1.5em 2rem .5em;
+    background-color: #f8f9fa;
+    border: 1px double #dee2e6;
+}
+
+dt {
+    font-weight: bold;
+}
+
+dt::after {
+    content: " : ";
+}
+
+dt.title {
+    text-align: center;
+    background: #dee2e6;
+    border: 1px solid #dee2e6;
+    margin-bottom: 0.5rem;
+}
+
+dt.title::after {
+    content: '';
+}
+
+dd {
+    margin: 0;
+    margin-left: 1.5rem;
+    padding: 0 0 0.5em 0;
+}

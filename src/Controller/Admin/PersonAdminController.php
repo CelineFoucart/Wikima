@@ -51,17 +51,18 @@ final class PersonAdminController extends CRUDController
         $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->imageRepository->add($image, true);
-            $person->setImage($image);
-            $this->personRepository->add($person, true);
+        if ($form->isSubmitted()) {
+            if ($form->isValid()) {
+                $this->imageRepository->add($image, true);
+                $person->setImage($image);
+                $this->personRepository->add($person, true);
 
-            $this->addFlash('success', "L'image a bien été ajoutée au personnage.");
-            $uri = $request->server->get('REQUEST_URI');
+                $this->addFlash('success', "L'image a bien été ajoutée au personnage.");
+                $uri = $request->server->get('REQUEST_URI');
 
-            return $this->redirectToRoute('admin_app_person_image', ['id' => $person->getId()]);
-        }
-        if ('POST' === $request->getMethod()) {
+                return $this->redirectToRoute('admin_app_person_image', ['id' => $person->getId()]);
+            }
+        } elseif ('POST' === $request->getMethod()) {
             $status = $this->handleImage($request, $person);
             $uri = $request->server->get('REQUEST_URI');
 
