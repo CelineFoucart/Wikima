@@ -54,6 +54,7 @@ final class PlaceTypeAdmin extends AbstractAdmin
             ])
             ->add('description', TextareaType::class, [
                 'required'=> false,
+                'help' => 'help_description',
             ])
         ;
     }

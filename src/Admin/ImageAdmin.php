@@ -47,6 +47,7 @@ final class ImageAdmin extends AbstractAdmin
                 'attr' => [
                     'rows' => '3',
                 ],
+                'help' => 'help_description',
             ])
             ->add('portals', EntityType::class, [
                 'class' => Portal::class,

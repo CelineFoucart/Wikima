@@ -120,6 +120,9 @@ class Place
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $languages = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isSticky = null;
+
     public function __construct()
     {
         $this->localisations = new ArrayCollection();
@@ -454,6 +457,18 @@ class Place
     public function setLanguages(?string $languages): self
     {
         $this->languages = $languages;
+
+        return $this;
+    }
+
+    public function getIsSticky(): ?bool
+    {
+        return $this->isSticky;
+    }
+
+    public function setIsSticky(?bool $isSticky): self
+    {
+        $this->isSticky = $isSticky;
 
         return $this;
     }

@@ -86,20 +86,19 @@ final class PersonAdmin extends AbstractAdmin
                             'data-target' => 'slug-character',
                         ],
                     ])
-                    ->add('description', TextareaType::class, [
+                    ->add('physicalDescription', TextareaType::class, [
                         'required' => false,
                         'attr' => [
                             'style' => 'height: 73px'
                         ]
                     ])
+                    ->add('nationality')
                     ->add('preview', TemplateType::class, [
                         'template' => 'Admin/components/_preview.html.twig',
                         'label' => false,
                     ])
                 ->end()
                 ->with('Informations', ['class' => 'col-md-6 hidden-header'])
-                    ->add('parents')
-                    ->add('nationality')
                     ->add('job')
                     ->add('portals', EntityType::class, [
                         'class' => Portal::class,
@@ -118,10 +117,28 @@ final class PersonAdmin extends AbstractAdmin
                         'choice_label' => 'title',
                         'multiple' => true,
                         'required' => false,
+                    ])                    
+                    ->add('description', TextareaType::class, [
+                        'required' => false,
+                        'attr' => [
+                            'style' => 'height: 73px'
+                        ],
+                        'help' => 'help_description',
+                    ])
+                    ->add('isSticky', null, [
+                        'required' => false,
                     ])
                 ->end()
             ->end()
-
+            
+            ->tab('Relations')
+                ->with('Relations', ['class' => 'hidden-header'])
+                    ->add('parents')
+                    ->add('siblings')
+                    ->add('partner')
+                    ->add('children')
+                ->end()
+            ->end()
             ->tab('Biography')
                 ->with('Full biography', ['class' => 'col-md-8'])
                     ->add('presentation', CKEditorType::class, [
@@ -154,7 +171,7 @@ final class PersonAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->with('In Short', ['class' => 'col-md-12'])
+            ->with('In Short', ['class' => 'col-md-6'])
                 ->add('id')
                 ->add('fullname', null, [
                     'template' => 'Admin/person/_person_name.html.twig',
@@ -163,13 +180,18 @@ final class PersonAdmin extends AbstractAdmin
                 ->add('nationality')
                 ->add('type')
                 ->add('job')
-                ->add('parents')
                 ->add('birthday')
                 ->add('birthdayPlace')
                 ->add('deathDate')
                 ->add('deathPlace')
                 ->add('description')
                 ->add('image', null, ['template' => 'Admin/person/image_show.html.twig'])
+            ->end()
+            ->with('Relations', ['class' => 'col-md-6'])
+                ->add('parents')
+                ->add('siblings')
+                ->add('partner')
+                ->add('children')
             ->end()
             ->with('Full Presentation', ['class' => 'col-md-12'])
                 ->add('presentation', null, [

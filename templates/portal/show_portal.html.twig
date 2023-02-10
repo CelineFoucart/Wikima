@@ -12,14 +12,28 @@
 {% block body %}
 	<article>
 		{% include "portal/components/_header.html.twig" with {articles:true}   %}
-		{% if portal.presentation %}
 			<div class="element-presentation">
-				<h2><strong>{{ portal.title }}</strong>, qu'est-ce que c'est ?</h2>
-				<div class="content">
-					{{ portal.presentation|raw }}
-				</div>
+				{% if portal.presentation %}
+					<h2><strong>{{ portal.title }}</strong>, qu'est-ce que c'est ?</h2>
+					<div class="content">
+						{{ portal.presentation|raw }}
+					</div>
+				{% endif %}
+				{% if stickyElements is not empty %}
+					<div class="d-flex flex-wrap justify-content-between" style="gap:5px">
+						{% for article in stickyElements %}
+							<div class="bg-default">
+								<a href="{{ path('app_article_show', {slug: article.slug}) }}" data-bs-toggle="tooltip" title="{{ article.description }}" class="text-white text-decoration-none px-1">
+									<i class="bi bi-pin-angle-fill me-1" data-bs-toggle="tooltip" title="Eléments épinglés"></i>
+									{{ article }}
+								</a>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
 			</div>
-		{% endif %}
+		
+
 		<section class="pt-1 py-5 px-4">
 			<h2 class="content-title-section">
 				Les articles du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
@@ -28,7 +42,7 @@
 				Ce portail comprend <strong>{{ articles.totalItemCount }}</strong> articles, dont les <strong>{{articles|length}}</strong> articles ci-dessous.
 			</p>
 
-			<div class="column-3">
+			<div class="column-3 mt-3">
 				{% for key, elements in items %}
 					<div class="mb-4">
 						<h3 class="h4 mb-0 fw-bold">{{ key }}</h3>

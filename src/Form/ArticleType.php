@@ -46,6 +46,9 @@ class ArticleType extends AbstractType
                 'label' => 'private',
                 'required' => false,
             ])
+            ->add('isSticky', CheckboxType::class, [
+                'required' => false,
+            ])
         ;
     }
 

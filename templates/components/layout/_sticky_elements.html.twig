@@ -1,0 +1,15 @@
+{% if has_description is not defined %}
+    {% set has_description = true %}
+{% endif %}
+
+<div class="d-flex mt-3 border rounded-3 bg-light p-1 align-items-center">
+    <i class="bi bi-pin-angle-fill me-1" data-bs-toggle="tooltip" title="Eléments épinglés"></i>
+    <div class="d-flex flex-fill flex-wrap" style="gap:5px">
+        {% for element in elements %}
+            <a href="{{ path(route, {slug: element.slug}) }}" class="text-decoration-none text-default bg-white border px-1" {% if has_description %}title="{{ element.description }}" data-bs-toggle="tooltip"{% endif %}>
+            {{ element }}
+        </a>
+        {% endfor %}
+    </div>
+    <i class="bi bi-pin-angle-fill ms-1" data-bs-toggle="tooltip" title="Eléments épinglés"></i>
+</div>

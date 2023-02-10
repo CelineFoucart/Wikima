@@ -79,6 +79,9 @@ final class PlaceAdmin extends AbstractAdmin
                     'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
                     'required' => false,
                 ])
+                ->add('isSticky', null, [
+                    'required' => false,
+                ])
                 ->add('preview', TemplateType::class, [
                     'template' => 'Admin/components/_preview.html.twig',
                     'label' => false,

@@ -83,6 +83,7 @@ final class TimelineAdmin extends AbstractAdmin
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
+                'help' => 'help_description',
             ])
             ->add('categories', EntityType::class, [
                 'class' => Category::class,

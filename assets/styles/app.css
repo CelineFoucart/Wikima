@@ -34,7 +34,7 @@ body {
     padding: 5px;
     border: 1px solid var(--secondary);
     margin: 0 auto 10px;
-    max-width: 250px;
+    max-width: 280px;
 }
 
 @media (min-width: 400px) {

@@ -49,6 +49,10 @@
 				</div>
 			</div>
 
+			{% if stickyElements is not empty %}
+				{{ include("components/layout/_sticky_elements.html.twig", {elements: stickyElements, route: 'app_place_show', has_description: false}) }}
+			{% endif %}
+
 			<div class="row mt-3">
 				{% for place in places %}
 					<div class="col-md-4 my-2">

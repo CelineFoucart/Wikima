@@ -64,7 +64,20 @@ class PortalRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->leftJoin('p.categories', 'c')->addSelect('c')
             ->andWhere('p.slug = :slug')
-            ->setParameter('slug', $slug)
+            ->setParameters(['slug' => $slug])
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function findWithSticky(int $id): ?Portal
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.people', 'ps')->addSelect('ps')->andWhere('ps.isSticky = 1 AND ps.isSticky IS NOT NULL')
+            ->leftJoin('p.articles', 'a')->addSelect('a')->andWhere('a.isSticky = 1 AND a.isSticky IS NOT NULL')
+            ->leftJoin('p.places', 'pl')->addSelect('pl')->andWhere('pl.isSticky = 1 AND pl.isSticky IS NOT NULL')
+            ->andWhere('p.id = :id')
+            ->setParameters(['id' => $id])
             ->getQuery()
             ->getOneOrNullResult()
         ;

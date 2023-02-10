@@ -33,7 +33,7 @@ final class PortalController extends AbstractController
     }
 
     #[Route('/portals/{slug}', name: 'app_portal_show')]
-    #[Entity('portals', expr: 'repository.findBySlug(slug)')]
+    #[Entity('portal', expr: 'repository.findBySlug(slug)')]
     public function portal(Portal $portal, Request $request, AlphabeticalHelperService $helper): Response
     {
         $page = $request->query->getInt('page', 1);
@@ -44,6 +44,7 @@ final class PortalController extends AbstractController
             'articles' => $articles,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'items' => $helper->formatArray($articles->getItems()),
+            'stickyElements' => $this->articleRepository->findSticky($portal->getId()),
         ]);
     }
 
@@ -62,7 +63,7 @@ final class PortalController extends AbstractController
     }
 
     #[Route('/portals/{slug}/gallery', name: 'app_portal_gallery')]
-    #[Entity('portals', expr: 'repository.findBySlug(slug)')]
+    #[Entity('portal', expr: 'repository.findBySlug(slug)')]
     public function gallery(Portal $portal, Request $request, ImageRepository $imageRepository): Response
     {
         $page = $request->query->getInt('page', 1);
@@ -75,7 +76,7 @@ final class PortalController extends AbstractController
     }
 
     #[Route('/portals/{slug}/persons', name: 'app_portal_persons')]
-    #[Entity('portals', expr: 'repository.findBySlug(slug)')]
+    #[Entity('portal', expr: 'repository.findBySlug(slug)')]
     public function persons(Portal $portal, Request $request, PersonRepository $personRepository, PersonTypeRepository $personTypeRepository): Response
     {
         $types = $personTypeRepository->findAll();
@@ -100,6 +101,7 @@ final class PortalController extends AbstractController
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,
+            'stickyElements' => $personRepository->findSticky($portal->getId()),
         ]);
     }
 
@@ -129,6 +131,7 @@ final class PortalController extends AbstractController
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,
+            'stickyElements' => $placeRepository->findSticky($portal->getId()),
         ]);
     }
 

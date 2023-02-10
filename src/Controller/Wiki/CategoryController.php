@@ -98,6 +98,7 @@ final class CategoryController extends AbstractController
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,
+            'stickyElements' => $personRepository->findSticky(null, $category->getId()),
         ]);
     }
 
@@ -126,6 +127,7 @@ final class CategoryController extends AbstractController
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,
+            'stickyElements' => $placeRepository->findSticky(null, $category->getId()),
         ]);
     }
 

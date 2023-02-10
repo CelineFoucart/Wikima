@@ -179,4 +179,22 @@ class ArticleRepository extends ServiceEntityRepository
             ->leftJoin('a.sections', 's')->addSelect('s')
         ;
     }
+
+    public function findSticky(?int $portalId = null): array
+    {
+        $builder = $this->createQueryBuilder('a')
+            ->orderBy('a.title', 'ASC')
+            ->andWhere('a.isSticky = 1 AND a.isSticky IS NOT NULL')
+        ;
+
+        if ($portalId) {
+            $builder
+                ->leftJoin('a.portals', 'p')->addSelect('p')
+                ->andWhere('p.id = :portalId')
+                ->setParameter('portalId', $portalId)
+            ;
+        }
+
+        return $builder->getQuery()->getResult();
+    }
 }

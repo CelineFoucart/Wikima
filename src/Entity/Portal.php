@@ -94,6 +94,9 @@ class Portal
     #[ORM\ManyToMany(targetEntity: Place::class, mappedBy: 'portals')]
     private Collection $places;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $position = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -444,6 +447,18 @@ class Portal
         if ($this->places->removeElement($place)) {
             $place->removePortal($this);
         }
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }

@@ -47,7 +47,9 @@ final class CategoryAdmin extends AbstractAdmin
             ->end()
             ->with('Informations', ['class' => 'col-md-3'])
                 ->add('keywords', TextType::class)
-                ->add('description', TextareaType::class)
+                ->add('description', TextareaType::class, [
+                    'help' => 'help_description',
+                ])
             ->end() 
             ->with('Illustration', ['class' => 'col-md-3'])
                 ->add('imageBanner', VichImageType::class, [

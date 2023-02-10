@@ -77,10 +77,6 @@
 						<td>{{ person.fullname ? person.fullname : person }}</td>
 					</tr>
 					<tr>
-						<th class="align-top">Parents</th>
-						<td>{{ person.parents ? person.parents : '-' }}</td>
-					</tr>
-					<tr>
 						<th class="align-top">Nationalité</th>
 						<td>{{ person.nationality ? person.nationality : '-' }}</td>
 					</tr>
@@ -90,34 +86,67 @@
 					</tr>
 				</tbody>
 			</table>
-
-			{% if person.birthday or person.birthdayPlace %}
-				<h3 class="h6 bg-default-light p-1 text-center">Naissance</h3>
+			{% if person.parents or person.siblings or person.partner or person.children %}
+				<h3 class="h6 bg-default-light p-1 text-center">Famille</h3>
 				<table>
 					<tbody>
-						<tr class="align-top">
-							<th class="align-top">Date</th>
-							<td>{{ person.birthday ? person.birthday : '-' }}</td>
-						</tr>
-						<tr class="align-top">
-							<th class="align-top">Lieu</th>
-							<td>{{ person.birthdayPlace ? person.birthdayPlace : '-' }}</td>
-						</tr>
+						{% if person.parents %}
+							<tr>
+								<th class="align-top">Parents</th>
+								<td>{{ person.parents }}</td>
+							</tr>
+						{% endif %}
+						{% if person.siblings %}
+							<tr>
+								<th class="align-top">Fratrie</th>
+								<td>{{ person.siblings }}</td>
+							</tr>
+						{% endif %}
+						{% if person.partner %}
+							<tr>
+								<th class="align-top">Conjoint</th>
+								<td>{{ person.partner }}</td>
+							</tr>
+						{% endif %}
+						{% if person.children %}
+							<tr>
+								<th class="align-top">Enfant(s)</th>
+								<td>{{ person.children }}</td>
+							</tr>
+						{% endif %}
 					</tbody>
 				</table>
 			{% endif %}
 
-			{% if person.deathDate or person.deathPlace  %}
-				<h3 class="h6 bg-default-light p-1 text-center">Mort</h3>
+			{% if person.birthday or person.birthdayPlace or person.deathDate or person.deathPlace %}
+				<h3 class="h6 bg-default-light p-1 text-center">Biographie</h3>
 				<table>
 					<tbody>
 						<tr>
-							<th class="align-top">Date</th>
+							<th class="align-top">Naissance</th>
+							<td>{{ person.birthday ? person.birthday : '-' }}</td>
+						</tr>
+						<tr>
+							<th class="align-top text-nowrap">Lieu de naissance</th>
+							<td>{{ person.birthdayPlace ? person.birthdayPlace : '-' }}</td>
+						</tr>
+						<tr>
+							<th class="align-top">Mort</th>
 							<td>{{ person.deathDate ? person.deathDate : '-' }}</td>
 						</tr>
 						<tr>
-							<th class="align-top">Lieu</th>
+							<th class="align-top">Lieu de mort</th>
 							<td>{{ person.deathPlace ? person.deathPlace : '-' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			{% endif %}
+			{% if person.physicalDescription %}
+				<h3 class="h6 bg-default-light p-1 text-center">Physique</h3>
+				<table>
+					<tbody>
+						<tr>
+							<td>{{ person.physicalDescription|nl2br }}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -142,6 +171,7 @@
 				</tbody>
 			</table>
 		</aside>
+		
 		<div id="presentation" class="article-content">
 			<div>
 				{% for tag in person.type %}

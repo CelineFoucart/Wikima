@@ -33,16 +33,16 @@ final class ArticleAdmin extends AbstractAdmin
     {
         $form
             ->with('Article body', ['class' => 'col-md-8'])
-                ->add('content', CKEditorType::class, [
-                    'config' => ['toolbar' => 'full', 'format_tags' => 'p;h2;h3;h4;h5;h6;pre'],
-                ])
-            ->end()
-            ->with('Meta Data', ['class' => 'col-md-4'])
                 ->add('title', TextType::class, [
                     'attr' => [
                         'data-action' => 'slug',
                     ],
                 ])
+                ->add('content', CKEditorType::class, [
+                    'config' => ['toolbar' => 'full', 'format_tags' => 'p;h2;h3;h4;h5;h6;pre'],
+                ])
+            ->end()
+            ->with('Meta Data', ['class' => 'col-md-4'])
                 ->add('slug', TextType::class, [
                     'attr' => [
                         'data-target' => 'slug',
@@ -54,6 +54,9 @@ final class ArticleAdmin extends AbstractAdmin
                     'class' => Portal::class,
                     'choice_label' => 'title',
                     'multiple' => true,
+                ])
+                ->add('isSticky', null, [
+                    'required' => false,
                 ])
                 ->add('isDraft', CheckboxType::class, [
                     'label' => 'draft',
@@ -130,7 +133,9 @@ final class ArticleAdmin extends AbstractAdmin
                 'template' => 'Admin/components/_show_title.html.twig',
             ])
             ->add('keywords')
-            ->add('description')
+            ->add('description', null, [
+                'help' => 'help_description',
+            ])
             ->add('content', null, [
                 'safe' => true
             ])

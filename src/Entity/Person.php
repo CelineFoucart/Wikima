@@ -133,6 +133,21 @@ class Person
     #[ORM\ManyToMany(targetEntity: PersonType::class, inversedBy: 'people')]
     private Collection $type;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isSticky = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $children = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $siblings = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $partner = null;
+
+    #[ORM\Column(length: 400, nullable: true)]
+    private ?string $physicalDescription = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -413,6 +428,66 @@ class Person
     public function removeType(PersonType $type): self
     {
         $this->type->removeElement($type);
+
+        return $this;
+    }
+
+    public function getIsSticky(): ?bool
+    {
+        return $this->isSticky;
+    }
+
+    public function setIsSticky(?bool $isSticky): self
+    {
+        $this->isSticky = $isSticky;
+
+        return $this;
+    }
+
+    public function getChildren(): ?string
+    {
+        return $this->children;
+    }
+
+    public function setChildren(?string $children): self
+    {
+        $this->children = $children;
+
+        return $this;
+    }
+
+    public function getSiblings(): ?string
+    {
+        return $this->siblings;
+    }
+
+    public function setSiblings(?string $siblings): self
+    {
+        $this->siblings = $siblings;
+
+        return $this;
+    }
+
+    public function getPartner(): ?string
+    {
+        return $this->partner;
+    }
+
+    public function setPartner(?string $partner): self
+    {
+        $this->partner = $partner;
+
+        return $this;
+    }
+
+    public function getPhysicalDescription(): ?string
+    {
+        return $this->physicalDescription;
+    }
+
+    public function setPhysicalDescription(?string $physicalDescription): self
+    {
+        $this->physicalDescription = $physicalDescription;
 
         return $this;
     }

@@ -124,6 +124,32 @@ class PlaceRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findSticky(?int $portalId = null, ?int $categoryId = null): array
+    {
+        $builder = $this->createQueryBuilder('p')
+            ->orderBy('p.title', 'ASC')
+            ->andWhere('p.isSticky = 1 AND p.isSticky IS NOT NULL')
+        ;
+
+        if ($portalId) {
+            $builder
+                ->leftJoin('p.portals', 'pt')->addSelect('pt')
+                ->andWhere('pt.id = :portalId')
+                ->setParameter('portalId', $portalId)
+            ;
+        }
+
+        if ($categoryId) {
+            $builder
+                ->leftJoin('p.categories', 'c')->addSelect('c')
+                ->andWhere('c.id = :categoryId')
+                ->setParameter('categoryId', $categoryId)
+            ;
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
     private function getDefaultQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('pl')

@@ -82,6 +82,9 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?bool $isPrivate = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isSticky = null;
+
     public function __construct()
     {
         $this->portals = new ArrayCollection();
@@ -328,6 +331,18 @@ class Article
     public function setIsPrivate(?bool $isPrivate): self
     {
         $this->isPrivate = $isPrivate;
+
+        return $this;
+    }
+
+    public function getIsSticky(): ?bool
+    {
+        return $this->isSticky;
+    }
+
+    public function setIsSticky(?bool $isSticky): self
+    {
+        $this->isSticky = $isSticky;
 
         return $this;
     }

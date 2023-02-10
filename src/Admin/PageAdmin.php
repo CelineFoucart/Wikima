@@ -61,7 +61,9 @@ final class PageAdmin extends AbstractAdmin
                         'data-target' => 'slug',
                     ],
                 ])
-                ->add('description', TextareaType::class)
+                ->add('description', TextareaType::class, [
+                    'help' => 'help_description',
+                ])
                 ->add('content', CKEditorType::class)
             ->end()
             ->with('Relations', ['class' => 'col-md-3'])

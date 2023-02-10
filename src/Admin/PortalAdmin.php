@@ -47,7 +47,9 @@ final class PortalAdmin extends AbstractAdmin
             ->end()
             ->with('Informations et relations', ['class' => 'col-md-3'])
                 ->add('keywords', TextType::class)
-                ->add('description', TextareaType::class)
+                ->add('description', TextareaType::class, [
+                    'help' => 'help_description',
+                ])
                 ->add('categories', EntityType::class, [
                     'class' => Category::class,
                     'choice_label' => 'title',
