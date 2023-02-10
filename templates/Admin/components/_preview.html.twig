@@ -10,4 +10,8 @@
     {% if classname == 'person' or classname == 'place' %}
         <div><a href="{{ path('admin_app_'~ classname ~'_image', {id: object.id}) }}"><i class="fas fa-upload"></i> Uploader une image</a></div>
     {% endif %}
+    {% if classname == 'article' %}
+        <div><a href="{{ path('admin_app_'~ classname ~'_section', {id: object.id}) }}"><i class="fas fa-edit"></i> Gérer les sections</a></div>
+        <div><a href="{{ path('admin_app_'~ classname ~'_gallery', {id: object.id}) }}"><i class="fa fa-picture-o" aria-hidden="true"></i> Gérer la galerie</a></div>
+    {% endif %}
 {% endif %}

@@ -126,7 +126,6 @@ final class PortalAdmin extends AbstractAdmin
                     ->add('presentation', null, [
                         'safe' => true,
                     ])
-                    ->add('banner')
                 ->end()
                 ->with('Meta data', ['class' => 'col-md-3'])
                     ->add('createdAt', null, [
@@ -134,6 +133,11 @@ final class PortalAdmin extends AbstractAdmin
                     ])
                     ->add('updatedAt', null, [
                         'format' => 'd/m/Y à H:i',
+                    ])
+                ->end()
+                ->with('Banner', ['class' => 'col-md-9'])
+                    ->add('banner', null, [
+                        'template' => 'Admin/components/_banner_show.html.twig',
                     ])
                 ->end()
             ->end()

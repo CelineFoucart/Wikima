@@ -1,0 +1,6 @@
+{% if object.banner %}
+    <img src="{{ vich_uploader_asset(object) }}" class="img-fluid" alt="bannière de {{ object.title }}">
+    <p class="text-center">{{ object.banner }}</p>
+{% else %}
+    <p class="text-center">Aucune bannière</p>
+{% endif %}

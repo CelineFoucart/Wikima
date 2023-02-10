@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\Article;
+use App\Entity\Category;
 use App\Entity\Timeline;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -72,6 +73,34 @@ class AdminApiController extends AbstractController
 
         return new JsonResponse(
             $this->serializer->serialize(['id' => $article->getId()], 'json'),
+            Response::HTTP_OK,
+            [],
+            true
+        );
+    }
+
+    #[Route('api/admin/category/{id}/portals', 'api_category_portal_order', methods: ['POST'])]
+    public function updateCategoryPortalOrder(Category $category, Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        foreach ($category->getPortals() as $portal) {
+            $result = array_filter($data, function ($item) use ($portal) {
+                return $portal->getId() === (int) $item['id'];
+            });
+
+            if (!empty($result)) {
+                $result = array_values($result)[0];
+                $position = $result['position'];
+                $portal->setPosition($position);
+                $this->em->persist($portal);
+            }
+        }
+
+        $this->em->flush();
+
+        return new JsonResponse(
+            $this->serializer->serialize(['id' => $category->getId()], 'json'),
             Response::HTTP_OK,
             [],
             true

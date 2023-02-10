@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Portal;
 use App\Service\PaginatorService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -80,6 +81,18 @@ class PortalRepository extends ServiceEntityRepository
             ->setParameters(['id' => $id])
             ->getQuery()
             ->getOneOrNullResult()
+        ;
+    }
+
+    public function findByCategory(Category $category)
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.categories', 'c')->addSelect('c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $category->getId())
+            ->addOrderBy('p.position')
+            ->getQuery()
+            ->getResult()
         ;
     }
 }

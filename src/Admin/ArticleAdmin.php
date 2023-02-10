@@ -4,28 +4,30 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Entity\Portal;
-use App\Entity\User;
+use App\Entity\Article;
 use DateTime;
+use App\Entity\User;
+use App\Entity\Portal;
 use DateTimeImmutable;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Sonata\AdminBundle\Form\Type\TemplateType;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 final class ArticleAdmin extends AbstractAdmin
 {
     public function __construct(
-        private TokenStorageInterface $token
+        private TokenStorageInterface $token,
+        private TokenStorageInterface $tokenStorage
     ) {
     }
 
@@ -41,6 +43,10 @@ final class ArticleAdmin extends AbstractAdmin
                 ->add('content', CKEditorType::class, [
                     'config' => ['toolbar' => 'full', 'format_tags' => 'p;h2;h3;h4;h5;h6;pre'],
                 ])
+                ->add('preview', TemplateType::class, [
+                    'template' => 'Admin/components/_preview.html.twig',
+                    'label' => false,
+                ])
             ->end()
             ->with('Meta Data', ['class' => 'col-md-4'])
                 ->add('slug', TextType::class, [
@@ -55,6 +61,15 @@ final class ArticleAdmin extends AbstractAdmin
                     'choice_label' => 'title',
                     'multiple' => true,
                 ])
+            ;
+
+            $currentUser = $this->tokenStorage->getToken()->getUser();
+            $subject = $this->getSubject();
+            if (in_array('ROLE_SUPER_ADMIN', $currentUser->getRoles()) && $subject instanceof Article) {
+                $form->add('author');
+            }
+
+            $form
                 ->add('isSticky', null, [
                     'required' => false,
                 ])
@@ -66,8 +81,8 @@ final class ArticleAdmin extends AbstractAdmin
                     'label' => 'private',
                     'required' => false,
                 ])
-            ->end()
-        ;
+                ->end()
+            ;
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagrid): void
@@ -119,6 +134,7 @@ final class ArticleAdmin extends AbstractAdmin
                 'actions' => [
                     'read' => ['template' => 'Admin/show.html.twig'],
                     'sections' => ['template' => 'Admin/article/article_edit_links.html.twig'],
+                    'edit' => [],
                     'delete' => [],
                 ],
             ])

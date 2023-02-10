@@ -23,8 +23,6 @@ final class CategoryAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $form): void
     {
-
-
         $form
             ->with('Content', ['class' => 'col-md-9'])
                 ->add('title', TextType::class, [
@@ -112,7 +110,6 @@ final class CategoryAdmin extends AbstractAdmin
                 ->add('presentation', null, [
                     'safe' => true,
                 ])
-                ->add('banner')
             ->end()
             ->with('Meta data', ['class' => 'col-md-3'])
                 ->add('createdAt', null, [
@@ -121,7 +118,17 @@ final class CategoryAdmin extends AbstractAdmin
                 ->add('updatedAt', null, [
                     'format' => 'd/m/Y à H:i',
                 ])
-                ->add('portals')
+            ->end()
+            ->with('Portals', ['class' => 'col-md-9'])
+                ->add('portals', null, [
+                    'template' => 'Admin/components/_sortable_children.html.twig',
+                ])
+            ->end()
+            
+            ->with('Banner', ['class' => 'col-md-9'])
+                ->add('banner', null, [
+                    'template' => 'Admin/components/_banner_show.html.twig',
+                ])
             ->end()
         ;
     }

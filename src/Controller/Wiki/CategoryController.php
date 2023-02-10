@@ -15,6 +15,7 @@ use App\Repository\PersonRepository;
 use App\Repository\PersonTypeRepository;
 use App\Repository\PlaceRepository;
 use App\Repository\PlaceTypeRepository;
+use App\Repository\PortalRepository;
 use App\Service\AlphabeticalHelperService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -39,11 +40,12 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/{slug}', name: 'app_category_show')]
-    public function category(Category $category): Response
+    public function category(Category $category, PortalRepository $portalRepository): Response
     {
         return $this->render('category/show_category.html.twig', [
             'category' => $category,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'portals' => $portalRepository->findByCategory($category),
         ]);
     }
 

@@ -73,7 +73,7 @@ class CategoryRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->leftJoin('c.portals', 'p')->addSelect('p')
-            ->addOrderBy('p.title')
+            ->addOrderBy('p.position')
             ->getQuery()
             ->getResult()
         ;
