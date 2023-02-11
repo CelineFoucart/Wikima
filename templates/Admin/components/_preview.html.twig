@@ -14,4 +14,18 @@
         <div><a href="{{ path('admin_app_'~ classname ~'_section', {id: object.id}) }}"><i class="fas fa-edit"></i> Gérer les sections</a></div>
         <div><a href="{{ path('admin_app_'~ classname ~'_gallery', {id: object.id}) }}"><i class="fa fa-picture-o" aria-hidden="true"></i> Gérer la galerie</a></div>
     {% endif %}
+
+    {% if classname == 'category' %}
+        <a class="sonata-link-identifier" href="{{ path('admin_app_category_sortable', {id: object.id}) }}">
+            <i class="fas fa-sort-amount-down-alt"></i>
+            Ordonner les portails et les catégories
+        </a>
+    {% endif %}
+
+    {% if classname == 'timeline' %}
+        <a class="sonata-link-identifier" href="{{ path('admin_app_timeline_event', {id: object.id}) }}">
+            <i class="fa fa-calendar-o" aria-hidden="true"></i>
+            Gérer les événements
+        </a>
+    {% endif %}
 {% endif %}

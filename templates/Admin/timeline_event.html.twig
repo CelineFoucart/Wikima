@@ -59,7 +59,6 @@
 {% block javascripts %}
 	{{ parent() }}
 	<script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
-	<script src="{{ asset('assets/admin.js') }}"></script>
 	<script>
 		window.onload = () => {
 			let url = "{{ path('api_timeline_event', {'id': timeline.id}) }}";
@@ -90,6 +89,9 @@
 							</div>
 							{{ form_rest(form) }}
 							<button type="submit" class="btn btn-success">Enregistrer</button>
+							<a href="{{ path('admin_app_timeline_event', {id: timeline.id}) }}" class="btn btn-default">
+								Annuler
+							</a>
 							{{ form_end(form) }}
 						</div>
 					</div>

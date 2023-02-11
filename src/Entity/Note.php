@@ -64,7 +64,7 @@ class Note
         return $this;
     }
 
-    public function isIsProcessed(): ?bool
+    public function getIsProcessed(): ?bool
     {
         return $this->isProcessed;
     }

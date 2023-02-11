@@ -30,15 +30,17 @@
                         </h3>
                     </div>
                     <div class="card-body">
-                        {% if note.isProcessed %}
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
-                                Traité
-                            </span>
-                        {% else %}
-                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                A Traiter
-                            </span>
-                        {% endif %}
+                        <div class="position-absolute top-0 start-100 translate-middle">
+                            {% if note.isProcessed %}
+                                <span {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}role="button"  data-id="{{ note.id }}" data-action="update-processed"{% endif %} class="badge rounded-pill bg-success">
+                                    Traité
+                                </span>
+                            {% else %}
+                                <span {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}role="button"  data-id="{{ note.id }}" data-action="update-processed"{% endif %} class="badge rounded-pill bg-danger">
+                                    A Traiter
+                                </span>
+                            {% endif %}
+                        </div>
                         <div class="row">
                             <div class="col-md-8">
                                 <p class="badge rounded-pill bg-secondary">

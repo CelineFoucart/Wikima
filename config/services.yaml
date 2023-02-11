@@ -30,7 +30,7 @@ services:
     admin.category:
         class: App\Admin\CategoryAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Category, manager_type: orm, label: Category, group: Wiki}
+            - { name: sonata.admin, model_class: App\Entity\Category, controller: App\Controller\Admin\AdminCategoryController, manager_type: orm, label: Category, group: Wiki}
     admin.portal:
         class: App\Admin\PortalAdmin
         tags:

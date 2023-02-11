@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Article;
 use App\Entity\Category;
+use App\Entity\Note;
 use App\Entity\Timeline;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -52,6 +53,7 @@ class AdminApiController extends AbstractController
     }
 
     #[Route('api/admin/article/{id}/section', 'api_article_section', methods: ['POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function updateArticleSections(Article $article, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -80,6 +82,7 @@ class AdminApiController extends AbstractController
     }
 
     #[Route('api/admin/category/{id}/portals', 'api_category_portal_order', methods: ['POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
     public function updateCategoryPortalOrder(Category $category, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -101,6 +104,52 @@ class AdminApiController extends AbstractController
 
         return new JsonResponse(
             $this->serializer->serialize(['id' => $category->getId()], 'json'),
+            Response::HTTP_OK,
+            [],
+            true
+        );
+    }
+
+    #[Route('api/admin/category/{id}/timelines', 'api_category_timeline_order', methods: ['POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
+    public function updateCategoryTimelinesOrder(Category $category, Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        foreach ($category->getTimelines() as $timeline) {
+            $result = array_filter($data, function ($item) use ($timeline) {
+                return $timeline->getId() === (int) $item['id'];
+            });
+
+            if (!empty($result)) {
+                $result = array_values($result)[0];
+                $position = $result['position'];
+                $timeline->setPosition($position);
+                $this->em->persist($timeline);
+            }
+        }
+
+        $this->em->flush();
+
+        return new JsonResponse(
+            $this->serializer->serialize(['id' => $category->getId()], 'json'),
+            Response::HTTP_OK,
+            [],
+            true
+        );
+    }
+
+    #[Route('api/admin/note/{id}/processed', 'api_note_processed', methods: ['POST'])]
+    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+    public function updateNoteProcessed(Note $note): JsonResponse
+    {
+        $currentStatus = $note->getIsProcessed();
+        $note->setIsProcessed(!$currentStatus);
+        $this->em->persist($note);
+        $this->em->flush();
+
+        return new JsonResponse(
+            $this->serializer->serialize(['id' => $note->getId()], 'json'),
             Response::HTTP_OK,
             [],
             true

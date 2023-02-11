@@ -1,0 +1,139 @@
+{% extends 'Admin/extend_layout.html.twig' %}
+
+{% block sonata_head_title %}
+	Gérer "{{ category.title }}"
+{% endblock sonata_head_title %}
+
+{% block sonata_breadcrumb %}
+	<div class="hidden-xs">
+		<ol class="nav navbar-top-links breadcrumb">
+			<li>
+				<a href="{{ path('sonata_admin_dashboard') }}">
+					<i class="fa fa-home"></i>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('admin_app_category_list') }}">Liste des categories</a>
+			</li>
+			<li>
+				<a href="{{ path('admin_app_category_show', {id: category.id}) }}">{{ category }}</a>
+			</li>
+			<li class="active">
+				<span>Gérer les portails et les chronologies</span>
+			</li>
+		</ol>
+	</div>
+{% endblock sonata_breadcrumb %}
+
+{% block sonata_page_content_nav %}
+	<nav class="navbar navbar-default" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">Ordonner les éléments de "{{ category }}"</a>
+			</div>
+
+			<div class="navbar-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown sonata-actions">
+						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Liste d'actions
+							<b class="caret"></b>
+						</a>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a class="sonata-action-element" href="{{ path('admin_app_category_create') }}">
+									<i class="fas fa-plus-circle" aria-hidden="true"></i>
+									Ajouter
+								</a>
+							</li>
+							<li>
+								<a class="sonata-action-element" href="{{ path('admin_app_category_edit', {id: category.id}) }}">
+									<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+									Editer
+								</a>
+							</li>
+							<li>
+								<a class="sonata-action-element" href="{{ path('admin_app_category_show', {id: category.id}) }}">
+									<i class="fa fa-eye" aria-hidden="true"></i>
+									Voir
+								</a>
+							</li>
+							<li>
+								<a class="sonata-action-element" href="{{ path('app_category_show', {slug: category.slug}) }}">
+									<i class="fas fa-book-reader" aria-hidden="true"></i>
+									Consulter
+								</a>
+							</li>
+							<li>
+								<a class="sonata-action-element" href="{{ path('admin_app_category_list') }}">
+									<i class="fas fa-list" aria-hidden="true"></i>
+									Retourner à la liste
+								</a>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+{% endblock sonata_page_content_nav %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
+    <script>
+        window.addEventListener('load', () => {
+            let url = "{{ path('api_category_portal_order', {'id': category.id}) }}";
+            sortable('#portals', url);
+        });
+        window.addEventListener('load', () => {
+            let url = "{{ path('api_category_timeline_order', {'id': category.id}) }}";
+            sortable('#timelines', url);
+        });
+    </script>
+{% endblock %}
+
+{% block sonata_admin_content %}
+	<div class="sonata-ba-show">
+		<div class="sonata-ba-view">
+			{% include "Admin/components/_flashes.html.twig" %}
+			<div class="row" style="margin-top:15px">
+				<div class="col-md-6">
+					<div class="box box-primary">
+						<div class="box-header">
+							<h3 class="box-title">Portails</h3>
+                            <div class="pull-right">
+								<div class="help">
+									<i class="fas fa-question-circle"></i>
+									<span class="help-body">
+										Glisser les portails pour modifier leur ordre.
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="box-body">
+							{{ include('Admin/components/_sortable_children.html.twig', {elements: category.portals, path:'app_portal_show', id: 'portals'}) }}
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="box box-primary">
+						<div class="box-header">
+							<h3 class="box-title">Chronologies</h3>
+							<div class="pull-right">
+								<div class="help">
+									<i class="fas fa-question-circle"></i>
+									<span class="help-body">
+										Glisser les chronologie pour modifier leur ordre.
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="box-body">
+							{{ include('Admin/components/_sortable_children.html.twig', {elements: category.timelines, path:'app_timeline_show', id: 'timelines'}) }}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

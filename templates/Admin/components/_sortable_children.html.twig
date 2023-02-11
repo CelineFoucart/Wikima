@@ -5,27 +5,20 @@
             <th>description</th>
         </tr>
     </thead>
-    <tbody id="portals">
-        {% for portal in object.portals|sort((a, b) => a.position <=> b.position) %}
-            <tr class="sonata-ba-view-container handle" id="{{ portal.id }}">
+    <tbody id="{{ id }}">
+        {% for element in elements|sort((a, b) => a.position <=> b.position) %}
+            <tr class="sonata-ba-view-container handle" id="{{ element.id }}">
                 <td>
-                    <a href="{{ path('app_portal_show',  {slug: portal.slug}) }}">{{ portal }}</a>
+                    <a href="{{ path(path,  {slug: element.slug}) }}">{{ element }}</a>
                 </td>
                 <td>
-                    {{ portal.description|u.truncate(150, '...', false) }}
+                    {{ element.description|u.truncate(80, '...', false) }}
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3" class="text-center">Aucun portail</td>
+                <td colspan="3" class="text-center">Aucun éléments</td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
-<script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
-<script>
-    window.addEventListener('load', () => {
-        let url = "{{ path('api_category_portal_order', {'id': object.id}) }}";
-        sortable('#portals', url);
-    });
-</script>

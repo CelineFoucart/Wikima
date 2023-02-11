@@ -6,18 +6,19 @@ namespace App\Admin;
 
 use DateTime;
 use DateTimeImmutable;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\AdminBundle\Form\Type\TemplateType;
 use Sonata\AdminBundle\Show\ShowMapper;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Validator\Constraints\Image;
+use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ListMapper;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Sonata\AdminBundle\Form\Type\TemplateType;
+use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Validator\Constraints\Image;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Sonata\AdminBundle\FieldDescription\FieldDescriptionInterface;
 
 final class CategoryAdmin extends AbstractAdmin
 {
@@ -89,6 +90,7 @@ final class CategoryAdmin extends AbstractAdmin
             ->add(ListMapper::NAME_ACTIONS, null, [
                 'actions' => [
                     'read' => ['template' => 'Admin/show.html.twig'],
+                    'sortable' => ['template' => 'Admin/components/_sortable_btn.html.twig'],
                     'edit' => [],
                     'show' => [],
                     'delete' => [],
@@ -110,6 +112,9 @@ final class CategoryAdmin extends AbstractAdmin
                 ->add('presentation', null, [
                     'safe' => true,
                 ])
+                ->add('portals', null, [
+                    'template' => 'Admin/components/_sortable_link.html.twig',
+                ])
             ->end()
             ->with('Meta data', ['class' => 'col-md-3'])
                 ->add('createdAt', null, [
@@ -119,12 +124,6 @@ final class CategoryAdmin extends AbstractAdmin
                     'format' => 'd/m/Y à H:i',
                 ])
             ->end()
-            ->with('Portals', ['class' => 'col-md-9'])
-                ->add('portals', null, [
-                    'template' => 'Admin/components/_sortable_children.html.twig',
-                ])
-            ->end()
-            
             ->with('Banner', ['class' => 'col-md-9'])
                 ->add('banner', null, [
                     'template' => 'Admin/components/_banner_show.html.twig',
@@ -141,5 +140,11 @@ final class CategoryAdmin extends AbstractAdmin
     public function prePersist(object $category): void
     {
         $category->setCreatedAt(new DateTimeImmutable());
+    }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection
+            ->add('sortable', $this->getRouterIdParameter().'/sortable');
     }
 }

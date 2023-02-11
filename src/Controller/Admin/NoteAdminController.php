@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Repository\CategoryRepository;
 use App\Repository\PortalRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sonata\AdminBundle\Controller\CRUDController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 class NoteAdminController extends CRUDController
 {
@@ -38,9 +39,19 @@ class NoteAdminController extends CRUDController
             }
         }
 
-
-
         return null;
+    }
+
+    /**
+     * Redirect the user to section action if this choice is edit.
+     */
+    protected function redirectTo(Request $request, object $object): RedirectResponse
+    {
+        if (null !== $request->get('btn_create_and_edit') || null !== $request->get('btn_update_and_edit')) {
+            return $this->redirectToRoute('admin_app_note_show', ['id' => $object->getId()]);
+        }
+
+        return parent::redirectTo($request, $object);
     }
 
 }

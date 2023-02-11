@@ -65,7 +65,7 @@ final class ArticleAdmin extends AbstractAdmin
 
             $currentUser = $this->tokenStorage->getToken()->getUser();
             $subject = $this->getSubject();
-            if (in_array('ROLE_SUPER_ADMIN', $currentUser->getRoles()) && $subject instanceof Article) {
+            if (in_array('ROLE_SUPER_ADMIN', $currentUser->getRoles()) && $subject instanceof Article && $subject->getId()) {
                 $form->add('author');
             }
 

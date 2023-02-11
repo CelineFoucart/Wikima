@@ -49,6 +49,12 @@
 								</a>
 							</li>
 							<li>
+								<a class="dropdown-item" href="{{ path('admin_app_category_sortable', {id:category.id}) }}">
+									<i class="fas fa-sort-amount-down-alt"></i>
+									Ordonner les elements
+								</a>
+							</li>
+							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_portal_create', {category:category.id}) }}">
 									Ajouter un portail
 								</a>

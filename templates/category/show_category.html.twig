@@ -19,17 +19,15 @@
 			</div>
 		</div>
 	{% endif %}
-	<article class="row justify-content-between m-4">
-		<div class="col-12">
-			<h2 class="content-title-section">
-				Explorer la catégorie &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
-			</h2>
-		</div>
-		<div class="col-md-7 pt-0 p-4">
+	<article class="m-4">
+		<h2 class="content-title-section">
+			Explorer la catégorie &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
+		</h2>
+		<section class="pt-0 p-4">
 			<h3 class="h5 mt-4 text-default fw-bold text-center"><i class="bi bi-tag-fill me-1"></i> Portails de cette catégorie</h3>
 			<div class="row">
 				{% for portal in portals %}
-					<div class="col-md-6 my-2">
+					<div class="col-md-6 col-lg-4 my-2">
 						<div class="card h-100">
 							{% if portal.banner %}
 								<a href="{{ vich_uploader_asset(portal) }}">
@@ -56,18 +54,48 @@
 					</p>
 				{% endfor %}
 			</div>
+		</section>
+
+		<div class="pt-0 p-4">
+			{% if category.timelines is not empty %}
+				<h2 class="content-title-section">
+					Explorer les chronologies de &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
+				</h2>
+				
+				<h3 class="h5 mt-4 mb-3 text-center text-default fw-bold"><i class="bi bi-hourglass"></i> Chronologies de cette catégorie</h3>
+				<section class="timeline">
+					<ul class="timeline-list"> 
+						{% set position_timeline = 'left' %}
+						{% for timeline in category.timelines|sort((a, b) => a.position <=> b.position) %}
+							{% if position_timeline == 'left' %}
+								{% set class_name = 'timeline-panel-container' %}
+								{% set position_timeline = 'right' %}
+							{% else %}
+								{% set class_name = 'timeline-panel-container-inverted' %}
+								{% set position_timeline = 'left' %}
+							{% endif %}
+							<li id="{{ timeline.id }}">
+								<div class="{{ class_name }}">
+									<div class="timeline-panel">
+										<div class="timeline-heading">
+											<h3>
+												<a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}" class="stretched-link text-decoration-none">
+													{{ timeline.title }}
+												</a>
+											</h3>
+											<p class="text-center"></p>
+										</div>
+										<div class="black-divider"></div>
+										<div class="timeline-body">
+											{{ timeline.description ? timeline.description : 'Aucune description' }}
+										</div>
+									</div>
+								</div>
+							</li>
+						{% endfor %}
+					</ul>
+				</section>
+			{% endif %}
 		</div>
-		<aside class="col-md-4">
-			<h3 class="h5 mt-4 mb-3 text-default fw-bold"><i class="bi bi-hourglass"></i> Chronologies de cette catégorie</h3>
-			{% for timeline in category.timelines %}
-				<p>
-					<a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}" class="label mx-1" data-bs-toggle="tooltip" data-bs-placement="right" title="{{ timeline.description ? timeline.description : 'Aucune description' }}">
-						{{ timeline.title }}
-					</a>
-				</p>
-			{% else %}
-				<p class="text-center text-muted">Aucune chronologie</p>
-			{% endfor %}
-		</aside>
-	</section>
+	</article>
 {% endblock %}

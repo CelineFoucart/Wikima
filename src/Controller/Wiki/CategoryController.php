@@ -96,7 +96,7 @@ final class CategoryController extends AbstractController
 
         return $this->render('category/category_persons.html.twig', [
             'category' => $category,
-            'persons' => $personRepository->findByParent($category, 'category', $page, $typeId),
+            'persons' => $personRepository->findByParent($category, 'category', $page, $typeId, 21),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,
