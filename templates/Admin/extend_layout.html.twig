@@ -23,7 +23,7 @@
 {% set current_route = app.request.attributes.get('_route') %}
 
 {% block side_bar_before_nav %}
-	<ul class="sidebar-menu tree">
+	<ul class="sidebar-menu tree" {% if current_route == "admin_app_image_list" %}id="image_list"{% endif %}>
 		<li class="first treeview {{ current_route == 'sonata_admin_dashboard' ? 'active' : '' }}">
 			<a href="{{ path('sonata_admin_dashboard') }}">
 				<i class="fa fa-tachometer" aria-hidden="true"></i>

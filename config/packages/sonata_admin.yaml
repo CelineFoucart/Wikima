@@ -14,8 +14,12 @@ sonata_admin:
                 settings: 
                     content: >
                         <h1 class="dashboard-title">Tableau de bord</h1>
-                        <p class="description">Bienvenue sur le panneau d'administration. 
-                        Ici, vous allez pouvoir gérer l'encyclopédie et son contenu.</p>
+                        <div class"row">
+                        <p class="description col-md-9" style="padding-left:0">Bienvenue sur le panneau d'administration. Ici, vous allez pouvoir gérer l'encyclopédie et son contenu.</p>
+                        <div class="col-md-3 text-right" style="padding-right:0">
+                            <a href="/admin/app/image/download" class="btn btn-sm btn-primary"><i class="fas fa-download"></i> Télécharger les images</a>
+                        </div>
+                        </div>
              - { type: sonata.admin.block.admin_list, position: left }
              -
                 position: right

@@ -8,6 +8,7 @@ use App\Entity\PlaceType;
 use App\Form\AdvancedSearchType;
 use App\Repository\PlaceRepository;
 use App\Repository\PlaceTypeRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

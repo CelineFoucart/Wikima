@@ -117,6 +117,8 @@ class PlaceRepository extends ServiceEntityRepository
     public function findBySlug(string $slug): ?Place
     {
         return $this->getDefaultQuery()
+            ->leftJoin('pl.places', 'apl')->addSelect('apl')
+            ->leftJoin('apl.types', 'aplt')->addSelect('aplt')
             ->andWhere('pl.slug = :slug')
             ->setParameter('slug', $slug)
             ->getQuery()

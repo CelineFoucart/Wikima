@@ -1,4 +1,8 @@
-<div class="about-block">
+{% if with_association is not defined %}
+	{% set with_association = true %}
+{% endif %}
+
+<div class="about-block lh-base">
 	<div class="about-title px-1 bg-light border">
 		<small>
 			{% for tag in place.types %}
@@ -12,20 +16,23 @@
 				{{ place.title }}
 			</a>
 		</p>
-		<div>
-			<i class="bi bi-tag-fill small me-1"></i>
-			{% for portal in place.portals %}
-				<span class="person-label small">
-					{{ portal.title }}
-				</span>
-			{% else %}
-				<span class="small">Aucun portail</span>
-			{% endfor %}
-		</div>
+		{% if with_association %}
+			<div>
+				<i class="bi bi-tag-fill small me-1"></i>
+				{% for portal in place.portals %}
+					<span class="person-label small">
+						{{ portal.title }}
+					</span>
+				{% else %}
+					<span class="small">Aucun portail</span>
+				{% endfor %}
+			</div>
+		{% endif %}
+		
 	</div>
 	<div class="about-card">
 		<div class="content-card">
-			{% if place.illustration %}
+			{% if place.illustration and with_association %}
 				<img src="{{ vich_uploader_asset(place.illustration)|imagine_filter('card_image') }}" alt="{{ place.illustration.title }}" class="about-img">
 			{% endif %}
 

@@ -104,12 +104,6 @@
 							<td>{{ join_links(place.localisations.toArray(), 'app_place_show') }}</td>
 						</tr>
 					{% endif %}
-					{% if place.places is not empty %}
-						<tr>
-							<th class="align-top">Lieux associés</th>
-							<td>{{ join_links(place.places.toArray(), 'app_place_show') }}</td>
-						</tr>
-					{% endif %}
 					{% if place.population %}
 						<tr>
 							<th class="align-top">Population</th>
@@ -156,7 +150,7 @@
 			{{ place.description|raw }}
 		</div>
 
-		{% if place.history or place.presentation %}
+		{% if place.history or place.presentation or (place.places is not empty) %}
 			<div class="m-4" data-controller="toggle">
 				<div class="category-section" style="max-width:273px">
 					<div>
@@ -176,6 +170,11 @@
 								<a href="#presentation" class="text-dark">Présentation</a>
 							</li>
 						{% endif %}
+						{% if place.places is not empty %}
+							<li class="fs-6">
+								<a href="#associated" class="text-dark">Lieux associés</a>
+							</li>
+						{% endif %}
 					</ol>
 				</div>
 			</div>
@@ -192,6 +191,19 @@
 			<div id="presentation" class="article-content">
 				<h2 class="h2 pb-1 overflow-hidden">Présentation</h2>
 				{{ place.presentation|raw }}
+			</div>
+		{% endif %}
+
+		{% if place.places is not empty %}
+			<div id="associated" class="article-content">
+				<h2 class="h2 pb-1 overflow-hidden">Lieux associés</h2>
+				<div class="row">
+					{% for element in place.places|sort((a, b) => a.title <=> b.title)  %}
+						<div class="col-md-6 col-lg-4 my-2">
+							{% include 'place/_place_card.html.twig' with {place: element, with_association: false} %}
+						</div>
+					{% endfor %}
+				</div>
 			</div>
 		{% endif %}
 	</section>

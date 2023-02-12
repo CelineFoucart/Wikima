@@ -226,7 +226,22 @@ function slugAction() {
     });
 }
 
+function addDownloadImageLink() {
+    if (document.getElementById('image_list')) {
+        let navbar = document.querySelector('.navbar-collapse');
+        let downaloadAction = document.createElement('ul');
+        downaloadAction.classList = "nav navbar-nav navbar-right"
+        downaloadAction.innerHTML = `
+            <li><a class="sonata-action-element" href="/admin/app/image/download">
+                <i class="fas fa-download" aria-hidden="true"></i>Télécharger</a>
+            </li>`
+        ;
+        navbar.appendChild(downaloadAction);
+    }
+}
+
 window.addEventListener('load', () => {
     characterAction();
     slugAction();
+    addDownloadImageLink();
 });
