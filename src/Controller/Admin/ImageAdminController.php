@@ -10,10 +10,10 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') is_granted('ROLE_EDITOR')")]
 final class ImageAdminController extends AbstractController
 {
     #[Route('/admin/app/image/download', name: 'app_image_download_all')]
-    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') is_granted('ROLE_EDITOR')")]
     public function index()
     {
         $uploadedDir = $this->getParameter('kernel.project_dir') . '/public/uploads/';
