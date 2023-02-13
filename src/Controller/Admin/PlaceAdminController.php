@@ -134,6 +134,15 @@ final class PlaceAdminController extends CRUDController
             }
         }
 
+        $placeId = $request->query->getInt('place');
+        if (0 !== $placeId) {
+            $place = $this->placeRepository->find($placeId);
+
+            if ($place && $place->getId() !== $object->getId()) {
+                $object->addLocalisation($place);
+            }
+        }
+
         return null;
     }
 }

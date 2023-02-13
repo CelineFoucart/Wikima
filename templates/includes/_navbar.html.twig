@@ -1,36 +1,37 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-default text-uppercase">
+<nav class="navbar navbar-expand-lg navbar-dark bg-default">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="{{ path('app_home') }}">{{ app_name }}</a>
+		<a class="navbar-brand text-uppercase" href="{{ path('app_home') }}">{{ app_name }}</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-				<li class="nav-item me-3">
+				<li class="nav-item me-3 text-uppercase">
 					<a class="nav-link {{ active_link(app.request, 'app_home') }}" href="{{ path('app_home') }}">
 						Accueil
 					</a>
 				</li>
 				<li class="nav-item dropdown me-3">
-					<a class="nav-link dropdown-toggle {{ active_links(app.request, ['app_article_index', 'app_portal_index', 'app_person_index', 'app_image_index', 'app_category_index', 'app_place_index'], false) }}" href="#" id="pages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['app_article_index','app_portal_index', 'app_category_index'], false) }}" href="#" id="pages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Encyclopédie
 					</a>
-					<ul class="dropdown-menu text-capitalize" aria-labelledby="pages">
-						<li>
-							<a class="dropdown-item" href="{{ path('app_category_index') }}">
-								Catégories
-							</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="{{ path('app_portal_index') }}">
-								Portails
-							</a>
-						</li>
+					<ul class="dropdown-menu" aria-labelledby="pages">
 						<li>
 							<a class="dropdown-item" href="{{ path('app_article_index') }}">
-								Articles
+								Tous les articles
 							</a>
 						</li>
+						<li><hr class="dropdown-divider"></li>
+						<li><h6 class="dropdown-header">Catégories</h6></li>
+						{{ get_categories() }}
+						{{ get_pages() }}
+					</ul>
+				</li>
+				<li class="nav-item dropdown me-3">
+					<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['app_person_index', 'app_image_index', 'app_place_index'], false) }}" href="#" id="gallery" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Galeries
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="gallery">
 						<li>
 							<a class="dropdown-item" href="{{ path('app_timeline_index') }}">
 								Chronologies
@@ -48,15 +49,14 @@
 						</li>
 						<li>
 							<a class="dropdown-item" href="{{ path('app_image_index') }}">
-								Galerie
+								Images
 							</a>
 						</li>
-						{{ get_pages() }}
 					</ul>
 				</li>
 				{% if is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN') %}
 					<li class="nav-item dropdown me-3">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<a class="nav-link dropdown-toggle text-uppercase" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							Administration
 						</a>
 						<ul class="dropdown-menu text-lowercase" aria-labelledby="navbarDropdown">
@@ -122,15 +122,15 @@
 
 				{% if enable_login or enable_registration %}
 					<li class="nav-item dropdown">
-						<a class="btn btn-outline-light dropdown-toggle" href="#" id="account" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<a class=" text-uppercase btn btn-outline-light dropdown-toggle" href="#" id="account" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 							<i class="bi bi-person-fill me-1"></i>
 							{{ app.user ? app.user.username : 'Compte' }}
 						</a>
-						<ul class="dropdown-menu text-capitalize" aria-labelledby="account">
+						<ul class="dropdown-menu" aria-labelledby="account">
 							{% if app.user %}
 								<li>
 									<a class="dropdown-item" href="{{ path('app_profile') }}">
-										compte
+										Compte
 									</a>
 								</li>
 								<li>

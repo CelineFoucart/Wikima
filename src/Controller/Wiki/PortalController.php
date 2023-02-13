@@ -127,7 +127,7 @@ final class PortalController extends AbstractController
 
         return $this->render('portal/place_portal.html.twig', [
             'portal' => $portal,
-            'places' => $placeRepository->findByParent($portal, 'portal', $page, $typeId),
+            'places' => $placeRepository->findByParent($portal, 'portal', $page, $typeId, 21),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,

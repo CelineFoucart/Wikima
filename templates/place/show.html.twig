@@ -19,6 +19,9 @@
 		<div class="item-heading position-relative">
 			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
 				<div class="p-2 position-absolute top-0" style="right:0px">
+					<a href="{{ path('admin_app_place_create', {place: place.id}) }}" class="btn btn-outline-secondary btn-sm" title="ajouter un lieu">
+						<i class="bi bi-plus-circle-fill"></i>
+					</a>
 					<a href="{{ path('admin_app_place_edit', {id: place.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
 						<i class="bi bi-pencil-fill"></i>
 					</a>
