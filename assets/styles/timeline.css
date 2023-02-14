@@ -60,14 +60,20 @@
 
 /* timeline event left */
 .timeline-panel-container {
-	width: 50%;
 	float: left;	
 }
 
 /* timeline event right */
 .timeline-panel-container-inverted  {
-	width: 50%;
 	float: right;
+}
+
+@media (min-width:768px) {
+	.timeline-panel-container,
+	.timeline-panel-container-inverted {
+		width: 50%;	
+	}
+	
 }
 
 

@@ -23,14 +23,15 @@
 
 			{{ include('includes/_navbar.html.twig') }}
 
-			<main class="flex-fill bg-main border-item"> {% block body %}{% endblock %}
-				</main>
+			<main class="flex-fill bg-main border-item"> 
+				{% block body %}{% endblock %}
+			</main>
 
-				{{ include('includes/_footer.html.twig') }}
-			</div>
-			<script src="{{ asset('assets/bootstrap/bootstrap.bundle.min.js') }}"></script>
-			{% block javascripts %}
-				{{ encore_entry_script_tags('app') }}
-			{% endblock %}
-		</body>
-	</html>
+			{{ include('includes/_footer.html.twig') }}
+		</div>
+		<script src="{{ asset('assets/bootstrap/bootstrap.bundle.min.js') }}"></script>
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+	</body>
+</html>

@@ -12,35 +12,38 @@
 	<section class="py-5 container-fluid">
 		<h2>Les contributeurs de
 			{{ app_name }}</h2>
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Pseudo</th>
-					<th>Roles</th>
-					<th>Contributions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for user in users %}
-					<tr>
-						<td>
-							<a href="{{ path('app_user_show', {id:user.id}) }}">{{ user.username }}</a>
-						</td>
-						<td>
-							{{ format_roles(user.roles) }}
-						</td>
-						<td>
-							<a href="{{ path('app_article_user', {id: user.id}) }}">articles publiés</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="3" class="text-center">Aucun membre trouvé</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
 
+		<div class="table-responsive">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Pseudo</th>
+						<th>Roles</th>
+						<th>Contributions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for user in users %}
+						<tr>
+							<td>
+								<a href="{{ path('app_user_show', {id:user.id}) }}">{{ user.username }}</a>
+							</td>
+							<td>
+								{{ format_roles(user.roles) }}
+							</td>
+							<td>
+								<a href="{{ path('app_article_user', {id: user.id}) }}">articles publiés</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="3" class="text-center">Aucun membre trouvé</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		
 		<div class="navigation">
 			{{ knp_pagination_render(users) }}
 		</div>

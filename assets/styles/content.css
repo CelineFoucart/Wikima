@@ -11,6 +11,7 @@
 
 .navigation .pagination {
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .bg-item {

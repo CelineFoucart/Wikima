@@ -33,7 +33,6 @@ class StatisticsHandler
             $data = $query->executeQuery()->fetchAllAssociative();
             return $this->formatStats($data);
         } catch (\Exception $th) {
-            dd($th);
             return [];
         }
     }

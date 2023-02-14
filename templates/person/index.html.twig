@@ -34,6 +34,11 @@
 						</a>
 					{% endfor %}
 				</p>
+				<p class="mb-1">
+					<span class="fw-bold">{{ persons.getTotalItemCount }}</span>
+					personnage{{ persons.getTotalItemCount > 1 ? 's' : '' }}
+					trouvé{{ persons.getTotalItemCount > 1 ? 's' : '' }}.
+				</p>
 				<div class="row">
 					{% for person in persons %}
 						<div class="col-md-6 my-2">

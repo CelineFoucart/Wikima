@@ -7,10 +7,6 @@
 {% block body %}
 	{{ include('home/_header.html.twig') }}
 	<article class="mt-5">
-		<aside class="text-center">
-			{{ get_statistics() }}
-		</aside>
-
 		<div class="row justify-content-between">
 			<div class="col-md-7">
 				<section class="overview">
@@ -22,6 +18,9 @@
 							{{ overview.content|raw }}
 						{% endif %}
 					</div>
+					<aside class="overview__content mt-4 fs-6">
+						{{ get_statistics() }}
+					</aside>
 				</section>
 			</div>
 			<div class="col-md-4">

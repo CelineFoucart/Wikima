@@ -10,24 +10,25 @@
 </header>
 <section class="my-5 container-fluid">
     <h2>Informations sur {{ user.username }}</h2>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Pseudo</th>
-                <th>Roles</th>
-                <th>Articles publiés</th>
-                <th>Commentaires postés</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>{{ user.username }}</td>
-                <td>{{ format_roles(user.roles) }}</td>
-                <td>{{ user.articles|length }}</td>
-                <td>{{ user.comments|length }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Pseudo</th>
+                    <th>Roles</th>
+                    <th>Articles publiés</th>
+                    <th>Commentaires postés</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ format_roles(user.roles) }}</td>
+                    <td>{{ user.articles|length }}</td>
+                    <td>{{ user.comments|length }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </section>
 {% endblock %}

@@ -32,6 +32,11 @@
 						</a>
 					{% endfor %}
 				</p>
+				<p class="mb-1">
+					<span class="fw-bold">{{ places.getTotalItemCount }}</span>
+					lieu{{ places.getTotalItemCount > 1 ? 'x' : '' }}
+					trouvé{{ places.getTotalItemCount > 1 ? 's' : '' }}.
+				</p>
 				<div class="row">
 					{% for place in places %}
 						<div class="col-md-6 my-2">
