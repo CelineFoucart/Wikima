@@ -183,17 +183,17 @@
 			</div>
 		{% endif %}
 
-		{% if place.history %}
-			<div id="history" class="article-content">
-				<h2 class="h2 pb-1 overflow-hidden">Histoire</h2>
-				{{ place.history|raw }}
-			</div>
-		{% endif %}
-
 		{% if place.presentation %}
 			<div id="presentation" class="article-content">
 				<h2 class="h2 pb-1 overflow-hidden">Présentation</h2>
 				{{ place.presentation|raw }}
+			</div>
+		{% endif %}
+
+		{% if place.history %}
+			<div id="history" class="article-content">
+				<h2 class="h2 pb-1 overflow-hidden">Histoire</h2>
+				{{ place.history|raw }}
 			</div>
 		{% endif %}
 
