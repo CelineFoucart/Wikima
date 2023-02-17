@@ -50,6 +50,7 @@ class ImageController extends AbstractController
 
         return $this->render('image/show_image.html.twig', [
             'image' => $image,
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }
 }

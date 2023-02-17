@@ -2,15 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Data\SearchData;
 use App\Entity\Timeline;
+use App\Form\SearchType;
+use App\Entity\Data\SearchData;
 use App\Form\AdvancedSearchType;
 use App\Repository\TimelineRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TimelineController extends AbstractController
 {
@@ -40,6 +41,7 @@ class TimelineController extends AbstractController
     {
         return $this->render('timeline/show.html.twig', [
             'timeline' => $timeline,
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }
 }

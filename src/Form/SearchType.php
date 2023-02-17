@@ -22,7 +22,7 @@ class SearchType extends AbstractType
             ->add('query', TextType::class, [
                 'label' => false,
                 'attr' => [
-                    'placeholder' => 'Search an article...',
+                    'placeholder' => 'Search...',
                     'class' => 'form-control rounded-pill'
                 ]
             ])

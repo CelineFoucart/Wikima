@@ -7,14 +7,20 @@
 {% block body %}
 	<header class="bg-default-light border-bottom">
 		<div class="pt-3 border-bottom container-fluid">
-			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item">
-						<a href="{{ path('app_place_index') }}">Lieux</a>
-					</li>
-					<li class="breadcrumb-item active" aria-current="page">{{ place }}</li>
-				</ol>
-			</nav>
+			<div class="row align-items-center">
+				<div class="col-md-6">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_place_index') }}">Lieux</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">{{ place }}</li>
+						</ol>
+					</nav>
+				</div>
+				<div class="col-md-6">{{ include('includes/_search.html.twig', { route_name: 'app_place_index' }) }}</div>
+			</div>
+			
 		</div>
 		<div class="item-heading position-relative">
 			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}

@@ -1,9 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{ image.title|capitalize }}
-	|
-	{{ app_name }}
+	{{ image.title|capitalize }} | {{ app_name }}
 {% endblock %}
 
 {% block description %}
@@ -13,17 +11,24 @@
 {% block body %}
 	<header class="bg-default-light border-bottom">
 		<div class="pt-3 border-bottom container-fluid">
-			<nav aria-label="breadcrumb">
-				<ol class="breadcrumb">
-					<li class="breadcrumb-item">
-						<a href="{{ path('app_home') }}">Accueil</a>
-					</li>
-					<li class="breadcrumb-item">
-						<a href="{{ path('app_image_index') }}">Galerie</a>
-					</li>
-					<li class="breadcrumb-item active" aria-current="page">{{ image.title }}</li>
-				</ol>
-			</nav>
+			<div class="row align-items-center">
+				<div class="col-md-6">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb mb-2">
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_home') }}">Accueil</a>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_image_index') }}">Galerie</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">{{ image.title }}</li>
+						</ol>
+					</nav>
+				</div>
+				<div class="col-md-6 text-end">
+					{{ include('includes/_search.html.twig', { route_name: 'app_image_index' }) }}
+				</div>
+			</div>
 		</div>
 		<div class="item-heading position-relative">
 			{% if is_granted('ROLE_ADMIN') %}

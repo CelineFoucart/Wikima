@@ -92,7 +92,7 @@ class PlaceRepository extends ServiceEntityRepository
             $q = '%'.$search->getQuery().'%';
             $builder
                 ->andWhere('pl.title LIKE :q_1')
-                ->andWhere('pl.description LIKE :q_2')
+                ->orWhere('pl.description LIKE :q_2')
                 ->setParameters(['q_1' => $q, 'q_2' => $q])
             ;
         }

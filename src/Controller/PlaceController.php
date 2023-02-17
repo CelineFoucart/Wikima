@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use App\Entity\Data\SearchData;
 use App\Entity\Place;
+use App\Form\SearchType;
 use App\Entity\PlaceType;
+use App\Entity\Data\SearchData;
 use App\Form\AdvancedSearchType;
 use App\Repository\PlaceRepository;
 use App\Repository\PlaceTypeRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PlaceController extends AbstractController
@@ -51,6 +52,7 @@ class PlaceController extends AbstractController
     {
         return $this->render('place/show.html.twig', [
             'place' => $place,
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }
 

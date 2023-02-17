@@ -1,4 +1,8 @@
-{{ form_start(form, {'action': path('app_article_index'), 'method': 'GET'}) }}
+{% if route_name is not defined %}
+    {% set route_name = 'app_article_index' %}
+{% endif %}
+
+{{ form_start(form, {'action': path(route_name), 'method': 'GET'}) }}
     <div class="search-row">
         {{ form_widget(form) }}
         <button type="submit" class="search-btn"><i class="bi bi-search"></i></button>

@@ -2,17 +2,18 @@
 
 namespace App\Controller;
 
-use App\Entity\Data\SearchData;
 use App\Entity\Person;
+use App\Form\SearchType;
 use App\Entity\PersonType;
+use App\Entity\Data\SearchData;
 use App\Form\AdvancedSearchType;
 use App\Repository\PersonRepository;
 use App\Repository\PersonTypeRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PersonController extends AbstractController
 {
@@ -48,6 +49,7 @@ class PersonController extends AbstractController
     {
         return $this->render('person/show.html.twig', [
             'person' => $person,
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }
 

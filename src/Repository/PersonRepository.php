@@ -101,7 +101,7 @@ class PersonRepository extends ServiceEntityRepository
             $q = '%'.$search->getQuery().'%';
             $builder
                 ->andWhere('p.firstname LIKE :q_1')
-                ->andWhere('p.lastname LIKE :q_2')
+                ->orWhere('p.lastname LIKE :q_2')
                 ->orWhere('p.description LIKE :q_3')
                 ->orWhere('p.presentation LIKE :q_4')
                 ->setParameters(['q_1' => $q, 'q_2' => $q, 'q_3' => $q, 'q_4' => $q])
