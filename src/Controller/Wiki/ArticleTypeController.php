@@ -18,7 +18,7 @@ class ArticleTypeController extends AbstractController
     public function index(ArticleTypeRepository $articleTypeRepository): Response
     {
         return $this->render('article_type/index.html.twig', [
-            'types' => $articleTypeRepository->findAll(),
+            'types' => $articleTypeRepository->findBy([], ['title' => 'ASC']),
         ]);
     }
 
@@ -32,7 +32,7 @@ class ArticleTypeController extends AbstractController
             'type' => $articleType,
             'items' => $helper->formatArray($articles->getItems()),
             'articles' => $articles,
-            'types' => $articleTypeRepository->findAll(),
+            'types' => $articleTypeRepository->findBy([], ['title' => 'ASC']),
         ]);
     }
 

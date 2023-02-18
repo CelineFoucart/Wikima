@@ -53,7 +53,7 @@ final class CategoryController extends AbstractController
     #[Route('/category/{slug}/articles', name: 'app_category_show_article')]
     public function article(Category $category, Request $request, AlphabeticalHelperService $helper, ArticleTypeRepository $articleTypeRepository): Response
     {
-        $types = $articleTypeRepository->findAll();
+        $types = $articleTypeRepository->findBy([], ['title' => 'ASC']);
         $page = $request->query->getInt('page', 1);
         $typeSlug = $request->query->get('type');
         $type = null;

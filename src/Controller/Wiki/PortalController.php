@@ -37,7 +37,7 @@ final class PortalController extends AbstractController
     #[Entity('portal', expr: 'repository.findBySlug(slug)')]
     public function portal(Portal $portal, Request $request, AlphabeticalHelperService $helper, ArticleTypeRepository $articleTypeRepository): Response
     {
-        $types = $articleTypeRepository->findAll();
+        $types = $articleTypeRepository->findBy([], ['title' => 'ASC']);
         $page = $request->query->getInt('page', 1);
         $typeSlug = $request->query->get('type');
         $type = null;
