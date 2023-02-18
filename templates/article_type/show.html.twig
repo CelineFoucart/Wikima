@@ -30,7 +30,8 @@
                     <button class="border-0 w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1 dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         Types d'article
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    {% set style_scroll = types|length > 9 ? 'style="overflow-y: scroll; max-height: 350px;"' : '' %}
+                    <ul class="dropdown-menu" {{ style_scroll|raw }} aria-labelledby="dropdownMenuButton1">
                         <li><a class="dropdown-item" href="{{ path('app_articletype_index') }}">Tous les types</a></li>
                         <li><hr class="dropdown-divider"></li>
                         {% for article_type in types %}

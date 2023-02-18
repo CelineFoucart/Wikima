@@ -17,11 +17,12 @@
         </h2>
         <div class="row">
             <p class="col-md-9">
+                {% set total = articles.getTotalItemCount %}
                 {% if type %}
-                    Cette catégorie comprend <strong>{{ articles.totalItemCount }}</strong> articles du type <strong>{{ type }}</strong>, 
+                    Cette catégorie comprend <strong>{{ total }}</strong> articles du type <strong>{{ type }}</strong>, 
                     dont les <strong>{{articles|length}}</strong> articles ci-dessous.
                 {% else %}
-                    Cette catégorie comprend <strong>{{ articles.totalItemCount }}</strong> articles, 
+                    Cette catégorie comprend <strong>{{ total }}</strong> articles, 
                     dont les <strong>{{articles|length}}</strong> articles ci-dessous.
                 {% endif %}
             </p>
@@ -30,7 +31,10 @@
                     <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         Types d'article
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+
+                    {% set style_scroll = types|length > 9 ? 'style="overflow-y: scroll; max-height: 350px;"' : '' %}
+
+                    <ul class="dropdown-menu" {{ style_scroll|raw }} aria-labelledby="dropdownMenuButton1">
                         <li><a class="dropdown-item" href="{{ path('app_category_show_article', {slug: category.slug}) }}">Tous les types</a></li>
                         <li><hr class="dropdown-divider"></li>
                         {% for article_type in types %}
@@ -46,7 +50,7 @@
             </div>
         </div>
 
-        <div class="column-3">
+        <div class="{{ total > 3 ? 'column-3' : '' }} mt-1">
             {% for key, elements in items %}
                 <div class="mb-4">
                     <h3 class="h4 mb-0 fw-bold">{{ key }}</h3>
