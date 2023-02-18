@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Entity\Article;
 use DateTime;
 use App\Entity\User;
 use App\Entity\Portal;
 use DateTimeImmutable;
+use App\Entity\Article;
+use App\Entity\ArticleType;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
@@ -39,6 +40,11 @@ final class ArticleAdmin extends AbstractAdmin
                     'attr' => [
                         'data-action' => 'slug',
                     ],
+                ])
+                ->add('type', EntityType::class, [
+                    'class' => ArticleType::class,
+                    'choice_label' => 'title',
+                    'required' => false,
                 ])
                 ->add('content', CKEditorType::class, [
                     'config' => ['toolbar' => 'full', 'format_tags' => 'p;h2;h3;h4;h5;h6;pre'],
@@ -89,9 +95,8 @@ final class ArticleAdmin extends AbstractAdmin
     {
         $datagrid
             ->add('title')
-            ->add('slug')
+            ->add('type')
             ->add('keywords')
-            ->add('description')
             ->add('author', null, [
                 'field_type' => EntityType::class,
                 'field_options' => [
@@ -117,7 +122,7 @@ final class ArticleAdmin extends AbstractAdmin
             ->add('title', null, [
                 'template' => 'Admin/article/article_list_title.html.twig',
             ])
-            ->add('keywords')
+            ->add('type')
             ->add('createdAt', null, [
                 'format' => 'd/m/Y à H:i',
             ])

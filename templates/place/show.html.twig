@@ -26,26 +26,26 @@
 			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
 				<div class="p-2 position-absolute top-0" style="right:0px">
 					<a href="{{ path('admin_app_place_create', {place: place.id}) }}" class="btn btn-outline-secondary btn-sm" title="ajouter un lieu">
-						<i class="bi bi-plus-circle-fill"></i>
+						<i class="fas fa-plus-circle"></i>
 					</a>
 					<a href="{{ path('admin_app_place_edit', {id: place.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
-						<i class="bi bi-pencil-fill"></i>
+						<i class="fas fa-pencil-alt"></i>
 					</a>
 					<a href="{{ path('admin_app_place_image', {id: place.id}) }}" class="btn btn-outline-secondary btn-sm" title="gérer l'image">
-						<i class="bi bi-image"></i>
+						<i class="fas fa-image"></i>
 					</a>
 				</div>
 			{% endif %}
 			<p>
 				{% for category in place.categories %}
 					<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1">
-						<i class="bi bi-folder-fill me-1"></i>
+						<i class="fas fa-folder me-1"></i>
 						{{ category.title }}
 					</a>
 				{% endfor %}
 			</p>
 			<h1 class="mb-2">
-				<i class="bi bi-globe me-1"></i>
+				<i class="fas fa-globe me-1"></i>
 				{{ place }}
 			</h1>
 		</div>
@@ -135,7 +135,7 @@
 							<ul class="ps-0 mb-0 list-unstyled">
 								{% for portal in place.portals %}
 									<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="text-decoration-none">
-										<i class="bi bi-tag-fill small me-1"></i>
+										<i class="fas fa-tag small me-1"></i>
 										{{ portal }}
 									</a>
 								{% else %}
@@ -164,7 +164,7 @@
 				<div class="category-section" style="max-width:273px">
 					<div>
 						<span title="afficher ou cacher" role="button" data-action="click->toggle#toggle" data-toggle-target="action" class="float-end">
-							<i class="bi bi-chevron-down"></i>
+							<i class="fas fa-chevron-down"></i>
 						</span>
 						<h2 class="h6">Sommaire</h2>
 					</div>

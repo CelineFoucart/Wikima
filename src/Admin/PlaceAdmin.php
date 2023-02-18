@@ -71,11 +71,11 @@ final class PlaceAdmin extends AbstractAdmin
                     'config' => ['toolbar' => 'full', 'format_tags' => 'p;h2;h4;h5;h6;pre'],
                     'required' => false,
                 ])
-                ->add('history', CKEditorType::class, [
+                ->add('presentation', CKEditorType::class, [
                     'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
                     'required' => false,
                 ])
-                ->add('presentation', CKEditorType::class, [
+                ->add('history', CKEditorType::class, [
                     'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
                     'required' => false,
                 ])

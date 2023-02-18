@@ -18,7 +18,7 @@
         <form method="post" action="">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
             <button class="btn btn-danger" id="submit">
-                <i class="bi bi-trash-fill"></i> Supprimer
+                <i class="fas fa-trash-alt"></i> Supprimer
             </button>
         </form>
     </article>

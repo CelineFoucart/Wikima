@@ -2,13 +2,13 @@
     <div class="item-heading">
         <h1 class="mb-1">{{ article.title }}</h1>
         <p class="mt-4 ms-5">
-            <i class="bi bi-arrow-left"></i> 
+            <i class="fas fa-arrow-left"></i> 
             <a href="{{ path('app_article_show', {slug: article.slug}) }}" class="text-decoration-none">
                 Retourner à l'article
             </a>
         </p>
         <p class="mt-1 ms-5">
-            <i class="bi bi-arrow-left"></i> 
+            <i class="fas fa-arrow-left"></i> 
             <a href="{{ path('app_comment', {slug: article.slug}) }}" class="text-decoration-none">
                 Retourner à l'index des commentaires
             </a>

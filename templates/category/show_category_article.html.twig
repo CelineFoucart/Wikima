@@ -15,9 +15,36 @@
         <h2 class="content-title-section">
             Les articles de la catégorie &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
         </h2>
-        <p>
-            Cette catégorie comprend <strong>{{ articles.totalItemCount }}</strong> articles, dont les <strong>{{articles|length}}</strong> articles ci-dessous.
-        </p>
+        <div class="row">
+            <p class="col-md-9">
+                {% if type %}
+                    Cette catégorie comprend <strong>{{ articles.totalItemCount }}</strong> articles du type <strong>{{ type }}</strong>, 
+                    dont les <strong>{{articles|length}}</strong> articles ci-dessous.
+                {% else %}
+                    Cette catégorie comprend <strong>{{ articles.totalItemCount }}</strong> articles, 
+                    dont les <strong>{{articles|length}}</strong> articles ci-dessous.
+                {% endif %}
+            </p>
+            <div class="col-md-3 text-end">
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Types d'article
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="{{ path('app_category_show_article', {slug: category.slug}) }}">Tous les types</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        {% for article_type in types %}
+                            <li>
+                                <a class="dropdown-item" href="{{ path('app_category_show_article', {slug: category.slug, type: article_type.slug}) }}">
+                                    {% if article_type.icon %}<i class="{{ article_type.icon }}" aria-hidden="true"></i>{% endif %}
+                                    {{ article_type }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
 
         <div class="column-3">
             {% for key, elements in items %}
@@ -29,7 +56,7 @@
                                 <a href="{{ path('app_article_show', {slug: item.slug}) }}" class="text-decoration-none">
                                     {{ item.title }}
                                     {% if item.isPrivate %}
-                                        <i class="bi bi-file-lock fw-bold, text-danger" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
+                                        <i class="fas fa-lock fw-bold, text-danger" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
                                     {% endif %}
                                 </a>
                             </li>

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Article;
+use App\Entity\ArticleType;
 use App\Entity\Portal;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -13,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ArticleType extends AbstractType
+class ArticleFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -22,6 +23,11 @@ class ArticleType extends AbstractType
                 'attr' => [
                     'data-action' => 'slug',
                 ],
+            ])
+            ->add('type', EntityType::class, [
+                'class' => ArticleType::class,
+                'choice_label' => 'title',
+                'required' => false,
             ])
             ->add('slug', TextType::class, [
                 'attr' => [

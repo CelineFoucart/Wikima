@@ -150,3 +150,9 @@ help_description: Courte présentation de moins de 255 caractères
 Physical Description: Description physique
 Is sticky: Epingler
 Is Sticky: Epingler
+ArticleType: Type d'article
+Article Type: Type d'article
+Article Type List: Liste des types d'article
+Article Type Create: Création d'un type d'article
+Icon: Icône
+help_icon: Entrer les classes d'un icône <a href="https://fontawesome.com/v5/search?o=r&m=free">fontawesome</a>, par exemple pour <b>user</b>, <em>fas fa-user</em>.

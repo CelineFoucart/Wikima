@@ -24,7 +24,7 @@
 						{% for article in stickyElements %}
 							<div class="bg-default">
 								<a href="{{ path('app_article_show', {slug: article.slug}) }}" data-bs-toggle="tooltip" title="{{ article.description }}" class="text-white text-decoration-none px-1">
-									<i class="bi bi-pin-angle-fill me-1" data-bs-toggle="tooltip" title="Eléments épinglés"></i>
+									<i class="fas fa-thumbtack me-1" data-bs-toggle="tooltip" title="Eléments épinglés"></i>
 									{{ article }}
 								</a>
 							</div>
@@ -38,9 +38,36 @@
 			<h2 class="content-title-section">
 				Les articles du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
 			</h2>
-			<p>
-				Ce portail comprend <strong>{{ articles.totalItemCount }}</strong> articles, dont les <strong>{{articles|length}}</strong> articles ci-dessous.
-			</p>
+			<div class="row">
+				<p class="col-md-9">
+					{% if type %}
+						Ce portail comprend <strong>{{ articles.totalItemCount }}</strong> articles du type <strong>{{ type }}</strong>, 
+						dont les <strong>{{articles|length}}</strong> articles ci-dessous.
+					{% else %}
+						Ce portail comprend <strong>{{ articles.totalItemCount }}</strong> articles, 
+						dont les <strong>{{articles|length}}</strong> articles ci-dessous.
+					{% endif %}
+				</p>
+				<div class="col-md-3 text-end">
+					<div class="dropdown">
+						<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+							Types d'article
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+							<li><a class="dropdown-item" href="{{ path('app_portal_show', {slug: portal.slug}) }}">Tous les types</a></li>
+							<li><hr class="dropdown-divider"></li>
+							{% for article_type in types %}
+								<li>
+									<a class="dropdown-item" href="{{ path('app_portal_show', {slug: portal.slug, type: article_type.slug}) }}">
+										{% if article_type.icon %}<i class="{{ article_type.icon }}" aria-hidden="true"></i>{% endif %}
+										{{ article_type }}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+			</div>
 
 			<div class="column-3 mt-3">
 				{% for key, elements in items %}
@@ -52,7 +79,7 @@
 									<a href="{{ path('app_article_show', {slug: item.slug}) }}" class="text-decoration-none">
 										{{ item.title }}
 										{% if item.isPrivate %}
-											<i class="bi bi-file-lock fw-bold, text-danger" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
+											<i class="fas fa-lock fw-bold, text-danger" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
 										{% endif %}
 									</a>
 								</li>

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\ArticleType;
 use App\Entity\Data\SearchData;
 use App\Entity\User;
 use App\Service\PaginatorService;
@@ -56,15 +57,20 @@ class ArticleRepository extends ServiceEntityRepository
     /**
      * Returns a pagination of articles by portals.
      */
-    public function findByPortals(array $portals, int $page, int $limit = 30, bool $hidePrivate = true): PaginationInterface
+    public function findByPortals(array $portals, int $page, int $limit = 30, bool $hidePrivate = true, ?ArticleType $type = null): PaginationInterface
     {
         $query = $this->createQueryBuilder('a')
             ->orderBy('a.title', 'ASC')
-            ->leftJoin('a.portals', 'p')->addSelect()
+            ->leftJoin('a.portals', 'p')->addSelect('p')
+            ->leftJoin('a.type', 't')->addSelect('t')
             ->andWhere('p.id IN (:portals)')
             ->andWhere('a.isDraft IS NULL OR a.isDraft = 0')
             ->setParameter('portals', $portals)
         ;
+
+        if ($type) {
+            $query->andWhere('t.slug = :type')->setParameter('type', $type->getSlug());
+        }
 
         if ($hidePrivate) {
             $query->andWhere('a.isPrivate IS NULL OR a.isPrivate = 0');
@@ -168,6 +174,19 @@ class ArticleRepository extends ServiceEntityRepository
         }
 
         return $this->paginatorService->setLimit($limit)->paginate($builder, $search->getPage());
+    }
+
+    public function findByType(ArticleType $articleType, int $page = 1, bool $hidePrivate = true, int $limit = 10): PaginationInterface
+    {
+        $builder = $this->getDefaultQueryBuilder();
+
+        if ($hidePrivate) {
+            $builder->andWhere('a.isPrivate IS NULL OR a.isPrivate = 0');
+        }
+
+        $builder->andWhere('a.type = :type')->setParameter('type', $articleType);
+
+        return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
     }
 
     private function getDefaultQueryBuilder(): QueryBuilder

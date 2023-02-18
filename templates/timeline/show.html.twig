@@ -30,7 +30,7 @@
 			<div style="width:90%">
 				{% for category in timeline.categories %}
 					<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1" data-bs-placement="bottom" data-bs-toggle="tooltip" title="{{ category.description ? category.description : 'Aucune description' }}">
-						<i class="bi bi-folder-fill me-1"></i>
+						<i class="fas fa-folder me-1"></i>
 						{{ category.title }}
 					</a>
 				{% endfor %}
@@ -39,10 +39,10 @@
 					<div class="p-2 position-absolute top-0" style="right:-10px">
 						<div class="btn-group">
 							<a href="{{ path('admin_app_timeline_edit', {id:timeline.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
-								<i class="bi bi-pencil-fill"></i>
+								<i class="fas fa-pencil-alt"></i>
 							</a>
 							<a href="{{ path('admin_app_timeline_event', {id:timeline.id}) }}" class="btn btn-outline-secondary btn-sm" title="gérer les événements">
-								<i class="bi bi-plus-circle-fill"></i>
+								<i class="fas fa-plus-circle"></i>
 							</a>
 						</div>
 					</div>

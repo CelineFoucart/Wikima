@@ -11,8 +11,8 @@ export default class extends Controller {
     static targets = ["action", "content"];
 
     toggle() {
-        let showIcon = '<i class="bi bi-chevron-down"></i>';
-        let hideIcon = '<i class="bi bi-chevron-up"></i>';
+        let showIcon = '<i class="fas fa-chevron-down"></i>';
+        let hideIcon = '<i class="fas fa-chevron-up"></i>';
 
         if (this.actionTarget.innerHTML === showIcon) {
             this.actionTarget.innerHTML = hideIcon;

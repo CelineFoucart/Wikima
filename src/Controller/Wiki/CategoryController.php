@@ -2,26 +2,27 @@
 
 namespace App\Controller\Wiki;
 
-use App\Entity\Category;
-use App\Entity\Data\SearchData;
-use App\Entity\PersonType;
-use App\Entity\PlaceType;
 use App\Entity\User;
+use App\Entity\Category;
 use App\Form\SearchType;
+use App\Entity\PlaceType;
+use App\Entity\PersonType;
+use App\Entity\Data\SearchData;
+use App\Repository\ImageRepository;
+use App\Repository\PlaceRepository;
+use App\Repository\PersonRepository;
+use App\Repository\PortalRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
-use App\Repository\ImageRepository;
-use App\Repository\PersonRepository;
-use App\Repository\PersonTypeRepository;
-use App\Repository\PlaceRepository;
 use App\Repository\PlaceTypeRepository;
-use App\Repository\PortalRepository;
+use App\Repository\PersonTypeRepository;
+use App\Repository\ArticleTypeRepository;
 use App\Service\AlphabeticalHelperService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class CategoryController extends AbstractController
 {
@@ -50,16 +51,28 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/{slug}/articles', name: 'app_category_show_article')]
-    public function article(Category $category, Request $request, AlphabeticalHelperService $helper): Response
+    public function article(Category $category, Request $request, AlphabeticalHelperService $helper, ArticleTypeRepository $articleTypeRepository): Response
     {
+        $types = $articleTypeRepository->findAll();
         $page = $request->query->getInt('page', 1);
-        $articles = $this->articleRepository->findByPortals($category->getPortals()->toArray(), $page, 30, $this->hidePrivate());
+        $typeSlug = $request->query->get('type');
+        $type = null;
+
+        foreach ($types as $value) {
+            if ($value->getSlug() === $typeSlug) {
+                $type = $value;
+            }
+        }
+
+        $articles = $this->articleRepository->findByPortals($category->getPortals()->toArray(), $page, 30, $this->hidePrivate(), $type);
 
         return $this->render('category/show_category_article.html.twig', [
             'category' => $category,
             'articles' => $articles,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'items' => $helper->formatArray($articles->getItems()),
+            'types' => $types,
+            'type' => $type,
         ]);
     }
 

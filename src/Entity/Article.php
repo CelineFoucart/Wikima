@@ -85,6 +85,9 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?bool $isSticky = null;
 
+    #[ORM\ManyToOne(inversedBy: 'articles')]
+    private ?ArticleType $type = null;
+
     public function __construct()
     {
         $this->portals = new ArrayCollection();
@@ -343,6 +346,18 @@ class Article
     public function setIsSticky(?bool $isSticky): self
     {
         $this->isSticky = $isSticky;
+
+        return $this;
+    }
+
+    public function getType(): ?ArticleType
+    {
+        return $this->type;
+    }
+
+    public function setType(?ArticleType $type): self
+    {
+        $this->type = $type;
 
         return $this;
     }

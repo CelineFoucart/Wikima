@@ -24,7 +24,7 @@
 			Explorer la catégorie &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
 		</h2>
 		<section class="pt-0 p-4">
-			<h3 class="h5 mt-4 text-default fw-bold text-center"><i class="bi bi-tag-fill me-1"></i> Portails de cette catégorie</h3>
+			<h3 class="h5 mt-4 text-default fw-bold text-center"><i class="fas fa-tag me-1"></i> Portails de cette catégorie</h3>
 			<div class="row">
 				{% for portal in portals %}
 					<div class="col-md-6 col-lg-4 my-2">
@@ -43,7 +43,7 @@
 							<div class="card-footer">
 								<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="stretched-link text-decoration-none">
 									Afficher
-									<i class="bi bi-box-arrow-up-right"></i>
+									<i class="fas fa-external-link-alt"></i>
 								</a>
 							</div>
 						</div>
@@ -62,7 +62,7 @@
 					Explorer les chronologies de &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
 				</h2>
 				
-				<h3 class="h5 mt-4 mb-3 text-center text-default fw-bold"><i class="bi bi-hourglass"></i> Chronologies de cette catégorie</h3>
+				<h3 class="h5 mt-4 mb-3 text-center text-default fw-bold"><i class="fas fa-hourglass"></i> Chronologies de cette catégorie</h3>
 				<section class="timeline">
 					<ul class="timeline-list"> 
 						{% set position_timeline = 'left' %}

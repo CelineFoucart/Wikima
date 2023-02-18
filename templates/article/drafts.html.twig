@@ -29,10 +29,10 @@
 						<td>{{ draft.updatedAt ? draft.updatedAt|date('d/m/Y à H:i') : '' }}</td>
 						<td>
 							<a href="{{ path('admin_app_article_section', {id:draft.id}) }}" class="btn btn-success btn-sm">
-								<i class="bi bi-pencil-square" data-bs-toggle="tooltip" title="Modifier"></i>
+								<i class="fas fa-edit" data-bs-toggle="tooltip" title="Modifier"></i>
 							</a>
 							<a href="{{ path('app_article_show', {slug:draft.slug}) }}" class="btn btn-primary btn-sm">
-								<i class="bi bi-eye-fill" data-bs-toggle="tooltip" title="Afficher"></i>
+								<i class="fas fa-eye" data-bs-toggle="tooltip" title="Afficher"></i>
 							</a>
 						</td>
 					</tr>

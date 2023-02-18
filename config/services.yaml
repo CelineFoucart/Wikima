@@ -39,6 +39,10 @@ services:
         class: App\Admin\ArticleAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Article, controller: App\Controller\Admin\ArticleAdminController, manager_type: orm, label: Article, group: Wiki}
+    admin.article_type:
+        class: App\Admin\ArticleTypeAdmin
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\ArticleType, controller: ~, manager_type: orm, group: Wiki, label: ArticleType }
     admin.timeline:
         class: App\Admin\TimelineAdmin
         tags:

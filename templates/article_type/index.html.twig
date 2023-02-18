@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tous les types d'article{% endblock %}
+
+{% block body %}
+    {{ include('home/_header.html.twig', {heading_description: "Ici, vous pouvez explorer l'ensemble des type d'article disponibles sur le site."}) }}
+    
+    <section class="mt-4 px-4 container-fluid">
+        <div class="bg-light border p-3 text-center row">
+            <div class="col-md-4">
+                <a href="{{ path('app_timeline_index') }}" class="w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1">
+                    Chronologies
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{{ path('app_person_index') }}" class="w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1">
+                    Personnages
+                </a>
+            </div>
+
+            <div class="col-md-4">
+                <a href="{{ path('app_place_index') }}" class="w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1">
+                    Lieux
+                </a>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            {% for type in types %}
+                <div class="col-md-3 text-center mb-3">
+                    <div class="bg-default rounded py-2 position-relative">
+                        {% if type.icon %}<div class="mb-1 h2 text-white"><i class="{{ type.icon }}" aria-hidden="true"></i></div>{% endif %}
+                        <h2 class="h5">
+                            <a href="{{ path('app_articletype_show', {slug: type.slug}) }}" class="text-white text-decoration-none stretched-link">
+                                {{ type }}
+                            </a>
+                        </h2>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12">
+                    <h2 class="h5 my-4 text-center text-muted">
+                        Aucun type d'article
+                    </h2>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}

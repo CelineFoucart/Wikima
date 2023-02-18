@@ -2,27 +2,28 @@
 
 namespace App\Controller\Wiki;
 
-use App\Entity\Data\SearchData;
-use App\Entity\PersonType;
-use App\Entity\PlaceType;
-use App\Entity\Portal;
 use App\Entity\User;
+use App\Entity\Portal;
 use App\Form\SearchType;
-use App\Repository\ArticleRepository;
+use App\Entity\PlaceType;
+use App\Entity\PersonType;
+use App\Entity\Data\SearchData;
 use App\Repository\ImageRepository;
-use App\Repository\PersonRepository;
-use App\Repository\PersonTypeRepository;
 use App\Repository\PlaceRepository;
-use App\Repository\PlaceTypeRepository;
+use App\Repository\PersonRepository;
 use App\Repository\PortalRepository;
+use App\Repository\ArticleRepository;
 use App\Repository\TimelineRepository;
+use App\Repository\PlaceTypeRepository;
+use App\Repository\PersonTypeRepository;
+use App\Repository\ArticleTypeRepository;
 use App\Service\AlphabeticalHelperService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class PortalController extends AbstractController
 {
@@ -34,10 +35,20 @@ final class PortalController extends AbstractController
 
     #[Route('/portals/{slug}', name: 'app_portal_show')]
     #[Entity('portal', expr: 'repository.findBySlug(slug)')]
-    public function portal(Portal $portal, Request $request, AlphabeticalHelperService $helper): Response
+    public function portal(Portal $portal, Request $request, AlphabeticalHelperService $helper, ArticleTypeRepository $articleTypeRepository): Response
     {
+        $types = $articleTypeRepository->findAll();
         $page = $request->query->getInt('page', 1);
-        $articles = $this->articleRepository->findByPortals([$portal], $page, 30, $this->hidePrivate());
+        $typeSlug = $request->query->get('type');
+        $type = null;
+
+        foreach ($types as $value) {
+            if ($value->getSlug() === $typeSlug) {
+                $type = $value;
+            }
+        }
+
+        $articles = $this->articleRepository->findByPortals([$portal], $page, 30, $this->hidePrivate(), $type);
 
         return $this->render('portal/show_portal.html.twig', [
             'portal' => $portal,
@@ -45,6 +56,8 @@ final class PortalController extends AbstractController
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'items' => $helper->formatArray($articles->getItems()),
             'stickyElements' => $this->articleRepository->findSticky($portal->getId()),
+            'types' => $types,
+            'type' => $type,
         ]);
     }
 

@@ -40,7 +40,7 @@
 				<div class="p-2 position-absolute top-0" style="right:-10px">
 					<div class="dropdown">
 						<button class="btn btn-outline-secondary w-100 btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
-							<i class="bi bi-wrench-adjustable me-1"></i>
+							<i class="fas fa-wrench me-1"></i>
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 							<li>
@@ -88,27 +88,27 @@
 	<nav class="tab-default mt-3">
 		<div class="item {{ portals ? 'active': '' }}">
 			<a href="{{ path('app_category_show', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Catégorie">
-				<i class="bi bi-folder-fill"></i>
+				<i class="fas fa-folder"></i>
 			</a>
 		</div>
 		<div class="item {{ articles ? 'active': '' }}">
 			<a href="{{ path('app_category_show_article', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Articles">
-				<i class="bi bi-file-earmark-text"></i>
+				<i class="fas fa-file-alt"></i>
 			</a>
 		</div>
 		<div class="item {{ persons ? 'active': '' }}">
 			<a href="{{ path('app_category_persons', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Personnages">
-				<i class="bi bi-person-fill"></i>
+				<i class="fas fa-user"></i>
 			</a>
 		</div>
 		<div class="item {{ places ? 'active': '' }}">
 			<a href="{{ path('app_category_places', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Lieux">
-				<i class="bi bi-globe"></i>
+				<i class="fas fa-globe"></i>
 			</a>
 		</div>
 		<div class="item {{ images ? 'active': '' }}">
 			<a href="{{ path('app_category_gallery', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Galerie">
-				<i class="bi bi-image"></i>
+				<i class="fas fa-image"></i>
 			</a>
 		</div>
 	</nav>
@@ -122,7 +122,7 @@
 		<p class="text-end m-2">
 			{% for page in category.pages %}
 				<a href="{{ path('app_page', {slug: page.slug}) }}" class="label mx-1" data-bs-toggle="tooltip" title="{{ page.description ? page.description : 'Aucune description' }}">
-					<i class="bi bi-file-earmark-text"></i>
+					<i class="fas fa-file-alt"></i>
 					{{ page.title }}
 				</a>
 			{% endfor %}

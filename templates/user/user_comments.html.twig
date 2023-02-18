@@ -16,7 +16,7 @@
         {% for comment in comments %}
             {{ include('comment/components/_comment.html.twig') }}
             <p class="text-center mb-4">
-                <i class="bi bi-file-earmark-fill me-1"></i>
+                <i class="fas fa-file me-1"></i>
                 <a href="{{ path('app_comment', {slug: comment.article.slug}) }}" class="text-decoration-none">
                     {{ comment.article.title }}
                 </a>

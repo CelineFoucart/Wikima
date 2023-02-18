@@ -15,7 +15,7 @@
 		{% if is_granted('ROLE_ADMIN') %}
 			<div class="mb-3 text-end">
 				<a href="{{ path('admin_app_page_edit', {id:page.id}) }}" class="btn btn-sm btn-outline-secondary" title="administrer">
-					<i class="bi bi-pencil-fill"></i>
+					<i class="fas fa-pencil-alt"></i>
 				</a>
 			</div>
 		{% endif %}
@@ -32,7 +32,7 @@
 						{% for category in page.categories %}
 							<div class="mb-1">
 								<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1 mb-1">
-									<i class="bi bi-folder-fill me-1"></i>
+									<i class="fas fa-folder me-1"></i>
 									{{ category.title }}
 								</a>
 							</div>
@@ -44,7 +44,7 @@
 						{% for portal in page.portals %}
 							<div class="mb-1">
 								<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="label mx-1">
-									<i class="bi bi-tag-fill me-1"></i>
+									<i class="fas fa-tag me-1"></i>
 									{{ portal.title }}
 								</a>
 							</div>

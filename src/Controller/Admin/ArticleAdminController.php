@@ -9,7 +9,7 @@ use App\Entity\Data\SearchData;
 use App\Entity\Image;
 use App\Entity\Section;
 use App\Form\AdvancedSearchType;
-use App\Form\ArticleType;
+use App\Form\ArticleFormType;
 use App\Form\ImageType;
 use App\Form\SectionType;
 use App\Repository\ArticleRepository;
@@ -39,7 +39,7 @@ final class ArticleAdminController extends CRUDController
     {
         $article = $this->getArticle($id);
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
-        $form = $this->createForm(ArticleType::class, $article);
+        $form = $this->createForm(ArticleFormType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
