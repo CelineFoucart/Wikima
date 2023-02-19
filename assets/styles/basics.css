@@ -54,10 +54,6 @@ footer {
     }
 }
 
-.navbar {
-    z-index: 3000;
-}
-
 figure {
     text-align: center;
     outline: solid 1px #ccc;

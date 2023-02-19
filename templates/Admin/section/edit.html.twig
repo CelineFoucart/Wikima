@@ -1,0 +1,97 @@
+{% extends 'Admin/extend_layout.html.twig' %}
+
+{% block sonata_head_title %}
+	Editer "{{ section.title }}"
+{% endblock sonata_head_title %}
+
+{% block sonata_breadcrumb %}
+	<div class="hidden-xs">
+		<ol class="nav navbar-top-links breadcrumb">
+			<li>
+				<a href="{{ path('sonata_admin_dashboard') }}">
+					<i class="fa fa-home"></i>
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('admin_app_article_section', {id: section.article.id}) }}">Sections de "{{ section.article }}"</a>
+			</li>
+			<li class="active">
+				<span>{{ section.title }}</span>
+			</li>
+		</ol>
+	</div>
+{% endblock sonata_breadcrumb %}
+
+{% block sonata_page_content_nav %}
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">Editer "{{ section.title }}"</a>
+        </div>
+
+        <div class="navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown sonata-actions">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Liste d'actions <b class="caret"></b></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li>
+                            <a class="sonata-action-element" href="{{ path('admin_app_article_section', {id: section.article.id}) }}">
+                                <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                                Ajouter
+                            </a>
+                        </li>
+                        <li>
+                            <a class="sonata-action-element" href="{{ path('app_article_show', {slug: section.article.slug}) }}">
+                                <i class="fas fa-book-reader" aria-hidden="true"></i>
+                                Retour à l'article
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% endblock sonata_page_content_nav %}
+
+{% block sonata_admin_content %}
+    {% include "Admin/components/_flashes.html.twig" %}
+    <div class="sonata-ba-form">
+        <div class="row">
+            <div class="col-md-12">
+                {{ form_start(form) }}
+                    <div class="box box-primary">
+                        <div class="box-header">
+                            <h4 class="box-title">
+                                Section
+                            </h4>
+                        </div>
+                        <div class="box-body">
+                            <div class="form-group">
+                                {{ form_row(form.title) }}
+                            </div>
+                            <div class="form-group">
+                                {{ form_row(form.content) }}
+                            </div>
+                            <div style="form-group">
+                                <a href="{{ path('app_article_show', {slug: section.article.slug}) }}" title="Consulter">
+                                    <i class="fas fa-book-reader"></i> Retourner à l'article
+                                </a>
+                            </div>
+                        </div>
+                        {{ form_rest(form) }}
+                    </div>
+                    <div class="sonata-ba-form-actions well well-small form-actions stuck" style="width: 1713px;">
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save" aria-hidden="true"></i> Mettre à jour
+                        </button>
+                        ou
+                        <a class="btn btn-danger" href="{{ path('admin_app_section_delete', {id: section.id}) }}">
+                            <i class="fas fa-minus-circle" aria-hidden="true"></i> Supprimer
+                        </a>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

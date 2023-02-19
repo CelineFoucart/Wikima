@@ -19,9 +19,9 @@ use Symfony\Component\Routing\Annotation\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(CategoryRepository $categoryRepository, ArticleRepository $articleRepository, AboutRepository $aboutRepository): Response
+    public function index(CategoryRepository $categoryRepository, AboutRepository $aboutRepository): Response
     {
-        $categories = $categoryRepository->findAll();
+        $categories = $categoryRepository->findBy([], ['title' => 'ASC']);
 
         return $this->render('home/index.html.twig', [
             'categories' => $categories,

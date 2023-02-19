@@ -45,6 +45,7 @@
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_category_edit', {id:category.id}) }}">
+									<i class="fas fa-pencil-alt"></i>
 									Editer la catégorie
 								</a>
 							</li>
@@ -56,22 +57,32 @@
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_portal_create', {category:category.id}) }}">
+									<i class="fas fa-tag"></i>
 									Ajouter un portail
 								</a>
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_timeline_create', {category:category.id}) }}">
+									<i class="fas fa-hourglass"></i>
 									Ajouter une chronologie
 								</a>
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_person_create', {category:category.id}) }}">
+									<i class="fas fa-user"></i>
 									Ajouter un personnage
 								</a>
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_place_create', {category:category.id}) }}">
+									<i class="fas fa-globe"></i>
 									Ajouter un lieu
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('admin_app_image_create', {category:category.id}) }}">
+									<i class="fas fa-image"></i>
+									Ajouter une image
 								</a>
 							</li>
 						</ul>

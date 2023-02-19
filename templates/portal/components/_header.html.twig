@@ -37,32 +37,46 @@
 					</button>
 					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 						<li>
-							<a class="dropdown-item" href="{{ path('app_print_portal', {slug: portal.slug}) }}" target="_blank">Aperçu avant impression</a>
+							<a class="dropdown-item" href="{{ path('app_print_portal', {slug: portal.slug}) }}" target="_blank">
+								<i class="fas fa-print"></i>
+								Aperçu avant impression
+							</a>
 						</li>
 						{% if is_granted('ROLE_ADMIN') %}
 							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_portal_edit', {id:portal.id}) }}">
+									<i class="fas fa-pencil-alt"></i>
 									Editer le portail
 								</a>
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_article_create', {portal:portal.id}) }}">
+									<i class="fas fa-file-alt"></i>
 									Ajouter un article
 								</a>
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_timeline_create', {portal:portal.id}) }}">
+									<i class="fas fa-hourglass"></i>
 									Ajouter une chronologie
 								</a>
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_person_create', {portal:portal.id}) }}">
+									<i class="fas fa-user"></i>
 									Ajouter un personnage
 								</a>
 							</li>
 							<li>
 								<a class="dropdown-item" href="{{ path('admin_app_place_create', {portal:portal.id}) }}">
+									<i class="fas fa-globe"></i>
 									Ajouter un lieu
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('admin_app_image_create', {portal:portal.id}) }}">
+									<i class="fas fa-image"></i>
+									Ajouter une image
 								</a>
 							</li>
 						{% endif %}
