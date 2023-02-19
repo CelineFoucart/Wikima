@@ -37,7 +37,7 @@ class AdminSectionController extends AbstractController
             return $this->redirectToRoute('admin_app_section_edit', ['id' => $section->getId()]);
         }
 
-        return $this->render('admin/section/edit.html.twig', [
+        return $this->render('Admin/section/edit.html.twig', [
             'form' => $form->createView(),
             'section' => $section,
         ]);
@@ -58,7 +58,7 @@ class AdminSectionController extends AbstractController
             }
         }
 
-        return $this->render('admin/section/delete.html.twig', [
+        return $this->render('Admin/section/delete.html.twig', [
             'section' => $section,
         ]);
     }
