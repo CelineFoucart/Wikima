@@ -59,7 +59,6 @@ final class ImageAdminController extends CRUDController
     protected function preCreate(Request $request, object $object): ?Response
     {
         $portalId = $request->query->getInt('portal');
-        dump($portalId);
         
         if ($portalId) {
             $portal = $this->portalRepository->find($portalId);
