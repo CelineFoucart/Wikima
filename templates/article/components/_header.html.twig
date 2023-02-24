@@ -25,23 +25,25 @@
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 					<li>
-						<a class="dropdown-item" href="{{ path('app_print_article', {slug: article.slug}) }}" target="_blank">Aperçu avant impression</a>
+						<a class="dropdown-item" href="{{ path('app_print_article', {slug: article.slug}) }}" target="_blank">
+							<i class="fas fa-print"></i> Aperçu avant impression
+						</a>
 					</li>
 					{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) 
 						or is_granted('ROLE_ADMIN') %}
 						<li>
 							<a class="dropdown-item" href="{{ path('admin_app_article_section', {id:article.id}) }}">
-								Gérer le contenu textuel
+								<i class="fas fa-edit"></i> Gérer le contenu textuel
 							</a>
 						</li>
 						<li>
 							<a class="dropdown-item" href="{{ path('admin_app_article_gallery', {id:article.id}) }}">
-								Gérer la galerie
+								<i class="fas fa-image"></i> Gérer la galerie
 							</a>
 						</li>
 						<li>
 							<a class="dropdown-item" href="{{ path('admin_app_article_edit', {id:article.id}) }}">
-								Editer rapidement
+								<i class="fas fa-pencil-alt"></i> Editer rapidement
 							</a>
 						</li>
 					{% endif %}

@@ -7,7 +7,7 @@ namespace App\Controller\Admin;
 use App\Repository\CategoryRepository;
 use App\Repository\PortalRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use ZipArchive;
 
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_EDITOR')")]
-final class ImageAdminController extends AbstractController
+final class ImageAdminController extends CRUDController
 {
     public function __construct(
         private CategoryRepository $categoryRepository,
@@ -24,7 +24,7 @@ final class ImageAdminController extends AbstractController
     }
 
     #[Route('/admin/app/image/download', name: 'app_image_download_all')]
-    public function index()
+    public function downloadAction()
     {
         $uploadedDir = $this->getParameter('kernel.project_dir').'/public/uploads/';
         $finder = new Finder();
@@ -59,6 +59,8 @@ final class ImageAdminController extends AbstractController
     protected function preCreate(Request $request, object $object): ?Response
     {
         $portalId = $request->query->getInt('portal');
+        dump($portalId);
+        
         if ($portalId) {
             $portal = $this->portalRepository->find($portalId);
             if (!$portal) {

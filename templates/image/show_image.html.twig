@@ -33,18 +33,9 @@
 		<div class="item-heading position-relative">
 			{% if is_granted('ROLE_ADMIN') %}
 				<div class="pt-2 pe-3 position-absolute top-0" style="right:-10px">
-					<div class="dropdown">
-						<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
-							<i class="fas fa-wrench me-1"></i>
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_image_edit', {id:image.id}) }}">
-									Gérer
-								</a>
-							</li>
-						</ul>
-					</div>
+					<a href="{{ path('admin_app_image_edit', {id:image.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
+						<i class="fas fa-pencil-alt"></i>
+					</a>
 				</div>
 			{% endif %}
 			<h1 class="mb-5">

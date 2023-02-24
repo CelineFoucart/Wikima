@@ -12,7 +12,7 @@
 					</a>
 				</li>
 				<li class="nav-item dropdown me-3">
-					<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['app_article_index', 'app_articletype_index', 'app_portal_index', 'app_category_index'], false) }}" href="#" id="pages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['article', 'comment','articletype', 'portal', 'category', 'page']) }}" href="#" id="pages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Encyclopédie
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="pages">
@@ -31,7 +31,7 @@
 					</ul>
 				</li>
 				<li class="nav-item dropdown me-3">
-					<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['app_person_index', 'app_image_index', 'app_place_index', 'app_timeline_index'], false) }}" href="#" id="gallery" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['person', 'image', 'place', 'timeline']) }}" href="#" id="gallery" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 						Galeries
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="gallery">

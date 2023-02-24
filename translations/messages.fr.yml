@@ -156,3 +156,5 @@ Article Type List: Liste des types d'article
 Article Type Create: Création d'un type d'article
 Icon: Icône
 help_icon: Entrer les classes d'un icône <a href="https://fontawesome.com/v5/search?o=r&m=free" target="_blank">fontawesome</a>, par exemple pour <b>user</b>, <em>fas fa-user</em>.
+Gender: Genre
+Species: Espèce

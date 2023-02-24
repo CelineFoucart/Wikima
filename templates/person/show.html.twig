@@ -81,10 +81,24 @@
 						<th class="align-top">Nom complet</th>
 						<td>{{ person.fullname ? person.fullname : person }}</td>
 					</tr>
-					<tr>
-						<th class="align-top">Nationalité</th>
-						<td>{{ person.nationality ? person.nationality : '-' }}</td>
-					</tr>
+					{% if person.species %}
+						<tr>
+							<th class="align-top">Espèce</th>
+							<td>{{ person.species }}</td>
+						</tr>
+					{% endif %}
+					{% if person.gender %}
+						<tr>
+							<th class="align-top">Genre</th>
+							<td>{{ person.gender }}</td>
+						</tr>
+					{% endif %}
+					{% if person.nationality %}
+						<tr>
+							<th class="align-top">Nationalité</th>
+							<td>{{ person.nationality }}</td>
+						</tr>
+					{% endif %}
 					<tr>
 						<th class="align-top">Profession</th>
 						<td>{{ person.job ? person.job : '-' }}</td>

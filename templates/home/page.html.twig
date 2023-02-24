@@ -8,50 +8,37 @@
 
 {% block body %}
 	{{ include('home/_header.html.twig', { heading_title: page.title, heading_description: page.description }) }}
-
-	{% set has_relations = page.categories is not empty or page.portals is not empty %}
-
-	<article class="mt-5 px-5">
-		{% if is_granted('ROLE_ADMIN') %}
-			<div class="mb-3 text-end">
-				<a href="{{ path('admin_app_page_edit', {id:page.id}) }}" class="btn btn-sm btn-outline-secondary" title="administrer">
-					<i class="fas fa-pencil-alt"></i>
-				</a>
-			</div>
-		{% endif %}
-
+	<div class="mt-5 mb-3 px-5">
 		<div class="row">
-			<div class=" {{ has_relations ? " col-10" : " col-12" }}">
-				{{ page.content|raw }}
+			<div class="col-11 mb-3">
+				{% if page.categories is not empty %}
+					{% for category in page.categories %}
+						<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label me-1 mb-1" title="catégorie">
+							<i class="fas fa-folder me-1"></i>
+							{{ category.title }}
+						</a>
+					{% endfor %}
+				{% endif %}
 			</div>
-
-			{% if has_relations %}
-				<div class="col-2">
-					{% if page.categories is not empty %}
-						<h3 class="h5 fw-bold">CATEGORIES :</h3>
-						{% for category in page.categories %}
-							<div class="mb-1">
-								<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1 mb-1">
-									<i class="fas fa-folder me-1"></i>
-									{{ category.title }}
-								</a>
-							</div>
-						{% endfor %}
-					{% endif %}
-
-					{% if page.portals is not empty %}
-						<h3 class="h5 fw-bold mt-4">PORTAIL :</h3>
-						{% for portal in page.portals %}
-							<div class="mb-1">
-								<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="label mx-1">
-									<i class="fas fa-tag me-1"></i>
-									{{ portal.title }}
-								</a>
-							</div>
-						{% endfor %}
-					{% endif %}
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class="col-1 text-end">
+					<a href="{{ path('admin_app_page_edit', {id:page.id}) }}" class="btn btn-sm btn-outline-secondary" title="administrer">
+						<i class="fas fa-pencil-alt"></i>
+					</a>
 				</div>
 			{% endif %}
 		</div>
-	</article>
+		
+		{{ page.content|raw }}
+
+		<div class="mt-3 text-end">
+			{% for portal in page.portals %}
+			
+				<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="label ms-1" title="portail">
+					<i class="fas fa-tag me-1"></i>
+					{{ portal.title }}
+				</a>
+			{% endfor %}
+		</div>
+	</div>
 {% endblock %}

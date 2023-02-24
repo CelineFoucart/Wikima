@@ -92,13 +92,15 @@ final class PersonAdmin extends AbstractAdmin
                             'style' => 'height: 73px'
                         ]
                     ])
-                    ->add('nationality')
+                    ->add('species')
+                    ->add('gender')
                     ->add('preview', TemplateType::class, [
                         'template' => 'Admin/components/_preview.html.twig',
                         'label' => false,
                     ])
                 ->end()
                 ->with('Informations', ['class' => 'col-md-6 hidden-header'])
+                    ->add('nationality')
                     ->add('job')
                     ->add('portals', EntityType::class, [
                         'class' => Portal::class,

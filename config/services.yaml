@@ -50,7 +50,7 @@ services:
     admin.image:
         class: App\Admin\ImageAdmin
         tags:
-            - { name: sonata.admin, model_class: App\Entity\Image, manager_type: orm, label: Image, group: Wiki}
+            - { name: sonata.admin, model_class: App\Entity\Image, controller: App\Controller\Admin\ImageAdminController, manager_type: orm, label: Image, group: Wiki}
     admin.person:
         class: App\Admin\PersonAdmin
         tags:

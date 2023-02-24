@@ -7,37 +7,254 @@
 {% block body %}
 	{{ include('home/_header.html.twig', { heading_title: 'Aide', heading_description: "Vous avez une question ? Consultez cette FAQ." }) }}
 
-	<article class="py-5 px-5 row justify-content-center">
+	<article class="py-5 px-5">
 		<header class="col-12 mb-4">
 			<h2 class="text-uppercase text-center mb-5 text-default h1">FAQ</h2>
 		</header>
+		<div class="row justify-content-center">
+			<section class="col-md-6 mb-4">
+				<h3 class="mb-3 text-default h6">
+					<i class="fas fa-question-circle"></i>
+					A quoi sert {{ app_name }} ?
+				</h3>
+				<p>
+					<strong>{{ app_name }}</strong> est un outil permettant de rassembler sous forme d'encyclopédie des informations 
+					sur un univers imaginaire, dans le cadre d'une série, d'un film, d'un jeu de rôle ou d'un texte romanesque. 
+					Il comprend une partie encyclopédie, une partie personnage, une partie chronologie et une galerie d'image. 
+					Les utilisateurs peuvent laisser des commentaires.
+				</p>
+			</section>
 
-		<section class="col-md-6 mb-4">
-			<h3 class="mb-3 text-default h6">
-				<i class="fas fa-question-circle"></i>
-				A quoi sert {{ app_name }} ?
-			</h3>
-			<p>
-				<strong>{{ app_name }}</strong>
-				est un outil permettant de rassembler sous forme d'encyclopédie des informations sur un univers imaginaire, dans le cadre d'une série, d'un film, d'un jeu de rôle ou d'un texte romanesque. Il comprend une partie encyclopédie, une partie personnage, une partie chronologie et une galerie d'image. Les utilisateurs peuvent laisser des commentaires.</p>
-		</section>
+			<section class="col-md-6 mb-4">
+				<h3 class="mb-3 text-default h6">
+					<i class="fas fa-question-circle"></i>
+					Quels rôles ont les utilisateurs de {{ app_name }} ?
+				</h3>
+				<p>
+					Les <strong>administrateurs fondateurs</strong> ont le plus haut contrôle sur le site. Viennent ensuite les
+					<strong>administrateurs</strong>. Comme les premiers, ils peuvent éditer n'importe quel contenu du site et 
+					modèrent les commentaires. Les <strong>contributeurs</strong> peuvent ajouter des images, créer des articles et 
+					éditer ceux qu'ils ont rédigé. Les simples <strong>utilisateurs</strong> peuvent laisser des commentaires.
+				</p>
+			</section>
+		</div>
 
-		<section class="col-md-6 mb-4">
-			<h3 class="mb-3 text-default h6">
-				<i class="fas fa-question-circle"></i>
-				Quels rôles ont les utilisateurs de
-				{{ app_name }}
-				?
-			</h3>
-			<p>Les
-				<strong>administrateurs fondateurs</strong>
-				ont le plus haut contrôle sur le site. Viennent ensuite les
-				<strong>administrateurs</strong>. Comme les premiers, ils peuvent éditer n'importe quel contenu du site et modèrent les commentaires. Les
-				<strong>contributeurs</strong>
-				peuvent ajouter des images, créer des articles et éditer ceux qu'ils ont rédigé. Les simples
-				<strong>utilisateurs</strong>
-				peuvent laisser des commentaires.</p>
-		</section>
+		<div class="accordion w-100" id="basicAccordion">
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="headingOne">
+					<button class="accordion-button text-default fw-bold collapsed" type="button" data-bs-toggle="collapse"
+						data-bs-target="#basicAccordionCollapseOne" aria-expanded="false" aria-controls="collapseOne">
+						Ajouter du contenu
+					</button>
+				</h2>
+				<div id="basicAccordionCollapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+				data-bs-parent="#basicAccordion" style="">
+					<div class="accordion-body">
+						<div class="row justify-content-center">
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Comment créer une catégorie ?
+								</h3>
+								<p>
+									Pour créer une catégorie, rendez-vous sur le panneau d'administration. 
+									Sur le tableau de bord, vous trouverez les listes des éléments avec chacun d'eux un lien <strong>Ajouter</strong> 
+									qui vous enverra sur le formulaire d'ajout. Vous pouvez aussi ajouter une catégorie depuis la page listant les catégories.
+								</p>
+							</section>
+
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Comment créer un portail ?
+								</h3>
+								<p>
+									Pour créer un portail, rendez-vous sur le panneau d'administration. 
+									Sur le tableau de bord, vous trouverez les listes des éléments avec chacun d'eux un lien <strong>Ajouter</strong> 
+									qui vous enverra sur le formulaire d'ajout. Vous pouvez aussi ajouter un portail depuis la page listant les portails.
+									Vous pouvez aussi ajouter un portail depuis la page d'affichage d'une catégorie, dans le menu déroulant à droite du titre.
+								</p>
+							</section>
+							
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Comment créer un article ?
+								</h3>
+								<p>
+									Pour créer un article, rendez-vous sur le panneau d'administration. 
+									Sur le tableau de bord, vous trouverez les listes des éléments avec chacun d'eux un lien <strong>Ajouter</strong> 
+									qui vous enverra sur le formulaire d'ajout. Vous pouvez aussi ajouter un article depuis la page listant les articles 
+									ou depuis la page d'un portail. Ouvrez le menu déroulant à droite du titre et cliquez sur ajouter un article. Vous 
+									pouvez définir un article comme privé ou brouillon. Un article peut aussi être épinglé : il apparaîtra en haut, sur 
+									ses portails.
+								</p>
+							</section>
+
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Comment ajouter un personnage ?
+								</h3>
+								<p>
+									Vous pouvez ajouter un personnage depuis le menu d'outils rapides d'une catégorie ou d'un portail. 
+									C'est possible aussi depuis le panneau d'administration et la liste des personnages dans le panneau d'administration.
+								</p>
+							</section>
+
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Comment ajouter un lieu ?
+								</h3>
+								<p>
+									Vous pouvez ajouter un lieu depuis le menu d'outils rapides d'une catégorie ou d'un portail. 
+									C'est possible aussi depuis le panneau d'administration et la liste des lieux dans le panneau d'administration.
+								</p>
+							</section>
+
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Comment ajouter une chronologie ?
+								</h3>
+								<p>
+									Vous pouvez ajouter une chronologie depuis le menu d'outils rapides d'une catégorie ou d'un portail. 
+									C'est possible aussi depuis le panneau d'administration et la liste des chronologies dans le panneau d'administration.
+								</p>
+							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="headingTwo">
+					<button class="accordion-button text-default fw-bold collapsed" type="button" data-bs-toggle="collapse"
+						data-bs-target="#basicAccordionCollapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+						Editer le contenu
+					</button>
+				</h2>
+				<div id="basicAccordionCollapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+				data-bs-parent="#basicAccordion" style="">
+					<div class="accordion-body">
+						<div class="row justify-content-center">
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Comment éditer une catégorie
+								</h3>
+								<p>
+									Pour éditer une article, vous pouvez le faire depuis le panneau d'administration 
+									(il y a un lien d'édition devant chaque catégorie). Cependant, vous avez aussi un
+									lien d'édition depuis le menu d'outil rapide à droite du titre de la catégorie, sur la page
+									d'affichage.
+								</p>
+							</section>
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Gérer l'ordre d'affichage des portails et des chronologies
+								</h3>
+								<p>
+									Depuis la page d'une catégorie, ouvrez le menu d'outils rapide et cliquer sur <strong>ordonner les éléments</strong>.
+									Vous arriverez sur une page ou vous pourrez changer l'ordre d'affichage des portails et des chronologies de la catégorie,
+									en les glissants les un au-dessus des autres.
+								</p>
+							</section>
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Editer un portail
+								</h3>
+								<p>
+									Pour éditer un portail, vous pouvez le faire depuis le panneau d'administration 
+									(il y a un lien d'édition devant chaque portail). Cependant, vous avez aussi un
+									lien d'édition depuis le menu d'outil rapide à droite du titre du portail, sur la page
+									d'affichage.
+								</p>
+							</section>
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Editer un article
+								</h3>
+								<p>
+									Pour éditer un article, vous pouvez le faire depuis le panneau d'administration 
+									(il y a un lien d'édition devant chaque article). Cependant, vous avez aussi un
+									lien d'édition depuis le menu d'outil rapide à droite du titre de l'article, sur la page
+									d'affichage.
+								</p>
+							</section>
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Gérer les sections d'un article
+								</h3>
+								<p>
+									En cliquant sur gérer le contenu textuel, dans le menu d'outil rapide à droite du titre, vous arriverez sur une page 
+									ou vous pourrez créer une nouvelle section et réordonner l'ordre des sections. Vous avez aussi l'option d'éditer l'article
+									et de gérer sa galerie.
+								</p>
+							</section>
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Gérer la galerie de l'article
+								</h3>
+								<p>
+									Vous avez la possibilité d'ajouter des images dans l'article. En cliquant sur gérer la galerie, 
+									dans le menu d'outil rapide à droite du titre, vous arriverez sur une page listant les articles de l'encyclopédie que 
+									vous pourrez filtrer. Vous pouvez ajouter une image, enlever une image de la galerie ou en uploader une.
+								</p>
+							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="accordion-item">
+				<h2 class="accordion-header" id="headingThree">
+					<button class="accordion-button text-default fw-bold collapsed" type="button" data-bs-toggle="collapse"
+						data-bs-target="#basicAccordionCollapseThree" aria-expanded="false" aria-controls="collapseThree">
+						Contribuer et commenter
+					</button>
+				</h2>
+				<div id="basicAccordionCollapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+				data-bs-parent="#basicAccordion" style="">
+					<div class="accordion-body">
+						<div class="row justify-content-center">
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Comment poster des commentaires
+								</h3>
+								<p>
+									L'utilisateur authentifié peut laisser un commentaire. En cliquant sur l'onglet commentaire,
+									sur la page de détail d'un article, vous verrez les commentaires postés. Si vous êtes connecté, vous 
+									trouverez un formulaire pour poster votre commentaire. Vous avez ensuite la possibilité de l'éditer
+									et de le supprimer. 
+								</p>
+							</section>
+							<section class="col-md-6 mb-4">
+								<h3 class="mb-3 text-default h6">
+									<i class="fas fa-question-circle"></i>
+									Comment poster une note ?
+								</h3>
+								<p>
+									L'utilisateur avec le rang contributeur ou le rang administrateur peut laisser une note à propos d'une 
+									catégorie ou d'un portail. Le bouton menant à la liste des notes où vous pourrez les gérer et en ajouter.
+									Vous pouvez aussi ajouter une note non liée depuis l'espace d'administration. Dans le menu déroulant de 
+									l'administration, cliquez sur <strong>Ajouter une note</strong>.
+								</p>
+							</section>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		
+		
 	</article>
 
 

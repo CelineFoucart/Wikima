@@ -148,6 +148,20 @@ class Person
     #[ORM\Column(length: 400, nullable: true)]
     private ?string $physicalDescription = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 1,
+        max: 255
+    )]
+    private ?string $species = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    #[Assert\Length(
+        min: 1,
+        max: 100
+    )]
+    private ?string $gender = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -488,6 +502,30 @@ class Person
     public function setPhysicalDescription(?string $physicalDescription): self
     {
         $this->physicalDescription = $physicalDescription;
+
+        return $this;
+    }
+
+    public function getSpecies(): ?string
+    {
+        return $this->species;
+    }
+
+    public function setSpecies(?string $species): self
+    {
+        $this->species = $species;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?string $gender): self
+    {
+        $this->gender = $gender;
 
         return $this;
     }

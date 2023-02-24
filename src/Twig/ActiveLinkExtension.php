@@ -42,47 +42,34 @@ class ActiveLinkExtension extends AbstractExtension
     /**
      * Determines if a there is an active link in a group of links.
      */
-    public function areActive(Request $request, array $routes, bool $strict = true, bool $pages = true): string
+    public function areActive(Request $request, array $routes, bool $isStricted = false): string
     {
         foreach ($routes as $routeName) {
 
-            $isActive = $this->isLinkActive($request, $routeName, $strict);
+            $isActive = $this->isLinkActive($request, $routeName, $isStricted);
 
             if ($isActive) {
                 return 'active';
             }
         }
 
-        if (!$pages) {
-            return '';
-        }
-
-        $isActivePage = $this->isLinkActive($request, 'app_page', $strict, $pages);  
-        
-        if ($isActivePage) {
-            return 'active';
-        } else {
-            return '';
-        }
+        return '';
     }
 
     /**
      * Determines if a link is active.
      */
-    private function isLinkActive(Request $request, string $routeName, bool $strict = true,  bool $slug = false): bool
+    private function isLinkActive(Request $request, string $routeName, bool $isStricted = false): bool
     {
-        if ($slug) {
-            $route = $this->urlGenerator->generate($routeName, ['slug' => "active"]);
-        } else {
-            $route = $this->urlGenerator->generate($routeName);
-        }
-        
-        $currentUrl = $request->getPathInfo();
+        $currentRoute = $request->get('_route');
 
-        if ($strict) {
-            return $currentUrl === $route;
-        } else {
-            return $route === substr($currentUrl, 0, strlen($route));
+        if ($isStricted) {
+            return $currentRoute === $routeName;
         }
+
+        $parts = explode('_', $currentRoute);
+
+        return in_array($routeName, $parts);
+
     }
 }
