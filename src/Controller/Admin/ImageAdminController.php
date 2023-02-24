@@ -22,8 +22,7 @@ final class ImageAdminController extends CRUDController
         private PortalRepository $portalRepository
     ) {
     }
-
-    #[Route('/admin/app/image/download', name: 'app_image_download_all')]
+    
     public function downloadAction()
     {
         $uploadedDir = $this->getParameter('kernel.project_dir').'/public/uploads/';

@@ -48,9 +48,14 @@ class StatisticsExtension extends AbstractExtension
         $pluralPl = (int) $stats['place'] > 1 ? 'x' : '';
         $pluralPe = (int) $stats['person'] > 1 ? 's' : '';
 
+        $total = (int) $stats['article'] + (int) $stats['place'] + (int) $stats['person'] + (int) $stats['image'];
+        $plural = $total > 1 ? 's' : '';
+
         return <<<HTML
             <p> 
-                Aujourd'hui, {$this->websiteName} regroupe dans {$stats['category']} catégorie{$pluralCat} et {$stats['portal']} portail{$pluralPort} :
+                Aujourd'hui, {$this->websiteName} regroupe 
+                dans <strong>{$stats['category']}</strong> catégorie{$pluralCat} et <strong>{$stats['portal']}</strong> portail{$pluralPort} 
+                les <strong>{$total}</strong> élément{$plural} suivants :
             </p>
             <p class="d-flex justify-content-between mx-5 text-center">
                 <span>

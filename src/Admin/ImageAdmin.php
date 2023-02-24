@@ -126,4 +126,10 @@ final class ImageAdmin extends AbstractAdmin
     {
         $this->cacheManager->remove('/uploads/'.$object->getFilename());
     }
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        $collection
+            ->add('download', 'download');
+    }
 }
