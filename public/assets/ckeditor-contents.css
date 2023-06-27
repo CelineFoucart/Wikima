@@ -68,6 +68,14 @@ h1,h2,h3,h4,h5,h6
 	line-height: 1.2;
 }
 
+h3 {
+    font-size: 1.25rem;
+}
+
+h4, h5, h6 {
+    font-size: 1rem;
+}
+
 hr
 {
 	border: 0px;
@@ -202,4 +210,11 @@ a > img {
 	max-width: 1920px;
 	max-height: 1080px;
 	margin:0 auto;
+}
+
+dl {
+    background-color: #f8f9fa;
+    border: 1px double #dee2e6;
+    margin: 0 4rem 1rem;
+    padding: 1.5em 2rem 0.5em;
 }
