@@ -85,6 +85,10 @@ body {
     border-left: 1px solid #f8f9fa;
 }
 
+.dropdown-menu {
+    z-index: 2000;
+}
+
 .dropdown-menu li {
     position: relative;
 }
