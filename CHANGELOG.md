@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.1.0] - 2023-01-21
 
-### Added 
+### Added
+
 - Ajout option "remember me"
 - Ajout des personnages (affichage et administration)
 - Ajout des chronologies (affichage et administration)
@@ -24,17 +25,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ajout de la licence
 
 ### Changed
+
 - Définition des permissions du panneau d'administration
 - Import de l'espace édition dans l'espace administration
 - Lier les pages aux catégories et aux portails
-- Modification de style 
+- Modification de style
 
 ### Removed
+
 - Espace édition
 
 ## [1.0.0] - 2022-03-15
 
 ### Added
+
 - Affichage des articles
 - Affichage des catégories
 - Affichage des portails
@@ -49,5 +53,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Création du profil éditeur
 - Mise en place de la recherche image et article
 - Page de contact
-
-
