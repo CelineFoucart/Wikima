@@ -9,6 +9,7 @@ fos_ck_editor:
             allowedContent: true
             removePlugins: 'exportpdf'
             format_tags: 'p;h2;h3;h4;h5;pre'
+            contentsCss: ['/assets/bootstrap/bootstrap.min.css', '/assets/ckeditor-contents.css']
     toolbars:
         configs: 
             basic: ['@basic.basic_styles', '@basic.paragraph', '@basic.links']
