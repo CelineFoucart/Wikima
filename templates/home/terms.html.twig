@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de FAQ |
+	{{ app_name }}
+{% endblock %}
+
+{% block body %}
+	{{ include('home/_header.html.twig') }}
+
+	<article class="py-5 px-5">
+		<header class="col-12 mb-4">
+			<h2 class="text-uppercase text-center mb-5 text-default h1">Conditions d’utilisation</h2>
+		</header>
+        {% include "home/_terms.html.twig" %}
+	</article>
+{% endblock %}
+
+
+
+
+
+

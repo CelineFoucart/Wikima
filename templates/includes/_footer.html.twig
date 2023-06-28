@@ -1,10 +1,9 @@
 <footer class="text-center p-5 bg-default-light">
-	<h5 class="fw-bold">Encyclopédie
-		{{ app_name }}</h5>
+	<h5 class="fw-bold">Encyclopédie {{ app_name }}</h5>
 	<p class="mb-0">©
 		{{ "now"|date("Y") }}
 		Copyright : Céline Foucart</p>
-	<p class="mt-2">
+	<p class="mt-2 mb-1">
 		<small>
 			<a href="{{ path('app_user') }}" class="text-decoration-none fw-bold">
 				<i class="fas fa-user"></i>
@@ -20,4 +19,53 @@
 			<a href="{{ path('app_faq') }}" class="text-decoration-none fw-bold">FAQ</a>
 		</small>
 	</p>
+	<p>
+		<small>
+			<a href="{{ path('app_terms') }}" class="text-decoration-none fw-bold">Conditions d'utilisation</a>
+			|
+			<a href="{{ path('app_privacy') }}" class="text-decoration-none fw-bold">Vie privée</a>
+		</small>
+	</p>
+	<p>
+		<a href="#" class="small" data-bs-toggle="modal" data-bs-target="#licenceModal">
+			Ce logiciel est sous licence MIT
+		</a>
+	</p>
 </footer>
+<div class="modal fade" id="licenceModal" tabindex="-1" role="dialog" aria-labelledby="licenceModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="licenceModalLabel">Licence</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<p>
+					Le code source de ce logiciel est publié sous licence MIT. La licence ne porte par sur le contenu publié sur ce site,
+					comme les textes ou les images.
+				</p>
+				<hr>
+				<h5>MIT License</h5>
+				<p>Copyright (c) {{ "now"|date('Y') }} <a href="https://github.com/CelineFoucart">Celine Foucart</a></p>
+
+				<p>Permission is hereby granted, free of charge, to any person obtaining a copy
+				of this software and associated documentation files (the "Software"), to deal
+				in the Software without restriction, including without limitation the rights
+				to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+				copies of the Software, and to permit persons to whom the Software is
+				furnished to do so, subject to the following conditions:</p>
+
+				<p>The above copyright notice and this permission notice shall be included in all
+				copies or substantial portions of the Software.</p>
+
+				<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+				IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+				FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+				AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+				LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+				OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+				SOFTWARE.</p>
+			</div>
+		</div>
+	</div>
+</div>
