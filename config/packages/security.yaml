@@ -67,6 +67,7 @@ security:
             - ROLE_ADMIN_PERSON_ALL
             - ROLE_ADMIN_NOTE_ALL
             - ROLE_ADMIN_PLACE_ALL
+            - ROLE_ADMIN_ARTICLE_TYPE_ALL
         ROLE_SUPER_ADMIN:
             - ROLE_ADMIN_ARTICLE_ALL
             - ROLE_ADMIN_CATEGORY_ALL

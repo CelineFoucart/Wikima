@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Administration{% endblock %}
+		</title>
+		<link href="{{ asset('assets/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+		<link rel="stylesheet" href="{{ asset('assets/choicesjs/choices.min.css') }}"/>
+		<link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}"/>
+		<link href="{{ asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="{{ asset('assets/admin/admin.css') }}">
+		<link rel="shortcut icon" href="/assets/favicon.png" type="image/png">
+		{% block stylesheets %}{% endblock %}
+	</head>
+	<body>
+		<nav class="navbar bg-white navbar-white navbar-expand-md navbar-light border-bottom">
+			<a href="#" class="navbar-brand pe-2">
+				<i class="fas fa-cogs"></i>
+				<span class="ms-1">Administration</span>
+			</a>
+			<div class="navbar-nav">
+				<div aria-label="breadcrumb">
+					<ol class="breadcrumb mb-0">
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_home') }}" class="text-reset"><i class="fas fa-home" title="accueil"></i> </a>
+						</li>
+						{% block breadcrumb %}{% endblock %}
+					</ol>
+				</div>
+			</div>
+
+			<ul class="navbar-nav ms-auto">
+				<li class="nav-item dropdown">
+					<a class="nav-link" data-bs-toggle="dropdown" href="#">
+						<i class="fas fa-user mr-1"></i> {{ app.user.username }}
+						<i class="fas fa-caret-down ml-1"></i>
+					</a>
+					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end user-menu">
+						<div class="dropdown-item">
+							<div class="d-flex align-items-start">
+								<div class="bg-light rounded d-flex justify-content-center align-items-center mr-2"
+									style="height: 48px; width: 48px;">
+									<div class="h5 text-muted m-0"><i class="fas fa-user"></i></div>
+								</div>
+								<div>
+									<p class="text-muted mb-0 ms-1">Vous êtes connecté en tant que</p>
+									<h3 class="dropdown-item-title mt-1 font-weight-bold h6 ms-1">
+										{{ app.user.username }}
+									</h3>
+								</div>
+							</div>
+						</div>
+						<!-- User pseudo End -->
+						<div class="dropdown-divider"></div>
+						<div class="dropdown-item dropdown-footer">
+							<a href="{{ path('app_logout') }}" class="btn btn-light border btn-sm">
+								<i class="fas fa-sign-out-alt"></i> Déconnexion
+							</a>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</nav>
+		
+		<aside class="dashboard-nav">
+			<nav class="dashboard-nav-list">
+				<a href="{{ path('admin_app_dashboard') }}" class="dashboard-nav-item {% block activeDashboard %}{% endblock %}">
+					<i class="fas fa-tachometer-alt"></i>
+					<span>Tableau de bord</span>
+				</a>
+				<div class="dashboard-nav-dropdown {% block activeWiki %}{% endblock %}">
+					<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle ">
+						<i class="fas fa-folder"></i>
+						<span>Encyclopédie</span>
+					</a>
+					<div class="dashboard-nav-dropdown-menu">
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Catégorie</span>
+						</a>
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Portail</span>
+						</a>
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Article</span>
+						</a>
+						<a href="{{ path('admin_app_articletype_list') }}" class="dashboard-nav-dropdown-item {% block activeArticleType %}{% endblock %}">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Type d'article</span>
+						</a>
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Chronologie</span>
+						</a>
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Image</span>
+						</a>
+					</div>
+				</div>
+
+				<div class="dashboard-nav-dropdown {% block activeCharacters %}{% endblock %}">
+					<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+						<i class="fas fa-user"></i>
+						<span>Personnages</span>
+					</a>
+					<div class="dashboard-nav-dropdown-menu">
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Liste</span>
+						</a>
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Type</span>
+						</a>
+					</div>
+				</div>
+
+				<div class="dashboard-nav-dropdown {% block activePlace %}{% endblock %}">
+					<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+						<i class="fas fa-building"></i>
+						<span>Lieux</span>
+					</a>
+					<div class="dashboard-nav-dropdown-menu">
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Liste</span>
+						</a>
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Type</span>
+						</a>
+					</div>
+				</div>
+				<div class="dashboard-nav-dropdown {% block activeAdmin %}{% endblock %}">
+					<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+						<i class="fas fa-tools"></i>
+						<span>Administration</span>
+					</a>
+					<div class="dashboard-nav-dropdown-menu">
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Page</span>
+						</a>
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Membres</span>
+						</a>
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Commentaire</span>
+						</a>
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Sauvegarde</span>
+						</a>
+						<a href="#" class="dashboard-nav-dropdown-item">
+							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+							<span>Configuration</span>
+						</a>
+					</div>
+				</div>
+				<a href="#" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
+					<i class="fas fa-sticky-note me-1"></i>
+					<span>Notes</span>
+				</a>
+				
+
+				<div class="nav-item-divider"></div>
+				<a href="{{ path('app_home') }}" class="dashboard-nav-item">
+					<i class="fas fa-globe"></i>
+					<span>Index de {{ app_name }}</span>
+				</a>
+				<a href="{{ path('app_logout') }}" class="dashboard-nav-item">
+					<i class="fas fa-sign-out-alt"></i>
+					<span>Déconnexion</span>
+				</a>
+			</nav>
+		</aside>
+
+		<div class="wrapper" id="wrapper">
+			<div class="container-fluid mt-2">
+				<header class="page-header mt-3">
+					<div class="row">
+						<div class="col-md-8">
+							<h1 class="fs-4 mb-0">{% block page_title %}Tableau de bord{% endblock %}</h1>
+						</div>
+						<div class="col-md-4 text-end">
+							{% block toolbar %}{% endblock %}
+						</div>
+					</div>
+				</header>
+
+				{% for message in app.flashes('success') %}
+					<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+						{{ message }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				{% endfor %}
+
+				{% for message in app.flashes('error') %}
+					<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+						{{ message }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				{% endfor %}
+			</div>
+
+			<main class="container-fluid mt-4">
+				{% block body %}{% endblock %}
+			</main>
+		</div>
+
+		<script src="{{ asset('assets/bootstrap/bootstrap.bundle.min.js') }}"></script>
+		<script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
+		<script src="{{ asset('assets/DataTables/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
+		<script src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
+		<script src="{{ asset('assets/admin/admin.js') }}"></script>
+		{% block javascripts %}
+			
+		{% endblock %}
+	</body>
+</html>

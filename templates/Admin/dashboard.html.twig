@@ -1,0 +1,30 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Tableau de bord{% endblock %}
+
+{% block activeDashboard %} active show {% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <h3>0</h3>
+                    <p>
+                        types d'article
+                    </p>
+                </div>
+                <div class="icon">
+                    <i class="fas fa-file" aria-hidden="true"></i>
+                </div>
+                <div class="card-footer text-center position-relative">
+                    <a href="{{ path('admin_app_articletype_list') }}" class="text-reset text-decoration-none stretched-link">
+                    Voir plus <i class="fas fa-arrow-circle-right" aria-hidden="true"></i>
+                </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-3"></div>
+    </div>
+{% endblock %}
