@@ -266,7 +266,8 @@ elements.forEach(element => {
 });
 
 $(document).ready(function () {
-    $(".dashboard-nav-dropdown-toggle").click(function () {
+    $(".dashboard-nav-dropdown-toggle").click(function (e) {
+        e.preventDefault();
         $(this).closest(".dashboard-nav-dropdown")
             .toggleClass("show")
             .find(".dashboard-nav-dropdown")

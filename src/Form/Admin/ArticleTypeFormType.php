@@ -14,16 +14,8 @@ class ArticleTypeFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class, [
-                'attr' => [
-                    'data-action' => 'slug',
-                ],
-            ])
-            ->add('slug', TextType::class, [
-                'attr' => [
-                    'data-target' => 'slug',
-                ],
-            ])
+            ->add('title', TextType::class)
+            ->add('slug', TextType::class)
             ->add('description', TextareaType::class, [
                 'required' => false,
             ])

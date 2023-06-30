@@ -1,23 +1,20 @@
 {% extends 'admin_layout.html.twig' %}
 
-{% block title %}Editer "{{ articleType }}"{% endblock %}
+{% block title %}Editer "{{ category }}"{% endblock %}
 
-{% block activeWiki %}
-	active show
-{% endblock %}
+{% block activeWiki %}active show{% endblock %}
+{% block activeCategory %}active{% endblock %}
 
-{% block activeArticleType %}active {% endblock %}
-
-{% block page_title %}Editer "{{ articleType }}"{% endblock %}
+{% block page_title %}Editer "{{ category }}"{% endblock %}
 
 {% block breadcrumb %}
 	<li class="breadcrumb-item">
-		<a href="{{ path('admin_app_articletype_list') }}" class="text-reset">
-			Types d'article
+		<a href="{{ path('admin_app_category_list') }}" class="text-reset">
+			Catégorie
 		</a>
 	</li>
 	<li class="breadcrumb-item active">
-		{{ articleType }}
+		{{ category }}
 	</li>
 {% endblock %}
 
@@ -28,34 +25,40 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
-                <a class="dropdown-item" href="{{ path('admin_app_articletype_create') }}">
+                <a class="dropdown-item" href="{{ path('admin_app_category_create') }}">
                     <i class="fas fa-plus-circle" aria-hidden="true"></i>
                     Ajouter
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ path('app_articletype_show', {slug: articleType.slug}) }}">
+                <a class="dropdown-item" href="{{ path('app_category_show', {slug: category.slug}) }}">
                     <i class="fas fa-book-reader"></i>
                     Consulter
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ path('admin_app_articletype_show', {id: articleType.id}) }}">
+                <a class="dropdown-item" href="{{ path('admin_app_category_sort', {id: category.id}) }}">
+                    <i class="fas fa-sort-amount-down-alt"></i>
+                    Ordonner
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_category_show', {id: category.id}) }}">
                     <i class="fas fa-eye"></i>
                     Afficher
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ path('admin_app_articletype_list') }}">
+                <a class="dropdown-item" href="{{ path('admin_app_category_list') }}">
                     <i class="fas fa-list" aria-hidden="true"></i>
                     Retour à la liste
                 </a>
             </li>
         </ul>
     </div>
-    {% include "Admin/components/_delete_modal.html.twig" with { element: articleType, path: 'admin_app_articletype_delete', full: true } %}
+    {% include "Admin/components/_delete_modal.html.twig" with { element: category, path: 'admin_app_category_delete', full: true } %}
 {% endblock %}
 
 {% block body %}
-	{% include "Admin/article_type/_form.html.twig" %}
+	{% include "Admin/category/_form.html.twig" %}
 {% endblock %}

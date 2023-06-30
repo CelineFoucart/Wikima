@@ -1,19 +1,16 @@
 {% extends 'admin_layout.html.twig' %}
 
-{% block title %}Créer un type d'article{% endblock %}
+{% block title %}Créer une catégorie{% endblock %}
 
-{% block activeWiki %}
-	active show
-{% endblock %}
+{% block activeWiki %}active show{% endblock %}
+{% block activeCategory %}active{% endblock %}
 
-{% block activeArticleType %}active {% endblock %}
-
-{% block page_title %}Créer un type d'article{% endblock %}
+{% block page_title %}Créer une catégorie{% endblock %}
 
 {% block breadcrumb %}
 	<li class="breadcrumb-item">
-		<a href="{{ path('admin_app_articletype_list') }}" class="text-reset">
-			Types d'article
+		<a href="{{ path('admin_app_category_list') }}" class="text-reset">
+			Catégorie
 		</a>
 	</li>
 	<li class="breadcrumb-item active">
@@ -29,5 +26,5 @@
 {% endblock %}
 
 {% block body %}
-	{% include "Admin/article_type/_form.html.twig" %}
+	{% include "Admin/category/_form.html.twig" %}
 {% endblock %}

@@ -9,7 +9,7 @@
 				Êtes-vous sûr de vouloir supprimer l'élément "{{ element }}" sélectionné?
 			</div>
 			<div class="modal-footer">
-				<form action="" method="post" action="{{ path(path, {'id': element.id}) }}">
+				<form method="post" action="{{ path(path, {'id': element.id}) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ element.id) }}">
                     <button type="button" class="btn btn-default btn-sm" data-bs-dismiss="modal">Annuler</button>
                     <button type="submit" class="btn btn-danger btn-sm">
@@ -21,7 +21,9 @@
 	</div>
 </div>
 
-<button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ element.id }}" title="Supprimer">
+<button type="button" class="btn btn-sm btn-danger d-inline" data-bs-toggle="modal" data-bs-target="#deleteModal{{ element.id }}" title="Supprimer">
 	<i class="fas fa-times" aria-hidden="true"></i>
-	Supprimer
+	{% if full is defined %}
+		Supprimer
+	{% endif %}
 </button>

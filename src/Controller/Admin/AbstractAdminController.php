@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Admin\Wiki;
+namespace App\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -12,22 +12,15 @@ abstract class AbstractAdminController extends AbstractController
 
     protected function redirectTo(Request $request, int $id): RedirectResponse
     {
-        if (null !== $request->get('btn_update_and_list')) {
-            return $this->redirectToList();
-        }
-        if (null !== $request->get('btn_create_and_list')) {
+        if (null !== $request->get('btn_save_and_list')) {
             return $this->redirectToList();
         }
 
-        if (null !== $request->get('btn_create_and_create')) {
+        if (null !== $request->get('btn_save_and_create')) {
             return $this->redirectToCreate();
         }
 
-        if (null !== $request->get('btn_create_and_edit')) {
-            return $this->redirectToEdit($id);
-        }
-
-        if (null !== $request->get('btn_update_and_edit')) {
+        if (null !== $request->get('btn_save_and_edit')) {
             return $this->redirectToEdit($id);
         }
 

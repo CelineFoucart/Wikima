@@ -26,7 +26,7 @@
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
-                        <th>Id</th>
+                        <th class="table-id">Id</th>
                         <th>Titre</th>
                         <th>Slug</th>
                         <th>Icône</th>
@@ -45,15 +45,13 @@
                             <td>
                                 <div class="btn-group">
                                     <a href="{{ path('app_articletype_show', {slug: articleType.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
-                                        <i class="fas fa-book-reader"></i> Consulter
+                                        <i class="fas fa-book-reader"></i>
                                     </a>                    
                                     <a href="{{ path('admin_app_articletype_show', {id: articleType.id}) }}" class="btn btn-sm btn-default" title="Afficher">
                                         <i class="fas fa-eye" aria-hidden="true"></i>
-                                            Afficher
                                     </a>
                                     <a href="{{ path('admin_app_articletype_edit', {id: articleType.id}) }}" class="btn btn-sm btn-default" title="Éditer">
                                         <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                                            Éditer
                                     </a>
                                     {% include "Admin/components/_delete_modal.html.twig" with { element: articleType, path: 'admin_app_articletype_delete' } %}
                                 </div>

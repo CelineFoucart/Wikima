@@ -1,0 +1,137 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Afficher "{{ category }}"{% endblock %}
+
+{% block activeWiki %}active show{% endblock %}
+{% block activeCategory %}active{% endblock %}
+
+{% block page_title %}Afficher "{{ category }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_category_list') }}" class="text-reset">
+			Catégorie
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		{{ category }}
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<div class="dropdown">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Action
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_category_create') }}">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                    Ajouter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('app_category_show', {slug: category.slug}) }}">
+                    <i class="fas fa-book-reader"></i>
+                    Consulter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_category_sort', {id: category.id}) }}">
+                    <i class="fas fa-sort-amount-down-alt"></i>
+                    Ordonner
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_category_edit', {id: category.id}) }}">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                    Editer
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_category_list') }}">
+                    <i class="fas fa-list" aria-hidden="true"></i>
+                    Retour à la liste
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">{{ category }}</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Titre</th>
+                                <td>
+                                    <a href="{{ path('app_category_show', {slug: category.slug}) }}">
+                                        {{ category.title }}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Slug</th>
+                                <td>{{ category.slug }}</td>
+                            </tr>
+                            <tr>
+                                <th>Mots clés</th>
+                                <td>{{ category.keywords }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ category.description|nl2br }}</td>
+                            </tr>
+                            <tr>
+                                <th>Présentation</th>
+                                <td>{{ category.presentation|raw }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="card border-top-primary mt-3">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Bannière</h2>
+                </div>
+                <div class="card-body card-show">
+                    {% if category.banner %}
+                        <img src="{{ vich_uploader_asset(object) }}" class="img-fluid" alt="bannière de {{ object.title }}">
+                        <p class="text-center">{{ object.banner }}</p>
+                    {% else %}
+                        <p class="text-center">Aucune bannière</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Méta données</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Création</th>
+                                <td>{{ category.createdAt|date('d/m/Y à H:i') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Mise à jour</th>
+                                <td>{{ category.updatedAt ? category.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	
+{% endblock %}

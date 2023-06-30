@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin\Wiki;
 
 use App\Entity\ArticleType;
@@ -8,6 +10,7 @@ use App\Repository\ArticleTypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\Admin\AbstractAdminController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 #[Route('/admin/article/type')]
@@ -75,7 +78,7 @@ class AdminArticleTypeController extends AbstractAdminController
     {
         if ($this->isCsrfTokenValid('delete'.$articleType->getId(), $request->request->get('_token'))) {
             $articleTypeRepository->remove($articleType, true);
-            $this->addFlash('success', "L'élément a été supprimée avec succès.");
+            $this->addFlash('success', "L'élément a été supprimé avec succès.");
         }
 
         return $this->redirectToRoute('admin_app_articletype_list', [], Response::HTTP_SEE_OTHER);
