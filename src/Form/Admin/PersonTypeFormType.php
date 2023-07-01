@@ -2,14 +2,14 @@
 
 namespace App\Form\Admin;
 
-use App\Entity\ArticleType;
+use App\Entity\PersonType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class ArticleTypeFormType extends AbstractType
+class PersonTypeFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -20,18 +20,13 @@ class ArticleTypeFormType extends AbstractType
                 'required' => false,
                 'help' => 'help_description',
             ])
-            ->add('icon', TextType::class, [
-                'help' => 'help_icon',
-                'help_html' => true,
-                'required' => false,
-            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => ArticleType::class,
+            'data_class' => PersonType::class,
         ]);
     }
 }

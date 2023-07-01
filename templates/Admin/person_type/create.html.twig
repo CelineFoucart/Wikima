@@ -1,0 +1,33 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Créer un type de personnage{% endblock %}
+
+{% block activePerson %}
+	active show
+{% endblock %}
+
+{% block activePersonType %}active {% endblock %}
+
+{% block page_title %}Créer un type de personnage{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_persontype_list') }}" class="text-reset">
+			Types de personnage
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Création
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<a href="{{ path('admin_app_persontype_list') }}" class="btn btn-default btn-sm">
+		<i class="fas fa-long-arrow-left"></i>
+		Retour
+	</a>
+{% endblock %}
+
+{% block body %}
+	{% include "Admin/person_type/_form.html.twig" %}
+{% endblock %}
