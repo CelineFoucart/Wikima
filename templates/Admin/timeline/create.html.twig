@@ -1,0 +1,30 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Créer une chronologie{% endblock %}
+
+{% block activeWiki %}active show{% endblock %}
+{% block activeTimeline %}active{% endblock %}
+
+{% block page_title %}Créer une chronologie{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_timeline_list') }}" class="text-reset">
+			Chronologie
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Création
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<a href="{{ path('admin_app_timeline_list') }}" class="btn btn-default btn-sm">
+		<i class="fas fa-long-arrow-left"></i>
+		Retour
+	</a>
+{% endblock %}
+
+{% block body %}
+	{% include "Admin/timeline/_form.html.twig" %}
+{% endblock %}

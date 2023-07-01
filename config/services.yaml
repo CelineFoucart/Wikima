@@ -27,10 +27,6 @@ services:
             $contactName: '%app.contact.name%'
             $backupFolder: '%app.backup.folder%'
     
-    admin.timeline:
-        class: App\Admin\TimelineAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\Timeline, controller: App\Controller\Admin\TimelineAdminController, manager_type: orm, group: Wiki, label: Timeline }
     admin.image:
         class: App\Admin\ImageAdmin
         tags:

@@ -1,0 +1,71 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Liste des chronologies{% endblock %}
+
+{% block activeWiki %} active show {% endblock %}
+{% block activeTimeline %}active{% endblock %}
+
+{% block page_title %}Chronologie{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Chronologie
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_timeline_create') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body card-show">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th class="table-id">Id</th>
+                        <th>Titre</th>
+                        <th>Slug</th>
+                        <th>Création</th>
+                        <th>Mise à jour</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for timeline in timelines %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}" class="fw-bold">{{timeline.id }}</a>
+                            </td>
+                            <td>{{ timeline.title }}</td>
+                            <td>{{ timeline.slug }}</td>
+                            <td>{{ timeline.createdAt|date('d/m/Y à H:i') }}</td>
+                            <td>{{ timeline.updatedAt ? timeline.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
+                                        <i class="fas fa-book-reader"></i>
+                                    </a>                   
+                                    <a href="{{ path('admin_app_timeline_show', {id: timeline.id}) }}" class="btn btn-sm btn-default" title="Afficher">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_timeline_event', {id: timeline.id}) }}" class="btn btn-sm btn-default" title="Gérer les événements">
+                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_timeline_edit', {id: timeline.id}) }}" class="btn btn-sm btn-default" title="Éditer">
+                                        <i class="fas fa-calendar" aria-hidden="true"></i>
+                                    </a>
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: timeline, path: 'admin_app_timeline_delete' } %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+

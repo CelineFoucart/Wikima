@@ -45,7 +45,7 @@
 						<table class="table table-striped mb-0">
 							<tbody id="sections">
 								{% for section in article.sections %}
-									<tr class="sonata-ba-view-container handle" id="{{ section.id }}">
+									<tr class="handle" id="{{ section.id }}">
 										<td>
 											<div class="float-end">
 												<a href="{{ path('admin_app_article_section', {id:article.id, section: section.id}) }}" class="btn btn-success btn-sm" title="Editer">

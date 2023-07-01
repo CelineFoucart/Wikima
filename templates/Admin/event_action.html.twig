@@ -1,6 +1,0 @@
-{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-	<a href="{{ admin.generateObjectUrl('event', object) }}" class="btn btn-sm btn-default view_link" title="Gérer les événements">
-		<i class="fa fa-calendar-o" aria-hidden="true"></i>
-		Evénements
-	</a>
-{% endif %}

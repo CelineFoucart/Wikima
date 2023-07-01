@@ -1,0 +1,149 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Ajouter des événements à "{{ timeline.title }}"{% endblock %}
+
+{% block activeWiki %}active show{% endblock %}
+{% block activeTimeline %}active{% endblock %}
+
+{% block page_title %}Ajouter des événements à "{{ timeline.title }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_timeline_list') }}" class="text-reset">
+			Chronologie
+		</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_timeline_show', {id: timeline.id}) }}" class="text-reset">
+			{{ timeline }}
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Evénement
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<div class="dropdown">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Action
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_timeline_create') }}">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                    Ajouter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('app_timeline_show', {slug: timeline.slug}) }}">
+                    <i class="fas fa-book-reader"></i>
+                    Consulter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_timeline_show', {id: timeline.id}) }}">
+                    <i class="fas fa-eye"></i>
+                    Afficher
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_timeline_edit', {id: timeline.id}) }}">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                    Editer
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_timeline_list') }}">
+                    <i class="fas fa-list" aria-hidden="true"></i>
+                    Retour à la liste
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
+	<script>
+		window.onload = () => {
+			let url = "{{ path('api_timeline_event', {'id': timeline.id}) }}";
+			sortable('#events', url);
+		}
+	</script>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-md-6 col-lg-7">
+			<div class="card border-top-primary">
+				<div class="card-header">
+					<h3 class="card-title h5 mb-0">Modifier ou ajouter un événement à "{{ timeline.title }}"</h3>
+				</div>
+				<div class="card-body">
+					{{ form_start(form) }}
+					<div class="row">
+						<div class="col-lg-6">
+							{{ form_row(form.title) }}
+						</div>
+						<div class="col-lg-6">
+							{{ form_row(form.duration) }}
+						</div>
+					</div>
+					{{ form_rest(form) }}
+					<button type="submit" class="btn btn-success btn-sm">Enregistrer</button>
+					<a href="{{ path('admin_app_timeline_event', {id: timeline.id}) }}" class="btn btn-default btn-sm">
+						Annuler
+					</a>
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-5">
+			<div class="card border-top-primary">
+				<div class="card-header bg-white">
+					<div class="float-end">
+						<div class="help">
+							<i class="fas fa-question-circle"></i>
+							<span class="help-body">
+								Glisser les événéments pour modifier leur ordre.
+							</span>
+						</div>
+					</div>
+					<h3 class="card-title h5 mb-0">Evénements de "{{ timeline.title }}"</h3>
+				</div>
+				<div class="card-body p-0 table-responsive {{ timeline.events|length > 5 ? 'scroll-y' : '' }}">
+					{% if timeline.events is empty %}
+						<p class="card-body">Aucun événement</p>
+					{% else %}
+						<table class="table table-striped mb-0">
+							<tbody id="events">
+								{% for event in timeline.events %}
+									<tr id="{{ event.id }}" class="handle">
+										<td>
+											<div class="float-end">
+												<a href="{{ path('admin_app_timeline_event', {id:timeline.id, event: event.id}) }}" class="btn btn-success btn-sm" title="Editer">
+													<i class="fas fa-edit" aria-hidden="true"></i>
+												</a>
+												<form method="post" action="{{ path('admin_app_event_delete', {'id': event.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet élément ?');" style="display:inline-block">
+													<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
+													<button class="btn btn-danger btn-sm" title="Supprimer">
+														<i class="fa fa-trash"></i>
+													</button>
+												</form>
+											</div>
+											<h4 class="h6">{{ event.title }}</h4>
+											<p>{{ event.duration }}</p>
+											{{ event.presentation|striptags|raw|u.truncate(190, '...', false)|raw }}
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
