@@ -386,6 +386,9 @@ h1 {
 }
 
 /* forms */
+.vich-image a {
+    display: block;
+}
 .form-label,
 .col-form-label {
     font-weight: bold;

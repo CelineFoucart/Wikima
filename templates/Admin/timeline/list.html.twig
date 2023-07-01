@@ -53,10 +53,10 @@
                                         <i class="fas fa-eye" aria-hidden="true"></i>
                                     </a>
                                     <a href="{{ path('admin_app_timeline_event', {id: timeline.id}) }}" class="btn btn-sm btn-default" title="Gérer les événements">
-                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                        <i class="fas fa-calendar" aria-hidden="true"></i>
                                     </a>
                                     <a href="{{ path('admin_app_timeline_edit', {id: timeline.id}) }}" class="btn btn-sm btn-default" title="Éditer">
-                                        <i class="fas fa-calendar" aria-hidden="true"></i>
+                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                                     </a>
                                     {% include "Admin/components/_delete_modal.html.twig" with { element: timeline, path: 'admin_app_timeline_delete' } %}
                                 </div>

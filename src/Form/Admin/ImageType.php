@@ -17,6 +17,8 @@ class ImageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $id = $options['data']->getId();
+
         $builder
             ->add('title', TextType::class)
             ->add('slug', TextType::class)
@@ -25,6 +27,7 @@ class ImageType extends AbstractType
                 'attr' => [
                     'rows' => '3',
                 ],
+                'help' => 'help_description',
             ])
             ->add('categories', EntityType::class, [
                 'class' => Category::class,
@@ -44,7 +47,9 @@ class ImageType extends AbstractType
                     'data-choices' => 'choices'
                 ]
             ])
-            ->add('imageFile', VichImageType::class)
+            ->add('imageFile', VichImageType::class, [
+                'required' => (null === $id) ? true : false
+            ])
         ;
     }
 

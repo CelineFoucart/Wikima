@@ -1,0 +1,133 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Afficher "{{ image }}"{% endblock %}
+
+{% block activeWiki %}active show{% endblock %}
+{% block activeImage %}active{% endblock %}
+
+{% block page_title %}Afficher "{{ image }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_image_list') }}" class="text-reset">
+			Image
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		{{ image }}
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<div class="dropdown">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Action
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_image_create') }}">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                    Ajouter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('app_image_show', {slug: image.slug}) }}">
+                    <i class="fas fa-book-reader"></i>
+                    Consulter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_image_edit', {id: image.id}) }}">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                    Editer
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_image_list') }}">
+                    <i class="fas fa-list" aria-hidden="true"></i>
+                    Retour à la liste
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">{{ image }}</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Titre</th>
+                                <td>
+                                    <a href="{{ path('app_image_show', {slug: image.slug}) }}">
+                                        {{ image.title }}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Slug</th>
+                                <td>{{ image.slug }}</td>
+                            </tr>
+                            <tr>
+                                <th>Mots clés</th>
+                                <td>{{ image.keywords }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ image.description|nl2br }}</td>
+                            </tr>
+                            <tr>
+                                <th>Catégories</th>
+                                <td>
+                                    {% if image.categories is not empty %}
+                                        <ul class="mb-0">
+                                            {% for category in image.categories %}
+                                                <li><a href="{{ path('app_category_show', {slug: category.slug}) }}">{{ category }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Portails</th>
+                                <td>
+                                    {% if image.portals is not empty %}
+                                        <ul class="mb-0">
+                                            {% for portal in image.portals %}
+                                                <li><a href="{{ path('app_portal_show', {slug: portal.slug}) }}">{{ portal }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Mise à jour</th>
+                                <td>{{ image.updatedAt ? image.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Fichier</h2>
+                </div>
+                <div class="card-body card-show">
+                    <a href="{{ vich_uploader_asset(image) }}">
+                        <img src="{{ vich_uploader_asset(image)|imagine_filter('medium_image') }}" class="img-fluid" alt="{{ image.title }}">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	
+{% endblock %}

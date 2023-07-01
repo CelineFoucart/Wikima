@@ -95,7 +95,7 @@
 							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 							<span>Chronologie</span>
 						</a>
-						<a href="#" class="dashboard-nav-dropdown-item {% block activeImage %}{% endblock %}">
+						<a href="{{ path('admin_app_image_list') }}" class="dashboard-nav-dropdown-item {% block activeImage %}{% endblock %}">
 							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 							<span>Image</span>
 						</a>
@@ -170,12 +170,12 @@
 						</div>
 					</div>
 				{% endif %}
+				
 				<a href="#" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
 					<i class="fas fa-sticky-note me-1"></i>
 					<span>Notes</span>
 				</a>
 				
-
 				<div class="nav-item-divider"></div>
 				<a href="{{ path('app_home') }}" class="dashboard-nav-item">
 					<i class="fas fa-globe"></i>

@@ -1,0 +1,77 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Liste des chronologies{% endblock %}
+
+{% block activeWiki %} active show {% endblock %}
+{% block activeImage %}active{% endblock %}
+
+{% block page_title %}Image{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Image
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a class="btn btn-default btn-sm" href="{{ path('admin_app_image_download') }}">
+        <i class="fas fa-download" aria-hidden="true"></i>Télécharger
+    </a>
+    <a href="{{ path('admin_app_image_create') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body card-show">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th class="table-id">Fichier</th>
+                        <th>Titre</th>
+                        <th>Slug</th>
+                        <th>Mots clés</th>
+                        <th>Mise à jour</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for image in images %}
+                        <tr>
+                            <td class="text-center">
+                                <a href="{{ vich_uploader_asset(image) }}">
+                                    <img src="{{ vich_uploader_asset(image)|imagine_filter('icon_image') }}" alt="{{ image.title }}">
+                                </a>
+                            </td>
+                            <td>
+                                <a href="{{ path('app_image_show', {slug: image.slug}) }}">
+                                    {{ image.title }}
+                                </a>
+                            </td>
+                            <td>{{ image.slug }}</td>
+                            <td>{{ image.keywords }}</td>
+                            <td>{{ image.updatedAt ? image.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{{ path('app_image_show', {slug: image.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
+                                        <i class="fas fa-book-reader"></i>
+                                    </a>                   
+                                    <a href="{{ path('admin_app_image_show', {id: image.id}) }}" class="btn btn-sm btn-default" title="Afficher">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_image_edit', {id: image.id}) }}" class="btn btn-sm btn-default" title="Éditer">
+                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                    </a>
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: image, path: 'admin_app_image_delete' } %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
