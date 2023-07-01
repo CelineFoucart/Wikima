@@ -1,20 +1,20 @@
 {% extends 'admin_layout.html.twig' %}
 
-{% block title %}Afficher "{{ category }}"{% endblock %}
+{% block title %}Afficher "{{ portal }}"{% endblock %}
 
 {% block activeWiki %}active show{% endblock %}
-{% block activeCategory %}active{% endblock %}
+{% block activePortal %}active{% endblock %}
 
-{% block page_title %}Afficher "{{ category }}"{% endblock %}
+{% block page_title %}Afficher "{{ portal }}"{% endblock %}
 
 {% block breadcrumb %}
 	<li class="breadcrumb-item">
-		<a href="{{ path('admin_app_category_list') }}" class="text-reset">
+		<a href="{{ path('admin_app_portal_list') }}" class="text-reset">
 			Catégorie
 		</a>
 	</li>
 	<li class="breadcrumb-item active">
-		{{ category }}
+		{{ portal }}
 	</li>
 {% endblock %}
 
@@ -25,31 +25,25 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
-                <a class="dropdown-item" href="{{ path('admin_app_category_create') }}">
+                <a class="dropdown-item" href="{{ path('admin_app_portal_create') }}">
                     <i class="fas fa-plus-circle" aria-hidden="true"></i>
                     Ajouter
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ path('app_category_show', {slug: category.slug}) }}">
+                <a class="dropdown-item" href="{{ path('app_portal_show', {slug: portal.slug}) }}">
                     <i class="fas fa-book-reader"></i>
                     Consulter
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ path('admin_app_category_sort', {id: category.id}) }}">
-                    <i class="fas fa-sort-amount-down-alt"></i>
-                    Ordonner
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_category_edit', {id: category.id}) }}">
+                <a class="dropdown-item" href="{{ path('admin_app_portal_edit', {id: portal.id}) }}">
                     <i class="fas fa-edit" aria-hidden="true"></i>
                     Editer
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ path('admin_app_category_list') }}">
+                <a class="dropdown-item" href="{{ path('admin_app_portal_list') }}">
                     <i class="fas fa-list" aria-hidden="true"></i>
                     Retour à la liste
                 </a>
@@ -63,7 +57,7 @@
         <div class="col-md-9">
             <div class="card border-top-primary">
                 <div class="card-header bg-white">
-                    <h2 class="card-title h5 mb-0">{{ category }}</h2>
+                    <h2 class="card-title h5 mb-0">{{ portal }}</h2>
                 </div>
                 <div class="card-body card-show">
                     <table class="table table-striped mb-0">
@@ -71,26 +65,36 @@
                             <tr>
                                 <th>Titre</th>
                                 <td>
-                                    <a href="{{ path('app_category_show', {slug: category.slug}) }}">
-                                        {{ category.title }}
+                                    <a href="{{ path('app_portal_show', {slug: portal.slug}) }}">
+                                        {{ portal.title }}
                                     </a>
                                 </td>
                             </tr>
                             <tr>
                                 <th>Slug</th>
-                                <td>{{ category.slug }}</td>
+                                <td>{{ portal.slug }}</td>
                             </tr>
                             <tr>
                                 <th>Mots clés</th>
-                                <td>{{ category.keywords }}</td>
+                                <td>{{ portal.keywords }}</td>
+                            </tr>
+                            <tr>
+                                <th>Catégories</th>
+                                <td class="container-list">
+                                    {% for category in portal.categories %}
+                                        <a href="{{ path('app_category_show', {slug: category.slug}) }}">{{ category }}</a>
+                                    {% else %}
+                                        <span class="fst-italic">Aucune catégorie</span>
+                                    {% endfor %}
+                                </td>
                             </tr>
                             <tr>
                                 <th>Description</th>
-                                <td>{{ category.description|nl2br }}</td>
+                                <td>{{ portal.description|nl2br }}</td>
                             </tr>
                             <tr>
                                 <th>Présentation</th>
-                                <td>{{ category.presentation|raw }}</td>
+                                <td>{{ portal.presentation|raw }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -101,9 +105,9 @@
                     <h2 class="card-title h5 mb-0">Bannière</h2>
                 </div>
                 <div class="card-body card-show">
-                    {% if category.banner %}
-                        <img src="{{ vich_uploader_asset(category) }}" class="img-fluid" alt="bannière de {{ category.title }}">
-                        <p class="text-center">{{ category.banner }}</p>
+                    {% if portal.banner %}
+                        <img src="{{ vich_uploader_asset(portal) }}" class="img-fluid" alt="bannière de {{ portal.title }}">
+                        <p class="text-center">{{ portal.banner }}</p>
                     {% else %}
                         <p class="text-center">Aucune bannière</p>
                     {% endif %}
@@ -120,11 +124,11 @@
                         <tbody>
                             <tr>
                                 <th>Création</th>
-                                <td>{{ category.createdAt|date('d/m/Y à H:i') }}</td>
+                                <td>{{ portal.createdAt|date('d/m/Y à H:i') }}</td>
                             </tr>
                             <tr>
                                 <th>Mise à jour</th>
-                                <td>{{ category.updatedAt ? category.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                                <td>{{ portal.updatedAt ? portal.updatedAt|date('d/m/Y à H:i') : '' }}</td>
                             </tr>
                         </tbody>
                     </table>

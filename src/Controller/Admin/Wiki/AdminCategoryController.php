@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 #[Route('/admin/category')]
 #[Security("is_granted('ROLE_ADMIN')")]
-class AdminCategoryController extends AbstractAdminController
+final class AdminCategoryController extends AbstractAdminController
 {
     protected string $entityName = "category";
 
@@ -44,7 +44,7 @@ class AdminCategoryController extends AbstractAdminController
         if ($form->isSubmitted() && $form->isValid()) { 
             $category->setCreatedAt(new DateTimeImmutable());
             $this->categoryRepository->add($category, true);
-            $this->addFlash('success', "La catégorie " . $category->getTitle() . " a bien été créé.");
+            $this->addFlash('success', "La catégorie " . $category->getTitle() . " a bien été créée.");
 
             return $this->redirectTo($request, $category->getId());
         }
@@ -71,7 +71,7 @@ class AdminCategoryController extends AbstractAdminController
         if ($form->isSubmitted() && $form->isValid()) { 
             $category->setUpdatedAt(new DateTime());
             $this->categoryRepository->add($category, true);
-            $this->addFlash('success', "La catégorie " . $category->getTitle() . " a bien été modifié.");
+            $this->addFlash('success', "La catégorie " . $category->getTitle() . " a bien été modifiée.");
 
             return $this->redirectTo($request, $category->getId());
         }

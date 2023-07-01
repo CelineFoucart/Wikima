@@ -1,20 +1,20 @@
 {% extends 'admin_layout.html.twig' %}
 
-{% block title %}Liste des catégories{% endblock %}
+{% block title %}Liste des portails{% endblock %}
 
 {% block activeWiki %} active show {% endblock %}
-{% block activeCategory %}active{% endblock %}
+{% block activePortal %}active{% endblock %}
 
-{% block page_title %}Catégorie{% endblock %}
+{% block page_title %}Portail{% endblock %}
 
 {% block breadcrumb %}
     <li class="breadcrumb-item active">
-        Catégorie
+        Portail
     </li>
 {% endblock %}
 
 {% block toolbar %}
-    <a href="{{ path('admin_app_category_create') }}" class="btn btn-default btn-sm">
+    <a href="{{ path('admin_app_portal_create') }}" class="btn btn-default btn-sm">
         <i class="fas fa-plus-circle" aria-hidden="true"></i>
         Ajouter
     </a>
@@ -29,36 +29,39 @@
                         <th class="table-id">Id</th>
                         <th>Titre</th>
                         <th>Slug</th>
+                        <th>Catégories</th>
                         <th>Création</th>
                         <th>Mise à jour</th>
                         <th data-orderable="false">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for category in categories %}
+                    {% for portal in portals %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_category_show', {slug: category.slug}) }}" class="fw-bold">{{category.id }}</a>
+                                <a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="fw-bold">{{portal.id }}</a>
                             </td>
-                            <td>{{ category.title }}</td>
-                            <td>{{ category.slug }}</td>
-                            <td>{{ category.createdAt|date('d/m/Y à H:i') }}</td>
-                            <td>{{ category.updatedAt ? category.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                            <td>{{ portal.title }}</td>
+                            <td>{{ portal.slug }}</td>
+                            <td class="container-list">
+                                {% for category in portal.categories %}
+                                    <a href="{{ path('admin_app_category_show', {id: category.id}) }}">{{ category }}</a>
+                                {% endfor %}
+                            </td>
+                            <td>{{ portal.createdAt|date('d/m/Y à H:i') }}</td>
+                            <td>{{ portal.updatedAt ? portal.updatedAt|date('d/m/Y à H:i') : '' }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <a href="{{ path('app_category_show', {slug: category.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
+                                    <a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
                                         <i class="fas fa-book-reader"></i>
                                     </a>                   
-                                    <a href="{{ path('admin_app_category_show', {id: category.id}) }}" class="btn btn-sm btn-default" title="Afficher">
+                                    <a href="{{ path('admin_app_portal_show', {id: portal.id}) }}" class="btn btn-sm btn-default" title="Afficher">
                                         <i class="fas fa-eye" aria-hidden="true"></i>
                                     </a>
-                                    <a href="{{ path('admin_app_category_sort', {id: category.id}) }}" class="btn btn-sm btn-default" title="Gérer l'ordre des elements">
-                                        <i class="fas fa-sort-amount-down-alt"></i>
-                                    </a>
-                                    <a href="{{ path('admin_app_category_edit', {id: category.id}) }}" class="btn btn-sm btn-default" title="Éditer">
+                                    <a href="{{ path('admin_app_portal_edit', {id: portal.id}) }}" class="btn btn-sm btn-default" title="Éditer">
                                         <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                                     </a>
-                                    {% include "Admin/components/_delete_modal.html.twig" with { element: category, path: 'admin_app_category_delete' } %}
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: portal, path: 'admin_app_portal_delete' } %}
                                 </div>
                             </td>
                         </tr>

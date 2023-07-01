@@ -14,7 +14,7 @@
 		{% block stylesheets %}{% endblock %}
 	</head>
 	<body>
-		<nav class="navbar bg-white navbar-white navbar-expand-md navbar-light border-bottom">
+		<nav class="navbar fixed-top bg-white navbar-white navbar-expand-md navbar-light border-bottom">
 			<a href="#" class="navbar-brand pe-2">
 				<i class="fas fa-cogs"></i>
 				<span class="ms-1">Administration</span>
@@ -79,11 +79,11 @@
 							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 							<span>Catégorie</span>
 						</a>
-						<a href="#" class="dashboard-nav-dropdown-item">
+						<a href="{{ path('admin_app_portal_list') }}" class="dashboard-nav-dropdown-item {% block activePortal %}{% endblock %}">
 							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 							<span>Portail</span>
 						</a>
-						<a href="#" class="dashboard-nav-dropdown-item">
+						<a href="#" class="dashboard-nav-dropdown-item {% block activeArticle %}{% endblock %}">
 							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 							<span>Article</span>
 						</a>
@@ -91,11 +91,11 @@
 							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 							<span>Type d'article</span>
 						</a>
-						<a href="#" class="dashboard-nav-dropdown-item">
+						<a href="#" class="dashboard-nav-dropdown-item {% block activeTimeline %}{% endblock %}">
 							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 							<span>Chronologie</span>
 						</a>
-						<a href="#" class="dashboard-nav-dropdown-item">
+						<a href="#" class="dashboard-nav-dropdown-item {% block activeImage %}{% endblock %}">
 							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 							<span>Image</span>
 						</a>

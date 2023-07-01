@@ -6,13 +6,39 @@ body {
     background-color: #ecf0f5;
 }
 
+img {
+    max-width: 100%;
+}
+
+.container-list > * {
+    display: inline-block;
+}
+
+.container-list > *::after {
+    content: ', ';
+    display: inline-block;
+    color: #212529;
+    margin-right: 3px;
+}
+
+.container-list > *:last-of-type::after {
+    display: none;
+    content: '';
+}
+
 .breadcrumb-item a {
     text-decoration: none;
+}
+
+.choices__list--multiple .choices__item {
+    background-color: #3c8dbceb;
+    border: 1px solid #3c8dbc;
 }
 
 .wrapper {
     margin-left: 4.5rem;
     padding-bottom: 10px;
+    margin-top: 66px;
 }
 
 .sidebar-main-brand {

@@ -84,13 +84,23 @@ class PortalRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByCategory(Category $category)
+    public function findByCategory(Category $category): array
     {
         return $this->createQueryBuilder('p')
             ->leftJoin('p.categories', 'c')->addSelect('c')
             ->andWhere('c.id = :id')
             ->setParameter('id', $category->getId())
             ->addOrderBy('p.position')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllWithCategory(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.categories', 'c')
+            ->addSelect('c')
             ->getQuery()
             ->getResult()
         ;

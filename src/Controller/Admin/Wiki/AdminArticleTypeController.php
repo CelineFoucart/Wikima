@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 #[Route('/admin/article/type')]
 #[Security("is_granted('ROLE_ADMIN')")]
-class AdminArticleTypeController extends AbstractAdminController
+final class AdminArticleTypeController extends AbstractAdminController
 {
     protected string $entityName = "articletype";
 

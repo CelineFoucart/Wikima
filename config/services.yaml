@@ -27,10 +27,6 @@ services:
             $contactName: '%app.contact.name%'
             $backupFolder: '%app.backup.folder%'
     
-    admin.portal:
-        class: App\Admin\PortalAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\Portal, controller: App\Controller\Admin\PortalAdminController, manager_type: orm, label: Portal, group: Wiki}
     admin.article:
         class: App\Admin\ArticleAdmin
         tags:
