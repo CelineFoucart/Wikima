@@ -30,14 +30,6 @@
 				<span>Tableau de bord</span>
 			</a>
 		</li>
-		{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-			<li class="treeview {{ current_route == 'admin_app_overview' ? 'active' : '' }}">
-				<a href="{{ path('admin_app_overview') }}">
-					<i class="fa fa-info-circle" aria-hidden="true"></i>
-					<span>Informations</span>
-				</a>
-			</li>
-		{% endif %}
 	</ul>
 {% endblock %}
 
