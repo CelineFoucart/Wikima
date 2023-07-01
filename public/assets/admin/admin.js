@@ -166,31 +166,11 @@ function characterAction() {
     const fullname = document.querySelector('[data-type="fullname"]');
 
     if (firstname && lastname && fullname) {
-        const button = createButton();
-        fullname.after(button);
-        fullname.style.width = 'calc(100% - 40px)';
-        fullname.parentElement.style.display = "flex";
-
+        const button = document.querySelector('#fullnameAction');
         button.addEventListener('click', (e) => {
             e.preventDefault();
             fullname.value = firstname.value + ' ' + lastname.value;
         });
-
-        const slugInput = document.querySelector('[data-target="slug-character"]');
-        console.log(slugInput)
-        if (slugInput) {
-            const slugButton = createButton();
-            slugInput.after(slugButton);
-            slugInput.style.width = 'calc(100% - 40px)';
-            slugInput.parentElement.style.display = "flex";
-            slugInput.parentElement.style.flexWrap = "wrap";
-
-            slugButton.addEventListener('click', (e) => {
-                e.preventDefault();
-                const slug = slugify(firstname.value + ' ' + lastname.value);
-                slugInput.value = slug;
-            });
-        }
     }
 }
 

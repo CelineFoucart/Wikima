@@ -1,0 +1,75 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Liste des catégories{% endblock %}
+
+{% block activePerson %} active show {% endblock %}
+{% block activePersonList %}active{% endblock %}
+
+{% block page_title %}Personnage{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Personnage
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_person_create') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body card-show">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th class="table-id">Id</th>
+                        <th>Prénom</th>
+                        <th>Nom de famille</th>
+                        <th>Nationalité</th>
+                        <th>Date de naissance</th>
+                        <th>Date de mort</th>
+                        <th>Type</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for person in persons %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('app_person_show', {slug: person.slug}) }}" class="fw-bold">{{person.id }}</a>
+                            </td>
+                            <td>{{ person.firstname }}</td>
+                            <td>{{ person.lastname }}</td>
+                            <td>{{ person.nationality }}</td>
+                            <td>{{ person.birthday }}</td>
+                            <td>{{ person.deathDate }}</td>
+                            <td>{{ person.type|join(', ') }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{{ path('app_person_show', {slug: person.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
+                                        <i class="fas fa-book-reader"></i>
+                                    </a>                   
+                                    <a href="{{ path('admin_app_person_show', {id: person.id}) }}" class="btn btn-sm btn-default" title="Afficher">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_person_image', {id: person.id}) }}" class="btn btn-sm btn-default" title="Gérer l'image">
+                                        <i class="fas fa-image"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_person_edit', {id: person.id}) }}" class="btn btn-sm btn-default" title="Éditer">
+                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                    </a>
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: person, path: 'admin_app_person_delete' } %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+

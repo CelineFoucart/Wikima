@@ -55,10 +55,6 @@ Administrator: Administrateur
 Founder Administrator: Administrateur Fondateur
 Editor: Contributeur
 General: Général
-Article List: Liste des articles
-Article Body: Corps de l'article
-Article Create: Création d'un article
-Portal Create: Création d'un portail
 Comments: Commentaires
 Comment: Commentaire
 Comment List: Liste des commentaires
@@ -72,31 +68,20 @@ Backup List: Historique des sauvegardes
 Latest Edited Articles: Derniers articles édités
 batch: sélectionner
 published articles: articles publiés
-Pages: Pages
-Page List: Liste des pages
-Page Create: Création d'une page
-Id: Id
 Actions: Actions
-Timeline: Chronologie
-Timeline List: Liste des chronologies
-Timeline Create: Création d'une chronologie
 timelineOrder: Ordre chronologique
 Article: Article
 Duration: Date ou durée
 Presentation: Présentation
-Timeline order: Ordre dans la chronologie
-Person: Personnage
-Person List: Liste des personnages
-Person Create: Création d'un personnage
 Identity: Identité
 Firstname: Prénom
 Lastname: Nom de famille
 Fullname: Nom complet
 Nationality: Nationalité
 Birthday: Date de naissance
-Birthday Place: Lieu de naissance
-Death Date: Date de mort
-Death Place: Lieu de mort
+Birthday place: Lieu de naissance
+Death date: Date de mort
+Death place: Lieu de mort
 Job: Emploi
 Full Presentation: Présentation détaillée
 Biography: Biographie
@@ -119,10 +104,6 @@ Note List: Liste des notes
 Message: Message
 Is Processed: Est traité
 Note Create: Création d'une note
-PersonType: Type de personnage
-Person Type: Type de personnage
-Person Type List: Liste des types de personnages
-Person Type Create: Création d'un type de personnages
 Type: Type
 Place: Lieu
 Place List: Liste des lieux
@@ -147,7 +128,7 @@ Is Inhabitable: Habitable
 Siblings: Frères et soeurs
 Partner: Conjoint
 help_description: Courte présentation de moins de 255 caractères
-Physical Description: Description physique
+Physical description: Description physique
 Is sticky: Epingler
 Is Sticky: Epingler
 ArticleType: Type d'article

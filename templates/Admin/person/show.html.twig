@@ -1,0 +1,173 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Afficher "{{ person }}"{% endblock %}
+
+{% block activePerson %}active show{% endblock %}
+{% block activePersonList %}active{% endblock %}
+
+{% block page_title %}Afficher "{{ person }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_person_list') }}" class="text-reset">
+			Personnage
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		{{ person }}
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<div class="dropdown">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Action
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_person_create') }}">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                    Ajouter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('app_person_show', {slug: person.slug}) }}">
+                    <i class="fas fa-book-reader"></i>
+                    Consulter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_person_edit', {id: person.id}) }}">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                    Editer
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item"  href="{{ path('admin_app_person_image', {id: person.id}) }}">
+                    <i class="fas fa-image"></i>
+                    Gérer l'image
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_person_list') }}">
+                    <i class="fas fa-list" aria-hidden="true"></i>
+                    Retour à la liste
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Présentation détaillée</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Présentation</th>
+                                <td>{{ person.presentation|raw  }}</td>
+                            </tr>
+                            <tr>
+                                <th>Biographie</th>
+                                <td>{{ person.biography|raw  }}</td>
+                            </tr>
+                            <tr>
+                                <th>Personnalité</th>
+                                <td>{{ person.personality|raw }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">En bref</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Nom</th>
+                                <td>
+                                    <a href="{{ path('app_person_show', {slug: person.slug}) }}">{{ person.firstname }} {{ person.lastname }}</a>
+                                    {% if person.fullname %}
+                                        <small>
+                                            (<em>Nom complet :</em> {{ person.fullname }})
+                                        </small>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Slug</th>
+                                <td>{{ person.slug }}</td>
+                            </tr>
+                            <tr>
+                                <th>Type</th>
+                                <td>{{ person.type|join(', ') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nationalité</th>
+                                <td>{{ person.nationality }}</td>
+                            </tr>
+                            <tr>
+                                <th>Naissance</th>
+                                <td>
+                                    {{ person.birthday }}
+                                    {% if person.birthdayPlace %}
+                                        à {{ person.birthdayPlace }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Mort</th>
+                                <td>
+                                    {{ person.deathDate }}
+                                    {% if person.birthdayPlace %}
+                                        à {{ person.deathPlace }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ person.description|nl2br }}</td>
+                            </tr>
+                            <tr>
+                                <th>Image</th>
+                                <td>
+                                    {% if person.image %}
+                                        <div class="image-block" style="margin-bottom: 5px;">
+                                            {% include "image/components/_thumbnail.html.twig" with {image:person.image} %}
+                                        </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Parents</th>
+                                <td>{{ person.parents }}</td>
+                            </tr>
+                            <tr>
+                                <th>Frères et soeurs</th>
+                                <td>{{ person.siblings }}</td>
+                            </tr>
+                            <tr>
+                                <th>Conjoint</th>
+                                <td>{{ person.partner }}</td>
+                            </tr>
+                            <tr>
+                                <th>Enfants</th>
+                                <td>{{ person.children }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

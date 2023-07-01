@@ -1,0 +1,69 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Editer "{{ person }}"{% endblock %}
+
+{% block activePerson %}active show{% endblock %}
+{% block activePersonList %}active{% endblock %}
+
+{% block page_title %}Editer "{{ person }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_person_list') }}" class="text-reset">
+			Catégorie
+		</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_person_show', {id: person.id}) }}" class="text-reset">
+			{{ person }}
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Editer
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<div class="dropdown d-inline">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Action
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_person_create') }}">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                    Ajouter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('app_person_show', {slug: person.slug}) }}">
+                    <i class="fas fa-book-reader"></i>
+                    Consulter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_person_show', {id: person.id}) }}">
+                    <i class="fas fa-eye"></i>
+                    Afficher
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item"  href="{{ path('admin_app_person_image', {id: person.id}) }}">
+                    <i class="fas fa-image"></i>
+                    Gérer l'image
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_person_list') }}">
+                    <i class="fas fa-list" aria-hidden="true"></i>
+                    Retour à la liste
+                </a>
+            </li>
+        </ul>
+    </div>
+    {% include "Admin/components/_delete_modal.html.twig" with { element: person, path: 'admin_app_person_delete', full: true } %}
+{% endblock %}
+
+{% block body %}
+	{% include "Admin/person/_form.html.twig" %}
+{% endblock %}

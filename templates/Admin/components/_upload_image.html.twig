@@ -1,19 +1,29 @@
-<div class="box box-primary">
-    <div class="box-header">
-        <h3 class="box-title">Uploader une image</h3>
+<div class="card border-top-primary">
+    <div class="card-header">
+        <h3 class="card-title h5 mb-0">Uploader une image</h3>
     </div>
-    <div class="box-body">
+    <div class="card-body">
         {{ form_start(form) }}
         <div class="row">
             <div class="col-md-6">
                 {{ form_row(form.title) }}
             </div>
             <div class="col-md-6">
-                <div class="form-group">
+                <div class="mb-3">
                     {{ form_label(form.slug) }}
-                    <div class="sonata-ba-field sonata-ba-field-standard-natural">
+                    <div class="input-group">
                         {{ form_widget(form.slug) }}
+                        <span 
+                            class="input-group-text" 
+                            data-action="slugify" 
+                            data-target="#image_slug" 
+                            role="btton" 
+                            data-source="#image_title"
+                            title="Générer">
+                            <i class="fas fa-sync-alt"></i>
+                        </span>
                     </div>
+                    {{ form_help(form.slug) }}
                     {{ form_errors(form.slug) }}
                 </div>
             </div>
@@ -31,8 +41,8 @@
             </div>
         </div>
         {{ form_rest(form) }}
-        <div style="margin-top:10px">
-            <button type="submit" class="btn btn-primary">Ajouter</button>
+        <div class="mt-2">
+            <button type="submit" class="btn btn-primary btn-sm">Ajouter</button>
         </div>
         {{ form_end(form) }}
     </div>

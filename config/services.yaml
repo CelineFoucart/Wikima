@@ -27,14 +27,6 @@ services:
             $contactName: '%app.contact.name%'
             $backupFolder: '%app.backup.folder%'
     
-    admin.image:
-        class: App\Admin\ImageAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\Image, controller: App\Controller\Admin\ImageAdminController, manager_type: orm, label: Image, group: Wiki}
-    admin.person:
-        class: App\Admin\PersonAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\Person, controller: App\Controller\Admin\PersonAdminController, manager_type: orm, group: Person, label: Person }
     admin.place_type:
         class: App\Admin\PlaceTypeAdmin
         tags:

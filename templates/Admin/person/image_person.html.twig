@@ -1,165 +1,144 @@
-{% extends 'Admin/extend_layout.html.twig' %}
+{% extends 'admin_layout.html.twig' %}
 
-{% block sonata_head_title %}
-	Gérer l'image de "{{ person }}"
-{% endblock sonata_head_title %}
+{% block title %}Gérer l'image de "{{ person }}"{% endblock %}
 
-{% block sonata_breadcrumb %}
-	<div class="hidden-xs">
-		<ol class="nav navbar-top-links breadcrumb">
-			<li>
-				<a href="{{ path('sonata_admin_dashboard') }}">
-					<i class="fa fa-home"></i>
-				</a>
-			</li>
-			<li>
-				<a href="{{ path('admin_app_person_list') }}">Liste des personnages</a>
-			</li>
-			<li class="active">
-				<span>{{ person }}</span>
-			</li>
-		</ol>
-	</div>
-{% endblock sonata_breadcrumb %}
+{% block activePerson %}active show{% endblock %}
+{% block activePersonList %}active{% endblock %}
 
-{% block sonata_page_content_nav %}
-	<nav class="navbar navbar-default" role="navigation">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">Gérer l'image de "{{ person }}"</a>
+{% block page_title %}Gérer l'image de "{{ person }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_person_list') }}" class="text-reset">
+			Personnage
+		</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_person_show', {id: person.id}) }}" class="text-reset">
+			{{ person }}
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Gérer l'image
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<div class="dropdown">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Action
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_person_create') }}">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                    Ajouter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('app_person_show', {slug: person.slug}) }}">
+                    <i class="fas fa-book-reader"></i>
+                    Consulter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_person_show', {id: person.id}) }}">
+                    <i class="fas fa-eye"></i>
+                    Afficher
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_person_edit', {id: person.id}) }}">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                    Editer
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_person_list') }}">
+                    <i class="fas fa-list" aria-hidden="true"></i>
+                    Retour à la liste
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body %}
+	{% if person.image is null %}
+		{{ include('Admin/components/_upload_image.html.twig') }}
+	{% else %}
+		<div class="card border-top-primary">
+			<div class="card-header">
+				<h3 class="card-title h5 mb-0">Illustration du personnage</h3>
 			</div>
-
-			<div class="navbar-collapse">
-				<ul class="nav navbar-nav navbar-right">
-					<li class="dropdown sonata-actions">
-						<a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Liste d'actions
-							<b class="caret"></b>
-						</a>
-						<ul class="dropdown-menu" role="menu">
-							<li>
-								<a class="sonata-action-element" href="{{ path('admin_app_person_create') }}">
-									<i class="fas fa-plus-circle" aria-hidden="true"></i>
-									Ajouter
-								</a>
-							</li>
-
-							<li>
-								<a class="sonata-action-element" href="{{ path('app_person_show', {slug: person.slug}) }}">
-									<i class="fas fa-book-reader" aria-hidden="true"></i> Consulter
-								</a>
-							</li>
-
-							<li>
-								<a class="sonata-action-element" href="{{ path('admin_app_person_show', {id: person.id}) }}">
-									<i class="fas fa-eye" aria-hidden="true"></i>
-									Afficher
-								</a>
-							</li>
-
-							<li>
-								<a class="sonata-action-element" href="{{ path('admin_app_person_edit', {id: person.id}) }}">
-									<i class="fas fa-edit" aria-hidden="true"></i>
-									Éditer
-								</a>
-							</li>
-
-							<li>
-								<a class="sonata-action-element" href="{{ path('admin_app_person_list') }}">
-									<i class="fas fa-list" aria-hidden="true"></i>
-									Retourner à la liste
-								</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
+			<div class="card-body table-responsive no-padding">
+				<table class="table">
+					<tbody>
+						<tr class="sonata-ba-view-container">
+							<th>Fichier</th>
+							<td>{{ person.image.filename }}</td>
+							<td rowspan="4" style="width: 180px;">
+								<div class="image-block" style="margin-bottom: 5px;">
+									{% include "image/components/_thumbnail.html.twig" with {image:person.image} %}
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th>Nom</th>
+							<td>{{ person.image.title }}</td>
+						</tr>
+						<tr>
+							<th>Mots clé</th>
+							<td>{{ person.image.keywords }}</td>
+						</tr>
+						<tr>
+							<th>Action</th>
+							<td>
+								<form action="" method="post">
+									<a class="btn btn-default btn-sm" href="{{ path('app_person_show', {slug: person.slug}) }}">
+										<i class="fas fa-eye" aria-hidden="true"></i>
+										Afficher l'article
+									</a>
+									<a class="btn btn-default btn-sm" href="{{ path('admin_app_image_edit', {id: person.image.id}) }}">
+										<i class="fas fa-edit" aria-hidden="true"></i>
+										Éditer l'image
+									</a>
+									<input type="hidden" name="imageId" value="{{ person.image.id }}">
+									<input type="hidden" name="_token" value="{{ csrf_token('image' ~ person.image.id) }}">
+									<input type="hidden" name="delete" value="delete">
+									<button type="submit" class="btn btn-danger btn-sm">Enlever</button>
+								</form>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 		</div>
-	</nav>
-{% endblock sonata_page_content_nav %}
-
-{% block sonata_admin_content %}
-	<div class="sonata-ba-show">
-		{% include "Admin/components/_flashes.html.twig" %}
-
-		{% if person.image is null %}
-			{{ include('Admin/components/_upload_image.html.twig') }}
-		{% else %}
-			<div class="box box-primary">
-				<div class="box-header">
-					<h3 class="box-title">Illustration du personnage</h3>
+	{% endif %}
+	<div class="row mt-3">
+		<aside class="col-md-4">
+			<div class="card border-top-primary">
+				<div class="card-header">
+					<h3 class="card-title h5 mb-0">Recherche</h3>
 				</div>
-				<div class="box-body table-responsive no-padding">
-					<table class="table">
-						<tbody>
-							<tr class="sonata-ba-view-container">
-								<th>Fichier</th>
-								<td>{{ person.image.filename }}</td>
-								<td rowspan="4" style="width: 180px;">
-									<div class="image-block" style="margin-bottom: 5px;">
-										{% include "image/components/_thumbnail.html.twig" with {image:person.image} %}
-									</div>
-								</td>
-							</tr>
-							<tr>
-								<th>Nom</th>
-								<td>{{ person.image.title }}</td>
-							</tr>
-							<tr>
-								<th>Mots clé</th>
-								<td>{{ person.image.keywords }}</td>
-							</tr>
-							<tr>
-								<th>Action</th>
-								<td>
-									<form action="" method="post">
-										<a class="btn btn-default" href="{{ path('app_person_show', {slug: person.slug}) }}">
-											<i class="fas fa-eye" aria-hidden="true"></i>
-											Afficher l'article
-										</a>
-										<a class="btn btn-default" href="{{ path('admin_app_image_edit', {id: person.image.id}) }}">
-											<i class="fas fa-edit" aria-hidden="true"></i>
-											Éditer l'image
-										</a>
-										<input type="hidden" name="imageId" value="{{ person.image.id }}">
-										<input type="hidden" name="_token" value="{{ csrf_token('image' ~ person.image.id) }}">
-										<input type="hidden" name="delete" value="delete">
-										<button type="submit" class="btn btn-danger">Enlever</button>
-									</form>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>
-		{% endif %}
-
-		<div class="sonata-ba-view">
-			<div class="row">
-				<aside class="col-md-4">
-					<div class="box box-primary">
-						<div class="box-header">
-							<h3 class="box-title">Recherche</h3>
-						</div>
-						<div class="box-body">
-							{{ form_start(searchForm) }}
-							<h4 class="mt-4 mb-3 fw-bold">Par mot clé</h4>
-							{{ form_widget(searchForm.query) }}
-							<h4 class="mt-4 mb-3 fw-bold">Par catégorie</h4>
-							{{ form_widget(searchForm.categories) }}
-							<h4 class="mt-4 mb-3 fw-bold">Par portail</h3>
-							{{ form_widget(searchForm.portals) }}
-							<div class="div" style="margin-top: 10px">
-								<a href="{{ path('admin_app_person_image', {id: person.id}) }}" class="btn btn-primary">Tout afficher</a>
-								<button type="submit" class="btn btn-primary">Rechercher</button>
-							</div>
-							{{ form_end(searchForm) }}
-						</div>
+				<div class="card-body">
+					{{ form_start(searchForm) }}
+					<h4 class="mb-3 fw-bold h6">Par mot clé</h4>
+					{{ form_widget(searchForm.query) }}
+					<h4 class="mt-4 mb-3 fw-bold h6">Par catégorie</h4>
+					{{ form_widget(searchForm.categories) }}
+					<h4 class="mt-4 mb-3 fw-bold h6">Par portail</h3>
+					{{ form_widget(searchForm.portals) }}
+					<div class="mt-2">
+						<a href="{{ path('admin_app_person_image', {id: person.id}) }}" class="btn btn-primary btn-sm">Tout afficher</a>
+						<button type="submit" class="btn btn-primary btn-sm">Rechercher</button>
 					</div>
-				</aside>
-				<article class="col-md-8">
-					{{ include('Admin/components/_item_gallery.html.twig', {title: 'Ajouter une image de la Galerie de '~ app_name}) }}
-				</article>
+					{{ form_end(searchForm) }}
+				</div>
 			</div>
-		</div>
+		</aside>
+		<article class="col-md-8">
+			{{ include('Admin/components/_item_gallery.html.twig', {title: 'Ajouter une image de la Galerie de '~ app_name}) }}
+		</article>
 	</div>
 {% endblock %}

@@ -1,9 +1,0 @@
-<th>Nom</th>
-<td>
-    <a href="{{ path('app_person_show', {slug: object.slug}) }}">{{ object.firstname }} {{ object.lastname }}</a>
-    {% if object.fullname %}
-        <small>
-            (<em>Nom complet :</em> {{ object.fullname }})
-        </small>
-    {% endif %}
-</td>

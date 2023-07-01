@@ -1,0 +1,122 @@
+{{ form_start(form) }}
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-end pe-1">
+                {{ form_row(form.isSticky) }}
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card border-top-primary">
+                <div class="card-header">
+                    <h2 class="card-title h5 mb-0">Présentation</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">{{ form_row(form.firstname) }}</div>
+                        <div class="col-md-6">{{ form_row(form.lastname) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form_label(form.fullname) }}
+                                <div class="input-group">
+                                    {{ form_widget(form.fullname) }}
+                                    <span 
+                                        class="input-group-text"
+                                        role="btton"
+                                        id="fullnameAction"
+                                        title="Générer">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </span>
+                                </div>
+                                {{ form_errors(form.fullname) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form_label(form.slug) }}
+                                <div class="input-group">
+                                    {{ form_widget(form.slug) }}
+                                    <span 
+                                        class="input-group-text" 
+                                        data-action="slugify" 
+                                        data-target="#person_form_slug" 
+                                        role="btton" 
+                                        data-source="#person_form_fullname"
+                                        title="Générer">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </span>
+                                </div>
+                                {{ form_help(form.slug) }}
+                                {{ form_errors(form.slug) }}
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    {{ form_row(form.presentation) }}
+                    {{ form_row(form.biography) }}
+                    {{ form_row(form.personality) }}                   
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-top-primary">
+                <div class="card-header">
+                    <h2 class="card-title h5 mb-0">Catégorisation</h2>
+                </div>
+                <div class="card-body">
+                    {{ form_row(form.categories) }}
+                    {{ form_row(form.portals) }}
+                    {{ form_row(form.type) }} 
+                </div>
+            </div>
+            <div class="card border-top-primary mt-3">
+                <div class="card-header">
+                    <h2 class="card-title h5 mb-0">En bref</h2>
+                </div>
+                <div class="card-body">
+                    
+                    <div class="row">
+                        <div class="col-md-6">{{ form_row(form.birthday) }}</div>
+                        <div class="col-md-6">{{ form_row(form.birthdayPlace) }}</div>
+                        <div class="col-md-6">{{ form_row(form.deathDate) }}</div>
+                        <div class="col-md-6">{{ form_row(form.deathPlace) }}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">{{ form_row(form.species) }}</div>
+                        <div class="col-md-6">{{ form_row(form.gender) }}</div>
+                    </div>  
+                    <div class="row">
+                        <div class="col-md-6">{{ form_row(form.nationality) }}</div>
+                        <div class="col-md-6">{{ form_row(form.job) }}</div>
+                    </div>  
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.physicalDescription) }} 
+                    <div class="row">
+                        <div class="col-md-6">{{ form_row(form.parents) }}</div>
+                        <div class="col-md-6">{{ form_row(form.siblings) }}</div>
+                        <div class="col-md-6">{{ form_row(form.partner) }}</div>
+                        <div class="col-md-6">{{ form_row(form.children) }}</div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-btn mt-3">
+        <button class="btn btn-success btn-sm" type="submit" name="btn_save_and_edit">
+            <i class="fas fa-save" aria-hidden="true"></i>
+            Enregistrer
+        </button>
+        <button type="submit" class="btn btn-success btn-sm" name="btn_save_and_list">
+            <i class="fas fa-save"></i>
+            <i class="fas fa-list" aria-hidden="true"></i>
+            Enregistrer et retourner à la liste
+        </button>
+        <button class="btn btn-success btn-sm" type="submit" name="btn_save_and_create">
+            <i class="fas fa-plus-circle" aria-hidden="true"></i>
+            Enregistrer et ajouter
+        </button>
+        {{ form_rest(form) }}
+    </div>
+{{ form_end(form) }}

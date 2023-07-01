@@ -102,17 +102,17 @@
 					</div>
 				</div>
 
-				<div class="dashboard-nav-dropdown {% block activeCharacters %}{% endblock %}">
-					<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+				<div class="dashboard-nav-dropdown {% block activePerson %}{% endblock %}">
+					<a href="#" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
 						<i class="fas fa-user"></i>
 						<span>Personnages</span>
 					</a>
 					<div class="dashboard-nav-dropdown-menu">
-						<a href="#" class="dashboard-nav-dropdown-item">
+						<a href="{{ path('admin_app_person_list') }}" class="dashboard-nav-dropdown-item {% block activePersonList %}{% endblock %}">
 							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 							<span>Liste</span>
 						</a>
-						<a href="#" class="dashboard-nav-dropdown-item">
+						<a href="#" class="dashboard-nav-dropdown-item {% block activePersonType %}{% endblock %}">
 							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 							<span>Type</span>
 						</a>
