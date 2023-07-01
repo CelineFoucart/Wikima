@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Admin;
 
 use App\Entity\Category;
 use App\Entity\Image;
@@ -18,16 +18,8 @@ class ImageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class, [
-                'attr' => [
-                    'data-action' => 'slug',
-                ],
-            ])
-            ->add('slug', TextType::class, [
-                'attr' => [
-                    'data-target' => 'slug',
-                ],
-            ])
+            ->add('title', TextType::class)
+            ->add('slug', TextType::class)
             ->add('keywords', TextType::class)
             ->add('description', TextareaType::class, [
                 'attr' => [
@@ -39,12 +31,18 @@ class ImageType extends AbstractType
                 'choice_label' => 'title',
                 'multiple' => true,
                 'required' => false,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ]
             ])
             ->add('portals', EntityType::class, [
                 'class' => Portal::class,
                 'choice_label' => 'title',
                 'multiple' => true,
                 'required' => false,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ]
             ])
             ->add('imageFile', VichImageType::class)
         ;

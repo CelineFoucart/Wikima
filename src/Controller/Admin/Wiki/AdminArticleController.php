@@ -2,63 +2,122 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Wiki;
 
-use App\Entity\Article;
-use App\Entity\Data\SearchData;
 use App\Entity\Image;
+use App\Entity\Article;
 use App\Entity\Section;
-use App\Form\AdvancedSearchType;
-use App\Form\ArticleFormType;
-use App\Form\ImageType;
+use App\Form\Admin\ImageType;
 use App\Form\SectionType;
-use App\Repository\ArticleRepository;
+use App\Entity\Data\SearchData;
+use App\Form\AdvancedSearchType;
+use App\Form\Admin\ArticleFormType;
 use App\Repository\ImageRepository;
-use App\Repository\PortalRepository;
-use App\Repository\SectionRepository;
 use App\Security\Voter\VoterHelper;
-use DateTime;
-use DateTimeImmutable;
-use Sonata\AdminBundle\Controller\CRUDController;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use App\Repository\PortalRepository;
+use App\Repository\ArticleRepository;
+use App\Repository\SectionRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\Admin\AbstractAdminController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-final class ArticleAdminController extends CRUDController
+#[Route('/admin/article')]
+#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+final class AdminArticleController extends AbstractAdminController
 {
+    protected string $entityName = "article";
+
     public function __construct(
-        private SectionRepository $sectionRepository,
         private ArticleRepository $articleRepository,
+        private SectionRepository $sectionRepository,
         private ImageRepository $imageRepository,
-        private PortalRepository $portalRepository
     ) {
     }
 
-    public function sectionAction(?int $id, Request $request): Response
+    #[Route('/', name: 'admin_app_article_list', methods:['GET'])]
+    public function listAction(): Response
     {
-        $article = $this->getArticle($id);
+        return $this->render('admin/article/list.html.twig', [
+            'articles' => $this->articleRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/create', name: 'admin_app_article_create', methods:['GET', 'POST'])]
+    public function createAction(Request $request, PortalRepository $portalRepository): Response
+    {
+        $article = new Article();
+
+        $portalId = $request->query->getInt('portal');
+        if (0 !== $portalId) {
+            $portal = $portalRepository->find($portalId);
+            if ($portal) {
+                $article->addPortal($portal);
+            }
+        }
+        
+        $form = $this->createForm(ArticleFormType::class, $article);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $article->setCreatedAt(new \DateTimeImmutable());
+            $article->setAuthor($this->getUser());
+            $this->articleRepository->add($article, true);
+            $this->addFlash('success', "L'article " . $article->getTitle() . " a bien été créé.");
+
+            return $this->redirectTo($request, $article->getId());
+        }
+
+        return $this->render('admin/article/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}/show', name: 'admin_app_article_show', methods:['GET'])]
+    public function showAction(Article $article): Response
+    {
+        return $this->render('admin/article/show_general.html.twig', [
+            'article' => $article,
+            'general_active' => true,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'admin_app_article_edit', methods:['GET', 'POST'])]
+    public function editAction(Request $request, Article $article): Response
+    {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
         $form = $this->createForm(ArticleFormType::class, $article);
         $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $article->setUpdatedAt(new \DateTime());
+            $this->articleRepository->add($article, true);
+            $this->addFlash('success', "L'article " . $article->getTitle() . " a bien été modifié.");
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $article->setUpdatedAt(new DateTime());
-            $this->articleRepository->add($article);
-            $this->addFlash('success', "L'article a été mis à jour.");
-
-            return $this->redirectToRoute('admin_app_article_section', ['id' => $article->getId()]);
+            return $this->redirectTo($request, $article->getId());
         }
 
+        return $this->render('admin/article/edit.html.twig', [
+            'form' => $form->createView(),
+            'article' => $article,
+        ]);
+    }
+
+    
+    #[Route('/{id}/section', name: 'admin_app_article_section', methods:['GET', 'POST'])]
+    public function sectionAction(Article $article, Request $request): Response
+    {
+        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
         $section = $this->getSection($request->query->getInt('section', 0), $article);
         $sectionForm = $this->createForm(SectionType::class, $section);
         $sectionForm->handleRequest($request);
 
         if ($sectionForm->isSubmitted() && $sectionForm->isValid()) {
             if (null === $section->getCreatedAt()) {
-                $section->setCreatedAt(new DateTimeImmutable());
+                $section->setCreatedAt(new \DateTimeImmutable());
             } else {
-                $section->setUpdatedAt(new DateTime());
+                $section->setUpdatedAt(new \DateTime());
             }
             $this->sectionRepository->add($section);
             $this->addFlash('success', 'Les modifications ont été enregistrées.');
@@ -69,13 +128,13 @@ final class ArticleAdminController extends CRUDController
         return $this->renderForm('Admin/article/section.html.twig', [
             'article' => $article,
             'sectionForm' => $sectionForm,
-            'form' => $form,
+            'section_active' => true,
         ]);
     }
 
-    public function galleryAction(?int $id, Request $request): Response
+    #[Route('/{id}/gallery', name: 'admin_app_article_gallery', methods:['GET', 'POST'])]
+    public function galleryAction(Article $article, Request $request): Response
     {
-        $article = $this->getArticle($id);
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
         $page = $request->query->getInt('page', 1);
         $image = (new Image())->setPortals($article->getPortals());
@@ -91,10 +150,7 @@ final class ArticleAdminController extends CRUDController
                 $this->addFlash('success', "L'image a bien été ajoutée.");
                 return $this->redirectToRoute('admin_app_article_gallery',  ['id' => $article->getId()]);
             } else {
-                $this->addFlash(
-                    'error',
-                    "La soumission a échoué, car le formulaire n'est pas valide"
-                );
+                $this->addFlash('error',  "La soumission a échoué, car le formulaire n'est pas valide.");
             }
         } elseif ('POST' === $request->getMethod()) {
             $this->handleGallery($request, $article);
@@ -125,7 +181,19 @@ final class ArticleAdminController extends CRUDController
             'images' => $images,
             'form' => $form->createView(),
             'formImage' => $formImage->createView(),
+            'gallery_active' => true,
         ]);
+    }
+
+    #[Route('/{id}/delete', name: 'admin_app_article_delete', methods:['POST'])]
+    public function deleteAction(Request $request, Article $article): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
+            $this->articleRepository->remove($article, true);
+            $this->addFlash('success', "L'élément a été supprimé avec succès.");
+        }
+
+        return $this->redirectToRoute('admin_app_article_list', [], Response::HTTP_SEE_OTHER);
     }
 
     private function getSection(int $sectionId, $article): Section
@@ -133,6 +201,7 @@ final class ArticleAdminController extends CRUDController
         if (0 === $sectionId) {
             return (new Section())->setArticle($article);
         }
+        
 
         $section = $this->sectionRepository->findOneByArticle($sectionId, $article->getId());
 
@@ -141,20 +210,6 @@ final class ArticleAdminController extends CRUDController
         }
 
         return $section;
-    }
-
-    /**
-     * Retrieve the article.
-     */
-    private function getArticle(int $id): Article
-    {
-        $article = $this->articleRepository->findById($id);
-
-        if (!$article instanceof Article) {
-            throw new NotFoundHttpException(sprintf('unable to find the object with id: %s', $id));
-        }
-
-        return $article;
     }
 
     /**
@@ -182,34 +237,5 @@ final class ArticleAdminController extends CRUDController
                 $this->addFlash('success', "L'image a bien été enlevée de l'article.");
             }
         }
-    }
-
-    protected function preCreate(Request $request, object $object): ?Response
-    {
-        $portalId = $request->query->getInt('portal');
-        if (0 === $portalId) {
-            return null;
-        }
-
-        $portal = $this->portalRepository->find($portalId);
-        if (!$portal) {
-            return null;
-        }
-
-        $object->addPortal($portal);
-
-        return null;
-    }
-
-    /**
-     * Redirect the user to section action if this choice is edit.
-     */
-    protected function redirectTo(Request $request, object $object): RedirectResponse
-    {
-        if (null !== $request->get('btn_create_and_edit')) {
-            return $this->redirectToRoute('admin_app_article_section', ['id' => $object->getId()]);
-        }
-
-        return parent::redirectTo($request, $object);
     }
 }

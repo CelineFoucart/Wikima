@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Admin;
 
 use App\Entity\Article;
 use App\Entity\ArticleType;
@@ -19,26 +19,24 @@ class ArticleFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title', TextType::class, [
-                'attr' => [
-                    'data-action' => 'slug',
-                ],
-            ])
+            ->add('title', TextType::class)
             ->add('type', EntityType::class, [
                 'class' => ArticleType::class,
                 'choice_label' => 'title',
                 'required' => false,
-            ])
-            ->add('slug', TextType::class, [
                 'attr' => [
-                    'data-target' => 'slug',
-                ],
+                    'data-choices' => 'choices'
+                ]
             ])
+            ->add('slug', TextType::class)
             ->add('keywords', TextType::class)
             ->add('portals', EntityType::class, [
                 'class' => Portal::class,
                 'choice_label' => 'title',
                 'multiple' => true,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ]
             ])
             ->add('description', TextareaType::class)
             ->add('content', CKEditorType::class, [

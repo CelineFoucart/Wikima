@@ -1,291 +1,72 @@
-{% extends 'Admin/extend_layout.html.twig' %}
+{% extends 'Admin/article/show.html.twig' %}
 
-{% block sonata_head_title %}
-	Gérer "{{ article.title }}"
-{% endblock sonata_head_title %}
-
-{% block sonata_breadcrumb %}
-	<div class="hidden-xs">
-		<ol class="nav navbar-top-links breadcrumb">
-			<li>
-				<a href="{{ path('sonata_admin_dashboard') }}">
-					<i class="fa fa-home"></i>
-				</a>
-			</li>
-			<li>
-				<a href="{{ path('admin_app_article_list') }}">Liste des articles</a>
-			</li>
-			<li class="active">
-				<span>{{ article.title }}</span>
-			</li>
-		</ol>
-	</div>
-{% endblock sonata_breadcrumb %}
-
-{% block sonata_page_content_nav %}
-	{% include "Admin/components/_article_top_navigation.html.twig" %}
-{% endblock sonata_page_content_nav %}
-
-{% block sonata_admin_content %}
-	<div class="sonata-ba-show">
-		<div class="sonata-ba-view">
-			<div class="nav-tabs-custom">
-				<ul class="nav nav-pills" role="tablist">
-					<li class="active">
-						<a href="#tab_1" class="changer-tab" aria-controls="tab_1" data-toggle="tab" aria-expanded="true">
-							Gérer les sections
-						</a>
-					</li>
-					<li class="">
-						<a href="#tab_2" class="changer-tab" aria-controls="tab_2" data-toggle="tab" aria-expanded="false">
-							Modifier l'article
-						</a>
-					</li>
-					<li class="">
-						<a href="#tab_3" class="changer-tab" aria-controls="tab_3" data-toggle="tab" aria-expanded="false">
-							Information sur l'article
-						</a>
-					</li>
-					<li class="">
-						<a href="{{ path('admin_app_article_gallery', {id: article.id}) }}" class="changer-tab">
-							Gérer la galerie
-						</a>
-					</li>
-				</ul>
-			</div>
-
-			{% include "Admin/components/_flashes.html.twig" %}
-
-			<div class="tab-content">
-				<div class="tab-pane fade active in" id="tab_1">
-					<div class="row" style="margin-top:15px">
-						<div class="col-md-6 col-lg-8">
-							<div class="box box-primary">
-								<div class="box-header">
-									<h3 class="box-title">Modifier ou ajouter une section</h4>
-								</div>
-								<div class="box-body">
-									{{ form_start(sectionForm) }}
-										{{ form_widget(sectionForm) }}
-										<button type="submit" class="btn btn-success">
-											<i class="fas fa-save" aria-hidden="true"></i>
-											Sauvegarder
-										</button>
-										<a href="{{ path('admin_app_article_section', {id: article.id}) }}" class="btn btn-default">
-											Annuler
-										</a>
-									{{ form_end(sectionForm) }}
-								</div>
-							</div>
-						</div>
-						<div class="col-md-6 col-lg-4">
-							<div class="box box-primary">
-								<div class="box-header">
-									<h3 class="box-title">Sections de l'article</h3>
-									<div class="pull-right">
-										<div class="help">
-											<i class="fas fa-question-circle"></i>
-											<span class="help-body">
-												Glisser les sections pour modifier leur ordre.
-											</span>
-										</div>
-									</div>
-								</div>
-								{% if article.sections is empty %}
-									<div class="box-body">
-										<p>Aucune section</p>
-									</div>
-								{% else %}
-									<div class="box-body table-responsive no-padding {{ article.sections|length > 6 ? 'scroll-y' : '' }}">
-										<table class="table">
-											<tbody id="sections">
-												{% for section in article.sections %}
-													<tr class="sonata-ba-view-container handle" id="{{ section.id }}">
-														<td>
-															<div class="pull-right">
-																<a href="{{ path('admin_app_article_section', {id:article.id, section: section.id}) }}" class="btn btn-default btn-sm" title="Editer">
-																	<i class="fas fa-edit" aria-hidden="true"></i>
-																</a>
-																<form method="post" action="{{ path('admin_app_section_delete', {'id': section.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet élément ?');" style="display:inline-block">
-																	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ section.id) }}">
-																	<button class="btn btn-danger btn-sm" title="Supprimer">
-																		<i class="fa fa-trash-o"></i>
-																	</button>
-																</form>
-															</div>
-															<h4>{{ section.title }}</h4>
-															{{ section.content|striptags|raw|u.truncate(190, '...', false)|raw }}
-														</td>
-													</tr>
-												{% endfor %}
-											</tbody>
-										</table>
-									</div>
-								{% endif %}
-							</div>
-						</div>
-					</div>
+{% block show_tab %}
+	<div class="row">
+		<div class="col-md-6 col-lg-8">
+			<div class="card border-top-primary">
+				<div class="card-header bg-white">
+					<h3 class="card-title h5 mb-0">Modifier ou ajouter une section</h4>
 				</div>
-				<div class="tab-pane fade" id="tab_2">
-					{{ form_start(form) }}
-					<div class="row" style="margin-top:15px">
-						<div class="col-md-8">
-							<div class="box">
-								<div class="box-header">
-									<h3 class="box-title">Contenu</h3>
-								</div>
-								<div class="box-body">
-									<div class="form-group">
-										{{ form_row(form.title) }}
-										{{ form_row(form.type) }}
-									</div>
-									<div class="form-group">
-										{{ form_row(form.content) }}
-										<a href="{{ path('app_article_show', {slug: article.slug}) }}" title="Consulter">
-											<i class="fas fa-book-reader"></i> Ouvrir dans l'encyclopédie
-										</a>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-4">
-							<div class="box">
-								<div class="box-header">
-									<h3 class="box-title">Méta données</h3>
-								</div>
-								<div class="box-body">
-									<div class="form-group">
-										{{ form_label(form.slug) }}
-										<div class="sonata-ba-field sonata-ba-field-standard-natural">
-											{{ form_widget(form.slug) }}
-										</div>
-										{{ form_errors(form.slug) }}
-									</div>
-									<div class="form-group">
-										{{ form_row(form.keywords) }}
-									</div>
-									<div class="form-group">
-										{{ form_row(form.description) }}
-									</div>
-									<div class="form-group">
-										{{ form_row(form.portals) }}
-									</div>
-									<div class="form-group">
-										{{ form_row(form.isSticky) }}
-									</div>
-									<div class="form-group">
-										{{ form_row(form.isDraft) }}
-									</div>
-									<div class="form-group">
-										{{ form_row(form.isPrivate) }}
-									</div>
-								</div>
-							</div>
-						</div>
+				{{ form_start(sectionForm) }}
+					<div class="card-body">
+						{{ form_widget(sectionForm) }}
 					</div>
-					{{ form_rest(form) }}
-
-					<div class="well well-small form-actions">
-						<button type="submit" class="btn btn-success">
+					<div class="card-footer text-end">
+						<a href="{{ path('admin_app_article_section', {id: article.id}) }}" class="btn btn-default btn-sm">
+							Annuler
+						</a>
+						<button type="submit" class="btn btn-success btn-sm">
 							<i class="fas fa-save" aria-hidden="true"></i>
-							Mettre à jour
+							Sauvegarder
 						</button>
-						{% if is_granted('ROLE_ADMIN') %}
-							ou
-							<a class="btn btn-danger" href="{{ path('admin_app_article_delete', {id: article.id}) }}">
-								<i class="fas fa-minus-circle" aria-hidden="true"></i>
-								Supprimer
-							</a>
-						{% endif %}
 					</div>
-					{{ form_end(form) }}
-				</div>
-				<div class="tab-pane fade" id="tab_3">
-					<div class="row">
-						<div class="col-md-9 ">
-							<div class="box box-primary">
-								<div class="box-header">
-									<h4 class="box-title">Contenu</h4>
-								</div>
-								<div class="box-body table-responsive no-padding">
-									<table class="table">
-										<tbody>
-											<tr class="sonata-ba-view-container">
-												<th>Titre</th>
-												<td><a href="{{ path('app_article_show', {slug: article.slug}) }}" title="Consulter">{{ article.title }}</a></td>
-											</tr>
-											<tr class="sonata-ba-view-container">
-												<th>Slug</th>
-												<td>{{ article.slug }}</td>
-											</tr>
-											<tr class="sonata-ba-view-container">
-												<th>Mots clés</th>
-												<td>{{ article.keywords }}</td>
-											</tr>
-											<tr class="sonata-ba-view-container">
-												<th>Description</th>
-												<td>{{ article.description }}</td>
-											</tr>
-											<tr class="sonata-ba-view-container">
-												<th>Contenu</th>
-												<td>{{ article.content|raw }}</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="box box-primary">
-								<div class="box-header">
-									<h4 class="box-title">Méta données</h4>
-								</div>
-								<div class="box-body table-responsive no-padding">
-									<table class="table">
-										<tbody>
-											<tr class="sonata-ba-view-container">
-												<th>Création</th>
-												<td>
-													<time datetime="{{ article.createdAt|date('c', 'UTC') }}" title="{{ article.createdAt|date('c', 'UTC') }}">
-														{{ article.createdAt|date('d/m/Y H:i') }}
-													</time>
-												</td>
-											</tr>
-											<tr class="sonata-ba-view-container">
-												<th>Mise à jour</th>
-												<td>
-													{% if article.updatedAt is not null %}
-														<time datetime="{{ article.updatedAt|date('c', 'UTC') }}" title="{{ article.updatedAt|date('c', 'UTC') }}">
-															{{ article.updatedAt|date('d/m/Y H:i') }}
-														</time>
-													{% endif %}
-												</td>
-											</tr>
-											<tr class="sonata-ba-view-container">
-												<th>Auteur</th>
-												<th>{{ article.author ? article.author.username : '' }}</th>
-											</tr>
-											<tr class="sonata-ba-view-container">
-												<th>Portails</th>
-												<td>
-													{% if article.portals is not empty %}
-														<ul class="sonata-ba-show-many-to-many">
-															{% for portal in article.portals %}
-																<li>
-																	<a href="{{ path('admin_app_portal_show', {id:portal.id}) }}">{{ portal.title }}</a>
-																</li>
-															{% endfor %}
-														</ul>
-													{% endif %}
-												</td>
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							</div>
+				{{ form_end(sectionForm) }}
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-4">
+			<div class="card border-top-primary">
+				<div class="card-header bg-white">
+					<div class="float-end">
+						<div class="help">
+							<i class="fas fa-question-circle"></i>
+							<span class="help-body">
+								Glisser les sections pour modifier leur ordre.
+							</span>
 						</div>
 					</div>
+					<h3 class="card-title h5 mb-0">Sections de l'article</h3>
 				</div>
+				{% if article.sections is empty %}
+					<div class="card-body">
+						<p>Aucune section</p>
+					</div>
+				{% else %}
+					<div class="card-body table-responsive p-0 {{ article.sections|length > 6 ? 'scroll-y' : '' }}">
+						<table class="table table-striped mb-0">
+							<tbody id="sections">
+								{% for section in article.sections %}
+									<tr class="sonata-ba-view-container handle" id="{{ section.id }}">
+										<td>
+											<div class="float-end">
+												<a href="{{ path('admin_app_article_section', {id:article.id, section: section.id}) }}" class="btn btn-success btn-sm" title="Editer">
+													<i class="fas fa-edit" aria-hidden="true"></i>
+												</a>
+												<form method="post" action="{{ path('admin_app_section_delete', {'id': section.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet élément ?');" style="display:inline-block">
+													<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ section.id) }}">
+													<button class="btn btn-danger btn-sm" title="Supprimer">
+														<i class="fas fa-trash"></i>
+													</button>
+												</form>
+											</div>
+											<h4 class="h5">{{ section.title }}</h4>
+											{{ section.content|striptags|raw|u.truncate(190, '...', false)|raw }}
+										</td>
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -296,7 +77,6 @@
 	<script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
 	<script>
 		window.addEventListener('load', () => {
-			getTabTargetFromUrl();
 			let url = "{{ path('api_article_section', {'id': article.id}) }}";
 			sortable('#sections', url);
 		});

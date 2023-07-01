@@ -1,0 +1,80 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Liste des articles{% endblock %}
+
+{% block activeWiki %} active show {% endblock %}
+{% block activeArticle %}active{% endblock %}
+
+{% block page_title %}Article{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Article
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_article_create') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body card-show">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th class="table-id">Id</th>
+                        <th>Titre</th>
+                        <th>Slug</th>
+                        <th>Portail</th>
+                        <th>Création</th>
+                        <th>Mise à jour</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('app_article_show', {slug: article.slug}) }}" class="fw-bold">{{article.id }}</a>
+                            </td>
+                            <td>{{ article.title }}</td>
+                            <td>{{ article.slug }}</td>
+                            <td class="container-list">
+                                {% for portal in article.portals %}
+                                    <a href="{{ path('admin_app_portal_show', {id: portal.id}) }}">{{ portal }}</a>
+                                {% endfor %}
+                            </td>
+                            <td>{{ article.createdAt|date('d/m/Y à H:i') }}</td>
+                            <td>{{ article.updatedAt ? article.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{{ path('app_article_show', {slug: article.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
+                                        <i class="fas fa-book-reader"></i>
+                                    </a>                   
+                                    <a href="{{ path('admin_app_article_show', {id: article.id}) }}" class="btn btn-sm btn-default" title="Afficher">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_article_section', {id: article.id}) }}" class="btn btn-sm btn-default" title="Gérer les section">
+                                        <i class="far fa-copy"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_article_gallery', {id: article.id}) }}" class="btn btn-sm btn-default" title="Gérer la galerie">
+                                        <i class="fa fa-picture-o" aria-hidden="true"></i> 
+                                    </a>
+                                    <a href="{{ path('admin_app_article_edit', {id: article.id}) }}" class="btn btn-sm btn-default" title="Éditer">
+                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                    </a>
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: article, path: 'admin_app_article_delete' } %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+

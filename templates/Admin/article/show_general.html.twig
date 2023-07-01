@@ -1,0 +1,78 @@
+{% extends 'Admin/article/show.html.twig' %}
+
+{% block show_tab %}
+    <div class="row">
+        <div class="col-md-9">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">{{ article }}</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Titre</th>
+                                <td>
+                                    <a href="{{ path('app_article_show', {slug: article.slug}) }}">
+                                        {{ article.title }}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Slug</th>
+                                <td>{{ article.slug }}</td>
+                            </tr>
+                            <tr>
+                                <th>Mots clés</th>
+                                <td>{{ article.keywords }}</td>
+                            </tr>
+                            <tr>
+                                <th>Portails</th>
+                                <td class="container-list">
+                                    {% for portal in article.portals %}
+                                        <a href="{{ path('app_portal_show', {slug: portal.slug}) }}">{{ portal }}</a>
+                                    {% else %}
+                                        <span class="fst-italic">Aucun portail</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ article.description|nl2br }}</td>
+                            </tr>
+                            <tr>
+                                <th>Contenu</th>
+                                <td>{{ article.content|raw }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Méta données</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Création</th>
+                                <td>{{ article.createdAt|date('d/m/Y à H:i') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Mise à jour</th>
+                                <td>{{ article.updatedAt ? article.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Auteur</th>
+                                <td>{{ article.author ? article.author.username : '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

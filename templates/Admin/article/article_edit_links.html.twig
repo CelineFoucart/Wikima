@@ -1,8 +1,0 @@
-{% if is_granted('ROLE_ADMIN') or object.author and object.author.id == app.user.id %}
-    <a href="{{ admin.generateObjectUrl('section', object) }}" class="btn btn-sm btn-default view_link" title="Gérer l'article">
-        <i class="fas fa-edit"></i> Gérer 
-    </a>
-    <a href="{{ admin.generateObjectUrl('gallery', object) }}" class="btn btn-sm btn-default view_link" title="Gérer la galerie">
-        <i class="fa fa-picture-o" aria-hidden="true"></i> Galerie 
-    </a>
-{% endif %}
