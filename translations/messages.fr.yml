@@ -58,14 +58,10 @@ General: Général
 Comments: Commentaires
 Comment: Commentaire
 Comment List: Liste des commentaires
-Image List: Liste des images
-Image File: Fichier de l'image
-Image Create: Création d'une image
 Image: Image
 Filename: Fichier
 Backup: Sauvegarde
 Backup List: Historique des sauvegardes
-Latest Edited Articles: Derniers articles édités
 batch: sélectionner
 published articles: articles publiés
 Actions: Actions
@@ -87,8 +83,6 @@ Full Presentation: Présentation détaillée
 Biography: Biographie
 Personality: Personnalité
 Generality: Généralité
-Full Biography: Biographie complète
-In Short: En bref
 Is Draft: Brouillon
 draft: Brouillon
 Is Private: Privé
@@ -106,25 +100,20 @@ Is Processed: Est traité
 Note Create: Création d'une note
 Type: Type
 Place: Lieu
-Place List: Liste des lieux
-Place Create: Création d'un lieu
 PlaceType: Type de lieu
-Place Type: Type de lieu
-Place Type List: Liste des types de lieux
-Place Type Create: Création d'un type de lieux
 History: Histoire
 Situation:	Situation
-Dominated By: Controlé par
-Capitale City:	Capitale
+Dominated by: Controlé par
+Capitale city:	Capitale
 Population: Population
-Map File: Carte
-Image Map: Fichier de la carte
+Map file: Carte
+Image map: Fichier de la carte
 Localisations: Localisations
 Places: Lieux associés
 Types: Types de lieu
 Languages: Langues
 Size: Taille
-Is Inhabitable: Habitable
+Is inhabitable: Habitable
 Siblings: Frères et soeurs
 Partner: Conjoint
 help_description: Courte présentation de moins de 255 caractères

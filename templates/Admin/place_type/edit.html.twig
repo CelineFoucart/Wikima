@@ -1,0 +1,61 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Editer "{{ placeType }}"{% endblock %}
+
+{% block activePlace %}
+	active show
+{% endblock %}
+
+{% block activePlaceType %}active {% endblock %}
+
+{% block page_title %}Editer "{{ placeType }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_placetype_list') }}" class="text-reset">
+			Types de lieu
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		{{ placeType }}
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<div class="dropdown d-inline">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Action
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_placetype_create') }}">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                    Ajouter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('app_place_type', {slug: placeType.slug}) }}">
+                    <i class="fas fa-book-reader"></i>
+                    Consulter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_placetype_show', {id: placeType.id}) }}">
+                    <i class="fas fa-eye"></i>
+                    Afficher
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_placetype_list') }}">
+                    <i class="fas fa-list" aria-hidden="true"></i>
+                    Retour à la liste
+                </a>
+            </li>
+        </ul>
+    </div>
+    {% include "Admin/components/_delete_modal.html.twig" with { element: placeType, path: 'admin_app_placetype_delete', full: true } %}
+{% endblock %}
+
+{% block body %}
+	{% include "Admin/place_type/_form.html.twig" %}
+{% endblock %}

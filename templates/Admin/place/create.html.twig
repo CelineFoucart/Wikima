@@ -1,0 +1,33 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Créer un  lieu{% endblock %}
+
+{% block activePlace %}
+	active show
+{% endblock %}
+
+{% block activePlaceList %}active {% endblock %}
+
+{% block page_title %}Créer un lieu{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_place_list') }}" class="text-reset">
+			Lieu
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Création
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<a href="{{ path('admin_app_place_list') }}" class="btn btn-default btn-sm">
+		<i class="fas fa-long-arrow-left"></i>
+		Retour
+	</a>
+{% endblock %}
+
+{% block body %}
+	{% include "Admin/place/_form.html.twig" %}
+{% endblock %}

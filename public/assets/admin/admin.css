@@ -119,6 +119,10 @@ img {
     width: 180px;
 }
 
+.card-show ul {
+    margin-bottom: 0;
+}
+
 .card-stats {
     background: #0073b7;
     color: #fff;

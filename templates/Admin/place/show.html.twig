@@ -1,0 +1,229 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Afficher "{{ place }}"{% endblock %}
+
+{% block activePlace %}active show{% endblock %}
+{% block activePlaceList %}active{% endblock %}
+
+{% block page_title %}Afficher "{{ place }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_place_list') }}" class="text-reset">
+			Lieu
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		{{ place }}
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<div class="dropdown">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Action
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_place_create') }}">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                    Ajouter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('app_place_show', {slug: place.slug}) }}">
+                    <i class="fas fa-book-reader"></i>
+                    Consulter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_place_edit', {id: place.id}) }}">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                    Editer
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item"  href="{{ path('admin_app_place_image', {id: place.id}) }}">
+                    <i class="fas fa-image"></i>
+                    Gérer l'image
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_place_list') }}">
+                    <i class="fas fa-list" aria-hidden="true"></i>
+                    Retour à la liste
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Présentation</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Id</th>
+                                <td>{{ place.id  }}</td>
+                            </tr>
+                            <tr>
+                                <th>Titre</th>
+                                <td>{{ place.title  }}</td>
+                            </tr>
+                            <tr>
+                                <th>Slug</th>
+                                <td>{{ place.slug  }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ place.description|raw }}</td>
+                            </tr>
+                            <tr>
+                                <th>Histoire</th>
+                                <td>{{ place.history|raw  }}</td>
+                            </tr>
+                            <tr>
+                                <th>Présentation</th>
+                                <td>{{ place.presentation|raw  }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">En bref</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Situation</th>
+                                <td>{{ place.situation|nl2br }}</td>
+                            </tr>
+                            <tr>
+                                <th>Controlé par</th>
+                                <td>{{ place.dominatedBy }}</td>
+                            </tr>
+                            <tr>
+                                <th>Population</th>
+                                <td>{{ place.population }}</td>
+                            </tr>
+                            <tr>
+                                <th>Capitale</th>
+                                <td>{{ place.capitaleCity }}</td>
+                            </tr>
+                            <tr>
+                                <th>Localisations</th>
+                                <td>
+                                    {% if place.localisations is not empty %}
+                                        <ul>
+                                            {% for localisation in place.localisations %}
+                                                <li>
+                                                    <a href="{{ path('admin_app_place_show', {id: localisation.id}) }}">
+                                                        {{ localisation.title }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Catégories</th>
+                                <td>
+                                    {% if place.categories is not empty %}
+                                        <ul>
+                                            {% for category in place.categories %}
+                                                <li>
+                                                    <a href="{{ path('admin_app_category_show', {id: category.id}) }}">
+                                                        {{ category.title }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Portails</th>
+                                <td>
+                                    {% if place.portals is not empty %}
+                                        <ul>
+                                            {% for portal in place.portals %}
+                                                <li>
+                                                    <a href="{{ path('admin_app_portal_show', {id: portal.id}) }}">
+                                                        {{ portal.title }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Type</th>
+                                <td>
+                                    {% if place.types is not empty %}
+                                        <ul>
+                                            {% for type in place.types %}
+                                                <li>
+                                                    <a href="{{ path('admin_app_placetype_show', {id: type.id}) }}">
+                                                        {{ type.title }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Langues</th>
+                                <td>{{ place.languages }}</td>
+                            </tr>
+                            <tr>
+                                <th>Taille</th>
+                                <td>{{ place.size }}</td>
+                            </tr>
+                            <tr>
+                                <th>Habitable</th>
+                                <td>{{ place.isInhabitable }}</td>
+                            </tr>
+                            <tr>
+                                <th>Carte</th>
+                                <td>
+                                    {% if place.mapFile %}
+                                        {% set link_map = vich_uploader_asset(place) %}
+                                        <div class="image-block">
+                                            <a href="{{ link_map }}">
+                                                <img src="{{ link_map|imagine_filter('gallery_thumbnail') }}" alt="{{ place.title }}">
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Illustration</th>
+                                <td>
+                                    {% if place.illustration %}
+                                        <div class="image-block" style="margin-bottom: 5px;">
+                                            {% include "image/components/_thumbnail.html.twig" with {image:place.illustration} %}
+                                        </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

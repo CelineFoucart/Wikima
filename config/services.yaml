@@ -27,14 +27,6 @@ services:
             $contactName: '%app.contact.name%'
             $backupFolder: '%app.backup.folder%'
     
-    admin.place_type:
-        class: App\Admin\PlaceTypeAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\PlaceType, controller: ~, manager_type: orm, group: Place, label: PlaceType }
-    admin.place:
-        class: App\Admin\PlaceAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\Place, controller: App\Controller\Admin\PlaceAdminController, manager_type: orm, group: Place, label: Place }
     admin.note:
         class: App\Admin\NoteAdmin
         tags:
@@ -74,8 +66,3 @@ services:
 
     App\DataFixtures\HashPasswordProvider:
         tags: [ { name: nelmio_alice.faker.provider } ]
-
-    admin.person_type:
-        class: App\Admin\PersonTypeAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\PersonType, controller: ~, manager_type: orm, group: Person, label: PersonType }

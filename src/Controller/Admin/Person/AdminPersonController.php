@@ -92,7 +92,7 @@ final class AdminPersonController extends AbstractAdminController
         
         if ($form->isSubmitted() && $form->isValid()) { 
             $this->personRepository->add($person, true);
-            $this->addFlash('success', "La catégorie " . $person . " a bien été modifiée.");
+            $this->addFlash('success', "Le personnage " . $person . " a bien été modifié.");
 
             return $this->redirectTo($request, $person->getId());
         }

@@ -1,8 +1,0 @@
-{% set classname = admin.classnameLabel|lower %}
-
-{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-	<a href="{{ path('admin_app_' ~ classname ~ '_image', {id: object.id}) }}" class="btn btn-sm btn-default view_link" title="Gérer l'image">
-		<i class="fas fa-image"></i>
-		Gérer l'image
-	</a>
-{% endif %}

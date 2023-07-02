@@ -1,21 +1,21 @@
 {% extends 'admin_layout.html.twig' %}
 
-{% block title %}Gérer l'image de "{{ person }}"{% endblock %}
+{% block title %}Gérer l'image de "{{ place }}"{% endblock %}
 
-{% block activePerson %}active show{% endblock %}
-{% block activePersonList %}active{% endblock %}
+{% block activePlace %}active show{% endblock %}
+{% block activePlaceList %}active{% endblock %}
 
-{% block page_title %}Gérer l'image de "{{ person }}"{% endblock %}
+{% block page_title %}Gérer l'image de "{{ place }}"{% endblock %}
 
 {% block breadcrumb %}
 	<li class="breadcrumb-item">
-		<a href="{{ path('admin_app_person_list') }}" class="text-reset">
-			Personnage
+		<a href="{{ path('admin_app_place_list') }}" class="text-reset">
+			Lieu
 		</a>
 	</li>
 	<li class="breadcrumb-item">
-		<a href="{{ path('admin_app_person_show', {id: person.id}) }}" class="text-reset">
-			{{ person }}
+		<a href="{{ path('admin_app_place_show', {id: place.id}) }}" class="text-reset">
+			{{ place }}
 		</a>
 	</li>
 	<li class="breadcrumb-item active">
@@ -30,31 +30,31 @@
         </button>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
             <li>
-                <a class="dropdown-item" href="{{ path('admin_app_person_create') }}">
+                <a class="dropdown-item" href="{{ path('admin_app_place_create') }}">
                     <i class="fas fa-plus-circle" aria-hidden="true"></i>
                     Ajouter
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ path('app_person_show', {slug: person.slug}) }}">
+                <a class="dropdown-item" href="{{ path('app_place_show', {slug: place.slug}) }}">
                     <i class="fas fa-book-reader"></i>
                     Consulter
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ path('admin_app_person_show', {id: person.id}) }}">
+                <a class="dropdown-item" href="{{ path('admin_app_place_show', {id: place.id}) }}">
                     <i class="fas fa-eye"></i>
                     Afficher
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ path('admin_app_person_edit', {id: person.id}) }}">
+                <a class="dropdown-item" href="{{ path('admin_app_place_edit', {id: place.id}) }}">
                     <i class="fas fa-edit" aria-hidden="true"></i>
                     Editer
                 </a>
             </li>
             <li>
-                <a class="dropdown-item" href="{{ path('admin_app_person_list') }}">
+                <a class="dropdown-item" href="{{ path('admin_app_place_list') }}">
                     <i class="fas fa-list" aria-hidden="true"></i>
                     Retour à la liste
                 </a>
@@ -64,47 +64,47 @@
 {% endblock %}
 
 {% block body %}
-	{% if person.image is null %}
+	{% if place.illustration is null %}
 		{{ include('Admin/components/_upload_image.html.twig') }}
 	{% else %}
 		<div class="card border-top-primary">
 			<div class="card-header">
-				<h3 class="card-title h5 mb-0">Illustration du personnage</h3>
+				<h3 class="card-title h5 mb-0">Illustration du lieu</h3>
 			</div>
 			<div class="card-body table-responsive no-padding">
 				<table class="table">
 					<tbody>
 						<tr class="sonata-ba-view-container">
 							<th>Fichier</th>
-							<td>{{ person.image.filename }}</td>
+							<td>{{ place.illustration.filename }}</td>
 							<td rowspan="4" style="width: 180px;">
 								<div class="image-block" style="margin-bottom: 5px;">
-									{% include "image/components/_thumbnail.html.twig" with {image:person.image} %}
+									{% include "image/components/_thumbnail.html.twig" with {image:place.illustration} %}
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<th>Nom</th>
-							<td>{{ person.image.title }}</td>
+							<td>{{ place.illustration.title }}</td>
 						</tr>
 						<tr>
 							<th>Mots clé</th>
-							<td>{{ person.image.keywords }}</td>
+							<td>{{ place.illustration.keywords }}</td>
 						</tr>
 						<tr>
 							<th>Action</th>
 							<td>
 								<form action="" method="post">
-									<a class="btn btn-default btn-sm" href="{{ path('app_person_show', {slug: person.slug}) }}">
+									<a class="btn btn-default btn-sm" href="{{ path('app_place_show', {slug: place.slug}) }}">
 										<i class="fas fa-eye" aria-hidden="true"></i>
-										Afficher le personnage
+										Afficher le lieu
 									</a>
-									<a class="btn btn-default btn-sm" href="{{ path('admin_app_image_edit', {id: person.image.id}) }}">
+									<a class="btn btn-default btn-sm" href="{{ path('admin_app_image_edit', {id: place.illustration.id}) }}">
 										<i class="fas fa-edit" aria-hidden="true"></i>
 										Éditer l'image
 									</a>
-									<input type="hidden" name="imageId" value="{{ person.image.id }}">
-									<input type="hidden" name="_token" value="{{ csrf_token('image' ~ person.image.id) }}">
+									<input type="hidden" name="imageId" value="{{ place.illustration.id }}">
+									<input type="hidden" name="_token" value="{{ csrf_token('image' ~ place.illustration.id) }}">
 									<input type="hidden" name="delete" value="delete">
 									<button type="submit" class="btn btn-danger btn-sm">Enlever</button>
 								</form>
@@ -130,7 +130,7 @@
 					<h4 class="mt-4 mb-3 fw-bold h6">Par portail</h3>
 					{{ form_widget(searchForm.portals) }}
 					<div class="mt-2">
-						<a href="{{ path('admin_app_person_image', {id: person.id}) }}" class="btn btn-primary btn-sm">Tout afficher</a>
+						<a href="{{ path('admin_app_place_image', {id: place.id}) }}" class="btn btn-primary btn-sm">Tout afficher</a>
 						<button type="submit" class="btn btn-primary btn-sm">Rechercher</button>
 					</div>
 					{{ form_end(searchForm) }}
@@ -138,7 +138,7 @@
 			</div>
 		</aside>
 		<article class="col-md-8">
-			{{ include('Admin/components/_item_gallery.html.twig', {title: 'Ajouter une image de la Galerie de '~ app_name}) }}
+			{{ include('Admin/components/_item_gallery.html.twig', {title: 'Ajouter une image de la galerie de '~ app_name}) }}
 		</article>
 	</div>
 {% endblock %}

@@ -20,26 +20,6 @@ sonata_admin:
                             <a href="/admin/app/image/download" class="btn btn-sm btn-primary"><i class="fas fa-download"></i> Télécharger les images</a>
                         </div>
                         </div>
-             - { type: sonata.admin.block.admin_list, position: left }
-             -
-                position: right
-                type:     sonata.admin.block.admin_preview
-                settings:
-                    code:  admin.article
-                    icon:  fas fa-magic
-                    limit: 7
-                    text:  Latest Edited Articles
-                    filters:
-                        _sort_by:    createdAt
-                        _sort_order: DESC
-             -
-                position: right
-                type:     sonata.admin.block.stats
-                settings:
-                    code:  admin.article
-                    icon:  fas fa-magic
-                    text:  published articles
-                    color: bg-blue
 
     assets:
         extra_stylesheets: [ assets/admin.css ]
