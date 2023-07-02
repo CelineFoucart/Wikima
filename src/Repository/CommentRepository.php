@@ -72,4 +72,14 @@ class CommentRepository extends ServiceEntityRepository
 
         return $this->paginatorService->setLimit(6)->paginate($builder, $page);
     }
+
+    public function findCommentsForAdminIndex(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.article', 'a')->addSelect('a')
+            ->leftJoin('c.author', 'u')->addSelect('u')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

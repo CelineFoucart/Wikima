@@ -1,0 +1,52 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Liste des commentaires{% endblock %}
+{% block activeComment %} active {% endblock %}
+{% block page_title %}Commentaire{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Commentaire
+    </li>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body card-show">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th>Auteur</th>
+                        <th>Création</th>
+                        <th>Article</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for comment in comments %}
+                        <tr>
+                            <td>
+                                {{ comment.author.username }}
+                            </td>
+                            <td>{{ comment.createdAt|date('d/m/Y à H:i') }}</td>
+                            <td>
+                                {{ comment.article.title }}
+                            </td>
+                            <td>
+                                <div class="btn-group">            
+                                    <a href="{{ path('admin_app_comment_show', {id: comment.id}) }}" class="btn btn-sm btn-default" title="Afficher">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_comment_edit', {id: comment.id}) }}" class="btn btn-sm btn-default" title="Éditer">
+                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                    </a>
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: comment, path: 'admin_app_comment_delete' } %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

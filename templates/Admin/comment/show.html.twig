@@ -1,0 +1,95 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}{{ comment }}{% endblock %}
+{% block activeComment %} active {% endblock %}
+{% block page_title %}Afficher un commentaire{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_comment_list') }}" class="text-reset">
+			Commentaire
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		{{ comment }}
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<div class="dropdown">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Action
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_comment_edit', {id: comment.id}) }}">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                    Editer
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_comment_list') }}">
+                    <i class="fas fa-list" aria-hidden="true"></i>
+                    Retour à la liste
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Commentaire</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Création</th>
+                                <td>
+                                    {{ comment.createdAt|date('d/m/Y à H:i') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Contenu</th>
+                                <td>{{ comment.content|raw }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Méta données</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Auteur</th>
+                                <td>
+                                    <a href="{{ path('admin_app_user_show', {id: comment.author.id}) }}">
+                                        {{ comment.author.username }}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Article</th>
+                                <td>
+                                    <a href="{{ path('admin_app_article_show', {id: comment.article.id}) }}">
+                                        {{ comment.article.title }}
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
