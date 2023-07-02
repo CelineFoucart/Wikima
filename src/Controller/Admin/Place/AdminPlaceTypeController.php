@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
-use App\Entity\Place;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 #[Route('/admin/place/type')]

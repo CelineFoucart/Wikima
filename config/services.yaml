@@ -27,21 +27,10 @@ services:
             $contactName: '%app.contact.name%'
             $backupFolder: '%app.backup.folder%'
     
-    admin.page:
-        class: App\Admin\PageAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\Page, controller: ~, manager_type: orm, group: Administration, label: Pages }
-
     admin.backup:
         class: App\Admin\BackupAdmin
         tags:
             - { name: sonata.admin, model_class: App\Entity\Backup, controller: App\Controller\Admin\BackupAdminController, manager_type: orm, group: Administration, label: Backup }
-    admin.user:
-        class: App\Admin\UserAdmin
-        calls:
-            - [setTemplate, ['edit', 'Admin/user_edit.html.twig']]
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\User, manager_type: orm, label: User, group: Administration}
     admin.comment:
         class: App\Admin\CommentAdmin
         tags:

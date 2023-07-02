@@ -1,6 +1,6 @@
 {{ form_start(form) }}
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <div class="card border-top-primary">
                 <div class="card-header">
                     <h2 class="card-title h5 mb-0">Contenu</h2>
@@ -14,9 +14,9 @@
                             <span 
                                 class="input-group-text" 
                                 data-action="slugify" 
-                                data-target="#category_form_slug" 
+                                data-target="#page_form_slug" 
                                 role="btton" 
-                                data-source="#category_form_title"
+                                data-source="#page_form_title"
                                 title="Générer">
                                 <i class="fas fa-sync-alt"></i>
                             </span>
@@ -24,31 +24,24 @@
                         {{ form_help(form.slug) }}
                         {{ form_errors(form.slug) }}
                     </div>
-                    {{ form_row(form.presentation) }}
+                    {{ form_row(form.description) }}
+                    {{ form_row(form.content) }}
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card border-top-primary">
                 <div class="card-header">
-                    <h2 class="card-title h5 mb-0">Informations</h2>
+                    <h2 class="card-title h5 mb-0">Relations</h2>
                 </div>
                 <div class="card-body">
-                    {{ form_row(form.keywords) }}
-                    {{ form_row(form.description) }}
-                </div>
-            </div>
-            <div class="card border-top-primary mt-3">
-                <div class="card-header">
-                    <h2 class="card-title h5 mb-0">Illustration</h2>
-                </div>
-                <div class="card-body">
-                    {{ form_row(form.imageBanner) }}
+                    {{ form_row(form.portals) }}
+                    {{ form_row(form.categories) }}
+                    {{ form_rest(form) }}
                 </div>
             </div>
         </div>
     </div>
-
     <div class="card-btn mt-3">
         <button class="btn btn-success btn-sm" type="submit" name="btn_save_and_edit">
             <i class="fas fa-save" aria-hidden="true"></i>
@@ -63,6 +56,5 @@
             <i class="fas fa-plus-circle" aria-hidden="true"></i>
             Enregistrer et ajouter
         </button>
-        {{ form_rest(form) }}
     </div>
 {{ form_end(form) }}

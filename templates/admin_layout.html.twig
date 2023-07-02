@@ -147,11 +147,11 @@
 								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 								<span>Présentation</span>
 							</a>
-							<a href="#" class="dashboard-nav-dropdown-item">
+							<a href="{{ path('admin_app_page_list') }}" class="dashboard-nav-dropdown-item {% block activePage %}{% endblock %}">
 								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 								<span>Page</span>
 							</a>
-							<a href="#" class="dashboard-nav-dropdown-item">
+							<a href="{{ path('admin_app_user_list') }}" class="dashboard-nav-dropdown-item {% block activeUser %}{% endblock %}">
 								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 								<span>Membres</span>
 							</a>
@@ -159,10 +159,12 @@
 								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 								<span>Commentaire</span>
 							</a>
-							<a href="#" class="dashboard-nav-dropdown-item">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Sauvegarde</span>
-							</a>
+							{% if is_granted('ROLE_SUPER_ADMIN') %}
+								<a href="#" class="dashboard-nav-dropdown-item">
+									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+									<span>Sauvegarde</span>
+								</a>
+							{% endif %}
 							<a href="#" class="dashboard-nav-dropdown-item">
 								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 								<span>Configuration</span>

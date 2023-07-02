@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+#[Route('/admin/note')]
 final class AdminNoteController extends AbstractAdminController
 {
     protected string $entityName = "note";

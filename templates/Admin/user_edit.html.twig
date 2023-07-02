@@ -1,7 +1,0 @@
-{% extends '@SonataAdmin/CRUD/edit.html.twig' %}
-
-{% block btn_delete %}
-	{% if 'ROLE_ADMIN' not in object.roles and 'ROLE_SUPER_ADMIN' not in object.roles %}
-		{{ parent() }}
-	{% endif %}
-{% endblock %}

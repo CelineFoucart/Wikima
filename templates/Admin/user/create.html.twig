@@ -1,0 +1,27 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Créer un utilisateur{% endblock %}
+{% block activeUser %} active {% endblock %}
+{% block page_title %}Créer un utilisateur{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_user_list') }}" class="text-reset">
+			Utilisateur
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Création
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<a href="{{ path('admin_app_user_list') }}" class="btn btn-default btn-sm">
+		<i class="fas fa-long-arrow-left"></i>
+		Retour
+	</a>
+{% endblock %}
+
+{% block body %}
+	{% include "Admin/user/_form.html.twig" %}
+{% endblock %}
