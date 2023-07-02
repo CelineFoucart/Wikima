@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 #[Route('/admin/article')]
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
@@ -106,6 +107,7 @@ final class AdminArticleController extends AbstractAdminController
 
     
     #[Route('/{id}/section', name: 'admin_app_article_section', methods:['GET', 'POST'])]
+    #[Entity('article', expr: 'repository.findById(id)')]
     public function sectionAction(Article $article, Request $request): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
@@ -116,6 +118,15 @@ final class AdminArticleController extends AbstractAdminController
         if ($sectionForm->isSubmitted() && $sectionForm->isValid()) {
             if (null === $section->getCreatedAt()) {
                 $section->setCreatedAt(new \DateTimeImmutable());
+                $lastSection = $article->getSections()->last();
+                
+                if ($lastSection instanceof Section) {
+                    $position = $lastSection->getPosition() + 1;
+                } else {
+                    $position = 0;
+                }
+                $section->setPosition($position);
+
             } else {
                 $section->setUpdatedAt(new \DateTime());
             }
