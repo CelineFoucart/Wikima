@@ -120,17 +120,8 @@
     "jms/metadata": {
         "version": "2.6.1"
     },
-    "jms/serializer": {
-        "version": "3.17.1"
-    },
     "knplabs/knp-components": {
         "version": "v3.5.0"
-    },
-    "knplabs/knp-menu": {
-        "version": "v3.3.0"
-    },
-    "knplabs/knp-menu-bundle": {
-        "version": "v3.2.0"
     },
     "knplabs/knp-paginator-bundle": {
         "version": "v5.8.0"
@@ -296,50 +287,6 @@
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
         ]
-    },
-    "sonata-project/admin-bundle": {
-        "version": "4.9",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "4.0",
-            "ref": "0e5931df1732e3dccfba42a20853049e5e9db6ae"
-        },
-        "files": [
-            "./config/packages/sonata_admin.yaml",
-            "./config/routes/sonata_admin.yaml",
-            "./src/Admin/.gitignore"
-        ]
-    },
-    "sonata-project/block-bundle": {
-        "version": "4.11.0"
-    },
-    "sonata-project/cache": {
-        "version": "2.2.0"
-    },
-    "sonata-project/doctrine-extensions": {
-        "version": "1.16.0"
-    },
-    "sonata-project/doctrine-orm-admin-bundle": {
-        "version": "4.2.7"
-    },
-    "sonata-project/exporter": {
-        "version": "2.11.0"
-    },
-    "sonata-project/form-extensions": {
-        "version": "1.13",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "master",
-            "version": "1.4",
-            "ref": "9c8a1e8ce2b1f215015ed16652c4ed18eb5867fd"
-        },
-        "files": [
-            "./config/packages/sonata_form.yaml"
-        ]
-    },
-    "sonata-project/twig-extensions": {
-        "version": "1.9.1"
     },
     "symfony/apache-pack": {
         "version": "1.0",
@@ -594,9 +541,6 @@
     },
     "symfony/runtime": {
         "version": "v6.0.5"
-    },
-    "symfony/security-acl": {
-        "version": "v3.3.1"
     },
     "symfony/security-bundle": {
         "version": "6.0",

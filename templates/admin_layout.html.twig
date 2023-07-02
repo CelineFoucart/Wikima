@@ -160,7 +160,7 @@
 								<span>Commentaire</span>
 							</a>
 							{% if is_granted('ROLE_SUPER_ADMIN') %}
-								<a href="#" class="dashboard-nav-dropdown-item">
+								<a href="{{ path('admin_app_backup_list') }}" class="dashboard-nav-dropdown-item {% block activeBackup %}{% endblock %}">
 									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 									<span>Sauvegarde</span>
 								</a>

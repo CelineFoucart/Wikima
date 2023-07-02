@@ -1,0 +1,56 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Historique des sauvegardes{% endblock %}
+
+{% block activeAdmin %} active show {% endblock %}
+{% block activeBackup %}active{% endblock %}
+
+{% block page_title %}Sauvegardes{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Historique des sauvegardes
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_backup_create') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body card-show">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th class="table-id">Id</th>
+                        <th>Fichier</th>
+                        <th>Création</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for backup in backups %}
+                        <tr>
+                            <td>{{backup.id }}</td>
+                            <td>{{ backup.filename }}</td>
+                            <td>{{ backup.createdAt|date('d/m/Y à H:i') }}</td>
+                            <td>
+                                <div class="btn-group">                   
+                                    <a href="{{ path('admin_app_backup_download', {id: backup.id}) }}" class="btn btn-sm btn-default" title="Télécharger">
+                                        <i class="fas fa-download"></i> Télécharger
+                                    </a>
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: backup, path: 'admin_app_backup_delete', full: true } %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
