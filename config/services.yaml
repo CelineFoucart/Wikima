@@ -6,7 +6,6 @@
 parameters:
     app.enable.registration: '%env(bool:ENABLE_REGISTRATION)%' 
     app.enable.contact: '%env(bool:ENABLE_CONTACT)%' 
-    app.enable.login: '%env(bool:ENABLE_LOGIN)%'  
     app.website.name: '%env(WIKI_NAME)%'
     app.contact.mail: '%env(CONTACT_EMAIL)%' 
     app.contact.name: '%env(CONTACT_NAME)%'
@@ -21,11 +20,12 @@ services:
         bind:
             $enableRegistration: '%app.enable.registration%'
             $enableContact: '%app.enable.contact%'
-            $enableLogin: '%app.enable.login%'
             $websiteName: '%app.website.name%'
             $contactMail: '%app.contact.mail%'
             $contactName: '%app.contact.name%'
             $backupFolder: '%app.backup.folder%'
+            $configFile: '%kernel.project_dir%/.env.local'
+            $publicDir: '%kernel.project_dir%/public'
     
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

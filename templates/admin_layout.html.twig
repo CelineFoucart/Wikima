@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}"/>
 		<link href="{{ asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{ asset('assets/admin/admin.css') }}">
-		<link rel="shortcut icon" href="/assets/favicon.png" type="image/png">
+		<link rel="shortcut icon" href="/img/{{ favicon }}">
 		{% block stylesheets %}{% endblock %}
 	</head>
 	<body>
@@ -165,7 +165,7 @@
 									<span>Sauvegarde</span>
 								</a>
 							{% endif %}
-							<a href="#" class="dashboard-nav-dropdown-item">
+							<a href="{{ path('admin_app_settings') }}" class="dashboard-nav-dropdown-item {% block activeConfig %}{% endblock %}">
 								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 								<span>Configuration</span>
 							</a>

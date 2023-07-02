@@ -6,8 +6,8 @@ twig:
         app_name: '%env(WIKI_NAME)%'
         app_description: '%env(WIKI_DESCRIPTION)%'
         enable_contact: '%env(bool:ENABLE_CONTACT)%'
-        enable_login: '%env(bool:ENABLE_LOGIN)%'
         enable_registration: '%env(bool:ENABLE_REGISTRATION)%'
+        favicon: '%env(WIKI_FAVICON)%'
 
 when@test:
     twig:

@@ -143,18 +143,17 @@ function slugify(str) {
 }
 
 /**
- * Create a button for an action in a form.
+ * Change the type of a password input to hide or show the password.
  * 
- * @returns HTMLButtonElement
+ * @param {String} targetId 
  */
-function createButton() {
-    const button = document.createElement('button');
-    button.classList = "btn btn-default break";
-    button.innerHTML = '<i class="fas fa-sync-alt"></i>';
-    button.title = "Générer";
-    button.type = "button";
-
-    return button;
+function togglePassword(targetId) {
+    const input = document.querySelector(`#${targetId}`);
+    if (input.type === 'password') {
+        input.type = 'text';
+    } else {
+        input.type = 'password';
+    }
 }
 
 /**

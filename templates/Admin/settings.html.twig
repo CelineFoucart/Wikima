@@ -1,0 +1,96 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Gérer la configuration{% endblock %}
+
+{% block activeAdmin %}active show{% endblock %}
+{% block activeConfig %}active{% endblock %}
+
+{% block page_title %}Gérer la configuration{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item active">
+		Configuration
+	</li>
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card border-top-primary">
+                    <div class="card-header">
+                        <h2 class="card-title h5 mb-0">Identité du site</h2>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">
+                            Après avoir sauvegardé, si vous constatez que les modifications n'ont pas été prises en compte, 
+                            videz le cache du navigateur.
+                        </p>
+                        {{ form_row(form.WIKI_NAME) }}
+                        {{ form_row(form.WIKI_DESCRIPTION) }}
+                        <div class="mb-3">
+                            {{ form_label(form.faviconFile) }}
+                            {{ form_widget(form.faviconFile) }}
+                            {{ form_help(form.faviconFile) }}
+                            {% if faviconFile %}
+                                {% set path = asset('img/'~faviconFile) %}
+                                <img src="{{ path }}" alt="Favicon" class="img-fluid mt-1" title="{{faviconFile}}">    
+                                <p><a href="{{ path }}" download>Télécharger</a></p>
+                            {% endif %}
+                            {{ form_errors(form.faviconFile) }}
+                        </div>
+                    </div> 
+                </div>
+                <div class="card border-top-primary mt-3">
+                    <div class="card-header">
+                        <h2 class="card-title h5 mb-0">Configurer le SMTP pour l'envoi d'email</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>
+                            Pour que la réinitialisation du mot de passe et l'activation du compte fonctionnent, il est nécessaire de remplir 
+                            tous les champs ci-dessous.
+                        </p>
+                        <h3 class="h5 border-bottom">Email de l'administrateur</h3>
+                        <div class="row">
+                            <div class="col-md-6">{{ form_row(form.CONTACT_NAME) }}</div>
+                            <div class="col-md-6">{{ form_row(form.CONTACT_EMAIL) }}</div>
+                        </div>
+                        <h3 class="h5 border-bottom">Service SMTP</h3>
+                        <div class="row">
+                            <div class="col-md-6">{{ form_row(form.SMTP_USER) }}</div>
+                            <div class="col-md-6">
+                                {{ form_label(form.SMTP_PASSWORD) }}
+                                <div class="input-group mb-3">
+                                    {{ form_widget(form.SMTP_PASSWORD) }}
+                                    <span class="input-group-text" id="password-second" role="button" onclick="togglePassword('advanced_settings_SMTP_PASSWORD')">
+                                        <i class="fas fa-eye"></i>
+                                    </span>
+                                </div>
+                                {{ form_errors(form.SMTP_PASSWORD) }}
+                            </div>
+                            <div class="col-md-8">{{ form_row(form.SMTP_HOST) }}</div>
+                            <div class="col-md-4">{{ form_row(form.SMTP_PORT) }}</div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success">Enregistrer</button>
+                    </div> 
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card border-top-primary">
+                    <div class="card-header">
+                        <h2 class="card-title h5 mb-0">Configuration du site</h2>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="h5 border-bottom">Environnement</h3>
+                        {{ form_row(form.APP_ENV) }}
+                        <h3 class="h5 border-bottom">Options des utilisateurs</h3>
+                        {{ form_row(form.ENABLE_REGISTRATION) }}
+                        {{ form_row(form.ENABLE_CONTACT) }}
+                        {{ form_rest(form) }}
+                    </div> 
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}

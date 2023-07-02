@@ -34,52 +34,10 @@ security:
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
-    
+
     role_hierarchy:
-    
-        ROLE_EDITOR: 
-            - ROLE_ADMIN_CATEGORY_LIST
-            - ROLE_ADMIN_CATEGORY_SHOW
-            - ROLE_ADMIN_ARTICLE_LIST
-            - ROLE_ADMIN_ARTICLE_CREATE
-            - ROLE_ADMIN_ARTICLE_SECTION
-            - ROLE_ADMIN_PORTAL_LIST
-            - ROLE_ADMIN_PORTAL_SHOW
-            - ROLE_ADMIN_IMAGE_LIST
-            - ROLE_ADMIN_TIMELINE_LIST
-            - ROLE_ADMIN_IMAGE_SHOW
-            - ROLE_ADMIN_IMAGE_EDIT
-            - ROLE_ADMIN_IMAGE_CREATE
-            - ROLE_ADMIN_PERSON_LIST
-            - ROLE_ADMIN_PERSON_SHOW
-            - ROLE_ADMIN_PLACE_LIST
-            - ROLE_ADMIN_PLACE_SHOW
-            - ROLE_ADMIN_NOTE_ALL
-        ROLE_ADMIN: 
-            - ROLE_ADMIN_ARTICLE_ALL
-            - ROLE_ADMIN_CATEGORY_ALL
-            - ROLE_ADMIN_PORTAL_ALL
-            - ROLE_ADMIN_IMAGE_ALL
-            - ROLE_ADMIN_TIMELINE_ALL
-            - ROLE_ADMIN_USER_ALL
-            - ROLE_ADMIN_PAGE_ALL
-            - ROLE_ADMIN_COMMENT_ALL
-            - ROLE_ADMIN_PERSON_ALL
-            - ROLE_ADMIN_NOTE_ALL
-            - ROLE_ADMIN_PLACE_ALL
-            - ROLE_ADMIN_ARTICLE_TYPE_ALL
-        ROLE_SUPER_ADMIN:
-            - ROLE_ADMIN_ARTICLE_ALL
-            - ROLE_ADMIN_CATEGORY_ALL
-            - ROLE_ADMIN_PORTAL_ALL
-            - ROLE_ADMIN_IMAGE_ALL
-            - ROLE_ADMIN_TIMELINE_ALL
-            - ROLE_ADMIN_USER_ALL
-            - ROLE_ADMIN_BACKUP_ALL
-            - ROLE_ADMIN_NOTE_ALL
-            - ROLE_ADMIN_PLACE_ALL
-            - ROLE_ALLOWED_TO_SWITCH
-            - ROLE_ADMIN
+        ROLE_ADMIN: ['ROLE_EDITOR']
+        ROLE_SUPER_ADMIN: ['ROLE_ADMIN', 'ROLE_EDITOR']
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
@@ -95,16 +53,10 @@ security:
         - { path: ^/persons, roles: ROLE_USER }
         - { path: ^/timelines, roles: ROLE_USER }
         - { path: ^/print, roles: ROLE_USER }
-        - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_EDITOR, ROLE_SUPER_ADMIN] }
-        - { path: ^/admin/app/article, roles: [ROLE_ADMIN, ROLE_EDITOR, ROLE_SUPER_ADMIN] }
-        - { path: ^/admin/app/category, roles: [ROLE_ADMIN, ROLE_EDITOR, ROLE_SUPER_ADMIN] }
-        - { path: ^/admin/app/portal, roles: [ROLE_ADMIN, ROLE_EDITOR, ROLE_SUPER_ADMIN] }
-        - { path: ^/admin/app/image, roles: [ROLE_ADMIN, ROLE_EDITOR, ROLE_SUPER_ADMIN] }
-        - { path: ^/admin/app/timeline, roles: [ROLE_ADMIN, ROLE_EDITOR, ROLE_SUPER_ADMIN] }
-        - { path: ^/admin/app/person, roles: [ROLE_ADMIN, ROLE_EDITOR, ROLE_SUPER_ADMIN] }
+        - { path: ^/admin, roles: ROLE_EDITOR }
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/comment, roles: ROLE_USER }
-        - { path: ^/draft, roles: [ROLE_EDITOR, ROLE_ADMIN] }
+        - { path: ^/draft, roles: ROLE_EDITOR }
 
 when@test:
     security:
