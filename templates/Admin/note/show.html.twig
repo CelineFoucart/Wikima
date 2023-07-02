@@ -1,0 +1,115 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Afficher "{{ note }}"{% endblock %}
+{% block activeNote %} active {% endblock %}
+{% block page_title %}Afficher "{{ note }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_note_list') }}" class="text-reset">
+			Note
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		{{ note }}
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<div class="dropdown">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Action
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_note_create') }}">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                    Ajouter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_note_edit', {id: note.id}) }}">
+                    <i class="fas fa-edit" aria-hidden="true"></i>
+                    Editer
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_note_list') }}">
+                    <i class="fas fa-list" aria-hidden="true"></i>
+                    Retour à la liste
+                </a>
+            </li>
+        </ul>
+    </div>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-header bg-white">
+            <h2 class="card-title h5 mb-0">Note n°{{ note.id }}</h2>
+        </div>
+        <div class="card-body card-show">
+            <table class="table table-striped mb-0">
+                <tbody>
+                    <tr>
+                        <th>Titre</th>
+                        <td>
+                            {{ note.title }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Message</th>
+                        <td>{{ note.message|raw }}</td>
+                    </tr>
+                    <tr>
+                        <th>Création</th>
+                        <td>{{ note.createdAt|date('d/m/Y à H:i') }}</td>
+                    </tr>
+                    <tr>
+                        <th>Mise à jour</th>
+                        <td>{{ note.updatedAt ? note.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Catégorie</th>
+                        <td>
+                            {% if note.category %}
+                                <a href="{{ path('app_category_notes', {slug: note.category.slug}) }}" title="Consulter">
+                                    <i class="fas fa-book-reader"></i> {{ note.category }}
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <th>
+                        Portail
+                    </th>
+                    <td>
+                        {% if note.portal %}
+                            <a href="{{ path('app_portal_notes', {slug: note.portal.slug}) }}" title="Consulter">
+                                <i class="fas fa-book-reader"></i> {{ note.portal }}
+                            </a>
+                        {% endif %}
+                    </td>
+                    <tr>
+                        <th>Est traitée</th>
+                        <td>
+                            {% if note.isProcessed %}
+                                <div role="button" data-id="{{ note.id }}" data-action="update-processed" class="badge rounded-pill bg-success">
+                                    Traité
+                                </div>
+                            {% else %}
+                                <div role="button" data-id="{{ note.id }}" data-action="update-processed" class="badge rounded-pill bg-danger">
+                                    A traiter
+                                </div>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}

@@ -171,7 +171,7 @@
 					</div>
 				{% endif %}
 				
-				<a href="#" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
+				<a href="{{ path('admin_app_note_list') }}" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
 					<i class="fas fa-sticky-note me-1"></i>
 					<span>Notes</span>
 				</a>
@@ -226,8 +226,6 @@
 		<script src="{{ asset('assets/DataTables/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
 		<script src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
 		<script src="{{ asset('assets/admin/admin.js') }}"></script>
-		{% block javascripts %}
-			
-		{% endblock %}
+		{% block javascripts %}{% endblock %}
 	</body>
 </html>

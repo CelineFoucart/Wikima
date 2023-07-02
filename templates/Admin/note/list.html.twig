@@ -1,0 +1,94 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Liste des notes{% endblock %}
+{% block activeNote %} active {% endblock %}
+
+{% block page_title %}Note{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Note
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_note_create') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body card-show">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th class="w-25">Titre</th>
+                        <th>Création</th>
+                        <th>Mise à jour</th>
+                        <th>Catégorie</th>
+                        <th>Portail</th>
+                        <th>Est traitée</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for note in notes %}
+                        <tr>
+                            <td>
+                                <a href="{{ path('admin_app_note_show', {id: note.id}) }}">
+                                    {{ note.title }}
+                                </a>
+                            </td>
+                            <td>{{ note.createdAt|date('d/m/Y à H:i') }}</td>
+                            <td>{{ note.updatedAt ? note.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                            <td>
+                                {% if note.category %}
+                                    <a href="{{ path('app_category_show', {slug: note.category.slug}) }}">
+                                        {{ note.category }}
+                                    </a>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if note.portal %}
+                                    <a href="{{ path('app_portal_show', {slug: note.portal.slug}) }}">
+                                        {{ note.portal }}
+                                    </a>
+                                {% endif %}    
+                            </td>
+                            <td>
+                                {% if note.isProcessed %}
+                                    <div role="button" data-id="{{ note.id }}" data-action="update-processed" class="badge rounded-pill bg-success">
+                                        Traité
+                                    </div>
+                                {% else %}
+                                    <div role="button" data-id="{{ note.id }}" data-action="update-processed" class="badge rounded-pill bg-danger">
+                                        A traiter
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <div class="btn-group">            
+                                    <a href="{{ path('admin_app_note_show', {id: note.id}) }}" class="btn btn-sm btn-default" title="Afficher">
+                                        <i class="fas fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_note_edit', {id: note.id}) }}" class="btn btn-sm btn-default" title="Éditer">
+                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                    </a>
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: note, path: 'admin_app_note_delete' } %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+

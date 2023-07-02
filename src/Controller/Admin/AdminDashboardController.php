@@ -17,6 +17,8 @@ class AdminDashboardController extends AbstractController
     #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_EDITOR')")]
     public function dashboardAction(): Response
     {
+        //  afficher les dernière note à droite
+        
         return $this->render('admin/dashboard.html.twig', [
             
         ]);

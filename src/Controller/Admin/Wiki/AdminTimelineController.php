@@ -150,6 +150,21 @@ final class AdminTimelineController extends AbstractAdminController
         return $this->redirectToRoute('admin_app_timeline_list', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/event/{id}/delete', name: 'admin_app_event_delete', methods: ['POST'])]
+    public function deleteEvent(Event $event, Request $request, EventRepository $eventRepository): Response
+    {
+        $timeline = $event->getTimeline();
+
+        if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
+            $eventRepository->remove($event, true);
+            $this->addFlash('success', 'La section a bien été supprimée.');
+        } else {
+            $this->addFlash('error', 'La suppression a échouée.');
+        }
+
+        return $this->redirectToRoute('admin_app_timeline_event', ['id' => $timeline->getId()]);
+    }
+
     private function getEvent(Timeline $timeline, int $eventId): Event
     {
         $event = null;

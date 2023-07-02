@@ -94,10 +94,8 @@ banner_help: Pour la bannière, choisissez un fichier qui fait maximum 1320px pa
 map_help: Pour la carte, choisissez un fichier qui fait maximum 300px de large.
 Banner: Bannière
 Note: Note
-Note List: Liste des notes
 Message: Message
-Is Processed: Est traité
-Note Create: Création d'une note
+Is processed: Est traité
 Type: Type
 Place: Lieu
 PlaceType: Type de lieu

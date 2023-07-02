@@ -1,6 +1,0 @@
-{% set route_name = 'app_' ~ admin.classnameLabel|lower ~ "_show" %}
-{% set path_to_public = path(route_name, {slug: object.slug}) %}
-
-<a href="{{ path_to_public }}" class="btn btn-sm btn-default view_link" title="Consulter">
-    <i class="fas fa-book-reader"></i> Consulter
-</a>

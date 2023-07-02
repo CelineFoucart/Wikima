@@ -27,10 +27,6 @@ services:
             $contactName: '%app.contact.name%'
             $backupFolder: '%app.backup.folder%'
     
-    admin.note:
-        class: App\Admin\NoteAdmin
-        tags:
-            - { name: sonata.admin, model_class: App\Entity\Note, controller: App\Controller\Admin\NoteAdminController, manager_type: orm, group: Wiki, label: Note }
     admin.page:
         class: App\Admin\PageAdmin
         tags:
