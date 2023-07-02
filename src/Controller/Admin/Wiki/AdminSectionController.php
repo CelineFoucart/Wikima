@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Wiki;
 
 use App\Entity\Section;
 use App\Form\SectionType;

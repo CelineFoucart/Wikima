@@ -1,81 +1,68 @@
-{% extends 'Admin/extend_layout.html.twig' %}
+{% extends 'admin_layout.html.twig' %}
 
-{% block sonata_head_title %}
-	Editer "{{ section.title }}"
-{% endblock sonata_head_title %}
+{% block activeWiki %} active show {% endblock %}
+{% block activeArticle %}active{% endblock %}
 
-{% block sonata_breadcrumb %}
-	<div class="hidden-xs">
-		<ol class="nav navbar-top-links breadcrumb">
-			<li>
-				<a href="{{ path('sonata_admin_dashboard') }}">
-					<i class="fa fa-home"></i>
-				</a>
-			</li>
-			<li>
-				<a href="{{ path('admin_app_article_section', {id: section.article.id}) }}">Gérer de "{{ section.article }}"</a>
-			</li>
-			<li class="active">
-				<span>{{ section.title }}</span>
-			</li>
-		</ol>
-	</div>
-{% endblock sonata_breadcrumb %}
+{% block title %}Editer "{{ section.title }}"{% endblock %}
 
-{% block sonata_page_content_nav %}
-<nav class="navbar navbar-default" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown sonata-actions">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Liste d'actions <b class="caret"></b></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li>
-                            <a class="sonata-action-element" href="{{ path('admin_app_article_section', {id: section.article.id}) }}">
-                                <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                                Ajouter
-                            </a>
-                        </li>
-                        <li>
-                            <a class="sonata-action-element" href="{{ path('app_article_show', {slug: section.article.slug}) }}">
-                                <i class="fas fa-book-reader" aria-hidden="true"></i>
-                                Retour à l'article
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
+{% block page_title %}Supprimer "{{ section.title }}"{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('admin_app_article_section', {id: section.article.id}) }}" class="text-reset">
+            Sections de "{{ section.article }}"
+        </a>
+    </li>
+    <li class="breadcrumb-item active">
+        {{ section.title }}
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <div class="dropdown d-inline">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            Action
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_article_section', {id: section.article.id}) }}">
+                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                    Ajouter
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('app_article_show', {slug: section.article.slug}) }}" class="dropdown-item">
+                    <i class="fas fa-book-reader" aria-hidden="true"></i>
+                    Retour à l'article
+                </a>
+            </li>
+        </ul>
     </div>
-</nav>
-{% endblock sonata_page_content_nav %}
+{% endblock %}
 
-{% block sonata_admin_content %}
-    <div class="sonata-ba-content">
-        <div class="sonata-ba-delete">
-
-            <div class="box box-danger">
-                <div class="box-header">
-                    <h3 class="box-title">Confirmation de suppression</h3>
-                </div>
-                <div class="box-body">
-                    Êtes-vous sûr de vouloir supprimer l'élément "{{ section }}" sélectionné?
-                </div>
-                <div class="box-footer clearfix">
-                    <form method="POST">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ section.id) }}">
-
-                        <button type="submit" name="btn_delete" class="btn btn-danger">
-                            <i class="fas fa-trash-alt" aria-hidden="true"></i> Oui, supprimer
-                        </button>
-                        ou
-                        <a class="btn btn-success" href="{{ path('admin_app_section_edit', {id: section.id }) }}">
-                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                            Éditer
-                        </a>
-                    </form>
-                </div>
-            </div>
+{% block body %}
+    <div class="card delete-modal">
+        <div class="card-header bg-white">
+            <h3 class="card-title h5 mb-0">Confirmation de suppression</h3>
+        </div>
+        <div class="card-body">
+            Êtes-vous sûr de vouloir supprimer l'élément "{{ section }}" sélectionné?
+        </div>
+        <div class="card-footer bg-white">
+            <form method="POST">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ section.id) }}">
+                <a href="{{ path('app_article_show', {slug: section.article.slug}) }}" class="btn btn-primary btn-sm" title="Consulter">
+                    <i class="fas fa-book-reader"></i> Retourner à l'article
+                </a>
+                <button type="submit" name="btn_delete" class="btn btn-danger btn-sm">
+                    <i class="fas fa-trash-alt " aria-hidden="true"></i> Oui, supprimer
+                </button>
+                ou
+                <a class="btn btn-success btn-sm" href="{{ path('admin_app_section_edit', {id: section.id }) }}">
+                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                    Éditer
+                </a>
+            </form>
         </div>
     </div>
 {% endblock %}
