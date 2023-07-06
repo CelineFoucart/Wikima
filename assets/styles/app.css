@@ -5,8 +5,17 @@
 }
 
 body {
-    height: 100vh;
     background-color: rgb(245, 247, 250, .5);
+}
+
+#content-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#content-main {
+    flex: 1;
 }
 
 .text-default {

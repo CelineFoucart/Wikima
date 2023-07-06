@@ -14,13 +14,6 @@
     background-color: #fff;
 }
 
-.border-item,
-.navbar.navbar-expand-lg,
-footer {
-    border-left: 1px solid #ECECEC;
-    border-right: 1px solid #ECECEC;
-}
-
 .column-3 {
     column-count: 1;
     gap: 10px;

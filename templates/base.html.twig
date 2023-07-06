@@ -10,7 +10,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="{% block description %}Bienvenue sur {{ app_name }} - {{ app_description }} {% endblock %}">
-		<link rel="shortcut icon" href="/img/{{ favicon }}">
+		{{ favicon() }}
 		<link href="{{ asset('assets/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
 		<link rel="stylesheet" href="{{ asset('assets/choicesjs/choices.min.css') }}"/>
 		<link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}"/>
@@ -19,11 +19,16 @@
 		{% endblock %}
 	</head>
 	<body>
-		<div class="container d-flex flex-column h-100 p-0 position-relative">
+		<div id="content-page" class="container shadow my-3 p-0 rounded-3">
+			<header class="index-header rounded-top" {{ banner() }}>
+				{{ include('includes/_navbar.html.twig') }}
+				<div class="heading">
+					<h1 class="heading-title">{{ title|default(app_name) }}</h1>
+					<p class="lead text-center">{{ description|default(app_description) }}</p>
+				</div>
+			</header>
 
-			{{ include('includes/_navbar.html.twig') }}
-
-			<main class="flex-fill bg-main border-item"> 
+			<main id="content-main" class="p-0 bg-main border-item mb-3"> 
 				{% block body %}{% endblock %}
 			</main>
 

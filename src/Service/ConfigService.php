@@ -22,7 +22,8 @@ class ConfigService
         'SMTP_HOST' => '',
         'SMTP_PORT' => '',
         'APP_ENV' => 'prod',
-        'WIKI_FAVICON' => 'favicon.png'
+        'WIKI_FAVICON' => 'favicon.png',
+        'WIKI_BANNER' => 'banner.png'
     ];
 
     public function __construct(private string $configFile, private string $publicDir)
@@ -44,6 +45,7 @@ class ConfigService
             'CONTACT_NAME',
             'APP_ENV',
             'WIKI_FAVICON',
+            'WIKI_BANNER',
         ];
 
         foreach ($keys as $key) {
@@ -158,13 +160,13 @@ class ConfigService
      * Move an uploaded file to a directory in the server.
      *
      * @param  UploadedFile  $file   the file to move
-     * @param  string        $key    the name of env var saving the file name.
+     * @param  string        $name   the name of the file
      */
-    public function move(UploadedFile $file, string $key): bool
+    public function move(UploadedFile $file, string $name): bool
     {
         try {
             $path = $this->publicDir . '/img';
-            $file->move($path, $this->envVars[$key]);
+            $file->move($path, $name);
 
             return true;
         } catch (FileException $th) {

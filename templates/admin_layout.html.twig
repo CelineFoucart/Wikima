@@ -10,7 +10,7 @@
 		<link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}"/>
 		<link href="{{ asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="{{ asset('assets/admin/admin.css') }}">
-		<link rel="shortcut icon" href="/img/{{ favicon }}">
+		{{ favicon() }}
 		{% block stylesheets %}{% endblock %}
 	</head>
 	<body>

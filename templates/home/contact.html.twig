@@ -5,13 +5,11 @@
 {% endblock %}
 
 {% block body %}
-	{{ include('home/_header.html.twig', { heading_title: 'Page de contact', heading_description: "Veuillez remplir le formulaire suivant pour contacter l'administrateur." }) }}
-
 	<section class="py-5 row justify-content-center">
 		<div class="col-12 col-md-9 col-lg-7">
 			<div class="card shadow mx-5 border-0 rounded-3">
 				<div class="card-body">
-					<h2 class="text-uppercase text-center mb-5">Formulaire</h2>
+					<h2 class="text-uppercase text-center mb-5">Nous contacter</h2>
 					{% for message in app.flashes('success') %}
 						<div class="alert alert-success">{{ message }}</div>
 					{% endfor %}

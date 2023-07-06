@@ -1,13 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{ page.title }}
-	|
-	{{ app_name }}
+	{{ page.title }} | {{ app_name }}
 {% endblock %}
 
 {% block body %}
-	{{ include('home/_header.html.twig', { heading_title: page.title, heading_description: page.description }) }}
 	<div class="mt-5 mb-3 px-5">
 		<div class="row">
 			<div class="col-11 mb-3">

@@ -168,14 +168,6 @@
     color: var(--primary);
 }
 
-.form-image {
-    width: 100%;
-    height: 100%;
-    background: url(img/Terraformed_Mars.png) no-repeat center;
-    opacity: .7;
-    /* width: 310px;
-    height: 313px; */
-}
 
 .element-presentation {
     margin: 40px auto;

@@ -4,8 +4,11 @@
 {% endblock %}
 
 {% block body %}
-	{{ include('home/_header.html.twig', { heading_title: 'Profil', heading_description: "Bienvenue sur votre profil où vous pourrez modifier vos informations." }) }}
 	<section class="m-5">
+		<h2 class="h4 mb-5 text-center">
+			Bienvenue sur votre profil
+		</h2>
+
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success" role="alert">{{ message }}</div>
 		{% endfor %}

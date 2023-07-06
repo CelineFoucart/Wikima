@@ -3,7 +3,6 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    {{ include('home/_header.html.twig', { heading_title: "Page d'inscription", heading_description: "Veuillez vous créer un compte pour poster des commentaires." }) }}
     <section class="p-5 row justify-content-center">
         {% for flash_error in app.flashes('verify_email_error') %}
             <div class="col-12">

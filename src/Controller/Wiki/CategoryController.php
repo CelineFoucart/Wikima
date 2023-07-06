@@ -47,6 +47,8 @@ final class CategoryController extends AbstractController
             'category' => $category,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'portals' => $portalRepository->findByCategory($category),
+            'title' => $category->getTitle(),
+            'description' => $category->getDescription(),
         ]);
     }
 
@@ -73,6 +75,8 @@ final class CategoryController extends AbstractController
             'items' => $helper->formatArray($articles->getItems()),
             'types' => $types,
             'type' => $type,
+            'title' => $category->getTitle(),
+            'description' => $category->getDescription(),
         ]);
     }
 
@@ -85,6 +89,8 @@ final class CategoryController extends AbstractController
             'category' => $category,
             'images' => $imageRepository->findByCategory($category, $page),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'title' => $category->getTitle(),
+            'description' => $category->getDescription(),
         ]);
     }
 
@@ -114,6 +120,8 @@ final class CategoryController extends AbstractController
             'types' => $types,
             'type' => $type,
             'stickyElements' => $personRepository->findSticky(null, $category->getId()),
+            'title' => $category->getTitle(),
+            'description' => $category->getDescription(),
         ]);
     }
 
@@ -143,6 +151,8 @@ final class CategoryController extends AbstractController
             'types' => $types,
             'type' => $type,
             'stickyElements' => $placeRepository->findSticky(null, $category->getId()),
+            'title' => $category->getTitle(),
+            'description' => $category->getDescription(),
         ]);
     }
 
@@ -153,6 +163,8 @@ final class CategoryController extends AbstractController
         return $this->render('category/category_note.html.twig', [
             'category' => $category,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'title' => $category->getTitle(),
+            'description' => $category->getDescription(),
         ]);
     }
 

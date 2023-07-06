@@ -70,6 +70,8 @@ final class HomeController extends AbstractController
         return $this->render('home/page.html.twig', [
             'page' => $page,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'title' => $page->getTitle(),
+            'description' => $page->getDescription(),
         ]);
     }
 

@@ -13,7 +13,6 @@ use App\Repository\PlaceRepository;
 use App\Repository\PersonRepository;
 use App\Repository\PortalRepository;
 use App\Repository\ArticleRepository;
-use App\Repository\TimelineRepository;
 use App\Repository\PlaceTypeRepository;
 use App\Repository\PersonTypeRepository;
 use App\Repository\ArticleTypeRepository;
@@ -58,6 +57,8 @@ final class PortalController extends AbstractController
             'stickyElements' => $this->articleRepository->findSticky($portal->getId()),
             'types' => $types,
             'type' => $type,
+            'title' => $portal->getTitle(),
+            'description' => $portal->getDescription(),
         ]);
     }
 
@@ -85,6 +86,8 @@ final class PortalController extends AbstractController
             'images' => $imageRepository->findByPortal($portal, $page),
             'portal' => $portal,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'title' => $portal->getTitle(),
+            'description' => $portal->getDescription(),
         ]);
     }
 
@@ -115,6 +118,8 @@ final class PortalController extends AbstractController
             'types' => $types,
             'type' => $type,
             'stickyElements' => $personRepository->findSticky($portal->getId()),
+            'title' => $portal->getTitle(),
+            'description' => $portal->getDescription(),
         ]);
     }
 
@@ -145,6 +150,8 @@ final class PortalController extends AbstractController
             'types' => $types,
             'type' => $type,
             'stickyElements' => $placeRepository->findSticky($portal->getId()),
+            'title' => $portal->getTitle(),
+            'description' => $portal->getDescription(),
         ]);
     }
 
@@ -155,6 +162,8 @@ final class PortalController extends AbstractController
         return $this->render('portal/note_portal.html.twig', [
             'portal' => $portal,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'title' => $portal->getTitle(),
+            'description' => $portal->getDescription(),
         ]);
     }
 

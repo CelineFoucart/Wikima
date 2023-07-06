@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AdminDashboardController extends AbstractController
 {
@@ -74,12 +75,23 @@ class AdminDashboardController extends AbstractController
             $data = $form->getData();
 
             if ($data['faviconFile']) {
-                $statusFavicon = $configService->move($data['faviconFile'], 'WIKI_FAVICON');
+                $statusFavicon = $configService->move($data['faviconFile'], $envVars['WIKI_FAVICON']);
 
-                if ($statusFavicon) {
-                    $this->addFlash('success', "Le favicon bien été modifié.");
-                } else {
+                if (!$statusFavicon) {
                     $this->addFlash('error', "Le chargement du nouveau favicon a échoué.");
+                }
+            }
+
+            if ($data['bannerFile'] && $data['bannerFile'] ) {
+                /** @var UploadedFile */
+                $file = $data['bannerFile'];
+                $name = "banner.".$file->getClientOriginalExtension();
+                $statusBanner = $configService->move($data['bannerFile'], $name);
+
+                if (!$statusBanner) {
+                    $this->addFlash('error', "Le chargement de la nouvelle bannière a échoué.");
+                }  else {
+                    $data['WIKI_BANNER'] = $name;
                 }
             }
 
@@ -94,13 +106,17 @@ class AdminDashboardController extends AbstractController
             return $this->redirectToRoute('admin_app_settings');
         }
 
-        $faviconFilePath = $configService->getPublicDir() . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR . $envVars['WIKI_FAVICON'];
+        $imgPath = $configService->getPublicDir() . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR;
+
+        $faviconFilePath = $imgPath . $envVars['WIKI_FAVICON'];
+        $bannerFilePath = $imgPath . $envVars['WIKI_FAVICON'];
         
         return $this->render('Admin/settings.html.twig', [
             'hasEnvFile' => $hasEnvFile,
             'form' => $form->createView(),
             'envVars' => $envVars,
             'faviconFile' => file_exists($faviconFilePath) ? $envVars['WIKI_FAVICON'] : null,
+            'bannerFile' => file_exists($bannerFilePath) ? $envVars['WIKI_BANNER'] : null,
         ]);
     }
 }

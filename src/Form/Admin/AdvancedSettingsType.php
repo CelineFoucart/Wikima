@@ -32,9 +32,27 @@ class AdvancedSettingsType extends AbstractType
                     new Image([
                         'maxWidth' => 300,
                         'maxHeight' => 300,
+                        'mimeTypes' => [
+                            'image/png',
+                        ],
                     ]),
                 ],
-                'help' => "Le favicon doit faire au maximum 300 pixels de large et 300 pixels de hauteur.",
+                'help' => "Le favicon doit faire au maximum 300 pixels de large et 300 pixels de hauteur avec une extension en png, jpg ou jpeg.",
+            ])
+            ->add('bannerFile', FileType::class, [
+                'label' => 'Bannière',
+                'required' => false,
+                'constraints' => [
+                    new Image([
+                        'maxWidth' => 2000,
+                        'minHeight' => 400,
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpeg',
+                        ],
+                    ])
+                ],
+                'help' => "La bannière doit faire au maximum 2000 pixels de large et au minimum 400 pixels de hauteur avec une extension en png.",
             ])
             ->add('CONTACT_EMAIL', TextType::class, [
                 'label' => "Email de contact",

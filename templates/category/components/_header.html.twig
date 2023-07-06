@@ -17,7 +17,7 @@
 	{% set places = false %}
 {% endif %}
 
-<header class="pt-3 pb-0 bg-item header-item">
+<div class="pt-3 pb-0 bg-item header-item">
 	<div class="container-fluid">
 		<div class="row border-bottom align-items-center">
 			<div class="col-md-6 pb-3">
@@ -38,7 +38,7 @@
 		<div class="item-heading position-relative">
 			{% if is_granted('ROLE_ADMIN') %}
 				<div class="p-2 position-absolute top-0" style="right:-10px">
-					<div class="dropdown">
+					<div class="dropdown d-inline-block">
 						<button class="btn btn-outline-secondary w-100 btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
 							<i class="fas fa-wrench me-1"></i>
 						</button>
@@ -88,12 +88,10 @@
 						</ul>
 					</div>
 					{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
-						<a href="{{ path('app_category_notes', {slug: category.slug}) }}" class="btn btn-outline-secondary btn-sm mt-1" title="note">Notes</a>
+						<a href="{{ path('app_category_notes', {slug: category.slug}) }}" class="btn btn-outline-secondary btn-sm" title="note">Notes</a>
 					{% endif %}
 				</div>
 			{% endif %}
-			<h1 class="mb-3">{{ category.title|capitalize }}</h1>
-			<p class="lead mb-3 text-center">{{ category.description }}</p>
 		</div>
 	</div>
 	<nav class="tab-default mt-3">
@@ -123,7 +121,7 @@
 			</a>
 		</div>
 	</nav>
-</header>
+</div>
 <section>
 	{% if category.banner %}
 		<img src="{{ vich_uploader_asset(category) }}" class="img-fluid" alt="bannière de {{ category.title }}">

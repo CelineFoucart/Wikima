@@ -1,162 +1,160 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-default">
-	<div class="container-fluid">
-		<a class="navbar-brand text-uppercase" href="{{ path('app_home') }}">{{ app_name }}</a>
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-				<li class="nav-item me-3 text-uppercase">
-					<a class="nav-link {{ active_link(app.request, 'app_home') }}" href="{{ path('app_home') }}">
-						Accueil
-					</a>
-				</li>
+<nav class="navbar navbar-expand-lg navbar-dark">
+	<a class="navbar-brand text-uppercase" href="{{ path('app_home') }}">{{ app_name }}</a>
+	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+			<li class="nav-item me-3 text-uppercase">
+				<a class="nav-link {{ active_link(app.request, 'app_home') }}" href="{{ path('app_home') }}">
+					Accueil
+				</a>
+			</li>
+			<li class="nav-item dropdown me-3">
+				<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['article', 'comment','articletype', 'portal', 'category', 'page']) }}" href="#" id="pages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					Encyclopédie
+				</a>
+				<ul class="dropdown-menu" aria-labelledby="pages">
+					<li>
+						<a class="dropdown-item" href="{{ path('app_article_index') }}">
+							Tous les articles
+						</a>
+						<a class="dropdown-item" href="{{ path('app_articletype_index') }}">
+							Types d'article
+						</a>
+					</li>
+					<li><hr class="dropdown-divider"></li>
+					<li><h6 class="dropdown-header">Catégories</h6></li>
+					{{ get_categories() }}
+					{{ get_pages() }}
+				</ul>
+			</li>
+			<li class="nav-item dropdown me-3">
+				<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['person', 'image', 'place', 'timeline']) }}" href="#" id="gallery" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					Galeries
+				</a>
+				<ul class="dropdown-menu" aria-labelledby="gallery">
+					<li>
+						<a class="dropdown-item" href="{{ path('app_timeline_index') }}">
+							Chronologies
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="{{ path('app_person_index') }}">
+							Personnages
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="{{ path('app_place_index') }}">
+							Lieux
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="{{ path('app_image_index') }}">
+							Images
+						</a>
+					</li>
+				</ul>
+			</li>
+			{% if is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN') %}
 				<li class="nav-item dropdown me-3">
-					<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['article', 'comment','articletype', 'portal', 'category', 'page']) }}" href="#" id="pages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Encyclopédie
+					<a class="nav-link dropdown-toggle text-uppercase" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						Administration
 					</a>
-					<ul class="dropdown-menu" aria-labelledby="pages">
+					<ul class="dropdown-menu text-lowercase" aria-labelledby="navbarDropdown">
 						<li>
-							<a class="dropdown-item" href="{{ path('app_article_index') }}">
-								Tous les articles
-							</a>
-							<a class="dropdown-item" href="{{ path('app_articletype_index') }}">
-								Types d'article
+							<a class="dropdown-item fw-bold text-muted" href="{{ path('admin_app_dashboard') }}">
+								<i class="fas fa-edit me-1"></i>
+								Tableau de bord
 							</a>
 						</li>
-						<li><hr class="dropdown-divider"></li>
-						<li><h6 class="dropdown-header">Catégories</h6></li>
-						{{ get_categories() }}
-						{{ get_pages() }}
-					</ul>
-				</li>
-				<li class="nav-item dropdown me-3">
-					<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['person', 'image', 'place', 'timeline']) }}" href="#" id="gallery" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Galeries
-					</a>
-					<ul class="dropdown-menu" aria-labelledby="gallery">
 						<li>
-							<a class="dropdown-item" href="{{ path('app_timeline_index') }}">
+							<a class="dropdown-item" href="{{ path('admin_app_category_list') }}">
+								<i class="fas fa-folder me-1"></i>
+								Catégories
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('admin_app_portal_list') }}">
+								<i class="fas fa-tag me-1"></i>
+								Portails
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('admin_app_article_list') }}">
+								<i class="fas fa-file-alt me-1"></i>
+								Articles
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('admin_app_timeline_list') }}">
+								<i class="fas fa-hourglass me-1"></i>
 								Chronologies
 							</a>
 						</li>
 						<li>
-							<a class="dropdown-item" href="{{ path('app_person_index') }}">
-								Personnages
-							</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="{{ path('app_place_index') }}">
-								Lieux
-							</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="{{ path('app_image_index') }}">
+							<a class="dropdown-item" href="{{ path('admin_app_image_list') }}">
+								<i class="fas fa-image me-1"></i>
 								Images
 							</a>
 						</li>
-					</ul>
-				</li>
-				{% if is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN') %}
-					<li class="nav-item dropdown me-3">
-						<a class="nav-link dropdown-toggle text-uppercase" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							Administration
-						</a>
-						<ul class="dropdown-menu text-lowercase" aria-labelledby="navbarDropdown">
+						{% if is_granted('ROLE_ADMIN') %}
 							<li>
-								<a class="dropdown-item fw-bold text-muted" href="{{ path('admin_app_dashboard') }}">
-									<i class="fas fa-edit me-1"></i>
-									Tableau de bord
+								<a class="dropdown-item" href="{{ path('admin_app_person_list') }}">
+									<i class="fas fa-user me-1"></i>
+									Personnages
 								</a>
 							</li>
 							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_category_list') }}">
-									<i class="fas fa-folder me-1"></i>
-									Catégories
+								<a href="{{ path('admin_app_place_list') }}" class="dropdown-item">
+									<i class="fas fa-building me-1"></i>
+									Lieux
 								</a>
 							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_portal_list') }}">
-									<i class="fas fa-tag me-1"></i>
-									Portails
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_article_list') }}">
-									<i class="fas fa-file-alt me-1"></i>
-									Articles
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_timeline_list') }}">
-									<i class="fas fa-hourglass me-1"></i>
-									Chronologies
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_image_list') }}">
-									<i class="fas fa-image me-1"></i>
-									Images
-								</a>
-							</li>
-							{% if is_granted('ROLE_ADMIN') %}
-								<li>
-									<a class="dropdown-item" href="{{ path('admin_app_person_list') }}">
-										<i class="fas fa-user me-1"></i>
-										Personnages
-									</a>
-								</li>
-								<li>
-									<a href="{{ path('admin_app_place_list') }}" class="dropdown-item">
-										<i class="fas fa-building me-1"></i>
-										Lieux
-									</a>
-								</li>
-							{% endif %}
-							<li>
-								<a class="dropdown-item fw-bold text-muted" href="{{ path('admin_app_note_create') }}">
-									<i class="fas fa-sticky-note me-1"></i>
-									Ajouter une note
-								</a>
-							</li>
-						</ul>
-					</li>
-				{% endif %}
-				<li class="nav-item dropdown">
-					<a class=" text-uppercase btn btn-outline-light dropdown-toggle" href="#" id="account" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<i class="fas fa-user me-1"></i>
-						{{ app.user ? app.user.username : 'Compte' }}
-					</a>
-					<ul class="dropdown-menu" aria-labelledby="account">
-						{% if app.user %}
-							<li>
-								<a class="dropdown-item" href="{{ path('app_profile') }}">
-									Compte
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('app_user_show', {id: app.user.id}) }}">
-									Profil
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('app_logout') }}">
-									Déconnexion
-								</a>
-							</li>
-						{% else %}
-							<li>
-								<a class="dropdown-item" href="{{ path('app_login') }}">Connexion</a>
-							</li>
-							{% if enable_registration %}
-								<li>
-									<a class="dropdown-item" href="{{ path('app_register') }}">Inscription</a>
-								</li>
-							{% endif %}
 						{% endif %}
+						<li>
+							<a class="dropdown-item fw-bold text-muted" href="{{ path('admin_app_note_create') }}">
+								<i class="fas fa-sticky-note me-1"></i>
+								Ajouter une note
+							</a>
+						</li>
 					</ul>
 				</li>
-			</ul>
-		</div>
+			{% endif %}
+			<li class="nav-item dropdown">
+				<a class=" text-uppercase btn btn-outline-light dropdown-toggle" href="#" id="account" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<i class="fas fa-user me-1"></i>
+					{{ app.user ? app.user.username : 'Compte' }}
+				</a>
+				<ul class="dropdown-menu" aria-labelledby="account">
+					{% if app.user %}
+						<li>
+							<a class="dropdown-item" href="{{ path('app_profile') }}">
+								Compte
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('app_user_show', {id: app.user.id}) }}">
+								Profil
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('app_logout') }}">
+								Déconnexion
+							</a>
+						</li>
+					{% else %}
+						<li>
+							<a class="dropdown-item" href="{{ path('app_login') }}">Connexion</a>
+						</li>
+						{% if enable_registration %}
+							<li>
+								<a class="dropdown-item" href="{{ path('app_register') }}">Inscription</a>
+							</li>
+						{% endif %}
+					{% endif %}
+				</ul>
+			</li>
+		</ul>
 	</div>
 </nav>

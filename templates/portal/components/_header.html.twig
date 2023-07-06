@@ -29,75 +29,79 @@
 			</div>
 			<div class="col-md-6">{{ include('includes/_search.html.twig') }}</div>
 		</div>
-		<div class="item-heading position-relative">
-			<div class="p-2 position-absolute top-0" style="right:-10px">
-				<div class="dropdown">
-					<button class="btn btn-outline-secondary btn-sm dropdown-toggle w-100" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
-						<i class="fas fa-wrench me-1"></i>
-					</button>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-						<li>
-							<a class="dropdown-item" href="{{ path('app_print_portal', {slug: portal.slug}) }}" target="_blank">
-								<i class="fas fa-print"></i>
-								Aperçu avant impression
+		<div class="item-heading ps-0">
+			<div class="row">
+				<div class="col-md-10">
+					<p>
+						{% for category in portal.categories %}
+							<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label me-1" data-bs-toggle="tooltip" title="{{ category.description ? category.description : 'Aucune description' }}">
+								<i class="fas fa-folder me-1"></i>
+								{{ category.title }}
 							</a>
-						</li>
-						{% if is_granted('ROLE_ADMIN') %}
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_portal_edit', {id:portal.id}) }}">
-									<i class="fas fa-pencil-alt"></i>
-									Editer le portail
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_article_create', {portal:portal.id}) }}">
-									<i class="fas fa-file-alt"></i>
-									Ajouter un article
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_timeline_create', {portal:portal.id}) }}">
-									<i class="fas fa-hourglass"></i>
-									Ajouter une chronologie
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_person_create', {portal:portal.id}) }}">
-									<i class="fas fa-user"></i>
-									Ajouter un personnage
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_place_create', {portal:portal.id}) }}">
-									<i class="fas fa-globe"></i>
-									Ajouter un lieu
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_image_create', {portal:portal.id}) }}">
-									<i class="fas fa-image"></i>
-									Ajouter une image
-								</a>
-							</li>
-						{% endif %}
-					</ul>
+						{% endfor %}
+					</p>
 				</div>
-				{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
-					<a href="{{ path('app_portal_notes', {slug: portal.slug}) }}" class="btn btn-outline-secondary btn-sm mt-1" title="note">
-						Notes
-					</a>
-				{% endif %}
+				<div class="col-md-2 text-end">
+					<div>
+						<div class="dropdown d-inline-block">
+							<button class="btn btn-outline-secondary btn-sm dropdown-toggle w-100" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
+								<i class="fas fa-wrench me-1"></i>
+							</button>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+								<li>
+									<a class="dropdown-item" href="{{ path('app_print_portal', {slug: portal.slug}) }}" target="_blank">
+										<i class="fas fa-print"></i>
+										Aperçu avant impression
+									</a>
+								</li>
+								{% if is_granted('ROLE_ADMIN') %}
+									<li>
+										<a class="dropdown-item" href="{{ path('admin_app_portal_edit', {id:portal.id}) }}">
+											<i class="fas fa-pencil-alt"></i>
+											Editer le portail
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item" href="{{ path('admin_app_article_create', {portal:portal.id}) }}">
+											<i class="fas fa-file-alt"></i>
+											Ajouter un article
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item" href="{{ path('admin_app_timeline_create', {portal:portal.id}) }}">
+											<i class="fas fa-hourglass"></i>
+											Ajouter une chronologie
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item" href="{{ path('admin_app_person_create', {portal:portal.id}) }}">
+											<i class="fas fa-user"></i>
+											Ajouter un personnage
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item" href="{{ path('admin_app_place_create', {portal:portal.id}) }}">
+											<i class="fas fa-globe"></i>
+											Ajouter un lieu
+										</a>
+									</li>
+									<li>
+										<a class="dropdown-item" href="{{ path('admin_app_image_create', {portal:portal.id}) }}">
+											<i class="fas fa-image"></i>
+											Ajouter une image
+										</a>
+									</li>
+								{% endif %}
+							</ul>
+						</div>
+						{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
+							<a href="{{ path('app_portal_notes', {slug: portal.slug}) }}" class="btn btn-outline-secondary btn-sm" title="note">
+								Notes
+							</a>
+						{% endif %}
+					</div>
+				</div>
 			</div>
-			<p style="width:90%">
-				{% for category in portal.categories %}
-					<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1" data-bs-toggle="tooltip" title="{{ category.description ? category.description : 'Aucune description' }}">
-						<i class="fas fa-folder me-1"></i>
-						{{ category.title }}
-					</a>
-				{% endfor %}
-			</p>
-			<h1 class="mb-3">{{ portal.title|capitalize }}</h1>
-			<p class="lead mb-1 text-center">{{ portal.description }}</p>
 		</div>
 	</div>
 

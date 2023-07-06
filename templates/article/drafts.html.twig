@@ -4,7 +4,6 @@
 {% endblock %}
 
 {% block body %}
-	{{ include('home/_header.html.twig') }}
 	<article class="mt-5 container-fluid">
 		<h2 class="list-title">Brouillons d'article</h2>
 		{% set plural = drafts.getTotalItemCount > 1 ? 's' : '' %}
