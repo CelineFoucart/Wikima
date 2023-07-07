@@ -63,11 +63,11 @@ final class PortalController extends AbstractController
     }
 
     #[Route('/portals', name: 'app_portal_index')]
-    public function index(Request $request, AlphabeticalHelperService $helper): Response
+    public function index(Request $request, AlphabeticalHelperService $helper, int $perPageOdd): Response
     {
         $page = $request->query->getInt('page', 1);
 
-        $portals = $this->portalRepository->findPaginated($page);
+        $portals = $this->portalRepository->findPaginated($page, $perPageOdd);
 
         return $this->render('portal/index_portal.html.twig', [
             'portals' => $portals,
