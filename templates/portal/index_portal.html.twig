@@ -6,8 +6,15 @@
     <article class="my-5 container-fluid">
         <h2 class="list-title">Les portails</h2>
         <p class="text-center text-muted fs-5 mb-4">Explorer les portails disponibles sur le site</p>
+        <p class="mt-5">
+            {% set total = portals.getTotalItemCount %}            
+            {% set current = portals|length %}
+            Affichage de <span class="fw-bold">{{ current }}</span>
+            sur <span class="fw-bold">{{ total }}</span>
+            portail{{ total > 1 ? 's' : '' }}.
+        </p>
 
-        <div class="column-3 mx-2 mt-5">
+        <div class="column-3 mx-2">
             {% for key, elements in items %}
                 <div class="mb-4">
                     <h3 class="h4 mb-0 fw-bold">{{ key }}</h3>

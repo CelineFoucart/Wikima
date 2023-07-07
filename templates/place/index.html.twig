@@ -31,9 +31,10 @@
 					{% endfor %}
 				</p>
 				<p class="mb-1">
-					<span class="fw-bold">{{ places.getTotalItemCount }}</span>
-					lieu{{ places.getTotalItemCount > 1 ? 'x' : '' }}
-					trouvé{{ places.getTotalItemCount > 1 ? 's' : '' }}.
+					{% set current = places|length %}
+					Affichage de <span class="fw-bold">{{ current }}</span>
+					sur <span class="fw-bold">{{ places.getTotalItemCount }}</span>
+					lieu{{ places.getTotalItemCount > 1 ? 'x' : '' }}.
 				</p>
 				<div class="row">
 					{% for place in places %}

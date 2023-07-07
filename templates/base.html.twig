@@ -18,7 +18,7 @@
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
 	</head>
-	<body>
+	<body style="background-color: {{ background_color }}">
 		<div id="content-page" class="container shadow my-3 p-0 rounded-3">
 			<header class="index-header rounded-top" {{ banner() }}>
 				{{ include('includes/_navbar.html.twig') }}
@@ -28,7 +28,7 @@
 				</div>
 			</header>
 
-			<main id="content-main" class="p-0 bg-main border-item mb-3"> 
+			<main id="content-main" class="p-0 bg-main border-item"> 
 				{% block body %}{% endblock %}
 			</main>
 

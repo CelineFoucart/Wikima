@@ -26,6 +26,7 @@ class ConfigService
         'WIKI_BANNER' => 'banner.png',
         'PER_PAGE_ODD_COLUMNS' => 30,
         'PER_PAGE_EVEN_COLUMNS' => 20,
+        'BACKGROUND_COLOR' => "#f5f7fa80",
     ];
 
     public function __construct(private string $configFile, private string $publicDir)
@@ -49,7 +50,8 @@ class ConfigService
             'WIKI_FAVICON',
             'WIKI_BANNER',
             'PER_PAGE_ODD_COLUMNS',
-            'PER_PAGE_EVEN_COLUMNS'
+            'PER_PAGE_EVEN_COLUMNS',
+            'BACKGROUND_COLOR'
         ];
 
         foreach ($keys as $key) {

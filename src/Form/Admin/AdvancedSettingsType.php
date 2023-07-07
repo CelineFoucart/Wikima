@@ -5,6 +5,7 @@ namespace App\Form\Admin;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -72,6 +73,10 @@ class AdvancedSettingsType extends AbstractType
                 ],
                 'help' => "La bannière doit faire au maximum 2000 pixels de large et au minimum 400 pixels de hauteur avec une extension en png.",
             ])
+            ->add('BACKGROUND_COLOR', TextType::class, [
+                'label' =>"Couleur de l'arrière plan du site",
+                'help' => "Cette valeur définira l'arrière plan du body de la page (propriété CSS background)",
+            ])
             ->add('CONTACT_EMAIL', TextType::class, [
                 'label' => "Email de contact",
             ])
@@ -101,7 +106,7 @@ class AdvancedSettingsType extends AbstractType
                 'help' => "Le port du serveur SMTP"
             ])
             ->add('PER_PAGE_EVEN_COLUMNS', IntegerType::class, [
-                'label' => "Pagination des affichages avec 2 et 4 colonnes",
+                'label' => "Pagination des affichages avec 1, 2 et 4 colonnes",
                 'help' => "Définissez le nombre d'éléments par page sur ce type d'affichage, de 10 à 100",
                 'constraints' => [
                     new NotBlank(),

@@ -3,15 +3,14 @@
 {% block title %}Mes commentaires{% endblock %}
 
 {% block body %}
-    <header class="bg-default p-5 text-white index-header">
-        <div class="heading">
-            <h1 class="heading-title">Mes commentaires</h1>
-        </div>
-    </header>
     <section class="m-5">
         <h2 class="mb-4">
-            {{ comments.getTotalItemCount }} commentaire{{comments.getTotalItemCount > 1 ? 's':'' }}
+            Mes commentaires
         </h2>
+        <p>
+            Affichage de <strong>{{ comments|length }}</strong> sur 
+            <strong>{{ comments.getTotalItemCount }}</strong> commentaire{{comments.getTotalItemCount > 1 ? 's':'' }}
+        </p>
 
         {% for comment in comments %}
             {{ include('comment/components/_comment.html.twig') }}

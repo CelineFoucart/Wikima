@@ -20,9 +20,10 @@
 			<div class="col-md-8">
 				<h3 class="border-bottom display-6 mb-2 mt-0">Tous les articles</h3>
 				<p class="mb-4">
-					<span class="fw-bold">{{ articles.getTotalItemCount }}</span>
-					article{{ articles.getTotalItemCount > 1 ? 's' : '' }}
-					trouvé{{ articles.getTotalItemCount > 1 ? 's' : '' }}.
+					{% set current = articles|length %}
+					Affichage de <span class="fw-bold">{{ current }}</span>
+					sur <span class="fw-bold">{{ articles.getTotalItemCount }}</span>
+					article{{ articles.getTotalItemCount > 1 ? 's' : '' }}.
 				</p>
 				<div class="row gy-3">
 					{% for article in articles %}

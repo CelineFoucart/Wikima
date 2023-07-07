@@ -119,7 +119,7 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findByUser(User $user, int $page = 1, bool $hidePrivate = true): PaginationInterface
+    public function findByUser(User $user, int $page = 1, bool $hidePrivate = true, int $perPage = 12): PaginationInterface
     {
         $builder = $this->getDefaultQueryBuilder()
             ->andWhere('a.author = :user')
@@ -131,7 +131,7 @@ class ArticleRepository extends ServiceEntityRepository
             $builder->andWhere('a.isPrivate IS NULL OR a.isPrivate = 0');
         }
 
-        return $this->paginatorService->setLimit(12)->paginate($builder, $page);
+        return $this->paginatorService->setLimit($perPage)->paginate($builder, $page);
     }
 
     public function findAuthorDrafts(User $user, int $page, int $perPage): PaginationInterface

@@ -4,10 +4,6 @@
     --secondary-light: #F3FAFE;
 }
 
-body {
-    background-color: rgb(245, 247, 250, .5);
-}
-
 #content-page {
     display: flex;
     flex-direction: column;
@@ -16,6 +12,10 @@ body {
 
 #content-main {
     flex: 1;
+}
+
+#main-footer {
+    background-color: rgb(245, 247, 250);
 }
 
 .text-default {

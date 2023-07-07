@@ -1,9 +1,8 @@
-{% set plural = images.getTotalItemCount > 1 ? 's' : '' %}
-
-<p class="mb-4 p-2">
-	<span class="fw-bold">{{ images.getTotalItemCount }}</span>
-	image{{ plural }}
-	trouvée{{ plural }}.
+<p class="mb-4 p-2">	
+	{% set current = images|length %}
+	Affichage de <span class="fw-bold">{{ current }}</span>
+	sur <span class="fw-bold">{{ images.getTotalItemCount }}</span>
+	image{{ images.getTotalItemCount > 1 ? 's' : '' }}.
 </p>
 
 {% include "image/components/_not_paginated_list.html.twig" %}

@@ -11,9 +11,19 @@
     </header>
 
     <section class="p-5 px-4">
-        <h2 class="display-6 mb-4">
-            {{ comments.getTotalItemCount }} commentaire{{comments.getTotalItemCount > 1 ? 's':'' }}
-        </h2>
+        <div class="row align-items-center mx-5">
+            <div class="col-md-6 ps-0">
+                <h2 class="display-6 mb-4">
+                    <i class="fas fa-comment fa-fw"></i> commentaires
+                </h2>
+            </div>
+            <div class="col-md-6 pe-0">
+                <p class="mb-4 text-end">
+                    Affichage de <strong>{{ comments|length }}</strong> sur <strong>{{ comments.getTotalItemCount }}</strong> 
+                    commentaire{{comments.getTotalItemCount > 1 ? 's':'' }}
+                </p>
+            </div>
+        </div>
 
         {% for message in app.flashes('success') %}
             <div class="alert alert-success">{{ message }}</div>

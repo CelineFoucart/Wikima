@@ -11,10 +11,12 @@
 			{{ user.username }}
 		</h2>
 		{% set plural = articles.getTotalItemCount > 1 ? 's' : '' %}
-		<p class="mb-4 p-2">{{ user.username }}
-			a écrit
-			<span class="fw-bold">{{ articles.getTotalItemCount }}</span>
-			article{{ plural }}.</p>
+		<p class="mb-4 p-2">
+			{% set current = articles|length %}
+			Affichage de <strong>{{ current }}</strong> article{{ current > 1 ? 's' : '' }} sur
+			<span class="fw-bold">{{ articles.getTotalItemCount }}</span> article{{ plural }}
+			écrit{{ plural }} par {{ user.username }}.
+		</p>
 
 		<table class="table table-stripped">
 			<thead>

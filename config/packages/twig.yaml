@@ -7,6 +7,7 @@ twig:
         app_description: '%env(WIKI_DESCRIPTION)%'
         enable_contact: '%env(bool:ENABLE_CONTACT)%'
         enable_registration: '%env(bool:ENABLE_REGISTRATION)%'
+        background_color: '%env(BACKGROUND_COLOR)%'
 
 when@test:
     twig:

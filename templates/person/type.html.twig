@@ -25,6 +25,13 @@
 				{{ type.description }}
 			</p>
 		</header>
+        <p>
+            {% set total = persons.getTotalItemCount %}            
+            {% set current = persons|length %}
+            Affichage de <span class="fw-bold">{{ current }}</span>
+            sur <span class="fw-bold">{{ total }}</span>
+            personnage{{ total > 1 ? 's' : '' }}.
+        </p>
         <div class="row">
             {% for person in persons %}
                 <div class="col-md-6 col-lg-4 my-2">

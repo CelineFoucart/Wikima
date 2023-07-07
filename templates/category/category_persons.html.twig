@@ -17,7 +17,9 @@
 		<div class="row">
 			<div class="col-md-8">
 				{% set plural = persons.getTotalItemCount > 1 ? 's' : '' %}
+				{% set current = persons|length %}
 				<p class="mb-4">
+					Affichage de <span class="fw-bold">{{ current }}</span> sur 
 					<span class="fw-bold">{{ persons.getTotalItemCount }}</span>
 					personnage{{ plural }}
 					{% if type %}

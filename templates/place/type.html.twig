@@ -25,6 +25,13 @@
 				{{ type.description }}
 			</p>
 		</header>
+        <p>
+            {% set total = places.getTotalItemCount %}            
+            {% set current = places|length %}
+            Affichage de <span class="fw-bold">{{ current }}</span>
+            sur <span class="fw-bold">{{ total }}</span>
+            lieu{{ total > 1 ? 'x' : '' }}.
+        </p>
         <div class="row">
             {% for place in places %}
                 <div class="col-md-6 col-lg-4 my-2">

@@ -50,10 +50,11 @@
         </h2>
         <p class="text-muted mt-4 mb-5 mx-5">{{ type.description|nl2br }}</p>
         <p class="mb-4">
-            {% set total = articles.getTotalItemCount %}
-            <span class="fw-bold">{{ total }}</span>
-            article{{ total > 1 ? 's' : '' }}
-            trouvé{{ total > 1 ? 's' : '' }}.
+            {% set total = articles.getTotalItemCount %}            
+            {% set current = articles|length %}
+            Affichage de <span class="fw-bold">{{ current }}</span>
+            sur <span class="fw-bold">{{ total }}</span>
+            article{{ total > 1 ? 's' : '' }}.
         </p>
 
         <div class="{{ total > 3 ? 'column-3' : '' }} mt-3">

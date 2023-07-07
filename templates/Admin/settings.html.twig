@@ -1,10 +1,23 @@
 {% extends 'admin_layout.html.twig' %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/colorpicker/coloris.min.css') }}">
+    <style>
+        .clr-field {
+            display: block;
+        }
+
+        .clr-field button {
+            border-radius: 0 0.25rem 0.25rem 0;
+            cursor: pointer;
+        }
+    </style>
+{% endblock %}
+
 {% block title %}Gérer la configuration{% endblock %}
 
 {% block activeAdmin %}active show{% endblock %}
 {% block activeConfig %}active{% endblock %}
-
 {% block page_title %}Gérer la configuration{% endblock %}
 
 {% block breadcrumb %}
@@ -39,6 +52,7 @@
                             {% endif %}
                             {{ form_errors(form.bannerFile) }}
                         </div>
+                        {{ form_row(form.BACKGROUND_COLOR) }}
                         <div class="mb-3">
                             {{ form_label(form.faviconFile) }}
                             {{ form_widget(form.faviconFile) }}
@@ -105,4 +119,28 @@
             </div>
         </div>
     {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/colorpicker/coloris.min.js') }}"></script>
+    <script>
+        Coloris({
+            el: '#advanced_settings_BACKGROUND_COLOR',
+            swatches: [
+                '#212529',
+                '#6c757d',
+                '#eeeeee',
+                '#ecf0f5',
+                '#F3FAFE',
+                '#fff',
+                '#cfe2ff',
+                '#48cae4',
+                '#3c8dbc',
+                '#563d7c',
+                '#7952b3',
+                '#c29ffa'
+            ]
+        });
+        Coloris.setInstance('#advanced_settings_BACKGROUND_COLOR', { theme: 'polaroid' });
+    </script>
 {% endblock %}

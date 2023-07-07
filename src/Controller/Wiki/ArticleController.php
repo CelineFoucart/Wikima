@@ -58,7 +58,7 @@ final class ArticleController extends AbstractController
     }
 
     #[Route('/draft/articles', name: 'app_article_draft')]
-    public function draft(Request $request, int $perPageEven)
+    public function draft(Request $request, int $perPageEven): Response
     {
         $user = $this->getUser();
         if (!$user) {
@@ -75,11 +75,11 @@ final class ArticleController extends AbstractController
     }
 
     #[Route('/user/{id}/articles', name: 'app_article_user')]
-    public function user(Request $request, User $user)
+    public function user(Request $request, User $user, int $perPageEven): Response
     {
         $page = $request->query->getInt('page', 1);
         $hidePrivate = $this->hidePrivate();
-        $articles = $this->articleRepository->findByUser($user, $page, $hidePrivate);
+        $articles = $this->articleRepository->findByUser($user, $page, $hidePrivate, $perPageEven);
 
         return $this->render('article/user_articles.html.twig', [
             'articles' => $articles,

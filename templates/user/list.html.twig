@@ -8,11 +8,9 @@
 
 {% block body %}
 	<section class="py-5 container-fluid">
-		<h2>Les contributeurs de
-			{{ app_name }}</h2>
-
+		<h2>Les contributeurs de {{ app_name }}</h2>
 		<div class="table-responsive">
-			<table class="table">
+			<table class="table mb-0">
 				<thead>
 					<tr>
 						<th>Pseudo</th>
@@ -41,7 +39,14 @@
 				</tbody>
 			</table>
 		</div>
-		
+		<p class="mt-1">
+            {% set total = users.getTotalItemCount %}            
+            {% set current = users|length %}
+            Affichage de <span class="fw-bold">{{ current }}</span>
+            sur <span class="fw-bold">{{ total }}</span>
+            utilisateur{{ total > 1 ? 's' : '' }}
+        </p>
+
 		<div class="navigation">
 			{{ knp_pagination_render(users) }}
 		</div>
