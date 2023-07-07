@@ -29,7 +29,9 @@
                             <td>
                                 {{ comment.author.username }}
                             </td>
-                            <td>{{ comment.createdAt|date('d/m/Y à H:i') }}</td>
+                            <td data-sort="{{ comment.createdAt|date('Y-m-d H:i') }}">
+                                {{ comment.createdAt|date('d/m/Y à H:i') }}
+                            </td>
                             <td>
                                 {{ comment.article.title }}
                             </td>

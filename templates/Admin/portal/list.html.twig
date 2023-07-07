@@ -48,8 +48,12 @@
                                     <a href="{{ path('admin_app_category_show', {id: category.id}) }}">{{ category }}</a>
                                 {% endfor %}
                             </td>
-                            <td>{{ portal.createdAt|date('d/m/Y à H:i') }}</td>
-                            <td>{{ portal.updatedAt ? portal.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                            <td data-sort="{{ portal.createdAt ? portal.createdAt|date('Y-m-d H:i') : '' }}">
+                                {{ portal.createdAt|date('d/m/Y à H:i') }}
+                            </td>
+                            <td data-sort="{{ portal.updatedAt ? portal.updatedAt|date('Y-m-d H:i') : '' }}">
+                                {{ portal.updatedAt ? portal.updatedAt|date('d/m/Y à H:i') : '' }}
+                            </td>
                             <td>
                                 <div class="btn-group">
                                     <a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="btn btn-sm btn-default" title="Consulter">

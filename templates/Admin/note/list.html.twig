@@ -41,8 +41,12 @@
                                     {{ note.title }}
                                 </a>
                             </td>
-                            <td>{{ note.createdAt|date('d/m/Y à H:i') }}</td>
-                            <td>{{ note.updatedAt ? note.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                            <td data-sort="{{ note.createdAt ? note.createdAt|date('Y-m-d H:i') : '' }}">
+                                {{ note.createdAt|date('d/m/Y à H:i') }}
+                            </td>
+                            <td data-sort="{{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i') : '' }}">
+                                {{ note.updatedAt ? note.updatedAt|date('d/m/Y à H:i') : '' }}
+                            </td>
                             <td>
                                 {% if note.category %}
                                     <a href="{{ path('app_category_show', {slug: note.category.slug}) }}">

@@ -268,8 +268,8 @@
                                                             {% endif %}
                                                         </div>
                                                         <div>
-                                                            <span class="fw-bold">Catégorie :</span>
                                                             {% if note.category %}
+																<span class="fw-bold">Catégorie :</span>
                                                                 <a href="{{ path('app_category_show', {slug: note.category.slug}) }}">
                                                                     {{ note.category }}
                                                                 </a>

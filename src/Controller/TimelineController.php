@@ -20,7 +20,7 @@ class TimelineController extends AbstractController
     {
         $page = $request->query->getInt('page', 1);
         $search = (new SearchData())->setPage($page);
-        $form = $this->createForm(AdvancedSearchType::class, $search);
+        $form = $this->createForm(AdvancedSearchType::class, $search, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -159,7 +159,8 @@ final class AdminPlaceController extends AbstractAdminController
         }
 
         $searchData = (new SearchData())->setPage($page);
-        $searchForm = $this->createForm(AdvancedSearchType::class, $searchData);
+        $searchForm = $this->createForm(AdvancedSearchType::class, $searchData, ['allow_extra_fields' => true]);
+        // $request->query->remove('search_terms');
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {

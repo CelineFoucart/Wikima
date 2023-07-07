@@ -42,8 +42,12 @@
                             </td>
                             <td>{{ category.title }}</td>
                             <td>{{ category.slug }}</td>
-                            <td>{{ category.createdAt|date('d/m/Y à H:i') }}</td>
-                            <td>{{ category.updatedAt ? category.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                            <td data-sort="{{ category.createdAt ? category.createdAt|date('Y-m-d H:i') : '' }}">
+                                {{ category.createdAt|date('d/m/Y à H:i') }}
+                            </td>
+                            <td data-sort="{{ category.updatedAt ? category.updatedAt|date('Y-m-d H:i') : '' }}">
+                                {{ category.updatedAt ? category.updatedAt|date('d/m/Y à H:i') : '' }}
+                            </td>
                             <td>
                                 <div class="btn-group">
                                     <a href="{{ path('app_category_show', {slug: category.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
