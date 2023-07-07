@@ -32,7 +32,7 @@ class AdminDashboardController extends AbstractController
         $stats = $statisticsHandler->getStatistics();
         $total = (int)$stats['article'] + (int)$stats['person'] + (int) $stats['place'];
         
-        return $this->render('admin/dashboard.html.twig', [
+        return $this->render('Admin/dashboard.html.twig', [
             'stats' => $stats,
             'total' => $total,
             'notes' => $noteRepository->findLastNotes(5),

@@ -28,7 +28,7 @@ final class AdminNoteController extends AbstractAdminController
     #[Route('/', name: 'admin_app_note_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('admin/note/list.html.twig', [
+        return $this->render('Admin/note/list.html.twig', [
             'notes' => $this->noteRepository->findForAdminList(),
         ]);
     }
@@ -65,7 +65,7 @@ final class AdminNoteController extends AbstractAdminController
             return $this->redirectTo($request, $note->getId());
         }
 
-        return $this->render('admin/note/create.html.twig', [
+        return $this->render('Admin/note/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -73,7 +73,7 @@ final class AdminNoteController extends AbstractAdminController
     #[Route('/{id}/show', name: 'admin_app_note_show', methods:['GET'])]
     public function showAction(Note $note): Response
     {
-        return $this->render('admin/note/show.html.twig', [
+        return $this->render('Admin/note/show.html.twig', [
             'note' => $note,
         ]);
     }
@@ -92,7 +92,7 @@ final class AdminNoteController extends AbstractAdminController
             return $this->redirectTo($request, $note->getId());
         }
 
-        return $this->render('admin/note/edit.html.twig', [
+        return $this->render('Admin/note/edit.html.twig', [
             'form' => $form->createView(),
             'note' => $note,
         ]);

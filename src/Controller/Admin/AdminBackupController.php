@@ -27,7 +27,7 @@ final class AdminBackupController extends AbstractAdminController
     #[Route('/', name: 'admin_app_backup_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('admin/backup.html.twig', [
+        return $this->render('Admin/backup.html.twig', [
             'backups' => $this->backupRepository->findAll(),
         ]);
     }

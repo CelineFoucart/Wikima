@@ -26,7 +26,7 @@ final class AdminPageController extends AbstractAdminController
     #[Route('/', name: 'admin_app_page_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('admin/page/list.html.twig', [
+        return $this->render('Admin/page/list.html.twig', [
             'pages' => $this->pageRepository->findAll(),
         ]);
     }
@@ -45,7 +45,7 @@ final class AdminPageController extends AbstractAdminController
             return $this->redirectTo($request, $page->getId());
         }
 
-        return $this->render('admin/page/create.html.twig', [
+        return $this->render('Admin/page/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -53,7 +53,7 @@ final class AdminPageController extends AbstractAdminController
     #[Route('/{id}/show', name: 'admin_app_page_show', methods:['GET'])]
     public function showAction(Page $page): Response
     {
-        return $this->render('admin/page/show.html.twig', [
+        return $this->render('Admin/page/show.html.twig', [
             'page' => $page,
         ]);
     }
@@ -71,7 +71,7 @@ final class AdminPageController extends AbstractAdminController
             return $this->redirectTo($request, $page->getId());
         }
 
-        return $this->render('admin/page/edit.html.twig', [
+        return $this->render('Admin/page/edit.html.twig', [
             'form' => $form->createView(),
             'page' => $page,
         ]);

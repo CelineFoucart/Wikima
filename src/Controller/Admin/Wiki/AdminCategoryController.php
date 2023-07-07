@@ -29,7 +29,7 @@ final class AdminCategoryController extends AbstractAdminController
     #[Route('/', name: 'admin_app_category_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('admin/category/list.html.twig', [
+        return $this->render('Admin/category/list.html.twig', [
             'categories' => $this->categoryRepository->findAll(),
         ]);
     }
@@ -49,7 +49,7 @@ final class AdminCategoryController extends AbstractAdminController
             return $this->redirectTo($request, $category->getId());
         }
 
-        return $this->render('admin/category/create.html.twig', [
+        return $this->render('Admin/category/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -57,7 +57,7 @@ final class AdminCategoryController extends AbstractAdminController
     #[Route('/{id}/show', name: 'admin_app_category_show', methods:['GET'])]
     public function showAction(Category $category): Response
     {
-        return $this->render('admin/category/show.html.twig', [
+        return $this->render('Admin/category/show.html.twig', [
             'category' => $category,
         ]);
     }
@@ -76,7 +76,7 @@ final class AdminCategoryController extends AbstractAdminController
             return $this->redirectTo($request, $category->getId());
         }
 
-        return $this->render('admin/category/edit.html.twig', [
+        return $this->render('Admin/category/edit.html.twig', [
             'form' => $form->createView(),
             'category' => $category,
         ]);

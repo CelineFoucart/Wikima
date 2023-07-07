@@ -35,7 +35,7 @@ final class AdminPlaceController extends AbstractAdminController
     #[Route('/', name: 'admin_app_place_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('admin/place/list.html.twig', [
+        return $this->render('Admin/place/list.html.twig', [
             'places' => $this->placeRepository->findForAdminList(),
         ]);
     }
@@ -80,7 +80,7 @@ final class AdminPlaceController extends AbstractAdminController
             return $this->redirectTo($request, $place->getId());
         }
 
-        return $this->render('admin/place/create.html.twig', [
+        return $this->render('Admin/place/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -88,7 +88,7 @@ final class AdminPlaceController extends AbstractAdminController
     #[Route('/{id}/show', name: 'admin_app_place_show', methods:['GET'])]
     public function showAction(Place $place): Response
     {
-        return $this->render('admin/place/show.html.twig', [
+        return $this->render('Admin/place/show.html.twig', [
             'place' => $place,
         ]);
     }
@@ -106,7 +106,7 @@ final class AdminPlaceController extends AbstractAdminController
             return $this->redirectTo($request, $place->getId());
         }
 
-        return $this->render('admin/place/edit.html.twig', [
+        return $this->render('Admin/place/edit.html.twig', [
             'form' => $form->createView(),
             'place' => $place,
         ]);

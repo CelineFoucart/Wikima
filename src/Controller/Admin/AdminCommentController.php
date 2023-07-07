@@ -24,7 +24,7 @@ final class AdminCommentController extends AbstractAdminController
     #[Route('/', name: 'admin_app_comment_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('admin/comment/list.html.twig', [
+        return $this->render('Admin/comment/list.html.twig', [
             'comments' => $this->commentRepository->findCommentsForAdminIndex(),
         ]);
     }
@@ -32,7 +32,7 @@ final class AdminCommentController extends AbstractAdminController
     #[Route('/{id}/show', name: 'admin_app_comment_show', methods:['GET'])]
     public function showAction(Comment $comment): Response
     {
-        return $this->render('admin/comment/show.html.twig', [
+        return $this->render('Admin/comment/show.html.twig', [
             'comment' => $comment,
         ]);
     }
@@ -50,7 +50,7 @@ final class AdminCommentController extends AbstractAdminController
             return $this->redirectTo($request, $comment->getId());
         }
 
-        return $this->render('admin/comment/edit.html.twig', [
+        return $this->render('Admin/comment/edit.html.twig', [
             'form' => $form->createView(),
             'comment' => $comment,
         ]);

@@ -33,7 +33,7 @@ final class AdminImageController extends AbstractAdminController
     #[Route('/', name: 'admin_app_image_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('admin/image/list.html.twig', [
+        return $this->render('Admin/image/list.html.twig', [
             'images' => $this->imageRepository->findAll(),
         ]);
     }
@@ -70,7 +70,7 @@ final class AdminImageController extends AbstractAdminController
             return $this->redirectTo($request, $image->getId());
         }
 
-        return $this->render('admin/image/create.html.twig', [
+        return $this->render('Admin/image/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -78,7 +78,7 @@ final class AdminImageController extends AbstractAdminController
     #[Route('/{id}/show', name: 'admin_app_image_show', methods:['GET'])]
     public function showAction(Image $image): Response
     {
-        return $this->render('admin/image/show.html.twig', [
+        return $this->render('Admin/image/show.html.twig', [
             'image' => $image,
         ]);
     }
@@ -97,7 +97,7 @@ final class AdminImageController extends AbstractAdminController
             return $this->redirectTo($request, $image->getId());
         }
 
-        return $this->render('admin/image/edit.html.twig', [
+        return $this->render('Admin/image/edit.html.twig', [
             'form' => $form->createView(),
             'image' => $image,
         ]);

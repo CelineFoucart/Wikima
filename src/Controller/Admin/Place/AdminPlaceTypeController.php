@@ -22,7 +22,7 @@ final class AdminPlaceTypeController extends AbstractAdminController
     #[Route('/', name: 'admin_app_placetype_list', methods:['GET'])]
     public function listAction(PlaceTypeRepository $placeTypeRepository): Response
     {
-        return $this->render('admin/place_type/list.html.twig', [
+        return $this->render('Admin/place_type/list.html.twig', [
             'placeTypes' => $placeTypeRepository->findAll(),
         ]);
     }
@@ -41,7 +41,7 @@ final class AdminPlaceTypeController extends AbstractAdminController
             return $this->redirectTo($request, $placeType->getId());
         }
 
-        return $this->render('admin/place_type/create.html.twig', [
+        return $this->render('Admin/place_type/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -49,7 +49,7 @@ final class AdminPlaceTypeController extends AbstractAdminController
     #[Route('/{id}/show', name: 'admin_app_placetype_show', methods:['GET'])]
     public function showAction(PlaceType $placeType): Response
     {
-        return $this->render('admin/place_type/show.html.twig', [
+        return $this->render('Admin/place_type/show.html.twig', [
             'placeType' => $placeType,
         ]);
     }
@@ -67,7 +67,7 @@ final class AdminPlaceTypeController extends AbstractAdminController
             return $this->redirectTo($request, $placeType->getId());
         }
 
-        return $this->render('admin/place_type/edit.html.twig', [
+        return $this->render('Admin/place_type/edit.html.twig', [
             'form' => $form->createView(),
             'placeType' => $placeType,
         ]);

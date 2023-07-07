@@ -28,7 +28,7 @@ final class AdminPortalController extends AbstractAdminController
     #[Route('/', name: 'admin_app_portal_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('admin/portal/list.html.twig', [
+        return $this->render('Admin/portal/list.html.twig', [
             'portals' => $this->portalRepository->findAllWithCategory(),
         ]);
     }
@@ -57,7 +57,7 @@ final class AdminPortalController extends AbstractAdminController
             return $this->redirectTo($request, $portal->getId());
         }
 
-        return $this->render('admin/portal/create.html.twig', [
+        return $this->render('Admin/portal/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -65,7 +65,7 @@ final class AdminPortalController extends AbstractAdminController
     #[Route('/{id}/show', name: 'admin_app_portal_show', methods:['GET'])]
     public function showAction(Portal $portal): Response
     {
-        return $this->render('admin/portal/show.html.twig', [
+        return $this->render('Admin/portal/show.html.twig', [
             'portal' => $portal,
         ]);
     }
@@ -84,7 +84,7 @@ final class AdminPortalController extends AbstractAdminController
             return $this->redirectTo($request, $portal->getId());
         }
 
-        return $this->render('admin/portal/edit.html.twig', [
+        return $this->render('Admin/portal/edit.html.twig', [
             'form' => $form->createView(),
             'portal' => $portal,
         ]);

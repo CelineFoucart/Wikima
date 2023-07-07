@@ -40,7 +40,7 @@ final class AdminArticleController extends AbstractAdminController
     #[Route('/', name: 'admin_app_article_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('admin/article/list.html.twig', [
+        return $this->render('Admin/article/list.html.twig', [
             'articles' => $this->articleRepository->findForAdminList(),
         ]);
     }
@@ -70,7 +70,7 @@ final class AdminArticleController extends AbstractAdminController
             return $this->redirectTo($request, $article->getId());
         }
 
-        return $this->render('admin/article/create.html.twig', [
+        return $this->render('Admin/article/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -78,7 +78,7 @@ final class AdminArticleController extends AbstractAdminController
     #[Route('/{id}/show', name: 'admin_app_article_show', methods:['GET'])]
     public function showAction(Article $article): Response
     {
-        return $this->render('admin/article/show_general.html.twig', [
+        return $this->render('Admin/article/show_general.html.twig', [
             'article' => $article,
             'general_active' => true,
         ]);
@@ -99,7 +99,7 @@ final class AdminArticleController extends AbstractAdminController
             return $this->redirectTo($request, $article->getId());
         }
 
-        return $this->render('admin/article/edit.html.twig', [
+        return $this->render('Admin/article/edit.html.twig', [
             'form' => $form->createView(),
             'article' => $article,
         ]);

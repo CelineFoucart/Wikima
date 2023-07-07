@@ -34,7 +34,7 @@ final class AdminTimelineController extends AbstractAdminController
     #[Route('/', name: 'admin_app_timeline_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('admin/timeline/list.html.twig', [
+        return $this->render('Admin/timeline/list.html.twig', [
             'timelines' => $this->timelineRepository->findAll(),
         ]);
     }
@@ -71,7 +71,7 @@ final class AdminTimelineController extends AbstractAdminController
             return $this->redirectTo($request, $timeline->getId());
         }
 
-        return $this->render('admin/timeline/create.html.twig', [
+        return $this->render('Admin/timeline/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -79,7 +79,7 @@ final class AdminTimelineController extends AbstractAdminController
     #[Route('/{id}/show', name: 'admin_app_timeline_show', methods:['GET'])]
     public function showAction(Timeline $timeline): Response
     {
-        return $this->render('admin/timeline/show.html.twig', [
+        return $this->render('Admin/timeline/show.html.twig', [
             'timeline' => $timeline,
         ]);
     }
@@ -98,7 +98,7 @@ final class AdminTimelineController extends AbstractAdminController
             return $this->redirectTo($request, $timeline->getId());
         }
 
-        return $this->render('admin/timeline/edit.html.twig', [
+        return $this->render('Admin/timeline/edit.html.twig', [
             'form' => $form->createView(),
             'timeline' => $timeline,
         ]);

@@ -35,7 +35,7 @@ final class AdminPersonController extends AbstractAdminController
     #[Route('/', name: 'admin_app_person_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('admin/person/list.html.twig', [
+        return $this->render('Admin/person/list.html.twig', [
             'persons' => $this->personRepository->findForAdminList(),
         ]);
     }
@@ -71,7 +71,7 @@ final class AdminPersonController extends AbstractAdminController
             return $this->redirectTo($request, $person->getId());
         }
 
-        return $this->render('admin/person/create.html.twig', [
+        return $this->render('Admin/person/create.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -79,7 +79,7 @@ final class AdminPersonController extends AbstractAdminController
     #[Route('/{id}/show', name: 'admin_app_person_show', methods:['GET'])]
     public function showAction(Person $person): Response
     {
-        return $this->render('admin/person/show.html.twig', [
+        return $this->render('Admin/person/show.html.twig', [
             'person' => $person,
         ]);
     }
@@ -97,7 +97,7 @@ final class AdminPersonController extends AbstractAdminController
             return $this->redirectTo($request, $person->getId());
         }
 
-        return $this->render('admin/person/edit.html.twig', [
+        return $this->render('Admin/person/edit.html.twig', [
             'form' => $form->createView(),
             'person' => $person,
         ]);
