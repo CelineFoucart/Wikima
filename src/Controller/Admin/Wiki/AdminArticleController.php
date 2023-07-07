@@ -41,7 +41,7 @@ final class AdminArticleController extends AbstractAdminController
     public function listAction(): Response
     {
         return $this->render('admin/article/list.html.twig', [
-            'articles' => $this->articleRepository->findAll(),
+            'articles' => $this->articleRepository->findForAdminList(),
         ]);
     }
 

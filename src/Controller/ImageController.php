@@ -18,7 +18,7 @@ class ImageController extends AbstractController
     }
 
     #[Route('/images', name: 'app_image_index')]
-    public function gallery(Request $request): Response
+    public function gallery(Request $request, int $perPageEven): Response
     {
         $search = (new SearchData())
             ->setPage($request->query->getInt('page', 1))
@@ -27,9 +27,9 @@ class ImageController extends AbstractController
         $imageForm->handleRequest($request);
         
         if ($imageForm->isSubmitted() && $imageForm->isValid()) {
-            $images = $this->imageRepository->search($search, [], 12);
+            $images = $this->imageRepository->search($search, [], $perPageEven);
         } else {
-            $images = $this->imageRepository->findPaginated($search->getPage(), [], 12);
+            $images = $this->imageRepository->findPaginated($search->getPage(), [], $perPageEven);
         }
 
         return $this->render('image/gallery.html.twig', [

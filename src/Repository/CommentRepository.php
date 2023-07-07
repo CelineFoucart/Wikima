@@ -22,10 +22,13 @@ class CommentRepository extends ServiceEntityRepository
 {
     private PaginatorService $paginatorService;
 
-    public function __construct(ManagerRegistry $registry, PaginatorService $paginatorService)
+    private int $perPageEven;
+
+    public function __construct(ManagerRegistry $registry, PaginatorService $paginatorService, int $perPageEven)
     {
         parent::__construct($registry, Comment::class);
         $this->paginatorService = $paginatorService;
+        $this->perPageEven = $perPageEven;
     }
 
     /**
@@ -58,7 +61,7 @@ class CommentRepository extends ServiceEntityRepository
             ->orderBy('c.createdAt', 'DESC')
             ->andWhere('c.article = :article')
             ->setParameter('article', $article);
-        return $this->paginatorService->setLimit(10)->paginate($builder, $page);
+        return $this->paginatorService->setLimit($this->perPageEven)->paginate($builder, $page);
     }
 
     public function findByAuthor(User $user, int $page): PaginationInterface
@@ -70,7 +73,7 @@ class CommentRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
         ;
 
-        return $this->paginatorService->setLimit(6)->paginate($builder, $page);
+        return $this->paginatorService->setLimit($this->perPageEven)->paginate($builder, $page);
     }
 
     public function findCommentsForAdminIndex(): array

@@ -51,4 +51,16 @@ class NoteRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    
+
+    public function findForAdminList(): array
+    {
+        return $this->createQueryBuilder('n')
+            ->leftJoin('n.portal', 'p')->addSelect('p')
+            ->leftJoin('n.category', 'c')->addSelect('c')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

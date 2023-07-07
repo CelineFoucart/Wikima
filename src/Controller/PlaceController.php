@@ -17,8 +17,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PlaceController extends AbstractController
 {
-    private const PER_PAGE = 16;
-
     public function __construct(
         private PlaceTypeRepository $placeTypeRepository,
         private PlaceRepository $placeRepository
@@ -27,16 +25,16 @@ class PlaceController extends AbstractController
     }
 
     #[Route('/places', name: 'app_place_index')]
-    public function index(Request $request): Response
+    public function index(Request $request, int $perPageEven): Response
     {
         $search = (new SearchData())->setPage($request->query->getInt('page', 1));
         $form = $this->createForm(AdvancedSearchType::class, $search, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $places = $this->placeRepository->search($search, self::PER_PAGE);
+            $places = $this->placeRepository->search($search, $perPageEven);
         } else {
-            $places = $this->placeRepository->findAllPaginated($search->getPage(), self::PER_PAGE);
+            $places = $this->placeRepository->findAllPaginated($search->getPage(), $perPageEven);
         }
 
         return $this->render('place/index.html.twig', [
@@ -57,10 +55,10 @@ class PlaceController extends AbstractController
     }
 
     #[Route('/type/places/{slug}', name: 'app_place_type')]
-    public function type(Request $request, PlaceType $placeType): Response
+    public function type(Request $request, PlaceType $placeType, int $perPageOdd): Response
     {
         $page = $request->query->getInt('page', 1);
-        $places = $this->placeRepository->findByType($placeType, $page, self::PER_PAGE);
+        $places = $this->placeRepository->findByType($placeType, $page, $perPageOdd);
 
         return $this->render('place/type.html.twig', [
             'places' => $places,

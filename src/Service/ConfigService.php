@@ -23,7 +23,9 @@ class ConfigService
         'SMTP_PORT' => '',
         'APP_ENV' => 'prod',
         'WIKI_FAVICON' => 'favicon.png',
-        'WIKI_BANNER' => 'banner.png'
+        'WIKI_BANNER' => 'banner.png',
+        'PER_PAGE_ODD_COLUMNS' => 30,
+        'PER_PAGE_EVEN_COLUMNS' => 20,
     ];
 
     public function __construct(private string $configFile, private string $publicDir)
@@ -46,6 +48,8 @@ class ConfigService
             'APP_ENV',
             'WIKI_FAVICON',
             'WIKI_BANNER',
+            'PER_PAGE_ODD_COLUMNS',
+            'PER_PAGE_EVEN_COLUMNS'
         ];
 
         foreach ($keys as $key) {
@@ -126,6 +130,9 @@ class ConfigService
             }
         }
 
+        $this->envVars['PER_PAGE_ODD_COLUMNS'] = isset($_ENV['PER_PAGE_ODD_COLUMNS']) ? (int) $_ENV['PER_PAGE_ODD_COLUMNS'] : 30;
+        $this->envVars['PER_PAGE_EVEN_COLUMNS'] = isset($_ENV['PER_PAGE_EVEN_COLUMNS']) ? (int) $_ENV['PER_PAGE_EVEN_COLUMNS'] : 20;
+
         $this->envVars['ENABLE_REGISTRATION'] = isset($_ENV['ENABLE_REGISTRATION']) ? (bool) $_ENV['ENABLE_REGISTRATION'] : true;
         $this->envVars['ENABLE_CONTACT'] = isset($_ENV['ENABLE_CONTACT']) ? (bool) $_ENV['ENABLE_CONTACT'] : true;
 
@@ -182,7 +189,8 @@ class ConfigService
 
     private function setEnv(string $key, mixed $value): bool
     {
-        $parts = (is_string($_ENV[$key]) && !in_array($key, ['MAILER_DSN', 'APP_ENV', 'ENABLE_REGISTRATION','ENABLE_CONTACT'])) ? '"' : '';
+        $notStringValues = ['MAILER_DSN', 'APP_ENV', 'ENABLE_REGISTRATION','ENABLE_CONTACT', 'PER_PAGE_ODD_COLUMNS', 'PER_PAGE_EVEN_COLUMNS'];
+        $parts = (is_string($_ENV[$key]) && !in_array($key, $notStringValues)) ? '"' : '';
         $search = $_ENV[$key];
 
         if ($key === 'MAILER_DSN') {

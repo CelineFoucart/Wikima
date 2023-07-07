@@ -36,7 +36,7 @@ final class AdminPersonController extends AbstractAdminController
     public function listAction(): Response
     {
         return $this->render('admin/person/list.html.twig', [
-            'persons' => $this->personRepository->findAll(),
+            'persons' => $this->personRepository->findForAdminList(),
         ]);
     }
 

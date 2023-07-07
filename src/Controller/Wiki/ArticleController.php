@@ -43,7 +43,7 @@ final class ArticleController extends AbstractController
     }
 
     #[Route('/articles', name: 'app_article_index')]
-    public function index(Request $request): Response
+    public function index(Request $request, int $perPageEven): Response
     {
         $page = $request->query->getInt('page', 1);
 
@@ -52,13 +52,13 @@ final class ArticleController extends AbstractController
         $form->handleRequest($request);
 
         return $this->render('article/index_article.html.twig', [
-            'articles' => $this->articleRepository->search($search, 10, $this->hidePrivate()),
+            'articles' => $this->articleRepository->search($search, $perPageEven, $this->hidePrivate()),
             'form' => $form->createView(),
         ]);
     }
 
     #[Route('/draft/articles', name: 'app_article_draft')]
-    public function draft(Request $request)
+    public function draft(Request $request, int $perPageEven)
     {
         $user = $this->getUser();
         if (!$user) {
@@ -67,7 +67,7 @@ final class ArticleController extends AbstractController
 
         $page = $request->query->getInt('page', 1);
 
-        $drafts = $this->articleRepository->findAuthorDrafts($user, $page);
+        $drafts = $this->articleRepository->findAuthorDrafts($user, $page, $perPageEven);
 
         return $this->render('article/drafts.html.twig', [
             'drafts' => $drafts,
@@ -79,7 +79,6 @@ final class ArticleController extends AbstractController
     {
         $page = $request->query->getInt('page', 1);
         $hidePrivate = $this->hidePrivate();
-        // if current user === user
         $articles = $this->articleRepository->findByUser($user, $page, $hidePrivate);
 
         return $this->render('article/user_articles.html.twig', [

@@ -134,7 +134,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->paginatorService->setLimit(12)->paginate($builder, $page);
     }
 
-    public function findAuthorDrafts(User $user, int $page): PaginationInterface
+    public function findAuthorDrafts(User $user, int $page, int $perPage): PaginationInterface
     {
         $builder = $this->getDefaultQueryBuilder()
             ->andWhere('a.author = :user')
@@ -142,7 +142,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->setParameter('user', $user)
         ;
 
-        return $this->paginatorService->setLimit(12)->paginate($builder, $page);
+        return $this->paginatorService->setLimit($perPage)->paginate($builder, $page);
     }
 
     public function search(SearchData $search, int $limit = 10, bool $hidePrivate = true): PaginationInterface
@@ -215,5 +215,10 @@ class ArticleRepository extends ServiceEntityRepository
         }
 
         return $builder->getQuery()->getResult();
+    }
+
+    public function findForAdminList(): array
+    {
+        return $this->getDefaultQueryBuilder()->getQuery()->getResult();
     }
 }

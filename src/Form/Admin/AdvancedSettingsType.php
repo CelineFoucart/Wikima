@@ -12,6 +12,10 @@ use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Positive;
+use Symfony\Component\Validator\Constraints\Range;
 
 class AdvancedSettingsType extends AbstractType
 {
@@ -20,10 +24,24 @@ class AdvancedSettingsType extends AbstractType
         $builder
             ->add('WIKI_NAME', TextType::class, [
                 'label' => "Nom de l'application",
+                "constraints" => [
+                    new NotBlank(),
+                    new Length([
+                        'min' => 2,
+                        'max' => 180
+                    ])
+                ]
             ])
             ->add('WIKI_DESCRIPTION', TextType::class, [
                 'label' => "Description",
-                'help' => "Description rapide de moins de 160 caractères, utilisé pour le référencement"
+                'help' => "Description rapide de moins de 160 caractères, utilisé pour le référencement",
+                "constraints" => [
+                    new NotBlank(),
+                    new Length([
+                        'min' => 10,
+                        'max' => 160
+                    ])
+                ]
             ])
             ->add('faviconFile', FileType::class, [
                 'label' => 'Favicon',
@@ -81,6 +99,30 @@ class AdvancedSettingsType extends AbstractType
                 'label' => "Port utilisé pour la connexion SMTP",
                 'required' => false,
                 'help' => "Le port du serveur SMTP"
+            ])
+            ->add('PER_PAGE_EVEN_COLUMNS', IntegerType::class, [
+                'label' => "Pagination des affichages avec 2 et 4 colonnes",
+                'help' => "Définissez le nombre d'éléments par page sur ce type d'affichage, de 10 à 100",
+                'constraints' => [
+                    new NotBlank(),
+                    new Positive(),
+                    new Range([
+                        'min' => 10,
+                        'max' => 100
+                    ])
+                ]
+            ])
+            ->add('PER_PAGE_ODD_COLUMNS', IntegerType::class, [
+                'label' => "Pagination des affichages avec 3 et 6 colonnes",
+                'help' => "Définissez le nombre d'éléments par page sur ce type d'affichage, de 6 à 90",
+                'constraints' => [
+                    new NotBlank(),
+                    new Positive(),
+                    new Range([
+                        'min' => 6,
+                        'max' => 90
+                    ])
+                ]
             ])
             ->add('ENABLE_REGISTRATION', CheckboxType::class, [
                 'label' => "Autoriser la création de compte",

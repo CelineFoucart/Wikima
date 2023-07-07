@@ -53,7 +53,7 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/{slug}/articles', name: 'app_category_show_article')]
-    public function article(Category $category, Request $request, AlphabeticalHelperService $helper, ArticleTypeRepository $articleTypeRepository): Response
+    public function article(int $perPageOdd, Category $category, Request $request, AlphabeticalHelperService $helper, ArticleTypeRepository $articleTypeRepository): Response
     {
         $types = $articleTypeRepository->findBy([], ['title' => 'ASC']);
         $page = $request->query->getInt('page', 1);
@@ -66,7 +66,7 @@ final class CategoryController extends AbstractController
             }
         }
 
-        $articles = $this->articleRepository->findByPortals($category->getPortals()->toArray(), $page, 30, $this->hidePrivate(), $type);
+        $articles = $this->articleRepository->findByPortals($category->getPortals()->toArray(), $page, $perPageOdd, $this->hidePrivate(), $type);
 
         return $this->render('category/show_category_article.html.twig', [
             'category' => $category,
@@ -81,13 +81,13 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/{slug}/gallery', name: 'app_category_gallery')]
-    public function gallery(Category $category, Request $request, ImageRepository $imageRepository): Response
+    public function gallery(int $perPageOdd, Category $category, Request $request, ImageRepository $imageRepository): Response
     {
         $page = $request->query->getInt('page', 1);
 
         return $this->render('category/category_gallery.html.twig', [
             'category' => $category,
-            'images' => $imageRepository->findByCategory($category, $page),
+            'images' => $imageRepository->findByCategory($category, $page, $perPageOdd),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'title' => $category->getTitle(),
             'description' => $category->getDescription(),
@@ -95,7 +95,7 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/{slug}/persons', name: 'app_category_persons')]
-    public function persons(Category $category, Request $request, PersonRepository $personRepository, PersonTypeRepository $personTypeRepository): Response
+    public function persons(int $perPageOdd, Category $category, Request $request, PersonRepository $personRepository, PersonTypeRepository $personTypeRepository): Response
     {
         $types = $personTypeRepository->findAll();
         $page = $request->query->getInt('page', 1);
@@ -115,7 +115,7 @@ final class CategoryController extends AbstractController
 
         return $this->render('category/category_persons.html.twig', [
             'category' => $category,
-            'persons' => $personRepository->findByParent($category, 'category', $page, $typeId, 21),
+            'persons' => $personRepository->findByParent($category, 'category', $page, $typeId, $perPageOdd),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,
@@ -126,7 +126,7 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/{slug}/places', name: 'app_category_places')]
-    public function places(Category $category, Request $request, PlaceRepository $placeRepository, PlaceTypeRepository $placeTypeRepository): Response
+    public function places(int $perPageOdd, Category $category, Request $request, PlaceRepository $placeRepository, PlaceTypeRepository $placeTypeRepository): Response
     {
         $types = $placeTypeRepository->findAll();
         $page = $request->query->getInt('page', 1);
@@ -146,7 +146,7 @@ final class CategoryController extends AbstractController
 
         return $this->render('category/category_places.html.twig', [
             'category' => $category,
-            'places' => $placeRepository->findByParent($category, 'category', $page, $typeId, 21),
+            'places' => $placeRepository->findByParent($category, 'category', $page, $typeId, $perPageOdd),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,

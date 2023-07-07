@@ -29,7 +29,7 @@ final class AdminNoteController extends AbstractAdminController
     public function listAction(): Response
     {
         return $this->render('admin/note/list.html.twig', [
-            'notes' => $this->noteRepository->findAll(),
+            'notes' => $this->noteRepository->findForAdminList(),
         ]);
     }
 

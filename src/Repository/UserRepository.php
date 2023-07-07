@@ -23,10 +23,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 {
     private PaginatorService $paginatorService;
 
-    public function __construct(ManagerRegistry $registry, PaginatorService $paginatorService)
+    private int $perPageEven;
+
+    public function __construct(ManagerRegistry $registry, PaginatorService $paginatorService, int $perPageEven)
     {
         parent::__construct($registry, User::class);
         $this->paginatorService = $paginatorService;
+        $this->perPageEven = $perPageEven;
     }
 
     /**
@@ -72,6 +75,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $builder =  $this->createQueryBuilder('u')
             ->orderBy('u.createdAt', 'ASC')
         ;
-        return $this->paginatorService->setLimit(15)->paginate($builder, $page);
+        return $this->paginatorService->setLimit($this->perPageEven)->paginate($builder, $page);
     }
 }

@@ -152,6 +152,11 @@ class PlaceRepository extends ServiceEntityRepository
         return $builder->getQuery()->getResult();
     }
 
+    public function findForAdminList(): array
+    {
+        return $this->getDefaultQuery()->getQuery()->getResult();
+    }
+
     private function getDefaultQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('pl')

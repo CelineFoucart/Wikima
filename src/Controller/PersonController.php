@@ -24,16 +24,16 @@ class PersonController extends AbstractController
     }
 
     #[Route('/persons', name: 'app_person_index')]
-    public function index(Request $request): Response
+    public function index(Request $request, int $perPageEven): Response
     {
         $search = (new SearchData())->setPage($request->query->getInt('page', 1));
         $form = $this->createForm(AdvancedSearchType::class, $search, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $persons = $this->personRepository->search($search);
+            $persons = $this->personRepository->search($search, $perPageEven);
         } else {
-            $persons = $this->personRepository->findAllPaginated($search->getPage());
+            $persons = $this->personRepository->findAllPaginated($search->getPage(), $perPageEven);
         }
 
         return $this->render('person/index.html.twig', [
@@ -54,11 +54,10 @@ class PersonController extends AbstractController
     }
 
     #[Route('/type/persons/{slug}', name: 'app_person_type')]
-    public function type(PersonType $personType, Request $request): Response
+    public function type(PersonType $personType, Request $request, int $perPageOdd): Response
     {
         $page = $request->query->getInt('page', 1);
-
-        $persons = $this->personRepository->findByType($personType, $page);
+        $persons = $this->personRepository->findByType($personType, $page, $perPageOdd);
 
         return $this->render('person/type.html.twig', [
             'persons' => $persons,

@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class TimelineController extends AbstractController
 {
     #[Route('/timelines', name: 'app_timeline_index')]
-    public function index(TimelineRepository $timelineRepository, Request $request): Response
+    public function index(TimelineRepository $timelineRepository, Request $request, int $perPageEven): Response
     {
         $page = $request->query->getInt('page', 1);
         $search = (new SearchData())->setPage($page);
@@ -24,9 +24,9 @@ class TimelineController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $timelines = $timelineRepository->search($search);
+            $timelines = $timelineRepository->search($search, $perPageEven);
         } else {
-            $timelines = $timelineRepository->findPaginated($page);
+            $timelines = $timelineRepository->findPaginated($page, $perPageEven);
         }
 
         return $this->render('timeline/index.html.twig', [

@@ -14,25 +14,30 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleTypeController extends AbstractController
 {
+    public function __construct(
+        private ArticleTypeRepository $articleTypeRepository
+    ) {
+    }
+
     #[Route('/type/articles', name: 'app_articletype_index')]
-    public function index(ArticleTypeRepository $articleTypeRepository): Response
+    public function index(): Response
     {
         return $this->render('article_type/index.html.twig', [
-            'types' => $articleTypeRepository->findBy([], ['title' => 'ASC']),
+            'types' => $this->articleTypeRepository->findBy([], ['title' => 'ASC']),
         ]);
     }
 
     #[Route('/type/articles/{slug}', name: 'app_articletype_show')]
-    public function show(ArticleTypeRepository $articleTypeRepository, ArticleType $articleType, ArticleRepository $articleRepository, Request $request, AlphabeticalHelperService $helper): Response
+    public function show(int $perPageOdd, ArticleType $articleType, ArticleRepository $articleRepository, Request $request, AlphabeticalHelperService $helper): Response
     {
         $page = $request->query->getInt('page', 1);
-        $articles = $articleRepository->findByType($articleType, $page, $this->hidePrivate(), 21);
+        $articles = $articleRepository->findByType($articleType, $page, $this->hidePrivate(), $perPageOdd);
 
         return $this->render('article_type/show.html.twig', [
             'type' => $articleType,
             'items' => $helper->formatArray($articles->getItems()),
             'articles' => $articles,
-            'types' => $articleTypeRepository->findBy([], ['title' => 'ASC']),
+            'types' => $this->articleTypeRepository->findBy([], ['title' => 'ASC']),
         ]);
     }
 

@@ -36,7 +36,7 @@ final class AdminPlaceController extends AbstractAdminController
     public function listAction(): Response
     {
         return $this->render('admin/place/list.html.twig', [
-            'places' => $this->placeRepository->findAll(),
+            'places' => $this->placeRepository->findForAdminList(),
         ]);
     }
 
