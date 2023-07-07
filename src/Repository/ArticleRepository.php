@@ -219,6 +219,6 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function findForAdminList(): array
     {
-        return $this->getDefaultQueryBuilder()->getQuery()->getResult();
+        return $this->getDefaultQueryBuilder()->orderBy('a.id', 'ASC')->getQuery()->getResult();
     }
 }
