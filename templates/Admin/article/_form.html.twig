@@ -71,3 +71,5 @@
         {{ form_rest(form) }}
     </div>
 {{ form_end(form) }}
+
+{% include "Admin/components/_editor.html.twig" with {target_id: 'article_form_content'} %}

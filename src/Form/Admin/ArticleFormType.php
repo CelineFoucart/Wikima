@@ -5,7 +5,6 @@ namespace App\Form\Admin;
 use App\Entity\Article;
 use App\Entity\ArticleType;
 use App\Entity\Portal;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -39,9 +38,7 @@ class ArticleFormType extends AbstractType
                 ]
             ])
             ->add('description', TextareaType::class)
-            ->add('content', CKEditorType::class, [
-                'config' => ['toolbar' => 'full', 'format_tags' => 'p;h2;h3;h4;h5;h6;pre'],
-            ])
+            ->add('content', TextareaType::class)
             ->add('isDraft', CheckboxType::class, [
                 'label' => 'draft',
                 'required' => false,

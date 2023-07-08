@@ -43,7 +43,6 @@ fos_ck_editor:
                 'JustifyBlock',
             ]
             full.styles: ['Styles', 'Format', 'Font', 'FontSize']
-
 twig:
     form_themes:
         - '@FOSCKEditor/Form/ckeditor_widget.html.twig'

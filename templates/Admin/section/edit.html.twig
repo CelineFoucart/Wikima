@@ -68,4 +68,6 @@
             </div>
         </div>
     {{ form_end(form) }}
+
+    {% include "Admin/components/_editor.html.twig" with {target_id: 'section_content'} %}
 {% endblock %}

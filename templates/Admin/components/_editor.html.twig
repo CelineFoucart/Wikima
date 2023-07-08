@@ -1,0 +1,95 @@
+<style>
+    #tableArticle_wrapper .row {
+        margin: 0;
+    }
+
+    #tableArticle_wrapper .dt-row .col-sm-12 {
+        padding: 0;
+        overflow-y: scroll;
+        height: 600px;
+    }
+</style>
+<div class="modal fade" id="autolinkModal" tabindex="-1" aria-labelledby="autolinkModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-0">
+            <div class="modal-header bg-light p-2">
+                <h4 class="modal-title h5" id="autolinkModalLabel">Rechercher un article</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-0">
+                <table class="table table-striped" id="tableArticle">
+                    <thead>
+                        <tr>
+                            <th>Titre</th>
+                            <th data-orderable="false">Choisir</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in articles %}
+                            <tr>
+                                <td>
+                                    {{ item.title }}
+                                </td>
+                                <td class="text-end" style="width:10%">
+                                    <button 
+                                        class="btn btn-primary btn-sm close-btn-action" 
+                                        data-slug="{{ item.slug }}"
+                                        data-title="{{ item.title }}"
+                                        title="choisir">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
+<script>
+    $('#tableArticle').DataTable({
+        language: {
+            url: '/assets/DataTables/i18n/fr-FR.json',
+        },
+        paging:false,
+        info: false,
+    });
+
+    const editor = CKEDITOR.replace( "{{target_id}}" );
+    editor.config.allowedContent = true;
+    editor.ui.addButton('autolinks',
+        {
+            label: "Ajouter le lien d'un article",
+            command: 'autolinks_action', 
+            toolbar: 'insert', 
+            icon: '/assets/icons/articles.svg' 
+        }
+    );
+
+    const modal = new bootstrap.Modal(document.getElementById('autolinkModal'), {
+        keyboard: false
+    })
+    const btns = document.querySelectorAll('.close-btn-action');
+    btns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.hide();
+            const text = editor.getSelection().getSelectedText();
+            let title = btn.dataset.title;
+            if (text.length > 0) {
+                title = text;
+            }
+
+            editor.insertHtml( `<a href="/articles/${btn.dataset.slug}">${title}</a>` ); 
+        })
+    });    
+
+    editor.addCommand("autolinks_action", {
+        exec: function (editor) {            
+            modal.show();
+        }
+    });
+</script>

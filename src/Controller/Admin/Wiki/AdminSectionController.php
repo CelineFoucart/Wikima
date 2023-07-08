@@ -6,6 +6,7 @@ namespace App\Controller\Admin\Wiki;
 
 use App\Entity\Section;
 use App\Form\SectionType;
+use App\Repository\ArticleRepository;
 use App\Repository\SectionRepository;
 use App\Security\Voter\VoterHelper;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +24,7 @@ class AdminSectionController extends AbstractController
     }
 
     #[Route('/admin/section/{id}/edit', name: 'admin_app_section_edit')]
-    public function editAction(Section $section, Request $request): Response
+    public function editAction(Section $section, Request $request, ArticleRepository $articleRepository): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $section->getArticle());
 
@@ -40,6 +41,7 @@ class AdminSectionController extends AbstractController
         return $this->render('Admin/section/edit.html.twig', [
             'form' => $form->createView(),
             'section' => $section,
+            'articles' => $articleRepository->findAll(),
         ]);
     }
 

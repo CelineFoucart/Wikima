@@ -55,6 +55,15 @@ img {
     border-color: #367fa9;
 }
 
+.page-link {
+    color: #367fa9;
+}
+
+.page-item.active .page-link  {
+    background-color: #3c8dbc;
+    border-color: #367fa9;
+}
+
 .btn-primary.hover, .btn-primary:active, .btn-primary:hover {
     background-color: #367fa9;
 }
