@@ -1,0 +1,79 @@
+{% for message in app.flashes('success') %}
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+{% endfor %}
+
+<div class="card my-3">
+    <div class="card-body">
+        <table class="table table-striped" id="tableIndex">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Création</th>
+                    <th>Mise à jour</th>
+                    <th>Statut</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for note in notes %}
+                    <tr>
+                        <td>{{ note.title }}</td>
+                        <td data-sort="{{ note.createdAt|date('Y-m-d H:i:s') }}">
+                            {{ note.createdAt|date('d/m/Y, H:i') }}
+                        </td>
+                        <td data-sort="{{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i:s') : '' }}">
+                            {{ note.updatedAt ? note.updatedAt|date('d/m/Y, H:i') : '' }}
+                        </td>
+                        <td>
+                            {% if note.isProcessed %}
+                                <span role="button" data-id="{{ note.id }}" data-action="update-processed" class="badge rounded-pill bg-success">
+                                    Traité
+                                </span>
+                            {% else %}
+                                <span role="button" data-id="{{ note.id }}" data-action="update-processed" class="badge rounded-pill bg-danger">
+                                    A Traiter
+                                </span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div 
+                                class="modal fade" 
+                                id="show{{ note.id }}" 
+                                tabindex="-1" 
+                                aria-labelledby="show{{ note.id }}Label" 
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h3 class="modal-title h5" id="show{{ note.id }}Label">{{ note }}</h3>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {% if note.message is null %}
+                                                <p class="fst-italic">Aucun message</p>
+                                            {% else %}
+                                                {{ note.message|raw }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="btn-group" role="group" aria-label="Actions">
+                                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#show{{ note.id }}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                {% set current_url = path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) %}
+                                <a href="{{ path('admin_app_note_edit', {id: note.id, referer: current_url}) }}" class="btn btn-secondary btn-sm" title="Editer"> 
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

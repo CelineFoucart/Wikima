@@ -81,6 +81,8 @@ final class AdminNoteController extends AbstractAdminController
     #[Route('/{id}/edit', name: 'admin_app_note_edit', methods:['GET', 'POST'])]
     public function editAction(Request $request, Note $note): Response
     {
+        $referer = $request->query->get('referer');
+        
         $form = $this->createForm(NoteFormType::class, $note);
         $form->handleRequest($request);
         
@@ -89,12 +91,17 @@ final class AdminNoteController extends AbstractAdminController
             $this->noteRepository->save($note, true);
             $this->addFlash('success', "La note " . $note . " a bien été modifiée.");
 
+            if (null !== $referer) {
+                return $this->redirect($referer);
+            }
+
             return $this->redirectTo($request, $note->getId());
         }
 
         return $this->render('Admin/note/edit.html.twig', [
             'form' => $form->createView(),
             'note' => $note,
+            'referer' => $referer,
         ]);
     }
 

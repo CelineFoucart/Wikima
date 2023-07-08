@@ -8,74 +8,33 @@
 	{{ category.description }}
 {% endblock %}
 
+{% block stylesheets %}
+	<link href="{{ asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
 {% block body %}
     {% include "category/components/_header.html.twig" with {notes:true}   %}
     <article class="pt-5 px-4">
         <header class="row">
-            <div class="col-9 text-center">
+            <div class="col-9">
                 <h2>Consulter les notes de la catégorie &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;</h2>
             </div>
-            <div class="col-3 text-end">
-                <a class="btn btn-success btn-sm" href="{{ path('admin_app_note_create', {category:category.id}) }}">
-                    Ajouter une note
-                </a>
-            </div>
+            {% include "components/_note_form.html.twig" %}
         </header>
-        <div class="m-5">
-            {% for note in category.notes %}
-                <section class="card shadow-sm position-relative mt-3">
-                    <div class="card-header">
-                        <h3 class="h5 card-title mb-0">
-                            {{ note.title }}
-                        </h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="position-absolute top-0 start-100 translate-middle">
-                            {% if note.isProcessed %}
-                                <span {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}role="button"  data-id="{{ note.id }}" data-action="update-processed"{% endif %} class="badge rounded-pill bg-success">
-                                    Traité
-                                </span>
-                            {% else %}
-                                <span {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}role="button"  data-id="{{ note.id }}" data-action="update-processed"{% endif %} class="badge rounded-pill bg-danger">
-                                    A Traiter
-                                </span>
-                            {% endif %}
-                        </div>
-                        <div class="row">
-                            <div class="col-md-8">
-                                <p class="badge rounded-pill bg-secondary">
-                                    <i class="fas fa-clock me-1"></i>
-                                    {{ note.createdAt|date('d/m/Y, H:i') }}
-                                </p>
-                            </div>
-                            <div class="col-md-4 text-end">
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <a href="{{ path('admin_app_note_edit', {id: note.id}) }}" class="btn btn-secondary btn-sm" title="Editer"> 
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="{{ path('admin_app_note_delete', {id: note.id}) }}" class="btn btn-danger btn-sm" title="Supprimer">
-                                        <i class="fas fa-trash-alt"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-text">
-                            {{ note.message|raw }}
-                        </div>
-                    </div>
-                    <div class="card-footer small text-end">
-                        <i class="fas fa-edit me-1"></i>
-                        {% if note.updatedAt %}
-                            {{ note.updatedAt|date('d/m/Y, H:i') }}
-                        {% else %}
-                            {{ note.createdAt|date('d/m/Y, H:i') }}
-                        {% endif %}
-                        
-                    </div>
-                </section>
-            {% else %}
-                <p class="text-muted text-center">Aucune note pour le moment</p>
-            {% endfor %}
-        </div>
+
+        {% include "components/_note_table.html.twig" with {notes: category.notes} %}
     </article>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/DataTables/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
+<script>
+    $('#tableIndex').DataTable({
+        language: {
+            url: '/assets/DataTables/i18n/fr-FR.json',
+        },
+        order: [[1, 'desc']]
+    });
+</script>
 {% endblock %}

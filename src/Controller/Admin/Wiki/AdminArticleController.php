@@ -68,8 +68,12 @@ final class AdminArticleController extends AbstractAdminController
             $article->setAuthor($this->getUser());
             $this->articleRepository->add($article, true);
             $this->addFlash('success', "L'article " . $article->getTitle() . " a bien été créé.");
-
-            return $this->redirectTo($request, $article->getId());
+            
+            if (null !== $request->get('btn_save_and_section')) {
+                return $this->redirectToRoute('admin_app_article_section', ['id' => $article->getId()]);
+            } else {
+                return $this->redirectTo($request, $article->getId());
+            }
         }
 
         return $this->render('Admin/article/create.html.twig', [
@@ -116,7 +120,11 @@ final class AdminArticleController extends AbstractAdminController
             $this->articleRepository->add($article, true);
             $this->addFlash('success', "L'article " . $article->getTitle() . " a bien été modifié.");
 
-            return $this->redirectTo($request, $article->getId());
+            if (null !== $request->get('btn_save_and_section')) {
+                return $this->redirectToRoute('admin_app_article_section', ['id' => $article->getId()]);
+            } else {
+                return $this->redirectTo($request, $article->getId());
+            }
         }
 
         return $this->render('Admin/article/edit.html.twig', [

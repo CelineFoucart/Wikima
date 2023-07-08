@@ -8,6 +8,8 @@ use App\Form\SearchType;
 use App\Entity\PlaceType;
 use App\Entity\PersonType;
 use App\Entity\Data\SearchData;
+use App\Entity\Note;
+use App\Form\NoteType;
 use App\Repository\ImageRepository;
 use App\Repository\PlaceRepository;
 use App\Repository\PersonRepository;
@@ -18,6 +20,8 @@ use App\Repository\PlaceTypeRepository;
 use App\Repository\PersonTypeRepository;
 use App\Repository\ArticleTypeRepository;
 use App\Service\AlphabeticalHelperService;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -158,13 +162,26 @@ final class CategoryController extends AbstractController
 
     #[Route('/category/{slug}/notes', name: 'app_category_notes')]
     #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
-    public function notes(Category $category): Response
+    public function notes(Category $category, Request $request, EntityManagerInterface $em): Response
     {
+        $note = (new Note())->setCategory($category);
+        $noteForm = $this->createForm(NoteType::class, $note);
+        $noteForm->handleRequest($request);
+        
+        if ($noteForm->isSubmitted() && $noteForm->isValid()) { 
+            $note->setCreatedAt(new DateTimeImmutable());
+            $em->persist($note);
+            $em->flush();
+
+            return $this->redirectToRoute('app_category_notes', ['slug' => $category->getSlug()]);
+        }
+
         return $this->render('category/category_note.html.twig', [
             'category' => $category,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'title' => $category->getTitle(),
             'description' => $category->getDescription(),
+            'noteForm' => $noteForm->createView(),
         ]);
     }
 

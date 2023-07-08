@@ -2,8 +2,10 @@
 
 namespace App\Controller\Wiki;
 
+use App\Entity\Note;
 use App\Entity\User;
 use App\Entity\Portal;
+use App\Form\NoteType;
 use App\Form\SearchType;
 use App\Entity\PlaceType;
 use App\Entity\PersonType;
@@ -15,6 +17,7 @@ use App\Repository\PortalRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\PlaceTypeRepository;
 use App\Repository\PersonTypeRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ArticleTypeRepository;
 use App\Service\AlphabeticalHelperService;
 use Symfony\Component\HttpFoundation\Request;
@@ -157,13 +160,26 @@ final class PortalController extends AbstractController
 
     #[Route('/portals/{slug}/notes', name: 'app_portal_notes')]
     #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
-    public function notes(Portal $portal): Response
+    public function notes(Portal $portal, Request $request, EntityManagerInterface $em): Response
     {
+        $note = (new Note())->setPortal($portal);
+        $noteForm = $this->createForm(NoteType::class, $note);
+        $noteForm->handleRequest($request);
+        
+        if ($noteForm->isSubmitted() && $noteForm->isValid()) { 
+            $note->setCreatedAt(new \DateTimeImmutable());
+            $em->persist($note);
+            $em->flush();
+
+            return $this->redirectToRoute('app_portal_notes', ['slug' => $portal->getSlug()]);
+        }
+
         return $this->render('portal/note_portal.html.twig', [
             'portal' => $portal,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'title' => $portal->getTitle(),
             'description' => $portal->getDescription(),
+            'noteForm' => $noteForm->createView(),
         ]);
     }
 
