@@ -10,8 +10,10 @@ use App\Repository\CommentRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 #[Route('/admin/comment')]
+#[Security("is_granted('ROLE_ADMIN')")]
 final class AdminCommentController extends AbstractAdminController
 {
     protected string $entityName = "comment";

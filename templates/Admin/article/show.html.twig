@@ -18,6 +18,8 @@
 	</li>
 {% endblock %}
 
+{% set can_edit = can_access(app.user, article) %}
+
 {% block toolbar %}
 	<div class="dropdown">
         <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -36,22 +38,24 @@
                     Consulter
                 </a>
             </li>
-            <li>
-                <a href="{{ path('admin_app_article_section', {id: article.id}) }}" class="dropdown-item" title="Gérer les section">
-                    <i class="fas fa-clone"></i> Sections
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_article_gallery', {id: article.id}) }}">
-                    <i class="fa fa-image" aria-hidden="true"></i> Galerie 
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_article_edit', {id: article.id}) }}">
-                    <i class="fas fa-edit" aria-hidden="true"></i>
-                    Editer
-                </a>
-            </li>
+            {% if can_edit %}
+                <li>
+                    <a href="{{ path('admin_app_article_section', {id: article.id}) }}" class="dropdown-item" title="Gérer les section">
+                        <i class="fas fa-clone"></i> Sections
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ path('admin_app_article_gallery', {id: article.id}) }}">
+                        <i class="fa fa-image" aria-hidden="true"></i> Galerie 
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="{{ path('admin_app_article_edit', {id: article.id}) }}">
+                        <i class="fas fa-edit" aria-hidden="true"></i>
+                        Editer
+                    </a>
+                </li>
+            {% endif %}
             <li>
                 <a class="dropdown-item" href="{{ path('admin_app_article_list') }}">
                     <i class="fas fa-list" aria-hidden="true"></i>
@@ -67,12 +71,14 @@
         <li class="nav-item">
             <a class="nav-link {{ general_active is defined ? 'active' : '' }}" href="{{ path('admin_app_article_show', {id: article.id}) }}">Général</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link {{ section_active is defined ? 'active' : '' }}" href="{{ path('admin_app_article_section', {id: article.id}) }}">Gérer les sections</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link {{ gallery_active is defined ? 'active' : '' }}" href="{{ path('admin_app_article_gallery', {id: article.id}) }}">Gérer la galerie</a>
-        </li>
+        {% if can_edit %}
+            <li class="nav-item">
+                <a class="nav-link {{ section_active is defined ? 'active' : '' }}" href="{{ path('admin_app_article_section', {id: article.id}) }}">Gérer les sections</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ gallery_active is defined ? 'active' : '' }}" href="{{ path('admin_app_article_gallery', {id: article.id}) }}">Gérer la galerie</a>
+            </li>
+        {% endif %}
     </ul>
 
     {% block show_tab %}{% endblock %}

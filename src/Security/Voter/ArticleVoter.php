@@ -39,7 +39,7 @@ class ArticleVoter extends Voter
                 return $this->voterHelper->canDelete($user, $subject, true);
                 break;
             case VoterHelper::VIEW:
-                    return $this->canView($user, $subject);
+                return $this->canView($user, $subject);
         }
 
         return false;

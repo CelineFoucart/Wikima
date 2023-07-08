@@ -18,7 +18,7 @@ class VoterHelper
 
     public function canModerate(User $user): bool
     {
-        return in_array("ROLE_ADMIN", $user->getRoles());
+        return in_array("ROLE_ADMIN", $user->getRoles()) || in_array("ROLE_SUPER_ADMIN", $user->getRoles());
     }
 
     public function isEditor(User $user): bool

@@ -64,6 +64,7 @@ class AdminDashboardController extends AbstractController
     }
 
     #[Route('/admin/settings', name: 'admin_app_settings')]
+    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')")]
     public function settingsAction(Request $request, ConfigService $configService): Response
     {
         $envVars = $configService->getEnvVars();

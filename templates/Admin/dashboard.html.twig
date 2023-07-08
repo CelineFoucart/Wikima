@@ -8,26 +8,24 @@
 {% endblock %}
 
 {% block toolbar %}
-	<a href="{{ path('admin_app_image_download') }}" class="btn btn-sm btn-primary">
-		<i class="fas fa-download"></i>
-		Télécharger les images
-	</a>
-	<a href="{{ path('admin_app_backup_create') }}" class="btn btn-primary btn-sm">
-		<i class="fas fa-plus-circle" aria-hidden="true"></i>
-		Sauvegarder les données
-	</a>
+	{% if is_granted('ROLE_ADMIN') %}
+		<a href="{{ path('admin_app_image_download') }}" class="btn btn-sm btn-primary">
+			<i class="fas fa-download"></i>
+			Télécharger les images
+		</a>
+	{% endif %}
+	{% if is_granted('ROLE_SUPER_ADMIN') %}
+		<a href="{{ path('admin_app_backup_create') }}" class="btn btn-primary btn-sm">
+			<i class="fas fa-plus-circle" aria-hidden="true"></i>
+			Sauvegarder les données
+		</a>
+	{% endif %}
 {% endblock %}
 
 {% block body %}
 	<p>
 		Bienvenue sur le panneau d'administration. Ici, vous allez pouvoir gérer l'encyclopédie et son contenu.
-		        Cette page vous offre une vue d'ensemble des statistiques du site. Sur le menu à droite, vous pouvez accéder à la gestion du contenu.
-		        Les deux boutons ci-dessous,
-		<strong>Télécharger les images</strong>
-		et
-		<strong>Sauvegarder les données</strong>
-		vous permettent 
-		        d'effectuer des sauvegardes rapides de la base de données et de télécharger les images stockées sur le serveur.
+		Cette page vous offre une vue d'ensemble des statistiques du site. Sur le menu à droite, vous pouvez accéder à la gestion du contenu.
 	</p>
 	<div class="row">
 		<div class="col-md-6">
@@ -42,28 +40,32 @@
 								<th style="width: 40%" class="text-end">Catégorie</th>
 								<td class="text-center">{{ stats.category }}</td>
 								<td>
-									<a href="{{ path('admin_app_category_create') }}" class="small text-decoration-none me-3">
-										<i class="fas fa-plus-circle" aria-hidden="true"></i>
-										Ajouter
-									</a>
-									<a href="{{ path('admin_app_category_list') }}" class="small text-decoration-none">
-										<i class="fas fa-list" aria-hidden="true"></i>
-										Liste
-									</a>
+									{% if is_granted('ROLE_ADMIN') %}
+										<a href="{{ path('admin_app_category_create') }}" class="small text-decoration-none me-3">
+											<i class="fas fa-plus-circle" aria-hidden="true"></i>
+											Ajouter
+										</a>
+										<a href="{{ path('admin_app_category_list') }}" class="small text-decoration-none">
+											<i class="fas fa-list" aria-hidden="true"></i>
+											Liste
+										</a>
+									{% endif %}
 								</td>
 							</tr>
 							<tr>
 								<th class="text-end">Portail</th>
 								<td class="text-center">{{ stats.portal }}</td>
 								<td>
-									<a href="{{ path('admin_app_portal_create') }}" class="small text-decoration-none me-3">
-										<i class="fas fa-plus-circle" aria-hidden="true"></i>
-										Ajouter
-									</a>
-									<a href="{{ path('admin_app_portal_list') }}" class="small text-decoration-none">
-										<i class="fas fa-list" aria-hidden="true"></i>
-										Liste
-									</a>
+									{% if is_granted('ROLE_ADMIN') %}
+										<a href="{{ path('admin_app_portal_create') }}" class="small text-decoration-none me-3">
+											<i class="fas fa-plus-circle" aria-hidden="true"></i>
+											Ajouter
+										</a>
+										<a href="{{ path('admin_app_portal_list') }}" class="small text-decoration-none">
+											<i class="fas fa-list" aria-hidden="true"></i>
+											Liste
+										</a>
+									{% endif %}
 								</td>
 							</tr>
 							<tr>
@@ -98,42 +100,48 @@
 								<th class="text-end">Personnage</th>
 								<td class="text-center">{{ stats.person }}</td>
 								<td>
-									<a href="{{ path('admin_app_person_create') }}" class="small text-decoration-none me-3">
-										<i class="fas fa-plus-circle" aria-hidden="true"></i>
-										Ajouter
-									</a>
-									<a href="{{ path('admin_app_person_list') }}" class="small text-decoration-none">
-										<i class="fas fa-list" aria-hidden="true"></i>
-										Liste
-									</a>
+									{% if is_granted('ROLE_ADMIN') %}
+										<a href="{{ path('admin_app_person_create') }}" class="small text-decoration-none me-3">
+											<i class="fas fa-plus-circle" aria-hidden="true"></i>
+											Ajouter
+										</a>
+										<a href="{{ path('admin_app_person_list') }}" class="small text-decoration-none">
+											<i class="fas fa-list" aria-hidden="true"></i>
+											Liste
+										</a>
+									{% endif %}
 								</td>
 							</tr>
 							<tr>
 								<th class="text-end">Lieu</th>
 								<td class="text-center">{{ stats.place }}</td>
 								<td>
-									<a href="{{ path('admin_app_place_create') }}" class="small text-decoration-none me-3">
-										<i class="fas fa-plus-circle" aria-hidden="true"></i>
-										Ajouter
-									</a>
-									<a href="{{ path('admin_app_place_list') }}" class="small text-decoration-none">
-										<i class="fas fa-list" aria-hidden="true"></i>
-										Liste
-									</a>
+									{% if is_granted('ROLE_ADMIN') %}
+										<a href="{{ path('admin_app_place_create') }}" class="small text-decoration-none me-3">
+											<i class="fas fa-plus-circle" aria-hidden="true"></i>
+											Ajouter
+										</a>
+										<a href="{{ path('admin_app_place_list') }}" class="small text-decoration-none">
+											<i class="fas fa-list" aria-hidden="true"></i>
+											Liste
+										</a>
+									{% endif %}
 								</td>
 							</tr>
 							<tr>
 								<th class="text-end">Page</th>
 								<td class="text-center">{{ stats.page }}</td>
 								<td>
-									<a href="{{ path('admin_app_page_create') }}" class="small text-decoration-none me-3">
-										<i class="fas fa-plus-circle" aria-hidden="true"></i>
-										Ajouter
-									</a>
-									<a href="{{ path('admin_app_page_list') }}" class="small text-decoration-none">
-										<i class="fas fa-list" aria-hidden="true"></i>
-										Liste
-									</a>
+									{% if is_granted('ROLE_ADMIN') %}
+										<a href="{{ path('admin_app_page_create') }}" class="small text-decoration-none me-3">
+											<i class="fas fa-plus-circle" aria-hidden="true"></i>
+											Ajouter
+										</a>
+										<a href="{{ path('admin_app_page_list') }}" class="small text-decoration-none">
+											<i class="fas fa-list" aria-hidden="true"></i>
+											Liste
+										</a>
+									{% endif %}
 								</td>
 							</tr>
 						</tbody>
@@ -148,22 +156,24 @@
 				<div class="card-body card-show">
 					<table class="table stats-table mb-0">
 						<tbody>
+							{% if is_granted('ROLE_ADMIN') %}
+								<tr>
+									<th style="width: 40%" class="text-end">Utilisateur</th>
+									<td class="text-center">{{ stats.user }}</td>
+									<td>
+										<a href="{{ path('admin_app_user_create') }}" class="small text-decoration-none me-3">
+											<i class="fas fa-plus-circle" aria-hidden="true"></i>
+											Ajouter
+										</a>
+										<a href="{{ path('admin_app_user_list') }}" class="small text-decoration-none">
+											<i class="fas fa-list" aria-hidden="true"></i>
+											Liste
+										</a>
+									</td>
+								</tr>
+							{% endif %}
 							<tr>
-								<th style="width: 40%" class="text-end">Utilisateur</th>
-								<td class="text-center">{{ stats.user }}</td>
-								<td>
-									<a href="{{ path('admin_app_user_create') }}" class="small text-decoration-none me-3">
-										<i class="fas fa-plus-circle" aria-hidden="true"></i>
-										Ajouter
-									</a>
-									<a href="{{ path('admin_app_user_list') }}" class="small text-decoration-none">
-										<i class="fas fa-list" aria-hidden="true"></i>
-										Liste
-									</a>
-								</td>
-							</tr>
-							<tr>
-								<th class="text-end">Note</th>
+								<th style="width: 40%" class="text-end">Note</th>
 								<td class="text-center">{{ stats.note }}</td>
 								<td>
 									<a href="{{ path('admin_app_note_create') }}" class="small text-decoration-none me-3">
@@ -176,16 +186,18 @@
 									</a>
 								</td>
 							</tr>
-							<tr>
-								<th class="text-end">Commentaire</th>
-								<td class="text-center">{{ stats.comment }}</td>
-								<td>
-									<a href="{{ path('admin_app_comment_list') }}" class="small text-decoration-none">
-										<i class="fas fa-list" aria-hidden="true"></i>
-										Liste
-									</a>
-								</td>
-							</tr>
+							{% if is_granted('ROLE_ADMIN') %}
+								<tr>
+									<th class="text-end">Commentaire</th>
+									<td class="text-center">{{ stats.comment }}</td>
+									<td>
+										<a href="{{ path('admin_app_comment_list') }}" class="small text-decoration-none">
+											<i class="fas fa-list" aria-hidden="true"></i>
+											Liste
+										</a>
+									</td>
+								</tr>
+							{% endif %}
 						</tbody>
 					</table>
 				</div>

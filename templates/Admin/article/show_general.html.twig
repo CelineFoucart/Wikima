@@ -67,7 +67,39 @@
                             </tr>
                             <tr>
                                 <th>Auteur</th>
-                                <td>{{ article.author ? article.author.username : '' }}</td>
+                                <td>
+                                    {{ article.author ? article.author.username : '' }}
+
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <button type="button" class="btn btn-primary btn-sm float-end" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        
+                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Modifier l'auteur</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    {{ form_start(form) }}
+                                                        <div class="modal-body">
+                                                            {{ form_widget(form) }}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                                Annuler
+                                                            </button>
+                                                            <button type="submit" class="btn btn-success btn-sm">
+                                                                Sauvegarder
+                                                            </button>
+                                                        </div>
+                                                    {{ form_end(form) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </td>
                             </tr>
                         </tbody>
                     </table>

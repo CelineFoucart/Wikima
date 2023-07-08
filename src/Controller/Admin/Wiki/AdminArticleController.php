@@ -21,8 +21,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
+use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 #[Route('/admin/article')]
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
@@ -75,12 +77,30 @@ final class AdminArticleController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/show', name: 'admin_app_article_show', methods:['GET'])]
-    public function showAction(Article $article): Response
+    #[Route('/{id}/show', name: 'admin_app_article_show', methods:['GET', 'POST'])]
+    public function showAction(Article $article, Request $request, VoterHelper $voterHelper): Response
     {
+        $form = $this->createFormBuilder($article)
+            ->add('author', EntityType::class, [
+                'class' => User::class,
+                'attr' => ['data-choices' => 'choices']
+            ])
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid() && $voterHelper->canModerate($this->getUser())) { 
+            $this->articleRepository->add($article, true);
+            $this->addFlash( 'success',  "L'auteur a bien été modifié.");
+
+            return $this->redirectToRoute('admin_app_article_show', ['id' => $article->getId()]);
+        }
+
         return $this->render('Admin/article/show_general.html.twig', [
             'article' => $article,
             'general_active' => true,
+            'form' => $form->createView(),
         ]);
     }
 
