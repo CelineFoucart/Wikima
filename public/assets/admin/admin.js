@@ -262,5 +262,16 @@ $(document).ready(function () {
                 url: '/assets/DataTables/i18n/fr-FR.json',
             },
         });
+
+        const options = {
+            keyboard: true,
+            size: 'fullscreen'
+        };
+
+        document.querySelectorAll('.lightbox-toggle').forEach(el => el.addEventListener('click', (e) => {
+            e.preventDefault();
+            const lightbox = new Lightbox(el, options);
+            lightbox.show();
+        }));
     });
 });

@@ -10,6 +10,10 @@ img {
     max-width: 100%;
 }
 
+.navigation .pagination {
+    margin-top: 15px;
+}
+
 .container-list > * {
     display: inline-block;
 }
@@ -67,7 +71,6 @@ img {
     flex-direction: column;
     align-items: center;
     max-width: fit-content;
-    margin: 5px;
     background-color: #f8f8f8;
     border: 1px solid #e7e7e7;
     padding: 10px;

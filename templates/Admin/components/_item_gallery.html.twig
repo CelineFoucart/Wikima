@@ -6,7 +6,7 @@
 		<div class="image-container">
 			{% for image in images %}
 				<div class="image-block">
-					<a href="{{ vich_uploader_asset(image) }}">
+					<a href="{{ vich_uploader_asset(image) }}" data-fslightbox="second-lightbox">
 						<img src="{{ vich_uploader_asset(image)|imagine_filter('gallery_thumbnail') }}" alt="{{ image.title }}">
 					</a>
 					<form action="" method="post" class="text-center">

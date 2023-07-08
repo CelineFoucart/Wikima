@@ -121,7 +121,7 @@
                     <h2 class="card-title h5 mb-0">Fichier</h2>
                 </div>
                 <div class="card-body card-show">
-                    <a href="{{ vich_uploader_asset(image) }}">
+                    <a href="{{ vich_uploader_asset(image) }}" data-fslightbox>
                         <img src="{{ vich_uploader_asset(image)|imagine_filter('medium_image') }}" class="img-fluid" alt="{{ image.title }}">
                     </a>
                 </div>

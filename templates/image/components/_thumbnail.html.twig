@@ -1,5 +1,18 @@
-<div class="image-container" data-bs-toggle="tooltip" title="{{ image.description ? image.description : 'Aucune description' }}">
-	<a href="{{ path('app_image_show', {slug: image.slug}) }}">
-		<img src="{{ vich_uploader_asset(image)|imagine_filter('gallery_thumbnail') }}" alt="{{ image.title }}">
-	</a>
+<div style="gap:0" class="image-container">
+	<div data-bs-toggle="tooltip" title="{{ image.description ? image.description : 'Aucune description' }}">
+		<a href="{{ vich_uploader_asset(image) }}" 
+			data-fslightbox="first-lightbox"
+			data-alt="{{ image.title }}"
+			data-title="{{ image.description ? image.description : 'Aucune description' }}">
+			<img src="{{ vich_uploader_asset(image)|imagine_filter('gallery_thumbnail') }}" alt="{{ image.title }}">
+		</a>
+	</div>
+	<div class="text-end w-100">
+		<a href="{{ path('app_image_show', {slug: image.slug}) }}" 
+			data-bs-toggle="tooltip" 
+			title="Consulter les informations" 
+			class="text-decoration-none pe-1">
+			<i class="fas fa-info-circle"></i>
+		</a>
+	</div>
 </div>

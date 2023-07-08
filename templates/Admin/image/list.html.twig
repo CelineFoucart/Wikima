@@ -41,7 +41,7 @@
                     {% for image in images %}
                         <tr>
                             <td class="text-center">
-                                <a href="{{ vich_uploader_asset(image) }}">
+                                <a href="{{ vich_uploader_asset(image) }}" data-fslightbox>
                                     <img src="{{ vich_uploader_asset(image)|imagine_filter('icon_image') }}" alt="{{ image.title }}">
                                 </a>
                             </td>

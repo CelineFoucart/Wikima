@@ -94,7 +94,7 @@
     background-color: var(--secondary-light);
     color: var(--secondary);
     width: 180px;
-    height: 180px;
+    padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: center;
