@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Wiki;
 
+use DateTime;
+use DateTimeImmutable;
 use App\Entity\Category;
+use App\Repository\ImageRepository;
+use App\Form\Admin\CategoryFormType;
+use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
-use App\Form\Admin\CategoryFormType;
-use App\Repository\ArticleRepository;
-use DateTime;
-use DateTimeImmutable;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 #[Route('/admin/category')]
@@ -24,6 +25,7 @@ final class AdminCategoryController extends AbstractAdminController
 
     public function __construct(
         private CategoryRepository $categoryRepository,
+        private ImageRepository $imageRepository
     ) {
     }
 
@@ -53,6 +55,7 @@ final class AdminCategoryController extends AbstractAdminController
         return $this->render('Admin/category/create.html.twig', [
             'form' => $form->createView(),
             'articles' => $articleRepository->findAll(),
+            'images' => $this->imageRepository->findAll(),
         ]);
     }
 
@@ -82,6 +85,7 @@ final class AdminCategoryController extends AbstractAdminController
             'form' => $form->createView(),
             'category' => $category,
             'articles' => $articleRepository->findAll(),
+            'images' => $this->imageRepository->findAll(),
         ]);
     }
 

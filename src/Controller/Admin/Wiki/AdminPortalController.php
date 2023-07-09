@@ -6,6 +6,7 @@ namespace App\Controller\Admin\Wiki;
 
 use App\Entity\Portal;
 use App\Form\Admin\PortalFormType;
+use App\Repository\ImageRepository;
 use App\Repository\PortalRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
@@ -22,7 +23,8 @@ final class AdminPortalController extends AbstractAdminController
     protected string $entityName = "portal";
 
     public function __construct(
-        private PortalRepository $portalRepository
+        private PortalRepository $portalRepository,
+        private ImageRepository $imageRepository
     ) {
     }
 
@@ -61,6 +63,7 @@ final class AdminPortalController extends AbstractAdminController
         return $this->render('Admin/portal/create.html.twig', [
             'form' => $form->createView(),
             'articles' => $articleRepository->findAll(),
+            'images' => $this->imageRepository->findAll(),
         ]);
     }
 
@@ -90,6 +93,7 @@ final class AdminPortalController extends AbstractAdminController
             'form' => $form->createView(),
             'portal' => $portal,
             'articles' => $articleRepository->findAll(),
+            'images' => $this->imageRepository->findAll(),
         ]);
     }
 

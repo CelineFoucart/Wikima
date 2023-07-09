@@ -7,6 +7,7 @@ namespace App\Controller\Admin\Wiki;
 use App\Entity\Section;
 use App\Form\SectionType;
 use App\Repository\ArticleRepository;
+use App\Repository\ImageRepository;
 use App\Repository\SectionRepository;
 use App\Security\Voter\VoterHelper;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,7 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminSectionController extends AbstractController
 {
     public function __construct(
-        private SectionRepository $sectionRepository
+        private SectionRepository $sectionRepository,
+        private ImageRepository $imageRepository
     ) {
     }
 
@@ -42,6 +44,7 @@ class AdminSectionController extends AbstractController
             'form' => $form->createView(),
             'section' => $section,
             'articles' => $articleRepository->findAll(),
+            'images' => $this->imageRepository->findAll(),
         ]);
     }
 
