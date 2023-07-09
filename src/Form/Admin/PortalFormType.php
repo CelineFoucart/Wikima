@@ -5,7 +5,6 @@ namespace App\Form\Admin;
 use App\Entity\Portal;
 use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -33,9 +32,7 @@ class PortalFormType extends AbstractType
                     'data-choices' => 'choices'
                 ]
             ])
-            ->add('presentation', CKEditorType::class, [
-                'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
-            ])
+            ->add('presentation', TextareaType::class)
             ->add('imageBanner', VichImageType::class, [
                 'constraints' => [
                     new Image([

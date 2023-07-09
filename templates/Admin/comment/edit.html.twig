@@ -59,3 +59,12 @@
         </div>
     {{ form_end(form) }}
 {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
+    <script src="{{ asset("assets/admin/editor.js") }}"></script>
+    <script type="text/javascript">   
+        enableBasicEditor("comment_form_content");
+    </script>
+{% endblock %}

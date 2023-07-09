@@ -2,3 +2,9 @@
     {{ form_widget(form) }}
     <button type="submit" class="btn btn-default">Soumettre</button> 
 {{ form_end(form) }}
+
+<script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
+<script src="{{ asset("assets/admin/editor.js") }}"></script>
+<script type="text/javascript">   
+    enableBasicEditor("comment_content");
+</script>

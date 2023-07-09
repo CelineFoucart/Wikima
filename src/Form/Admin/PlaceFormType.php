@@ -6,10 +6,8 @@ use App\Entity\Place;
 use App\Entity\Portal;
 use App\Entity\Category;
 use App\Entity\PlaceType;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -30,16 +28,13 @@ class PlaceFormType extends AbstractType
             ->add('situation', TextareaType::class, [
                 'required' => false,
             ])
-            ->add('description', CKEditorType::class, [
-                'config' => ['toolbar' => 'full', 'format_tags' => 'p;h2;h4;h5;h6;pre'],
+            ->add('description', TextareaType::class, [
                 'required' => false,
             ])
-            ->add('presentation', CKEditorType::class, [
-                'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
+            ->add('presentation', TextareaType::class, [
                 'required' => false,
             ])
-            ->add('history', CKEditorType::class, [
-                'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
+            ->add('history', TextareaType::class, [
                 'required' => false,
             ])
             ->add('dominatedBy', TextType::class, [

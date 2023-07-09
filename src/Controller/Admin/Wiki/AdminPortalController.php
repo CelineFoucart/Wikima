@@ -7,6 +7,7 @@ namespace App\Controller\Admin\Wiki;
 use App\Entity\Portal;
 use App\Form\Admin\PortalFormType;
 use App\Repository\PortalRepository;
+use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,7 +35,7 @@ final class AdminPortalController extends AbstractAdminController
     }
 
     #[Route('/create', name: 'admin_app_portal_create', methods:['GET', 'POST'])]
-    public function createAction(Request $request, CategoryRepository $categoryRepository): Response
+    public function createAction(Request $request, CategoryRepository $categoryRepository, ArticleRepository $articleRepository): Response
     {
         $portal = new Portal();
 
@@ -59,6 +60,7 @@ final class AdminPortalController extends AbstractAdminController
 
         return $this->render('Admin/portal/create.html.twig', [
             'form' => $form->createView(),
+            'articles' => $articleRepository->findAll(),
         ]);
     }
 
@@ -71,7 +73,7 @@ final class AdminPortalController extends AbstractAdminController
     }
 
     #[Route('/{id}/edit', name: 'admin_app_portal_edit', methods:['GET', 'POST'])]
-    public function editAction(Request $request, Portal $portal): Response
+    public function editAction(Request $request, Portal $portal, ArticleRepository $articleRepository): Response
     {
         $form = $this->createForm(PortalFormType::class, $portal);
         $form->handleRequest($request);
@@ -87,6 +89,7 @@ final class AdminPortalController extends AbstractAdminController
         return $this->render('Admin/portal/edit.html.twig', [
             'form' => $form->createView(),
             'portal' => $portal,
+            'articles' => $articleRepository->findAll(),
         ]);
     }
 

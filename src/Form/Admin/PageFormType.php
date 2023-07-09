@@ -6,7 +6,6 @@ use App\Entity\Page;
 use App\Entity\Portal;
 use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,9 +22,7 @@ class PageFormType extends AbstractType
             ->add('description', TextareaType::class, [
                 'help' => 'help_description',
             ])
-            ->add('content', CKEditorType::class, [
-                'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
-            ])
+            ->add('content', TextareaType::class)
             ->add('portals', EntityType::class, [
                 'class' => Portal::class,
                 'choice_label' => 'title',

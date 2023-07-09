@@ -4,7 +4,6 @@ namespace App\Form\Admin;
 
 use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Component\Validator\Constraints\Image;
@@ -23,9 +22,7 @@ class CategoryFormType extends AbstractType
             ->add('description', TextareaType::class, [
                 'help' => 'help_description',
             ])
-            ->add('presentation', CKEditorType::class, [
-                'config' => ['toolbar' => 'full', 'format_tags' => 'p;h3;h4;h5;h6;pre'],
-            ])
+            ->add('presentation', TextareaType::class)
             ->add('imageBanner', VichImageType::class, [
                 'constraints' => [
                     new Image([
