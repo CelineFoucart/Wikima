@@ -161,9 +161,11 @@
             const path = `/uploads/${btn.dataset.filename}`;
             const title = btn.dataset.title;
             editor.insertHtml( `
-                <a href="/images/${btn.dataset.slug}">
-                    <img src="${path}" alt="${title}" title="${title}" style="max-width:100%">
-                </a>` 
+                <figure>
+                    <a href="/images/${btn.dataset.slug}">
+                        <img src="${path}" alt="${title}" title="${title}" style="max-width:100%">
+                    </a>
+                </figure>` 
             ); 
         })
     });
