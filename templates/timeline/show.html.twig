@@ -18,7 +18,7 @@
 							<li class="breadcrumb-item">
 								<a href="{{ path('app_timeline_index') }}">Chronologies</a>
 							</li>
-							<li class="breadcrumb-item active" aria-current="page">{{ timeline.title|capitalize }}</li>
+							<li class="breadcrumb-item active" aria-current="page">{{ timeline.title }}</li>
 						</ol>
 					</nav>
 				</div>
@@ -49,7 +49,7 @@
 				{% endif %}
 
 				<h1 class="display-3 text-center mb-3">
-					{{ timeline.title|capitalize }}
+					{{ timeline.title }}
 				</h1>
 				<p class="lead text-center">{{ timeline.description }}</p>
 				<aside class="my-1 text-center">

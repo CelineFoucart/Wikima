@@ -4,18 +4,23 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Entity\Note;
 use App\Entity\Article;
 use App\Entity\Category;
-use App\Entity\Note;
+use App\Entity\Place;
 use App\Entity\Timeline;
+use App\Service\DataFilterService;
+use App\Repository\PlaceRepository;
+use App\Repository\PersonRepository;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class AdminApiController extends AbstractController
 {
@@ -52,7 +57,7 @@ class AdminApiController extends AbstractController
         );
     }
 
-    #[Route('api/admin/article/{id}/section', 'api_article_section', methods: ['POST'])]
+    #[Route('/api/admin/article/{id}/section', 'api_article_section', methods: ['POST'])]
     #[Security("is_granted('ROLE_ADMIN')")]
     public function updateArticleSections(Article $article, Request $request): JsonResponse
     {
@@ -81,7 +86,7 @@ class AdminApiController extends AbstractController
         );
     }
 
-    #[Route('api/admin/category/{id}/portals', 'api_category_portal_order', methods: ['POST'])]
+    #[Route('/api/admin/category/{id}/portals', 'api_category_portal_order', methods: ['POST'])]
     #[Security("is_granted('ROLE_ADMIN')")]
     public function updateCategoryPortalOrder(Category $category, Request $request): JsonResponse
     {
@@ -110,7 +115,7 @@ class AdminApiController extends AbstractController
         );
     }
 
-    #[Route('api/admin/category/{id}/timelines', 'api_category_timeline_order', methods: ['POST'])]
+    #[Route('/api/admin/category/{id}/timelines', 'api_category_timeline_order', methods: ['POST'])]
     #[Security("is_granted('ROLE_ADMIN')")]
     public function updateCategoryTimelinesOrder(Category $category, Request $request): JsonResponse
     {
@@ -139,7 +144,7 @@ class AdminApiController extends AbstractController
         );
     }
 
-    #[Route('api/admin/note/{id}/processed', 'api_note_processed', methods: ['POST'])]
+    #[Route('/api/admin/note/{id}/processed', 'api_note_processed', methods: ['POST'])]
     #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
     public function updateNoteProcessed(Note $note): JsonResponse
     {
@@ -154,5 +159,51 @@ class AdminApiController extends AbstractController
             [],
             true
         );
+    }
+
+    #[Route('/api/admin/articles', name: 'api_article_index', methods: ['GET'])]
+    public function articleAction(ArticleRepository $articleRepository, Request $request): JsonResponse
+    {
+        $parameters = $request->query->all();
+        $recordsFiltered = $articleRepository->countSearchTotal($parameters);
+        $data = [
+            'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
+            'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
+            "data" => $articleRepository->searchPaginatedItems($parameters),
+            'recordsTotal' => $articleRepository->count([]),
+        ];
+
+        return $this->json($data, 200, [], ['groups' => 'index']);
+    }
+
+    #[Route('/api/admin/persons', name: 'api_person_index', methods: ['GET'])]
+    public function personAction(PersonRepository $personRepository, Request $request): JsonResponse
+    {
+        $parameters = $request->query->all();
+        $recordsFiltered = $personRepository->countSearchTotal($parameters);
+        $data = [
+            'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
+            'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
+            "data" => $personRepository->searchPaginatedItems($parameters),
+            'recordsTotal' => $personRepository->count([]),
+        ];
+
+        return $this->json($data, 200, [], ['groups' => 'index']);
+    }
+
+    #[Route('/api/admin/place', name: 'api_place_index', methods: ['GET'])]
+    public function placeAction(PlaceRepository $placeRepository, Request $request): JsonResponse
+    {
+        $parameters = $request->query->all();
+        $recordsFiltered = $placeRepository->countSearchTotal($parameters);
+        $data = [
+            'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
+            'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
+            "data" => $placeRepository->searchPaginatedItems($parameters),
+            'recordsTotal' => $placeRepository->count([]),
+        ];
+        
+        return $this->json($data, 200, [], ['groups' => 'index']);
+        
     }
 }

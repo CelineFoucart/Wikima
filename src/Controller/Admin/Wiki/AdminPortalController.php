@@ -37,7 +37,7 @@ final class AdminPortalController extends AbstractAdminController
     }
 
     #[Route('/create', name: 'admin_app_portal_create', methods:['GET', 'POST'])]
-    public function createAction(Request $request, CategoryRepository $categoryRepository, ArticleRepository $articleRepository): Response
+    public function createAction(Request $request, CategoryRepository $categoryRepository): Response
     {
         $portal = new Portal();
 
@@ -62,7 +62,6 @@ final class AdminPortalController extends AbstractAdminController
 
         return $this->render('Admin/portal/create.html.twig', [
             'form' => $form->createView(),
-            'articles' => $articleRepository->findAll(),
             'images' => $this->imageRepository->findAll(),
         ]);
     }
@@ -76,7 +75,7 @@ final class AdminPortalController extends AbstractAdminController
     }
 
     #[Route('/{id}/edit', name: 'admin_app_portal_edit', methods:['GET', 'POST'])]
-    public function editAction(Request $request, Portal $portal, ArticleRepository $articleRepository): Response
+    public function editAction(Request $request, Portal $portal): Response
     {
         $form = $this->createForm(PortalFormType::class, $portal);
         $form->handleRequest($request);
@@ -92,7 +91,6 @@ final class AdminPortalController extends AbstractAdminController
         return $this->render('Admin/portal/edit.html.twig', [
             'form' => $form->createView(),
             'portal' => $portal,
-            'articles' => $articleRepository->findAll(),
             'images' => $this->imageRepository->findAll(),
         ]);
     }

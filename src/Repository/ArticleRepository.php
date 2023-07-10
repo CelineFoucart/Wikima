@@ -2,17 +2,18 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\ArticleType;
-use App\Entity\Data\SearchData;
-use App\Entity\User;
-use App\Service\PaginatorService;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
+use App\Entity\Data\SearchData;
+use App\Service\PaginatorService;
+use App\Service\DataFilterService;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
@@ -220,5 +221,38 @@ class ArticleRepository extends ServiceEntityRepository
     public function findForAdminList(): array
     {
         return $this->getDefaultQueryBuilder()->orderBy('a.id', 'ASC')->getQuery()->getResult();
+    }
+
+    public function searchPaginatedItems(array $parameters): array
+    {
+        $builder = $this->createQueryBuilder('a');
+        $params = DataFilterService::formatParams($parameters, 'a');
+
+        if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
+            $builder
+                ->andWhere('a.title LIKE :title')
+                ->orWhere('a.description LIKE :title')
+                ->orWhere('a.keywords LIKE :keywords')
+                ->setParameter('title', '%' . $parameters['search']['value'] . '%');
+        }
+
+        if ($params['limit'] > 0) {
+            $builder->setMaxResults($params['limit']);
+        }
+
+        return $builder->orderBy($params['orderBy'], $params['direction'])
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countSearchTotal(array $parameters): array
+    {
+        $builder = $this->createQueryBuilder('a')->select('COUNT(a.id) AS recordsFiltered');
+
+        if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
+            $builder->andWhere('a.title = :title')->setParameter('title', $parameters['search']['value']);
+        }
+
+        return $builder->getQuery()->getOneOrNullResult();
     }
 }

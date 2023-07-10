@@ -9,6 +9,7 @@ use App\Entity\PlaceType;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\Data\SearchData;
 use App\Service\PaginatorService;
+use App\Service\DataFilterService;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -155,6 +156,38 @@ class PlaceRepository extends ServiceEntityRepository
     public function findForAdminList(): array
     {
         return $this->getDefaultQuery()->getQuery()->getResult();
+    }
+
+    public function searchPaginatedItems(array $parameters): array
+    {
+        $builder = $this->createQueryBuilder('p');
+        $params = DataFilterService::formatParams($parameters, 'p');
+        
+        if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
+            $builder
+                ->andWhere('p.title LIKE :search')
+                ->orWhere('p.description LIKE :search')
+                ->setParameter('search', '%' . $parameters['search']['value'] . '%' );
+        }
+
+        if ($params['limit'] > 0) {
+            $builder->setMaxResults($params['limit']);
+        }
+
+        return $builder->orderBy($params['orderBy'], $params['direction'])
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countSearchTotal(array $parameters): array
+    {
+        $builder = $this->createQueryBuilder('p')->select('COUNT(p.id) AS recordsFiltered');
+
+        if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
+            $builder->andWhere('p.title = :title')->setParameter('title', $parameters['search']['value']);
+        }
+
+        return $builder->getQuery()->getOneOrNullResult();
     }
 
     private function getDefaultQuery(): QueryBuilder

@@ -38,7 +38,7 @@ final class AdminCategoryController extends AbstractAdminController
     }
 
     #[Route('/create', name: 'admin_app_category_create', methods:['GET', 'POST'])]
-    public function createAction(Request $request, ArticleRepository $articleRepository): Response
+    public function createAction(Request $request): Response
     {
         $category = new Category();
         $form = $this->createForm(CategoryFormType::class, $category);
@@ -54,7 +54,6 @@ final class AdminCategoryController extends AbstractAdminController
 
         return $this->render('Admin/category/create.html.twig', [
             'form' => $form->createView(),
-            'articles' => $articleRepository->findAll(),
             'images' => $this->imageRepository->findAll(),
         ]);
     }
@@ -68,7 +67,7 @@ final class AdminCategoryController extends AbstractAdminController
     }
 
     #[Route('/{id}/edit', name: 'admin_app_category_edit', methods:['GET', 'POST'])]
-    public function editAction(Request $request, Category $category, ArticleRepository $articleRepository): Response
+    public function editAction(Request $request, Category $category): Response
     {
         $form = $this->createForm(CategoryFormType::class, $category);
         $form->handleRequest($request);
@@ -84,7 +83,6 @@ final class AdminCategoryController extends AbstractAdminController
         return $this->render('Admin/category/edit.html.twig', [
             'form' => $form->createView(),
             'category' => $category,
-            'articles' => $articleRepository->findAll(),
             'images' => $this->imageRepository->findAll(),
         ]);
     }

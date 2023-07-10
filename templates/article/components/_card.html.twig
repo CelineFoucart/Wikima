@@ -5,7 +5,7 @@
 				<i class="fas fa-lock" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
 			{% endif %}
 			<a href="{{ path('app_article_show', {slug: item.slug}) }}" class="text-decoration-none">
-				{{ item.title|capitalize }}
+				{{ item.title }}
 			</a>
 		</h2>
 		<p class="card-text">{{ item.description }}</p>

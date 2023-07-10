@@ -26,7 +26,7 @@ class AdminSectionController extends AbstractController
     }
 
     #[Route('/admin/section/{id}/edit', name: 'admin_app_section_edit')]
-    public function editAction(Section $section, Request $request, ArticleRepository $articleRepository): Response
+    public function editAction(Section $section, Request $request): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $section->getArticle());
 
@@ -43,7 +43,6 @@ class AdminSectionController extends AbstractController
         return $this->render('Admin/section/edit.html.twig', [
             'form' => $form->createView(),
             'section' => $section,
-            'articles' => $articleRepository->findAll(),
             'images' => $this->imageRepository->findAll(),
         ]);
     }

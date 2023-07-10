@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 #[UniqueEntity('slug')]
@@ -16,6 +17,7 @@ class Person
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['index'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -24,6 +26,7 @@ class Person
         min: 1,
         max: 255
     )]
+    #[Groups(['index'])]
     private $firstname;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -31,6 +34,7 @@ class Person
         min: 1,
         max: 255
     )]
+    #[Groups(['index'])]
     private $lastname;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -43,6 +47,7 @@ class Person
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
+    #[Groups(['index'])]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
