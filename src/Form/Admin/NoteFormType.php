@@ -16,29 +16,32 @@ class NoteFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('title')
-        ->add('message', TextareaType::class, [
-            'required' => false,
-        ])
-        ->add('portal', EntityType::class, [
-            'class' => Portal::class,
-            'choice_label' => 'title',
-            'required' => false,
-            'attr' => [
-                'data-choices' => 'choices'
-            ]
-        ])
-        ->add('category', EntityType::class, [
-            'class' => Category::class,
-            'choice_label' => 'title',
-            'required' => false,
-            'attr' => [
-                'data-choices' => 'choices'
-            ]
-        ])
-        ->add('isProcessed', null, [
-            'required' => false,
-        ])
+            ->add('title')
+            ->add('message', TextareaType::class, [
+                'required' => false,
+            ])
+            ->add('portal', EntityType::class, [
+                'class' => Portal::class,
+                'choice_label' => 'title',
+                'required' => false,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ]
+            ])
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'title',
+                'required' => false,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ]
+            ])
+            ->add('isProcessed', null, [
+                'required' => false,
+            ])
+            ->add('isArchived', null, [
+                'required' => false,
+            ])
         ;
     }
 

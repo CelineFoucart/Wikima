@@ -6,7 +6,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				Êtes-vous sûr de vouloir supprimer l'élément "{{ element }}" sélectionné?
+				Êtes-vous sûr de vouloir supprimer l'élément "<em>{{ element }}</em>" ?
 			</div>
 			<div class="modal-footer">
 				<form method="post" action="{{ path(path, {'id': element.id}) }}">
@@ -21,7 +21,7 @@
 	</div>
 </div>
 
-<button type="button" class="btn btn-sm btn-danger d-inline" data-bs-toggle="modal" data-bs-target="#deleteModal{{ element.id }}" title="Supprimer">
+<button type="button" class="btn btn-sm btn-danger d-inline" data-bs-toggle="modal" data-bs-target="#deleteModal{{ element.id }}" data-bs-toggle="tooltip" title="Supprimer">
 	<i class="fas fa-times" aria-hidden="true"></i>
 	{% if full is defined %}
 		Supprimer

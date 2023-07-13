@@ -40,7 +40,7 @@
                             <td data-label="Création">{{ backup.createdAt|date(date_format) }}</td>
                             <td data-label="Actions">
                                 <div class="btn-group">                   
-                                    <a href="{{ path('admin_app_backup_download', {id: backup.id}) }}" class="btn btn-sm btn-default" title="Télécharger">
+                                    <a href="{{ path('admin_app_backup_download', {id: backup.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Télécharger">
                                         <i class="fas fa-download"></i>
                                     </a>
                                     {% include "Admin/components/_delete_modal.html.twig" with { element: backup, path: 'admin_app_backup_delete' } %}

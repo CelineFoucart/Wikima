@@ -72,6 +72,9 @@ class PersonFormType extends AbstractType
                 'required' => false,
                 'attr' => ['data-choices' => 'choices']
             ]) 
+            ->add('isArchived', null, [
+                'required' => false,
+            ])
         ;
     }
 

@@ -2,7 +2,12 @@
 
 {% block title %}Afficher "{{ note }}"{% endblock %}
 {% block activeNote %} active {% endblock %}
-{% block page_title %}Afficher "{{ note }}"{% endblock %}
+{% block page_title %}
+    {% if note.isArchived %}
+        <i class="fas fa-archive me-1 fa-fw" aria-hidden="true" data-bs-toggle="tooltip" title="archivée"></i>
+    {% endif %}
+    {{ note }}
+{% endblock %}
 
 {% block breadcrumb %}
 	<li class="breadcrumb-item">
@@ -46,7 +51,9 @@
 {% block body %}
     <div class="card border-top-primary">
         <div class="card-header bg-white">
-            <h2 class="card-title h5 mb-0">Note n°{{ note.id }}</h2>
+            <h2 class="card-title h5 mb-0">
+                Informations
+            </h2>
         </div>
         <div class="card-body card-show">
             <table class="table table-striped mb-0">
@@ -102,6 +109,10 @@
                                 </div>
                             {% endif %}
                         </td>
+                    </tr>
+                    <tr>
+                        <th>Est archivée</th>
+                        <td>{{ note.isArchived ? 'Oui' : 'Non' }}</td>
                     </tr>
                 </tbody>
             </table>

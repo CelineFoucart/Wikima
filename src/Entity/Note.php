@@ -35,6 +35,9 @@ class Note
     #[ORM\ManyToOne(inversedBy: 'notes')]
     private ?Portal $portal = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isArchived = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class Note
     public function setPortal(?Portal $portal): self
     {
         $this->portal = $portal;
+
+        return $this;
+    }
+
+    public function getIsArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(?bool $isArchived): static
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }

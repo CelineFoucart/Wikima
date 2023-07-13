@@ -50,6 +50,9 @@ class ArticleFormType extends AbstractType
             ->add('isSticky', CheckboxType::class, [
                 'required' => false,
             ])
+            ->add('isArchived', null, [
+                'required' => false,
+            ])
         ;
     }
 

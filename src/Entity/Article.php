@@ -93,6 +93,12 @@ class Article
     #[ORM\ManyToOne(inversedBy: 'articles')]
     private ?ArticleType $type = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $enableComment = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isArchived = null;
+
     public function __construct()
     {
         $this->portals = new ArrayCollection();
@@ -363,6 +369,30 @@ class Article
     public function setType(?ArticleType $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function isEnableComment(): ?bool
+    {
+        return $this->enableComment;
+    }
+
+    public function setEnableComment(?bool $enableComment): static
+    {
+        $this->enableComment = $enableComment;
+
+        return $this;
+    }
+
+    public function getIsArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(?bool $isArchived): static
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }

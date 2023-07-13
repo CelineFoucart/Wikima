@@ -40,6 +40,14 @@ final class AdminPersonController extends AbstractAdminController
         ]);
     }
 
+    #[Route('/archive', name: 'admin_app_person_archive_index', methods:['GET'])]
+    public function archiveIndexAction(): Response
+    {
+        return $this->render('Admin/person/archive.html.twig', [
+            'persons' => $this->personRepository->findForAdminList(true),
+        ]);
+    }
+
     #[Route('/create', name: 'admin_app_person_create', methods:['GET', 'POST'])]
     public function createAction(Request $request, CategoryRepository $categoryRepository, PortalRepository $portalRepository): Response
     {
@@ -101,6 +109,21 @@ final class AdminPersonController extends AbstractAdminController
             'form' => $form->createView(),
             'person' => $person,
         ]);
+    }
+
+    #[Route('/{id}/archive', name: 'admin_app_person_archive', methods:['POST'])]
+    public function archiveAction(Request $request, Person $person): Response
+    {
+        if ($this->isCsrfTokenValid('archive'.$person->getId(), $request->request->get('_token'))) {
+            $isArchived = (bool) $person->getIsArchived();
+            $message = $isArchived ? "désarchivé" : "archivé";
+            $person->setIsArchived(!$isArchived);
+            $this->personRepository->add($person, true);
+
+            $this->addFlash('success', "Le personage a été {$message} avec succès.");
+        }
+
+        return $this->redirectToRoute('admin_app_person_list', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/delete', name: 'admin_app_person_delete', methods:['POST'])]

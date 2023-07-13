@@ -47,6 +47,15 @@ final class AdminArticleController extends AbstractAdminController
         ]);
     }
 
+    #[Route('/archive', name: 'admin_app_article_archive_index', methods:['GET'])]
+    public function archiveIndexAction(): Response
+    {
+        return $this->render('Admin/article/archive.html.twig', [
+            'articles' => $this->articleRepository->findForAdminList(true),
+        ]);
+    }
+
+
     #[Route('/create', name: 'admin_app_article_create', methods:['GET', 'POST'])]
     public function createAction(Request $request, PortalRepository $portalRepository): Response
     {
@@ -225,6 +234,21 @@ final class AdminArticleController extends AbstractAdminController
             'formImage' => $formImage->createView(),
             'gallery_active' => true,
         ]);
+    }
+
+    #[Route('/{id}/archive', name: 'admin_app_article_archive', methods:['POST'])]
+    public function archiveAction(Request $request, Article $article): Response
+    {
+        if ($this->isCsrfTokenValid('archive'.$article->getId(), $request->request->get('_token'))) {
+            $isArchived = (bool) $article->getIsArchived();
+            $message = $isArchived ? "désarchivé" : "archivé";
+            $article->setIsArchived(!$isArchived);
+            $this->articleRepository->add($article, true);
+
+            $this->addFlash('success', "L'article a été {$message} avec succès.");
+        }
+
+        return $this->redirectToRoute('admin_app_article_list', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/delete', name: 'admin_app_article_delete', methods:['POST'])]

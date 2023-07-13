@@ -1,0 +1,28 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Archives des notes{% endblock %}
+{% block activeNote %} active {% endblock %}
+
+{% block page_title %}Notes archivées{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Archives des notes
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_note_list') }}" class="btn btn-default btn-sm">
+		<i class="fas fa-long-arrow-left"></i>
+		Retour
+	</a>
+{% endblock %}
+
+{% block body %}
+    {% include "Admin/note/_index.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}

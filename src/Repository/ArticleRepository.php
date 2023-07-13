@@ -2,18 +2,18 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\ArticleType;
+use App\Entity\Data\SearchData;
+use App\Entity\User;
+use App\Service\DataFilterService;
+use App\Service\PaginatorService;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\Data\SearchData;
-use App\Service\PaginatorService;
-use App\Service\DataFilterService;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
@@ -68,6 +68,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->andWhere('a.isDraft IS NULL OR a.isDraft = 0')
             ->setParameter('portals', $portals)
         ;
+        $query->andWhere('(a.isArchived != :isArchived  OR a.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if ($type) {
             $query->andWhere('t.slug = :type')->setParameter('type', $type->getSlug());
@@ -78,20 +79,6 @@ class ArticleRepository extends ServiceEntityRepository
         }
 
         return $this->paginatorService->setLimit($limit)->paginate($query, $page);
-    }
-
-    /**
-     * Returns a pagination of 16 articles.
-     */
-    public function findPaginated(int $page, bool $hidePrivate = true): PaginationInterface
-    {
-        $builder = $this->createQueryBuilder('a')->andWhere('a.isDraft IS NULL OR a.isDraft = 0')->orderBy('a.title', 'ASC');
-
-        if ($hidePrivate) {
-            $builder->andWhere('a.isPrivate IS NULL OR a.isPrivate = 0');
-        }
-
-        return $this->paginatorService->setLimit(16)->paginate($builder, $page);
     }
 
     /**
@@ -127,6 +114,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->andWhere('a.isDraft IS NULL OR a.isDraft = 0')
             ->setParameter('user', $user)
         ;
+        $builder->andWhere('(a.isArchived != :isArchived  OR a.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if ($hidePrivate) {
             $builder->andWhere('a.isPrivate IS NULL OR a.isPrivate = 0');
@@ -142,6 +130,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->andWhere('a.isDraft = 1')
             ->setParameter('user', $user)
         ;
+        $builder->andWhere('(a.isArchived != :isArchived  OR a.isArchived IS NULL)')->setParameter('isArchived', true);
 
         return $this->paginatorService->setLimit($perPage)->paginate($builder, $page);
     }
@@ -149,15 +138,14 @@ class ArticleRepository extends ServiceEntityRepository
     public function search(SearchData $search, int $limit = 10, bool $hidePrivate = true): PaginationInterface
     {
         $builder = $this->getDefaultQueryBuilder();
+        $builder->andWhere('(a.isArchived != :isArchived  OR a.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if (strlen($search->getQuery()) >= 3 and null !== $search->getQuery()) {
             $builder
-                ->andWhere('a.title LIKE :q_1')
-                ->setParameter('q_1', '%'.$search->getQuery().'%')
-                ->orWhere('a.description LIKE :q_2')
-                ->setParameter('q_2', '%'.$search->getQuery().'%')
-                ->orWhere('a.content LIKE :q_3')
-                ->setParameter('q_3', '%'.$search->getQuery().'%')
+                ->andWhere('a.title LIKE :q')
+                ->orWhere('a.description LIKE :q')
+                ->orWhere('a.content LIKE :q')
+                ->setParameter('q', '%'.$search->getQuery().'%')
             ;
         }
 
@@ -180,6 +168,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function findByType(ArticleType $articleType, int $page = 1, bool $hidePrivate = true, int $limit = 10): PaginationInterface
     {
         $builder = $this->getDefaultQueryBuilder();
+        $builder->andWhere('(a.isArchived != :isArchived  OR a.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if ($hidePrivate) {
             $builder->andWhere('a.isPrivate IS NULL OR a.isPrivate = 0');
@@ -206,6 +195,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->orderBy('a.title', 'ASC')
             ->andWhere('a.isSticky = 1 AND a.isSticky IS NOT NULL')
         ;
+        $builder->andWhere('(a.isArchived != :isArchived  OR a.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if ($portalId) {
             $builder
@@ -218,22 +208,32 @@ class ArticleRepository extends ServiceEntityRepository
         return $builder->getQuery()->getResult();
     }
 
-    public function findForAdminList(): array
+    public function findForAdminList(bool $isArchived = false): array
     {
-        return $this->getDefaultQueryBuilder()->orderBy('a.id', 'ASC')->getQuery()->getResult();
+        $builder = $this->getDefaultQueryBuilder()
+            ->orderBy('a.id', 'ASC')
+            ->andWhere('a.isArchived = :isArchived')
+            ->setParameter('isArchived', $isArchived);
+
+        if (!$isArchived) {
+            $builder->orWhere('a.isArchived IS NULL');
+        }
+
+        return $builder->getQuery()->getResult();
     }
 
     public function searchPaginatedItems(array $parameters): array
     {
         $builder = $this->createQueryBuilder('a');
         $params = DataFilterService::formatParams($parameters, 'a');
+        $builder->andWhere('(a.isArchived != :isArchived  OR a.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
             $builder
                 ->andWhere('a.title LIKE :search')
                 ->orWhere('a.description LIKE :search')
                 ->orWhere('a.keywords LIKE :search')
-                ->setParameter('search', '%' . $parameters['search']['value'] . '%')
+                ->setParameter('search', '%'.$parameters['search']['value'].'%')
             ;
         }
 
@@ -249,6 +249,7 @@ class ArticleRepository extends ServiceEntityRepository
     public function countSearchTotal(array $parameters): array
     {
         $builder = $this->createQueryBuilder('a')->select('COUNT(a.id) AS recordsFiltered');
+        $builder->andWhere('(a.isArchived != :isArchived  OR a.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
             $builder->andWhere('a.title = :title')->setParameter('title', $parameters['search']['value']);

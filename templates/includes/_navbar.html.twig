@@ -59,65 +59,19 @@
 			{% if is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN') %}
 				<li class="nav-item dropdown me-3">
 					<a class="nav-link dropdown-toggle text-uppercase" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						Administration
+						Gestion
 					</a>
 					<ul class="dropdown-menu text-lowercase" aria-labelledby="navbarDropdown">
 						<li>
-							<a class="dropdown-item fw-bold text-muted" href="{{ path('admin_app_dashboard') }}">
+							<a class="dropdown-item" href="{{ path('admin_app_dashboard') }}">
 								<i class="fas fa-edit me-1"></i>
 								Tableau de bord
 							</a>
 						</li>
-						{% if is_granted('ROLE_ADMIN') %}
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_category_list') }}">
-									<i class="fas fa-folder me-1"></i>
-									Catégories
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_portal_list') }}">
-									<i class="fas fa-tag me-1"></i>
-									Portails
-								</a>
-							</li>
-						{% endif %}
 						<li>
-							<a class="dropdown-item" href="{{ path('admin_app_article_list') }}">
-								<i class="fas fa-file-alt me-1"></i>
-								Articles
-							</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="{{ path('admin_app_image_list') }}">
-								<i class="fas fa-image me-1"></i>
-								Images
-							</a>
-						</li>
-						{% if is_granted('ROLE_ADMIN') %}
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_timeline_list') }}">
-									<i class="fas fa-hourglass me-1"></i>
-									Chronologies
-								</a>
-							</li>
-							<li>
-								<a class="dropdown-item" href="{{ path('admin_app_person_list') }}">
-									<i class="fas fa-user me-1"></i>
-									Personnages
-								</a>
-							</li>
-							<li>
-								<a href="{{ path('admin_app_place_list') }}" class="dropdown-item">
-									<i class="fas fa-building me-1"></i>
-									Lieux
-								</a>
-							</li>
-						{% endif %}
-						<li>
-							<a class="dropdown-item fw-bold text-muted" href="{{ path('admin_app_note_create') }}">
+							<a class="dropdown-item" href="{{ path('admin_app_note_list') }}">
 								<i class="fas fa-sticky-note me-1"></i>
-								Ajouter une note
+								Notes
 							</a>
 						</li>
 					</ul>

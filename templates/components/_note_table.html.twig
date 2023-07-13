@@ -18,7 +18,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for note in notes %}
+                {% for note in notes|filter(n => n.isArchived != true) %}
                     <tr>
                         <td data-label="Titre" >
                             {{ note.title }}

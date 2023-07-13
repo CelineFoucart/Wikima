@@ -33,6 +33,14 @@ final class AdminNoteController extends AbstractAdminController
         ]);
     }
 
+    #[Route('/archive', name: 'admin_app_note_archive_index', methods:['GET'])]
+    public function archiveIndexAction(): Response
+    {
+        return $this->render('Admin/note/archive.html.twig', [
+            'notes' => $this->noteRepository->findForAdminList(true),
+        ]);
+    }
+
     #[Route('/create', name: 'admin_app_note_create', methods:['GET', 'POST'])]
     public function createAction(Request $request, CategoryRepository $categoryRepository, PortalRepository $portalRepository): Response
     {
@@ -103,6 +111,21 @@ final class AdminNoteController extends AbstractAdminController
             'note' => $note,
             'referer' => $referer,
         ]);
+    }
+
+    #[Route('/{id}/archive', name: 'admin_app_note_archive', methods:['POST'])]
+    public function archiveAction(Request $request, Note $note): Response
+    {
+        if ($this->isCsrfTokenValid('archive'.$note->getId(), $request->request->get('_token'))) {
+            $isArchived = (bool) $note->getIsArchived();
+            $message = $isArchived ? "désarchivée" : "archivée";
+            $note->setIsArchived(!$isArchived);
+            $this->noteRepository->save($note, true);
+
+            $this->addFlash('success', "La note a été {$message} avec succès.");
+        }
+
+        return $this->redirectToRoute('admin_app_note_list', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/delete', name: 'admin_app_note_delete', methods:['POST'])]

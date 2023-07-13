@@ -5,7 +5,15 @@
 {% block activePlace %}active show{% endblock %}
 {% block activePlaceList %}active{% endblock %}
 
-{% block page_title %}Afficher "{{ place }}"{% endblock %}
+{% block page_title %}
+    {% if place.isArchived %}
+        <i class="fas fa-archive me-1 fa-fw" data-bs-toggle="tooltip" aria-hidden="true" title="archivé"></i>
+    {% endif %}
+    {% if place.isSticky %}
+        <i class="fas fa-thumbtack me-1" data-bs-toggle="tooltip" title="Epinglé"></i>
+    {% endif %}
+    {{ place }}
+{% endblock %}
 
 {% block breadcrumb %}
 	<li class="breadcrumb-item">
@@ -91,6 +99,14 @@
                             <tr>
                                 <th>Présentation</th>
                                 <td>{{ place.presentation|raw  }}</td>
+                            </tr>
+                            <tr>
+                                <th>Est épinglé</th>
+                                <td>{{ place.isSticky ? 'Oui' : 'Non' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Est archivé</th>
+                                <td>{{ place.isArchived ? 'Oui' : 'Non' }}</td>
                             </tr>
                         </tbody>
                     </table>

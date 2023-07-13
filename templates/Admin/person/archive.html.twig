@@ -1,0 +1,25 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Archives des personnages{% endblock %}
+
+{% block activePerson %} active show {% endblock %}
+{% block activePersonList %}active{% endblock %}
+
+{% block page_title %}Personnages archivés{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Personnages archivés
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_person_list') }}" class="btn btn-default btn-sm">
+		<i class="fas fa-long-arrow-left"></i>
+		Retour
+	</a>
+{% endblock %}
+
+{% block body %}
+    {% include "Admin/person/_index.html.twig" %}
+{% endblock %}

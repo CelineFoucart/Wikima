@@ -5,7 +5,15 @@
 {% block activeWiki %}active show{% endblock %}
 {% block activeArticle %}active{% endblock %}
 
-{% block page_title %}Afficher "{{ article }}"{% endblock %}
+{% block page_title %}
+    {% if article.isArchived %}
+        <i class="fas fa-archive me-1 fa-fw" data-bs-toggle="tooltip" aria-hidden="true" title="archivé"></i>
+    {% endif %}
+    {% if article.isSticky %}
+        <i class="fas fa-thumbtack me-1" data-bs-toggle="tooltip" title="Epinglé"></i>
+    {% endif %}
+    {{ article }}
+{% endblock %}
 
 {% block breadcrumb %}
 	<li class="breadcrumb-item">

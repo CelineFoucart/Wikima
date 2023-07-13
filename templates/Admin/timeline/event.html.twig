@@ -123,12 +123,12 @@
 									<tr id="{{ event.id }}" class="handle">
 										<td>
 											<div class="float-end">
-												<a href="{{ path('admin_app_timeline_event', {id:timeline.id, event: event.id}) }}" class="btn btn-success btn-sm" title="Editer">
+												<a href="{{ path('admin_app_timeline_event', {id:timeline.id, event: event.id}) }}" class="btn btn-success btn-sm" data-bs-toggle="tooltip" title="Editer">
 													<i class="fas fa-edit" aria-hidden="true"></i>
 												</a>
 												<form method="post" action="{{ path('admin_app_event_delete', {'id': event.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet élément ?');" style="display:inline-block">
 													<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
-													<button class="btn btn-danger btn-sm" title="Supprimer">
+													<button class="btn btn-danger btn-sm" title="Supprimer" data-bs-toggle="tooltip">
 														<i class="fa fa-trash"></i>
 													</button>
 												</form>

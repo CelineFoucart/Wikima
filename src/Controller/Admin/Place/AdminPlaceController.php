@@ -40,6 +40,14 @@ final class AdminPlaceController extends AbstractAdminController
         ]);
     }
 
+    #[Route('/archive', name: 'admin_app_place_archive_index', methods:['GET'])]
+    public function archiveIndexAction(): Response
+    {
+        return $this->render('Admin/place/archive.html.twig', [
+            'places' => $this->placeRepository->findForAdminList(true),
+        ]);
+    }
+
     #[Route('/create', name: 'admin_app_place_create', methods:['GET', 'POST'])]
     public function createAction(Request $request, CategoryRepository $categoryRepository, PortalRepository $portalRepository): Response
     {
@@ -123,6 +131,21 @@ final class AdminPlaceController extends AbstractAdminController
         return $this->redirectToRoute('admin_app_place_list', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/{id}/archive', name: 'admin_app_place_archive', methods:['POST'])]
+    public function archiveAction(Request $request, Place $place): Response
+    {
+        if ($this->isCsrfTokenValid('archive'.$place->getId(), $request->request->get('_token'))) {
+            $isArchived = (bool) $place->getIsArchived();
+            $message = $isArchived ? "désarchivé" : "archivé";
+            $place->setIsArchived(!$isArchived);
+            $this->placeRepository->save($place, true);
+
+            $this->addFlash('success', "Le lieu a été {$message} avec succès.");
+        }
+
+        return $this->redirectToRoute('admin_app_place_list', [], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('/{id}/image', name: 'admin_app_place_image', methods:['GET', 'POST'])]
     public function imageAction(Place $place, Request $request): Response
     {
@@ -160,7 +183,6 @@ final class AdminPlaceController extends AbstractAdminController
 
         $searchData = (new SearchData())->setPage($page);
         $searchForm = $this->createForm(AdvancedSearchType::class, $searchData, ['allow_extra_fields' => true]);
-        // $request->query->remove('search_terms');
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {

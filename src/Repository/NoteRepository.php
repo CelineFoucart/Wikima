@@ -54,13 +54,18 @@ class NoteRepository extends ServiceEntityRepository
 
     
 
-    public function findForAdminList(): array
+    public function findForAdminList(bool $isArchived = false): array
     {
-        return $this->createQueryBuilder('n')
+        $builder = $this->createQueryBuilder('n')
             ->leftJoin('n.portal', 'p')->addSelect('p')
             ->leftJoin('n.category', 'c')->addSelect('c')
-            ->getQuery()
-            ->getResult()
-            ;
+            ->andWhere('n.isArchived = :isArchived')
+            ->setParameter('isArchived', $isArchived);
+
+        if (!$isArchived) {
+            $builder->orWhere('n.isArchived IS NULL');
+        } 
+            
+        return $builder->getQuery()->getResult();
     }
 }

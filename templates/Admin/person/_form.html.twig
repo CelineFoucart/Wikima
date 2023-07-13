@@ -3,6 +3,7 @@
         <div class="col-12">
             <div class="d-flex justify-content-end pe-1">
                 {{ form_row(form.isSticky) }}
+                {{ form_row(form.isArchived) }}
             </div>
         </div>
         <div class="col-md-8 mb-2">
@@ -25,6 +26,7 @@
                                         class="input-group-text"
                                         role="btton"
                                         id="fullnameAction"
+                                        data-bs-toggle="tooltip"
                                         title="Générer">
                                         <i class="fas fa-sync-alt"></i>
                                     </span>
@@ -43,6 +45,7 @@
                                         data-target="#person_form_slug" 
                                         role="btton" 
                                         data-source="#person_form_fullname"
+                                        data-bs-toggle="tooltip"
                                         title="Générer">
                                         <i class="fas fa-sync-alt"></i>
                                     </span>

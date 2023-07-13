@@ -56,13 +56,13 @@
                             </td>
                             <td data-label="Actions">
                                 <div class="btn-group">
-                                    <a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
+                                    <a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
                                         <i class="fas fa-book-reader"></i>
                                     </a>                   
-                                    <a href="{{ path('admin_app_portal_show', {id: portal.id}) }}" class="btn btn-sm btn-default" title="Afficher">
+                                    <a href="{{ path('admin_app_portal_show', {id: portal.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
                                         <i class="fas fa-eye" aria-hidden="true"></i>
                                     </a>
-                                    <a href="{{ path('admin_app_portal_edit', {id: portal.id}) }}" class="btn btn-sm btn-default" title="Éditer">
+                                    <a href="{{ path('admin_app_portal_edit', {id: portal.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
                                         <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                                     </a>
                                     {% include "Admin/components/_delete_modal.html.twig" with { element: portal, path: 'admin_app_portal_delete' } %}

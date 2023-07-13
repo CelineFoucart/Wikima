@@ -47,7 +47,7 @@
                             {{ form_help(form.bannerFile) }}
                             {% if bannerFile %}
                                 {% set path = asset('img/'~bannerFile) %}
-                                <img src="{{ path }}" alt="Favicon" class="img-fluid mt-1" title="{{bannerFile}}">    
+                                <img src="{{ path }}" alt="Favicon" class="img-fluid mt-1" data-bs-toggle="tooltip" title="{{bannerFile}}">    
                                 <p><a href="{{ path }}" download>Télécharger</a></p>
                             {% endif %}
                             {{ form_errors(form.bannerFile) }}
@@ -59,7 +59,7 @@
                             {{ form_help(form.faviconFile) }}
                             {% if faviconFile %}
                                 {% set path = asset('img/'~faviconFile) %}
-                                <img src="{{ path }}" alt="Favicon" class="img-fluid mt-1" title="{{faviconFile}}">    
+                                <img src="{{ path }}" alt="Favicon" class="img-fluid mt-1" data-bs-toggle="tooltip" title="{{faviconFile}}">    
                                 <p><a href="{{ path }}" download>Télécharger</a></p>
                             {% endif %}
                             {{ form_errors(form.faviconFile) }}

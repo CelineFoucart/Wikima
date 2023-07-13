@@ -167,6 +167,9 @@ class Person
     )]
     private ?string $gender = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isArchived = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -531,6 +534,18 @@ class Person
     public function setGender(?string $gender): self
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getIsArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(?bool $isArchived): static
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }

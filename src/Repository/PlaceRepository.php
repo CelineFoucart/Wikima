@@ -54,6 +54,7 @@ class PlaceRepository extends ServiceEntityRepository
     {
         $builder = $this->getDefaultQuery();
         $builder->andWhere('t.id IN (:type)')->setParameter('type', [$placeType->getId()]);
+        $builder->andWhere('(pl.isArchived != :isArchived  OR pl.isArchived IS NULL)')->setParameter('isArchived', true);
 
         return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
     }
@@ -77,6 +78,7 @@ class PlaceRepository extends ServiceEntityRepository
         $builder = $this->getDefaultQuery();
         $where = ('category' === $parentType) ? 'c.id IN (:parents)' : 'pt.id IN (:parents)';
         $builder->andWhere($where)->setParameter('parents', [$parent->getId()]);
+        $builder->andWhere('(pl.isArchived != :isArchived  OR pl.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if ($type  > 0) {
             $builder->andWhere('t.id IN (:type)')->setParameter('type', [$type]);
@@ -88,13 +90,15 @@ class PlaceRepository extends ServiceEntityRepository
     public function search(SearchData $search, int $limit = 20): PaginationInterface
     {
         $builder = $this->getDefaultQuery();
+        
+        $builder->andWhere('(pl.isArchived != :isArchived  OR pl.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if (strlen($search->getQuery()) >= 3 and null !== $search->getQuery()) {
             $q = '%'.$search->getQuery().'%';
             $builder
-                ->andWhere('pl.title LIKE :q_1')
-                ->orWhere('pl.description LIKE :q_2')
-                ->setParameters(['q_1' => $q, 'q_2' => $q])
+                ->andWhere('pl.title LIKE :q')
+                ->orWhere('pl.description LIKE :q')
+                ->setParameter('q', $q)
             ;
         }
 
@@ -133,6 +137,8 @@ class PlaceRepository extends ServiceEntityRepository
             ->orderBy('p.title', 'ASC')
             ->andWhere('p.isSticky = 1 AND p.isSticky IS NOT NULL')
         ;
+        
+        $builder->andWhere('(p.isArchived != :isArchived  OR p.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if ($portalId) {
             $builder
@@ -153,15 +159,24 @@ class PlaceRepository extends ServiceEntityRepository
         return $builder->getQuery()->getResult();
     }
 
-    public function findForAdminList(): array
+    public function findForAdminList(bool $isArchived = false): array
     {
-        return $this->getDefaultQuery()->getQuery()->getResult();
+        $builder = $this->getDefaultQuery()
+            ->andWhere('pl.isArchived = :isArchived')
+            ->setParameter('isArchived', $isArchived);
+        
+        if (!$isArchived) {
+            $builder->orWhere('pl.isArchived IS NULL');
+        }
+
+        return $builder->getQuery()->getResult();
     }
 
     public function searchPaginatedItems(array $parameters): array
     {
         $builder = $this->createQueryBuilder('p');
         $params = DataFilterService::formatParams($parameters, 'p');
+        $builder->andWhere('(p.isArchived != :isArchived  OR p.isArchived IS NULL)')->setParameter('isArchived', true);
         
         if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
             $builder
@@ -182,6 +197,7 @@ class PlaceRepository extends ServiceEntityRepository
     public function countSearchTotal(array $parameters): array
     {
         $builder = $this->createQueryBuilder('p')->select('COUNT(p.id) AS recordsFiltered');
+        $builder->andWhere('(p.isArchived != :isArchived  OR p.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
             $builder->andWhere('p.title = :title')->setParameter('title', $parameters['search']['value']);

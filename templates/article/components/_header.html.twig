@@ -65,6 +65,9 @@
 			{% if article.isPrivate %}
 				<i class="fas fa-lock" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
 			{% endif %}
+			{% if article.isArchived %}
+				<i class="fas fa-archive me-1 fa-fw" data-bs-toggle="tooltip" aria-hidden="true" title="archivé"></i>
+			{% endif %}
 		</h1>
 		<p class="text-muted mb-3 mt-2">
 			<span class="me-3">

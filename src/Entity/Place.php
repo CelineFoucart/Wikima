@@ -127,6 +127,9 @@ class Place
     #[ORM\Column(nullable: true)]
     private ?bool $isSticky = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isArchived = null;
+
     public function __construct()
     {
         $this->localisations = new ArrayCollection();
@@ -473,6 +476,18 @@ class Place
     public function setIsSticky(?bool $isSticky): self
     {
         $this->isSticky = $isSticky;
+
+        return $this;
+    }
+
+    public function getIsArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(?bool $isArchived): static
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }

@@ -113,6 +113,9 @@ class PlaceFormType extends AbstractType
                     'data-choices' => 'choices'
                 ]
             ])
+            ->add('isArchived', null, [
+                'required' => false,
+            ])
         ;
     }
 

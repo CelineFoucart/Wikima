@@ -1,0 +1,26 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Archives des articles{% endblock %}
+
+{% block activeWiki %} active show {% endblock %}
+{% block activeArticle %}active{% endblock %}
+
+{% block page_title %}Articles archivés{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Archives des articles
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_article_list') }}" class="btn btn-default btn-sm">
+		<i class="fas fa-long-arrow-left"></i>
+		Retour
+	</a>
+{% endblock %}
+
+{% block body %}
+    {% include "Admin/article/_index.html.twig" %}
+{% endblock %}
+
