@@ -47,9 +47,9 @@
                                     <a href="{{ path('app_portal_show', {slug: portal.slug}) }}">{{ portal }}</a>
                                 {% endfor %}
                             </td>
-                            <td data-sort="{{ article.createdAt|date('Y-m-d H:i') }}">{{ article.createdAt|date('d/m/Y à H:i') }}</td>
+                            <td data-sort="{{ article.createdAt|date('Y-m-d H:i') }}">{{ article.createdAt|date(date_format) }}</td>
                             <td data-sort="{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i') : '' }}">
-                                {{ article.updatedAt ? article.updatedAt|date('d/m/Y à H:i') : '' }}
+                                {{ article.updatedAt ? article.updatedAt|date(date_format) : '' }}
                             </td>
                             <td>{{ article.author.username }}</td>
                             <td>

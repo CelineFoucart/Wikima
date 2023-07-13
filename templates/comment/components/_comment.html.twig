@@ -13,7 +13,7 @@
             </h4>
             <small class="text-muted">
                 <i class="fas fa-calendar-alt me-1"></i>
-                Le {{ comment.createdAt|date('d/m/Y, à H:i')}}
+                Le {{ comment.createdAt|date(date_format)}}
             </small>
         </div>
     </header>

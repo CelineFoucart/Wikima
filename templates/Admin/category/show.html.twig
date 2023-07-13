@@ -120,11 +120,11 @@
                         <tbody>
                             <tr>
                                 <th>Création</th>
-                                <td>{{ category.createdAt|date('d/m/Y à H:i') }}</td>
+                                <td>{{ category.createdAt|date(date_format) }}</td>
                             </tr>
                             <tr>
                                 <th>Mise à jour</th>
-                                <td>{{ category.updatedAt ? category.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                                <td>{{ category.updatedAt ? category.updatedAt|date(date_format) : '' }}</td>
                             </tr>
                         </tbody>
                     </table>

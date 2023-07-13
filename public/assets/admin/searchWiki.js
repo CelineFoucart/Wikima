@@ -33,7 +33,7 @@ function enableSearchTextPlugin(articleRoute, personRoute, placeRoute, tablePers
                 render: function ( data, type, row ) {
                     return `
                         <button 
-                            class="btn btn-primary btn-sm close-btn-action" 
+                            class="btn btn-primary btn-sm person-btn-action" 
                             data-slug="${row.slug}"
                             data-title="${row.firstname} ${row.lastname}"
                             title="choisir">
@@ -49,7 +49,7 @@ function enableSearchTextPlugin(articleRoute, personRoute, placeRoute, tablePers
     });
 
     $tablePerson.on( 'draw', function () {
-        const btns = document.querySelectorAll('.close-btn-action');
+        const btns = document.querySelectorAll('.person-btn-action');
         btns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -83,7 +83,7 @@ function enableSearchTextPlugin(articleRoute, personRoute, placeRoute, tablePers
                 render: function ( data, type, row ) {
                     return `
                         <button 
-                            class="btn btn-primary btn-sm close-btn-action" 
+                            class="btn btn-primary btn-sm article-btn-action" 
                             data-slug="${row.slug}"
                             data-title="${row.title}"
                             title="choisir">
@@ -99,7 +99,7 @@ function enableSearchTextPlugin(articleRoute, personRoute, placeRoute, tablePers
     });
 
     $tableArticle.on( 'draw', function () {
-        const btns = document.querySelectorAll('.close-btn-action');
+        const btns = document.querySelectorAll('.article-btn-action');
         btns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -133,7 +133,7 @@ function enableSearchTextPlugin(articleRoute, personRoute, placeRoute, tablePers
                 render: function ( data, type, row ) {
                     return `
                         <button 
-                            class="btn btn-primary btn-sm close-btn-action" 
+                            class="btn btn-primary btn-sm place-btn-action" 
                             data-slug="${row.slug}"
                             data-title="${row.title}"
                             title="choisir">
@@ -149,7 +149,7 @@ function enableSearchTextPlugin(articleRoute, personRoute, placeRoute, tablePers
     });
 
     $tablePlace.on( 'draw', function () {
-        const btns = document.querySelectorAll('.close-btn-action');
+        const btns = document.querySelectorAll('.place-btn-action');
         btns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -203,7 +203,7 @@ function enableImagePlugin(tableId, modalId, editor) {
                     <a href="/images/${btn.dataset.slug}">
                         <img src="${path}" alt="${title}" title="${title}" style="max-width:100%">
                     </a>
-                </figure>` 
+                </figure> <p>&nbsp;</p>` 
             ); 
         })
     });

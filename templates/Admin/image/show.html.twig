@@ -108,7 +108,7 @@
                             </tr>
                             <tr>
                                 <th>Mise à jour</th>
-                                <td>{{ image.updatedAt ? image.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                                <td>{{ image.updatedAt ? image.updatedAt|date(date_format) : '' }}</td>
                             </tr>
                         </tbody>
                     </table>

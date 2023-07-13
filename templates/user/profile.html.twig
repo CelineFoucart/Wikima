@@ -27,7 +27,7 @@
 					<div class="accordion-body">
 						<dl class="row">
 							<dt class="col-sm-3">Date d'inscription</dt>
-							<dd class="col-sm-9">{{ user.createdAt|date('d/m/Y') }}</dd>
+							<dd class="col-sm-9">{{ user.createdAt|date(date_format) }}</dd>
 
 							<dt class="col-sm-3">Mes contributions</dt>
 							<dd class="col-sm-9">

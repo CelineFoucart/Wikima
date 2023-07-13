@@ -42,10 +42,10 @@
                                 </a>
                             </td>
                             <td data-sort="{{ note.createdAt ? note.createdAt|date('Y-m-d H:i') : '' }}">
-                                {{ note.createdAt|date('d/m/Y à H:i') }}
+                                {{ note.createdAt|date(date_format) }}
                             </td>
                             <td data-sort="{{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i') : '' }}">
-                                {{ note.updatedAt ? note.updatedAt|date('d/m/Y à H:i') : '' }}
+                                {{ note.updatedAt ? note.updatedAt|date(date_format) : '' }}
                             </td>
                             <td>
                                 {% if note.category %}

@@ -66,7 +66,7 @@
                             </tr>
                             <tr>
                                 <th>Création</th>
-                                <td>{{ user.createdAt|date('d/m/Y à H:i') }}</td>
+                                <td>{{ user.createdAt|date(date_format) }}</td>
                             </tr>
                         </tbody>
                     </table>

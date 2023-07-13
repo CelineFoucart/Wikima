@@ -230,10 +230,11 @@ class ArticleRepository extends ServiceEntityRepository
 
         if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
             $builder
-                ->andWhere('a.title LIKE :title')
-                ->orWhere('a.description LIKE :title')
-                ->orWhere('a.keywords LIKE :keywords')
-                ->setParameter('title', '%' . $parameters['search']['value'] . '%');
+                ->andWhere('a.title LIKE :search')
+                ->orWhere('a.description LIKE :search')
+                ->orWhere('a.keywords LIKE :search')
+                ->setParameter('search', '%' . $parameters['search']['value'] . '%')
+            ;
         }
 
         if ($params['limit'] > 0) {

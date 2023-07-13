@@ -229,7 +229,7 @@
 											{{ note.title }}
 										</a>
 									</td>
-									<td>{{ note.createdAt|date('d/m/Y à H:i') }}</td>
+									<td>{{ note.createdAt|date(date_format) }}</td>
 									<td>
 										{% if note.isProcessed %}
 											<div role="button" data-id="{{ note.id }}" data-action="update-processed" class="badge rounded-pill bg-success">

@@ -112,7 +112,20 @@
                         <h3 class="h5 border-bottom">Options des utilisateurs</h3>
                         {{ form_row(form.ENABLE_REGISTRATION) }}
                         {{ form_row(form.ENABLE_CONTACT) }}
-                        <h3 class="h5 border-bottom">Pagination</h3>
+                        <h3 class="h5 border-bottom">Pagination et affichage</h3>
+                        {{ form_row(form.PER_PAGE_EVEN_COLUMNS) }}
+                        {{ form_row(form.PER_PAGE_ODD_COLUMNS) }}
+
+                        <div class="mb-3">
+                            {{ form_label(form.DATE_FORMAT) }}
+                            {{ form_widget(form.DATE_FORMAT) }}
+                            <p class="form-text mb-0 help-text">
+                                La syntaxe qui est utilisée est identique à la fonction 
+                                «&nbsp;<a href="https://secure.php.net/manual/function.date.php">date()</a>&nbsp;» de PHP.
+                                Consultez cette <a href="https://www.php.net/manual/fr/datetime.format.php">liste de formats</a> pour savoir comment remplir ce champ.
+                            </p>
+                            {{ form_errors(form.DATE_FORMAT) }}
+                        </div>
                         {{ form_rest(form) }}
                     </div> 
                 </div>

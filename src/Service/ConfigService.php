@@ -27,6 +27,7 @@ class ConfigService
         'PER_PAGE_ODD_COLUMNS' => 30,
         'PER_PAGE_EVEN_COLUMNS' => 20,
         'BACKGROUND_COLOR' => "#f5f7fa80",
+        'DATE_FORMAT' => "d/m/Y à H:i"
     ];
 
     public function __construct(private string $configFile, private string $publicDir)
@@ -51,7 +52,8 @@ class ConfigService
             'WIKI_BANNER',
             'PER_PAGE_ODD_COLUMNS',
             'PER_PAGE_EVEN_COLUMNS',
-            'BACKGROUND_COLOR'
+            'BACKGROUND_COLOR',
+            'DATE_FORMAT'
         ];
 
         foreach ($keys as $key) {

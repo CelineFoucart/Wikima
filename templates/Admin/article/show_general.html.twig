@@ -59,11 +59,11 @@
                         <tbody>
                             <tr>
                                 <th>Création</th>
-                                <td>{{ article.createdAt|date('d/m/Y à H:i') }}</td>
+                                <td>{{ article.createdAt|date(date_format) }}</td>
                             </tr>
                             <tr>
                                 <th>Mise à jour</th>
-                                <td>{{ article.updatedAt ? article.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                                <td>{{ article.updatedAt ? article.updatedAt|date(date_format) : '' }}</td>
                             </tr>
                             <tr>
                                 <th>Auteur</th>

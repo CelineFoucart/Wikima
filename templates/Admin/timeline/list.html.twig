@@ -43,10 +43,10 @@
                             <td>{{ timeline.title }}</td>
                             <td>{{ timeline.slug }}</td>
                             <td data-sort="{{ timeline.createdAt ? timeline.createdAt|date('Y-m-d H:i') : '' }}">
-                                {{ timeline.createdAt|date('d/m/Y à H:i') }}
+                                {{ timeline.createdAt|date(date_format) }}
                             </td>
                             <td data-sort="{{ timeline.updatedAt ? timeline.updatedAt|date('Y-m-d H:i') : '' }}">
-                                {{ timeline.updatedAt ? timeline.updatedAt|date('d/m/Y à H:i') : '' }}
+                                {{ timeline.updatedAt ? timeline.updatedAt|date(date_format) : '' }}
                             </td>
                             <td>
                                 <div class="btn-group">

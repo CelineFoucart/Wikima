@@ -124,11 +124,11 @@
                         <tbody>
                             <tr>
                                 <th>Création</th>
-                                <td>{{ portal.createdAt|date('d/m/Y à H:i') }}</td>
+                                <td>{{ portal.createdAt|date(date_format) }}</td>
                             </tr>
                             <tr>
                                 <th>Mise à jour</th>
-                                <td>{{ portal.updatedAt ? portal.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                                <td>{{ portal.updatedAt ? portal.updatedAt|date(date_format) : '' }}</td>
                             </tr>
                         </tbody>
                     </table>

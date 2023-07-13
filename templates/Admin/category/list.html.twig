@@ -43,10 +43,10 @@
                             <td>{{ category.title }}</td>
                             <td>{{ category.slug }}</td>
                             <td data-sort="{{ category.createdAt ? category.createdAt|date('Y-m-d H:i') : '' }}">
-                                {{ category.createdAt|date('d/m/Y à H:i') }}
+                                {{ category.createdAt|date(date_format) }}
                             </td>
                             <td data-sort="{{ category.updatedAt ? category.updatedAt|date('Y-m-d H:i') : '' }}">
-                                {{ category.updatedAt ? category.updatedAt|date('d/m/Y à H:i') : '' }}
+                                {{ category.updatedAt ? category.updatedAt|date(date_format) : '' }}
                             </td>
                             <td>
                                 <div class="btn-group">

@@ -96,6 +96,21 @@
 								</ul>
 							</td>
 						</tr>
+						<tr>
+							<th>Personnages</th>
+							<td>
+								<ul class="list-unstyled">
+									{% for person in image.people %}
+										<li>
+											<a href="{{ path('app_person_show', {slug: person.slug }) }}" class="text-decoration-none">
+												<i class="fas fa-user me-1"></i>
+												{{ person.firstname }} {{ person.lastname }}
+											</a>
+										</li>
+									{% endfor %}
+								</ul>
+							</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

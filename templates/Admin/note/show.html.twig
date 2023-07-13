@@ -63,11 +63,11 @@
                     </tr>
                     <tr>
                         <th>Création</th>
-                        <td>{{ note.createdAt|date('d/m/Y à H:i') }}</td>
+                        <td>{{ note.createdAt|date(date_format) }}</td>
                     </tr>
                     <tr>
                         <th>Mise à jour</th>
-                        <td>{{ note.updatedAt ? note.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                        <td>{{ note.updatedAt ? note.updatedAt|date(date_format) : '' }}</td>
                     </tr>
                     <tr>
                         <th>Catégorie</th>

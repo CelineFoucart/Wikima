@@ -49,10 +49,10 @@
                                 {% endfor %}
                             </td>
                             <td data-sort="{{ portal.createdAt ? portal.createdAt|date('Y-m-d H:i') : '' }}">
-                                {{ portal.createdAt|date('d/m/Y à H:i') }}
+                                {{ portal.createdAt|date(date_format) }}
                             </td>
                             <td data-sort="{{ portal.updatedAt ? portal.updatedAt|date('Y-m-d H:i') : '' }}">
-                                {{ portal.updatedAt ? portal.updatedAt|date('d/m/Y à H:i') : '' }}
+                                {{ portal.updatedAt ? portal.updatedAt|date(date_format) : '' }}
                             </td>
                             <td>
                                 <div class="btn-group">

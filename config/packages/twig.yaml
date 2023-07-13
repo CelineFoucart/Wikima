@@ -8,6 +8,7 @@ twig:
         enable_contact: '%env(bool:ENABLE_CONTACT)%'
         enable_registration: '%env(bool:ENABLE_REGISTRATION)%'
         background_color: '%env(BACKGROUND_COLOR)%'
+        date_format: '%env(DATE_FORMAT)%'
 
 when@test:
     twig:

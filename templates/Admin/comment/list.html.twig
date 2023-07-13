@@ -30,7 +30,7 @@
                                 {{ comment.author.username }}
                             </td>
                             <td data-sort="{{ comment.createdAt|date('Y-m-d H:i') }}">
-                                {{ comment.createdAt|date('d/m/Y à H:i') }}
+                                {{ comment.createdAt|date(date_format) }}
                             </td>
                             <td>
                                 {{ comment.article.title }}

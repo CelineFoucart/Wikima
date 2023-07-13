@@ -24,8 +24,8 @@
 				{% for draft in drafts %}
 					<tr>
 						<td>{{ draft.title }}</td>
-						<td>{{ draft.createdAt|date('d/m/Y à H:i') }}</td>
-						<td>{{ draft.updatedAt ? draft.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+						<td>{{ draft.createdAt|date(date_format) }}</td>
+						<td>{{ draft.updatedAt ? draft.updatedAt|date(date_format) : '' }}</td>
 						<td>
 							<a href="{{ path('admin_app_article_section', {id:draft.id}) }}" class="btn btn-success btn-sm">
 								<i class="fas fa-edit" data-bs-toggle="tooltip" title="Modifier"></i>

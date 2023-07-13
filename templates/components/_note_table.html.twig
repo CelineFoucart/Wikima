@@ -22,10 +22,10 @@
                     <tr>
                         <td>{{ note.title }}</td>
                         <td data-sort="{{ note.createdAt|date('Y-m-d H:i:s') }}">
-                            {{ note.createdAt|date('d/m/Y, H:i') }}
+                            {{ note.createdAt|date(date_format) }}
                         </td>
                         <td data-sort="{{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i:s') : '' }}">
-                            {{ note.updatedAt ? note.updatedAt|date('d/m/Y, H:i') : '' }}
+                            {{ note.updatedAt ? note.updatedAt|date(date_format) : '' }}
                         </td>
                         <td>
                             {% if note.isProcessed %}

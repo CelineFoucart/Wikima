@@ -53,7 +53,7 @@
                             <td>{{ image.slug }}</td>
                             <td>{{ image.keywords }}</td>
                             <td data-sort="{{ image.updatedAt ? image.updatedAt|date('Y-m-d H:i') : '' }}">
-                                {{ image.updatedAt ? image.updatedAt|date('d/m/Y à H:i') : '' }}
+                                {{ image.updatedAt ? image.updatedAt|date(date_format) : '' }}
                             </td>
                             <td>
                                 <div class="btn-group">

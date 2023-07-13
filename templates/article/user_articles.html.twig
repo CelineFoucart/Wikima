@@ -36,8 +36,8 @@
 								<i class="fas fa-lock fw-bold, text-danger" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
 							{% endif %}
 						</td>
-						<td>{{ article.createdAt|date('d/m/Y à H:i') }}</td>
-						<td>{{ article.updatedAt ? article.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+						<td>{{ article.createdAt|date(date_format) }}</td>
+						<td>{{ article.updatedAt ? article.updatedAt|date(date_format) : '' }}</td>
 						<td>
 							<a href="{{ path('app_article_show', {slug:article.slug}) }}" class="btn btn-primary btn-sm">
 								<i class="fas fa-eye" data-bs-toggle="tooltip" title="Afficher"></i>

@@ -123,11 +123,11 @@
                         <tbody>
                             <tr>
                                 <th>Création</th>
-                                <td>{{ timeline.createdAt|date('d/m/Y à H:i') }}</td>
+                                <td>{{ timeline.createdAt|date(date_format) }}</td>
                             </tr>
                             <tr>
                                 <th>Mise à jour</th>
-                                <td>{{ timeline.updatedAt ? timeline.updatedAt|date('d/m/Y à H:i') : '' }}</td>
+                                <td>{{ timeline.updatedAt ? timeline.updatedAt|date(date_format) : '' }}</td>
                             </tr>
                         </tbody>
                     </table>

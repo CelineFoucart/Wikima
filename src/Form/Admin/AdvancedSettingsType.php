@@ -145,6 +145,9 @@ class AdvancedSettingsType extends AbstractType
                 'label' => "Environnement",
                 'help' => "L'environnement de développement n'est à utiliser qu'en local, car il expose des données sensibles comme les identifiants de la base de données"
             ])
+            ->add('DATE_FORMAT', TextType::class, [
+                'label' =>"Format de la date",
+            ])
         ;
     }
 

@@ -14,7 +14,7 @@
 				</span>
 				<span>
 					Publié le
-					<strong>{{ article.createdAt|date('d/m/Y, h:i') }}</strong>
+					<strong>{{ article.createdAt|date(date_format) }}</strong>
 				</span>
 			</p>
 			<h1>{{ article.title }}</h1>
