@@ -1,4 +1,18 @@
 <style>
+    #tableArticle_wrapper td,
+    #tableImage_wrapper td,
+    #tablePerson_wrapper td,
+    #tablePlace_wrapper td {
+        display: block;
+    }
+
+    #tableArticle_wrapper td:before,
+    #tableImage_wrapper td:before,
+    #tablePerson_wrapper td:before,
+    #tablePlace_wrapper td:before {
+        display: none;
+    }
+
     #tableArticle_wrapper .row,
     #tableImage_wrapper .row,
     #tablePerson_wrapper .row,
@@ -98,7 +112,7 @@
                     <tbody>
                         {% for image in images %}
                             <tr>
-                                <td style="width:10%" class="text-center align-middle">
+                                <td class="text-center align-middle w-10">
                                     <a href="{{ vich_uploader_asset(image) }}" data-fslightbox>
                                         <img src="{{ vich_uploader_asset(image)|imagine_filter('icon_image') }}" alt="{{ image.title }}">
                                     </a>
@@ -107,7 +121,7 @@
                                     <p class="mb-0 fw-bold">{{ image.title }}</p>
                                     <p class="mb-0">{{ image.keywords }}</p>
                                 </td>
-                                <td class="text-end" style="width:10%">
+                                <td class="text-end w-10">
                                     <button 
                                         class="btn btn-primary btn-sm close-btn-image" 
                                         data-slug="{{ image.slug }}"

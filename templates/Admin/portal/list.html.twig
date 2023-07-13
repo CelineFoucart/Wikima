@@ -22,13 +22,12 @@
 
 {% block body %}
     <div class="card border-top-primary">
-        <div class="card-body card-show">
+        <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
                         <th class="table-id">Id</th>
                         <th>Titre</th>
-                        <th>Slug</th>
                         <th>Catégories</th>
                         <th>Création</th>
                         <th>Mise à jour</th>
@@ -38,23 +37,24 @@
                 <tbody>
                     {% for portal in portals %}
                         <tr>
-                            <td>
+                            <td data-label="Id">
                                 <a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="fw-bold">{{portal.id }}</a>
                             </td>
-                            <td>{{ portal.title }}</td>
-                            <td>{{ portal.slug }}</td>
-                            <td class="container-list">
+                            <td data-label="Titre">
+                                {{ portal.title }}
+                            </td>
+                            <td data-label="Catégories" class="container-list">
                                 {% for category in portal.categories %}
                                     <a href="{{ path('admin_app_category_show', {id: category.id}) }}">{{ category }}</a>
                                 {% endfor %}
                             </td>
-                            <td data-sort="{{ portal.createdAt ? portal.createdAt|date('Y-m-d H:i') : '' }}">
+                            <td data-label="Création" data-sort="{{ portal.createdAt ? portal.createdAt|date('Y-m-d H:i') : '' }}">
                                 {{ portal.createdAt|date(date_format) }}
                             </td>
-                            <td data-sort="{{ portal.updatedAt ? portal.updatedAt|date('Y-m-d H:i') : '' }}">
+                            <td data-label="Mise à jour" data-sort="{{ portal.updatedAt ? portal.updatedAt|date('Y-m-d H:i') : '' }}">
                                 {{ portal.updatedAt ? portal.updatedAt|date(date_format) : '' }}
                             </td>
-                            <td>
+                            <td data-label="Actions">
                                 <div class="btn-group">
                                     <a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
                                         <i class="fas fa-book-reader"></i>

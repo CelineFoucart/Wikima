@@ -37,7 +37,7 @@
 					<table class="table stats-table mb-0">
 						<tbody>
 							<tr>
-								<th style="width: 40%" class="text-end">Catégorie</th>
+								<th>Catégorie</th>
 								<td class="text-center">{{ stats.category }}</td>
 								<td>
 									{% if is_granted('ROLE_ADMIN') %}
@@ -53,7 +53,7 @@
 								</td>
 							</tr>
 							<tr>
-								<th class="text-end">Portail</th>
+								<th>Portail</th>
 								<td class="text-center">{{ stats.portal }}</td>
 								<td>
 									{% if is_granted('ROLE_ADMIN') %}
@@ -69,7 +69,7 @@
 								</td>
 							</tr>
 							<tr>
-								<th class="text-end">Article</th>
+								<th>Article</th>
 								<td class="text-center">{{ stats.article }}</td>
 								<td>
 									<a href="{{ path('admin_app_article_create') }}" class="small text-decoration-none me-3">
@@ -83,7 +83,7 @@
 								</td>
 							</tr>
 							<tr>
-								<th class="text-end">Image</th>
+								<th>Image</th>
 								<td class="text-center">{{ stats.image }}</td>
 								<td>
 									<a href="{{ path('admin_app_image_create') }}" class="small text-decoration-none me-3">
@@ -97,7 +97,7 @@
 								</td>
 							</tr>
 							<tr>
-								<th class="text-end">Personnage</th>
+								<th>Personnage</th>
 								<td class="text-center">{{ stats.person }}</td>
 								<td>
 									{% if is_granted('ROLE_ADMIN') %}
@@ -113,7 +113,7 @@
 								</td>
 							</tr>
 							<tr>
-								<th class="text-end">Lieu</th>
+								<th>Lieu</th>
 								<td class="text-center">{{ stats.place }}</td>
 								<td>
 									{% if is_granted('ROLE_ADMIN') %}
@@ -129,7 +129,7 @@
 								</td>
 							</tr>
 							<tr>
-								<th class="text-end">Page</th>
+								<th>Page</th>
 								<td class="text-center">{{ stats.page }}</td>
 								<td>
 									{% if is_granted('ROLE_ADMIN') %}
@@ -158,7 +158,7 @@
 						<tbody>
 							{% if is_granted('ROLE_ADMIN') %}
 								<tr>
-									<th style="width: 40%" class="text-end">Utilisateur</th>
+									<th>Utilisateur</th>
 									<td class="text-center">{{ stats.user }}</td>
 									<td>
 										<a href="{{ path('admin_app_user_create') }}" class="small text-decoration-none me-3">
@@ -173,7 +173,7 @@
 								</tr>
 							{% endif %}
 							<tr>
-								<th style="width: 40%" class="text-end">Note</th>
+								<th>Note</th>
 								<td class="text-center">{{ stats.note }}</td>
 								<td>
 									<a href="{{ path('admin_app_note_create') }}" class="small text-decoration-none me-3">
@@ -188,7 +188,7 @@
 							</tr>
 							{% if is_granted('ROLE_ADMIN') %}
 								<tr>
-									<th class="text-end">Commentaire</th>
+									<th>Commentaire</th>
 									<td class="text-center">{{ stats.comment }}</td>
 									<td>
 										<a href="{{ path('admin_app_comment_list') }}" class="small text-decoration-none">
@@ -211,7 +211,7 @@
 						Les 5 dernières notes
 					</h2>
 				</div>
-				<div class="card-body card-show">
+				<div class="card-body p-1">
 					<table class="table table-striped mb-0">
 						<thead>
 							<tr>
@@ -224,13 +224,13 @@
 						<tbody>
 							{% for note in notes %}
 								<tr>
-									<td>
+									<td data-label="Titre">
 										<a href="{{ path('admin_app_note_show', {id: note.id}) }}" class="link-primary fw-bold">
 											{{ note.title }}
 										</a>
 									</td>
-									<td>{{ note.createdAt|date(date_format) }}</td>
-									<td>
+									<td data-label="Création">{{ note.createdAt|date(date_format) }}</td>
+									<td data-label="Est traitée">
 										{% if note.isProcessed %}
 											<div role="button" data-id="{{ note.id }}" data-action="update-processed" class="badge rounded-pill bg-success">
 												Traité
@@ -241,8 +241,8 @@
 											</div>
 										{% endif %}
 									</td>
-									<td>
-										<div class="text-end">
+									<td data-label="Actions">
+										<div>
                                             <button 
                                                 type="button" 
                                                 class="btn btn-primary btn-sm" 

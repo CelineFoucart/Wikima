@@ -9,36 +9,34 @@
 {% block body %}
 	<section class="py-5 container-fluid">
 		<h2>Les contributeurs de {{ app_name }}</h2>
-		<div class="table-responsive">
-			<table class="table mb-0">
-				<thead>
+		<table class="table mb-0">
+			<thead>
+				<tr>
+					<th>Pseudo</th>
+					<th>Roles</th>
+					<th>Contributions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users %}
 					<tr>
-						<th>Pseudo</th>
-						<th>Roles</th>
-						<th>Contributions</th>
+						<td data-label="Pseudo">
+							<a href="{{ path('app_user_show', {id:user.id}) }}">{{ user.username }}</a>
+						</td>
+						<td data-label="Roles">
+							{{ format_roles(user.roles) }}
+						</td>
+						<td data-label="Contributions">
+							<a href="{{ path('app_article_user', {id: user.id}) }}">articles publiés</a>
+						</td>
 					</tr>
-				</thead>
-				<tbody>
-					{% for user in users %}
-						<tr>
-							<td>
-								<a href="{{ path('app_user_show', {id:user.id}) }}">{{ user.username }}</a>
-							</td>
-							<td>
-								{{ format_roles(user.roles) }}
-							</td>
-							<td>
-								<a href="{{ path('app_article_user', {id: user.id}) }}">articles publiés</a>
-							</td>
-						</tr>
-					{% else %}
-						<tr>
-							<td colspan="3" class="text-center">Aucun membre trouvé</td>
-						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
+				{% else %}
+					<tr>
+						<td colspan="3" class="text-center">Aucun membre trouvé</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 		<p class="mt-1">
             {% set total = users.getTotalItemCount %}            
             {% set current = users|length %}

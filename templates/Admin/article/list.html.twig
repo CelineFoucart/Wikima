@@ -22,7 +22,7 @@
 
 {% block body %}
     <div class="card border-top-primary">
-        <div class="card-body card-show">
+        <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
@@ -38,21 +38,21 @@
                 <tbody>
                     {% for article in articles %}
                         <tr>
-                            <td>
+                            <td data-label="Id">
                                 <a href="{{ path('app_article_show', {slug: article.slug}) }}" class="fw-bold">{{article.id }}</a>
                             </td>
-                            <td>{{ article.title }}</td>
-                            <td class="container-list">
+                            <td data-label="Titre">{{ article.title }}</td>
+                            <td data-label="Portail" class="container-list">
                                 {% for portal in article.portals %}
                                     <a href="{{ path('app_portal_show', {slug: portal.slug}) }}">{{ portal }}</a>
                                 {% endfor %}
                             </td>
-                            <td data-sort="{{ article.createdAt|date('Y-m-d H:i') }}">{{ article.createdAt|date(date_format) }}</td>
-                            <td data-sort="{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i') : '' }}">
+                            <td data-label="Création" data-sort="{{ article.createdAt|date('Y-m-d H:i') }}">{{ article.createdAt|date(date_format) }}</td>
+                            <td data-label="Mise à jour" data-sort="{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i') : '' }}">
                                 {{ article.updatedAt ? article.updatedAt|date(date_format) : '' }}
                             </td>
-                            <td>{{ article.author.username }}</td>
-                            <td>
+                            <td data-label="Auteur">{{ article.author.username }}</td>
+                            <td data-label="Actions">
                                 <div class="btn-group">
                                     {% set can_edit = can_access(app.user, article) %}
 

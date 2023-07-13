@@ -22,7 +22,7 @@
 
 {% block body %}
     <div class="card border-top-primary">
-        <div class="card-body card-show">
+        <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
@@ -35,12 +35,12 @@
                 <tbody>
                     {% for personType in personTypes %}
                         <tr>
-                            <td>
+                            <td data-label="Id">
                                 <a href="#" class="fw-bold">{{personType.id }}</a>
                             </td>
-                            <td>{{personType.title }}</td>
-                            <td>{{personType.slug }}</td>
-                            <td>
+                            <td data-label="Titre">{{personType.title }}</td>
+                            <td data-label="Slug">{{personType.slug }}</td>
+                            <td data-label="Actions">
                                 <div class="btn-group">
                                     <a href="{{ path('app_person_type', {slug: personType.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
                                         <i class="fas fa-book-reader"></i>

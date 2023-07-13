@@ -22,7 +22,7 @@
 
 {% block body %}
     <div class="card border-top-primary">
-        <div class="card-body card-show">
+        <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
@@ -35,15 +35,15 @@
                 <tbody>
                     {% for backup in backups %}
                         <tr>
-                            <td>{{backup.id }}</td>
-                            <td>{{ backup.filename }}</td>
-                            <td>{{ backup.createdAt|date(date_format) }}</td>
-                            <td>
+                            <td data-label="Id">{{backup.id }}</td>
+                            <td data-label="Fichier" class="text-break">{{ backup.filename }}</td>
+                            <td data-label="Création">{{ backup.createdAt|date(date_format) }}</td>
+                            <td data-label="Actions">
                                 <div class="btn-group">                   
                                     <a href="{{ path('admin_app_backup_download', {id: backup.id}) }}" class="btn btn-sm btn-default" title="Télécharger">
-                                        <i class="fas fa-download"></i> Télécharger
+                                        <i class="fas fa-download"></i>
                                     </a>
-                                    {% include "Admin/components/_delete_modal.html.twig" with { element: backup, path: 'admin_app_backup_delete', full: true } %}
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: backup, path: 'admin_app_backup_delete' } %}
                                 </div>
                             </td>
                         </tr>

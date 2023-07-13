@@ -20,7 +20,7 @@
 
 {% block body %}
     <div class="card border-top-primary">
-        <div class="card-body card-show">
+        <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
@@ -33,18 +33,18 @@
                 <tbody>
                     {% for page in pages %}
                         <tr>
-                            <td>
+                            <td data-label="Id">
                                 {{ page.id }}
                             </td>
-                            <td>
+                            <td data-label="Titre">
                                 <a href="{{ path('admin_app_page_show', {id: page.id}) }}">
                                     {{ page.title }}
                                 </a>
                             </td>
-                            <td class="w-50">
+                            <td data-label="Description" class="w-50">
                                 {{ page.description }}
                             </td>
-                            <td>
+                            <td data-label="Actions">
                                 <div class="btn-group">      
                                     <a href="{{ path('app_page', {slug: page.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
                                         <i class="fas fa-book-reader"></i>

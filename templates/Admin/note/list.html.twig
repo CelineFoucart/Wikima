@@ -20,7 +20,7 @@
 
 {% block body %}
     <div class="card border-top-primary">
-        <div class="card-body card-show">
+        <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
@@ -36,32 +36,32 @@
                 <tbody>
                     {% for note in notes %}
                         <tr>
-                            <td>
+                            <td data-label="Titre">
                                 <a href="{{ path('admin_app_note_show', {id: note.id}) }}">
                                     {{ note.title }}
                                 </a>
                             </td>
-                            <td data-sort="{{ note.createdAt ? note.createdAt|date('Y-m-d H:i') : '' }}">
+                            <td data-label="Création" data-sort="{{ note.createdAt ? note.createdAt|date('Y-m-d H:i') : '' }}">
                                 {{ note.createdAt|date(date_format) }}
                             </td>
-                            <td data-sort="{{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i') : '' }}">
+                            <td data-label="Mise à jour" data-sort="{{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i') : '' }}">
                                 {{ note.updatedAt ? note.updatedAt|date(date_format) : '' }}
                             </td>
-                            <td>
+                            <td data-label="Catégorie">
                                 {% if note.category %}
                                     <a href="{{ path('app_category_show', {slug: note.category.slug}) }}">
                                         {{ note.category }}
                                     </a>
                                 {% endif %}
                             </td>
-                            <td>
+                            <td data-label="Portail">
                                 {% if note.portal %}
                                     <a href="{{ path('app_portal_show', {slug: note.portal.slug}) }}">
                                         {{ note.portal }}
                                     </a>
                                 {% endif %}    
                             </td>
-                            <td>
+                            <td data-label="Est traitée">
                                 {% if note.isProcessed %}
                                     <div role="button" data-id="{{ note.id }}" data-action="update-processed" class="badge rounded-pill bg-success">
                                         Traité
@@ -72,7 +72,7 @@
                                     </div>
                                 {% endif %}
                             </td>
-                            <td>
+                            <td data-label="Actions">
                                 <div class="btn-group">            
                                     <a href="{{ path('admin_app_note_show', {id: note.id}) }}" class="btn btn-sm btn-default" title="Afficher">
                                         <i class="fas fa-eye" aria-hidden="true"></i>

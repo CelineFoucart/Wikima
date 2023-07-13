@@ -14,20 +14,22 @@
                     <th>Création</th>
                     <th>Mise à jour</th>
                     <th>Statut</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 {% for note in notes %}
                     <tr>
-                        <td>{{ note.title }}</td>
-                        <td data-sort="{{ note.createdAt|date('Y-m-d H:i:s') }}">
+                        <td data-label="Titre" >
+                            {{ note.title }}
+                        </td>
+                        <td data-label="Création" data-sort="{{ note.createdAt|date('Y-m-d H:i:s') }}">
                             {{ note.createdAt|date(date_format) }}
                         </td>
-                        <td data-sort="{{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i:s') : '' }}">
+                        <td data-label="Mise à jour" data-sort="{{ note.updatedAt ? note.updatedAt|date('Y-m-d H:i:s') : '' }}">
                             {{ note.updatedAt ? note.updatedAt|date(date_format) : '' }}
                         </td>
-                        <td>
+                        <td data-label="Statut">
                             {% if note.isProcessed %}
                                 <span role="button" data-id="{{ note.id }}" data-action="update-processed" class="badge rounded-pill bg-success">
                                     Traité
@@ -38,7 +40,7 @@
                                 </span>
                             {% endif %}
                         </td>
-                        <td>
+                        <td data-label="Actions">
                             <div 
                                 class="modal fade" 
                                 id="show{{ note.id }}" 

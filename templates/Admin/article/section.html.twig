@@ -2,7 +2,7 @@
 
 {% block show_tab %}
 	<div class="row">
-		<div class="col-md-6 col-lg-8">
+		<div class="col-md-6 col-lg-8 mb-2">
 			<div class="card border-top-primary">
 				<div class="card-header bg-white">
 					<h3 class="card-title h5 mb-0">Modifier ou ajouter une section</h4>
@@ -42,7 +42,7 @@
 					</div>
 				{% else %}
 					<div class="card-body table-responsive p-0 {{ article.sections|length > 6 ? 'scroll-y' : '' }}">
-						<table class="table table-striped mb-0">
+						<table class="table table-striped mb-0 table-section">
 							<tbody id="sections">
 								{% for section in article.sections %}
 									<tr class="handle" id="{{ section.id }}">

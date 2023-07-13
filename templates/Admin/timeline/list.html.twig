@@ -22,13 +22,12 @@
 
 {% block body %}
     <div class="card border-top-primary">
-        <div class="card-body card-show">
+        <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
                         <th class="table-id">Id</th>
                         <th>Titre</th>
-                        <th>Slug</th>
                         <th>Création</th>
                         <th>Mise à jour</th>
                         <th data-orderable="false">Actions</th>
@@ -37,18 +36,19 @@
                 <tbody>
                     {% for timeline in timelines %}
                         <tr>
-                            <td>
+                            <td data-label="Id">
                                 <a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}" class="fw-bold">{{timeline.id }}</a>
                             </td>
-                            <td>{{ timeline.title }}</td>
-                            <td>{{ timeline.slug }}</td>
-                            <td data-sort="{{ timeline.createdAt ? timeline.createdAt|date('Y-m-d H:i') : '' }}">
+                            <td data-label="Titre">
+                                {{ timeline.title }}
+                            </td>
+                            <td data-label="Création" data-sort="{{ timeline.createdAt ? timeline.createdAt|date('Y-m-d H:i') : '' }}">
                                 {{ timeline.createdAt|date(date_format) }}
                             </td>
-                            <td data-sort="{{ timeline.updatedAt ? timeline.updatedAt|date('Y-m-d H:i') : '' }}">
+                            <td data-label="Mise à jour" data-sort="{{ timeline.updatedAt ? timeline.updatedAt|date('Y-m-d H:i') : '' }}">
                                 {{ timeline.updatedAt ? timeline.updatedAt|date(date_format) : '' }}
                             </td>
-                            <td>
+                            <td data-label="Actions">
                                 <div class="btn-group">
                                     <a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
                                         <i class="fas fa-book-reader"></i>

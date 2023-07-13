@@ -22,7 +22,7 @@
 
 {% block body %}
     <div class="card border-top-primary">
-        <div class="card-body card-show">
+        <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
@@ -36,13 +36,13 @@
                 <tbody>
                     {% for articleType in articleTypes %}
                         <tr>
-                            <td>
+                            <td data-label="Id">
                                 <a href="#" class="fw-bold">{{articleType.id }}</a>
                             </td>
-                            <td>{{articleType.title }}</td>
-                            <td>{{articleType.slug }}</td>
-                            <td><i class="{{ articleType.icon }}" title="{{ articleType.icon }}"></i></td>
-                            <td>
+                            <td data-label="Titre">{{articleType.title }}</td>
+                            <td data-label="Slug">{{articleType.slug }}</td>
+                            <td data-label="Icône"><i class="{{ articleType.icon }}" title="{{ articleType.icon }}"></i></td>
+                            <td data-label="Actions">
                                 <div class="btn-group">
                                     <a href="{{ path('app_articletype_show', {slug: articleType.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
                                         <i class="fas fa-book-reader"></i>

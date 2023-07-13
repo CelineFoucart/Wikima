@@ -8,10 +8,10 @@
     <tbody id="{{ id }}">
         {% for element in elements|sort((a, b) => a.position <=> b.position) %}
             <tr class="sonata-ba-view-container handle" id="{{ element.id }}">
-                <td>
+                <td data-label="Titre">
                     <a href="{{ path(path,  {slug: element.slug}) }}">{{ element }}</a>
                 </td>
-                <td>
+                <td data-label="Description">
                     {{ element.description|u.truncate(80, '...', false) }}
                 </td>
             </tr>

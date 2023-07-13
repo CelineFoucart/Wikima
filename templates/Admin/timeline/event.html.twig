@@ -76,7 +76,7 @@
 
 {% block body %}
 	<div class="row">
-		<div class="col-md-6 col-lg-7">
+		<div class="col-md-6 col-lg-7 mb-2">
 			<div class="card border-top-primary">
 				<div class="card-header">
 					<h3 class="card-title h5 mb-0">Modifier ou ajouter un événement à "{{ timeline.title }}"</h3>
@@ -117,7 +117,7 @@
 					{% if timeline.events is empty %}
 						<p class="card-body">Aucun événement</p>
 					{% else %}
-						<table class="table table-striped mb-0">
+						<table class="table table-section table-striped mb-0">
 							<tbody id="events">
 								{% for event in timeline.events %}
 									<tr id="{{ event.id }}" class="handle">

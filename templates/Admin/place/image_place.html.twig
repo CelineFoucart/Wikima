@@ -67,11 +67,11 @@
 	{% if place.illustration is null %}
 		{{ include('Admin/components/_upload_image.html.twig') }}
 	{% else %}
-		<div class="card border-top-primary">
+		<div class="card border-top-primary mb-2">
 			<div class="card-header">
 				<h3 class="card-title h5 mb-0">Illustration du lieu</h3>
 			</div>
-			<div class="card-body table-responsive no-padding">
+			<div class="card-body card-show no-padding">
 				<table class="table">
 					<tbody>
 						<tr class="sonata-ba-view-container">
@@ -116,7 +116,7 @@
 		</div>
 	{% endif %}
 	<div class="row mt-3">
-		<aside class="col-md-4">
+		<aside class="col-md-4 mb-2">
 			<div class="card border-top-primary">
 				<div class="card-header">
 					<h3 class="card-title h5 mb-0">Recherche</h3>

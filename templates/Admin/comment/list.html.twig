@@ -13,7 +13,7 @@
 
 {% block body %}
     <div class="card border-top-primary">
-        <div class="card-body card-show">
+        <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
@@ -26,16 +26,16 @@
                 <tbody>
                     {% for comment in comments %}
                         <tr>
-                            <td>
+                            <td data-label="Auteur">
                                 {{ comment.author.username }}
                             </td>
-                            <td data-sort="{{ comment.createdAt|date('Y-m-d H:i') }}">
+                            <td data-label="Création" data-sort="{{ comment.createdAt|date('Y-m-d H:i') }}">
                                 {{ comment.createdAt|date(date_format) }}
                             </td>
-                            <td>
+                            <td data-label="Article">
                                 {{ comment.article.title }}
                             </td>
-                            <td>
+                            <td data-label="Actions">
                                 <div class="btn-group">            
                                     <a href="{{ path('admin_app_comment_show', {id: comment.id}) }}" class="btn btn-sm btn-default" title="Afficher">
                                         <i class="fas fa-eye" aria-hidden="true"></i>

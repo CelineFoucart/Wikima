@@ -22,7 +22,7 @@
 
 {% block body %}
     <div class="card border-top-primary">
-        <div class="card-body card-show">
+        <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
@@ -36,13 +36,13 @@
                 <tbody>
                     {% for place in places %}
                         <tr>
-                            <td>
+                            <td data-label="Id">
                                 <a href="{{ path('app_place_show', {slug: place.slug}) }}" class="fw-bold">{{place.id }}</a>
                             </td>
-                            <td>{{ place.title }}</td>
-                            <td>{{ place.slug }}</td>
-                            <td>{{ place.types|join(', ') }}</td>
-                            <td>
+                            <td data-label="Nom">{{ place.title }}</td>
+                            <td data-label="Slug">{{ place.slug }}</td>
+                            <td data-label="Type">{{ place.types|join(', ') }}</td>
+                            <td data-label="Actions">
                                 <div class="btn-group">
                                     <a href="{{ path('app_place_show', {slug: place.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
                                         <i class="fas fa-book-reader"></i>

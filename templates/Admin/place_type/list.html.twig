@@ -22,7 +22,7 @@
 
 {% block body %}
     <div class="card border-top-primary">
-        <div class="card-body card-show">
+        <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
@@ -35,12 +35,12 @@
                 <tbody>
                     {% for placeType in placeTypes %}
                         <tr>
-                            <td>
+                            <td data-label="Id">
                                 <a href="#" class="fw-bold">{{placeType.id }}</a>
                             </td>
-                            <td>{{placeType.title }}</td>
-                            <td>{{placeType.slug }}</td>
-                            <td>
+                            <td data-label="Titre">{{placeType.title }}</td>
+                            <td data-label="Slug">{{placeType.slug }}</td>
+                            <td data-label="Actions">
                                 <div class="btn-group">
                                     <a href="{{ path('app_place_type', {slug: placeType.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
                                         <i class="fas fa-book-reader"></i>

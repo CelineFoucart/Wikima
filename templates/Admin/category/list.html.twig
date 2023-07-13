@@ -22,13 +22,12 @@
 
 {% block body %}
     <div class="card border-top-primary">
-        <div class="card-body card-show">
+        <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
                         <th class="table-id">Id</th>
                         <th>Titre</th>
-                        <th>Slug</th>
                         <th>Création</th>
                         <th>Mise à jour</th>
                         <th data-orderable="false">Actions</th>
@@ -37,18 +36,19 @@
                 <tbody>
                     {% for category in categories %}
                         <tr>
-                            <td>
+                            <td data-label="Id">
                                 <a href="{{ path('app_category_show', {slug: category.slug}) }}" class="fw-bold">{{category.id }}</a>
                             </td>
-                            <td>{{ category.title }}</td>
-                            <td>{{ category.slug }}</td>
-                            <td data-sort="{{ category.createdAt ? category.createdAt|date('Y-m-d H:i') : '' }}">
+                            <td data-label="Titre">
+                                {{ category.title }}
+                            </td>
+                            <td data-label="Création" data-sort="{{ category.createdAt ? category.createdAt|date('Y-m-d H:i') : '' }}">
                                 {{ category.createdAt|date(date_format) }}
                             </td>
-                            <td data-sort="{{ category.updatedAt ? category.updatedAt|date('Y-m-d H:i') : '' }}">
+                            <td data-label="Mise à jour" data-sort="{{ category.updatedAt ? category.updatedAt|date('Y-m-d H:i') : '' }}">
                                 {{ category.updatedAt ? category.updatedAt|date(date_format) : '' }}
                             </td>
-                            <td>
+                            <td data-label="Actions">
                                 <div class="btn-group">
                                     <a href="{{ path('app_category_show', {slug: category.slug}) }}" class="btn btn-sm btn-default" title="Consulter">
                                         <i class="fas fa-book-reader"></i>
