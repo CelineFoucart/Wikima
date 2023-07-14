@@ -1,0 +1,13 @@
+{% extends 'installation/base.html.twig' %}
+
+{% block title %}Configurations{% endblock %}
+
+{% block body %}
+    <h2 class="border-bottom h4">Configuration</h2>
+    <p>
+        Renseignez les informations de configuration. Seuls les champs suivis d'une étoile sont obligatoires. 
+        Vous pourrez modifier à tout moment ces informations depuis la page de configuration de l'administration.
+    </p>
+
+    {% include "Admin/components/_settings_form.html.twig" %}
+{% endblock %}

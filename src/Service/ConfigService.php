@@ -20,7 +20,7 @@ class ConfigService
         'SMTP_USER' => '',
         'SMTP_PASSWORD' => '',
         'SMTP_HOST' => '',
-        'SMTP_PORT' => '',
+        'SMTP_PORT' => 587,
         'APP_ENV' => 'prod',
         'WIKI_FAVICON' => 'favicon.png',
         'WIKI_BANNER' => 'banner.png',
@@ -29,6 +29,8 @@ class ConfigService
         'BACKGROUND_COLOR' => "#f5f7fa80",
         'DATE_FORMAT' => "d/m/Y à H:i"
     ];
+
+    private bool $appendTo = false;
 
     public function __construct(private string $configFile, private string $publicDir)
     {
@@ -75,7 +77,7 @@ class ConfigService
         $smtpUser = isset($newData['SMTP_USER']) ? $newData['SMTP_USER'] : '';
         $smtpPassword = isset($newData['SMTP_PASSWORD']) ? $newData['SMTP_PASSWORD'] : '';
         $smtpHost = isset($newData['SMTP_HOST']) ? $newData['SMTP_HOST'] : '';
-        $smtpPort = isset($newData['SMTP_PORT']) ? $newData['SMTP_PORT'] : '';
+        $smtpPort = isset($newData['SMTP_PORT']) ? $newData['SMTP_PORT'] : 587;
 
         if (strlen($smtpUser) <= 1 || strlen($smtpPassword) <= 1 || strlen($smtpHost) <= 1 || strlen($smtpPort) <= 1) {
             return true;
@@ -203,11 +205,31 @@ class ConfigService
             }
         }
 
-        $status = file_put_contents($this->configFile, str_replace(
-            $key . '=' . $parts . $search . $parts,
-            $key . '=' . $parts . $value . $parts,
-            file_get_contents($this->configFile)
-        ));
+        if ($this->appendTo) {
+            $status = file_put_contents($this->configFile, $key . '=' . $parts . $value . $parts . "\n", FILE_APPEND);
+        } else {
+            $status = file_put_contents($this->configFile, str_replace(
+                $key . '=' . $parts . $search . $parts,
+                $key . '=' . $parts . $value . $parts,
+                file_get_contents($this->configFile)
+            ));
+        }
+
         return is_int($status);
+    }
+
+
+    /**
+     * Set the value of appendTo
+     *
+     * @param bool $appendTo
+     *
+     * @return self
+     */
+    public function setAppendTo(bool $appendTo): self
+    {
+        $this->appendTo = $appendTo;
+
+        return $this;
     }
 }

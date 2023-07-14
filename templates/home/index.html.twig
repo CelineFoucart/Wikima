@@ -28,13 +28,19 @@
 					<div class="h1 text-default">
 						<i class="fas fa-random" data-bs-toggle="tooltip" title="Un article au hasard"></i>
 					</div>
-					<h2 class="text-default fw-bold h4">{{ article.title }}</h2>
-					<p class="text-justify">{{ article.content|striptags|raw|u.truncate(250, ' [...]', false)|raw }}</p>
-					<p class="text-end mb-0">
-						<a href="{{ path('app_article_show', {slug: article.slug}) }}" class="btn btn-sm btn-default">
-							Voir plus <i class="ms-1 fas fa-external-link-alt" aria-hidden="true"></i>
-						</a>
-					</p>
+					<h2 class="text-default fw-bold h4">{{ article.title is defined ? article.title : 'Aucun article' }}</h2>
+					<p class="text-justify">
+						{% if article.content is defined %}
+							{{ article.content|striptags|raw|u.truncate(250, ' [...]', false)|raw }}</p>	
+							<p class="text-end mb-0">
+								<a href="{{ path('app_article_show', {slug: article.slug}) }}" class="btn btn-sm btn-default">
+									Voir plus <i class="ms-1 fas fa-external-link-alt" aria-hidden="true"></i>
+								</a>
+							</p>				
+						{% else %}
+							<p>Pour activer la fonctionnalité d'un article aléatoire, veuillez créer des articles.</p>
+						{% endif %}
+					
 				</aside>
 			</div>
 		</div>

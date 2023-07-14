@@ -1,0 +1,30 @@
+{% extends 'installation/base.html.twig' %}
+
+{% block title %}Base de données{% endblock %}
+
+{% block body %}
+    <h2 class="border-bottom h4">Configuration de la base de données</h2>
+    <p>
+        Créez une base de données, un utilisateur et un mot de passe, puis renseignez-les dans le formulaire ci-dessous.
+        Variable d'environnement qui sera sauvegardé dans le fichier de configuration :
+    </p>
+    <p class="text-center"> 
+        <code>mysql://<span id="user"></span>:<span id="password"></span>@<span id="host">localhost</span>:<span id="port">3306</span>/<span id="dbname">db_name</span>?serverVersion=<span id="version">mariadb-10.4.11</span></code>
+    </p>
+
+    {{ form_start(form) }}
+        {{ form_row(form.DB_NAME) }}
+        {{ form_row(form.DB_USER) }}
+        {{ form_row(form.DB_PASSWORD) }}
+        <div class="row">
+            <div class="col-md-4">{{ form_row(form.DB_HOST) }}</div>
+            <div class="col-md-4">{{ form_row(form.DB_PORT) }}</div>
+            <div class="col-md-4">{{ form_row(form.serverVersion) }}</div>
+        </div>
+        <button type="submit" class="btn btn-default">Enregistrer</button>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script>enableDatabaseHelper();</script>     
+{% endblock %}

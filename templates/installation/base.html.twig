@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ asset('assets/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
+	<link rel="stylesheet" href="{{ asset('assets/choicesjs/choices.min.css') }}"/>
+	<link rel="stylesheet" href="{{ asset('assets/fontawesome/css/all.min.css') }}"/>
+    {{ encore_entry_link_tags('app') }}
+    <title>{% block title %}{% endblock %} | Installation</title>
+</head>
+<body style="background-color: {{ background_color }}">
+    
+    <main class="container p-0 rounded bg-white border my-5 shadow-sm">
+        <header class="bg-default p-5 rounded-top">
+            <h1 class="display-1 text-center text-white">
+                Installation de {{ app_name }}
+            </h1>
+        </header>
+        <article class="p-4">
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
+            {% block body %} {% endblock %}
+        </article>
+    </main>
+
+    <script src="{{ asset('assets/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('assets/admin/installation.js') }}"></script>
+    {{ encore_entry_script_tags('app') }}
+    {% block javascripts %}
+        
+    {% endblock %}
+</body>
+</html>

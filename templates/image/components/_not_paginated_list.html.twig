@@ -2,6 +2,6 @@
 	{% for image in images %}
 		{% include "image/components/_thumbnail.html.twig" with {image:image} %}
 	{% else %}
-		<div class="mt-4 text-muted text-center">Il n'y a aucune image dans cette section.</div>
+		<div class="text-muted text-center w-100">Il n'y a aucune image dans cette section.</div>
 	{% endfor %}
 </div>

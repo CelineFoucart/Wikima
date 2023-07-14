@@ -1,0 +1,14 @@
+{% extends 'installation/base.html.twig' %}
+
+{% block title %}Compte administrateur{% endblock %}
+
+{% block body %}
+    <h2 class="border-bottom h4">Création du compte administrateur</h2>
+    {{ form_start(form) }}
+        {{ form_row(form.username) }}
+        {{ form_row(form.email) }}
+        {{ form_row(form.plainPassword) }}
+        <button type="submit" class="btn btn-default">Enregistrer</button>
+    {{ form_end(form) }}
+{% endblock %}
+

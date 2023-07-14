@@ -269,6 +269,12 @@ class ArticleRepository extends ServiceEntityRepository
         $stmt = $connection->prepare($sql);
         $result = $stmt->executeQuery();
 
-        return $result->fetchAssociative();
+        $article = $result->fetchAssociative();
+
+        if (!$article) {
+            return [];
+        }
+
+        return $article;
     }
 }

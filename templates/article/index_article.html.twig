@@ -13,7 +13,7 @@
 			<p class="w-75 m-auto pt-3 lh-lg text-muted">Ici, vous pouvez explorer l'ensemble des articles disponibles sur le site ou les filtrer.</p>
 		</header>
 
-		<div class="row justify-content-between mt-5">
+		<div class="row justify-content-between my-5">
 			<div class="col-md-4 mt-3">
 				{% include "components/layout/_advance_search_form.html.twig" %}
 			</div>
@@ -31,7 +31,9 @@
 							{% include "article/components/_card.html.twig" with {item: article} only %}
 						</div>
 					{% else %}
-						<div class="alert alert-danger">Votre recherche n'a rien donné</div>
+						<div class="col-12">
+							<p class="alert alert-danger">Votre recherche n'a donné aucun résultat</p>
+						</div>
 					{% endfor %}
 				</div>
 

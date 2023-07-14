@@ -119,6 +119,13 @@ final class AdminImageController extends AbstractAdminController
     public function downloadAction()
     {
         $uploadedDir = $this->getParameter('kernel.project_dir').'/public/uploads/';
+
+        if (!is_dir($uploadedDir)) {
+            $this->addFlash('error', "Il n'y a aucune image à télécharger");
+
+            return $this->redirectToRoute('admin_app_image_list');
+        }
+
         $finder = new Finder();
         $finder->files()->in($uploadedDir);
         $zip = new ZipArchive();
