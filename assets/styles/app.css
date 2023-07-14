@@ -17,6 +17,10 @@ a {
     color: #2870a7;
 }
 
+.nav-link {
+    color: #2870a7;
+}
+
 .accordion-button:not(.collapsed) {
     color: #2870a7;
     background-color: rgba(48, 135, 201, .1);
