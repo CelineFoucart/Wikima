@@ -283,7 +283,7 @@ h1 {
     overflow: visible;
     background-color: #222d32;
     font-size: 0.9rem;
-    z-index: 9999;
+    z-index: 9990;
 }
 
 .dashboard-nav::-webkit-scrollbar{
