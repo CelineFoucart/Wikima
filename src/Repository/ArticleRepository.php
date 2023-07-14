@@ -257,4 +257,18 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $builder->getQuery()->getOneOrNullResult();
     }
+
+    public function getRandomArticle(): array
+    {
+        $sql = "SELECT a.id, a.title, a.slug, a.description, a.content 
+            FROM article a
+            ORDER BY RAND ( )  
+            LIMIT 1";
+
+        $connection = $this->getEntityManager()->getConnection();
+        $stmt = $connection->prepare($sql);
+        $result = $stmt->executeQuery();
+
+        return $result->fetchAssociative();
+    }
 }

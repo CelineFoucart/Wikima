@@ -1,39 +1,26 @@
 <nav class="navbar navbar-expand-lg navbar-dark">
-	<a class="navbar-brand text-uppercase" href="{{ path('app_home') }}">{{ app_name }}</a>
+	<a class="navbar-brand text-uppercase" href="{{ path('app_home') }}"><i class="fas fa-home"></i></a>
 	<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	<div class="collapse navbar-collapse" id="navbarSupportedContent">
-		<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-			<li class="nav-item me-3 text-uppercase">
-				<a class="nav-link {{ active_link(app.request, 'app_home') }}" href="{{ path('app_home') }}">
-					Accueil
-				</a>
-			</li>
+		<ul class="navbar-nav">
 			<li class="nav-item dropdown me-3">
-				<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['article', 'comment','articletype', 'portal', 'category', 'page']) }}" href="#" id="pages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['person', 'place', 'timeline', 'article', 'comment','articletype', 'portal', 'category', 'page']) }}" href="#" id="pages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					Encyclopédie
 				</a>
 				<ul class="dropdown-menu" aria-labelledby="pages">
+					<li><h6 class="dropdown-header">Encyclopédie</h6></li>
 					<li>
 						<a class="dropdown-item" href="{{ path('app_article_index') }}">
 							Tous les articles
 						</a>
+					</li>
+					<li>
 						<a class="dropdown-item" href="{{ path('app_articletype_index') }}">
 							Types d'article
 						</a>
 					</li>
-					<li><hr class="dropdown-divider"></li>
-					<li><h6 class="dropdown-header">Catégories</h6></li>
-					{{ get_categories() }}
-					{{ get_pages() }}
-				</ul>
-			</li>
-			<li class="nav-item dropdown me-3">
-				<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['person', 'image', 'place', 'timeline']) }}" href="#" id="gallery" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-					Galeries
-				</a>
-				<ul class="dropdown-menu" aria-labelledby="gallery">
 					<li>
 						<a class="dropdown-item" href="{{ path('app_timeline_index') }}">
 							Chronologies
@@ -48,14 +35,16 @@
 						<a class="dropdown-item" href="{{ path('app_place_index') }}">
 							Lieux
 						</a>
-					</li>
-					<li>
-						<a class="dropdown-item" href="{{ path('app_image_index') }}">
-							Images
-						</a>
-					</li>
+					</li>				
+					{{ get_pages() }}
 				</ul>
 			</li>
+			<li class="nav-item me-3 text-uppercase">
+				<a class="nav-link {{ active_links(app.request, ['image']) }}" href="{{ path('app_image_index') }}">
+					Galerie
+				</a>
+			</li>
+
 			{% if is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN') %}
 				<li class="nav-item dropdown me-3">
 					<a class="nav-link dropdown-toggle text-uppercase" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -78,9 +67,8 @@
 				</li>
 			{% endif %}
 			<li class="nav-item dropdown">
-				<a class=" text-uppercase btn btn-outline-light dropdown-toggle" href="#" id="account" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-					<i class="fas fa-user me-1"></i>
-					{{ app.user ? app.user.username : 'Compte' }}
+				<a class="nav-link text-uppercase dropdown-toggle {{ active_link(app.request, 'app_profile') }}" href="#" id="account" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					{{ app.user and app.user.username is defined ? app.user.username : 'Compte' }}
 				</a>
 				<ul class="dropdown-menu" aria-labelledby="account">
 					{% if app.user %}
@@ -112,5 +100,22 @@
 				</ul>
 			</li>
 		</ul>
+		<div class="ms-auto">
+			<li class="nav-item dropdown me-3">
+				<a class="btn btn-outline-light text-uppercase dropdown-toggle" href="#" id="gallery" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+					<i class="fas fa-search me-1 fa-fw"></i>
+					Explorer
+				</a>
+				<div class="dropdown-menu dropdown-menu-end" aria-labelledby="gallery">
+					<div class="dropdown-item">
+						<input type="text" class="form-control" placeholder="Rechercher" id="searchable-dropdown-input">
+					</div>
+					<hr class="dropdown-divider mb-0">
+					<div class="searchable-dropdown pt-1" id="searchable-dropdown">
+						{{ get_categories() }}
+					</div>
+				</div>
+			</li>
+		</div>
 	</div>
 </nav>

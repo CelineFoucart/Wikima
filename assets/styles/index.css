@@ -36,7 +36,22 @@
     font-size: 1.04rem;
 }
 
-@media (min-width:768px) {
+.random-card {
+    border-left: 3px solid var(--secondary);
+    background-color: rgba(48, 135, 201, .1);
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    margin-right: 3rem;
+    margin-left: 40px;
+}
+
+
+@media (min-width:992px) {
+    .random-card {
+        margin-left: 0;
+    }
     .overview__content {
         padding-left: 60px;
         padding-right: 0px;
@@ -69,4 +84,10 @@
 .article-link:hover {
     color: var(--secondary);
     border-color: var(--secondary);
+}
+
+
+.searchable-dropdown {
+    overflow-y: scroll;
+    max-height: 300px;
 }

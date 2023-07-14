@@ -62,21 +62,12 @@ class PagesExtension extends AbstractExtension
 
         foreach ($categories as $category) {
             $path =  $this->urlGenerator->generate('app_category_show', ["slug" => $category->getSlug()]);
-            $html .= '<li><a class="dropdown-item" href="'.$path.'">' . $category . '</a>';
+            $html .= '<div class="search-item"><a class="dropdown-item fw-bold" href="'.$path.'"><i class="fas fa-folder me-1"></i>' . $category . '</a></div>';
 
-            if (!$category->getPortals()->isEmpty()) {
-                $html .= '<ul class="dropdown-menu dropdown-submenu">';
-
-                foreach ($category->getPortals() as $portal) {
-                    $portalPath =  $this->urlGenerator->generate('app_portal_show', ["slug" => $portal->getSlug()]);
-                    $html .= '<li><a class="dropdown-item" href="'.$portalPath.'">'.$portal->getTitle().'</a></li>';
-                }
-                $html .= '</ul>';
-            } else {
-                $html .= '</a>';
+            foreach ($category->getPortals() as $portal) {
+                $portalPath =  $this->urlGenerator->generate('app_portal_show', ["slug" => $portal->getSlug()]);
+                $html .= '<div class="search-item"><a class="dropdown-item" href="'.$portalPath.'"><i class="fas fa-tag me-1"></i>'.$portal->getTitle().'</a></div>';
             }
-            
-            $html .= '</li>';
         }
 
         return $html;

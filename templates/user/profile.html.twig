@@ -26,11 +26,11 @@
 				<div id="stats" class="accordion-collapse collapse show" aria-labelledby="stats-heading">
 					<div class="accordion-body">
 						<dl class="row">
-							<dt class="col-sm-3">Date d'inscription</dt>
-							<dd class="col-sm-9">{{ user.createdAt|date(date_format) }}</dd>
+							<dt class="col-md-3">Date d'inscription</dt>
+							<dd class="col-md-9">{{ user.createdAt|date(date_format) }}</dd>
 
-							<dt class="col-sm-3">Mes contributions</dt>
-							<dd class="col-sm-9">
+							<dt class="col-md-3">Mes contributions</dt>
+							<dd class="col-md-9">
 								<a href="{{ path('app_profile_comments') }}">rechercher mes commentaires</a>
 								{% if is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN') %}
 									<br>

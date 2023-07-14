@@ -17,10 +17,10 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ user.username }}</td>
-                    <td>{{ format_roles(user.roles) }}</td>
-                    <td>{{ user.articles|length }}</td>
-                    <td>{{ user.comments|length }}</td>
+                    <td data-label="Pseudo">{{ user.username }}</td>
+                    <td data-label="Roles">{{ format_roles(user.roles) }}</td>
+                    <td data-label="Articles publiés">{{ user.articles|length }}</td>
+                    <td data-label="Commentaires postés">{{ user.comments|length }}</td>
                 </tr>
             </tbody>
         </table>

@@ -4,6 +4,30 @@
     --secondary-light: #F3FAFE;
 }
 
+a {
+    color: #2870a7;
+}
+
+.page-item.active .page-link {
+    background-color: #2870a7;
+    border-color: #2870a7;
+}
+
+.page-link {
+    color: #2870a7;
+}
+
+.accordion-button:not(.collapsed) {
+    color: #2870a7;
+    background-color: rgba(48, 135, 201, .1);
+}
+
+.dropdown-item.active, .dropdown-item:active {
+    color: #fff;
+    text-decoration: none;
+    background-color: var(--secondary);
+}
+
 #content-page {
     display: flex;
     flex-direction: column;

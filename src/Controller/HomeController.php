@@ -19,12 +19,10 @@ use Symfony\Component\Routing\Annotation\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(CategoryRepository $categoryRepository, AboutRepository $aboutRepository): Response
+    public function index(ArticleRepository $articleRepository, AboutRepository $aboutRepository): Response
     {
-        $categories = $categoryRepository->findBy([], ['title' => 'ASC']);
-
         return $this->render('home/index.html.twig', [
-            'categories' => $categories,
+            'article' => $articleRepository->getRandomArticle(),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'overview' => $aboutRepository->findAboutRow('overview'),
         ]);
