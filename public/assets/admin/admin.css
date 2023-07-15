@@ -532,7 +532,7 @@ table.dataTable.table-striped>tbody>tr.odd>* {
 
 .table tr {
     display: block;
-    margin: 10px;
+    margin: 10px 0;
     border-top: 1px solid rgb(222, 226, 230);
     border-left: 1px solid rgb(222, 226, 230);
     border-right: 1px solid rgb(222, 226, 230);
