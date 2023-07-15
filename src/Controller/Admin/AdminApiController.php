@@ -170,7 +170,7 @@ class AdminApiController extends AbstractController
             'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
             'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
             "data" => $articleRepository->searchPaginatedItems($parameters),
-            'recordsTotal' => $articleRepository->count([]),
+            'recordsTotal' => $articleRepository->countSearchTotal($parameters),
         ];
 
         return $this->json($data, 200, [], ['groups' => 'index']);
@@ -185,7 +185,7 @@ class AdminApiController extends AbstractController
             'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
             'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
             "data" => $personRepository->searchPaginatedItems($parameters),
-            'recordsTotal' => $personRepository->count([]),
+            'recordsTotal' => $personRepository->countSearchTotal($parameters),
         ];
 
         return $this->json($data, 200, [], ['groups' => 'index']);
@@ -200,7 +200,7 @@ class AdminApiController extends AbstractController
             'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
             'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
             "data" => $placeRepository->searchPaginatedItems($parameters),
-            'recordsTotal' => $placeRepository->count([]),
+            'recordsTotal' => $placeRepository->countSearchTotal($parameters),
         ];
         
         return $this->json($data, 200, [], ['groups' => 'index']);
