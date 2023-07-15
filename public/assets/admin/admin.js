@@ -244,12 +244,6 @@ elements.forEach(element => {
     });
 });
 
-// document.body.style.width = window.screen.width + 'px';
-
-// addEventListener("resize", (event) => {
-//     document.body.style.width = window.screen.width + 'px';
-// });
-
 $(document).ready(function () {
     $(".dashboard-nav-dropdown-toggle").click(function (e) {
         e.preventDefault();
