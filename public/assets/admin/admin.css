@@ -153,21 +153,6 @@ img {
     display: block;
 }
 
-@media (min-width: 768px) {
-    .stats-table th {
-        width: 40%;
-        text-align: right;
-    }
-
-    .card-show th {
-        display: table-cell;
-    }
-
-    .card-show th {
-        width: 180px;
-    }
-}
-
 .card-stats {
     background: #0073b7;
     color: #fff;
@@ -530,10 +515,145 @@ h1 {
 }
 
 .w-10 {
-    width:10%;
+    width:auto;
+}
+
+.table thead {
+    display: none;
+}
+
+table.dataTable.table-striped>tbody>tr.odd>* {
+    box-shadow: none !important;
+}
+
+.table>:not(caption)>*>* {
+    box-shadow: none !important;
+}
+
+.table tr {
+    display: block;
+    margin: 10px;
+    border-top: 1px solid rgb(222, 226, 230);
+    border-left: 1px solid rgb(222, 226, 230);
+    border-right: 1px solid rgb(222, 226, 230);
+    box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.05);
+}
+
+.table td {
+    display: flex;
+}
+
+.stats-table td, .stats-table th, .card-show td, .stats-show th  {
+    display: block;
+}
+
+.stats-table th, .stats-table td {
+    text-align: center;
+}
+
+
+.table td::before {
+    content: attr(data-label) " ";
+    display: inline-block;
+    font-weight: bold;
+    min-width: 100px;
+    max-width: 100px;
+    text-align: left !important;
+}
+
+.stats-table td::before, .card-show td::before  {
+    display: none;
+}
+
+.dataTables_filter {
+    margin-top: 5px;
+}
+
+.table-section td {
+    display: block;
+}
+
+.table-section td::before {
+    display: none;
+}
+
+.pagination {
+    flex-wrap: wrap;
 }
 
 @media only screen and (min-device-width: 768px) {
+    .stats-table th {
+        width: 40%;
+        text-align: right;
+    }
+
+    .card-show th {
+        display: table-cell;
+    }
+
+    .card-show th {
+        width: 180px;
+    }
+    
+    table.dataTable.table-striped>tbody>tr.odd>* {
+        box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.05);
+    }
+
+    .table>:not(caption)>*>* {
+        box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.05);
+    }
+    
+    .table tr {
+        display: table-row;
+        margin: 0;
+        border-top: none;
+        border-left: none;
+        border-right:none;
+        box-shadow: none;
+    }
+    
+    .table td {
+        display: table-cell;
+    }
+
+    .stats-table td, .stats-table th, .card-show td, .stats-show th  {
+        display: table-cell;
+    }
+
+    .stats-table th {
+        text-align: right;
+    }
+
+    .stats-table td {
+        text-align: left;
+    }
+
+
+    .table td::before {
+        content: " ";
+        display: none;
+    }
+
+    .dataTables_filter {
+        margin-top: 5px;
+    }
+
+    .table-section td {
+        display: table-cell;
+    }
+
+    .table-section td::before {
+        display: none;
+    }
+    
+    .table thead {
+        display: table-header-group;
+    }
+
+    .w-10 {
+        width:10%;
+    }
+
     .dashboard-nav-dropdown.show > .dashboard-nav-dropdown-menu {
         display: flex;
         overflow: visible;
@@ -576,74 +696,5 @@ h1 {
 
     .dashboard-nav-item span {
         display: inline-block;
-    }
-}
-
-@media (max-width:768px) {
-    .w-10 {
-        width:auto;
-    }
-
-    .table thead {
-        display: none;
-    }
-
-    table.dataTable.table-striped>tbody>tr.odd>* {
-        box-shadow: none !important;
-    }
-
-    .table>:not(caption)>*>* {
-        box-shadow: none !important;
-    }
-    
-    .table tr {
-        display: block;
-        margin: 10px;
-        border-top: 1px solid rgb(222, 226, 230);
-        border-left: 1px solid rgb(222, 226, 230);
-        border-right: 1px solid rgb(222, 226, 230);
-        box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.05);
-    }
-    
-    .table td {
-        display: flex;
-    }
-
-    .stats-table td, .stats-table th, .card-show td, .stats-show th  {
-        display: block;
-    }
-
-    .stats-table th, .stats-table td {
-        text-align: center;
-    }
-
-
-    .table td::before {
-        content: attr(data-label) " ";
-        display: inline-block;
-        font-weight: bold;
-        min-width: 100px;
-        max-width: 100px;
-        text-align: left !important;
-    }
-
-    .stats-table td::before, .card-show td::before  {
-        display: none;
-    }
-
-    .dataTables_filter {
-        margin-top: 5px;
-    }
-
-    .table-section td {
-        display: block;
-    }
-
-    .table-section td::before {
-        display: none;
-    }
-
-    .pagination {
-        flex-wrap: wrap;
     }
 }
