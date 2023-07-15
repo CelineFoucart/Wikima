@@ -540,7 +540,7 @@ table.dataTable.table-striped>tbody>tr.odd>* {
 }
 
 .table td {
-    display: flex;
+    display: block;
 }
 
 .stats-table td, .stats-table th, .card-show td, .stats-show th  {
@@ -554,10 +554,8 @@ table.dataTable.table-striped>tbody>tr.odd>* {
 
 .table td::before {
     content: attr(data-label) " ";
-    display: inline-block;
+    display: block;
     font-weight: bold;
-    min-width: 100px;
-    max-width: 100px;
     text-align: left !important;
 }
 
@@ -583,6 +581,18 @@ table.dataTable.table-striped>tbody>tr.odd>* {
 
 div.dataTables_wrapper div.dataTables_filter input {
     display: block;
+}
+
+@media (min-width: 400px) {
+    .table td::before {
+        display: inline-block;
+        min-width: 120px;
+        max-width: 120px;
+    }
+
+    .table td {
+        display: flex;
+    }
 }
 
 @media only screen and (min-device-width: 768px) {
