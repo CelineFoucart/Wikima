@@ -57,20 +57,20 @@ class StatisticsExtension extends AbstractExtension
                 dans <strong>{$stats['category']}</strong> catégorie{$pluralCat} et <strong>{$stats['portal']}</strong> portail{$pluralPort} 
                 les <strong>{$total}</strong> élément{$plural} suivants :
             </p>
-            <p class="d-flex justify-content-between mx-5 text-center">
-                <span>
+            <p class="d-flex flex-wrap justify-content-between mx-5 text-center">
+                <span class="px-1">
                     <span class="fw-bold fs-5">{$stats['article']}</span> <br> 
                     article{$pluralArt}
                 </span>
-                <span>
+                <span class="px-1">
                     <span class='fw-bold fs-5'>{$stats['image']}</span> <br>
                     image{$pluralIm} 
                 </span>
-                <span>
+                <span class="px-1">
                     <span class="fw-bold fs-5">{$stats['place']}</span> <br>
                     lieu{$pluralPl} 
                 </span>
-                <span>
+                <span class="px-1">
                     <span class="fw-bold fs-5">{$stats['person']}</span> <br>
                     personnage{$pluralPe}
                 </span>
