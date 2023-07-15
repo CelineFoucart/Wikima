@@ -14,7 +14,8 @@ final class DataFilterService
         return [
             'limit' => $limit,
             'direction' => $direction,
-            'orderBy' => $orderBy
+            'orderBy' => $orderBy,
+            'start' => isset($parameters['start']) ? $parameters['start'] : 0
         ];
     }
 }
