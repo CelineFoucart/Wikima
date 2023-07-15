@@ -581,7 +581,14 @@ table.dataTable.table-striped>tbody>tr.odd>* {
     flex-wrap: wrap;
 }
 
+div.dataTables_wrapper div.dataTables_filter input {
+    display: block;
+}
+
 @media only screen and (min-device-width: 768px) {
+    div.dataTables_wrapper div.dataTables_filter input {
+        display: inline-block;
+    }
     .stats-table th {
         width: 40%;
         text-align: right;
