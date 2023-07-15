@@ -418,10 +418,8 @@ h1 {
     position: relative;
     width: 42px;
     height: 42px;
-    display: -ms-flexbox;
     display: flex;
     align-items: center;
-    -ms-flex-pack: center;
     justify-content: center;
     color: #443ea2;
 }
@@ -455,51 +453,7 @@ h1 {
     display: inline;
 }
 
-@media (min-width: 768px) {
-    .dashboard-nav-dropdown.show > .dashboard-nav-dropdown-menu {
-        display: flex;
-        overflow: visible;
-        z-index: 9999;
-    }
 
-    .dashboard-nav-dropdown-menu {
-        display: none;
-        flex-direction: column;
-        position: static;
-        top: 0;
-        z-index: auto;
-    }
-
-    .dashboard-nav-item {
-        padding: 8px 20px 8px 55px;
-    }
-
-    .dashboard-nav-dropdown-item:hover {
-        background: rgba(255, 255, 255, 0.04);
-        color: #fff;
-    }
-
-    .navbar-brand {
-        width: 220px;
-    }
-    
-    .navbar-brand span {
-        display: inline-block;
-    }
-
-    .dashboard-nav {
-        width: 230px;
-        padding: 1rem 0;
-    }
-
-    .wrapper {
-        margin-left: 230px;
-    }
-
-    .dashboard-nav-item span {
-        display: inline-block;
-    }
-}
 
 /* sortable style */
 .handle {
@@ -577,6 +531,52 @@ h1 {
 
 .w-10 {
     width:10%;
+}
+
+@media only screen and (min-device-width: 768px) {
+    .dashboard-nav-dropdown.show > .dashboard-nav-dropdown-menu {
+        display: flex;
+        overflow: visible;
+        z-index: 9999;
+    }
+
+    .dashboard-nav-dropdown-menu {
+        display: none;
+        flex-direction: column;
+        position: static;
+        top: 0;
+        z-index: auto;
+    }
+
+    .dashboard-nav-item {
+        padding: 8px 20px 8px 55px;
+    }
+
+    .dashboard-nav-dropdown-item:hover {
+        background: rgba(255, 255, 255, 0.04);
+        color: #fff;
+    }
+
+    .navbar-brand {
+        width: 220px;
+    }
+    
+    .navbar-brand span {
+        display: inline-block;
+    }
+
+    .dashboard-nav {
+        width: 230px;
+        padding: 1rem 0;
+    }
+
+    .wrapper {
+        margin-left: 230px;
+    }
+
+    .dashboard-nav-item span {
+        display: inline-block;
+    }
 }
 
 @media (max-width:768px) {
