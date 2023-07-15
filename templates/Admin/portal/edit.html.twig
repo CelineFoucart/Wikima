@@ -14,43 +14,26 @@
 		</a>
 	</li>
 	<li class="breadcrumb-item active">
-		{{ portal }}
+		Editer
 	</li>
 {% endblock %}
 
 {% block toolbar %}
-	<div class="dropdown d-inline">
-        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            Action
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_portal_create') }}">
-                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                    Ajouter
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('app_portal_show', {slug: portal.slug}) }}">
-                    <i class="fas fa-book-reader"></i>
-                    Consulter
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_portal_show', {id: portal.id}) }}">
-                    <i class="fas fa-eye"></i>
-                    Afficher
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_portal_list') }}">
-                    <i class="fas fa-list" aria-hidden="true"></i>
-                    Retour à la liste
-                </a>
-            </li>
-        </ul>
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_portal_create') }}" data-bs-toggle="tooltip" title="Ajouter">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+    </a>
+    <div class="btn-group">
+        <a href="{{ path('app_portal_show', {slug: portal.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+            <i class="fas fa-book-reader"></i>
+        </a>                   
+        <a href="{{ path('admin_app_portal_show', {id: portal.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+            <i class="fas fa-info-circle"></i>
+        </a>
+        <a href="{{ path('admin_app_portal_edit', {id: portal.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+        </a>
+        {% include "Admin/components/_delete_modal.html.twig" with { element: portal, path: 'admin_app_portal_delete' } %}
     </div>
-    {% include "Admin/components/_delete_modal.html.twig" with { element: portal, path: 'admin_app_portal_delete', full: true } %}
 {% endblock %}
 
 {% block body %}

@@ -25,6 +25,110 @@
 {% endblock %}
 
 {% block body %}
-    {% include "Admin/article/_index.html.twig" %}
+    <div class="card border-top-primary">
+        <div class="card-body p-1">
+            <table class="table mb-0 table-striped" id="tableIndex">
+                <thead>
+                    <tr>
+                        <th class="table-id">Id</th>
+                        <th>Titre</th>
+                        <th>Mots clés</th>
+                        <th>Portail</th>
+                        <th>Auteur</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        const articleRoute = "{{ path('api_article_index') }}";
+        const currentUserId = {{ app.user.id }};
+        const isAdmin = {{ is_granted('ROLE_ADMIN') }};
+
+
+        $('#tableIndex').DataTable({
+            language: {
+                url: '/assets/DataTables/i18n/fr-FR.json',
+            },
+            processing: true,
+            serverSide: true,
+            paging:true,
+            info: true,
+            autoWidth: false,
+            ajax: articleRoute,
+            columns: [
+                { 
+                    data: "id", 
+                    name:"a.id", 
+                    render: function (data, type, row) {
+                        return `
+                            <a href="/articles/${row.slug}" class="fw-bold">${row.id}</a>
+                        `;
+                    }
+                },
+                { data: "title", name:"a.title" },
+                { data: "keywords", name:"a.keywords" },
+                { 
+                    data: "portals", 
+                    name:"a.portals",
+                    render: function ( data, type, row ) {
+                        let portals = '';
+                        row.portals.forEach(element => {
+                            portals += `<a href="/portal/${element.slug}">${element.title}</a>`
+                        });
+                        return `<div class="container-list">${portals}</div>`;
+                    }
+                },
+                { 
+                    data: "author", 
+                    name:"a.author",
+                    render: function ( data, type, row ) {
+                        return `${data.username}`;
+                    }
+                },
+                { 
+                    data: "actions", 
+                    name: null,
+                    render: function ( data, type, row ) {
+                        let editActions = "";
+
+                        if (isAdmin || currentUserId === data.author.id) {
+                            editActions = `
+                                <a href="/admin/article/${row.id}/edit" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                </a>
+                            `;
+                        }
+
+                        return `
+                            <div class="btn-group">
+                                <a href="/article/${row.slug}/show" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+                                    <i class="fas fa-book-reader"></i>
+                                </a>
+                                <a href="/admin/article/${row.id}/show" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                ${editActions}
+                            </div>
+                        `;
+                    }
+                },
+            ],
+            createdRow: function( row, data, dataIndex ) {
+                $( row ).find('td:eq(0)').attr('data-label', 'Id');
+                $( row ).find('td:eq(1)').attr('data-label', 'Titre');
+                $( row ).find('td:eq(2)').attr('data-label', 'Mots clés');
+                $( row ).find('td:eq(3)').attr('data-label', 'Portail');
+                $( row ).find('td:eq(4)').attr('data-label', 'Auteur');
+                $( row ).find('td:eq(5)').attr('data-label', 'Actions');
+            }
+        });
+    </script>
 {% endblock %}
 

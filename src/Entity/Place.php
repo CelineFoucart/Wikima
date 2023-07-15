@@ -101,6 +101,7 @@ class Place
     private Collection $places;
 
     #[ORM\ManyToMany(targetEntity: PlaceType::class, inversedBy: 'places')]
+    #[Groups(['index'])]
     private Collection $types;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]

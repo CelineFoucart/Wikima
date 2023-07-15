@@ -42,9 +42,7 @@ final class AdminArticleController extends AbstractAdminController
     #[Route('/', name: 'admin_app_article_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('Admin/article/list.html.twig', [
-            'articles' => $this->articleRepository->findForAdminList(),
-        ]);
+        return $this->render('Admin/article/list.html.twig');
     }
 
     #[Route('/archive', name: 'admin_app_article_archive_index', methods:['GET'])]

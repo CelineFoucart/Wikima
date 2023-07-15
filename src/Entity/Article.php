@@ -61,15 +61,19 @@ class Article
     private $content;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['index'])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Groups(['index'])]
     private $updatedAt;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'articles')]
+    #[Groups(['index'])]
     private $author;
 
     #[ORM\ManyToMany(targetEntity: Portal::class, inversedBy: 'articles')]
+    #[Groups(['index'])]
     private $portals;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class, orphanRemoval: true)]

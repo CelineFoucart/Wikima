@@ -22,55 +22,32 @@
 		</a>
 	</li>
 	<li class="breadcrumb-item active">
-		{{ article }}
+		Voir
 	</li>
 {% endblock %}
 
 {% set can_edit = can_access(app.user, article) %}
 
 {% block toolbar %}
-	<div class="dropdown">
-        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            Action
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_article_create') }}">
-                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                    Ajouter
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('app_article_show', {slug: article.slug}) }}">
-                    <i class="fas fa-book-reader"></i>
-                    Consulter
-                </a>
-            </li>
-            {% if can_edit %}
-                <li>
-                    <a href="{{ path('admin_app_article_section', {id: article.id}) }}" class="dropdown-item" title="Gérer les section">
-                        <i class="fas fa-clone"></i> Sections
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="{{ path('admin_app_article_gallery', {id: article.id}) }}">
-                        <i class="fa fa-image" aria-hidden="true"></i> Galerie 
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="{{ path('admin_app_article_edit', {id: article.id}) }}">
-                        <i class="fas fa-edit" aria-hidden="true"></i>
-                        Editer
-                    </a>
-                </li>
-            {% endif %}
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_article_list') }}">
-                    <i class="fas fa-list" aria-hidden="true"></i>
-                    Retour à la liste
-                </a>
-            </li>
-        </ul>
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_article_create') }}" data-bs-toggle="tooltip" title="Ajouter">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+    </a>
+    <div class="btn-group">
+        {% set can_edit = can_access(app.user, article) %}
+
+        <a href="{{ path('app_article_show', {slug: article.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+            <i class="fas fa-book-reader"></i>
+        </a>                   
+        <a href="{{ path('admin_app_article_show', {id: article.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+            <i class="fas fa-info-circle"></i>
+        </a>
+        {% if can_edit %}
+            <a href="{{ path('admin_app_article_edit', {id: article.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+                <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+            </a>
+            {% include "Admin/components/_archive_modal.html.twig" with { element: article, path: 'admin_app_article_archive' } %}
+            {% include "Admin/components/_delete_modal.html.twig" with { element: article, path: 'admin_app_article_delete' } %}
+        {% endif %}
     </div>
 {% endblock %}
 

@@ -19,36 +19,20 @@
 {% endblock %}
 
 {% block toolbar %}
-	<div class="dropdown">
-        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-            Action
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_image_create') }}">
-                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                    Ajouter
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('app_image_show', {slug: image.slug}) }}">
-                    <i class="fas fa-book-reader"></i>
-                    Consulter
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_image_edit', {id: image.id}) }}">
-                    <i class="fas fa-edit" aria-hidden="true"></i>
-                    Editer
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_image_list') }}">
-                    <i class="fas fa-list" aria-hidden="true"></i>
-                    Retour à la liste
-                </a>
-            </li>
-        </ul>
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_image_create') }}" data-bs-toggle="tooltip" title="Ajouter">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+    </a>
+    <div class="btn-group">
+        <a href="{{ path('app_image_show', {slug: image.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+            <i class="fas fa-book-reader"></i>
+        </a>                   
+        <a href="{{ path('admin_app_image_show', {id: image.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+            <i class="fas fa-info-circle"></i>
+        </a>
+        <a href="{{ path('admin_app_image_edit', {id: image.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+        </a>
+        {% include "Admin/components/_delete_modal.html.twig" with { element: image, path: 'admin_app_image_delete' } %}
     </div>
 {% endblock %}
 

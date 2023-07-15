@@ -142,7 +142,7 @@ img {
 }
 
 .card-show {
-    padding: 0;
+    padding: 5px;
 }
 
 .card-show ul {
@@ -596,6 +596,10 @@ div.dataTables_wrapper div.dataTables_filter input {
 }
 
 @media only screen and (min-device-width: 768px) {
+    .card-show {
+        padding: 0;
+    }
+    
     div.dataTables_wrapper div.dataTables_filter input {
         display: inline-block;
     }
@@ -627,6 +631,10 @@ div.dataTables_wrapper div.dataTables_filter input {
         border-left: none;
         border-right:none;
         box-shadow: none;
+    }
+
+    .table-striped>tbody>tr:nth-of-type(odd) {
+        box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.05);
     }
     
     .table td {

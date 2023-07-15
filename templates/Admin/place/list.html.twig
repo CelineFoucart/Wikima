@@ -25,6 +25,94 @@
 {% endblock %}
 
 {% block body %}
-    {% include "Admin/place/_index.html.twig" %}
+    <div class="card border-top-primary">
+        <div class="card-body p-1">
+            <table class="table mb-0 table-striped" id="tableIndex">
+                <thead>
+                    <tr>
+                        <th class="table-id">Id</th>
+                        <th>Nom</th>
+                        <th>Slug</th>
+                        <th>Type</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        const placeRoute = "{{ path('api_place_index') }}";
+
+        $('#tableIndex').DataTable({
+            language: {
+                url: '/assets/DataTables/i18n/fr-FR.json',
+            },
+            processing: true,
+            serverSide: true,
+            paging:true,
+            info: true,
+            autoWidth: false,
+            ajax: placeRoute,
+            columns: [
+                { 
+                    data: "id", 
+                    name:"p.id", 
+                    render: function (data, type, row) {
+                        return `
+                            <a href="/place/${row.slug}" class="fw-bold">${row.id}</a>
+                        `;
+                    }
+                },
+                { data: "title", name:"pl.title" },
+                { data: "slug", name:"pl.slug" },
+                { 
+                    data: "types", 
+                    name:"pl.types",
+                    render: function ( data, type, row ) {
+                        let types = [];
+                        row.types.forEach(element => {
+                            types.push(element.title)
+                        });
+                        return types.join(', ');
+                    }
+                },
+                { 
+                    data: "actions", 
+                    name: null,
+                    render: function ( data, type, row ) {
+
+                        return `
+                            <div class="btn-group">
+                                <a href="/place/${row.slug}/show" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+                                    <i class="fas fa-book-reader"></i>
+                                </a>
+                                <a href="/admin/place/${row.id}/show" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                <a href="/admin/place/${row.id}/image" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+                                    <i class="fas fa-image"></i>
+                                </a>
+                                <a href="/admin/place/${row.id}/edit" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        `;
+                    }
+                },
+            ],
+            createdRow: function( row, data, dataIndex ) {
+                $( row ).find('td:eq(0)').attr('data-label', 'Id');
+                $( row ).find('td:eq(1)').attr('data-label', 'Nom');
+                $( row ).find('td:eq(2)').attr('data-label', 'Slug');
+                $( row ).find('td:eq(3)').attr('data-label', 'Type');
+                $( row ).find('td:eq(4)').attr('data-label', 'Actions');
+            }
+        });
+    </script>
 {% endblock %}
 

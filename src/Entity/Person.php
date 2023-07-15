@@ -42,6 +42,7 @@ class Person
         min: 1,
         max: 255
     )]
+    #[Groups(['index'])]
     private $fullname;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -55,6 +56,7 @@ class Person
         min: 1,
         max: 255
     )]
+    #[Groups(['index'])]
     private $nationality;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -69,6 +71,7 @@ class Person
         min: 1,
         max: 255
     )]
+    #[Groups(['index'])]
     private $birthday;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -83,6 +86,7 @@ class Person
         min: 1,
         max: 255
     )]
+    #[Groups(['index'])]
     private $deathDate;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
@@ -136,6 +140,7 @@ class Person
     private $image;
 
     #[ORM\ManyToMany(targetEntity: PersonType::class, inversedBy: 'people')]
+    #[Groups(['index'])]
     private Collection $type;
 
     #[ORM\Column(nullable: true)]

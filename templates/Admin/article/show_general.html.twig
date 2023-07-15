@@ -79,7 +79,7 @@
                                     {{ article.author ? article.author.username : '' }}
 
                                     {% if is_granted('ROLE_ADMIN') %}
-                                        <button type="button" class="btn btn-primary btn-sm float-end" data-bs-toggle="tooltip" title="Modifier" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                        <button type="button" class="btn btn-primary btn-sm float-end" title="Modifier" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
                                             <i class="fas fa-edit"></i>
                                         </button>
                                         

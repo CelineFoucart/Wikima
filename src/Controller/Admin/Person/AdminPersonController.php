@@ -35,9 +35,7 @@ final class AdminPersonController extends AbstractAdminController
     #[Route('/', name: 'admin_app_person_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('Admin/person/list.html.twig', [
-            'persons' => $this->personRepository->findForAdminList(),
-        ]);
+        return $this->render('Admin/person/list.html.twig');
     }
 
     #[Route('/archive', name: 'admin_app_person_archive_index', methods:['GET'])]

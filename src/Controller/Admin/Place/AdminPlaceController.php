@@ -35,9 +35,7 @@ final class AdminPlaceController extends AbstractAdminController
     #[Route('/', name: 'admin_app_place_list', methods:['GET'])]
     public function listAction(): Response
     {
-        return $this->render('Admin/place/list.html.twig', [
-            'places' => $this->placeRepository->findForAdminList(),
-        ]);
+        return $this->render('Admin/place/list.html.twig');
     }
 
     #[Route('/archive', name: 'admin_app_place_archive_index', methods:['GET'])]

@@ -21,5 +21,55 @@
 {% endblock %}
 
 {% block body %}
-    {% include "Admin/person/_index.html.twig" %}
+    <div class="card border-top-primary">
+    <div class="card-body p-1">
+        <table class="table data-table mb-0 table-striped">
+            <thead>
+                <tr>
+                    <th class="table-id">Id</th>
+                    <th>Prénom</th>
+                    <th>Nom de famille</th>
+                    <th>Nationalité</th>
+                    <th>Date de naissance</th>
+                    <th>Date de mort</th>
+                    <th>Type</th>
+                    <th data-orderable="false">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for person in persons %}
+                    <tr>
+                        <td data-label="Id">
+                            <a href="{{ path('app_person_show', {slug: person.slug}) }}" class="fw-bold">{{person.id }}</a>
+                        </td>
+                        <td data-label="Prénom">{{ person.firstname }}</td>
+                        <td data-label="Nom">{{ person.lastname }}</td>
+                        <td data-label="Nationalité">{{ person.nationality }}</td>
+                        <td data-label="Naissance">{{ person.birthday }}</td>
+                        <td data-label="Mort">{{ person.deathDate }}</td>
+                        <td data-label="Type">{{ person.type|join(', ') }}</td>
+                        <td data-label="Actions">
+                            <div class="btn-group">
+                                <a href="{{ path('app_person_show', {slug: person.slug}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
+                                    <i class="fas fa-book-reader"></i>
+                                </a>                   
+                                <a href="{{ path('admin_app_person_show', {id: person.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                <a href="{{ path('admin_app_person_image', {id: person.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Gérer l'image">
+                                    <i class="fas fa-image"></i>
+                                </a>
+                                <a href="{{ path('admin_app_person_edit', {id: person.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                </a>
+                                {% include "Admin/components/_archive_modal.html.twig" with { element: person, path: 'admin_app_person_archive' } %}
+                                {% include "Admin/components/_delete_modal.html.twig" with { element: person, path: 'admin_app_person_delete' } %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

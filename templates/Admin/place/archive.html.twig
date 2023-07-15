@@ -21,6 +21,47 @@
 {% endblock %}
 
 {% block body %}
-    {% include "Admin/place/_index.html.twig" %}
+    <div class="card border-top-primary">
+        <div class="card-body p-1">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th class="table-id">Id</th>
+                        <th>Nom</th>
+                        <th>Slug</th>
+                        <th>Type</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for place in places %}
+                        <tr>
+                            <td data-label="Id">
+                                <a href="{{ path('app_place_show', {slug: place.slug}) }}" class="fw-bold">{{place.id }}</a>
+                            </td>
+                            <td data-label="Nom">{{ place.title }}</td>
+                            <td data-label="Slug">{{ place.slug }}</td>
+                            <td data-label="Type">{{ place.types|join(', ') }}</td>
+                            <td data-label="Actions">
+                                <div class="btn-group">
+                                    <a href="{{ path('app_place_show', {slug: place.slug}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
+                                        <i class="fas fa-book-reader"></i>
+                                    </a>                   
+                                    <a href="{{ path('admin_app_place_show', {id: place.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_place_edit', {id: place.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                    </a>
+                                    {% include "Admin/components/_archive_modal.html.twig" with { element: place, path: 'admin_app_place_archive' } %}
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: place, path: 'admin_app_place_delete' } %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
 
