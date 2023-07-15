@@ -207,7 +207,7 @@ class PersonRepository extends ServiceEntityRepository
         }
 
         if ($params['limit'] > 0) {
-            $builder->setMaxResults($params['limit']);
+            $builder->setMaxResults($params['limit'], $params['start']);
         }
 
         return $builder->orderBy($params['orderBy'], $params['direction'])
