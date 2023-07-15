@@ -3,7 +3,7 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <section class="p-5 row justify-content-center">
+    <section class="py-5 row justify-content-center">
         {% for flash_error in app.flashes('verify_email_error') %}
             <div class="col-12">
                 <div class="alert alert-danger mb-5" role="alert">{{ flash_error }}</div>
@@ -11,7 +11,7 @@
         {% endfor %}
 
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-            <div class="card shadow mx-5 border-0 radius-3">
+            <div class="card shadow mx-2 border-0 radius-3">
                 <div class="card-body p-5">
                     <h2 class="text-uppercase text-center mb-5">Formulaire d'inscription</h2>
                     {{ form_start(registrationForm) }}
