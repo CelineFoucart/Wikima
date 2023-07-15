@@ -202,7 +202,9 @@ class PersonRepository extends ServiceEntityRepository
             $builder
                 ->andWhere('p.firstname LIKE :search')
                 ->orWhere('p.lastname LIKE :search')
-                ->orWhere('p.description LIKE :search')
+                ->orWhere('p.nationality LIKE :search')
+                ->orWhere('p.birthday LIKE :search')
+                ->orWhere('p.deathDate LIKE :search')
                 ->setParameter('search', '%' . $parameters['search']['value'] . '%');
         }
 
@@ -210,7 +212,9 @@ class PersonRepository extends ServiceEntityRepository
             $builder->setMaxResults($params['limit'])->setFirstResult($params['start']);
         }
 
-        return $builder->orderBy($params['orderBy'], $params['direction'])
+        return $builder
+            ->andWhere('(p.isArchived != :isArchived  OR p.isArchived IS NULL)')->setParameter('isArchived', true)
+            ->orderBy($params['orderBy'], $params['direction'])
             ->getQuery()
             ->getResult();
     }
@@ -222,8 +226,12 @@ class PersonRepository extends ServiceEntityRepository
 
         if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
             $builder
-                ->andWhere('p.firstname = :search')->orWhere('p.lastname = :search')
-                ->setParameter('search', $parameters['search']['value']);
+                ->andWhere('p.firstname LIKE :search')
+                ->orWhere('p.lastname LIKE :search')
+                ->orWhere('p.nationality LIKE :search')
+                ->orWhere('p.birthday LIKE :search')
+                ->orWhere('p.deathDate LIKE :search')
+                ->setParameter('search', '%' . $parameters['search']['value'] . '%');
         }
 
         return $builder->getQuery()->getOneOrNullResult();

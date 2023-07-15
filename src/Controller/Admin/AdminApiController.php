@@ -166,11 +166,15 @@ class AdminApiController extends AbstractController
     {
         $parameters = $request->query->all();
         $recordsFiltered = $articleRepository->countSearchTotal($parameters);
+        $recordsTotal = $articleRepository->countSearchTotal([]);
+
+        $data = $articleRepository->searchPaginatedItems($parameters);
+
         $data = [
             'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
             'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
-            "data" => $articleRepository->searchPaginatedItems($parameters),
-            'recordsTotal' => $articleRepository->countSearchTotal($parameters),
+            "data" => $data,
+            'recordsTotal' => isset($recordsTotal['recordsFiltered']) ? $recordsTotal['recordsFiltered'] : 0,
         ];
 
         return $this->json($data, 200, [], ['groups' => 'index']);
@@ -181,11 +185,12 @@ class AdminApiController extends AbstractController
     {
         $parameters = $request->query->all();
         $recordsFiltered = $personRepository->countSearchTotal($parameters);
+        $recordsTotal = $personRepository->countSearchTotal([]);
         $data = [
             'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
             'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
             "data" => $personRepository->searchPaginatedItems($parameters),
-            'recordsTotal' => $personRepository->countSearchTotal($parameters),
+            'recordsTotal' =>isset($recordsTotal['recordsFiltered']) ? $recordsTotal['recordsFiltered'] : 0,
         ];
 
         return $this->json($data, 200, [], ['groups' => 'index']);
@@ -196,11 +201,13 @@ class AdminApiController extends AbstractController
     {
         $parameters = $request->query->all();
         $recordsFiltered = $placeRepository->countSearchTotal($parameters);
+        $recordsTotal = $placeRepository->countSearchTotal([]);
+
         $data = [
             'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
             'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
             "data" => $placeRepository->searchPaginatedItems($parameters),
-            'recordsTotal' => $placeRepository->countSearchTotal($parameters),
+            'recordsTotal' => isset($recordsTotal['recordsFiltered']) ? $recordsTotal['recordsFiltered'] : 0,
         ];
         
         return $this->json($data, 200, [], ['groups' => 'index']);

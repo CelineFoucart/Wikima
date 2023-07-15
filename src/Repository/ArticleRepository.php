@@ -230,29 +230,29 @@ class ArticleRepository extends ServiceEntityRepository
 
         if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
             $builder
-                ->andWhere('a.title LIKE :search')
-                ->orWhere('a.description LIKE :search')
-                ->orWhere('a.keywords LIKE :search')
+                ->andWhere('(a.title LIKE :search OR a.description LIKE :search OR a.keywords LIKE :search)')
                 ->setParameter('search', '%'.$parameters['search']['value'].'%')
             ;
         }
-
-        
 
         if ($params['limit'] > 0) {
             $builder->setMaxResults($params['limit'])->setFirstResult($params['start']);
         }
 
-        return $builder->orderBy($params['orderBy'], $params['direction'])->getQuery()->getResult();
+        return $builder ->orderBy($params['orderBy'], $params['direction'])->getQuery()->getResult();
     }
 
     public function countSearchTotal(array $parameters): array
     {
-        $builder = $this->createQueryBuilder('a')->select('COUNT(a.id) AS recordsFiltered');
+        $builder = $this->createQueryBuilder('a')->select('COUNT(DISTINCT a.id) AS recordsFiltered');
         $builder->andWhere('(a.isArchived != :isArchived  OR a.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
-            $builder->andWhere('a.title = :title')->setParameter('title', $parameters['search']['value']);
+            $builder
+                ->andWhere('a.title LIKE :search')
+                ->orWhere('a.description LIKE :search')
+                ->orWhere('a.keywords LIKE :search')
+                ->setParameter('search', '%'.$parameters['search']['value'].'%');
         }
 
         return $builder->getQuery()->getOneOrNullResult();

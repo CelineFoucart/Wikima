@@ -36,7 +36,7 @@
                         <th>Nationalité</th>
                         <th>Date de naissance</th>
                         <th>Date de mort</th>
-                        <th>Type</th>
+                        <th data-orderable="false">Type</th>
                         <th data-orderable="false">Actions</th>
                     </tr>
                 </thead>
@@ -78,7 +78,7 @@
                 { data: "deathDate", name:"p.deathDate" },
                 { 
                     data: "type", 
-                    name:"p.type",
+                    name:"t.title",
                     render: function ( data, type, row ) {
                         let types = [];
                         row.type.forEach(element => {

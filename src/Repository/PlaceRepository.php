@@ -189,18 +189,23 @@ class PlaceRepository extends ServiceEntityRepository
             $builder->setMaxResults($params['limit'])->setFirstResult($params['start']);
         }
 
-        return $builder->orderBy($params['orderBy'], $params['direction'])
+        return $builder
+            ->andWhere('(p.isArchived != :isArchived  OR p.isArchived IS NULL)')->setParameter('isArchived', true)
+            ->orderBy($params['orderBy'], $params['direction'])
             ->getQuery()
             ->getResult();
     }
 
     public function countSearchTotal(array $parameters): array
     {
-        $builder = $this->createQueryBuilder('p')->select('COUNT(p.id) AS recordsFiltered');
+        $builder = $this->createQueryBuilder('p')->select('COUNT(DISTINCT p.id) AS recordsFiltered');
         $builder->andWhere('(p.isArchived != :isArchived  OR p.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
-            $builder->andWhere('p.title = :title')->setParameter('title', $parameters['search']['value']);
+            $builder
+                ->andWhere('p.title LIKE :search')
+                ->orWhere('p.description LIKE :search')
+                ->setParameter('search', '%' . $parameters['search']['value'] . '%' );
         }
 
         return $builder->getQuery()->getOneOrNullResult();
