@@ -12,10 +12,10 @@ final class DataFilterService
         $orderBy = isset($parameters['columns'][$orderColumns]['name']) ? $parameters['columns'][$orderColumns]['name'] : $alias.'.id';
 
         return [
-            'limit' => $limit,
+            'limit' => (int)$limit,
             'direction' => $direction,
             'orderBy' => $orderBy,
-            'start' => isset($parameters['start']) ? $parameters['start'] : 0
+            'start' => isset($parameters['start']) ? (int)$parameters['start'] : 0
         ];
     }
 }
