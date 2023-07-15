@@ -18,8 +18,8 @@
 		{% block stylesheets %}{% endblock %}
 	</head>
 	<body>
-		<nav class="navbar bg-white navbar-white navbar-expand-md navbar-light border-bottom">
-			<a href="#" class="navbar-brand">
+		<nav class="navbar fixed-top bg-white navbar-white navbar-expand-md navbar-light border-bottom">
+			<a href="#" class="navbar-brand pe-2">
 				<i class="fas fa-cogs"></i>
 				<span class="ms-1">Administration</span>
 			</a>
@@ -68,10 +68,6 @@
 		</nav>
 		
 		<aside class="dashboard-nav">
-			<div class="navbar-brand px-2 text-center bg-white m-0 w-100 border-end">
-				<i class="fas fa-cogs"></i>
-				<span class="ms-1">Administration</span>
-			</div>
 			<nav class="dashboard-nav-list">
 				<a href="{{ path('admin_app_dashboard') }}" class="dashboard-nav-item {% block activeDashboard %}{% endblock %}">
 					<i class="fas fa-tachometer-alt"></i>

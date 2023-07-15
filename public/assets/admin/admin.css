@@ -109,6 +109,7 @@ img {
 .wrapper {
     margin-left: 4.5rem;
     padding-bottom: 10px;
+    margin-top: 66px;
 }
 
 .sidebar-main-brand {
@@ -246,6 +247,7 @@ h1 {
 .navbar-brand {
     width: 4rem;
     padding: 13px 17px;
+    border-right: 1px solid #eee;
 }
 
 .navbar-brand span {
@@ -261,16 +263,12 @@ h1 {
     width: 4.5rem;
     position: fixed;
     left: 0;
-    top: 0;
+    top: 56px;
     bottom: 0;
     overflow: visible;
     background-color: #222d32;
     font-size: 0.9rem;
     z-index: 9990;
-}
-
-.position-sticky {
-    z-index: 9989;
 }
 
 .dashboard-nav::-webkit-scrollbar{
@@ -689,6 +687,7 @@ table.dataTable.table-striped>tbody>tr.odd>* {
 
     .dashboard-nav {
         width: 230px;
+        padding: 1rem 0;
     }
 
     .wrapper {
