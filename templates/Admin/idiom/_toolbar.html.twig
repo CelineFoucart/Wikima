@@ -1,0 +1,20 @@
+<a class="btn btn-sm btn-default" href="{{ path('admin_app_idiom_create') }}" data-bs-toggle="tooltip" title="Ajouter">
+    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+</a>
+<div class="btn-group">
+    <a href="#" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+        <i class="fas fa-book-reader"></i>
+    </a>                   
+    <a href="{{ path('admin_app_idiom_show', {id: idiom.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+        <i class="fas fa-info-circle"></i>
+    </a>
+    {% if can_edit %}
+        <a href="{{ path('admin_app_idiom_article', {id: idiom.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Articles">
+            <i class="fas fa-file-alt" aria-hidden="true"></i>
+        </a>
+        <a href="{{ path('admin_app_idiom_edit', {id: idiom.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+        </a>
+        {% include "Admin/components/_delete_modal.html.twig" with { element: idiom, path: 'admin_app_idiom_delete' } %}
+    {% endif %}
+</div>

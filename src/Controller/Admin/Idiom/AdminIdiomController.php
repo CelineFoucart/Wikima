@@ -1,0 +1,148 @@
+<?php
+
+namespace App\Controller\Admin\Idiom;
+
+use DateTime;
+use App\Entity\User;
+use App\Entity\Idiom;
+use DateTimeImmutable;
+use App\Form\Admin\IdiomFormType;
+use App\Repository\IdiomRepository;
+use App\Repository\ImageRepository;
+use App\Security\Voter\VoterHelper;
+use App\Repository\PortalRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\Admin\AbstractAdminController;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
+#[Route('/admin/idiom')]
+#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+class AdminIdiomController extends AbstractAdminController
+{
+    protected string $entityName = 'idiom';
+
+    public function __construct(
+        private ImageRepository $imageRepository,
+    ) {
+    }
+
+    #[Route('/', name: 'admin_app_idiom_list', methods: ['GET'])]
+    public function listAction(IdiomRepository $idiomRepository): Response
+    {
+        return $this->render('Admin/idiom/list.html.twig', [
+            'idioms' => $idiomRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/create', name: 'admin_app_idiom_create', methods: ['GET', 'POST'])]
+    public function createAction(Request $request, EntityManagerInterface $entityManager, PortalRepository $portalRepository): Response
+    {
+        $idiom = new Idiom();
+
+        $portalId = $request->query->getInt('portal');
+        if (0 !== $portalId) {
+            $portal = $portalRepository->find($portalId);
+            if ($portal) {
+                $idiom->addPortal($portal);
+            }
+        }
+
+        $form = $this->createForm(IdiomFormType::class, $idiom);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $idiom->setCreatedAt(new DateTimeImmutable())->setAuthor($this->getUser());
+            $entityManager->persist($idiom);
+            $entityManager->flush();
+            $this->addFlash('success', 'La langue '.$idiom.' a bien été créée.');
+
+            return $this->redirectTo($request, $idiom->getId());
+        }
+
+        return $this->renderForm('Admin/idiom/create.html.twig', [
+            'idiom' => $idiom,
+            'form' => $form,
+            'images' => $this->imageRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}/show', name: 'admin_app_idiom_show', methods: ['GET', 'POST'])]
+    public function showAction(Idiom $idiom, EntityManagerInterface $entityManager, Request $request, VoterHelper $voterHelper): Response
+    {
+        $form = $this->createFormBuilder($idiom)
+            ->add('author', EntityType::class, [
+                'class' => User::class,
+                'attr' => ['data-choices' => 'choices']
+            ])
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid() && $voterHelper->canModerate($this->getUser())) { 
+            $entityManager->persist($idiom);
+            $entityManager->flush();
+            $this->addFlash( 'success',  "L'auteur a bien été modifié.");
+
+            return $this->redirectToRoute('admin_app_idiom_show', ['id' => $idiom->getId()]);
+        }
+        // ajouter la possibilité de lier un article
+
+        return $this->render('Admin/idiom/show.html.twig', [
+            'idiom' => $idiom,
+            'form' => $form->createView(),
+            'general_active' => true,
+        ]);
+    }
+
+    #[Route('/{id}/articles', name: 'admin_app_idiom_article', methods: ['GET', 'POST'])]
+    public function action(Idiom $idiom): Response
+    {
+        // ajouter un tableau avec la liste des articles + des liens pour modifier, ajouter et supprimer + gestion de leurs images
+
+        return $this->render('Admin/idiom/articles.html.twig', [
+            'idiom' => $idiom,
+            'section_active' => true,
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'admin_app_idiom_edit', methods: ['GET', 'POST'])]
+    public function editAction(Request $request, Idiom $idiom, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom);
+        $form = $this->createForm(IdiomFormType::class, $idiom);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $idiom->setUpdatedAt(new DateTime());
+            $entityManager->flush();
+            $this->addFlash('success', 'La langue '.$idiom.' a bien été modifiée.');
+
+            return $this->redirectTo($request, $idiom->getId());
+        }
+
+        return $this->renderForm('Admin/idiom/edit.html.twig', [
+            'idiom' => $idiom,
+            'form' => $form,
+            'images' => $this->imageRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/{id}/delete', name: 'admin_app_idiom_delete', methods: ['POST'])]
+    public function deleteAction(Request $request, Idiom $idiom, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted(VoterHelper::DELETE, $idiom);
+
+        if ($this->isCsrfTokenValid('delete'.$idiom->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($idiom);
+            $entityManager->flush();
+            $this->addFlash('success', 'La langue a été supprimée avec succès.');
+        }
+
+        return $this->redirectToRoute('admin_app_idiom_list', [], Response::HTTP_SEE_OTHER);
+    }
+}

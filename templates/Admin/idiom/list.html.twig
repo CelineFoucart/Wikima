@@ -1,0 +1,78 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Liste des langues{% endblock %}
+
+{% block activeIdiom %} active show {% endblock %}
+{% block activeIdiomList %}active{% endblock %}
+
+{% block page_title %}Langues{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Langues
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_idiom_create') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block body %}
+<div class="card border-top-primary">
+    <div class="card-body p-1">
+        <table class="table data-table mb-0 table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Nom original</th>
+                    <th>Slug</th>
+                    <th>Auteur</th>
+                    <th>Création</th>
+                    <th>Mise à jour</th>
+                    <th data-orderable="false">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for idiom in idioms %}
+                <tr>
+                    <td>{{ idiom.id }}</td>
+                    <td>{{ idiom.translatedName }}</td>
+                    <td>{{ idiom.originalName }}</td>
+                    <td>{{ idiom.slug }}</td>
+                    <td>{{ idiom.author ? idiom.author.username : 'Anonyme' }} </td>
+                    <td data-sort="{{ idiom.createdAt|date('Y-m-d H:i') }}">
+                        {{ idiom.createdAt|date(date_format) }}
+                    </td>
+                    <td data-sort="{{ idiom.updatedAt ? idiom.updatedAt|date('Y-m-d H:i') : '' }}">
+                        {{ idiom.updatedAt ? idiom.updatedAt|date(date_format) : '' }}
+                    </td>
+                    <td data-label="Actions">
+                        <div class="btn-group">
+                            <a href="#" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
+                                <i class="fas fa-book-reader"></i>
+                            </a>                   
+                            <a href="{{ path('admin_app_idiom_show', {id: idiom.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                <i class="fas fa-info-circle"></i>
+                            </a>
+                            {% if can_access(app.user, idiom) %}
+                                <a href="{{ path('admin_app_idiom_article', {id: idiom.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Articles">
+                                    <i class="fas fa-file-alt" aria-hidden="true"></i>
+                                </a>
+                                <a href="{{ path('admin_app_idiom_edit', {id: idiom.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                </a>
+                                {% include "Admin/components/_delete_modal.html.twig" with { element: idiom, path: 'admin_app_idiom_delete' } %}
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

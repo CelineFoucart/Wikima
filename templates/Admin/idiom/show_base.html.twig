@@ -1,0 +1,40 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Afficher "{{ idiom }}"{% endblock %}
+
+{% block activeIdiom %}active show{% endblock %}
+{% block activeIdiomList %}active{% endblock %}
+
+{% block page_title %}Afficher "{{ idiom }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_idiom_list') }}" class="text-reset">
+			Langue
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Voir
+	</li>
+{% endblock %}
+
+{% set can_edit = can_access(app.user, idiom) %}
+
+{% block toolbar %}
+    {{ include('admin/idiom/_toolbar.html.twig') }}
+{% endblock %}
+
+{% block body %}
+    <ul class="nav nav-custom-style nav-pills mb-4">
+        <li class="nav-item">
+            <a class="nav-link {{ general_active is defined ? 'active' : '' }}" href="{{ path('admin_app_idiom_show', {id: idiom.id}) }}">Général</a>
+        </li>
+        {% if can_edit %}
+            <li class="nav-item">
+                <a class="nav-link {{ section_active is defined ? 'active' : '' }}" href="{{ path('admin_app_idiom_article', {id: idiom.id}) }}">Gérer les articles</a>
+            </li>
+        {% endif %}
+    </ul>
+
+    {% block show_tab %}{% endblock %}
+{% endblock %}

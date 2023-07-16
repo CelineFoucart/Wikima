@@ -53,10 +53,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Idiom::class)]
+    private Collection $idioms;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->idioms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -232,5 +236,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return $this->username;
+    }
+
+    /**
+     * @return Collection<int, Idiom>
+     */
+    public function getIdioms(): Collection
+    {
+        return $this->idioms;
+    }
+
+    public function addIdiom(Idiom $idiom): static
+    {
+        if (!$this->idioms->contains($idiom)) {
+            $this->idioms->add($idiom);
+            $idiom->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdiom(Idiom $idiom): static
+    {
+        if ($this->idioms->removeElement($idiom)) {
+            // set the owning side to null (unless already changed)
+            if ($idiom->getAuthor() === $this) {
+                $idiom->setAuthor(null);
+            }
+        }
+
+        return $this;
     }
 }

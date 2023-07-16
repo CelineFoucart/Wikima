@@ -26,8 +26,6 @@
 	</li>
 {% endblock %}
 
-{% set can_edit = can_access(app.user, article) %}
-
 {% block toolbar %}
     <a class="btn btn-sm btn-default" href="{{ path('admin_app_article_create') }}" data-bs-toggle="tooltip" title="Ajouter">
         <i class="fas fa-plus-circle" aria-hidden="true"></i>

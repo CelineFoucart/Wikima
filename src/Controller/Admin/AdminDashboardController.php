@@ -23,7 +23,7 @@ class AdminDashboardController extends AbstractController
     #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_EDITOR')")]
     public function dashboardAction(StatisticsHandler $statisticsHandler, NoteRepository $noteRepository): Response
     {
-        $tables = ['category', 'portal', 'article', 'image', 'place', 'person', 'page', 'note', 'comment', 'user'];
+        $tables = ['category', 'portal', 'article', 'image', 'place', 'person', 'page', 'note', 'comment', 'user', 'idiom'];
 
         foreach ($tables as $table) {
             $statisticsHandler->addEntity(new SatisticsEntity($table));

@@ -237,6 +237,8 @@ final class AdminArticleController extends AbstractAdminController
     #[Route('/{id}/archive', name: 'admin_app_article_archive', methods:['POST'])]
     public function archiveAction(Request $request, Article $article): Response
     {
+        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
+
         if ($this->isCsrfTokenValid('archive'.$article->getId(), $request->request->get('_token'))) {
             $isArchived = (bool) $article->getIsArchived();
             $message = $isArchived ? "désarchivé" : "archivé";
@@ -252,6 +254,8 @@ final class AdminArticleController extends AbstractAdminController
     #[Route('/{id}/delete', name: 'admin_app_article_delete', methods:['POST'])]
     public function deleteAction(Request $request, Article $article): Response
     {
+        $this->denyAccessUnlessGranted(VoterHelper::DELETE, $article);
+
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
             $this->articleRepository->remove($article, true);
             $this->addFlash('success', "L'élément a été supprimé avec succès.");

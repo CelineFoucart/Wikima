@@ -28,7 +28,7 @@ class VoterHelper
 
     /**
      * @param User $user
-     * @param Comment|Article $subject
+     * @param Comment|Article|Idiom $subject
      * 
      * @return bool
      */
@@ -36,6 +36,10 @@ class VoterHelper
     {
         if ($this->canModerate($user)) {
             return true;
+        }
+
+        if ($subject->getAuthor() === null) {
+            return false;
         }
         
         $isAuthor = $user->getId() === $subject->getAuthor()->getId();

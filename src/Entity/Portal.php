@@ -101,6 +101,9 @@ class Portal
     #[ORM\Column(nullable: true)]
     private ?int $position = null;
 
+    #[ORM\ManyToMany(targetEntity: Idiom::class, mappedBy: 'portals')]
+    private Collection $idioms;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -111,6 +114,7 @@ class Portal
         $this->people = new ArrayCollection();
         $this->notes = new ArrayCollection();
         $this->places = new ArrayCollection();
+        $this->idioms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -463,6 +467,33 @@ class Portal
     public function setPosition(?int $position): self
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Idiom>
+     */
+    public function getIdioms(): Collection
+    {
+        return $this->idioms;
+    }
+
+    public function addIdiom(Idiom $idiom): static
+    {
+        if (!$this->idioms->contains($idiom)) {
+            $this->idioms->add($idiom);
+            $idiom->addPortal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdiom(Idiom $idiom): static
+    {
+        if ($this->idioms->removeElement($idiom)) {
+            $idiom->removePortal($this);
+        }
 
         return $this;
     }

@@ -103,12 +103,16 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?bool $isArchived = null;
 
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Idiom::class)]
+    private Collection $idioms;
+
     public function __construct()
     {
         $this->portals = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->sections = new ArrayCollection();
+        $this->idioms = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -397,6 +401,36 @@ class Article
     public function setIsArchived(?bool $isArchived): static
     {
         $this->isArchived = $isArchived;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Idiom>
+     */
+    public function getIdioms(): Collection
+    {
+        return $this->idioms;
+    }
+
+    public function addIdiom(Idiom $idiom): static
+    {
+        if (!$this->idioms->contains($idiom)) {
+            $this->idioms->add($idiom);
+            $idiom->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdiom(Idiom $idiom): static
+    {
+        if ($this->idioms->removeElement($idiom)) {
+            // set the owning side to null (unless already changed)
+            if ($idiom->getArticle() === $this) {
+                $idiom->setArticle(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,28 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Editer "{{ idiom }}"{% endblock %}
+
+{% block activeIdiom %}active show{% endblock %}
+{% block activeIdiomList %}active{% endblock %}
+
+{% block page_title %}Editer "{{ idiom }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_idiom_list') }}" class="text-reset">
+			Langue
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Editer
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	{% set can_edit = can_access(app.user, idiom) %}
+    {{ include('admin/idiom/_toolbar.html.twig') }}
+{% endblock %}
+
+{% block body %}
+    {{ include('admin/idiom/_form.html.twig') }}
+{% endblock %}

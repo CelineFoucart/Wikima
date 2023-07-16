@@ -78,6 +78,9 @@ class Image
 
     #[ORM\OneToMany(mappedBy: 'illustration', targetEntity: Place::class)]
     private Collection $places;
+
+    #[ORM\ManyToMany(targetEntity: IdiomArticle::class, mappedBy: 'images')]
+    private Collection $idiomArticles;
     
     public function __construct()
     {
@@ -86,6 +89,7 @@ class Image
         $this->articles = new ArrayCollection();
         $this->people = new ArrayCollection();
         $this->places = new ArrayCollection();
+        $this->idiomArticles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -330,6 +334,33 @@ class Image
             if ($place->getIllustration() === $this) {
                 $place->setIllustration(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, IdiomArticle>
+     */
+    public function getIdiomArticles(): Collection
+    {
+        return $this->idiomArticles;
+    }
+
+    public function addIdiomArticle(IdiomArticle $idiomArticle): static
+    {
+        if (!$this->idiomArticles->contains($idiomArticle)) {
+            $this->idiomArticles->add($idiomArticle);
+            $idiomArticle->addImage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeIdiomArticle(IdiomArticle $idiomArticle): static
+    {
+        if ($this->idiomArticles->removeElement($idiomArticle)) {
+            $idiomArticle->removeImage($this);
         }
 
         return $this;

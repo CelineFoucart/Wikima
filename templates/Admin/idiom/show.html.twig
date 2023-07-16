@@ -1,0 +1,155 @@
+{% extends 'Admin/idiom/show_base.html.twig' %}
+
+{% block show_tab %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Informations</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Nom</th>
+                                <td>
+                                    {{ idiom.translatedName }}
+                                    {% if idiom.originalName %}
+                                        (en version original: <em>{{ idiom.originalName }}</em>)
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Slug</th>
+                                <td>{{ idiom.slug }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ idiom.description|nl2br }}</td>
+                            </tr>
+                            <tr>
+                                <th>Article</th>
+                                <td>
+                                    {% if idiom.article %}
+                                        <a href="{{ path('app_article_show', {slug: idiom.article.slug}) }}">
+                                            {{ idiom.article }}
+                                        </a>
+                                    {% else %}
+                                        <span class="fst-italic">Aucun article de l'encyclopédie n'est associé</span>
+                                    {% endif %}
+                                    
+                                    {% if can_edit %}
+                                        <button type="button" class="btn btn-primary btn-sm float-end" title="Modifier" data-bs-toggle="modal" data-bs-target="#articleModal">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        
+                                        <div class="modal fade" id="articleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="sarticleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="sarticleModalLabel">Assigner un article de l'encyclopédie qui parle de cette langue </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    
+                                                        <div class="modal-body">
+                                                            TODO
+                                                            {# ajouter les articles en datatable ajax + bouton pour chaque #}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                                Annuler
+                                                            </button>
+                                                            <button type="submit" class="btn btn-success btn-sm">
+                                                                Sauvegarder
+                                                            </button>
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Présentation</th>
+                                <td>{{ idiom.presentation|raw }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Bannière</h2>
+                </div>
+                <div class="card-body card-show">
+                    {% if idiom.banner %}
+                        {% set link = vich_uploader_asset(idiom) %}
+                        <a href="{{ link }}" data-fslightbox="first-lightbox">
+                            <img src="{{ link }}" class="img-fluid" alt="bannière de {{ idiom }}">
+                        </a>
+                        <p class="text-center">{{ idiom.banner }}</p>
+                    {% else %}
+                        <p class="text-center">Aucune bannière</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card border-top-primary mt-3">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Méta données</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Création</th>
+                                <td>{{ idiom.createdAt|date(date_format) }}</td>
+                            </tr>
+                            <tr>
+                                <th>Mise à jour</th>
+                                <td>{{ idiom.updatedAt ? idiom.updatedAt|date(date_format) : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Auteur</th>
+                                <td>
+                                    {{ idiom.author ? idiom.author.username : 'Anonyme' }}
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                        <button type="button" class="btn btn-primary btn-sm float-end" title="Modifier" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        
+                                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="staticBackdropLabel">Modifier l'auteur</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    {{ form_start(form) }}
+                                                        <div class="modal-body">
+                                                            {{ form_widget(form) }}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                                                                Annuler
+                                                            </button>
+                                                            <button type="submit" class="btn btn-success btn-sm">
+                                                                Sauvegarder
+                                                            </button>
+                                                        </div>
+                                                    {{ form_end(form) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
