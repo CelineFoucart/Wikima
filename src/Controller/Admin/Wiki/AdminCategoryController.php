@@ -9,7 +9,6 @@ use DateTimeImmutable;
 use App\Entity\Category;
 use App\Repository\ImageRepository;
 use App\Form\Admin\CategoryFormType;
-use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

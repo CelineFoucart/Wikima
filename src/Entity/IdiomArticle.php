@@ -169,7 +169,7 @@ class IdiomArticle
 
     public function __toString()
     {
-        return $this->title ? $this->title : "Nouvel article de langue";
+        return $this->title ? $this->title : "Nouvel article";
     }
 
     public function getCategory(): ?IdiomCategory

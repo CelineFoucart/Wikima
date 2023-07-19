@@ -21,6 +21,30 @@ class IdiomArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, IdiomArticle::class);
     }
 
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function add(IdiomArticle $entity, bool $flush = true): void
+    {
+        $this->_em->persist($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
+    /**
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function remove(IdiomArticle $entity, bool $flush = true): void
+    {
+        $this->_em->remove($entity);
+        if ($flush) {
+            $this->_em->flush();
+        }
+    }
+
 //    /**
 //     * @return IdiomArticle[] Returns an array of IdiomArticle objects
 //     */

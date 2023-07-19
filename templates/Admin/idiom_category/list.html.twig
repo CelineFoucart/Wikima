@@ -1,0 +1,76 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Liste des catégories{% endblock %}
+
+{% block activeIdiom %}active show{% endblock %}
+{% block activeIdiomCategory %}active{% endblock %}
+
+{% block page_title %}Catégorie d'articles linguistique{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Catégories d'articles linguistiques
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_idiom_category_create') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block body %}
+    <p class="mb-4 ms-2">
+        Cliquer et glisser les catégories pour les réordonner dans l'affichage public.
+    </p>
+    <div class="card border-top-primary">
+        <div class="card-body p-1">
+            <table class="table data-table-sort mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Slug</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="sortables">
+                {% for idiom_category in idiom_categories %}
+                    <tr class="handle" id="{{ idiom_category.id }}">
+                        <td data-label="Titre">
+                            <i class="fas fa-arrows-alt me-1"></i> 
+                            {{ idiom_category.title }}
+                        </td>
+                        <td data-label="Slug">{{ idiom_category.slug }}</td>
+                        <td data-label="Actions">
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
+                                    <i class="fas fa-book-reader"></i>
+                                </a>                   
+                                <a href="{{ path('admin_app_idiom_category_show', {id: idiom_category.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                <a href="{{ path('admin_app_idiom_category_edit', {id: idiom_category.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                </a>
+                                {% include "Admin/components/_delete_modal.html.twig" with { element: idiom_category, path: 'admin_app_idiom_category_delete' } %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
+	<script>
+		window.addEventListener('load', () => {
+			let url = "{{ path('api_idiom_category_sort') }}";
+			sortable('#sortables', url);
+		});
+	</script>
+{% endblock %}

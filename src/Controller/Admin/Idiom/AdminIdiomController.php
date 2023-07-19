@@ -102,7 +102,7 @@ class AdminIdiomController extends AbstractAdminController
     #[Route('/{id}/articles', name: 'admin_app_idiom_article', methods: ['GET', 'POST'])]
     public function action(Idiom $idiom): Response
     {
-        // ajouter un tableau avec la liste des articles + des liens pour modifier, ajouter et supprimer + gestion de leurs images
+        // gestion des images des articles
 
         return $this->render('Admin/idiom/articles.html.twig', [
             'idiom' => $idiom,
@@ -119,6 +119,7 @@ class AdminIdiomController extends AbstractAdminController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $idiom->setUpdatedAt(new DateTime());
+            $entityManager->persist($idiom);
             $entityManager->flush();
             $this->addFlash('success', 'La langue '.$idiom.' a bien été modifiée.');
 
@@ -143,6 +144,6 @@ class AdminIdiomController extends AbstractAdminController
             $this->addFlash('success', 'La langue a été supprimée avec succès.');
         }
 
-        return $this->redirectToRoute('admin_app_idiom_list', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_admin_app_idiom_list', [], Response::HTTP_SEE_OTHER);
     }
 }

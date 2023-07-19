@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\IdiomCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -21,28 +22,12 @@ class IdiomCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, IdiomCategory::class);
     }
 
-//    /**
-//     * @return IdiomCategory[] Returns an array of IdiomCategory objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('i.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?IdiomCategory
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findMaxPosition(): int
+    {
+        try {
+            return $this->createQueryBuilder('i')->select('MAX(i.position)')->getQuery()->getSingleScalarResult();
+        } catch (NoResultException $th) {
+            return 0;
+        }
+    }
 }

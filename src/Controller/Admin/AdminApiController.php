@@ -13,6 +13,7 @@ use App\Service\DataFilterService;
 use App\Repository\PlaceRepository;
 use App\Repository\PersonRepository;
 use App\Repository\ArticleRepository;
+use App\Repository\IdiomCategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -162,6 +163,7 @@ class AdminApiController extends AbstractController
     }
 
     #[Route('/api/admin/articles', name: 'api_article_index', methods: ['GET'])]
+    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
     public function articleAction(ArticleRepository $articleRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();
@@ -181,6 +183,7 @@ class AdminApiController extends AbstractController
     }
 
     #[Route('/api/admin/persons', name: 'api_person_index', methods: ['GET'])]
+    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
     public function personAction(PersonRepository $personRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();
@@ -197,6 +200,7 @@ class AdminApiController extends AbstractController
     }
 
     #[Route('/api/admin/place', name: 'api_place_index', methods: ['GET'])]
+    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
     public function placeAction(PlaceRepository $placeRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();
@@ -212,5 +216,30 @@ class AdminApiController extends AbstractController
         
         return $this->json($data, 200, [], ['groups' => 'index']);
         
+    }
+
+    #[Route('/api/admin/idiom/categories/sort', 'api_idiom_category_sort', methods: ['POST'])]
+    #[Security("is_granted('ROLE_ADMIN')")]
+    public function sortIdiomCategories(Request $request, IdiomCategoryRepository $idiomCategoryRepository): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+        $categories = $idiomCategoryRepository->findAll();
+
+        foreach ($categories as $category) {
+            $result = array_filter($data, function ($item) use ($category) {
+                return $category->getId() === (int) $item['id'];
+            });
+
+            if (!empty($result)) {
+                $result = array_values($result)[0];
+                $position = $result['position'];
+                $category->setPosition($position);
+                $this->em->persist($category);
+            }
+        }
+
+        $this->em->flush();
+
+        return $this->json(['message'=>'success'], Response::HTTP_OK);
     }
 }

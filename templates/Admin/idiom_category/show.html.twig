@@ -1,0 +1,72 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Afficher "{{ idiom_category }}"{% endblock %}
+
+{% block activeIdiom %}active show{% endblock %}
+{% block activeIdiomCategory %}active{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_idiom_category_list') }}" class="text-reset">
+			Catégories d'articles linguistiques
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Voir
+	</li>
+{% endblock %}
+
+{% block page_title %}Afficher "{{ idiom_category }}"{% endblock %}
+
+{% block toolbar %}
+<a class="btn btn-sm btn-default" href="{{ path('admin_app_idiom_category_create') }}" data-bs-toggle="tooltip" title="Ajouter">
+    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+</a>
+<div class="btn-group">
+    <a href="#" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+        <i class="fas fa-book-reader"></i>
+    </a>                   
+    <a href="{{ path('admin_app_idiom_category_show', {id: idiom_category.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+        <i class="fas fa-info-circle"></i>
+    </a>
+    <a href="{{ path('admin_app_idiom_category_edit', {id: idiom_category.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+    </a>
+    {% include "Admin/components/_delete_modal.html.twig" with { element: idiom_category, path: 'admin_app_idiom_category_delete' } %}
+</div>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-header bg-white">
+            <h2 class="card-title h5 mb-0">Informations</h2>
+        </div>
+        <div class="card-body card-show">
+            <table class="table table-striped mb-0">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ idiom_category.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Title</th>
+                        <td>{{ idiom_category.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Slug</th>
+                        <td>{{ idiom_category.slug }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ idiom_category.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Position</th>
+                        <td>{{ idiom_category.position ? idiom_category.position + 1 : 1 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

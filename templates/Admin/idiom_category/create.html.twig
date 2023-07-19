@@ -1,0 +1,30 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Nouvelle catégorie{% endblock %}
+
+{% block activeIdiom %}active show{% endblock %}
+{% block activeIdiomCategory %}active{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_idiom_category_list') }}" class="text-reset">
+			Catégories d'articles linguistiques
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Création
+	</li>
+{% endblock %}
+
+{% block page_title %}Créer une catégories d'articles linguistiques{% endblock %}
+
+{% block toolbar %}
+	<a href="{{ path('admin_app_idiom_category_list') }}" class="btn btn-default btn-sm">
+		<i class="fas fa-long-arrow-left"></i>
+		Retour
+	</a>
+{% endblock %}
+
+{% block body %}
+    {{ include('Admin/idiom_category/_form.html.twig') }}
+{% endblock %}

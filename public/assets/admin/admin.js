@@ -255,12 +255,24 @@ $(document).ready(function () {
             .siblings()
             .removeClass("show");
     });
-
+    
     $(document).ready(function () {
+        // simple datatable
         $('.data-table').DataTable({
             language: {
                 url: '/assets/DataTables/i18n/fr-FR.json',
             },
+        });
+
+        // datatable for sortable elements
+        $(document).ready(function () {
+            $('.data-table-sort').DataTable({
+                paging: false,
+                ordering:  false,
+                language: {
+                    url: '/assets/DataTables/i18n/fr-FR.json',
+                },
+            });
         });
 
         const options = {
