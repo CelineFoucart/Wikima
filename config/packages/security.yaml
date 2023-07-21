@@ -50,6 +50,7 @@ security:
         - { path: ^/articles, roles: ROLE_USER }
         - { path: ^/category, roles: ROLE_USER }
         - { path: ^/portals, roles: ROLE_USER }
+        - { path: ^/idioms, roles: ROLE_USER }
         - { path: ^/images, roles: ROLE_USER }
         - { path: ^/persons, roles: ROLE_USER }
         - { path: ^/timelines, roles: ROLE_USER }
