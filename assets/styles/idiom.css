@@ -1,0 +1,45 @@
+.idiom-title {
+    color: #2870a7;
+}
+
+.idiom-item {
+    margin: 10px;
+    background-color: var(--secondary-light);
+    box-shadow: 0 5px 5px #3232321a, 0 5px 8px #0000001a;
+    transition: transform 0.3s;
+    transform: translate3d(0, -1px, 0);
+}
+
+.idiom-item:hover {
+    transform: translate3d(0, -10px, 0);
+}
+
+.idiom-item__body {
+    padding: 25px;
+}
+
+.idiom-item__body p {
+    margin-bottom: 0;
+}
+
+.idiom-item__title {
+    font-size: 24px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #2870a7;
+}
+
+.idiom-item__category {
+    color: #2870a7;
+}
+
+@media print {
+    .idiom-item {
+        break-inside: avoid;
+        border: 0 !important;
+    }
+
+    .idiom-item__body {
+        padding: 10px;
+    }
+}

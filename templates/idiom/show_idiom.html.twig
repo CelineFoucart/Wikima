@@ -1,7 +1,127 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ idiom.originalName }} | Langue {% endblock %}
+{% block title %}
+	{{ idiom.translatedName}}
+	| Langue
+{% endblock %}
 
 {% block body %}
-    
+	<div class="container-fluid p-0">
+		<div class="bg-item pt-4 mb-2">
+			<div class="row border-bottom align-items-center px-4">
+				<div class="col-md-6 pb-3">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb mb-0">
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_home') }}">Accueil</a>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_idiom_index') }}">Langues</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">{{ idiom.translatedName }}</li>
+						</ol>
+					</nav>
+				</div>
+				<div class="col-md-6">
+					{% if is_granted('ROLE_ADMIN') %}
+						<div class="pb-2 text-end">
+							<div class="btn-group">
+								<a href="{{ path('admin_app_idiom_edit', {id:idiom.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
+									<i class="fas fa-pencil-alt"></i>
+								</a>
+								<a href="{{ path('admin_app_idiom_article_create', {id:idiom.id}) }}" class="btn btn-outline-secondary btn-sm" title="Ajouter un article">
+									<i class="fas fa-plus-circle"></i>
+								</a>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+
+			{% if idiom.banner %}
+				{% set banner = vich_uploader_asset(idiom) %}
+				{% set background = 'linear-gradient(to bottom, rgba(0, 0, 0, 0.85), rgba(54, 54, 54, 0.3)),url("'~banner~'") center center / cover no-repeat;' %}
+				{% set font_class = 'text-white' %}
+			{% else %}
+				{% set background = '' %}
+				{% set font_class = '' %}
+			{% endif %}
+
+			<header class="py-5 px-4 border-bottom" style="background: {{ background }}">
+				<h1 class="display-3 text-end mt-0 {{ font_class }} ">{{ idiom.translatedName }}</h1>
+				<p class="fs-5 text-end fst-italic {{ font_class }} ">{{ idiom.originalName }}</p>
+				<div class="lead text-center pt-4 {{ font_class }} ">
+					{{ idiom.description }}
+				</div>
+			</header>
+        </div>
+        <aside class="row mt-0 px-4">
+            <div class="col-md-8">
+                {% for portal in idiom.portals %}
+                    {{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show', position: "bottom"}) }}
+                {% endfor %}
+            </div>
+            <div class="col-md-4">
+                <p class="text-muted text-end">
+                    <span class="me-3">
+                        <i class="fas fa-user me-1"></i>
+                        {% if idiom.author is not null %}
+                            Par
+                            {{ idiom.author.username }}
+                        {% else %}
+                            Par Anonyme
+                        {% endif %}
+                    </span>
+                    <span class="me-2">
+                        <i class="fas fa-calendar-alt me-1"></i>
+                        Le {{ idiom.createdAt|date(date_format) }}
+                    </span>
+                </p>
+            </div>
+        </aside>
+        
+        {% if idiom.article %}
+            <div class="text-end">
+                <a href="{{ path('app_article_show', {slug: idiom.article.slug}) }}">
+                    {{ idiom.article }}
+                </a>
+            </div>
+        {% endif %}
+
+        {% if idiom.presentation %}
+            <div class="accordion my-2 mx-4" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed bg-item" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            <span class="text-default h3 mb-0">
+                                <strong>{{ idiom.translatedName }}</strong>, qu'est-ce que c'est ?
+                            </span>
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body article-content">
+                            {{ idiom.presentation|raw }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+		<div class="py-2 px-4">
+			<hr>
+			<h2 class="text-default mt-4">Consulter les articles</h2>
+			<p>
+				{% set total = idiom.idiomArticles|length %}
+				<strong>{{ total }}</strong>
+				article{{ total > 1 ? 's' : '' }}
+			</p>
+
+			<div class="row">
+				{% for article in idiom.idiomArticles %}
+                    {% include "idiom/_article_card.html.twig" %}
+                {% endfor %}
+			</div>
+		</div>
+		{# lien vers ses portails #}
+	</div>
 {% endblock %}

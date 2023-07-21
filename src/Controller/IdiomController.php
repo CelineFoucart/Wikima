@@ -5,9 +5,10 @@ namespace App\Controller;
 use App\Entity\Idiom;
 use App\Entity\IdiomArticle;
 use App\Repository\IdiomRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class IdiomController extends AbstractController
 {
@@ -20,6 +21,7 @@ class IdiomController extends AbstractController
     }
 
     #[Route('/idioms/{slug}', name: 'app_idiom_show')]
+    #[Entity('idiom', expr: 'repository.findOneBySlug(slug)')]
     public function showIdiomAction(Idiom $idiom): Response
     {
         return $this->render('idiom/show_idiom.html.twig', [
@@ -28,11 +30,13 @@ class IdiomController extends AbstractController
     }
 
     #[Route('/idioms/{idiom}/{article}', name: 'app_idiom_show_article')]
-    public function showArticleAction(Idiom $idiom, IdiomArticle $article): Response
+    #[Entity('idiomArticle', expr: 'repository.findOneBySlug(article)')]
+    #[Entity('idiom', expr: 'repository.findIdiomBySlug(idiom)')]
+    public function showArticleAction(Idiom $idiom, IdiomArticle $idiomArticle): Response
     {
         return $this->render('idiom/show_idiom_article.html.twig', [
             'idiom' => $idiom,
-            'article' => $article,
+            'article' => $idiomArticle,
         ]);
     }
 }

@@ -1,0 +1,18 @@
+<div class="col-md-4 p-0 d-flex">
+    <article class="idiom-item flex-fill border position-relative">
+        <div class="idiom-item__body">
+            <p class="idiom-item__category">
+                <i class="fas fa-fw fa-tag"></i>
+                <span class="fst-italic">
+                    {{ article.category ? article.category.title : 'Sans catégorie' }}
+                </span>
+            </p>
+            <h3 class="idiom-item__title">
+                <a href="{{ path('app_idiom_show_article', {idiom: idiom.slug, article: article.slug}) }}" class="text-decoration-none text-reset stretched-link">
+                    {{ article.title }}
+                </a>
+            </h3>
+            <p class="idiom-item__description mt-2 mb-3">{{ article.description|nl2br }}</p>
+        </div>
+    </article>
+</div>

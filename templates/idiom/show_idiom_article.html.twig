@@ -1,7 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ article.title }} | {{ idiom.originalName }}{% endblock %}
+{% block title %}{{ article.title }} | {{ idiom.translatedName }}{% endblock %}
 
 {% block body %}
-    
+    <div class="container-fluid p-0">
+		<div class="bg-item pt-4 mb-4">
+			<div class="row border-bottom align-items-center px-4">
+				<div class="col-md-6 pb-3">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb mb-0">
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_home') }}">Accueil</a>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_idiom_index') }}">Langues</a>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_idiom_show', {slug: idiom.slug }) }}">{{ idiom.translatedName }}</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">{{ article.title }}</li>
+						</ol>
+					</nav>
+				</div>
+				<div class="col-md-6">
+					{% if is_granted('ROLE_ADMIN') %}
+						<div class="pb-2 text-end">
+							<div class="btn-group">
+								<a href="{{ path('admin_app_idiom_article_edit', {id:article.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
+									<i class="fas fa-pencil-alt"></i>
+								</a>
+							</div>
+						</div>
+					{% endif %}
+				</div>
+			</div>
+
+			<header class="py-3 px-4 border-bottom">
+                <div class="row flex-column-reverse flex-md-row">
+					<div class="col-md-8">
+						{% if article.category %}
+							<span class="badge rounded-pill bg-secondary me-1">
+								{{ article.category.title }}
+							</span>
+						{% endif %}
+						<h1 class="mt-0">{{ article.title }}</h1>
+						<p class="text-muted mb-3 mt-3">
+							<span class="me-3">
+								<i class="fas fa-user me-1"></i>
+								{% if idiom.author is not null %}
+									Par
+									{{ idiom.author.username }}
+								{% else %}
+									Par Anonyme
+								{% endif %}
+							</span>
+							<span class="me-2">
+								<i class="fas fa-calendar-alt me-1"></i>
+								Le {{ article.createdAt|date(date_format) }}
+							</span>
+						</p>
+					</div>
+					<div class="col-md-4 text-end h2">
+						<span class="badge bg-default py-2">{{ idiom.translatedName }} <i class="fas fa-language fa-fw ms-1"></i></span>
+					</div>
+				</div>
+				<p class="lead pt-3">
+					{{ article.description }}
+				</p>
+			</header>
+		</div>
+
+		<div class="p-4 article-content">
+            {{ article.content|raw }}
+		</div>
+        
+        {% if article.images is not empty %}
+            <hr class="my-4">
+            {# galerie ici #}
+        {% endif %}
+	</div>
 {% endblock %}

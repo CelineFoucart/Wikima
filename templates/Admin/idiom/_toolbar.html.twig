@@ -2,7 +2,7 @@
     <i class="fas fa-plus-circle" aria-hidden="true"></i>
 </a>
 <div class="btn-group">
-    <a href="#" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+    <a href="{{ path('app_idiom_show', {slug: idiom.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
         <i class="fas fa-book-reader"></i>
     </a>                   
     <a href="{{ path('admin_app_idiom_show', {id: idiom.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">

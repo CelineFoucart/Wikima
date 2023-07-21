@@ -26,7 +26,7 @@
                 {% for article in idiom.idiomArticles %}
                     <tr>
                         <td data-label="Titre">{{ article.title }}</td>
-                        <td data-label="Catégorie">{{ article.category.title }}</td>
+                        <td data-label="Catégorie">{{ article.category ?  article.category.title : '' }}</td>
                         <td data-label="Création" data-sort="{{ article.createdAt|date('Y-m-d H:i') }}">
                             {{ article.createdAt|date(date_format) }}
                         </td>
@@ -35,6 +35,9 @@
                         </td>
                         <td data-label="Actions">
                             <div class="btn-group">
+                                <a href="{{ path('app_idiom_show_article', {idiom: idiom.slug, article: article.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+                                    <i class="fas fa-book-reader"></i>
+                                </a>  
                                 <a href="{{ path('admin_app_idiom_article_edit', {id: article.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
                                     <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                                 </a>

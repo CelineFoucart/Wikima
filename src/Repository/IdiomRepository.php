@@ -21,28 +21,16 @@ class IdiomRepository extends ServiceEntityRepository
         parent::__construct($registry, Idiom::class);
     }
 
-//    /**
-//     * @return Idiom[] Returns an array of Idiom objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('i.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Idiom
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findIdiomBySlug(string $slug): ?Idiom
+    {
+        return $this->createQueryBuilder('i')
+            ->leftJoin('i.idiomArticles', 'ia')->addSelect('ia')
+            ->leftJoin('ia.category', 'c')->addSelect('c')
+            ->orderBy('c.position')
+            ->andWhere('i.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }
