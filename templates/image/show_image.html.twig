@@ -97,6 +97,21 @@
 							</td>
 						</tr>
 						<tr>
+							<th>Articles</th>
+							<td>
+								<ul class="list-unstyled">
+									{% for article in image.articles %}
+										<li>
+											<a href="{{ path('app_article_show', {slug: article.slug }) }}" class="text-decoration-none">
+												<i class="fas fa-file me-1"></i>
+												{{ article.title }}
+											</a>
+										</li>
+									{% endfor %}
+								</ul>
+							</td>
+						</tr>
+						<tr>
 							<th>Personnages</th>
 							<td>
 								<ul class="list-unstyled">
@@ -105,6 +120,21 @@
 											<a href="{{ path('app_person_show', {slug: person.slug }) }}" class="text-decoration-none">
 												<i class="fas fa-user me-1"></i>
 												{{ person.firstname }} {{ person.lastname }}
+											</a>
+										</li>
+									{% endfor %}
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th>Lieux</th>
+							<td>
+								<ul class="list-unstyled">
+									{% for place in image.places %}
+										<li>
+											<a href="{{ path('app_pelace_show', {slug: place.slug }) }}" class="text-decoration-none">
+												<i class="fas fa-building me-1"></i>
+												{{ place.title }}
 											</a>
 										</li>
 									{% endfor %}

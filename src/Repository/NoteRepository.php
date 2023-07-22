@@ -47,6 +47,9 @@ class NoteRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('n')
             ->orderBy('n.createdAt', 'DESC')
             ->setMaxResults($limit)
+            ->andWhere('n.isArchived = :isArchived')
+            ->setParameter('isArchived', false)
+            ->orWhere('n.isArchived IS NULL')
             ->getQuery()
             ->getResult()
         ;

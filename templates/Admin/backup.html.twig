@@ -23,7 +23,7 @@
 {% block body %}
     <div class="card border-top-primary">
         <div class="card-body p-1">
-            <table class="table data-table mb-0 table-striped">
+            <table class="table data-backup mb-0 table-striped">
                 <thead>
                     <tr>
                         <th class="table-id">Id</th>
@@ -52,5 +52,16 @@
             </table>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        $('.data-backup').DataTable({
+            language: {
+                url: '/assets/DataTables/i18n/fr-FR.json',
+            },
+            order: [[0, 'desc']]
+        });
+    </script>
 {% endblock %}
 

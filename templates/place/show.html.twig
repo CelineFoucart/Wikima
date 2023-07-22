@@ -60,16 +60,25 @@
 			<h2 class="about-person-title p-1">{{ place }}</h2>
 			{% if place.illustration %}
 				<div class="text-center mb-1">
-					<a href="{{ path('app_image_show', {slug: place.illustration.slug}) }}">
-						<img src="{{ vich_uploader_asset(place.illustration)|imagine_filter('card_image') }}" alt="{{ place.illustration.title }}">
+					{% set image_path = vich_uploader_asset(place.illustration) %}
+					<a href="{{ image_path }}" data-fslightbox="first-lightbox">
+						<img src="{{ image_path|imagine_filter('card_image') }}" alt="{{ place.illustration.title }}">
 					</a>
+					<div class="text-end w-100">
+						<a href="{{ path('app_image_show', {slug: place.illustration.slug}) }}" 
+							data-bs-toggle="tooltip" 
+							title="Consulter les informations" 
+							class="text-decoration-none pe-1">
+							<i class="fas fa-info-circle"></i>
+						</a>
+					</div>
 				</div>
 			{% endif %}
 
 			{% if place.mapFile %}
 				<h3 class="h6 bg-default-light p-1 text-center">Carte</h3>
 				{% set map_link = vich_uploader_asset(place) %}
-				<a href="{{ map_link }}"><img src="{{ map_link }}" alt="Image situation {{ place }}"></a>
+				<a href="{{ map_link }}" data-fslightbox="first-lightbox"><img src="{{ map_link }}" alt="Image situation {{ place }}"></a>
 			{% endif %}
 
 			{% if place.situation %}

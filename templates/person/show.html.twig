@@ -65,9 +65,18 @@
 			<h2 class="about-person-title p-1">{{ person }}</h2>
 			{% if person.image %}
 				<div class="text-center mb-2">
-					<a href="{{ path('app_image_show', {slug: person.image.slug}) }}">
-						<img src="{{ vich_uploader_asset(person.image)|imagine_filter('gallery_thumbnail') }}" alt="{{ person.image.title }}">
+					{% set image_path = vich_uploader_asset(person.image) %}
+					<a href="{{ image_path }}" data-fslightbox="first-lightbox">
+						<img src="{{ image_path|imagine_filter('gallery_thumbnail') }}" alt="{{ person.image.title }}">
 					</a>
+					<div class="text-end w-100">
+						<a href="{{ path('app_image_show', {slug: person.image.slug}) }}" 
+							data-bs-toggle="tooltip" 
+							title="Consulter les informations" 
+							class="text-decoration-none pe-1">
+							<i class="fas fa-info-circle"></i>
+						</a>
+					</div>
 				</div>
 			{% endif %}
 
