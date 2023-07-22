@@ -84,14 +84,6 @@
                 </p>
             </div>
         </aside>
-        
-        {% if idiom.article %}
-            <div class="text-end">
-                <a href="{{ path('app_article_show', {slug: idiom.article.slug}) }}">
-                    {{ idiom.article }}
-                </a>
-            </div>
-        {% endif %}
 
         {% if idiom.presentation %}
             <div class="accordion my-2 mx-4" id="accordionExample">
@@ -111,6 +103,14 @@
                 </div>
             </div>
         {% endif %}
+		{% if idiom.article %}
+			<p class="mx-4">
+				<span class="fw-bold">Voir aussi :</span>
+				<a href="{{ path('app_article_show', {slug: idiom.article.slug}) }}">
+					{{ idiom.article }}
+				</a>
+			</p>
+		{% endif %}
 
 		<div class="py-2 px-4">
 			<hr>
@@ -122,11 +122,19 @@
 			</p>
 
 			<div class="row">
-				{% for article in idiom.idiomArticles %}
-                    {% include "idiom/_article_card.html.twig" %}
-                {% endfor %}
+				<div class="col-md-9">
+					<div class="row pe-4">
+						{% for article in idiom.idiomArticles %}
+							<div class="col-md-6 p-0 d-flex">
+								{% include "idiom/_article_card.html.twig" %}
+							</div>
+						{% endfor %}
+					</div>
+				</div>
+				<div class="col-md-3 border-start ps-2">
+					{% include "idiom/_navigation.html.twig" %}
+				</div>
 			</div>
 		</div>
-		{# lien vers ses portails #}
 	</div>
 {% endblock %}

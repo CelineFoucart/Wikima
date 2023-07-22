@@ -42,30 +42,7 @@
                                         <button type="button" class="btn btn-primary btn-sm float-end" title="Modifier" data-bs-toggle="modal" data-bs-target="#articleModal">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        
-                                        <div class="modal fade" id="articleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="sarticleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-xl">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="sarticleModalLabel">Assigner un article de l'encyclopédie qui parle de cette langue </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    
-                                                        <div class="modal-body">
-                                                            TODO
-                                                            {# ajouter les articles en datatable ajax + bouton pour chaque #}
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
-                                                                Annuler
-                                                            </button>
-                                                            <button type="submit" class="btn btn-success btn-sm">
-                                                                Sauvegarder
-                                                            </button>
-                                                        </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        {% include "Admin/idiom/_articles_wiki.html.twig" %}
                                     {% endif %}
                                 </td>
                             </tr>
@@ -79,7 +56,6 @@
             </div>
         </div>
         <div class="col-md-4">
-            
             <div class="card border-top-primary">
                 <div class="card-header bg-white">
                     <h2 class="card-title h5 mb-0">Bannière</h2>

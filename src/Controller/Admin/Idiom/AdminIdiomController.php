@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
+use App\Repository\ArticleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
@@ -71,7 +72,7 @@ class AdminIdiomController extends AbstractAdminController
     }
 
     #[Route('/{id}/show', name: 'admin_app_idiom_show', methods: ['GET', 'POST'])]
-    public function showAction(Idiom $idiom, EntityManagerInterface $entityManager, Request $request, VoterHelper $voterHelper): Response
+    public function showAction(Idiom $idiom, EntityManagerInterface $entityManager, ArticleRepository $articleRepository, Request $request, VoterHelper $voterHelper): Response
     {
         $form = $this->createFormBuilder($idiom)
             ->add('author', EntityType::class, [
@@ -90,7 +91,19 @@ class AdminIdiomController extends AbstractAdminController
 
             return $this->redirectToRoute('admin_app_idiom_show', ['id' => $idiom->getId()]);
         }
-        // ajouter la possibilité de lier un article
+        
+        if ($request->isMethod('POST')) {
+            $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom,'Access Denied.');
+            $id = $request->request->get('article');
+            $article = ($id !== null) ? $articleRepository->find($id) : null;
+
+            if ($article) {
+                $idiom->setArticle($article);
+                $entityManager->persist($idiom);
+                $entityManager->flush();
+                $this->addFlash('success', "L'article a bien été lié à la langue.");
+            }
+        }
 
         return $this->render('Admin/idiom/show.html.twig', [
             'idiom' => $idiom,
@@ -102,8 +115,8 @@ class AdminIdiomController extends AbstractAdminController
     #[Route('/{id}/articles', name: 'admin_app_idiom_article', methods: ['GET', 'POST'])]
     public function action(Idiom $idiom): Response
     {
-        // gestion des images des articles
-
+        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom,'Access Denied.');
+        
         return $this->render('Admin/idiom/articles.html.twig', [
             'idiom' => $idiom,
             'section_active' => true,

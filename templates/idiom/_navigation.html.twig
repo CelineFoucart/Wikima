@@ -1,0 +1,18 @@
+<ul class="list-group list-group-flush">
+    {% for navigation in navigations %}
+        <li class="list-group-item">
+            <h3 class="h5">
+                <i class="fas fa-fw fa-tag"></i> {{ navigation.category }}
+            </h3>
+            {% for item in navigation.articles %}
+                <div class="ps-4">
+                    <a href="{{ path('app_idiom_show_article', {idiom: idiom.slug, article: item.slug}) }}">
+                        {{ item.title }}
+                    </a>
+                </div>
+            {% endfor %}
+        </li>
+    {% else %}
+        <li class="list-group-item">Aucun article</li>
+    {% endfor %}
+</ul>

@@ -1,0 +1,73 @@
+<div class="modal fade" id="articleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="sarticleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sarticleModalLabel">Assigner un article de l'encyclopédie qui parle de cette langue </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+                <div class="modal-body">
+                    <table class="table table-striped" id="tableArticle">
+                        <thead>
+                            <tr>
+                                <th>Article</th>
+                                <th data-orderable="false">Choisir</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+                        Fermer
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const articleRoute = "{{ path('api_article_index') }}";
+
+    $('#tableArticle').DataTable({
+        language: {
+            url: '/assets/DataTables/i18n/fr-FR.json',
+        },
+        processing: true,
+        serverSide: true,
+        info: false,
+        autoWidth: false,
+        ajax: articleRoute,
+        columns: [
+            { 
+                data: "title", 
+                name:"a.title" ,
+                render: function(data, type, row) {
+                    return `
+                        <p class="mb-0 fw-bold">
+                            <a href="/articles/${row.slug}">${row.title}</a>
+                        </p>
+                        <p class="mb-0">${row.keywords}</p>
+                    `;
+                }
+            },
+            { 
+                data: "actions", 
+                name:null, 
+                render: function ( data, type, row ) {
+                    return `
+                        <form method="post"> 
+                            <input type="hidden" name="article" value="${row.id}">
+                            <button class="btn btn-primary btn-sm" title="choisir" type="submit">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        </form>
+                    `;
+                }
+            }
+        ],
+        createdRow: function( row, data, dataIndex ) {
+            $( row ).find('td:eq(1)').addClass('text-end').css("width", "10%");
+        }
+    });
+</script>

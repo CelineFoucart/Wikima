@@ -26,6 +26,7 @@ class IdiomRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('i')
             ->leftJoin('i.idiomArticles', 'ia')->addSelect('ia')
             ->leftJoin('ia.category', 'c')->addSelect('c')
+            ->leftJoin('i.portals', 'p')->addSelect('p')
             ->orderBy('c.position')
             ->andWhere('i.slug = :slug')
             ->setParameter('slug', $slug)
