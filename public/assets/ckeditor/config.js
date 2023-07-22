@@ -26,4 +26,8 @@ CKEDITOR.editorConfig = function( config ) {
 	config.removeButtons = 'ExportPdf,Scayt,About,Language,Flash,Smiley,Save,Iframe';
 	config.removePlugins = 'exportpdf,scayt';
 	config.format_tags = 'p;h3;h4;h5;h6;pre;address;div';
+
+	config.templates_files = [
+		'/assets/ckeditor/templates.js'
+	];
 };
