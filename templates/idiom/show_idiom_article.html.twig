@@ -3,10 +3,10 @@
 {% block title %}{{ article.title }} | {{ idiom.translatedName }}{% endblock %}
 
 {% block body %}
-    <div class="container-fluid p-0">
+    <article class="container-fluid p-0">
 		<div class="bg-item pt-4 mb-4">
-			<div class="row border-bottom align-items-center px-4">
-				<div class="col-md-6 pb-3">
+			<div class="row border-bottom align-items-center px-4 d-print-none">
+				<div class="col-md-6 pb-3 ">
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb mb-0">
 							<li class="breadcrumb-item">
@@ -23,15 +23,20 @@
 					</nav>
 				</div>
 				<div class="col-md-6">
-					{% if is_granted('ROLE_ADMIN') %}
-						<div class="pb-2 text-end">
-							<div class="btn-group">
-								<a href="{{ path('admin_app_idiom_article_edit', {id:article.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
+					<div class="pb-2 text-end">
+						<div class="btn-group">
+							{% set can_edit = can_access(app.user, article.idiom) %}
+							{% if can_edit %}
+								<a href="{{ path('admin_app_idiom_article_edit', {id:article.id}) }}" data-bs-toggle="tooltip"  class="btn btn-outline-secondary btn-sm" title="éditer">
 									<i class="fas fa-pencil-alt"></i>
 								</a>
-							</div>
+							{% endif %}
+							<a href="javascript:print()" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip"  title="imprimer">
+								<i class="fas fa-print"></i>
+							</a>
 						</div>
-					{% endif %}
+					</div>
+					
 				</div>
 			</div>
 
@@ -75,8 +80,14 @@
 		</div>
         
         {% if article.images is not empty %}
-            <hr class="my-4">
-            {# galerie ici #}
+            <section class="mx-4 mb-5 border-top">
+				<h2 class="fw-light my-4">
+					{% set length = article.images|length %}
+					<span class="fw-bold">{{ length }}</span>
+					image{{ length > 1 ? 's' : '' }}
+				</h2>
+				{% include "image/components/_not_paginated_list.html.twig" with {images: article.images} %}
+			</section>
         {% endif %}
-	</div>
+	</article>
 {% endblock %}

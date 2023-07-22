@@ -19,7 +19,7 @@
 	</head>
 	<body style="background-color: {{ background_color }}">
 		<div id="content-page" class="container shadow my-3 p-0 rounded-3">
-			<header class="index-header rounded-top" {{ banner() }}>
+			<header class="index-header rounded-top d-print-none" {{ banner() }}>
 				{{ include('includes/_navbar.html.twig') }}
 				<div class="heading">
 					<h1 class="heading-title">{{ title|default(app_name) }}</h1>

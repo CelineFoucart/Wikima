@@ -22,19 +22,24 @@
 						</ol>
 					</nav>
 				</div>
-				<div class="col-md-6">
-					{% if is_granted('ROLE_ADMIN') %}
-						<div class="pb-2 text-end">
-							<div class="btn-group">
+				<div class="col-md-6 d-print-none">
+					{% set can_edit = can_access(app.user, idiom) %}
+					<div class="pb-2 text-end">
+						<div class="btn-group">
+							{% if can_edit %}
 								<a href="{{ path('admin_app_idiom_edit', {id:idiom.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
 									<i class="fas fa-pencil-alt"></i>
 								</a>
 								<a href="{{ path('admin_app_idiom_article_create', {id:idiom.id}) }}" class="btn btn-outline-secondary btn-sm" title="Ajouter un article">
 									<i class="fas fa-plus-circle"></i>
 								</a>
-							</div>
+							{% endif %}
+							<a href="javascript:print()" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip"  title="imprimer">
+								<i class="fas fa-print"></i>
+							</a>
 						</div>
-					{% endif %}
+					</div>
+					
 				</div>
 			</div>
 
