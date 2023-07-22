@@ -37,7 +37,10 @@
                             <div class="btn-group">
                                 <a href="{{ path('app_idiom_show_article', {idiom: idiom.slug, article: article.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
                                     <i class="fas fa-book-reader"></i>
-                                </a>  
+                                </a>
+                                <a href="{{ path('admin_app_idiom_article_gallery', {id: article.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Galerie">
+                                    <i class="fas fa-image" aria-hidden="true"></i>
+                                </a>
                                 <a href="{{ path('admin_app_idiom_article_edit', {id: article.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
                                     <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                                 </a>

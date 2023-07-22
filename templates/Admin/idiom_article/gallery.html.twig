@@ -1,17 +1,24 @@
-{% extends 'Admin/article/show_general.html.twig' %}
+{% extends 'Admin/idiom/show_base.html.twig' %}
 
 {% block show_tab %}
-	<article class="card border-top-primary">
-		<div class="card-header">
-			<div class="float-end">
-				<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#form-modal">
-					Uploader
+    <div class="card border-top-primary">
+        <div class="card-header">
+            <div class="float-end">
+                <a href="{{ path('admin_app_idiom_article', {id: idiom.id }) }}" class="btn btn-primary btn-sm btn-sm">
+                    <i class="fas fa-arrow-left"></i>
+                    Retour
+                </a>
+                <a href="{{ path('admin_app_idiom_article_edit', {id: article.id}) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="Editer">
+                    <i class="fas fa-pencil-alt" aria-hidden="true"></i> Editer
+                </a>
+                <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#form-modal">
+					<i class="fas fa-upload"></i> Uploader
 				</button>
-			</div>
-			<h3 class="card-title h5 mb-0">Galerie de {{ article.title }}</h3>
-		</div>
-		<div class="card-body">
-			<div class="image-container">
+            </div>
+            <h3 class="card-title h5 mb-0">Galerie de {{ article }}</h3>
+        </div>
+        <div class="card-body">
+            <div class="image-container">
 				{% for image in article.images %}
 					<div class="image-block">
 						<a href="{{ vich_uploader_asset(image) }}" data-fslightbox="first-lightbox">
@@ -28,10 +35,10 @@
 					<p class="text-center">Cet article n'a pas d'image.</p>
 				{% endfor %}
 			</div>
-		</div>
-	</article>
+        </div>
+    </div>
 
-	<div class="modal fade" id="form-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="form-modal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -42,22 +49,22 @@
 				<div class="modal-body">
 					{{ form_row(formImage.title) }}
 					<div class="mb-2">
-						{{ form_label(formImage.slug) }}
-						<div class="input-group">
-							{{ form_widget(formImage.slug) }}
-							<span 
-								class="input-group-text" 
-								data-action="slugify" 
-								data-target="#image_slug" 
-								role="btton" 
-								data-source="#image_title"
-								title="Générer"
-								data-bs-toggle="tooltip">
-								<i class="fas fa-sync-alt"></i>
-							</span>
-						</div>
-						{{ form_errors(formImage.slug) }}
-					</div>
+                        {{ form_label(formImage.slug) }}
+                        <div class="input-group">
+                            {{ form_widget(formImage.slug) }}
+                            <span 
+                                class="input-group-text" 
+                                data-action="slugify" 
+                                data-target="#image_slug" 
+                                role="btton" 
+                                data-source="#image_title"
+                                title="Générer"
+                                data-bs-toggle="tooltip">
+                                <i class="fas fa-sync-alt"></i>
+                            </span>
+                        </div>
+                        {{ form_errors(formImage.slug) }}
+                    </div>
 					{{ form_rest(formImage) }}
 				</div>
 				<div class="modal-footer">
@@ -69,8 +76,8 @@
 		</div>
 	</div>
 
-	<div class="row mt-3">
-		<aside class="col-md-4">
+    <div class="row mt-3">
+        <aside class="col-md-4">
 			<div class="card border-top-primary">
 				<div class="card-header">
 					<h3 class="card-title h5 mb-0">Recherche</h3>
@@ -92,10 +99,10 @@
 			</div>
 		</aside>
 
-		<article class="col-md-8">
+        <article class="col-md-8">
 			{{ include('Admin/components/_item_gallery.html.twig', {title: 'Galerie de '~ app_name}) }}
 		</article>
-	</div>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
