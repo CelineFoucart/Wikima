@@ -31,7 +31,7 @@ class TemplateGroup
     )]
     private ?string $description = null;
 
-    #[ORM\ManyToMany(targetEntity: Template::class, mappedBy: 'templateGroup')]
+    #[ORM\ManyToMany(targetEntity: Template::class, mappedBy: 'templateGroups')]
     private Collection $templates;
 
     public function __construct()
@@ -93,5 +93,10 @@ class TemplateGroup
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title ? $this->title : "Nouveau groupe de modèles";
     }
 }

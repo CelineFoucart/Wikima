@@ -1,0 +1,82 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block activeTemplate %}active show{% endblock %}
+{% block activeTemplateList %}active{% endblock %}
+{% block title %}Voir "{{ template }}"{% endblock %}
+
+{% block page_title %}Voir "{{ template }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_template_list') }}" class="text-reset">
+			Modèles
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Voir
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+<a class="btn btn-sm btn-default" href="{{ path('admin_app_template_create') }}" data-bs-toggle="tooltip" title="Ajouter">
+    <i class="fas fa-plus-circle" aria-hidden="true"></i>
+</a>
+<div class="btn-group">
+    <a href="#" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+        <i class="fas fa-book-reader"></i>
+    </a>                   
+    <a href="{{ path('admin_app_template_show', {id: template.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+        <i class="fas fa-info-circle"></i>
+    </a>
+    <a href="{{ path('admin_app_template_edit', {id: template.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+    </a>
+    {% include "Admin/components/_delete_modal.html.twig" with { element: template, path: 'admin_app_template_delete' } %}
+</div>
+{% endblock %}
+
+{% block body %}
+        <div class="card border-top-primary">
+            <div class="card-header bg-white">
+                <h2 class="card-title h5 mb-0">Informations</h2>
+            </div>
+            <div class="card-body card-show">
+                <table class="table table-striped mb-0">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ template.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Titre</th>
+                            <td>{{ template.title }}</td>
+                        </tr>
+                        <tr>
+                            <th>Groupes</th>
+                            <td>
+                                {% if template.templateGroups %}
+                                    <ul>
+                                        {% for templateGroup in template.templateGroups %}
+                                            <li>
+                                                <a href="{{ path('admin_app_template_group_show', {id: templateGroup.id}) }}">
+                                                    {{ templateGroup.title }}
+                                                </a>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ template.description|nl2br }}</td>
+                        </tr>
+                        <tr>
+                            <th>Content</th>
+                            <td>{{ template.content|raw }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+{% endblock %}

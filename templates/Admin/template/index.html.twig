@@ -1,0 +1,63 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block activeTemplate %}active show{% endblock %}
+{% block activeTemplateList %}active{% endblock %}
+
+{% block title %}Liste des modèles{% endblock %}
+
+{% block page_title %}Modèles{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Modèles
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_template_create') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body p-1">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Groupe</th>
+                        <th>description</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="sortables">
+                {% for template in templates %}
+                    <tr>
+                        <td data-label="Titre">
+                            {{ template.title }}
+                        </td>
+                        <td data-label="Groupe">{{ template.templateGroups|join(', ') }}</td>
+                        <td data-label="Description">{{ template.description }}</td>
+                        <td data-label="Actions">
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
+                                    <i class="fas fa-book-reader"></i>
+                                </a>                   
+                                <a href="{{ path('admin_app_template_show', {id: template.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                <a href="{{ path('admin_app_template_edit', {id: template.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                </a>
+                                {% include "Admin/components/_delete_modal.html.twig" with { element: template, path: 'admin_app_template_delete' } %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

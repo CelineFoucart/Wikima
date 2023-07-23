@@ -40,11 +40,11 @@ class Template
     private ?string $content = null;
 
     #[ORM\ManyToMany(targetEntity: TemplateGroup::class, inversedBy: 'templates')]
-    private Collection $templateGroup;
+    private Collection $templateGroups;
 
     public function __construct()
     {
-        $this->templateGroup = new ArrayCollection();
+        $this->templateGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,15 +91,15 @@ class Template
     /**
      * @return Collection<int, TemplateGroup>
      */
-    public function getTemplateGroup(): Collection
+    public function getTemplateGroups(): Collection
     {
-        return $this->templateGroup;
+        return $this->templateGroups;
     }
 
     public function addTemplateGroup(TemplateGroup $templateGroup): static
     {
-        if (!$this->templateGroup->contains($templateGroup)) {
-            $this->templateGroup->add($templateGroup);
+        if (!$this->templateGroups->contains($templateGroup)) {
+            $this->templateGroups->add($templateGroup);
         }
 
         return $this;
@@ -107,8 +107,13 @@ class Template
 
     public function removeTemplateGroup(TemplateGroup $templateGroup): static
     {
-        $this->templateGroup->removeElement($templateGroup);
+        $this->templateGroups->removeElement($templateGroup);
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title ? $this->title : "Nouveau modèle";
     }
 }

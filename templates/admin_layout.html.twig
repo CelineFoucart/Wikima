@@ -166,11 +166,11 @@
 							<span>Modèles</span>
 						</a>
 						<div class="dashboard-nav-dropdown-menu">
-							<a href="#" class="dashboard-nav-dropdown-item {% block activeTemplateList %}{% endblock %}">
+							<a href="{{ path('admin_app_template_list') }}" class="dashboard-nav-dropdown-item {% block activeTemplateList %}{% endblock %}">
 								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 								<span>Liste</span>
 							</a>
-							<a href="#" class="dashboard-nav-dropdown-item {% block activeTemplateCategory %}{% endblock %}">
+							<a href="{{ path('admin_app_template_group_list') }}" class="dashboard-nav-dropdown-item {% block activeTemplateGroup %}{% endblock %}">
 								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 								<span>Groupe</span>
 							</a>
