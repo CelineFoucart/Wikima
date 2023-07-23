@@ -22,6 +22,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
 use App\Entity\User;
+use App\Repository\TemplateGroupRepository;
+use App\Repository\TemplateRepository;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -36,13 +40,16 @@ final class AdminArticleController extends AbstractAdminController
         private ArticleRepository $articleRepository,
         private SectionRepository $sectionRepository,
         private ImageRepository $imageRepository,
+        private TemplateRepository $templateRepository,
     ) {
     }
 
     #[Route('/', name: 'admin_app_article_list', methods:['GET'])]
-    public function listAction(): Response
+    public function listAction(TemplateGroupRepository $templateGroupRepository): Response
     {
-        return $this->render('Admin/article/list.html.twig');
+        return $this->render('Admin/article/list.html.twig', [
+            'templates' => $templateGroupRepository->findBy([], ['title' => 'ASC']),
+        ]);
     }
 
     #[Route('/archive', name: 'admin_app_article_archive_index', methods:['GET'])]
@@ -55,9 +62,12 @@ final class AdminArticleController extends AbstractAdminController
 
 
     #[Route('/create', name: 'admin_app_article_create', methods:['GET', 'POST'])]
-    public function createAction(Request $request, PortalRepository $portalRepository): Response
+    public function createAction(Request $request, PortalRepository $portalRepository, TemplateGroupRepository $templateGroupRepository, EntityManagerInterface $em): Response
     {
-        $article = new Article();
+        $templateId = $request->query->getInt('template', 0);
+        $template =  ($templateId > 0) ? $templateGroupRepository->find($templateId) : null;
+        $title = ($template) ? $template->getTitle() : '';
+        $article = (new Article())->setTitle($title);
 
         $portalId = $request->query->getInt('portal');
         if (0 !== $portalId) {
@@ -74,6 +84,20 @@ final class AdminArticleController extends AbstractAdminController
             $article->setCreatedAt(new \DateTimeImmutable());
             $article->setAuthor($this->getUser());
             $this->articleRepository->add($article, true);
+            
+            if ($template !== null) {
+                foreach ($template->getTemplates() as $section) {
+                    $newSection = (new Section())
+                        ->setTitle($section->getTitle())
+                        ->setContent($section->getContent())
+                        ->setCreatedAt(new DateTimeImmutable());
+                    $article->addSection($newSection);
+                    $em->persist($newSection);
+                }
+
+                $em->flush();
+            }
+
             $this->addFlash('success', "L'article " . $article->getTitle() . " a bien été créé.");
             
             if (null !== $request->get('btn_save_and_section')) {
@@ -148,7 +172,7 @@ final class AdminArticleController extends AbstractAdminController
     public function sectionAction(Article $article, Request $request): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
-        $section = $this->getSection($request->query->getInt('section', 0), $article);
+        $section = $this->getSection($request->query->getInt('section', 0), $article, $request->query->getInt('template', 0));
         $sectionForm = $this->createForm(SectionType::class, $section);
         $sectionForm->handleRequest($request);
 
@@ -178,6 +202,7 @@ final class AdminArticleController extends AbstractAdminController
             'sectionForm' => $sectionForm,
             'section_active' => true,
             'images' => $this->imageRepository->findAll(),
+            'templates' => $this->templateRepository->findBy([], ['title' => 'ASC']),
         ]);
     }
 
@@ -264,10 +289,19 @@ final class AdminArticleController extends AbstractAdminController
         return $this->redirectToRoute('admin_app_article_list', [], Response::HTTP_SEE_OTHER);
     }
 
-    private function getSection(int $sectionId, $article): Section
+    private function getSection(int $sectionId, Article $article, int $templateId): Section
     {
+        if ($templateId > 0) {
+            $template = $this->templateRepository->find($templateId);
+            $title = ($template) ? $template->getTitle() : '';
+            $content = ($template) ? $template->getContent() : '';
+        } else {
+            $title = '';
+            $content = '';
+        }
+
         if (0 === $sectionId) {
-            return (new Section())->setArticle($article);
+            return (new Section())->setArticle($article)->setTitle($title)->setContent($content);
         }
         
 

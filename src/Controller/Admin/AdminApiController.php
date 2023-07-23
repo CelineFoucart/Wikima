@@ -14,6 +14,7 @@ use App\Repository\PlaceRepository;
 use App\Repository\PersonRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\IdiomCategoryRepository;
+use App\Repository\TemplateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -242,4 +243,23 @@ class AdminApiController extends AbstractController
 
         return $this->json(['message'=>'success'], Response::HTTP_OK);
     }
+
+    #[Route('/api/template', name: 'api_template_index', methods: ['GET'])]
+    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+    public function templateIndex(TemplateRepository $templateRepository, Request $request)
+    {
+        $parameters = $request->query->all();
+        $recordsFiltered = $templateRepository->countSearchTotal($parameters);
+        $recordsTotal = $templateRepository->countSearchTotal([]);
+
+        $data = [
+            'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
+            'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
+            "data" => $templateRepository->searchItems($parameters),
+            'recordsTotal' => isset($recordsTotal['recordsFiltered']) ? $recordsTotal['recordsFiltered'] : 0,
+        ];
+        
+        return $this->json($data, 200, [], ['groups' => 'index']);
+    }
+
 }

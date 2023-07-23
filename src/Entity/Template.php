@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TemplateRepository::class)]
 class Template
@@ -15,6 +16,7 @@ class Template
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['index'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -23,6 +25,7 @@ class Template
         min: 3,
         max: 255
     )]
+    #[Groups(['index'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 2000, nullable: true)]
@@ -30,13 +33,15 @@ class Template
         min: 3,
         max: 2000
     )]
+    #[Groups(['index'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT)]
     #[Assert\NotBlank]
     #[Assert\Length(
-        min: 20
+        min: 1
     )]
+    #[Groups(['index'])]
     private ?string $content = null;
 
     #[ORM\ManyToMany(targetEntity: TemplateGroup::class, inversedBy: 'templates')]

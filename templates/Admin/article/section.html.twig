@@ -5,6 +5,20 @@
 		<div class="col-md-6 col-lg-8 mb-2">
 			<div class="card border-top-primary">
 				<div class="card-header bg-white">
+					<div class="float-end">
+						<div class="dropdown">
+							<button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								A partir d'un modèle
+							</button>
+							<div class="dropdown-menu dropdown-template" aria-labelledby="dropdownMenuButton">
+								{% for template in templates %}
+									<a class="dropdown-item" href="{{ path('admin_app_article_section', {id: article.id, template: template.id}) }}">
+										{{ template.title }}
+									</a>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
 					<h3 class="card-title h5 mb-0">Modifier ou ajouter une section</h4>
 				</div>
 				{{ form_start(sectionForm) }}

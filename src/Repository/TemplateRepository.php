@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Template;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Service\DataFilterService;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Template>
@@ -21,28 +22,39 @@ class TemplateRepository extends ServiceEntityRepository
         parent::__construct($registry, Template::class);
     }
 
-//    /**
-//     * @return Template[] Returns an array of Template objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function searchItems(array $parameters): array
+    {
+        $builder = $this->createQueryBuilder('t');
+        $params = DataFilterService::formatParams($parameters, 't');
+        
+        if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
+            $builder
+                ->andWhere('t.title LIKE :search')
+                ->orWhere('t.description LIKE :search')
+                ->setParameter('search', '%' . $parameters['search']['value'] . '%' );
+        }
 
-//    public function findOneBySomeField($value): ?Template
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if ($params['limit'] > 0) {
+            $builder->setMaxResults($params['limit'])->setFirstResult($params['start']);
+        }
+
+        return $builder
+            ->orderBy($params['orderBy'], $params['direction'])
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function countSearchTotal(array $parameters): array
+    {
+        $builder = $this->createQueryBuilder('t')->select('COUNT(DISTINCT t.id) AS recordsFiltered');
+
+        if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
+            $builder
+                ->andWhere('t.title LIKE :search')
+                ->orWhere('t.description LIKE :search')
+                ->setParameter('search', '%' . $parameters['search']['value'] . '%' );
+        }
+
+        return $builder->getQuery()->getOneOrNullResult();
+    }
 }

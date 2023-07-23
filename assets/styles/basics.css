@@ -125,3 +125,8 @@ dd {
         margin-top: 5px;
     }
 }
+
+.dropdown-template {
+    max-width: 300px;
+    overflow-y: scroll;
+}

@@ -6,18 +6,21 @@ use DateTime;
 use App\Entity\User;
 use App\Entity\Idiom;
 use DateTimeImmutable;
+use App\Entity\IdiomArticle;
 use App\Form\Admin\IdiomFormType;
 use App\Repository\IdiomRepository;
 use App\Repository\ImageRepository;
 use App\Security\Voter\VoterHelper;
 use App\Repository\PortalRepository;
+use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\TemplateGroupRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
-use App\Repository\ArticleRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 #[Route('/admin/idiom')]
@@ -28,21 +31,26 @@ class AdminIdiomController extends AbstractAdminController
 
     public function __construct(
         private ImageRepository $imageRepository,
+        private SluggerInterface $slugger
     ) {
     }
 
     #[Route('/', name: 'admin_app_idiom_list', methods: ['GET'])]
-    public function listAction(IdiomRepository $idiomRepository): Response
+    public function listAction(IdiomRepository $idiomRepository, TemplateGroupRepository $templateGroupRepository): Response
     {
         return $this->render('Admin/idiom/list.html.twig', [
             'idioms' => $idiomRepository->findAll(),
+            'templates' => $templateGroupRepository->findBy([], ['title' => 'ASC']),
         ]);
     }
 
     #[Route('/create', name: 'admin_app_idiom_create', methods: ['GET', 'POST'])]
-    public function createAction(Request $request, EntityManagerInterface $entityManager, PortalRepository $portalRepository): Response
+    public function createAction(Request $request, EntityManagerInterface $entityManager, PortalRepository $portalRepository, TemplateGroupRepository $templateGroupRepository): Response
     {
-        $idiom = new Idiom();
+        $templateId = $request->query->getInt('template', 0);
+        $template =  ($templateId > 0) ? $templateGroupRepository->find($templateId) : null;
+        $title = ($template) ? $template->getTitle() : '';
+        $idiom = (new Idiom())->setTranslatedName($title);
 
         $portalId = $request->query->getInt('portal');
         if (0 !== $portalId) {
@@ -59,6 +67,22 @@ class AdminIdiomController extends AbstractAdminController
             $idiom->setCreatedAt(new DateTimeImmutable())->setAuthor($this->getUser());
             $entityManager->persist($idiom);
             $entityManager->flush();
+
+            if ($template !== null) {
+                foreach ($template->getTemplates() as $section) {
+                    $newArticle = (new IdiomArticle())
+                        ->setTitle($section->getTitle())
+                        ->setContent($section->getContent())
+                        ->setCreatedAt(new DateTimeImmutable())
+                        ->setSlug($this->slugger->slug(strtolower($section->getTitle() . '-' . $idiom->getId())))
+                        ->setIdiom($idiom);
+                    $idiom->addIdiomArticle($newArticle);
+                    $entityManager->persist($newArticle);
+                }
+
+                $entityManager->flush();
+            }
+
             $this->addFlash('success', 'La langue '.$idiom.' a bien été créée.');
 
             return $this->redirectTo($request, $idiom->getId());
@@ -157,6 +181,6 @@ class AdminIdiomController extends AbstractAdminController
             $this->addFlash('success', 'La langue a été supprimée avec succès.');
         }
 
-        return $this->redirectToRoute('admin_admin_app_idiom_list', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_app_idiom_list', [], Response::HTTP_SEE_OTHER);
     }
 }

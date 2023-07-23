@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/admin/idiom')]
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
@@ -123,7 +124,7 @@ class AdminIdiomArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'admin_app_idiom_article_delete', methods: ['POST'])]
+    #[Route('/articles/{id}/delete', name: 'admin_app_idiom_article_delete', methods: ['POST'])]
     public function deleteAction(Request $request, IdiomArticle $idiomArticle): Response
     {
         if ($this->isCsrfTokenValid('delete'.$idiomArticle->getId(), $request->request->get('_token'))) {

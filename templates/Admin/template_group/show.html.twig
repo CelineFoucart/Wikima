@@ -60,4 +60,45 @@
             </table>
         </div>
     </div>
+
+    <div class="card border-top-primary mt-3">
+        <div class="card-header bg-white">
+            <h2 class="card-title h5 mb-0">Modèles</h2>
+        </div>
+        <div class="card-body p-1">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>description</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="sortables">
+                {% for template in template_group.templates %}
+                    <tr>
+                        <td data-label="Titre">
+                            {{ template.title }}
+                        </td>
+                        <td data-label="Description">{{ template.description }}</td>
+                        <td data-label="Actions">
+                            <div class="btn-group">
+                                <a href="#" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
+                                    <i class="fas fa-book-reader"></i>
+                                </a>                   
+                                <a href="{{ path('admin_app_template_show', {id: template.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                <a href="{{ path('admin_app_template_edit', {id: template.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                </a>
+                                {% include "Admin/components/_delete_modal.html.twig" with { element: template, path: 'admin_app_template_delete' } %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}
