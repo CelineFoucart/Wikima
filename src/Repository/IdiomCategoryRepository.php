@@ -25,7 +25,9 @@ class IdiomCategoryRepository extends ServiceEntityRepository
     public function findMaxPosition(): int
     {
         try {
-            return $this->createQueryBuilder('i')->select('MAX(i.position)')->getQuery()->getSingleScalarResult();
+            $position = $this->createQueryBuilder('i')->select('MAX(i.position)')->getQuery()->getSingleScalarResult();
+            
+            return $position === null ? 0 : $position;
         } catch (NoResultException $th) {
             return 0;
         }
