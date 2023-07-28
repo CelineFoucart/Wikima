@@ -7,7 +7,7 @@ use App\Entity\Image;
 use DateTimeImmutable;
 use App\Entity\IdiomArticle;
 use App\Form\Admin\ImageType;
-use App\Form\IdiomArticleType;
+use App\Form\Admin\IdiomArticleType;
 use App\Entity\Data\SearchData;
 use App\Form\AdvancedSearchType;
 use App\Repository\IdiomArticleRepository;
@@ -18,7 +18,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/admin/idiom')]
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
