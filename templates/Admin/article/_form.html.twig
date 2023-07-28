@@ -73,4 +73,8 @@
     </div>
 {{ form_end(form) }}
 
-{% include "Admin/components/_editor.html.twig" with {target_id: 'article_form_content'} %}
+<script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
+<script src="{{ asset("assets/admin/editor.js") }}"></script>
+<script type="text/javascript">   
+    enableFullEditor("article_form_content");
+</script>

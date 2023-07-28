@@ -23,8 +23,7 @@ final class AdminPortalController extends AbstractAdminController
     protected string $entityName = "portal";
 
     public function __construct(
-        private PortalRepository $portalRepository,
-        private ImageRepository $imageRepository
+        private PortalRepository $portalRepository
     ) {
     }
 
@@ -62,7 +61,6 @@ final class AdminPortalController extends AbstractAdminController
 
         return $this->render('Admin/portal/create.html.twig', [
             'form' => $form->createView(),
-            'images' => $this->imageRepository->findAll(),
         ]);
     }
 
@@ -91,7 +89,6 @@ final class AdminPortalController extends AbstractAdminController
         return $this->render('Admin/portal/edit.html.twig', [
             'form' => $form->createView(),
             'portal' => $portal,
-            'images' => $this->imageRepository->findAll(),
         ]);
     }
 

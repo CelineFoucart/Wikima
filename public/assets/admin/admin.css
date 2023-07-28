@@ -10,6 +10,10 @@ img {
     max-width: 100%;
 }
 
+.modal {
+    z-index: 10010;
+}
+
 .navigation .pagination {
     margin-top: 15px;
 }

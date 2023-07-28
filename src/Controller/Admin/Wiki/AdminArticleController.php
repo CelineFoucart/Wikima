@@ -109,7 +109,6 @@ final class AdminArticleController extends AbstractAdminController
 
         return $this->render('Admin/article/create.html.twig', [
             'form' => $form->createView(),
-            'images' => $this->imageRepository->findAll(),
         ]);
     }
 
@@ -162,7 +161,6 @@ final class AdminArticleController extends AbstractAdminController
         return $this->render('Admin/article/edit.html.twig', [
             'form' => $form->createView(),
             'article' => $article,
-            'images' => $this->imageRepository->findAll(),
         ]);
     }
 

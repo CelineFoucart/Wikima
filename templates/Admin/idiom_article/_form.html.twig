@@ -7,9 +7,11 @@
                     <i class="fas fa-arrow-left"></i>
                     Retour
                 </a>
-                <a href="{{ path('admin_app_idiom_article_gallery', {id: article.id}) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="Galerie">
-                    <i class="fas fa-image" aria-hidden="true"></i> Galerie
-                </a>
+                {% if article.id is not null %}
+                    <a href="{{ path('admin_app_idiom_article_gallery', {id: article.id}) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="Galerie">
+                        <i class="fas fa-image" aria-hidden="true"></i> Galerie
+                    </a>
+                {% endif %}
             </div>
             <h3 class="card-title h5 mb-0">{{ article }}</h3>
         </div>

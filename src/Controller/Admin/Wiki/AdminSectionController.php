@@ -20,8 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminSectionController extends AbstractController
 {
     public function __construct(
-        private SectionRepository $sectionRepository,
-        private ImageRepository $imageRepository
+        private SectionRepository $sectionRepository
     ) {
     }
 
@@ -43,7 +42,6 @@ class AdminSectionController extends AbstractController
         return $this->render('Admin/section/edit.html.twig', [
             'form' => $form->createView(),
             'section' => $section,
-            'images' => $this->imageRepository->findAll(),
         ]);
     }
 

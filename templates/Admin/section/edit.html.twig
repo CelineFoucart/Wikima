@@ -68,6 +68,13 @@
             </div>
         </div>
     {{ form_end(form) }}
+{% endblock %}
 
-    {% include "Admin/components/_editor.html.twig" with {target_id: 'section_content'} %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
+    <script src="{{ asset("assets/admin/editor.js") }}"></script>
+    <script type="text/javascript">   
+        enableFullEditor("section_content");
+    </script>
 {% endblock %}

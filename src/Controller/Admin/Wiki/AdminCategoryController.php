@@ -23,8 +23,7 @@ final class AdminCategoryController extends AbstractAdminController
     protected string $entityName = "category";
 
     public function __construct(
-        private CategoryRepository $categoryRepository,
-        private ImageRepository $imageRepository
+        private CategoryRepository $categoryRepository
     ) {
     }
 
@@ -53,7 +52,6 @@ final class AdminCategoryController extends AbstractAdminController
 
         return $this->render('Admin/category/create.html.twig', [
             'form' => $form->createView(),
-            'images' => $this->imageRepository->findAll(),
         ]);
     }
 
@@ -82,7 +80,6 @@ final class AdminCategoryController extends AbstractAdminController
         return $this->render('Admin/category/edit.html.twig', [
             'form' => $form->createView(),
             'category' => $category,
-            'images' => $this->imageRepository->findAll(),
         ]);
     }
 
