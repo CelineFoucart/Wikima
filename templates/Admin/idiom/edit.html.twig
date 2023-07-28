@@ -20,9 +20,9 @@
 
 {% block toolbar %}
 	{% set can_edit = can_access(app.user, idiom) %}
-    {{ include('admin/idiom/_toolbar.html.twig') }}
+    {{ include('Admin/idiom/_toolbar.html.twig') }}
 {% endblock %}
 
 {% block body %}
-    {{ include('admin/idiom/_form.html.twig') }}
+    {{ include('Admin/idiom/_form.html.twig') }}
 {% endblock %}
