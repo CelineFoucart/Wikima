@@ -2,9 +2,7 @@
 
 {% block activeWiki %} active show {% endblock %}
 {% block activeArticle %}active{% endblock %}
-
 {% block title %}Editer "{{ section.title }}"{% endblock %}
-
 {% block page_title %}Editer "{{ section.title }}"{% endblock %}
 
 {% block breadcrumb %}
@@ -28,6 +26,12 @@
                 <a class="dropdown-item" href="{{ path('admin_app_article_section', {id: section.article.id}) }}">
                     <i class="fas fa-plus-circle" aria-hidden="true"></i>
                     Ajouter
+                </a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="{{ path('admin_app_section_conversion', {id: section.id}) }}">
+                    <i class="fas fa-sync"></i>
+                    Convertir
                 </a>
             </li>
             <li>

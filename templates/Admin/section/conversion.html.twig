@@ -1,0 +1,133 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block activeWiki %}active show{% endblock %}
+{% block activeArticle %}active{% endblock %}
+{% block title %}Convertir "{{ section.title }}"{% endblock %}
+{% block page_title %}Convertir "{{ section.title }}"{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #section_convert_actions {
+            display:flex;
+            gap:10px;
+        }
+
+        .form-check .required:after {
+            display:none;
+        }
+    </style>
+{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_article_section', {id: section.article.id}) }}" class="text-reset">
+			Sections de "{{ section.article }}"
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Convertir en article
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<div class="dropdown d-inline">
+		<button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+			Action
+		</button>
+		<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+			<li>
+				<a class="dropdown-item" href="{{ path('admin_app_article_section', {id: section.article.id}) }}">
+					<i class="fas fa-plus-circle" aria-hidden="true"></i>
+					Ajouter
+				</a>
+			</li>
+			<li>
+				<a class="dropdown-item" href="{{ path('admin_app_section_edit', {id: section.id}) }}">
+					<i class="fas fa-pencil-alt" aria-hidden="true"></i>
+					Editer
+				</a>
+			</li>
+			<li>
+				<a href="{{ path('app_article_show', {slug: section.article.slug}) }}" class="dropdown-item">
+					<i class="fas fa-book-reader" aria-hidden="true"></i>
+					Retour à l'article
+				</a>
+			</li>
+		</ul>
+	</div>
+{% endblock %}
+
+{% block body %}
+	{{ form_start(form) }}
+	<div class="row">
+		<div class="col-12">
+			<div class="d-flex flex-wrap justify-content-end pe-1" style="gap:10px">
+				{{ form_row(form.isSticky) }}
+				{{ form_row(form.isDraft) }}
+				{{ form_row(form.isPrivate) }}
+				{{ form_row(form.isArchived) }}
+			</div>
+		</div>
+		<div class="col-md-8 mb-2">
+			<div class="card border-top-primary">
+				<div class="card-header">
+					<h3 class="card-title h5 mb-0">Contenu</h3>
+				</div>
+				<div class="card-body">
+					{{ form_row(form.title) }}
+					{{ form_row(form.type) }}
+					{{ form_row(form.content) }}
+					
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card border-top-primary">
+				<div class="card-header">
+					<h3 class="card-title h5 mb-0">Méta données</h3>
+				</div>
+				<div class="card-body">
+					<div class="mb-3">
+						{{ form_label(form.slug) }}
+						<div class="input-group">
+							{{ form_widget(form.slug) }}
+							<span class="input-group-text" data-action="slugify" data-target="#article_form_slug" role="btton" data-source="#article_form_title" title="Générer">
+								<i class="fas fa-sync-alt"></i>
+							</span>
+						</div>
+						{{ form_help(form.slug) }}
+						{{ form_errors(form.slug) }}
+					</div>
+					{{ form_row(form.keywords) }}
+					{{ form_row(form.description) }}
+					{{ form_row(form.portals) }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="card-btn mt-3">
+		<div class="row align-items-center">
+            <div class="col-md-6">{{ form_widget(form.actions) }}{{ form_rest(form) }}</div>
+            <div class="col-md-6 text-end">
+                <button class="btn btn-success btn-sm" type="submit" name="btn_save_and_edit">
+                    <i class="fas fa-save" aria-hidden="true"></i>
+                    Enregistrer
+                </button>
+            </div>
+        </div>
+        {{ form_errors(form.actions) }}
+	</div>
+	{{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
+    <script src="{{ asset("assets/admin/editor.js") }}"></script>
+    <script type="text/javascript">   
+        enableFullEditor("section_convert_content");
+    </script>
+{% endblock %}
+

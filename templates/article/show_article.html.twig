@@ -9,7 +9,7 @@
 	{{ article.description }}
 {% endblock %}
 
-{% set has_sections = article.sections is not empty %}
+{% set has_sections = article.sections is not empty or article.images is not empty %}
 
 {% block body %}
 	<article>
@@ -37,6 +37,9 @@
 									<a href="#part{{ section.id }}" class="text-dark">{{ section.title }}</a>
 								</li>
 							{% endfor %}
+							<li class="fs-6">
+								<a href="#gallery-article" class="text-dark">Galerie de l'article</a>
+							</li>
 						</ol>
 					</aside>
 				</div>
@@ -51,6 +54,9 @@
 										<a href="{{ path('admin_app_section_edit', {id: section.id}) }}" class="text-success text-decoration-none" data-bs-toggle="tooltip" title="édition rapide">
 											<i class="fas fa-edit"></i>
 										</a>
+										<a class="text-success text-decoration-none" href="{{ path('admin_app_section_conversion', {id: section.id}) }}" data-bs-toggle="tooltip" title="convertir">
+											<i class="fas fa-sync"></i>
+										</a>
 										<a href="{{ path('admin_app_section_delete', {id: section.id}) }}" class="text-danger text-decoration-none" data-bs-toggle="tooltip" title="suppression">
 											<i class="fas fa-trash"></i>
 										</a>
@@ -60,6 +66,25 @@
 							<p>{{ section.content|raw }}</p>
 						</section>
 					{% endfor %}
+
+					<section id="gallery-article" class="mb-4">
+						<h2 class="border-bottom h2 pb-1 position-relative section-title">
+							Galerie
+							{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) or is_granted('ROLE_ADMIN') %}
+								<span class="position-absolute top-0 end-0 edit-actions">
+									<a href="{{ path('admin_app_article_gallery', {id:article.id}) }}" class="text-success text-decoration-none" data-bs-toggle="tooltip" title="gérer la galerie">
+										<i class="fas fa-edit"></i>
+									</a>
+								</span>
+							{% endif %}
+						</h2>
+						<p>
+							{% set length = article.images|length %}
+							<span class="fw-bold">{{ length }}</span>
+							image{{ length > 1 ? 's' : '' }}
+						</p>
+						{% include "image/components/_not_paginated_list.html.twig" with {images: article.images} %}
+					</section>
 				</div>
 			{% endif %}
 		</div>

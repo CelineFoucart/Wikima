@@ -4,19 +4,24 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Wiki;
 
+use DateTime;
+use App\Entity\Article;
 use App\Entity\Section;
 use App\Form\SectionType;
-use App\Repository\ArticleRepository;
 use App\Repository\ImageRepository;
-use App\Repository\SectionRepository;
 use App\Security\Voter\VoterHelper;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Repository\ArticleRepository;
+use App\Repository\SectionRepository;
+use App\Form\Admin\SectionConvertType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_EDITOR')")]
+#[Route('/admin/section')]
 class AdminSectionController extends AbstractController
 {
     public function __construct(
@@ -24,7 +29,7 @@ class AdminSectionController extends AbstractController
     ) {
     }
 
-    #[Route('/admin/section/{id}/edit', name: 'admin_app_section_edit')]
+    #[Route('/{id}/edit', name: 'admin_app_section_edit')]
     public function editAction(Section $section, Request $request): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $section->getArticle());
@@ -45,7 +50,47 @@ class AdminSectionController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/section/{id}/delete', name: 'admin_app_section_delete')]
+    #[Route('/{id}/conversion', name: 'admin_app_section_conversion')]
+    public function conversionAction(Section $section, Request $request, SluggerInterface $slugger, ArticleRepository $articleRepository): Response
+    {
+        $article = (new Article())
+            ->setTitle($section->getTitle())
+            ->setSlug($slugger->slug(strtolower($section->getTitle()), '-')->toString())
+            ->setContent($section->getContent())
+            ->setKeywords($section->getArticle()->getKeywords())
+            ->setType($section->getArticle()->getType())
+            ->setDescription($section->getTitle());
+
+        foreach ($section->getArticle()->getPortals() as $portal) {
+            $article->addPortal($portal);
+        }
+
+        $form = $this->createForm(SectionConvertType::class, $article);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $article->setAuthor($this->getUser())->setCreatedAt(new DateTime());
+            $articleRepository->add($article, true);
+            $action = $form->get('actions')->getData();
+
+            if ($action == 0) {
+                $this->sectionRepository->remove($section, true);
+                
+                return $this->redirectToRoute('app_article_show', ['slug' => $article->getSlug()]);
+            } elseif ($action == 1) {
+                return $this->redirectToRoute('admin_app_section_edit', ['id' => $section->getId()]);
+            } else {
+                return $this->redirectToRoute('app_article_show', ['slug' => $article->getSlug()]);
+            }
+        }
+
+        return $this->render('Admin/section/conversion.html.twig', [
+            'section' => $section,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}/delete', name: 'admin_app_section_delete')]
     public function delete(Section $section, SectionRepository $sectionRepository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $section->getArticle());

@@ -31,17 +31,6 @@ final class ArticleController extends AbstractController
         ]);
     }
 
-    #[Route('/articles/{slug}/gallery', name: 'app_article_show_gallery')]
-    #[Entity('article', expr: 'repository.findBySlug(slug)')]
-    public function articleGalerie(Article $article): Response
-    {
-        $this->denyAccessUnlessGranted('view', $article);
-
-        return $this->render('article/show_article_gallery.html.twig', [
-            'article' => $article,
-        ]);
-    }
-
     #[Route('/articles', name: 'app_article_index')]
     public function index(Request $request, int $perPageEven): Response
     {
