@@ -31,9 +31,10 @@
 
 							<dt class="col-md-3">Mes contributions</dt>
 							<dd class="col-md-9">
-								<a href="{{ path('app_profile_comments') }}">rechercher mes commentaires</a>
+								{% if enable_comment == 1 %}
+									<a href="{{ path('app_profile_comments') }}">rechercher mes commentaires</a><br>
+								{% endif %}
 								{% if is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN') %}
-									<br>
 									<a href="{{ path('app_article_user', {id: app.user.id}) }}">Rechercher mes articles</a>
 									<br>
 									<a href="{{ path('app_article_draft') }}">Rechercher mes brouillons d'article</a>

@@ -122,5 +122,24 @@
 				</div>
 			</section>
 		{% endif %}
+
+
+		{% if enable_idiom == 1 and portal.idioms is not empty %}
+			<section class="pt-1 py-5 px-4">
+				<h2 class="content-title-section">
+					Les langues du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
+				</h2>
+				{% set total_idiom = portal.idioms|length %}
+				<p>
+					Ce portail comprend <strong>{{ total_idiom }}</strong> langue{{ total_idiom > 1 ? 's' : '' }}.
+				</p>
+
+				<div class="row">
+					{% for idiom in portal.idioms %}
+						{% include "idiom/_idiom_card.html.twig" %}
+					{% endfor %}
+				</div>
+			</section>
+		{% endif %}
 	</article>
 {% endblock %}

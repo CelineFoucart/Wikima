@@ -143,23 +143,24 @@
 							</a>
 						</div>
 					</div>
-					<div class="dashboard-nav-dropdown {% block activeIdiom %}{% endblock %}">
-						<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
-							<i class="fas fa-language"></i>
-							<span>Langues</span>
-						</a>
-						<div class="dashboard-nav-dropdown-menu">
-							<a href="{{ path('admin_app_idiom_list') }}" class="dashboard-nav-dropdown-item {% block activeIdiomList %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Liste</span>
+					{% if enable_idiom == 1 %}
+						<div class="dashboard-nav-dropdown {% block activeIdiom %}{% endblock %}">
+							<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+								<i class="fas fa-language"></i>
+								<span>Langues</span>
 							</a>
-							<a href="{{ path('admin_app_idiom_category_list') }}" class="dashboard-nav-dropdown-item {% block activeIdiomCategory %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Catégorie</span>
-							</a>
+							<div class="dashboard-nav-dropdown-menu">
+								<a href="{{ path('admin_app_idiom_list') }}" class="dashboard-nav-dropdown-item {% block activeIdiomList %}{% endblock %}">
+									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+									<span>Liste</span>
+								</a>
+								<a href="{{ path('admin_app_idiom_category_list') }}" class="dashboard-nav-dropdown-item {% block activeIdiomCategory %}{% endblock %}">
+									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+									<span>Catégorie</span>
+								</a>
+							</div>
 						</div>
-					</div>
-
+					{% endif %}
 					<div class="dashboard-nav-dropdown {% block activeTemplate %}{% endblock %}">
 						<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
 							<i class="fas fa-table"></i>
@@ -195,14 +196,20 @@
 								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 								<span>Membres</span>
 							</a>
-							<a href="{{ path('admin_app_comment_list') }}" class="dashboard-nav-dropdown-item {% block activeComment %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Commentaire</span>
-							</a>
+							{% if enable_comment == 1 %}
+								<a href="{{ path('admin_app_comment_list') }}" class="dashboard-nav-dropdown-item {% block activeComment %}{% endblock %}">
+									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+									<span>Commentaire</span>
+								</a>
+							{% endif %}
 							{% if is_granted('ROLE_SUPER_ADMIN') %}
 								<a href="{{ path('admin_app_backup_list') }}" class="dashboard-nav-dropdown-item {% block activeBackup %}{% endblock %}">
 									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 									<span>Sauvegarde</span>
+								</a>
+								<a href="{{ path('admin_app_modules') }}" class="dashboard-nav-dropdown-item {% block activeModule %}{% endblock %}">
+									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+									<span>Modules</span>
 								</a>
 							{% endif %}
 							<a href="{{ path('admin_app_settings') }}" class="dashboard-nav-dropdown-item {% block activeConfig %}{% endblock %}">

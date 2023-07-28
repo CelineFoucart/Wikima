@@ -63,6 +63,15 @@ img {
     color: #367fa9;
 }
 
+.text-primary {
+    color: #367fa9 !important;
+}
+
+.form-check-input:checked {
+    background-color: #367fa9;
+    border-color: #367fa9;
+}
+
 .page-item.active .page-link  {
     background-color: #3c8dbc;
     border-color: #367fa9;

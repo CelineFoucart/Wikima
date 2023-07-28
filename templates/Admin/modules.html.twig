@@ -1,0 +1,58 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Gestion des modules
+{% endblock %}
+
+{% block activeAdmin %}
+	active show
+{% endblock %}
+{% block activeModule %}active
+{% endblock %}
+
+{% block page_title %}Modules
+{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item active">
+		Gestion des modules
+	</li>
+{% endblock %}
+
+{% block body %}
+	<p>
+		Sur cette page, vous allez pouvoir activer des modules de l'application ou désactiver ceux qui ne correspondent pas à vos besoins.
+	</p>
+
+	<form action="" method="post">
+        <div class="row mt-4">
+            {% for module in modules %}
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card shadow-sm border-top-primary">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <p class="text-muted mb-0">MODULE</p>
+                                    <h2 class="card-title h5 fw-bold">{{ module.title }}</h2>
+                                </div>
+                                <div class="col-md-3 text-end">
+                                    <i class="{{ module.icon }} text-primary display-5"></i>
+                                </div>
+                            </div>
+                            <p class="card-text mt-3">{{ module.description }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" name="{{ module.id }}" type="checkbox" id="{{ module.id }}" {{ module.status ? 'checked' : '' }}>
+                                <label class="form-check-label" for="flexSwitchCheckChecked">Activer</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="col-12 mt-4">
+                <input type="hidden" name="_token" value="{{ csrf_token('module_handler') }}">
+                <button type="submit" class="btn btn-primary btn-sm">Sauvegarder</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

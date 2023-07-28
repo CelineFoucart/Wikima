@@ -25,8 +25,12 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class AdminIdiomArticleController extends AbstractController
 {
     public function __construct(
-        private IdiomArticleRepository $idiomArticleRepository
+        private IdiomArticleRepository $idiomArticleRepository,
+        bool $enableIdiom
     ) {
+        if (false === $enableIdiom) {
+            throw $this->createNotFoundException('Not Found');
+        }
     }
 
     #[Route('/{id}/articles/create', name: 'admin_app_idiom_article_create', methods: ['GET', 'POST'])]

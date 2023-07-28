@@ -221,8 +221,12 @@ class AdminApiController extends AbstractController
 
     #[Route('/api/admin/idiom/categories/sort', 'api_idiom_category_sort', methods: ['POST'])]
     #[Security("is_granted('ROLE_ADMIN')")]
-    public function sortIdiomCategories(Request $request, IdiomCategoryRepository $idiomCategoryRepository): JsonResponse
+    public function sortIdiomCategories(Request $request, IdiomCategoryRepository $idiomCategoryRepository, bool $enableIdiom): JsonResponse
     {
+        if (false === $enableIdiom) {
+            throw $this->createNotFoundException('Not Found');
+        }
+        
         $data = json_decode($request->getContent(), true);
         $categories = $idiomCategoryRepository->findAll();
 

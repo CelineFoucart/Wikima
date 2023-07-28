@@ -19,8 +19,12 @@ final class AdminCommentController extends AbstractAdminController
     protected string $entityName = "comment";
 
     public function __construct(
-        private CommentRepository $commentRepository
+        private CommentRepository $commentRepository,
+        bool $enableComment
     ) {
+        if (false === $enableComment) {
+            throw $this->createNotFoundException('Not Found');
+        }
     }
 
     #[Route('/', name: 'admin_app_comment_list', methods:['GET'])]

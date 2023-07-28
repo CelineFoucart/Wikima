@@ -19,8 +19,12 @@ use Symfony\Component\Routing\Annotation\Route;
 final class CommentController extends AbstractController
 {
     public function __construct(
-        private ArticleRepository $articleRepository
+        private ArticleRepository $articleRepository,
+        bool $enableComment
     ) {
+        if (false === $enableComment) {
+            throw $this->createNotFoundException('Not Found');
+        }
     }
 
     #[Route('/articles/{slug}/comment', name: 'app_comment')]

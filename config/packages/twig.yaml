@@ -9,6 +9,8 @@ twig:
         enable_registration: '%env(bool:ENABLE_REGISTRATION)%'
         background_color: '%env(BACKGROUND_COLOR)%'
         date_format: '%env(DATE_FORMAT)%'
+        enable_comment: '%env(COMMENT_MODULE)%'
+        enable_idiom: '%env(IDIOM_MODULE)%'
 
 when@test:
     twig:

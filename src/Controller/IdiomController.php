@@ -13,6 +13,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class IdiomController extends AbstractController
 {
+    public function __construct(bool $enableIdiom)
+    {
+        if (false === $enableIdiom) {
+            throw $this->createNotFoundException('Not Found');
+        }
+    }
     #[Route('/idioms', name: 'app_idiom_index')]
     public function indexAction(IdiomRepository $idiomRepository): Response
     {

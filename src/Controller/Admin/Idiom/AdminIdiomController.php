@@ -31,8 +31,12 @@ class AdminIdiomController extends AbstractAdminController
 
     public function __construct(
         private ImageRepository $imageRepository,
-        private SluggerInterface $slugger
+        private SluggerInterface $slugger,
+        bool $enableIdiom
     ) {
+        if (false === $enableIdiom) {
+            throw $this->createNotFoundException('Not Found');
+        }
     }
 
     #[Route('/', name: 'admin_app_idiom_list', methods: ['GET'])]

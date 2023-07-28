@@ -62,7 +62,7 @@
                     </td>
                     <td data-label="Actions">
                         <div class="btn-group">
-                            <a href="#" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
+                            <a href="{{ path('app_idiom_show', {slug: idiom.slug}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
                                 <i class="fas fa-book-reader"></i>
                             </a>                   
                             <a href="{{ path('admin_app_idiom_show', {id: idiom.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">

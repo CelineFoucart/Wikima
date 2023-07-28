@@ -62,8 +62,12 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/profile/comments', name: 'app_profile_comments')]
-    public function userComments(CommentRepository $commentRepository, Request $request): Response
+    public function userComments(CommentRepository $commentRepository, Request $request, bool $enableComment): Response
     {
+        if (false === $enableComment) {
+            throw $this->createNotFoundException('Not Found');
+        }
+        
         $page = $request->query->getInt('page', 1);
 
         return $this->render('user/user_comments.html.twig', [

@@ -20,9 +20,11 @@ class IdiomCategoryController extends AbstractAdminController
 {
     protected string $entityName = "idiom_category";
 
-    public function __construct(private IdiomCategoryRepository $idiomCategoryRepository)
+    public function __construct(private IdiomCategoryRepository $idiomCategoryRepository, bool $enableIdiom)
     {
-        
+        if (false === $enableIdiom) {
+            throw $this->createNotFoundException('Not Found');
+        }
     }
 
     #[Route('/', name: 'admin_app_idiom_category_list', methods: ['GET'])]

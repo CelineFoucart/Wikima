@@ -31,6 +31,8 @@ services:
             $configFile: '%kernel.project_dir%/.env.local'
             $publicDir: '%kernel.project_dir%/public'
             $projectDir: '%kernel.project_dir%/'
+            $enableComment: '%env(COMMENT_MODULE)%'
+            $enableIdiom: '%env(IDIOM_MODULE)%'
     
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -52,3 +54,20 @@ services:
 
     App\DataFixtures\HashPasswordProvider:
         tags: [ { name: nelmio_alice.faker.provider } ]
+    
+    App\Service\Modules\ModuleService:
+        arguments: 
+            $modules: [
+                { 
+                    id: 'COMMENT_MODULE',
+                    title: 'Commentaires',
+                    icon: 'fas fa-comment-alt',
+                    description: "Ce module permet aux utilisateurs connectés de poster des commentaires sur les articles de l'encyclopédie."
+                },
+                { 
+                    id: 'IDIOM_MODULE',
+                    title: 'Langues',
+                    icon: 'fas fa-language',
+                    description: "Ce module permet de gérer sur l'encyclopédie des langues qui comprennent des articles que vous pouvez regrouper par catégorie."
+                }
+            ]

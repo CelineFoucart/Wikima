@@ -12,7 +12,9 @@
                     <th>Pseudo</th>
                     <th>Roles</th>
                     <th>Articles publiés</th>
-                    <th>Commentaires postés</th>
+                    {% if enable_comment == 1 %}
+                        <th>Commentaires postés</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -20,7 +22,9 @@
                     <td data-label="Pseudo">{{ user.username }}</td>
                     <td data-label="Roles">{{ format_roles(user.roles) }}</td>
                     <td data-label="Articles publiés">{{ user.articles|length }}</td>
-                    <td data-label="Commentaires postés">{{ user.comments|length }}</td>
+                    {% if enable_comment == 1 %}
+                        <td data-label="Commentaires postés">{{ user.comments|length }}</td>
+                    {% endif %}
                 </tr>
             </tbody>
         </table>

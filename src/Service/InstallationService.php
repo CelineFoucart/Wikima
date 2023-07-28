@@ -56,7 +56,7 @@ final class InstallationService
 
     public function endInstallation(): void
     {
-        file_put_contents($this->configFile, 'INSTALLATION=1', FILE_APPEND);
+        file_put_contents($this->configFile, 'INSTALLATION=1' . "\n", FILE_APPEND);
     }
 
     public function isInstalled(): bool
