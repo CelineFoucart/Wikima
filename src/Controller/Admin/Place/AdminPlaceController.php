@@ -129,6 +129,19 @@ final class AdminPlaceController extends AbstractAdminController
         return $this->redirectToRoute('admin_app_place_list', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/{id}/sticky', name: 'admin_app_place_sticky', methods:['POST'])]
+    public function stickyAction(Request $request, Place $place): Response
+    {
+        if ($this->isCsrfTokenValid('sticky'.$place->getId(), $request->request->get('_token'))) {
+            $sticky = !$place->getIsSticky();
+            $place->setIsSticky($sticky);
+            $this->placeRepository->save($place, true);
+            $this->addFlash('success', "Le lieu a été modifié avec succès.");
+        }
+
+        return $this->redirectToRoute('app_place_show', ['slug' => $place->getSlug()], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('/{id}/archive', name: 'admin_app_place_archive', methods:['POST'])]
     public function archiveAction(Request $request, Place $place): Response
     {
@@ -168,7 +181,7 @@ final class AdminPlaceController extends AbstractAdminController
 
                 return $this->redirectToRoute('admin_app_place_image', ['id' => $place->getId()]);
             }
-        }else if ('POST' === $request->getMethod()) {
+        } else if ('POST' === $request->getMethod()) {
             $status = $this->handleImage($request, $place);
             $uri = $request->server->get('REQUEST_URI');
 

@@ -17,6 +17,8 @@
 			{{ include('article/components/_header.html.twig', {reading:true}) }}
 		</header>
 
+		<div class="px-4">{% include "components/_flashes.html.twig" %}</div>
+
 		<div class="pt-5 px-4 {{ has_sections ? 'article-grid' : '' }}">
 			<div class="article-content article-intro ">
 				{{ article.content|raw }}

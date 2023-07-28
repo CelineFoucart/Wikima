@@ -37,6 +37,7 @@
 					<a href="{{ path('admin_app_person_image', {id: person.id}) }}" class="btn btn-outline-secondary btn-sm" title="gérer l'image">
 						<i class="fas fa-image"></i>
 					</a>
+					{% include "components/_sticky_modal.html.twig" with {element: person, path:'admin_app_person_sticky'} %}
 				</div>
 			{% endif %}
 			<p>
@@ -61,6 +62,8 @@
 		</div>
 	</header>
 	<section class="mt-4 px-4 container-fluid">
+		{% include "components/_flashes.html.twig" %}
+
 		<aside class="about-person">
 			<h2 class="about-person-title p-1">{{ person }}</h2>
 			{% if person.image %}

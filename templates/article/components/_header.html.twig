@@ -49,6 +49,11 @@
 					{% endif %}
 				</ul>
 			</div>
+
+			{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) 
+						or is_granted('ROLE_ADMIN') %}
+				{% include "components/_sticky_modal.html.twig" with {element: article, path:'admin_app_article_sticky'} %}
+			{% endif %}
 		</div>
 		{% if article.type %}
 			<div>

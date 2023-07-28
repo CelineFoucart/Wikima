@@ -1,0 +1,28 @@
+<button type="button" class="btn btn-secondary btn-sm mt-2 ms-auto d-block" data-bs-toggle="modal" data-bs-target="#stickyModal">
+	<i class="fas fa-thumbtack"></i>
+</button>
+
+<div class="modal fade" id="stickyModal" tabindex="-1" aria-labelledby="stickyModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="stickyModalLabel">Epingler</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				{% if element.isSticky %}
+                    Voulez-vous vraiment désépingler <strong>{{ element }}</strong>&nbsp;?
+                {% else %}
+                    Voulez-vous vraiment épingler <strong>{{ element }}</strong>&nbsp;?
+                {% endif %}
+			</div>
+			<div class="modal-footer">
+                <form method="post" action="{{ path(path, {'id': element.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('sticky' ~ element.id) }}">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-success btn-sm">Confirmer</button>
+                </form>
+			</div>
+		</div>
+	</div>
+</div>

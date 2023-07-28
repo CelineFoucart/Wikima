@@ -287,6 +287,19 @@ final class AdminArticleController extends AbstractAdminController
         return $this->redirectToRoute('admin_app_article_list', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/{id}/sticky', name: 'admin_app_article_sticky', methods:['POST'])]
+    public function stickyAction(Request $request, Article $article): Response
+    {
+        if ($this->isCsrfTokenValid('sticky'.$article->getId(), $request->request->get('_token'))) {
+            $sticky = !$article->getIsSticky();
+            $article->setIsSticky($sticky);
+            $this->articleRepository->add($article, true);
+            $this->addFlash('success', "L'article a été modifié avec succès.");
+        }
+
+        return $this->redirectToRoute('app_article_show', ['slug' => $article->getSlug()], Response::HTTP_SEE_OTHER);
+    }
+
     private function getSection(int $sectionId, Article $article, int $templateId): Section
     {
         if ($templateId > 0) {

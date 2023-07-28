@@ -135,6 +135,19 @@ final class AdminPersonController extends AbstractAdminController
         return $this->redirectToRoute('admin_app_person_list', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/{id}/sticky', name: 'admin_app_person_sticky', methods:['POST'])]
+    public function stickyAction(Request $request, Person $person): Response
+    {
+        if ($this->isCsrfTokenValid('sticky'.$person->getId(), $request->request->get('_token'))) {
+            $sticky = !$person->getIsSticky();
+            $person->setIsSticky($sticky);
+            $this->personRepository->add($person, true);
+            $this->addFlash('success', "Le personnage a été modifié avec succès.");
+        }
+
+        return $this->redirectToRoute('app_person_show', ['slug' => $person->getSlug()], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('/{id}/image', name: 'admin_app_person_image', methods:['GET', 'POST'])]
     public function imageAction(Person $person, Request $request): Response
     {
