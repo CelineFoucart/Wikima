@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
 use App\Form\Admin\ImageType;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Finder\Finder;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
@@ -104,10 +105,24 @@ final class AdminImageController extends AbstractAdminController
     }
 
     #[Route('/{id}/delete', name: 'admin_app_image_delete', methods:['POST'])]
-    public function deleteAction(Request $request, Image $image): Response
+    public function deleteAction(Request $request, Image $image, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
             $this->cacheManager->remove('/uploads/'.$image->getFilename());
+            
+            if (count($image->getPlaces()) > 0 || count($image->getPeople()) > 0) {
+                foreach ($image->getPlaces() as $place) {
+                    $image->removePlace($place);
+                }
+
+                foreach ($image->getPeople() as $person) {
+                    $image->removePerson($person);
+                }
+                
+                $em->persist($image);
+                $em->flush();
+            }
+
             $this->imageRepository->remove($image, true);
             $this->addFlash('success', "L'élément a été supprimé avec succès.");
         }
