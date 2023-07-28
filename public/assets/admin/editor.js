@@ -86,7 +86,7 @@ function enableTemplatePlugin(textareaId, editor) {
                 render: function ( data, type, row ) {
                     return `
                         <button 
-                            class="btn btn-primary btn-sm person-btn-action ${tableId}" 
+                            class="btn btn-primary btn-sm template-btn-action ${tableId}" 
                             title="choisir">
                             <i class="fas fa-check"></i>
                         </button>
