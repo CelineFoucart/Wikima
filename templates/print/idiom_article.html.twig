@@ -23,19 +23,6 @@
 			</p>
 		</header>
 
-		{% set gallery_length = article.images|length %}
-		{% if gallery_length > 0 %}
-			<button class="btn btn-default" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-				<i class="fas fa-image me-1"></i> Afficher la galerie
-			</button>
-			<div class="collapse" id="collapseExample">
-				<div class="card card-body">
-					<p><span class="fw-bold">{{ gallery_length }}</span> image{{ gallery_length > 1 ? 's' : '' }}</p>
-					{% include "image/components/_not_paginated_list.html.twig" with {images: article.images} %}
-				</div>
-			</div>
-		{% endif %}
-
         {{ article.content|raw }}
     </article>
 {% endblock %}

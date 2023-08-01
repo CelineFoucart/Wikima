@@ -79,21 +79,31 @@
 
 		<div class="row p-4">
 			<div class="col-md-9">
+				{% set gallery_length = article.images|length %}
+				{% if gallery_length > 0 %}
+					<div class="collapse" id="collapseExample">
+						<section class="mb-4 border-top border-bottom pb-4">
+							<h2 class="fw-light my-4">
+								<span class="fw-bold">{{ gallery_length }}</span>
+								image{{ gallery_length > 1 ? 's' : '' }}
+							</h2>
+							{% include "image/components/_not_paginated_list.html.twig" with {images: article.images} %}
+						</section>
+					</div>
+				{% endif %}
+
 				<div class="article-content">
 					{{ article.content|raw }}
 				</div>
-				{% if article.images is not empty %}
-					<section class="mx-4 mb-5 border-top">
-						<h2 class="fw-light my-4">
-							{% set length = article.images|length %}
-							<span class="fw-bold">{{ length }}</span>
-							image{{ length > 1 ? 's' : '' }}
-						</h2>
-						{% include "image/components/_not_paginated_list.html.twig" with {images: article.images} %}
-					</section>
-				{% endif %}
 			</div>
 			<div class="col-md-3 border-start ps-2">
+				{% if gallery_length > 0 %}
+					<div class="text-end">
+						<button class="btn text-white bg-default text-end mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+							<i class="fas fa-image me-1"></i> Afficher la galerie
+						</button>
+					</div>
+				{% endif %}
 				{% include "idiom/_navigation.html.twig" %}
 			</div>
 		</div>
