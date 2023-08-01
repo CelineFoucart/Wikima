@@ -13,32 +13,38 @@
 					<li><h6 class="dropdown-header">Encyclopédie</h6></li>
 					<li>
 						<a class="dropdown-item" href="{{ path('app_article_index') }}">
+							<i class="fas fa-file-alt fa-fw me-1"></i>
 							Tous les articles
 						</a>
 					</li>
 					<li>
 						<a class="dropdown-item" href="{{ path('app_articletype_index') }}">
+							<i class="fas fa-tags fa-fw me-1"></i>
 							Types d'article
 						</a>
 					</li>
 					<li>
 						<a class="dropdown-item" href="{{ path('app_timeline_index') }}">
+							<i class="fas fa-hourglass fa-fw me-1"></i>
 							Chronologies
 						</a>
 					</li>
 					<li>
 						<a class="dropdown-item" href="{{ path('app_person_index') }}">
+							<i class="fas fa-user fa-fw me-1"></i>
 							Personnages
 						</a>
 					</li>
 					<li>
 						<a class="dropdown-item" href="{{ path('app_place_index') }}">
+							<i class="fas fa-building fa-fw me-1"></i>
 							Lieux
 						</a>
 					</li>
 					{% if enable_idiom == 1 %}
 						<li>
 							<a class="dropdown-item" href="{{ path('app_idiom_index') }}">
+								<i class="fas fa-language fa-fw me-1"></i>
 								Langues
 							</a>
 						</li>

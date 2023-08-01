@@ -5,6 +5,33 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2023-08-01
+
+### Fixed
+
+- Impossibilité de supprimer une image liée à un personnage ou un lieu
+
+### Added
+
+- Ajout du module langue : langue, article de langue, catégorie d'articles linguistiques
+- Ajout d'une impression globale pour la langue et ses articles
+- Ajout de la page module avec possibilité de désactiver un module (commentaire d'article et langue)
+- Ajout du menu d'exploration dans la navbar
+- Ajout de la lightbox pour les images des lieux et des personnages
+- Ajout des articles liés à l'image depuis la page de détail d'une image
+- Ajout d'un bouton impression javascript sur la page d'impression
+- Ajout de bordure aux tableaux dans les impressions
+- Ajout des icônes dans le dropdown encyclopédie du menu
+
+### Changed
+
+- Afficher la galerie sous les articles
+- Ajout en javascript dans l'éditeur ckeditor de la recherche de lien personnage, lieu, articles
+
+### Removed
+
+- Retrait de la recherche de lien d'image dans l'éditeur, car les liens des fichiers sont vite obsolètes
+
 ## [1.1.0] - 2023-07-14
 
 ### Added

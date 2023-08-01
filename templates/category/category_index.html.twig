@@ -6,25 +6,25 @@
 {% block body %}
 	<article class="my-5 container-fluid">
 		<h2 class="list-title">Les catégories</h2>
-		<p class="text-center text-muted fs-5 mb-4">Explorer les catégories disponibles sur le site</p>
+		<p class="text-center text-muted fs-5 mb-5">L'encyclopédie de <strong>{{ app_name }}</strong> regroupe les catégories suivantes :</p>
 
 		<div class="row">
 			{% for category in categories %}
 				<div class="col-md-4 mb-3">
-					<div class="card shadow-sm">
-						<div class="card-header">
-							<h3 class="card-title h4 mb-0">
+					<div class="card shadow border-0">
+						{% if category.banner %}
+							<img src="{{ vich_uploader_asset(category) }}" class="card-img-top" alt="bannière de {{ category.title }}">
+						{% endif %}
+						<div class="card-body">
+							<h3 class="card-title h5">
 								<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="text-decoration-none">
-									<i class="fas fa-folder me-1"></i>
 									{{ category.title }}
 								</a>
 							</h3>
-						</div>
-						<div class="card-body">
-							<p class="card-text">{{ category.description }}</p>
+							<p class="card-text text-muted">{{ category.description }}</p>
 						</div>
 						{% if category.portals is not empty %}
-							<ul class="list-group list-group-flush">
+							<ul class="list-group list-group-flush border-top">
 								{% for portal in category.portals  %}
 									<li class="list-group-item" data-bs-toggle="tooltip" title="{{ portal.description }}" data-bs-placement="right">
 										<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="text-decoration-none">

@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="shortcut icon" href="/img/{{ favicon }}">
+		{{ favicon() }}
 		<link rel="stylesheet" href="{{ asset('assets/print.css') }}">
 		<title>
 			{% block title %}
@@ -13,6 +13,10 @@
 		</title>
 	</head>
 	<body>
+		<div class="action">
+			<strong>Aperçu du fichier :</strong>
+			<a href="javascript:window.print()" class="btn">Imprimer</a>
+		</div>
 		<main>
 			{% block body %}{% endblock %}
 		</main>
