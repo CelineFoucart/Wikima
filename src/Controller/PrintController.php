@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
+use App\Entity\Idiom;
 use App\Entity\Portal;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Article;
+use App\Entity\IdiomArticle;
+use App\Service\IdiomNavigationHelper;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PrintController extends AbstractController
 {
@@ -40,4 +43,34 @@ class PrintController extends AbstractController
             'categories' => $categories,
         ]);
     }
+
+    #[Route('/print/idioms/{slug}', name: 'app_print_idiom')]
+    #[Entity('idiom', expr: 'repository.findIdiomBySlug(slug)')]
+    public function idiom(Idiom $idiom, bool $enableIdiom)
+    {
+        if (false === $enableIdiom) {
+            throw $this->createNotFoundException('Not Found');
+        }
+
+        $portals = [];
+        foreach ($idiom->getPortals() as $portal) {
+            $portals[] = $portal->getTitle();
+        }
+
+        return $this->render('print/idiom.html.twig',[
+            'navigations' => IdiomNavigationHelper::generateNavigation($idiom),
+            'idiom' => $idiom,
+            'portals' => $portals,
+        ]);
+    }
+
+    #[Route('/print/idioms/article/{slug}', name: 'app_print_idiom_article')]
+    #[Entity('article', expr: 'repository.findOneBySlug(slug)')]
+    public function idiomArticle(IdiomArticle $article): Response
+    {
+        return $this->render('print/idiom_article.html.twig', [
+            'article' => $article,
+        ]);
+    }
+
 }

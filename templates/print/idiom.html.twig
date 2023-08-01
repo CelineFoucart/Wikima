@@ -1,0 +1,61 @@
+{% extends 'base_print.html.twig' %}
+
+{% block title %}
+	{{ idiom.translatedName }}
+{% endblock %}
+
+{% block body %}
+    <article>
+        <header>
+			<p class="meta-data">
+				<span>
+					Par
+					<strong>{{ idiom.author ? idiom.author.username : 'Anonyme' }}</strong>
+				</span>
+				<span>
+					Publié le
+					<strong>{{ idiom.createdAt|date(date_format) }}</strong>
+				</span>
+			</p>
+			<h1>{{ idiom.translatedName }} <small class="small">({{ idiom.originalName }})</small></h1>
+            
+			<p class="parents">
+				{{ portals|join(', ')}}
+			</p>
+		</header>
+		<div style="padding: 0 35px">
+			{{ idiom.presentation|raw }}
+		</div>
+
+        {% if navigations is not empty %}
+            <aside>
+				<p class="summary-title">
+					<strong>Sommaire&nbsp;:</strong>
+				</p>
+				<ol>
+					{% for navigation in navigations %}
+						<li>
+                            {{ navigation.category }}
+                            <ol>
+                                {% for item in navigation.articles|sort((a, b) => a.title <=> b.title) %}
+                                    <li>{{ item.title }}</li>
+                                {% endfor %}
+                            </ol>
+                        </li>
+					{% endfor %}
+				</ol>
+			</aside>
+
+            {% for navigation in navigations %}
+                {% set index = loop.index  %}
+                <section>
+                    <h2 style="font-size: 2rem; border: none; font-weight: bold">{{ index }}. {{ navigation.category }}</h2>
+                    {% for item in navigation.articles|sort((a, b) => a.title <=> b.title) %}
+                        <h2>{{ index }}.{{ loop.index }}. {{ item.title }}</h2>
+                        <div>{{ item.content|raw }}</div>
+                    {% endfor %}
+                </section>
+            {% endfor %}
+        {% endif %}
+    </article>
+{% endblock %}

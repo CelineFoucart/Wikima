@@ -31,7 +31,7 @@
 									<i class="fas fa-pencil-alt"></i>
 								</a>
 							{% endif %}
-							<a href="javascript:print()" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip"  title="imprimer">
+							<a href="{{  path('app_print_idiom_article', {slug:article.slug}) }}" target="_blank" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip"  title="aperçu avant impression">
 								<i class="fas fa-print"></i>
 							</a>
 						</div>
@@ -66,7 +66,9 @@
 						</p>
 					</div>
 					<div class="col-md-4 text-end h2">
-						<span class="badge bg-default py-2">{{ idiom.translatedName }} <i class="fas fa-language fa-fw ms-1"></i></span>
+						<a href="{{ path('app_idiom_show', {slug: idiom.slug }) }}" class="badge bg-default py-2 text-white text-decoration-none">
+							{{ idiom.translatedName }} <i class="fas fa-language fa-fw ms-1"></i>
+						</a>
 					</div>
 				</div>
 				<p class="lead pt-3">

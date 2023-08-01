@@ -1,0 +1,28 @@
+{% extends 'base_print.html.twig' %}
+
+{% block title %}
+	{{ article.title }} | {{ article.idiom.translatedName }}
+{% endblock %}
+
+{% block body %}
+    <article>
+        <header>
+			<p class="meta-data">
+				<span>
+					Langue créée par
+					<strong>{{ article.idiom.author ? article.idiom.author.username : 'Anonyme' }}</strong>
+				</span>
+				<span>
+					Publié le
+					<strong>{{ article.createdAt|date(date_format) }}</strong>
+				</span>
+			</p>
+			<h1>{{ article.title }} | {{ article.idiom.translatedName }}</h1>
+			<p class="parents">
+				{{ article.category ? article.category.title : 'Sans catégorie' }} 
+			</p>
+		</header>
+
+        {{ article.content|raw }}
+    </article>
+{% endblock %}

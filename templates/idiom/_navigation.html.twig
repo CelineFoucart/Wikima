@@ -4,7 +4,7 @@
             <h3 class="h5">
                 <i class="fas fa-fw fa-tag"></i> {{ navigation.category }}
             </h3>
-            {% for item in navigation.articles %}
+            {% for item in navigation.articles|sort((a, b) => a.title <=> b.title) %}
                 <div class="ps-4">
                     <a href="{{ path('app_idiom_show_article', {idiom: idiom.slug, article: item.slug}) }}">
                         {{ item.title }}
