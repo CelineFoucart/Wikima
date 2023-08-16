@@ -1,8 +1,8 @@
 {% if position is not defined %}
 	{% set position = 'right' %}
 {% endif %}
-
-<a href="{{ path(path, {slug: item.slug}) }}" class="label mx-1" data-bs-toggle="tooltip" data-bs-placement="{{position}}" title="{{ item.description ? item.description : 'Aucune description' }}">
+	
+<a href="{{ path(path, {slug: item.slug}) }}" class="label mx-1 mb-1 d-block d-md-inline-block" data-bs-toggle="tooltip" data-bs-placement="{{position}}" title="{{ item.description ? item.description : 'Aucune description' }}">
 	<i class="fas fa-tag me-1"></i>
 	{{ item.title }}
 </a>

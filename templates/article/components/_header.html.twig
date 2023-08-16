@@ -19,39 +19,18 @@
 	</div>
 	<div class="item-heading position-relative">
 		<div class="p-2 position-absolute top-0" style="right:-10px">
-			<div class="dropdown">
-				<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
-					<i class="fas fa-wrench me-1"></i>
-				</button>
-				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-					<li>
-						<a class="dropdown-item" href="{{ path('app_print_article', {slug: article.slug}) }}" target="_blank">
-							<i class="fas fa-print"></i> Aperçu avant impression
-						</a>
-					</li>
-					{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) 
-						or is_granted('ROLE_ADMIN') %}
-						<li>
-							<a class="dropdown-item" href="{{ path('admin_app_article_section', {id:article.id}) }}">
-								<i class="fas fa-edit"></i> Gérer le contenu textuel
-							</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="{{ path('admin_app_article_gallery', {id:article.id}) }}">
-								<i class="fas fa-image"></i> Gérer la galerie
-							</a>
-						</li>
-						<li>
-							<a class="dropdown-item" href="{{ path('admin_app_article_edit', {id:article.id}) }}">
-								<i class="fas fa-pencil-alt"></i> Editer rapidement
-							</a>
-						</li>
-					{% endif %}
-				</ul>
-			</div>
-
-			{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) 
-						or is_granted('ROLE_ADMIN') %}
+			<a class="btn btn-sm btn-outline-secondary" 
+				data-bs-toggle="tooltip" title="Aperçu avant impression"
+				href="{{ path('app_print_article', {slug: article.slug}) }}" target="_blank">
+				<i class="fas fa-print"></i> 
+			</a>
+			{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) or is_granted('ROLE_ADMIN') %}
+				<a data-bs-toggle="tooltip" title="Gérer le contenu textuel" class="btn btn-sm btn-outline-secondary" href="{{ path('admin_app_article_section', {id:article.id}) }}">
+					<i class="fas fa-edit"></i> 
+				</a>
+				<a data-bs-toggle="tooltip" title="Gérer la galerie" class="btn btn-sm btn-outline-secondary" href="{{ path('admin_app_article_gallery', {id:article.id}) }}">
+					<i class="fas fa-image"></i> 
+				</a>
 				{% include "components/_sticky_modal.html.twig" with {element: article, path:'admin_app_article_sticky'} %}
 			{% endif %}
 		</div>

@@ -3,6 +3,7 @@ twig:
     form_themes: ['bootstrap_5_layout.html.twig']
 
     globals:
+        app_version: '%env(APP_VERSION)%'
         app_name: '%env(WIKI_NAME)%'
         app_description: '%env(WIKI_DESCRIPTION)%'
         enable_contact: '%env(bool:ENABLE_CONTACT)%'

@@ -72,7 +72,7 @@ final class AdminPlaceController extends AbstractAdminController
             $placeParent = $this->placeRepository->find($placeId);
 
             if ($placeParent && $placeParent->getId() !== $place->getId()) {
-                $place->addLocalisation($place);
+                $place->addLocalisation($placeParent);
             }
         }
 

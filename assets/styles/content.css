@@ -273,6 +273,7 @@
     display: none;
 }
 
-.section-title:hover .edit-actions {
+.section-title:hover .edit-actions,
+.article-intro:hover .edit-actions {
     display: block;
 }

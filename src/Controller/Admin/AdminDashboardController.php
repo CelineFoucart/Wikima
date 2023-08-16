@@ -6,20 +6,21 @@ use App\Entity\About;
 use App\Form\AboutType;
 use App\Repository\NoteRepository;
 use App\Repository\AboutRepository;
+use App\Service\Statistics\DatabaseSize;
 use App\Service\Statistics\SatisticsEntity;
 use App\Service\Statistics\StatisticsHandler;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class AdminDashboardController extends AbstractController
 {
     #[Route('/admin', name: 'admin_app_dashboard')]
     #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_EDITOR')")]
-    public function dashboardAction(StatisticsHandler $statisticsHandler, NoteRepository $noteRepository): Response
+    public function dashboardAction(StatisticsHandler $statisticsHandler, NoteRepository $noteRepository, DatabaseSize $databaseSize): Response
     {
         $tables = ['category', 'portal', 'article', 'image', 'place', 'person', 'page', 'note', 'comment', 'user', 'idiom'];
 
@@ -29,11 +30,14 @@ class AdminDashboardController extends AbstractController
 
         $stats = $statisticsHandler->getStatistics();
         $total = (int)$stats['article'] + (int)$stats['person'] + (int) $stats['place'];
+
+        ;
         
         return $this->render('Admin/dashboard.html.twig', [
             'stats' => $stats,
             'total' => $total,
             'notes' => $noteRepository->findLastNotes(5),
+            'size'  => $databaseSize->getSize(),
         ]);
     }
 

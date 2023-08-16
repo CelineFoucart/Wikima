@@ -40,12 +40,14 @@
 					{% include "components/_sticky_modal.html.twig" with {element: person, path:'admin_app_person_sticky'} %}
 				</div>
 			{% endif %}
-			<p>
+			<p class="pt-4 pt-lg-0">
 				{% for category in person.categories %}
-					<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1">
-						<i class="fas fa-folder me-1"></i>
-						{{ category.title }}
-					</a>
+					<span class="mb-1 d-block d-md-inline-block">
+						<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1">
+							<i class="fas fa-folder me-1"></i>
+							{{ category.title }}
+						</a>
+					</span>
 				{% endfor %}
 			</p>
 			<h1 class="mb-4">
