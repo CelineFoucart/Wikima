@@ -4,7 +4,7 @@
 	Affichage de <span class="fw-bold">{{ current }}</span>
 	sur <span class="fw-bold">{{ images.getTotalItemCount }}</span>
 	image{{ plural }}
-	{% if type is defined %}
+	{% if type is defined and type is not null %}
 		du type <strong>{{ type }}</strong>
 	{% endif %}
 </p>
