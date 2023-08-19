@@ -6,6 +6,7 @@ use App\Entity\Note;
 use App\Entity\User;
 use App\Entity\Portal;
 use App\Form\NoteType;
+use App\Entity\ImageTag;
 use App\Form\SearchType;
 use App\Entity\PlaceType;
 use App\Entity\PersonType;
@@ -15,6 +16,7 @@ use App\Repository\PlaceRepository;
 use App\Repository\PersonRepository;
 use App\Repository\PortalRepository;
 use App\Repository\ArticleRepository;
+use App\Repository\ImageTagRepository;
 use App\Repository\PlaceTypeRepository;
 use App\Repository\PersonTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -81,16 +83,32 @@ final class PortalController extends AbstractController
 
     #[Route('/portals/{slug}/gallery', name: 'app_portal_gallery')]
     #[Entity('portal', expr: 'repository.findBySlug(slug)')]
-    public function gallery(int $perPageOdd, Portal $portal, Request $request, ImageRepository $imageRepository): Response
+    public function gallery(int $perPageOdd, Portal $portal, Request $request, ImageRepository $imageRepository, ImageTagRepository $imageTagRepository): Response
     {
         $page = $request->query->getInt('page', 1);
+        $types = $imageTagRepository->findAll();
+        $typeSlug = $request->query->get('type');
+
+        $results = array_filter($types, function(ImageTag $imageTag) use ($typeSlug) {
+            return $imageTag->getSlug() === $typeSlug;
+        });
+
+        if (!empty($results)) {
+            $type = $results[array_key_first($results)];
+            $typeId = $type->getId();
+        } else {
+            $type = null;
+            $typeId = 0;
+        }
 
         return $this->render('portal/gallery_portal.html.twig', [
-            'images' => $imageRepository->findByPortal($portal, $page, $perPageOdd),
+            'images' => $imageRepository->findByPortal($portal, $page, $perPageOdd, $typeId),
             'portal' => $portal,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'title' => $portal->getTitle(),
             'description' => $portal->getDescription(),
+            'types' => $types,
+            'type' => $type,
         ]);
     }
 

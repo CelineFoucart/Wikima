@@ -67,6 +67,18 @@
                                 <td>{{ image.description|nl2br }}</td>
                             </tr>
                             <tr>
+                                <th>Types</th>
+                                <td>
+                                    {% if image.tags is not empty %}
+                                        <ul class="mb-0">
+                                            {% for tag in image.tags %}
+                                                <li><a href="{{ path('app_image_type', {slug: tag.slug}) }}">{{ tag }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>Catégories</th>
                                 <td>
                                     {% if image.categories is not empty %}

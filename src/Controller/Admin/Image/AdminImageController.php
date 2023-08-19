@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin\Wiki;
+namespace App\Controller\Admin\Image;
 
 use ZipArchive;
 use App\Entity\Image;

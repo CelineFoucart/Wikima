@@ -67,6 +67,16 @@
 							<td>{{ image.keywords }}</td>
 						</tr>
 						<tr>
+							<th>Types</th>
+							<td>
+								{% for tag in image.tags %}
+									<a href="{{ path('app_image_type', {slug: tag.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none me-1">
+										{{ tag }}
+									</a>
+								{% endfor %}
+							</td>
+						</tr>
+						<tr>
 							<th>Catégories</th>
 							<td>
 								<ul class="list-unstyled">

@@ -1,8 +1,12 @@
-<p class="mb-4 p-2">	
+<p class="mb-0 p-2">	
 	{% set current = images|length %}
+	{% set plural = images.getTotalItemCount > 1 ? 's' : '' %}
 	Affichage de <span class="fw-bold">{{ current }}</span>
 	sur <span class="fw-bold">{{ images.getTotalItemCount }}</span>
-	image{{ images.getTotalItemCount > 1 ? 's' : '' }}.
+	image{{ plural }}
+	{% if type is defined %}
+		du type <strong>{{ type }}</strong>
+	{% endif %}
 </p>
 
 {% include "image/components/_not_paginated_list.html.twig" %}

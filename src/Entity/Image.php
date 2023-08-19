@@ -81,6 +81,9 @@ class Image
 
     #[ORM\ManyToMany(targetEntity: IdiomArticle::class, mappedBy: 'images')]
     private Collection $idiomArticles;
+
+    #[ORM\ManyToMany(targetEntity: ImageTag::class, inversedBy: 'images')]
+    private Collection $tags;
     
     public function __construct()
     {
@@ -90,6 +93,7 @@ class Image
         $this->people = new ArrayCollection();
         $this->places = new ArrayCollection();
         $this->idiomArticles = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -362,6 +366,30 @@ class Image
         if ($this->idiomArticles->removeElement($idiomArticle)) {
             $idiomArticle->removeImage($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ImageTag>
+     */
+    public function getTags(): Collection
+    {
+        return $this->tags;
+    }
+
+    public function addTag(ImageTag $tag): static
+    {
+        if (!$this->tags->contains($tag)) {
+            $this->tags->add($tag);
+        }
+
+        return $this;
+    }
+
+    public function removeTag(ImageTag $tag): static
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }

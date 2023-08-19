@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Images du type {{ type }}
+{% endblock %}
+
+{% block body %}    
+    <article class="container-fluid">
+        <p class="mt-2">
+            <a href="{{ path('app_image_index') }}" class="text-decoration-none"><i class="fas fa-arrow-left me-1"></i> Retour à l'index des personnages</a>
+        </p>
+		<header class="text-center mt-5 pb-4">
+            <p class="w-75 m-auto mb-2">
+                {% for tag in types %}
+                    <a href="{{ path('app_image_type', {slug: tag.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none me-1">
+                        {{ tag }}
+                    </a>
+                {% endfor %}
+            </p>
+			<h2 class="h4">
+				Galerie des images de type <strong>{{ type }}</strong>
+			</h2>
+			<p class="w-75 m-auto pt-2 lh-lg text-muted">
+				{{ type.description }}
+			</p>
+		</header>
+        
+        {% include "image/components/_list.html.twig" with {images: images} only %}
+    </article>
+{% endblock %}

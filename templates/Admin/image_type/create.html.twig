@@ -1,0 +1,33 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Créer un type d'image{% endblock %}
+
+{% block activeImage %}
+	active show
+{% endblock %}
+
+{% block activeImageType %}active {% endblock %}
+
+{% block page_title %}Créer un type d'image{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_imagetype_list') }}" class="text-reset">
+			Types d'image
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Création
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<a href="{{ path('admin_app_imagetype_list') }}" class="btn btn-default btn-sm">
+		<i class="fas fa-long-arrow-left"></i>
+		Retour
+	</a>
+{% endblock %}
+
+{% block body %}
+	{% include "Admin/image_type/_form.html.twig" %}
+{% endblock %}

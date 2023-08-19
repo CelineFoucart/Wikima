@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Category;
 use App\Entity\Data\SearchData;
 use App\Entity\Image;
+use App\Entity\ImageTag;
 use App\Entity\Portal;
 use App\Service\PaginatorService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -76,26 +77,36 @@ class ImageRepository extends ServiceEntityRepository
         return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
     }
 
-    public function findByCategory(Category $category, int $page, int $limit = 24): PaginationInterface
+    public function findByCategory(Category $category, int $page, int $limit = 24, int $type = 0): PaginationInterface
     {
         $builder = $this->createQueryBuilder('i')
             ->leftJoin('i.categories', 'c')
+            ->leftJoin('i.tags', 't')
             ->orderBy('i.title', 'ASC')
             ->andWhere('c.id IN (:categories)')
             ->setParameter('categories', [$category->getId()])
         ;
 
+        if ($type  > 0) {
+            $builder->andWhere('t.id IN (:type)')->setParameter('type', [$type]);
+        }
+
         return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
     }
 
-    public function findByPortal(Portal $portal, int $page, int $limit = 24): PaginationInterface
+    public function findByPortal(Portal $portal, int $page, int $limit = 24, int $type = 0): PaginationInterface
     {
         $builder = $this->createQueryBuilder('i')
             ->leftJoin('i.portals', 'p')
             ->orderBy('i.title', 'ASC')
+            ->leftJoin('i.tags', 't')
             ->andWhere('p.id IN (:portals)')
             ->setParameter('portals', [$portal->getId()])
         ;
+
+        if ($type  > 0) {
+            $builder->andWhere('t.id IN (:type)')->setParameter('type', [$type]);
+        }
 
         return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
     }
@@ -138,5 +149,19 @@ class ImageRepository extends ServiceEntityRepository
         }
 
         return $this->paginatorService->setLimit($limit)->paginate($builder, $search->getPage());
+    }
+
+    public function findByType(ImageTag $imageType, int $page = 1, int $limit = 20): PaginationInterface
+    {
+        $builder = $this->createQueryBuilder('i')
+            ->orderBy('i.title', 'ASC')
+            ->leftJoin('i.portals', 'p')->addSelect('p')
+            ->leftJoin('i.categories', 'c')->addSelect('c')
+            ->leftJoin('i.tags', 't')->addSelect('t')
+            ->andWhere('t.id IN (:type)')
+            ->setParameter('type', [$imageType->getId()])
+        ;
+
+        return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
     }
 }

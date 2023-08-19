@@ -21,8 +21,15 @@
 			</aside>
 
 			<section class="col-md-8">
-				<h3 class="border-bottom display-6 mb-2 mt-0">Galerie de
-					{{ app_name }}</h3>
+				<h3 class="border-bottom display-6 mb-2 mt-0">Galerie de {{ app_name }}</h3>
+				<p>
+					{% for type in types %}
+						<a href="{{ path('app_image_type', {slug: type.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none me-1">
+							{{ type }}
+						</a>
+					{% endfor %}
+				</p>
+
 				{% include "image/components/_list.html.twig" with {images: images} only %}
 			</section>
 		</div>

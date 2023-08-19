@@ -6,27 +6,34 @@
                     <h2 class="card-title h5 mb-0">Informations</h2>
                 </div>
                 <div class="card-body">
-                    {{ form_row(form.title) }}
-                    <div class="mb-3">
-                        {{ form_label(form.slug) }}
-                        <div class="input-group">
-                            {{ form_widget(form.slug) }}
-                            <span 
-                                class="input-group-text" 
-                                data-action="slugify" 
-                                data-target="#image_slug" 
-                                role="btton" 
-                                data-source="#image_title"
-                                data-bs-toggle="tooltip"
-                                title="Générer">
-                                <i class="fas fa-sync-alt"></i>
-                            </span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.title) }}
                         </div>
-                        {{ form_help(form.slug) }}
-                        {{ form_errors(form.slug) }}
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                {{ form_label(form.slug) }}
+                                <div class="input-group">
+                                    {{ form_widget(form.slug) }}
+                                    <span 
+                                        class="input-group-text" 
+                                        data-action="slugify" 
+                                        data-target="#image_slug" 
+                                        role="btton" 
+                                        data-source="#image_title"
+                                        data-bs-toggle="tooltip"
+                                        title="Générer">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </span>
+                                </div>
+                                {{ form_help(form.slug) }}
+                                {{ form_errors(form.slug) }}
+                            </div>
+                        </div>
                     </div>
                     {{ form_row(form.keywords) }}
                     {{ form_row(form.description) }}
+                    {{ form_row(form.tags) }}
                     {{ form_row(form.categories) }}
                     {{ form_row(form.portals) }}
                 </div>

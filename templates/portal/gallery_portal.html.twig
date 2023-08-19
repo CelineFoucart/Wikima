@@ -18,7 +18,29 @@
 				Les images du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
 			</h2>
 
-			{% include "image/components/_list.html.twig" with {images: images} only %}
+			<div class="float-end">
+				<div class="dropdown">
+					<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+						Filtrer
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+						<li>
+							<a href="{{ path('app_portal_gallery', {slug: portal.slug}) }}" class="dropdown-item fw-bold">
+								Toutes les images
+							</a>
+						</li>
+						{% for type in types %}
+							<li>
+								<a class="dropdown-item" href="{{ path('app_portal_gallery', {slug: portal.slug, type: type.slug}) }}">
+									{{ type }}
+								</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</div>
+			</div>
+
+			{% include "image/components/_list.html.twig" with {images: images, type: type} only %}
 		</div>
 	</article>
 {% endblock %}

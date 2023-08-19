@@ -8,6 +8,7 @@ use App\Form\SearchType;
 use App\Entity\PlaceType;
 use App\Entity\PersonType;
 use App\Entity\Data\SearchData;
+use App\Entity\ImageTag;
 use App\Entity\Note;
 use App\Form\NoteType;
 use App\Repository\ImageRepository;
@@ -19,6 +20,7 @@ use App\Repository\CategoryRepository;
 use App\Repository\PlaceTypeRepository;
 use App\Repository\PersonTypeRepository;
 use App\Repository\ArticleTypeRepository;
+use App\Repository\ImageTagRepository;
 use App\Service\AlphabeticalHelperService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -85,16 +87,32 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/{slug}/gallery', name: 'app_category_gallery')]
-    public function gallery(int $perPageOdd, Category $category, Request $request, ImageRepository $imageRepository): Response
+    public function gallery(int $perPageOdd, Category $category, Request $request, ImageRepository $imageRepository, ImageTagRepository $imageTagRepository): Response
     {
         $page = $request->query->getInt('page', 1);
+        $types = $imageTagRepository->findAll();
+        $typeSlug = $request->query->get('type');
+
+        $results = array_filter($types, function(ImageTag $imageTag) use ($typeSlug) {
+            return $imageTag->getSlug() === $typeSlug;
+        });
+
+        if (!empty($results)) {
+            $type = $results[array_key_first($results)];
+            $typeId = $type->getId();
+        } else {
+            $type = null;
+            $typeId = 0;
+        }
 
         return $this->render('category/category_gallery.html.twig', [
             'category' => $category,
-            'images' => $imageRepository->findByCategory($category, $page, $perPageOdd),
+            'images' => $imageRepository->findByCategory($category, $page, $perPageOdd, $typeId),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'title' => $category->getTitle(),
             'description' => $category->getDescription(),
+            'types' => $types,
+            'type' => $type,
         ]);
     }
 
