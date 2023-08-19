@@ -5,6 +5,31 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2023-08-19
+
+### Fixed
+
+- Correction de l'erreur 500 à l'ajout d'un lieu depuis un autre lieu
+- Correction de problèmes d'affichage en mobile
+
+### Added
+
+- Ajout du titre de l'image sous forme de tooltip dans l'administration dans les pages de gestion de la galerie d'un élément
+- Ajout des informations sur la version courante du logiciel et sur la taille de la base de données
+- Ajout du style du bloc figure sur l'impression
+- Ajout de l'impression d'un lieu et d'un personnage
+- Ajout de la date de mise à jour sur l'affichage public des articles
+- Ajout des tags d'images
+- Ajout sur la page d'une catégorie des personages et lieux épinglés
+- Ajout sur la page d'un portail des articles, des personages et lieux épinglés
+
+### Changed
+
+- Renommer "EXPLORER" en "CATEGORIE" dans le menu
+- Trier les articles de l'impression catégorie par ordre alphabétique
+
+### Removed
+
 ## [1.2.0] - 2023-08-01
 
 ### Fixed
