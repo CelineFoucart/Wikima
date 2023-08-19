@@ -11,114 +11,160 @@
 {% block body %}
 	<article>
 		{% include "portal/components/_header.html.twig" with {articles:true}   %}
-			<div class="element-presentation">
-				{% if portal.presentation %}
-					<h2><strong>{{ portal.title }}</strong>, qu'est-ce que c'est ?</h2>
+			
+		<div class="element-presentation">
+			{% if portal.presentation %}
+				<h2>
+					<strong>{{ portal.title }}</strong>, qu'est-ce que c'est ?
+					<a class="text-default float-end" type="button" data-bs-toggle="collapse"  href="#collapsePresentation" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+						<i class="fas fa-eye"></i>
+					</a>
+				</h2>
+
+				<div class="collapse show" id="collapsePresentation">
 					<div class="content">
 						{{ portal.presentation|raw }}
 					</div>
-				{% endif %}
-				{% if stickyElements is not empty %}
-					<div class="d-flex flex-wrap justify-content-between" style="gap:5px">
-						{% for article in stickyElements %}
-							<div class="bg-default">
-								<a href="{{ path('app_article_show', {slug: article.slug}) }}" data-bs-toggle="tooltip" title="{{ article.description }}" class="text-white text-decoration-none px-1">
-									<i class="fas fa-thumbtack me-1" data-bs-toggle="tooltip" title="Eléments épinglés"></i>
-									{{ article }}
-								</a>
-							</div>
-						{% endfor %}
-					</div>
-				{% endif %}
-			</div>
-		
+				</div>
+			{% endif %}
 
-		<section class="pt-1 py-5 px-4">
-			<h2 class="content-title-section">
-				Les articles du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
-			</h2>
-			<div class="row">
-				<p class="col-md-9">
-					{% set total = articles.getTotalItemCount %}
-					{% if type %}
-						Ce portail comprend <strong>{{ total }}</strong> articles du type <strong>{{ type }}</strong>, 
-						dont les <strong>{{articles|length}}</strong> articles ci-dessous.
-					{% else %}
-						Ce portail comprend <strong>{{ total }}</strong> articles, 
-						dont les <strong>{{articles|length}}</strong> articles ci-dessous.
-					{% endif %}
-				</p>
-				<div class="col-md-3 text-end">
-					<div class="dropdown">
-						<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-							Types d'article
-						</button>
-						{% set style_scroll = types|length > 9 ? 'style="overflow-y: scroll; max-height: 350px;"' : '' %}
-						<ul class="dropdown-menu" {{ style_scroll|raw }} aria-labelledby="dropdownMenuButton1">
-							<li><a class="dropdown-item" href="{{ path('app_portal_show', {slug: portal.slug}) }}">Tous les types</a></li>
-							<li><hr class="dropdown-divider"></li>
-							{% for article_type in types %}
-								<li>
-									<a class="dropdown-item" href="{{ path('app_portal_show', {slug: portal.slug, type: article_type.slug}) }}">
-										{% if article_type.icon %}<i class="{{ article_type.icon }}" aria-hidden="true"></i>{% endif %}
-										{{ article_type }}
-									</a>
-								</li>
-							{% endfor %}
-						</ul>
+			{% if stickyArticles is not empty or stickyPersons is not empty or stickyPlaces is not empty %}
+				<h2 class="mt-3">
+					<i class="fas fa-thumbtack me-1"></i> 
+					Eléments épinglés de <strong>{{ portal.title }}</strong>
+					<i class="fas fa-thumbtack me-1"></i> 
+					<a class="text-default float-end" type="button" data-bs-toggle="collapse"  href="#collapseSticky" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+						<i class="fas fa-eye"></i>
+					</a>
+				</h2>
+				<div class="collapse show" id="collapseSticky">
+					<div class="content">
+						{% if stickyArticles is not empty %}
+							<h3 class="h6 bg-default text-center text-white">Articles</h3>
+							<p>
+								{% for article in stickyArticles %}
+								<a href="{{ path('app_article_show', {slug: article.slug}) }}" class="dot-separator" data-bs-toggle="tooltip" title="{{ article.description }}">{{ article }}</a>
+								{% endfor %}
+							</p>
+						{% endif %}
+						{% if stickyPersons is not empty %}
+							<h3 class="h6 bg-default text-center text-white">Personnages</h3>
+							<p>
+								{% for person in stickyPersons %}
+								<a href="{{ path('app_person_show', {slug: person.slug}) }}" class="dot-separator" data-bs-toggle="tooltip" title="{{ person.description }}">{{ person }}</a>
+								{% endfor %}
+							</p>
+						{% endif %}
+						{% if stickyPlaces is not empty %}
+							<h3 class="h6 bg-default text-center text-white">Lieux</h3>
+							<p>
+								{% for place in stickyPlaces %}
+								<a href="{{ path('app_place_show', {slug: place.slug}) }}" class="dot-separator">{{ place }}</a>
+								{% endfor %}
+							</p>
+						{% endif %}
 					</div>
 				</div>
-			</div>
-
-			<div class="{{ total > 3 ? 'column-3' : '' }} mt-3">
-				{% for key, elements in items %}
-					<div class="mb-4">
-						<h3 class="h4 mb-0 fw-bold">{{ key }}</h3>
-						<ul>
-							{% for item in elements %}
-								<li data-bs-toggle="tooltip" title="{{ item.description ? item.description : 'Aucune description' }}">
-									<a href="{{ path('app_article_show', {slug: item.slug}) }}" class="text-decoration-none">
-										{{ item.title }}
-										{% if item.isPrivate %}
-											<i class="fas fa-lock fw-bold, text-danger" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
-										{% endif %}
-									</a>
-								</li>
-							{% endfor %}
-						</ul>
+			{% endif %}
+		</div>
+		
+		<section class="pt-1 px-4 mt-5">
+			<h2 class="content-title-section">
+				Les articles du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
+				<a class="text-white float-end" type="button" data-bs-toggle="collapse"  href="#collapseArticles" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+					<i class="fas fa-eye"></i>
+				</a>
+			</h2>
+			<div class="collapse show" id="collapseArticles">
+				<div class="pb-5">
+					<div class="row">
+						<p class="col-md-9">
+							{% set total = articles.getTotalItemCount %}
+							{% if type %}
+								Ce portail comprend <strong>{{ total }}</strong> articles du type <strong>{{ type }}</strong>, 
+								dont les <strong>{{articles|length}}</strong> articles ci-dessous.
+							{% else %}
+								Ce portail comprend <strong>{{ total }}</strong> articles, 
+								dont les <strong>{{articles|length}}</strong> articles ci-dessous.
+							{% endif %}
+						</p>
+						<div class="col-md-3 text-end">
+							<div class="dropdown">
+								<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+									Types d'article
+								</button>
+								{% set style_scroll = types|length > 9 ? 'style="overflow-y: scroll; max-height: 350px;"' : '' %}
+								<ul class="dropdown-menu" {{ style_scroll|raw }} aria-labelledby="dropdownMenuButton1">
+									<li><a class="dropdown-item" href="{{ path('app_portal_show', {slug: portal.slug}) }}">Tous les types</a></li>
+									<li><hr class="dropdown-divider"></li>
+									{% for article_type in types %}
+										<li>
+											<a class="dropdown-item" href="{{ path('app_portal_show', {slug: portal.slug, type: article_type.slug}) }}">
+												{% if article_type.icon %}<i class="{{ article_type.icon }}" aria-hidden="true"></i>{% endif %}
+												{{ article_type }}
+											</a>
+										</li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
 					</div>
-				{% else %}
-					<p class="text-muted text-center">Aucun element trouvé</p>
-				{% endfor %}
-			</div>
+					<div class="{{ total > 3 ? 'column-3' : '' }} mt-3">
+						{% for key, elements in items %}
+							<div class="mb-4">
+								<h3 class="h4 mb-0 fw-bold">{{ key }}</h3>
+								<ul>
+									{% for item in elements %}
+										<li data-bs-toggle="tooltip" title="{{ item.description ? item.description : 'Aucune description' }}">
+											<a href="{{ path('app_article_show', {slug: item.slug}) }}" class="text-decoration-none">
+												{{ item.title }}
+												{% if item.isPrivate %}
+													<i class="fas fa-lock fw-bold, text-danger" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>
+												{% endif %}
+											</a>
+										</li>
+									{% endfor %}
+								</ul>
+							</div>
+						{% else %}
+							<p class="text-muted text-center">Aucun element trouvé</p>
+						{% endfor %}
+					</div>
 
-			<div class="navigation">
-				{{ knp_pagination_render(articles) }}
+					<div class="navigation">
+						{{ knp_pagination_render(articles) }}
+					</div>
+				</div>
 			</div>
 		</section>
 
 		{% if portal.timelines is not empty %}
-			<section class="pt-1 py-5 px-4">
+			<section class="pt-1 px-4">
 				<h2 class="content-title-section">
 					Les chronologies du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
+					<a class="text-white float-end" type="button" data-bs-toggle="collapse"  href="#collapseTimelines" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+						<i class="fas fa-eye"></i>
+					</a>
 				</h2>
-				{% set total = portal.timelines|length %}
-				{% set plural = total > 1 ? 's' : '' %}
+				<div class="collapse show" id="collapseTimelines">
+					{% set total = portal.timelines|length %}
+					{% set plural = total > 1 ? 's' : '' %}
 
-				<p class="mb-2 p-2">
-					<span class="fw-bold">{{ total }}</span>
-					chronologie{{ plural }}
-					trouvée{{ plural }}.
-				</p>
+					<p class="mb-2 p-2">
+						<span class="fw-bold">{{ total }}</span>
+						chronologie{{ plural }}
+						trouvée{{ plural }}.
+					</p>
 
-				<div class="row p-2">
-					{% for timeline in portal.timelines %}
-						<div class="col-md-6 col-lg-4 mb-2">
-							{% include "timeline/components/_timeline_card.html.twig" %}
-						</div>
-					{% else %}
-						<div class="col-12 text-center text-muted">Aucune chronologie n'a été trouvée</div>
-					{% endfor %}
+					<div class="row p-2 pb-5">
+						{% for timeline in portal.timelines %}
+							<div class="col-md-6 col-lg-4 mb-2">
+								{% include "timeline/components/_timeline_card.html.twig" %}
+							</div>
+						{% else %}
+							<div class="col-12 text-center text-muted">Aucune chronologie n'a été trouvée</div>
+						{% endfor %}
+					</div>
 				</div>
 			</section>
 		{% endif %}
@@ -128,16 +174,21 @@
 			<section class="pt-1 py-5 px-4">
 				<h2 class="content-title-section">
 					Les langues du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
+					<a class="text-white float-end" type="button" data-bs-toggle="collapse"  href="#collapseIdioms" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+						<i class="fas fa-eye"></i>
+					</a>
 				</h2>
-				{% set total_idiom = portal.idioms|length %}
-				<p>
-					Ce portail comprend <strong>{{ total_idiom }}</strong> langue{{ total_idiom > 1 ? 's' : '' }}.
-				</p>
+				<div class="collapse show" id="collapseIdioms">
+					{% set total_idiom = portal.idioms|length %}
+					<p>
+						Ce portail comprend <strong>{{ total_idiom }}</strong> langue{{ total_idiom > 1 ? 's' : '' }}.
+					</p>
 
-				<div class="row">
-					{% for idiom in portal.idioms %}
-						{% include "idiom/_idiom_card.html.twig" %}
-					{% endfor %}
+					<div class="row">
+						{% for idiom in portal.idioms %}
+							{% include "idiom/_idiom_card.html.twig" %}
+						{% endfor %}
+					</div>
 				</div>
 			</section>
 		{% endif %}

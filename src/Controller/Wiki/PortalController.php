@@ -33,13 +33,15 @@ final class PortalController extends AbstractController
 {
     public function __construct(
         private PortalRepository $portalRepository,
-        private ArticleRepository $articleRepository
+        private ArticleRepository $articleRepository,
+        private PersonRepository $personRepository,
+        private PlaceRepository $placeRepository
     ) {
     }
 
     #[Route('/portals/{slug}', name: 'app_portal_show')]
     #[Entity('portal', expr: 'repository.findBySlug(slug)')]
-    public function portal(int $perPageOdd, Portal $portal, Request $request, AlphabeticalHelperService $helper, ArticleTypeRepository $articleTypeRepository): Response
+    public function portal(int $perPageOdd, Portal $portal, Request $request, AlphabeticalHelperService $helper, ArticleTypeRepository $articleTypeRepository, PersonRepository $personRepository): Response
     {
         $types = $articleTypeRepository->findBy([], ['title' => 'ASC']);
         $page = $request->query->getInt('page', 1);
@@ -59,7 +61,9 @@ final class PortalController extends AbstractController
             'articles' => $articles,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'items' => $helper->formatArray($articles->getItems()),
-            'stickyElements' => $this->articleRepository->findSticky($portal->getId()),
+            'stickyArticles' => $this->articleRepository->findSticky($portal->getId()),
+            'stickyPersons' => $personRepository->findSticky($portal->getId()),
+            'stickyPlaces' => $this->placeRepository->findSticky($portal->getId()),
             'types' => $types,
             'type' => $type,
             'title' => $portal->getTitle(),
@@ -114,7 +118,7 @@ final class PortalController extends AbstractController
 
     #[Route('/portals/{slug}/persons', name: 'app_portal_persons')]
     #[Entity('portal', expr: 'repository.findBySlug(slug)')]
-    public function persons(int $perPageOdd, Portal $portal, Request $request, PersonRepository $personRepository, PersonTypeRepository $personTypeRepository): Response
+    public function persons(int $perPageOdd, Portal $portal, Request $request, PersonTypeRepository $personTypeRepository): Response
     {
         $types = $personTypeRepository->findAll();
         $page = $request->query->getInt('page', 1);
@@ -134,11 +138,11 @@ final class PortalController extends AbstractController
 
         return $this->render('portal/persons_portal.html.twig', [
             'portal' => $portal,
-            'persons' => $personRepository->findByParent($portal, 'portal', $page, $typeId, $perPageOdd),
+            'persons' => $this->personRepository->findByParent($portal, 'portal', $page, $typeId, $perPageOdd),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,
-            'stickyElements' => $personRepository->findSticky($portal->getId()),
+            'stickyElements' => $this->personRepository->findSticky($portal->getId()),
             'title' => $portal->getTitle(),
             'description' => $portal->getDescription(),
         ]);
@@ -146,7 +150,7 @@ final class PortalController extends AbstractController
 
     #[Route('/portals/{slug}/places', name: 'app_portal_places')]
     #[Entity('portals', expr: 'repository.findBySlug(slug)')]
-    public function place(int $perPageOdd, Portal $portal, Request $request, PlaceTypeRepository $placeTypeRepository, PlaceRepository $placeRepository): Response
+    public function place(int $perPageOdd, Portal $portal, Request $request, PlaceTypeRepository $placeTypeRepository): Response
     {
         $types = $placeTypeRepository->findAll();
         $page = $request->query->getInt('page', 1);
@@ -166,11 +170,11 @@ final class PortalController extends AbstractController
 
         return $this->render('portal/place_portal.html.twig', [
             'portal' => $portal,
-            'places' => $placeRepository->findByParent($portal, 'portal', $page, $typeId, $perPageOdd),
+            'places' => $this->placeRepository->findByParent($portal, 'portal', $page, $typeId, $perPageOdd),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,
-            'stickyElements' => $placeRepository->findSticky($portal->getId()),
+            'stickyElements' => $this->placeRepository->findSticky($portal->getId()),
             'title' => $portal->getTitle(),
             'description' => $portal->getDescription(),
         ]);

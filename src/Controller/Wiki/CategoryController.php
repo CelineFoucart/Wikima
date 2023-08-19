@@ -34,7 +34,9 @@ final class CategoryController extends AbstractController
 {
     public function __construct(
         private CategoryRepository $categoryRepository,
-        private ArticleRepository $articleRepository
+        private ArticleRepository $articleRepository,
+        private PersonRepository $personRepository,
+        private PlaceRepository $placeRepository
     ) {
     }
 
@@ -55,6 +57,8 @@ final class CategoryController extends AbstractController
             'portals' => $portalRepository->findByCategory($category),
             'title' => $category->getTitle(),
             'description' => $category->getDescription(),
+            'stickyPlaces' => $this->placeRepository->findSticky(null, $category->getId()),
+            'stickyPersons' => $this->personRepository->findSticky(null, $category->getId()),
         ]);
     }
 
@@ -117,7 +121,7 @@ final class CategoryController extends AbstractController
     }
 
     #[Route('/category/{slug}/persons', name: 'app_category_persons')]
-    public function persons(int $perPageOdd, Category $category, Request $request, PersonRepository $personRepository, PersonTypeRepository $personTypeRepository): Response
+    public function persons(int $perPageOdd, Category $category, Request $request, PersonTypeRepository $personTypeRepository): Response
     {
         $types = $personTypeRepository->findAll();
         $page = $request->query->getInt('page', 1);
@@ -137,18 +141,18 @@ final class CategoryController extends AbstractController
 
         return $this->render('category/category_persons.html.twig', [
             'category' => $category,
-            'persons' => $personRepository->findByParent($category, 'category', $page, $typeId, $perPageOdd),
+            'persons' => $this->personRepository->findByParent($category, 'category', $page, $typeId, $perPageOdd),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,
-            'stickyElements' => $personRepository->findSticky(null, $category->getId()),
+            'stickyElements' => $this->personRepository->findSticky(null, $category->getId()),
             'title' => $category->getTitle(),
             'description' => $category->getDescription(),
         ]);
     }
 
     #[Route('/category/{slug}/places', name: 'app_category_places')]
-    public function places(int $perPageOdd, Category $category, Request $request, PlaceRepository $placeRepository, PlaceTypeRepository $placeTypeRepository): Response
+    public function places(int $perPageOdd, Category $category, Request $request, PlaceTypeRepository $placeTypeRepository): Response
     {
         $types = $placeTypeRepository->findAll();
         $page = $request->query->getInt('page', 1);
@@ -168,11 +172,11 @@ final class CategoryController extends AbstractController
 
         return $this->render('category/category_places.html.twig', [
             'category' => $category,
-            'places' => $placeRepository->findByParent($category, 'category', $page, $typeId, $perPageOdd),
+            'places' => $this->placeRepository->findByParent($category, 'category', $page, $typeId, $perPageOdd),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'types' => $types,
             'type' => $type,
-            'stickyElements' => $placeRepository->findSticky(null, $category->getId()),
+            'stickyElements' => $this->placeRepository->findSticky(null, $category->getId()),
             'title' => $category->getTitle(),
             'description' => $category->getDescription(),
         ]);

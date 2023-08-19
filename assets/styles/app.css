@@ -154,3 +154,14 @@ a {
         break-inside: avoid;
     }
 }
+.dot-separator::after {
+    content: '•';
+    display: inline-block;
+    color: #333;
+    margin: 0 5px;
+}
+
+.dot-separator:last-of-type::after {
+    display: none;
+    content: '';
+}

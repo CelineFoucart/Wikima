@@ -13,88 +13,135 @@
 	{% include "category/components/_header.html.twig" with {portals: true} %}
 	{% if category.presentation %}
 		<div class="element-presentation">
-			<h2><strong>{{ category.title }}</strong>, qu'est-ce que c'est ?</h2>
-			<div class="content">
-				{{ category.presentation|raw }}
+			<h2>
+				<strong>{{ category.title }}</strong>, qu'est-ce que c'est ?
+				<a class="text-default float-end" type="button" data-bs-toggle="collapse"  href="#collapsePresentation" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+					<i class="fas fa-eye"></i>
+				</a>
+			</h2>
+			<div class="collapse show" id="collapsePresentation">
+				<div class="content">
+					{{ category.presentation|raw }}
+				</div>
 			</div>
+
+			{% if stickyPersons is not empty or stickyPlaces is not empty %}
+				<h2 class="mt-3">
+					<i class="fas fa-thumbtack me-1"></i> 
+					Eléments épinglés de <strong>{{ category.title }}</strong>
+					<i class="fas fa-thumbtack me-1"></i> 
+					<a class="text-default float-end" type="button" data-bs-toggle="collapse"  href="#collapseSticky" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+						<i class="fas fa-eye"></i>
+					</a>
+				</h2>
+				<div class="collapse show" id="collapseSticky">
+					<div class="content">
+						{% if stickyPersons is not empty %}
+							<h3 class="h6 bg-default text-center text-white">Personnages</h3>
+							<p>
+								{% for person in stickyPersons %}
+								<a href="{{ path('app_person_show', {slug: person.slug}) }}" class="dot-separator" data-bs-toggle="tooltip" title="{{ person.description }}">{{ person }}</a>
+								{% endfor %}
+							</p>
+						{% endif %}
+						{% if stickyPlaces is not empty %}
+							<h3 class="h6 bg-default text-center text-white">Lieux</h3>
+							<p>
+								{% for place in stickyPlaces %}
+								<a href="{{ path('app_place_show', {slug: place.slug}) }}" class="dot-separator">{{ place }}</a>
+								{% endfor %}
+							</p>
+						{% endif %}
+					</div>
+				</div>
+			{% endif %}
 		</div>
 	{% endif %}
-	<article class="m-4">
+	<article class="mb-4 mx-4 mt-5">
 		<h2 class="content-title-section">
 			Explorer la catégorie &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
+			<a class="text-white float-end" type="button" data-bs-toggle="collapse"  href="#collapsePortals" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+				<i class="fas fa-eye"></i>
+			</a>
 		</h2>
-		<section class="pt-0 p-4">
-			<h3 class="h5 mt-4 text-default fw-bold text-center"><i class="fas fa-tag me-1"></i> Portails de cette catégorie</h3>
-			<div class="row">
-				{% for portal in portals %}
-					<div class="col-md-6 col-lg-4 my-2">
-						<div class="card h-100">
-							{% if portal.banner %}
-								<a href="{{ vich_uploader_asset(portal) }}">
-									<img src="{{ vich_uploader_asset(portal)|imagine_filter('medium_image') }}" class="card-img-top" alt="{{ portal.title }}">
-								</a>
-							{% endif %}
-							<div class="card-body">
-								<h3 class="card-title h5">
-									{{ portal.title }}
-								</h3>
-								<p class="card-text">{{ portal.description }}</p>
-							</div>
-							<div class="card-footer">
-								<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="stretched-link text-decoration-none">
-									Afficher
-									<i class="fas fa-external-link-alt"></i>
-								</a>
+		<div class="collapse show" id="collapsePortals">
+			<section class="pt-0 p-4">
+				<h3 class="h5 mt-4 text-default fw-bold text-center"><i class="fas fa-tag me-1"></i> Portails de cette catégorie</h3>
+				<div class="row">
+					{% for portal in portals %}
+						<div class="col-md-6 col-lg-4 my-2">
+							<div class="card h-100">
+								{% if portal.banner %}
+									<a href="{{ vich_uploader_asset(portal) }}">
+										<img src="{{ vich_uploader_asset(portal)|imagine_filter('medium_image') }}" class="card-img-top" alt="{{ portal.title }}">
+									</a>
+								{% endif %}
+								<div class="card-body">
+									<h3 class="card-title h5">
+										{{ portal.title }}
+									</h3>
+									<p class="card-text">{{ portal.description }}</p>
+								</div>
+								<div class="card-footer">
+									<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="stretched-link text-decoration-none">
+										Afficher
+										<i class="fas fa-external-link-alt"></i>
+									</a>
+								</div>
 							</div>
 						</div>
-					</div>
-				{% else %}
-					<p class="text-center text-muted">
-						Aucun portail
-					</p>
-				{% endfor %}
-			</div>
-		</section>
+					{% else %}
+						<p class="text-center text-muted">
+							Aucun portail
+						</p>
+					{% endfor %}
+				</div>
+			</section>
+		</div>
 
-		<div class="pt-0 p-4">
+		<div class="pt-0">
 			{% if category.timelines is not empty %}
 				<h2 class="content-title-section">
 					Explorer les chronologies de &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
+					<a class="text-white float-end" type="button" data-bs-toggle="collapse"  href="#collapseTimelines" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+						<i class="fas fa-eye"></i>
+					</a>
 				</h2>
-				
-				<h3 class="h5 mt-4 mb-3 text-center text-default fw-bold"><i class="fas fa-hourglass"></i> Chronologies de cette catégorie</h3>
-				<section class="timeline">
-					<ul class="timeline-list"> 
-						{% set position_timeline = 'left' %}
-						{% for timeline in category.timelines|sort((a, b) => a.position <=> b.position) %}
-							{% if position_timeline == 'left' %}
-								{% set class_name = 'timeline-panel-container' %}
-								{% set position_timeline = 'right' %}
-							{% else %}
-								{% set class_name = 'timeline-panel-container-inverted' %}
-								{% set position_timeline = 'left' %}
-							{% endif %}
-							<li id="{{ timeline.id }}">
-								<div class="{{ class_name }}">
-									<div class="timeline-panel">
-										<div class="timeline-heading">
-											<h3>
-												<a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}" class="stretched-link text-decoration-none">
-													{{ timeline.title }}
-												</a>
-											</h3>
-											<p class="text-center"></p>
-										</div>
-										<div class="black-divider"></div>
-										<div class="timeline-body">
-											{{ timeline.description ? timeline.description : 'Aucune description' }}
+				<div class="collapse show" id="collapseTimelines">
+					<h3 class="h5 mt-4 mb-3 text-center text-default fw-bold"><i class="fas fa-hourglass"></i> Chronologies de cette catégorie</h3>
+					<section class="timeline">
+						<ul class="timeline-list"> 
+							{% set position_timeline = 'left' %}
+							{% for timeline in category.timelines|sort((a, b) => a.position <=> b.position) %}
+								{% if position_timeline == 'left' %}
+									{% set class_name = 'timeline-panel-container' %}
+									{% set position_timeline = 'right' %}
+								{% else %}
+									{% set class_name = 'timeline-panel-container-inverted' %}
+									{% set position_timeline = 'left' %}
+								{% endif %}
+								<li id="{{ timeline.id }}">
+									<div class="{{ class_name }}">
+										<div class="timeline-panel">
+											<div class="timeline-heading">
+												<h3>
+													<a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}" class="stretched-link text-decoration-none">
+														{{ timeline.title }}
+													</a>
+												</h3>
+												<p class="text-center"></p>
+											</div>
+											<div class="black-divider"></div>
+											<div class="timeline-body">
+												{{ timeline.description ? timeline.description : 'Aucune description' }}
+											</div>
 										</div>
 									</div>
-								</div>
-							</li>
-						{% endfor %}
-					</ul>
-				</section>
+								</li>
+							{% endfor %}
+						</ul>
+					</section>
+				</div>
 			{% endif %}
 		</div>
 	</article>
