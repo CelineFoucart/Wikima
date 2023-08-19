@@ -11,6 +11,7 @@
 /var/cache/
 /var/log/
 /vendor/
+/composer.phar
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
