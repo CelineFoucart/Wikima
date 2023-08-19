@@ -15,12 +15,12 @@
 	</header>
 
 	{% if portal.articles is not empty %}
-		<aside>
+		<aside style="max-width:450px">
 			<p class="summary-title">
 				<strong>Sommaire&nbsp;:</strong>
 			</p>
 			<ol>
-				{% for article in portal.articles %}
+				{% for article in articles %}
 					<li>{{ article.title }}</li>
 				{% endfor %}
 			</ol>
@@ -28,7 +28,7 @@
 	{% endif %}
 
 	{% set index = 1 %}
-	{% for article in portal.articles %}
+	{% for article in articles %}
 		<article>
 			<h2>{{ index }}.
 				{{ article.title }}</h2>

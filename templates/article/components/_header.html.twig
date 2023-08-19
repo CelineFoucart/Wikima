@@ -54,7 +54,7 @@
 			{% endif %}
 		</h1>
 		<p class="text-muted mb-3 mt-2">
-			<span class="me-3">
+			<span class="me-3" data-bs-toggle="tooltip" title="Auteur">
 				<i class="fas fa-user me-1"></i>
 				{% if article.author is not null %}
 					Par
@@ -63,11 +63,19 @@
 					Par Anonyme
 				{% endif %}
 			</span>
-			<span class="me-2">
+			<span class="me-3" data-bs-toggle="tooltip" title="Publication">
 				<i class="fas fa-calendar-alt me-1"></i>
 				Le
 				{{ article.createdAt|date(date_format) }}
 			</span>
+
+			{% if article.updatedAt %}
+				<span class="me-2" data-bs-toggle="tooltip" title="Dernière mise à jour">
+					<i class="fas fa-edit me-1"></i>
+					Le
+					{{ article.updatedAt|date(date_format) }}
+				</span>
+			{% endif %}
 		</p>
 		<p class="lead mb-3">{{ article.description }}</p>
 	</div>

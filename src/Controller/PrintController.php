@@ -6,6 +6,8 @@ use App\Entity\Idiom;
 use App\Entity\Portal;
 use App\Entity\Article;
 use App\Entity\IdiomArticle;
+use App\Entity\Person;
+use App\Entity\Place;
 use App\Service\IdiomNavigationHelper;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -29,6 +31,54 @@ class PrintController extends AbstractController
         ]);
     }
 
+    #[Route('/print/person/{slug}', name: 'app_print_person')]
+    #[Entity('person', expr: 'repository.findBySlug(slug)')]
+    public function person(Person $person): Response
+    {
+        $portals = [];
+        foreach ($person->getPortals() as $portal) {
+            $portals[] = $portal->getTitle();
+        }
+
+        $categories = [];
+        foreach ($person->getCategories() as $category) {
+            $categories[] = $category->getTitle();
+        }
+
+        return $this->render('print/person.html.twig', [
+            'person' => $person,
+            'portals' => $portals,
+            'categories' => $categories,
+        ]);
+    }
+
+    #[Route('/print/place/{slug}', name: 'app_print_place')]
+    #[Entity('place', expr: 'repository.findBySlug(slug)')]
+    public function place(Place $place): Response
+    {
+        $portals = [];
+        foreach ($place->getPortals() as $portal) {
+            $portals[] = $portal->getTitle();
+        }
+
+        $categories = [];
+        foreach ($place->getCategories() as $category) {
+            $categories[] = $category->getTitle();
+        }
+
+        $localisations = [];
+        foreach ($place->getLocalisations() as $localisation) {
+            $localisations[] = $localisation->getTitle();
+        }
+
+        return $this->render('print/place.html.twig', [
+            'place' => $place,
+            'portals' => $portals,
+            'categories' => $categories,
+            'localisations' => $localisations,
+        ]);
+    }
+
     #[Route('/print/portal/{slug}', name: 'app_print_portal')]
     #[Entity('article', expr: 'repository.findBySlug(slug)')]
     public function portal(Portal $portal): Response
@@ -38,9 +88,15 @@ class PrintController extends AbstractController
             $categories[] = $category->getTitle();
         }
 
+        $articles = $portal->getArticles()->toArray();
+        usort($articles, function($a, $b) {
+            return strcmp($a->getTitle(), $b->getTitle());
+        });
+
         return $this->render('print/portal.html.twig', [
             'portal' => $portal,
             'categories' => $categories,
+            'articles' => $articles,
         ]);
     }
 

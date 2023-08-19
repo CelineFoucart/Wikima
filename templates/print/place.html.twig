@@ -1,0 +1,139 @@
+{% extends 'base_print.html.twig' %}
+
+{% block title %}
+	{{ place.title }}
+{% endblock %}
+
+{% block body %}
+	<header>
+		<p class="parents">
+			<strong>Catégories :</strong>
+			{{ categories|join(', ')}}
+		</p>
+        <p class="parents">
+			<strong>Portails :</strong>
+			{{ portals|join(', ')}}
+		</p>
+		<div class="about">
+			<h2>Présentation</h2>
+			{% if place.illustration %}
+				<div class="text-center">
+					<img src="{{ vich_uploader_asset(place.illustration)|imagine_filter('card_image') }}" alt="{{ place.illustration.title }}">
+				</div>
+			{% endif %}
+			{% if place.mapFile %}
+				<h3 class="text-center">Carte</h3>
+				<img src="{{ vich_uploader_asset(place) }}" alt="Image situation {{ place }}">
+			{% endif %}
+
+			{% if place.situation %}
+				<h3 class="text-center">Situation</h3>
+				<table>
+					<tbody>
+						<tr>
+							<td>{{ place.situation|nl2br }}</td>
+						</tr>
+					</tbody>
+				</table>
+			{% endif %}
+
+			<h3 class="text-center">Informations générales</h3>
+			<table>
+				<tbody>
+					<tr>
+						<th class="align-top">Controlé par</th>
+						<td>{{ place.dominatedBy ? place.dominatedBy : '-' }}</td>
+					</tr>
+					{% if place.capitaleCity %}
+						<tr>
+							<th class="align-top">Capitale</th>
+							<td>{{ place.capitaleCity }}</td>
+						</tr>
+					{% endif %}
+					{% if place.isInhabitable %}
+						<tr>
+							<th class="align-top">
+								Habitable
+							</th>
+							<td>
+								{{ place.isInhabitable|nl2br }}
+							</td>
+						</tr>
+					{% endif %}
+					{% if place.languages %}
+						<tr>
+							<th class="align-top">Langues</th>
+							<td>{{ place.languages|nl2br }} </td>
+						</tr>
+					{% endif %}
+					{% if place.localisations is not empty %}
+						<tr>
+							<th class="align-top">Localisations</th>
+							<td>{{ localisations|join(', ')}}</td>
+						</tr>
+					{% endif %}
+					{% if place.population %}
+						<tr>
+							<th class="align-top">Population</th>
+							<td>{{ place.population }}</td>
+						</tr>
+					{% endif %}
+					{% if place.size %}
+						<tr>
+							<th class="align-top">Taille</th>
+							<td>{{ place.size|nl2br }}</td>
+						</tr>
+					{% endif %}
+				</tbody>
+			</table>
+		</div>
+		<div style="margin-top:10px">
+            {% for tag in place.types %}
+                <span class="tag">{{ tag }}</span>
+            {% endfor %}
+        </div>
+		<h1>{{ place.title }}</h1>
+		<p>{{ place.description|raw }}</p>
+	</header>
+
+	{% if place.history or place.presentation %}
+        <aside class="reduce">
+			<p class="summary-title">
+				<strong>Sommaire&nbsp;:</strong>
+			</p>
+			<ol>
+				<li>Présentation</li>
+				<li>Histoire</li>
+				{% if place.places is not empty %}
+					<li>Lieux associés</li>
+				{% endif %}
+			</ol>
+		</aside>
+    {% endif %}
+
+	{% if place.presentation %}
+        <article>
+			<h2>1. Présentation</h2>
+			<div>{{ place.presentation|raw }}</div>
+        </article>
+    {% endif %}
+
+	{% if place.history %}
+        <article>
+			<h2>2. Histoire</h2>
+			<div>{{ place.history|raw }}</div>
+        </article>
+    {% endif %}
+
+	{% if place.places is not empty %}
+        <article>
+			<h2>3. Lieux associés</h2>
+			<div>
+				{% for element in place.places|sort((a, b) => a.title <=> b.title)  %}
+					<h3>3.{{ loop.index }}. {{ element.title }}</h3>
+					{{ place.description|raw }}
+				{% endfor %}
+			</div>
+        </article>
+    {% endif %}
+{% endblock %}

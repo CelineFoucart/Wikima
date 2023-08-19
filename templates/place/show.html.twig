@@ -23,8 +23,8 @@
 			
 		</div>
 		<div class="item-heading position-relative">
-			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-				<div class="p-2 position-absolute top-0" style="right:0px">
+			<div class="p-2 position-absolute top-0" style="right:0px">
+				{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
 					<a href="{{ path('admin_app_place_create', {place: place.id}) }}" class="btn btn-outline-secondary btn-sm" title="ajouter un lieu">
 						<i class="fas fa-plus-circle"></i>
 					</a>
@@ -35,8 +35,13 @@
 						<i class="fas fa-image"></i>
 					</a>
 					{% include "components/_sticky_modal.html.twig" with {element: place, path:'admin_app_place_sticky'} %}
-				</div>
-			{% endif %}
+				{% endif %}
+				<a class="btn btn-sm btn-outline-secondary" 
+					data-bs-toggle="tooltip" title="Aperçu avant impression"
+					href="{{ path('app_print_place', {slug: place.slug}) }}" target="_blank">
+					<i class="fas fa-print"></i> 
+				</a>
+			</div>
 			<p class="pt-4 pt-lg-0">
 				{% for category in place.categories %}
 				<span class="mb-1 d-block d-md-inline-block">
@@ -188,14 +193,14 @@
 						<h2 class="h6">Sommaire</h2>
 					</div>
 					<ol class="mb-0" data-toggle-target="content">
-						{% if place.history %}
-							<li class="fs-6">
-								<a href="#history" class="text-dark">Histoire</a>
-							</li>
-						{% endif %}
 						{% if place.presentation %}
 							<li class="fs-6">
 								<a href="#presentation" class="text-dark">Présentation</a>
+							</li>
+						{% endif %}
+						{% if place.history %}
+							<li class="fs-6">
+								<a href="#history" class="text-dark">Histoire</a>
 							</li>
 						{% endif %}
 						{% if place.places is not empty %}

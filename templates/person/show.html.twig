@@ -29,8 +29,8 @@
 			</div>
 		</div>
 		<div class="item-heading position-relative">
-			{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-				<div class="p-2 position-absolute top-0" style="right:0px">
+			<div class="p-2 position-absolute top-0" style="right:0px">
+				{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
 					<a href="{{ path('admin_app_person_edit', {id: person.id}) }}" class="btn btn-outline-secondary btn-sm" title="administrer">
 						<i class="fas fa-pencil-alt"></i>
 					</a>
@@ -38,8 +38,13 @@
 						<i class="fas fa-image"></i>
 					</a>
 					{% include "components/_sticky_modal.html.twig" with {element: person, path:'admin_app_person_sticky'} %}
-				</div>
-			{% endif %}
+				{% endif %}
+				<a class="btn btn-sm btn-outline-secondary" 
+					data-bs-toggle="tooltip" title="Aperçu avant impression"
+					href="{{ path('app_print_person', {slug: person.slug}) }}" target="_blank">
+					<i class="fas fa-print"></i> 
+				</a>
+			</div>
 			<p class="pt-4 pt-lg-0">
 				{% for category in person.categories %}
 					<span class="mb-1 d-block d-md-inline-block">

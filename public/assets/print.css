@@ -26,6 +26,7 @@ h2 {
     margin-bottom: 5px;
     border-bottom: 1px solid #dedede;
     font-weight: 400;
+    overflow: hidden;
 }
 
 h3 {
@@ -71,7 +72,10 @@ aside {
     padding: 10px;
     border: 1px solid #dedede;
     margin: 0.5rem 2rem 1.5rem 1rem;
-    max-width: 400px;
+}
+
+aside.reduce {
+    max-width: 300px;
 }
 
 a,
@@ -175,4 +179,56 @@ blockquote {
     border-left: 5px solid #ccc;
     font-style: italic;
     margin: 10px 2rem;
+}
+
+.tag {
+    border-radius: 50rem;
+    background-color: #6c757d;
+    text-decoration: none;
+    color: #f8f9fa;
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: .75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+}
+
+.about {
+    border: 1px solid #dee2e6;
+    float: right;
+    padding: 10px;
+    margin-left: 5px;
+    max-width: 335px;
+}
+
+.about h2 {
+    margin-top: 0;
+}
+
+.about th {
+    white-space: nowrap;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.align-top {
+    vertical-align: top;
+}
+
+figure {
+    background: rgba(0,0,0,.05);
+    display: inline-block;
+    margin-left: 0.5rem;
+    outline: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
