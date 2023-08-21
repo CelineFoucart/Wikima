@@ -20,7 +20,7 @@
 					<th>Actions</th>
 				</tr>
 			</thead>
-			<body>
+			<tbody>
 				{% for draft in drafts %}
 					<tr>
 						<td>{{ draft.title }}</td>
@@ -40,7 +40,7 @@
 						<td colspan="4" class="text-center">Aucun brouillon</td>
 					</tr>
 				{% endfor %}
-			</body>
+			</tbody>
 		</table>
 
 		<div class="navigation">

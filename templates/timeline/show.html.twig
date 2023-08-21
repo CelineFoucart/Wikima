@@ -61,11 +61,11 @@
 		</div>
 	</header>
 
-	<article class="my-3 container-fluid">
+	<div class="my-3 container-fluid">
 		{% if timeline.events is empty %}
 			<p class="text-center">Cette chronologie est vide.</p>
 		{% else %}
 			{% include "timeline/_events-container.html.twig" %}
 		{% endif %}
-	</article>
+	</div>
 {% endblock %}

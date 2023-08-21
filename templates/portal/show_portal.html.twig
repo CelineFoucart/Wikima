@@ -16,7 +16,7 @@
 			{% if portal.presentation %}
 				<h2>
 					<strong>{{ portal.title }}</strong>, qu'est-ce que c'est ?
-					<a class="text-default float-end" type="button" data-bs-toggle="collapse"  href="#collapsePresentation" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+					<a class="text-default float-end" data-bs-toggle="collapse"  href="#collapsePresentation" role="button" aria-expanded="true" aria-controls="collapsePresentation">
 						<i class="fas fa-eye"></i>
 					</a>
 				</h2>
@@ -33,7 +33,7 @@
 					<i class="fas fa-thumbtack me-1"></i> 
 					Eléments épinglés de <strong>{{ portal.title }}</strong>
 					<i class="fas fa-thumbtack me-1"></i> 
-					<a class="text-default float-end" type="button" data-bs-toggle="collapse"  href="#collapseSticky" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+					<a class="text-default float-end" data-bs-toggle="collapse"  href="#collapseSticky" role="button" aria-expanded="true" aria-controls="collapsePresentation">
 						<i class="fas fa-eye"></i>
 					</a>
 				</h2>
@@ -71,7 +71,7 @@
 		<section class="pt-1 px-4 mt-5">
 			<h2 class="content-title-section">
 				Les articles du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
-				<a class="text-white float-end" type="button" data-bs-toggle="collapse"  href="#collapseArticles" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+				<a class="text-white float-end" data-bs-toggle="collapse"  href="#collapseArticles" role="button" aria-expanded="true" aria-controls="collapsePresentation">
 					<i class="fas fa-eye"></i>
 				</a>
 			</h2>
@@ -90,11 +90,11 @@
 						</p>
 						<div class="col-md-3 text-end">
 							<div class="dropdown">
-								<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+								<button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButtonTypeArticle1" data-bs-toggle="dropdown" aria-expanded="false">
 									Types d'article
 								</button>
 								{% set style_scroll = types|length > 9 ? 'style="overflow-y: scroll; max-height: 350px;"' : '' %}
-								<ul class="dropdown-menu" {{ style_scroll|raw }} aria-labelledby="dropdownMenuButton1">
+								<ul class="dropdown-menu" {{ style_scroll|raw }} aria-labelledby="dropdownMenuButtonTypeArticle1">
 									<li><a class="dropdown-item" href="{{ path('app_portal_show', {slug: portal.slug}) }}">Tous les types</a></li>
 									<li><hr class="dropdown-divider"></li>
 									{% for article_type in types %}
@@ -142,7 +142,7 @@
 			<section class="pt-1 px-4">
 				<h2 class="content-title-section">
 					Les chronologies du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
-					<a class="text-white float-end" type="button" data-bs-toggle="collapse"  href="#collapseTimelines" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+					<a class="text-white float-end" data-bs-toggle="collapse"  href="#collapseTimelines" role="button" aria-expanded="true" aria-controls="collapsePresentation">
 						<i class="fas fa-eye"></i>
 					</a>
 				</h2>
@@ -174,7 +174,7 @@
 			<section class="pt-1 py-5 px-4">
 				<h2 class="content-title-section">
 					Les langues du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
-					<a class="text-white float-end" type="button" data-bs-toggle="collapse"  href="#collapseIdioms" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+					<a class="text-white float-end" data-bs-toggle="collapse"  href="#collapseIdioms" role="button" aria-expanded="true" aria-controls="collapsePresentation">
 						<i class="fas fa-eye"></i>
 					</a>
 				</h2>

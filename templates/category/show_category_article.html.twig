@@ -28,13 +28,13 @@
             </p>
             <div class="col-md-3 text-end">
                 <div class="dropdown">
-                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButtonType5" data-bs-toggle="dropdown" aria-expanded="false">
                         Types d'article
                     </button>
 
                     {% set style_scroll = types|length > 9 ? 'style="overflow-y: scroll; max-height: 350px;"' : '' %}
 
-                    <ul class="dropdown-menu" {{ style_scroll|raw }} aria-labelledby="dropdownMenuButton1">
+                    <ul class="dropdown-menu" {{ style_scroll|raw }} aria-labelledby="dropdownMenuButtonType5">
                         <li><a class="dropdown-item" href="{{ path('app_category_show_article', {slug: category.slug}) }}">Tous les types</a></li>
                         <li><hr class="dropdown-divider"></li>
                         {% for article_type in types %}

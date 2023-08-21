@@ -42,7 +42,7 @@
 				</a>
 			</div>
 		{% endif %}
-		<h1 class="mb-1">{{ article.title }}
+		<h2 class="mb-1 h1">{{ article.title }}
 			{% if article.isDraft %}
 				<i class="fas fa-ruler" data-bs-toggle="tooltip" title="Brouillon : article en travaux (visible uniquement par son auteur et les administrateurs)"></i>
 			{% endif %}
@@ -52,7 +52,7 @@
 			{% if article.isArchived %}
 				<i class="fas fa-archive me-1 fa-fw" data-bs-toggle="tooltip" aria-hidden="true" title="archivé"></i>
 			{% endif %}
-		</h1>
+		</h2>
 		<p class="text-muted mb-3 mt-2">
 			<span class="me-3" data-bs-toggle="tooltip" title="Auteur">
 				<i class="fas fa-user me-1"></i>

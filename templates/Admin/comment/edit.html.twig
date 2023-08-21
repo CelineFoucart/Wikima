@@ -18,10 +18,10 @@
 
 {% block toolbar %}
 	<div class="dropdown d-inline">
-        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
             Action
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
             <li>
                 <a class="dropdown-item" href="{{ path('admin_app_comment_show', {id: comment.id}) }}">
                     <i class="fas fa-info-circle"></i>
@@ -64,7 +64,7 @@
     {{ parent() }}
     <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
     <script src="{{ asset("assets/admin/editor.js") }}"></script>
-    <script type="text/javascript">   
+    <script>   
         enableBasicEditor("comment_form_content");
     </script>
 {% endblock %}

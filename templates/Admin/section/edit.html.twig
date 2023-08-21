@@ -18,10 +18,10 @@
 
 {% block toolbar %}
     <div class="dropdown d-inline">
-        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton8" data-bs-toggle="dropdown" aria-expanded="false">
             Action
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton8">
             <li>
                 <a class="dropdown-item" href="{{ path('admin_app_article_section', {id: section.article.id}) }}">
                     <i class="fas fa-plus-circle" aria-hidden="true"></i>
@@ -78,7 +78,7 @@
     {{ parent() }}
     <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
     <script src="{{ asset("assets/admin/editor.js") }}"></script>
-    <script type="text/javascript">   
-        enableFullEditor("section_content");
+    <script>   
+        enableFullEditor("section_content" "p;h3;h4;h5;h6;pre;address;div");
     </script>
 {% endblock %}

@@ -80,10 +80,10 @@
 				</li>
 			{% endif %}
 			<li class="nav-item dropdown">
-				<a class="nav-link text-uppercase dropdown-toggle {{ active_link(app.request, 'app_profile') }}" href="#" id="account" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+				<a class="nav-link text-uppercase dropdown-toggle {{ active_link(app.request, 'app_profile') }}" href="#" id="account-nav" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					{{ app.user and app.user.username is defined ? app.user.username : 'Compte' }}
 				</a>
-				<ul class="dropdown-menu" aria-labelledby="account">
+				<ul class="dropdown-menu" aria-labelledby="account-nav">
 					{% if app.user %}
 						<li>
 							<a class="dropdown-item" href="{{ path('app_profile') }}">

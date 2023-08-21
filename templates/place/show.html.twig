@@ -52,15 +52,15 @@
 				</span>
 				{% endfor %}
 			</p>
-			<h1 class="mb-2">
+			<h2 class="mb-2 h1">
 				<i class="fas fa-globe me-1"></i>
 				{{ place }}
-				<div class="float-end">
+				<span class="float-end">
 					{% if place.isArchived %}
 						<i class="fas fa-archive me-1 fa-fw" data-bs-toggle="tooltip" aria-hidden="true" title="archivé"></i>
 					{% endif %}
-				</div>
-			</h1>
+				</span>
+			</h2>
 		</div>
 	</header>
 	<section class="mt-4 px-4 container-fluid">
@@ -158,10 +158,12 @@
 						<td>
 							<ul class="ps-0 mb-0 list-unstyled">
 								{% for portal in place.portals %}
-									<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="text-decoration-none">
-										<i class="fas fa-tag small me-1"></i>
-										{{ portal }}
-									</a>
+									<li>
+										<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="text-decoration-none">
+											<i class="fas fa-tag small me-1"></i>
+											{{ portal }}
+										</a>
+									</li>
 								{% else %}
 									<li class="text-center">-</li>
 								{% endfor %}
@@ -172,7 +174,7 @@
 			</table>
 		</aside>
 
-		<div id="presentation" class="article-content">
+		<div id="description" class="article-content">
 			<div>
 				{% for tag in place.types %}
 					<a href="{{ path('app_place_type', {slug: tag.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none">

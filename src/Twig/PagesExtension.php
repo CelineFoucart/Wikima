@@ -41,7 +41,7 @@ class PagesExtension extends AbstractExtension
             return '';
         }
 
-        $html = '<li><hr class="dropdown-divider"></li><li><h6 class="dropdown-header">Pages</li>';
+        $html = '<li><hr class="dropdown-divider"></li><li><h6 class="dropdown-header">Pages</h6></li>';
 
         foreach ($pages as $page) {
             $url = $this->urlGenerator->generate('app_page', ["slug" => $page->getSlug()]);
