@@ -117,6 +117,7 @@ class ImageRepository extends ServiceEntityRepository
             ->orderBy('i.title', 'ASC')
             ->leftJoin('i.portals', 'p')->addSelect('p')
             ->leftJoin('i.categories', 'c')->addSelect('c')
+            ->leftJoin('i.tags', 't')->addSelect('t')
         ;
 
         if (strlen($search->getQuery()) >= 3 and null !== $search->getQuery()) {
@@ -141,6 +142,13 @@ class ImageRepository extends ServiceEntityRepository
             $builder
                 ->andWhere('c.id IN (:categories)')
                 ->setParameter('categories', $search->getCategories())
+            ;
+        }
+
+        if (!empty($search->getTags())) {
+            $builder
+                ->andWhere('t.id IN (:tags)')
+                ->setParameter('tags', $search->getTags())
             ;
         }
 

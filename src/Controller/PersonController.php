@@ -6,8 +6,8 @@ use App\Entity\Person;
 use App\Form\SearchType;
 use App\Entity\PersonType;
 use App\Entity\Data\SearchData;
-use App\Form\AdvancedSearchType;
 use App\Repository\PersonRepository;
+use App\Form\AdvancedPersonSearchType;
 use App\Repository\PersonTypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +27,7 @@ class PersonController extends AbstractController
     public function index(Request $request, int $perPageEven): Response
     {
         $search = (new SearchData())->setPage($request->query->getInt('page', 1));
-        $form = $this->createForm(AdvancedSearchType::class, $search, ['allow_extra_fields' => true]);
+        $form = $this->createForm(AdvancedPersonSearchType::class, $search, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -129,6 +129,13 @@ class PersonRepository extends ServiceEntityRepository
             ;
         }
 
+        if (!empty($search->getTags())) {
+            $builder
+                ->andWhere('t.id IN (:tags)')
+                ->setParameter('tags', $search->getTags())
+            ;
+        }
+
         return $this->paginatorService->setLimit($limit)->paginate($builder, $search->getPage());
     }
 

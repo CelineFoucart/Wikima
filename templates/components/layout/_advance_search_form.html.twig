@@ -19,6 +19,11 @@
 	<h3 class="h6 mt-4 mb-3">Par portail</h3>
 	{{ form_widget(form.portals) }}
 
+	{% if form.tags is defined %}
+		<h3 class="h6 mt-4 mb-3">Par types</h3>
+		{{ form_widget(form.tags) }}
+	{% endif %}
+
 	<div class="text-center mt-3">
 		<a href="{{ path(index_path) }}" class="btn btn-outline-secondary rounded-pill mb-1">Tout afficher</a>
 		<button type="submit" class="btn btn-outline-secondary rounded-pill mb-1">

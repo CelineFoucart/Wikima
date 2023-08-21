@@ -25,6 +25,8 @@ class SearchData
      */
     private array $categories = [];
 
+    private array $tags = [];
+
     /**
      * Get the value of query.
      */
@@ -97,6 +99,30 @@ class SearchData
     public function setCategories(array $categories): self
     {
         $this->categories = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of tags
+     *
+     * @return array
+     */
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Set the value of tags
+     *
+     * @param array $tags
+     *
+     * @return self
+     */
+    public function setTags(array $tags): self
+    {
+        $this->tags = $tags;
 
         return $this;
     }

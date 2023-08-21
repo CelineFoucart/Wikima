@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use App\Entity\Data\SearchData;
 use App\Entity\ImageTag;
-use App\Form\AdvancedSearchType;
 use App\Form\SearchType;
+use App\Entity\Data\SearchData;
+use App\Form\AdvancedImageSearchType;
 use App\Repository\ImageRepository;
 use App\Repository\ImageTagRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ImageController extends AbstractController
 {
@@ -25,7 +25,7 @@ class ImageController extends AbstractController
         $search = (new SearchData())
             ->setPage($request->query->getInt('page', 1))
         ;
-        $imageForm = $this->createForm(AdvancedSearchType::class, $search, ['allow_extra_fields' => true]);
+        $imageForm = $this->createForm(AdvancedImageSearchType::class, $search, ['allow_extra_fields' => true]);
         $imageForm->handleRequest($request);
         
         if ($imageForm->isSubmitted() && $imageForm->isValid()) {

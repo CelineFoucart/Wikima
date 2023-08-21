@@ -8,6 +8,7 @@ use App\Entity\PlaceType;
 use App\Entity\Data\SearchData;
 use App\Form\AdvancedSearchType;
 use App\Repository\PlaceRepository;
+use App\Form\AdvancedPlaceSearchType;
 use App\Repository\PlaceTypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,7 +29,7 @@ class PlaceController extends AbstractController
     public function index(Request $request, int $perPageEven): Response
     {
         $search = (new SearchData())->setPage($request->query->getInt('page', 1));
-        $form = $this->createForm(AdvancedSearchType::class, $search, ['allow_extra_fields' => true]);
+        $form = $this->createForm(AdvancedPlaceSearchType::class, $search, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -2,16 +2,17 @@
 
 namespace App\Controller\Wiki;
 
-use App\Entity\Article;
-use App\Entity\Data\SearchData;
 use App\Entity\User;
+use App\Entity\Article;
 use App\Form\SearchPortalType;
+use App\Entity\Data\SearchData;
 use App\Repository\ArticleRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\AdvancedArticleSearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ArticleController extends AbstractController
 {
@@ -37,7 +38,7 @@ final class ArticleController extends AbstractController
         $page = $request->query->getInt('page', 1);
 
         $search = (new SearchData())->setPage($page);
-        $form = $this->createForm(SearchPortalType::class, $search, ['allow_extra_fields' => true]);
+        $form = $this->createForm(AdvancedArticleSearchType::class, $search, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
 
         return $this->render('article/index_article.html.twig', [

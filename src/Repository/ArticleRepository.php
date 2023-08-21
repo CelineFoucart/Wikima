@@ -156,6 +156,13 @@ class ArticleRepository extends ServiceEntityRepository
             ;
         }
 
+        if (!empty($search->getTags())) {
+            $builder
+                ->andWhere('t.id IN (:types)')
+                ->setParameter('types', $search->getTags())
+            ;
+        }
+
         $builder->andWhere('a.isDraft IS NULL OR a.isDraft = 0');
 
         if ($hidePrivate) {
@@ -186,6 +193,7 @@ class ArticleRepository extends ServiceEntityRepository
             ->leftJoin('a.portals', 'p')->addSelect('p')
             ->leftJoin('a.author', 'u')->addSelect('u')
             ->leftJoin('a.sections', 's')->addSelect('s')
+            ->leftJoin('a.type', 't')->addSelect('t')
         ;
     }
 
