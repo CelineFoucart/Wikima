@@ -131,7 +131,7 @@
 			<div>
 				{% for element in place.places|sort((a, b) => a.title <=> b.title)  %}
 					<h3>3.{{ loop.index }}. {{ element.title }}</h3>
-					{{ place.description|raw }}
+					{{ element.description|raw }}
 				{% endfor %}
 			</div>
         </article>
