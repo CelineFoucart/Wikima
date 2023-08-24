@@ -76,7 +76,8 @@ final class CategoryController extends AbstractController
             }
         }
 
-        $articles = $this->articleRepository->findByPortals($category->getPortals()->toArray(), $page, $perPageOdd, $this->hidePrivate(), $type);
+        $portals = $category->getPortals()->toArray();
+        $articles = $this->articleRepository->findByPortals($portals, $page, $perPageOdd, $this->hidePrivate(), $type);
 
         return $this->render('category/show_category_article.html.twig', [
             'category' => $category,
@@ -117,6 +118,7 @@ final class CategoryController extends AbstractController
             'description' => $category->getDescription(),
             'types' => $types,
             'type' => $type,
+            'route_name' => 'app_image_index',
         ]);
     }
 
@@ -148,6 +150,7 @@ final class CategoryController extends AbstractController
             'stickyElements' => $this->personRepository->findSticky(null, $category->getId()),
             'title' => $category->getTitle(),
             'description' => $category->getDescription(),
+            'route_name' => 'app_person_index',
         ]);
     }
 
@@ -179,6 +182,7 @@ final class CategoryController extends AbstractController
             'stickyElements' => $this->placeRepository->findSticky(null, $category->getId()),
             'title' => $category->getTitle(),
             'description' => $category->getDescription(),
+            'route_name' => 'app_place_index',
         ]);
     }
 
@@ -197,6 +201,8 @@ final class CategoryController extends AbstractController
 
             return $this->redirectToRoute('app_category_notes', ['slug' => $category->getSlug()]);
         }
+
+        $portals = $category->getPortals()->toArray();
 
         return $this->render('category/category_note.html.twig', [
             'category' => $category,

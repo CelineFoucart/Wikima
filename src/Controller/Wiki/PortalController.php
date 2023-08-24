@@ -113,6 +113,7 @@ final class PortalController extends AbstractController
             'description' => $portal->getDescription(),
             'types' => $types,
             'type' => $type,
+            'route_name' => 'app_image_index',
         ]);
     }
 
@@ -145,6 +146,7 @@ final class PortalController extends AbstractController
             'stickyElements' => $this->personRepository->findSticky($portal->getId()),
             'title' => $portal->getTitle(),
             'description' => $portal->getDescription(),
+            'route_name' => 'app_person_index',
         ]);
     }
 
@@ -177,6 +179,7 @@ final class PortalController extends AbstractController
             'stickyElements' => $this->placeRepository->findSticky($portal->getId()),
             'title' => $portal->getTitle(),
             'description' => $portal->getDescription(),
+            'route_name' => 'app_place_index',
         ]);
     }
 
