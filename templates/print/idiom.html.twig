@@ -37,7 +37,7 @@
 						<li>
                             {{ navigation.category }}
                             <ol>
-                                {% for item in navigation.articles|sort((a, b) => a.title <=> b.title) %}
+                                {% for item in navigation.articles|sort((a, b) => a.position <=> b.position) %}
                                     <li>{{ item.title }}</li>
                                 {% endfor %}
                             </ol>
@@ -50,7 +50,7 @@
                 {% set index = loop.index  %}
                 <section>
                     <h2 style="font-size: 2rem; border: none; font-weight: bold">{{ index }}. {{ navigation.category }}</h2>
-                    {% for item in navigation.articles|sort((a, b) => a.title <=> b.title) %}
+                    {% for item in navigation.articles|sort((a, b) => a.position <=> b.position) %}
                         <h2>{{ index }}.{{ loop.index }}. {{ item.title }}</h2>
                         <div>{{ item.content|raw }}</div>
                     {% endfor %}
