@@ -57,6 +57,10 @@ class IdiomRepository extends ServiceEntityRepository
      */
     public function advancedSearch(SearchData $search): array
     {
+        if (count($search->getFields()) === 1 && in_array('tags', $search->getFields())) {
+            return [];
+        }
+        
         $builder = $this->createQueryBuilder('i')
             ->leftJoin('i.portals', 'p')->addSelect('p')
             ->leftJoin('p.categories', 'c')->addSelect('c')

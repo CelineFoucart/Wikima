@@ -70,6 +70,10 @@ class TimelineRepository extends ServiceEntityRepository
      */
     public function advancedSearch(SearchData $search): array
     {
+        if (count($search->getFields()) === 1 && in_array('tags', $search->getFields())) {
+            return [];
+        }
+
         $builder = $this->createQueryBuilder('t')
             ->orderBy('t.title', 'ASC')
             ->leftJoin('t.portals', 'p')->addSelect('p')
