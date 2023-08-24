@@ -27,7 +27,7 @@ function toastify(type = 'success', text = null) {
 
     const toastifyId = "toastify-" + Date.now();
     const messages = {
-        success: "Les données ont bien été sauvegardée",
+        success: "Les données ont bien été sauvegardées.",
         error: "L'opération a échoué"
     };
     const validStatus = ['success', 'error'];
