@@ -8,7 +8,6 @@ use App\Form\ContactType;
 use App\Form\SearchType;
 use App\Repository\AboutRepository;
 use App\Repository\ArticleRepository;
-use App\Repository\CategoryRepository;
 use App\Repository\PageRepository;
 use App\Service\ContactService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -89,5 +88,11 @@ final class HomeController extends AbstractController
     public function privacyAction(): Response
     {
         return $this->render('home/privacy.html.twig');
+    }
+
+    #[Route('/search', name: 'app_search')]
+    public function searchAction(): Response
+    {
+        return $this->render('home/search.html.twig');
     }
 }

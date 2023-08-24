@@ -114,7 +114,7 @@
 			</li>
 		</ul>
 		<div class="ms-auto">
-			<div class="nav-item dropdown me-3">
+			<div class="nav-item dropdown me-2 d-inline-block">
 				<a class="btn btn-outline-light text-uppercase dropdown-toggle" href="#" id="gallery" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					<i class="fas fa-folder me-1 fa-fw"></i>
 					Catégories
@@ -128,6 +128,12 @@
 						{{ get_categories() }}
 					</div>
 				</div>
+			</div>
+			<div class="nav-item d-inline-block">
+				<a href="{{ path('app_search') }}" data-bs-placement="bottom" class="btn btn-outline-light" title="Rechercher globalement" data-bs-toggle="tooltip">
+					<i class="fas fa-search"></i>
+					<span class="visually-hidden">Rechercher globalement </span>
+				</a>
 			</div>
 		</div>
 	</div>
