@@ -3,11 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Person;
-use App\Form\SearchType;
+use App\Form\Search\SearchType;
 use App\Entity\PersonType;
 use App\Entity\Data\SearchData;
 use App\Repository\PersonRepository;
-use App\Form\AdvancedPersonSearchType;
+use App\Form\Search\AdvancedPersonSearchType;
 use App\Repository\PersonTypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

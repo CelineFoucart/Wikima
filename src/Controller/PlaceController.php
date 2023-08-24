@@ -3,12 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Place;
-use App\Form\SearchType;
+use App\Form\Search\SearchType;
 use App\Entity\PlaceType;
 use App\Entity\Data\SearchData;
-use App\Form\AdvancedSearchType;
 use App\Repository\PlaceRepository;
-use App\Form\AdvancedPlaceSearchType;
+use App\Form\Search\AdvancedPlaceSearchType;
 use App\Repository\PlaceTypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

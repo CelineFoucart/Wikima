@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Idiom;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Data\SearchData;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Idiom>
@@ -33,5 +34,50 @@ class IdiomRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    /**
+     * @param SearchData $search
+     * 
+     * @return Idiom[]
+     */
+    public function advancedSearch(SearchData $search): array
+    {
+        $builder = $this->createQueryBuilder('i')
+            ->leftJoin('i.portals', 'p')->addSelect('p')
+            ->leftJoin('p.categories', 'c')->addSelect('c')
+            ->setParameter('q', '%'.$search->getQuery().'%');
+
+            if (empty($search->getFields())) {
+                $builder->andWhere('i.translatedName LIKE :q OR i.originalName LIKE :q OR i.description LIKE :q');
+            } else {
+                $where = [];
+
+                if (in_array('name', $search->getFields())) {
+                    $where[] = 'i.translatedName LIKE :q OR i.originalName LIKE :q';
+                }
+
+                if (in_array('description', $search->getFields())) {
+                    $where[] = 'i.description LIKE :q';
+                }
+
+                $builder->andWhere(join(' OR ', $where));
+            }
+
+        if (!empty($search->getPortals())) {
+            $builder
+                ->andWhere('p.id IN (:portals)')
+                ->setParameter('portals', $search->getPortals())
+            ;
+        }
+
+        if (!empty($search->getCategories())) {
+            $builder
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->getCategories())
+            ;
+        }
+
+        return $builder->getQuery()->getResult();
     }
 }

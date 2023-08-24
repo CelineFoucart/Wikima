@@ -1,30 +1,29 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Search;
 
-use App\Entity\ArticleType;
 use App\Entity\Data\SearchData;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Entity\PlaceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AdvancedArticleSearchType extends SearchPortalType
+class AdvancedPlaceSearchType extends AdvancedSearchType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
 
         $builder
-            
-        ->add('tags', EntityType::class, [
-            'label' => false,
-            'required' => false,
-            'class' => ArticleType::class,
-            'multiple' => true,
-            'attr' => [
-                'data-choices' => 'choices',
-            ],
-        ])
+            ->add('tags', EntityType::class, [
+                'label' => false,
+                'required' => false,
+                'class' => PlaceType::class,
+                'multiple' => true,
+                'attr' => [
+                    'data-choices' => 'choices',
+                ],
+            ])
         ;
     }
 

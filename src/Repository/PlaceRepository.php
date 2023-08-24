@@ -87,6 +87,55 @@ class PlaceRepository extends ServiceEntityRepository
         return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
     }
 
+    /**
+     * @param SearchData $search
+     * 
+     * @return Place[]
+     */
+    public function advancedSearch(SearchData $search): array
+    {
+        $builder = $this->getDefaultQuery()
+            ->andWhere('(pl.isArchived != :isArchived  OR pl.isArchived IS NULL)')
+            ->setParameter('isArchived', true)
+            ->setParameter('q', '%'.$search->getQuery().'%');
+
+            if (empty($search->getFields())) {
+                $builder->andWhere('pl.title LIKE :q OR pl.description LIKE :q OR t.title LIKE :q');
+            } else {
+                $where = [];
+
+                if (in_array('name', $search->getFields())) {
+                    $where[] = 'pl.title LIKE :q';
+                }
+
+                if (in_array('description', $search->getFields())) {
+                    $where[] = 'pl.description LIKE :q';
+                }
+
+                if (in_array('tags', $search->getFields())) {
+                    $where[] = 't.title LIKE :q';
+                }
+
+                $builder->andWhere(join(' OR ', $where));
+            }
+
+        if (!empty($search->getPortals())) {
+            $builder
+                ->andWhere('pt.id IN (:portals)')
+                ->setParameter('portals', $search->getPortals())
+            ;
+        }
+
+        if (!empty($search->getCategories())) {
+            $builder
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->getCategories())
+            ;
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function search(SearchData $search, int $limit = 20): PaginationInterface
     {
         $builder = $this->getDefaultQuery();

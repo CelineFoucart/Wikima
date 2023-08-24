@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Timeline;
-use App\Form\SearchType;
+use App\Form\Search\SearchType;
 use App\Entity\Data\SearchData;
-use App\Form\AdvancedSearchType;
+use App\Form\Search\AdvancedSearchType;
 use App\Repository\TimelineRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

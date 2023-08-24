@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\ImageTag;
-use App\Form\SearchType;
+use App\Form\Search\SearchType;
 use App\Entity\Data\SearchData;
-use App\Form\AdvancedImageSearchType;
+use App\Form\Search\AdvancedImageSearchType;
 use App\Repository\ImageRepository;
 use App\Repository\ImageTagRepository;
 use Symfony\Component\HttpFoundation\Request;

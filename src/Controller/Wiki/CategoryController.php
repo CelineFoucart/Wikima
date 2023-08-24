@@ -4,7 +4,7 @@ namespace App\Controller\Wiki;
 
 use App\Entity\User;
 use App\Entity\Category;
-use App\Form\SearchType;
+use App\Form\Search\SearchType;
 use App\Entity\PlaceType;
 use App\Entity\PersonType;
 use App\Entity\Data\SearchData;

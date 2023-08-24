@@ -4,10 +4,9 @@ namespace App\Controller\Wiki;
 
 use App\Entity\User;
 use App\Entity\Article;
-use App\Form\SearchPortalType;
 use App\Entity\Data\SearchData;
 use App\Repository\ArticleRepository;
-use App\Form\AdvancedArticleSearchType;
+use App\Form\Search\AdvancedArticleSearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;

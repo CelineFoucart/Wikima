@@ -27,6 +27,8 @@ class SearchData
 
     private array $tags = [];
 
+    private ?array $fields = [];
+
     /**
      * Get the value of query.
      */
@@ -123,6 +125,30 @@ class SearchData
     public function setTags(array $tags): self
     {
         $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of fields
+     *
+     * @return ?array
+     */
+    public function getFields(): ?array
+    {
+        return $this->fields;
+    }
+
+    /**
+     * Set the value of fields
+     *
+     * @param ?array $fields
+     *
+     * @return self
+     */
+    public function setFields(?array $fields): self
+    {
+        $this->fields = $fields;
 
         return $this;
     }

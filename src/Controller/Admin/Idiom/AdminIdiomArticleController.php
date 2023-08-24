@@ -9,7 +9,7 @@ use App\Entity\IdiomArticle;
 use App\Form\Admin\ImageType;
 use App\Form\Admin\IdiomArticleType;
 use App\Entity\Data\SearchData;
-use App\Form\AdvancedSearchType;
+use App\Form\Search\AdvancedSearchType;
 use App\Repository\IdiomArticleRepository;
 use App\Repository\ImageRepository;
 use Symfony\Component\HttpFoundation\Request;

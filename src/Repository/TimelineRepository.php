@@ -63,6 +63,53 @@ class TimelineRepository extends ServiceEntityRepository
         return $this->paginatorService->setLimit($limit)->paginate($query, $page);
     }
 
+    /**
+     * @param SearchData $search
+     * 
+     * @return Timeline[]
+     */
+    public function advancedSearch(SearchData $search): array
+    {
+        $builder = $this->createQueryBuilder('t')
+            ->orderBy('t.title', 'ASC')
+            ->leftJoin('t.portals', 'p')->addSelect('p')
+            ->leftJoin('t.categories', 'c')->addSelect('c')
+            ->setParameter('q', '%'.$search->getQuery().'%')
+        ;
+
+            if (empty($search->getFields())) {
+                $builder->andWhere('t.title LIKE :q OR t.description LIKE :q');
+            } else {
+                $where = [];
+
+                if (in_array('name', $search->getFields())) {
+                    $where[] = 't.title LIKE :q';
+                }
+
+                if (in_array('description', $search->getFields())) {
+                    $where[] = 't.description LIKE :q';
+                }
+
+                $builder->andWhere(join(' OR ', $where));
+            }
+
+        if (!empty($search->getPortals())) {
+            $builder
+                ->andWhere('p.id IN (:portals)')
+                ->setParameter('portals', $search->getPortals())
+            ;
+        }
+
+        if (!empty($search->getCategories())) {
+            $builder
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->getCategories())
+            ;
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function search(SearchData $search, int $limit): PaginationInterface
     {
         $builder = $this->createQueryBuilder('t')

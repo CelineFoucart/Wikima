@@ -10,7 +10,7 @@ use App\Entity\Section;
 use App\Form\Admin\ImageType;
 use App\Form\SectionType;
 use App\Entity\Data\SearchData;
-use App\Form\AdvancedSearchType;
+use App\Form\Search\AdvancedSearchType;
 use App\Form\Admin\ArticleFormType;
 use App\Repository\ImageRepository;
 use App\Security\Voter\VoterHelper;

@@ -7,7 +7,7 @@ use App\Entity\User;
 use App\Entity\Portal;
 use App\Form\NoteType;
 use App\Entity\ImageTag;
-use App\Form\SearchType;
+use App\Form\Search\SearchType;
 use App\Entity\PlaceType;
 use App\Entity\PersonType;
 use App\Entity\Data\SearchData;

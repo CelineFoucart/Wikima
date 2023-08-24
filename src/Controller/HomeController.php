@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Data\Contact;
-use App\Entity\Data\SearchData;
 use App\Form\ContactType;
-use App\Form\SearchType;
 use App\Repository\AboutRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\PageRepository;
@@ -22,7 +20,6 @@ final class HomeController extends AbstractController
     {
         return $this->render('home/index.html.twig', [
             'article' => $articleRepository->getRandomArticle(),
-            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'overview' => $aboutRepository->findAboutRow('overview'),
         ]);
     }
@@ -66,7 +63,6 @@ final class HomeController extends AbstractController
 
         return $this->render('home/page.html.twig', [
             'page' => $page,
-            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'title' => $page->getTitle(),
             'description' => $page->getDescription(),
         ]);
@@ -88,11 +84,5 @@ final class HomeController extends AbstractController
     public function privacyAction(): Response
     {
         return $this->render('home/privacy.html.twig');
-    }
-
-    #[Route('/search', name: 'app_search')]
-    public function searchAction(): Response
-    {
-        return $this->render('home/search.html.twig');
     }
 }

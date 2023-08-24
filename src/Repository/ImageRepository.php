@@ -111,6 +111,56 @@ class ImageRepository extends ServiceEntityRepository
         return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
     }
 
+    /**
+     * @param SearchData $search
+     * 
+     * @return Image[]
+     */
+    public function advancedSearch(SearchData $search): array
+    {
+        $builder = $this->createQueryBuilder('i')
+            ->leftJoin('i.portals', 'p')->addSelect('p')
+            ->leftJoin('i.categories', 'c')->addSelect('c')
+            ->leftJoin('i.tags', 't')->addSelect('t')
+            ->setParameter('q', '%'.$search->getQuery().'%');
+
+            if (empty($search->getFields())) {
+                $builder->andWhere('i.title LIKE :q OR i.keywords LIKE :q OR i.description LIKE :q OR t.title LIKE :q');
+            } else {
+                $where = [];
+
+                if (in_array('name', $search->getFields())) {
+                    $where[] = 'i.title LIKE :q';
+                }
+
+                if (in_array('description', $search->getFields())) {
+                    $where[] = 'i.description LIKE :q OR i.keywords LIKE :q';
+                }
+
+                if (in_array('tags', $search->getFields())) {
+                    $where[] = 't.title LIKE :q';
+                }
+
+                $builder->andWhere(join(' OR ', $where));
+            }
+
+        if (!empty($search->getPortals())) {
+            $builder
+                ->andWhere('p.id IN (:portals)')
+                ->setParameter('portals', $search->getPortals())
+            ;
+        }
+
+        if (!empty($search->getCategories())) {
+            $builder
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->getCategories())
+            ;
+        }
+
+        return $builder->getQuery()->getResult();
+    }
+
     public function search(SearchData $search, array $excludes = [], int $limit = 10): PaginationInterface
     {
         $builder = $this->createQueryBuilder('i')

@@ -8,7 +8,7 @@ use App\Entity\Image;
 use App\Entity\Place;
 use App\Form\Admin\ImageType;
 use App\Entity\Data\SearchData;
-use App\Form\AdvancedSearchType;
+use App\Form\Search\AdvancedSearchType;
 use App\Form\Admin\PlaceFormType;
 use App\Repository\ImageRepository;
 use App\Repository\PlaceRepository;

@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Search;
 
+use App\Entity\Category;
 use App\Entity\Data\SearchData;
-use App\Entity\PersonType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AdvancedPersonSearchType extends AdvancedSearchType
+class AdvancedSearchType extends SearchPortalType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
 
         $builder
-            ->add('tags', EntityType::class, [
+            ->add('categories', EntityType::class, [
                 'label' => false,
                 'required' => false,
-                'class' => PersonType::class,
+                'class' => Category::class,
                 'multiple' => true,
                 'attr' => [
                     'data-choices' => 'choices',

@@ -1,29 +1,29 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Search;
 
-use App\Entity\Category;
 use App\Entity\Data\SearchData;
-use App\Entity\ImageTag;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-class AdvancedImageSearchType extends AdvancedSearchType
+class SearchType extends AbstractType
 {
+    public function __construct(
+        private UrlGeneratorInterface $urlGenerator
+    ) { }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        parent::buildForm($builder, $options);
-
         $builder
-            ->add('tags', EntityType::class, [
+            ->add('query', TextType::class, [
                 'label' => false,
-                'required' => false,
-                'class' => ImageTag::class,
-                'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices',
-                ],
+                    'placeholder' => 'Search...',
+                    'class' => 'form-control rounded-pill'
+                ]
             ])
         ;
     }
@@ -33,8 +33,7 @@ class AdvancedImageSearchType extends AdvancedSearchType
         $resolver->setDefaults([
             'data_class' => SearchData::class,
             'method' => 'GET',
-            'csrf_protection' => false,
-            'allow_extra_fields ' => true,
+            'csrf_protection' => false
         ]);
     }
 
