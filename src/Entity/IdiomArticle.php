@@ -63,6 +63,9 @@ class IdiomArticle
     #[ORM\JoinColumn(nullable: false)]
     private ?Idiom $idiom = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $position = null;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
@@ -194,6 +197,18 @@ class IdiomArticle
     public function setIdiom(?Idiom $idiom): static
     {
         $this->idiom = $idiom;
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): static
+    {
+        $this->position = $position;
 
         return $this;
     }

@@ -13,6 +13,7 @@ use App\Repository\ImageRepository;
 use App\Security\Voter\VoterHelper;
 use App\Repository\PortalRepository;
 use App\Repository\ArticleRepository;
+use App\Service\IdiomNavigationHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TemplateGroupRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,6 +23,7 @@ use App\Controller\Admin\AbstractAdminController;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 
 #[Route('/admin/idiom')]
 #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
@@ -140,8 +142,21 @@ class AdminIdiomController extends AbstractAdminController
         ]);
     }
 
+    #[Route('/{id}/order', name: 'admin_app_idiom_order', methods: ['GET', 'POST'])]
+    #[Entity('idiom', expr: 'repository.findIdiomById(id)')]
+    public function orderAction(Idiom $idiom): Response
+    {
+        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom,'Access Denied.');
+        
+        return $this->render('Admin/idiom/order.html.twig', [
+            'idiom' => $idiom,
+            'order_active' => true,
+            'navigations' => IdiomNavigationHelper::generateNavigation($idiom),
+        ]);
+    }
+
     #[Route('/{id}/articles', name: 'admin_app_idiom_article', methods: ['GET', 'POST'])]
-    public function action(Idiom $idiom): Response
+    public function articlesAction(Idiom $idiom): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom,'Access Denied.');
         

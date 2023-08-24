@@ -22,6 +22,20 @@ class IdiomRepository extends ServiceEntityRepository
         parent::__construct($registry, Idiom::class);
     }
 
+    public function findIdiomById(int $id): ?Idiom
+    {
+        return $this->createQueryBuilder('i')
+            ->leftJoin('i.idiomArticles', 'ia')->addSelect('ia')
+            ->leftJoin('ia.category', 'c')->addSelect('c')
+            ->leftJoin('i.portals', 'p')->addSelect('p')
+            ->orderBy('c.position')
+            ->andWhere('i.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
     public function findIdiomBySlug(string $slug): ?Idiom
     {
         return $this->createQueryBuilder('i')

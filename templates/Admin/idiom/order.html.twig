@@ -1,0 +1,58 @@
+{% extends 'Admin/idiom/show_base.html.twig' %}
+
+{% block show_tab %}
+<p>
+    Pour modifier la position des articles dans leur catégorie, glissez-les de haut en bas.
+</p>
+
+{% for navigation in navigations %}
+    <div class="card border-top-primary mb-2">
+        <div class="card-header bg-white">
+            <h2 class="card-title h5 mb-0"><i class="fas fa-fw fa-tag"></i> {{ navigation.category }}</h2>
+        </div>
+        <div class="card-body p-1">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>description</th>
+                    </tr>
+                </thead>
+                <tbody class="article-sort">
+                    {% for item in  navigation.articles|sort((a, b) => a.position <=> b.position) %}
+                        <tr class="handle" id="{{ item.id }}">
+                            <td data-label="Titre">
+                                {{ item.title }}
+                            </td>
+                            <td data-label="Description">
+                                {{ item.description|u.truncate(100, '...', false) }}
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3" class="text-center">Aucun éléments</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {% else %}
+        <p class="fst-italic">Aucun article dans cette langue</p>
+    {% endfor %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
+    <script>
+        window.addEventListener('load', () => {
+            let url = "{{ path('api_idiom_article_order', {'id': idiom.id}) }}";
+            const elements = document.querySelectorAll('.article-sort');
+
+            elements.forEach(element => {
+                renderSortable(element, url);
+            });
+        });
+    </script>
+{% endblock %}

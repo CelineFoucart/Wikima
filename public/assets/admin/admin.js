@@ -61,16 +61,25 @@ async function sortable(list, path) {
     if (!events) {
         return;
     }
-    await Sortable.create(events, {
+
+    await renderSortable(events, path);
+}
+
+/**
+ * @param {HTMLElement} element
+ * @param {string}      path
+ */
+async function renderSortable(element, path) {
+    await Sortable.create(element, {
         dataIdAttr: 'data-order',
         ghostClass: 'blue-background-class',
         onEnd: function (evt) {
             const data = [];
 
-            for (let i = 0; i < events.children.length; i++) {
-                const element = events.children[i];
+            for (let i = 0; i < element.children.length; i++) {
+                const child = element.children[i];
                 data.push({
-                    id: element.getAttribute('id'),
+                    id: child.getAttribute('id'),
                     position: i
                 })
             }

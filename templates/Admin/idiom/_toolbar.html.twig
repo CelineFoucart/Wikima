@@ -12,6 +12,9 @@
         <a href="{{ path('admin_app_idiom_article', {id: idiom.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Articles">
             <i class="fas fa-file-alt" aria-hidden="true"></i>
         </a>
+        <a href="{{ path('admin_app_idiom_order', {id: idiom.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Ordonner le contenu">
+            <i class="fas fa-sort-amount-down-alt"></i>
+        </a>
         <a href="{{ path('admin_app_idiom_edit', {id: idiom.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
             <i class="fas fa-pencil-alt" aria-hidden="true"></i>
         </a>

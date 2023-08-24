@@ -4,9 +4,13 @@
     <div class="card border-top-primary">
         <div class="card-header">
             <div class="float-end">
-                <a href="{{ path('admin_app_idiom_article_create', {id: idiom.id }) }}" class="btn btn-primary btn-sm btn-sm">
+                <a href="{{ path('admin_app_idiom_article_create', {id: idiom.id }) }}" class="btn btn-primary btn-sm">
                     <i class="fas fa-plus-circle" aria-hidden="true"></i>
                     Ajouter
+                </a>
+                <a href="{{ path('admin_app_idiom_order', {id: idiom.id}) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="Ordonner le contenu">
+                    <i class="fas fa-sort-amount-down-alt" aria-hidden="true"></i>
+                    Ordonner
                 </a>
             </div>
             <h2 class="h5 mb-0 card-title">Articles de cette langue</h2>

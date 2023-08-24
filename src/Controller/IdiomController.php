@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Idiom;
 use App\Entity\IdiomArticle;
-use App\Repository\IdiomCategoryRepository;
 use App\Repository\IdiomRepository;
 use App\Service\IdiomNavigationHelper;
 use Symfony\Component\HttpFoundation\Response;
