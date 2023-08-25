@@ -36,7 +36,8 @@ security:
             # switch_user: true
 
     role_hierarchy:
-        ROLE_ADMIN: ['ROLE_EDITOR']
+        ROLE_MODERATOR: ['ROLE_USER']
+        ROLE_ADMIN: ['ROLE_EDITOR', 'ROLE_MODERATOR']
         ROLE_SUPER_ADMIN: ['ROLE_ADMIN', 'ROLE_EDITOR']
 
     # Easy way to control access for large sections of your site
@@ -44,6 +45,7 @@ security:
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/installation, roles: PUBLIC_ACCESS }
+        - { path: ^/forum, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/contact, roles: PUBLIC_ACCESS }
         - { path: ^/faq, roles: PUBLIC_ACCESS }
@@ -59,6 +61,7 @@ security:
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/comment, roles: ROLE_USER }
         - { path: ^/draft, roles: ROLE_EDITOR }
+        - { path: ^/forum/moderation, roles: ROLE_MODERATOR }
 
 when@test:
     security:

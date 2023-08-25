@@ -56,11 +56,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Idiom::class)]
     private Collection $idioms;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Topic::class)]
+    private Collection $topics;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class)]
+    private Collection $posts;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Report::class)]
+    private Collection $reports;
+
+    #[ORM\ManyToMany(targetEntity: ForumGroup::class, mappedBy: 'members')]
+    private Collection $forumGroups;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->idioms = new ArrayCollection();
+        $this->topics = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->reports = new ArrayCollection();
+        $this->forumGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -263,6 +279,123 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($idiom->getAuthor() === $this) {
                 $idiom->setAuthor(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Topic>
+     */
+    public function getTopics(): Collection
+    {
+        return $this->topics;
+    }
+
+    public function addTopic(Topic $topic): static
+    {
+        if (!$this->topics->contains($topic)) {
+            $this->topics->add($topic);
+            $topic->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopic(Topic $topic): static
+    {
+        if ($this->topics->removeElement($topic)) {
+            // set the owning side to null (unless already changed)
+            if ($topic->getAuthor() === $this) {
+                $topic->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): static
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
+            $post->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): static
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getAuthor() === $this) {
+                $post->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Report>
+     */
+    public function getReports(): Collection
+    {
+        return $this->reports;
+    }
+
+    public function addReport(Report $report): static
+    {
+        if (!$this->reports->contains($report)) {
+            $this->reports->add($report);
+            $report->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReport(Report $report): static
+    {
+        if ($this->reports->removeElement($report)) {
+            // set the owning side to null (unless already changed)
+            if ($report->getAuthor() === $this) {
+                $report->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ForumGroup>
+     */
+    public function getForumGroups(): Collection
+    {
+        return $this->forumGroups;
+    }
+
+    public function addForumGroup(ForumGroup $forumGroup): static
+    {
+        if (!$this->forumGroups->contains($forumGroup)) {
+            $this->forumGroups->add($forumGroup);
+            $forumGroup->addMember($this);
+        }
+
+        return $this;
+    }
+
+    public function removeForumGroup(ForumGroup $forumGroup): static
+    {
+        if ($this->forumGroups->removeElement($forumGroup)) {
+            $forumGroup->removeMember($this);
         }
 
         return $this;
