@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Forum | {{ app_name }}{% endblock %}
+
+{% block heading_title %}Espace de discussion{% endblock %}
+{% block heading_description %}Bienvenue sur l'espace de discussion de votre encyclopédie{% endblock %}
+
+{% block body %}
+    <div class="mt-4 mb-3 px-5">
+        <nav class="rounded-3 bg-default text-white mt-2 p-2 forum-navigation" role="navigation" aria-label="Menu principal">
+            {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
+                <ul class="navigation-group">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li>
+                            <a href="#" class="text-decoration-none">
+                                <i class="fa-fw fas fa-cogs me-1" aria-hidden="true"></i> Administration
+                            </a>
+                        </li>
+                    {% endif %}
+                    <li>
+                        <a href="#" class="text-decoration-none">
+                            <i class="fas fa-gavel fa-fw" aria-hidden="true"></i> Modération
+                        </a>
+                    </li>
+                </ul>
+                <hr class="navbar-separator">
+            {% endif %}
+            <ol class="breadcrumb navigation-group">
+                <li class="breadcrumb-item">
+                    <a href="{{ path('app_forum_index') }}"><i class="fa-fw fas fa-home me-1"></i> Index du forum</a>
+                </li>
+                {% block breadcrumb %}{% endblock %}
+            </ol>
+        </nav>
+        <p><small>Nous sommes le {{ "now"|date(date_format) }} </small></p>
+
+        {% block forum_content %}{% endblock %}  
+    </div>
+{% endblock %}

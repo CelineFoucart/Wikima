@@ -1,0 +1,11 @@
+<p>
+    <i class="bi bi-file-earmark-fill"></i> 
+    <small>
+        {% if author is not null %}
+            Par <a href="{{path('app_user_show', {id: author.id})}}" class="author">{{author.username}}</a> &raquo; 
+        {% else %}
+            <span class="author">Anonyme</span> &raquo;
+        {% endif %}
+        {{ "now"|date(date_format) }} 
+    </small>
+</p>

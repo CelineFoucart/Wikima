@@ -1,0 +1,104 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_category_show', {slug: 'lorem-ipsum'}) }}">Lorem ispum</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_forum_show', {slug: 'lorem-ipsum'}) }}">Forum 1</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Sujet 1</li> 
+{% endblock %}
+
+{% block forum_content %}
+    <section>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success mt-1">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <h2>Sujet 1</h2>
+        <p> 
+            {% set author = null %}
+            Par 
+            {% if author is not null %}
+                <a href="{{ path('profile', {id: topic.author.id})}}" style="color:{{ topic.author.defaultRole.color }}" class="fw-bold author">{{ topic.author.username }}</a>
+            {% else %}
+                <span class="fw-bold">Anonyme</span>
+            {% endif %}
+            &raquo; {{ "now" | date(date_format) }}
+        </p>
+        <div class="row">
+            <div class="col-md-6">
+                {% if true %}
+                    <a href="#" class="btn btn-outline-secondary"><i class="fas fa-reply fa-fw"></i> Répondre</a>
+                    <div class="dropdown" style="display: inline-block">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="moderationAction" title="outils de modération" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-gavel fa-fw" aria-hidden="true"></i>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="moderationAction">
+                            <li>
+                                <a class="dropdown-item" href="#" title="informations">
+                                    Informations sur le sujet
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="dropdown-item" title="Déplacedr">Déplacer le sujet</a>
+                            </li>
+                            <li>
+                                <a href="#" class="dropdown-item" title="Verrouiller">Verrouiller le sujet</a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="#" title="supprimer">
+                                    Supprimer le sujet
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                {# <div class="d-flex align-items-center">
+                    <span class="pe-2">{{ posts.getTotalItemCount }} message{{ posts.getTotalItemCount  > 1 ? 's' : '' }}</span>
+                    {{ knp_pagination_render(posts) }}
+                </div> #}
+            </div>
+        </div>
+
+        {% for post in range(1, 15) %}
+            <article class="rounded-3 bg-light my-2 p-2 post-container">
+                <div class="d-flex position-relative">
+                    <div class="pe-2 profile-post border-end border-white">
+                        {% if true %}
+                            {# <figure class="mb-0">
+                                {{ avatar_format(post.author.avatar) }}
+                            </figure> #}
+                            <a href="{{path('app_user_show', {id: app.user.id})}}" class="fw-bold author">
+                                {{app.user.username}}
+                            </a>
+                            <ul class="profil-post-info">
+                                <li>Inscription : {{app.user.createdAt | date(date_format) }} </li>
+                                <li>Localisation :  </li>
+                                <li>Rang :  </li>
+                            </ul>
+                        {% else %}
+                            <span class="fw-bold author">Anonyme</span>
+                        {% endif %}
+                    </div>
+                    <div class="ps-2 w-100">
+                        <h3 id="post{{post}}" class="h4"><a href="#post{{post}}">Post {{post}}</a></h3>
+                        {% include "forum/components/_post_info.html.twig" with {author: app.user } %}
+                        {% include "forum/components/_post_actions.html.twig" %}
+                        <div class="mb-2">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa iure repudiandae ipsam! Doloribus quas ab adipisci nisi, iusto perspiciatis aliquid quis omnis. Magnam quasi architecto cumque dolorem. Qui, dignissimos recusandae!
+                        </div>
+                    </div>
+                </div>
+            </article>
+        {% else %}
+            <article class="alert alert-danger">
+                <h3 class="h5">Ce topic est vide !</h3>
+            </article>
+        {% endfor %}
+    </section>
+{% endblock %}

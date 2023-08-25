@@ -33,6 +33,7 @@ services:
             $projectDir: '%kernel.project_dir%/'
             $enableComment: '%env(COMMENT_MODULE)%'
             $enableIdiom: '%env(IDIOM_MODULE)%'
+            $enableForum: '%env(FORUM_MODULE)%'
     
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name

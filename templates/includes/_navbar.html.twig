@@ -58,6 +58,14 @@
 				</a>
 			</li>
 
+			{% if enable_forum == 1 %}
+				<li class="nav-item me-3 text-uppercase">
+					<a class="nav-link {{ active_links(app.request, ['forum']) }}" href="{{ path('app_forum_index') }}">
+						Forum
+					</a>
+				</li>
+			{% endif %}
+
 			{% if is_granted('ROLE_EDITOR') or is_granted('ROLE_ADMIN') %}
 				<li class="nav-item dropdown me-3">
 					<a class="nav-link dropdown-toggle text-uppercase" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

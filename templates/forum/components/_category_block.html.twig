@@ -1,0 +1,18 @@
+<section class="rounded-3 p-2 bg-default mb-2">
+    <h2 class="section-title">
+        <a href="{{ path('app_forum_category_show', {slug: 'lorem-ipsum'}) }}">Lorem</a>
+    </h2>
+
+    {% for forum in range(1, 4) %}
+        <article class="forum-row bg-white">
+            <h3 class="forum-row-title">
+                <a href="{{ path('app_forum_forum_show', {slug: 'lorem-ipsum'}) }}" class="text-decoration-none">Forum {{ forum }}</a>
+            </h3>
+            <p class="forum-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt pariatur voluptates dignissimos. Facere iure labore quam quae veniam, dolorem qui corrupti distinctio.</p>
+        </article>
+    {% else %}
+        <article class="forum-row bg-default">
+            <h3 class="forum-row-title">Cette catégorie est vide</h3>
+        </article>
+    {% endfor %}
+</section>

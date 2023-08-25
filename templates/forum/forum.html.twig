@@ -1,0 +1,68 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_category_show', {slug: 'lorem-ipsum'}) }}">Lorem ispum</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Forum 1</li> 
+{% endblock %}
+
+{% block forum_content %}
+    <h2>Forum 1</h2>
+    <p> description du forum</p>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success mt-1">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <aside class="d-flex justify-content-between">
+        <div>
+            {% if is_granted('ROLE_USER') %}
+                <a href="#" class="btn btn-outline-secondary">
+                    Nouveau sujet <i class="bi bi-pencil-fill"></i>
+                </a>
+            {% endif %}
+        </div>
+        <div class="d-flex align-items-center">
+            {# <span class="pe-2">{{ topics.getTotalItemCount }} sujet{{ topics.getTotalItemCount  > 1 ? 's' : '' }}</span>
+            {{ knp_pagination_render(topics) }} #}
+        </div>
+    </aside>
+
+    <section class="rounded-3 p-2 forum-section bg-default">
+        <h2 class="section-title">Sujets</h2>
+        {% for topic in range(1, 15) %}
+            {% set locked = random([true, false]) %}
+            <article class="forum-row d-flex bg-white align-items-center" {% if locked %} data-bs-toggle="tooltip" data-bs-placement="top" title="Ce sujet est verrouillé, vous ne pouvez pas y répondre" {% endif %}>
+                <div class="ps-1 pe-3 fs-2">
+                    {% if locked %}
+                        <i class="fa-fw fas fa-lock"></i>
+                    {% else %}
+                        <i class="fa-fw fas fa-comments"></i>
+                    {% endif %}
+                </div>
+                <div class="topic-bloc">
+                    <h3 class="forum-row-title">
+                        <a href="{{ path('app_forum_topic_show', {slug: 'sujet-1'})}}">{{ 'Sujet '~topic|capitalize }}</a>
+                    </h3>
+                    <p class="forum-description m-0">
+                        {% set author = null %}
+                        Par 
+                        {% if author is not null %}
+                            <a href="{{path('profile', {id: topic.author.id})}}" style="color:{{ topic.author.defaultRole.color }}" class="fw-bold">{{ topic.author.username }}</a>
+                        {% else %}
+                            <span class="fw-bold">Anonyme</span>
+                        {% endif %}
+                        &raquo; {{ "now" | date(date_format) }}
+                    </p>
+                </div>
+            </article>
+        {% else %}
+            <article class="forum-row bg-default">
+                <h3 class="forum-row-title text-center">Ce forum est vide</h3>
+            </article>
+        {% endfor %}
+
+    </section>
+{% endblock %}

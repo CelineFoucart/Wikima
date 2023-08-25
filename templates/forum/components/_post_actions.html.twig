@@ -1,0 +1,43 @@
+<div class="btn-group position-absolute top-0 end-0">
+    {% if true %}
+        <a href="#" 
+            class="btn btn-outline-secondary btn-sm" 
+            data-bs-toggle="tooltip" 
+            data-bs-placement="top"
+            title="Supprimer">
+            <i class="fas fa-trash-alt"></i>
+        </a>
+        <a href="#" 
+            class="btn btn-outline-secondary btn-sm" 
+            data-bs-toggle="tooltip" 
+            data-bs-placement="top"
+            title="Editer">
+            <i class="fas fa-edit"></i>
+        </a>
+    {% endif %}
+    {% if true %}
+        <a href="#" 
+            class="btn btn-outline-secondary btn-sm" 
+            data-bs-toggle="tooltip" 
+            data-bs-placement="top"
+            title="Informations">
+            <i class="fas fa-info-circle"></i>
+        </a> 
+    {% endif %}
+    {% if is_granted('ROLE_USER') %}
+        <a href="#" 
+            class="btn btn-outline-secondary btn-sm" 
+            data-bs-toggle="tooltip" 
+            data-bs-placement="top"
+            title="Rapporter le message">
+            <i class="fas fa-exclamation-triangle"></i>
+        </a>
+        <a href="#" 
+            class="btn btn-outline-secondary btn-sm" 
+            data-bs-toggle="tooltip" 
+            data-bs-placement="top"
+            title="Citer">
+            <i class="fas fa-reply"></i>
+        </a>
+    {% endif %}
+</div>
