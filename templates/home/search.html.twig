@@ -89,13 +89,13 @@
                                 <tbody>
                                     {% for article in articles %}
                                         <tr>
-                                            <td>
+                                            <td data-label="Titre">
                                                 <a href="{{ path('app_article_show', {slug: article.slug})}}">{{ article.title }}</a>
                                             </td>
-                                            <td>
+                                            <td data-label="Portails">
                                                 {{ article.portals|join(', ') }}
                                             </td>
-                                            <td>
+                                            <td data-label="Type">
                                                 {{ article.type }}
                                             </td>
                                         </tr>
@@ -132,13 +132,13 @@
                                 <tbody>
                                     {% for timeline in timelines %}
                                         <tr>
-                                            <td>
+                                            <td data-label="Titre">
                                                 <a href="{{ path('app_timeline_show', {slug: timeline.slug})}}">{{ timeline.title }}</a>
                                             </td>
-                                            <td>
+                                            <td data-label="Catégories">
                                                 {{ timeline.categories|join(', ') }}
                                             </td>
-                                            <td>
+                                            <td data-label="Portails">
                                                 {{ timeline.portals|join(', ') }}
                                             </td>
                                         </tr>
@@ -167,7 +167,7 @@
                             <table class="table mb-0 table-striped data-table">
                                 <thead>
                                     <tr>
-                                        <th>Titre</th>
+                                        <th>Nom</th>
                                         <th>Catégories</th>
                                         <th>Portails</th>
                                         <th>Type</th>
@@ -176,18 +176,18 @@
                                 <tbody>
                                     {% for person in persons %}
                                         <tr>
-                                            <td>
+                                            <td data-label="Nom">
                                                 <a href="{{ path('app_person_show', {slug: person.slug})}}">
                                                     {{ person.firstname }} {{ person.lastname }}
                                                 </a>
                                             </td>
-                                            <td>
+                                            <td data-label="Catégories">
                                                 {{ person.categories|join(', ') }}
                                             </td>
-                                            <td>
+                                            <td data-label="Portails">
                                                 {{ person.portals|join(', ') }}
                                             </td>
-                                            <td>
+                                            <td data-label="Type">
                                                 {{ person.type|join(', ') }}
                                             </td>
                                         </tr>
@@ -225,18 +225,18 @@
                                 <tbody>
                                     {% for place in places %}
                                         <tr>
-                                            <td>
+                                            <td data-label="Titre">
                                                 <a href="{{ path('app_place_show', {slug: place.slug})}}">
                                                     {{ place.title }}
                                                 </a>
                                             </td>
-                                            <td>
+                                            <td data-label="Catégories">
                                                 {{ place.categories|join(', ') }}
                                             </td>
-                                            <td>
+                                            <td data-label="Portails">
                                                 {{ place.portals|join(', ') }}
                                             </td>
-                                            <td>
+                                            <td data-label="Type"> 
                                                 {{ place.types|join(', ') }}
                                             </td>
                                         </tr>
@@ -275,23 +275,23 @@
                                 <tbody>
                                     {% for image in images %}
                                         <tr>
-                                            <td>
+                                            <td data-label="Image">
                                                 <a href="{{ vich_uploader_asset(image) }}" data-fslightbox>
                                                     <img src="{{ vich_uploader_asset(image)|imagine_filter('icon_image') }}" alt="{{ image.title }}">
                                                 </a>
                                             </td>
-                                            <td>
+                                            <td data-label="Titre">
                                                 <a href="{{ path('app_image_show', {slug: image.slug})}}">
                                                     {{ image.title }}
                                                 </a>
                                             </td>
-                                            <td>
+                                            <td data-label="Catégories">
                                                 {{ image.categories|join(', ') }}
                                             </td>
-                                            <td>
+                                            <td data-label="Portails">
                                                 {{ image.portals|join(', ') }}
                                             </td>
-                                            <td>
+                                            <td data-label="Type">
                                                 {{ image.tags|join(', ') }}
                                             </td>
                                         </tr>
@@ -327,7 +327,7 @@
                                 <tbody>
                                     {% for idiom in idioms %}
                                         <tr>
-                                            <td>
+                                            <td data-label="Nom">
                                                 <a href="{{ path('app_idiom_show', {slug: idiom.slug})}}">
                                                     {{ idiom.translatedName }}
                                                     {% if idiom.originalName %}
@@ -335,7 +335,7 @@
                                                     {% endif %}
                                                 </a>
                                             </td>
-                                            <td>
+                                            <td data-label="Portails">
                                                 {{ idiom.portals|join(', ') }}
                                             </td>
                                         </tr>

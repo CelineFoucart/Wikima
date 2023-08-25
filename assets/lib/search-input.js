@@ -10,13 +10,11 @@ export default function searchInput(inputSelector, targetSelector) {
 
     const input = document.querySelector(inputSelector);
     if (null === input) {
-        console.log(`Element ${inputSelector} not found`);
         return;
     }
 
     const target = document.querySelector(targetSelector);
     if (null === target) {
-        console.log(`Element ${targetSelector} not found`);
         return;
     }
 

@@ -37,6 +37,22 @@ class StatisticsHandler
         }
     }
 
+    public function getStatsByMonth(string $table, string $dateField, string $year, ?string $condition = null)
+    {
+        if ($condition !== null) {
+            $condition = ' AND ' . $condition;
+        }
+
+        $sql = "SELECT COUNT(id) AS total, MONTH({$dateField}) AS monthId
+            FROM `{$table}`
+            WHERE YEAR({$dateField}) = :year_param {$condition}
+            GROUP BY monthId";
+        
+        $connection = $this->em->getConnection();
+        $query = $connection->prepare($sql);
+        
+        return $query->executeQuery(['year_param' => $year])->fetchAllAssociative();
+    }
 
     private function formatQuery(): string
     {

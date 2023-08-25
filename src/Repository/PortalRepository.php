@@ -105,4 +105,17 @@ class PortalRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
+    public function getPortalStats(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('COUNT(DISTINCT a.id) AS articles, COUNT(DISTINCT pe.id) AS persons, COUNT(DISTINCT pl.id) AS places, p.title AS title')
+            ->leftJoin('p.articles', 'a')
+            ->leftJoin('p.people', 'pe')
+            ->leftJoin('p.places', 'pl')
+            ->groupBy('title')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

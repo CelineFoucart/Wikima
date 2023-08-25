@@ -1,7 +1,10 @@
 {% extends 'admin_layout.html.twig' %}
 
-{% block title %}Tableau de bord
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('assets/vanillajs-datepicker/datepicker-bs5.min.css') }}">
 {% endblock %}
+
+{% block title %}Tableau de bord{% endblock %}
 
 {% block activeDashboard %}
 	active show
@@ -79,6 +82,20 @@
 										Ajouter
 									</a>
 									<a href="{{ path('admin_app_article_list') }}" class="small text-decoration-none">
+										<i class="fas fa-list" aria-hidden="true"></i>
+										Liste
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<th>Chronologie</th>
+								<td class="text-center">{{ stats.timeline }}</td>
+								<td>
+									<a href="{{ path('admin_app_timeline_create') }}" class="small text-decoration-none me-3">
+										<i class="fas fa-plus-circle" aria-hidden="true"></i>
+										Ajouter
+									</a>
+									<a href="{{ path('admin_app_timeline_list') }}" class="small text-decoration-none">
 										<i class="fas fa-list" aria-hidden="true"></i>
 										Liste
 									</a>
@@ -220,6 +237,30 @@
 					</table>
 				</div>
 			</div>
+
+			<div class="mt-3 card">
+				<div class="card-header bg-white">
+					<div class="row align-items-center">
+						<div class="col-md-8">
+							<h2 class="h5 card-title mb-0">
+								<i class="fas fa-chart-pie me-1"></i>
+								{{ totalThisYear }} article{{ totalThisYear > 1 ? 's' : '' }} en {{ year }}
+							</h2>
+						</div>
+						<div class="col-md-4">
+							<form action="" method="get">
+								<div class="input-group">
+									<input type="text" name="year" id="year" class="form-control" value="{{ year }}" required>
+									<button type="submit" class="btn btn-primary">OK</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="card-body">
+					<canvas id="ctxArticles"></canvas>	
+				</div>
+			</div>
 		</div>
 		<div class="col-lg-6">
 			<div class="card border-top-primary">
@@ -326,9 +367,62 @@
 					</a>
 				</div>
 			</div>
-			<div class="card card-stats mt-3">
+
+			<div class="mt-3 card">
+				<div class="card-header bg-white">
+					<h2 class="h5 card-title mb-0">
+						<i class="fas fa-chart-pie me-1"></i>
+						{{ total }} élément{{ total > 1 ? 's' : '' }}
+					</h2>
+				</div>
 				<div class="card-body">
-					<h3>{{ total }}</h3>
+					<canvas id="ctxTextualElement"></canvas>	
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-8">
+			<div class="card">
+				<div class="card-header bg-white">
+					<h2 class="h5 card-title mb-0">
+						<i class="fas fa-chart-pie me-1"></i>
+						Statistiques des portails
+					</h2>
+				</div>
+				<div class="card-body card-show p-1">
+					<table class="table table-striped mb-0 data-table">
+						<thead>
+							<tr>
+								<th>Total</th>
+								<th>Articles</th>
+								<th>Personnages</th>
+								<th>Lieux</th>
+								<th>Portail</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for item in portalStats %}
+								<tr>
+									<td data-label="Total">
+										{{ item.articles + item.persons + item.places }}
+									</td>
+									<td data-label="Articles">{{ item.articles }}</td>
+									<td data-label="Personnages">{{ item.persons }}</td>
+									<td data-label="Lieux">{{ item.places }}</td>
+									<td data-label="Portail">{{ item.title }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="card card-stats">
+				<div class="card-body">
+					<h3>{{ total - stats.image }}</h3>
 					<p>
 						élément{{ total > 1 ? 's' : '' }}
 						textuel{{ total > 1 ? 's' : '' }}
@@ -338,9 +432,10 @@
 					<i class="fas fa-file" aria-hidden="true"></i>
 				</div>
 				<div class="card-footer text-center position-relative small">
-					dont
 					<strong>{{ stats.article }}</strong>
 					article{{ stats.article > 1 ? 's' : '' }},
+					<strong>{{ stats.timeline }}</strong>
+					chronologie{{ stats.timeline > 1 ? 's' : '' }},
 					<strong>{{ stats.person }}</strong>
 					personnage{{ stats.person > 1 ? 's' : '' }}
 					et
@@ -354,5 +449,58 @@
 
 {% block javascripts %}
 	{{ parent() }}
+	
 	{{ encore_entry_script_tags('app') }}
+	<script src="{{ asset('assets/chartjs/chart.min.js') }}"></script>
+	<script src="{{ asset('assets/vanillajs-datepicker/datepicker-full.min.js') }}"></script>
+	<script src="{{ asset('assets/vanillajs-datepicker/fr.js') }}"></script>
+	<script>
+		const elem = document.querySelector('#year');
+		const datepicker = new Datepicker(elem, {
+			buttonClass: 'btn',
+			format: 'yyyy',
+			language: 'fr',
+			pickLevel: 2
+		});
+
+		const totalArticle = {{ stats.article }};
+		const totalTimeline = {{ stats.timeline }};
+		const totalPerson = {{ stats.person }};
+		const totalPlace = {{ stats.place }};
+		const totalImage = {{ stats.image }};
+		const myChart = new Chart(document.querySelector('#ctxTextualElement'), {
+			type: 'pie',
+			data: {
+				labels: ['Article', 'Chronologie', 'Personnage', 'Lieu', 'Image'],
+				datasets: [{
+					data: [totalArticle, totalTimeline, totalPerson, totalPlace, totalImage],
+					hoverOffset: 4,
+				}]
+			}
+		});
+
+		const json = "{{ articleByMonth|json_encode() }}";
+		const stats = JSON.parse(json);
+
+		const articleChart = new Chart(document.querySelector('#ctxArticles'), {
+			type: 'bar',
+			data: {
+				labels: ["janv.", "févr.", "mars", "avril", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."],
+				datasets: [{
+					label: 'Articles',
+					data: stats,
+					fill: false,
+					tension: 0.1
+				}]
+			},
+			options: {
+				indexAxis: 'y',
+				scales: {
+					x: {
+						beginAtZero: true
+					}
+				}
+			}
+		});
+	</script>
 {% endblock %}
