@@ -33,7 +33,7 @@
 	<p class="text-end mb-0 small"><span class="fw-bold">Version du logiciel :</span> {{ app_version }}</p>
 	<p class="text-end mb-0 small"><span class="fw-bold">Taille de la base de données :</span> {{ size|number_format(2, ',', ' ') }} MB</p>
 	<div class="row">
-		<div class="col-lg-6 mb-4">
+		<div class="col-lg-7 mb-4">
 			<div class="card border-top-grey">
 				<div class="card-header bg-white">
 					<h2 class="h5 card-title mb-0">Statistiques de l'encyclopédie</h2>
@@ -261,8 +261,43 @@
 					<canvas id="ctxArticles"></canvas>	
 				</div>
 			</div>
+
+			<div class="card mt-3">
+				<div class="card-header bg-white">
+					<h2 class="h5 card-title mb-0">
+						<i class="fas fa-chart-pie me-1"></i>
+						Statistiques des portails
+					</h2>
+				</div>
+				<div class="card-body card-show p-1">
+					<table class="table table-striped mb-0 data-table">
+						<thead>
+							<tr>
+								<th>Portail</th>
+								<th>Articles</th>
+								<th>Personnages</th>
+								<th>Lieux</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for item in portalStats %}
+								<tr>
+									<td data-label="Portail">{{ item.title }}</td>
+									<td data-label="Articles">{{ item.articles }}</td>
+									<td data-label="Personnages">{{ item.persons }}</td>
+									<td data-label="Lieux">{{ item.places }}</td>
+									<td data-label="Total">
+										{{ item.articles + item.persons + item.places }}
+									</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
-		<div class="col-lg-6">
+		<div class="col-lg-5">
 			<div class="card border-top-primary">
 				<div class="card-header bg-white">
 					<h2 class="h5 card-title mb-0">
@@ -379,48 +414,8 @@
 					<canvas id="ctxTextualElement"></canvas>	
 				</div>
 			</div>
-		</div>
-	</div>
 
-	<div class="row">
-		<div class="col-md-8">
-			<div class="card">
-				<div class="card-header bg-white">
-					<h2 class="h5 card-title mb-0">
-						<i class="fas fa-chart-pie me-1"></i>
-						Statistiques des portails
-					</h2>
-				</div>
-				<div class="card-body card-show p-1">
-					<table class="table table-striped mb-0 data-table">
-						<thead>
-							<tr>
-								<th>Total</th>
-								<th>Articles</th>
-								<th>Personnages</th>
-								<th>Lieux</th>
-								<th>Portail</th>
-							</tr>
-						</thead>
-						<tbody>
-							{% for item in portalStats %}
-								<tr>
-									<td data-label="Total">
-										{{ item.articles + item.persons + item.places }}
-									</td>
-									<td data-label="Articles">{{ item.articles }}</td>
-									<td data-label="Personnages">{{ item.persons }}</td>
-									<td data-label="Lieux">{{ item.places }}</td>
-									<td data-label="Portail">{{ item.title }}</td>
-								</tr>
-							{% endfor %}
-						</tbody>
-					</table>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="card card-stats">
+			<div class="card card-stats mt-3">
 				<div class="card-body">
 					<h3>{{ total - stats.image }}</h3>
 					<p>
