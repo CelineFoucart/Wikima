@@ -1,17 +1,23 @@
 <section class="rounded-3 p-2 bg-default mb-2">
     <h2 class="section-title">
-        <a href="{{ path('app_forum_category_show', {slug: 'lorem-ipsum'}) }}">Lorem</a>
+        {% if with_link is defined and with_link == true %}
+            <a href="{{ path('app_forum_category_show', {slug: category.slug}) }}">{{ category.title }}</a>
+        {% else %}
+            Forums
+        {% endif %}
     </h2>
 
-    {% for forum in range(1, 4) %}
+    {% for forum in category.forums %}
         <article class="forum-row bg-white">
             <h3 class="forum-row-title">
-                <a href="{{ path('app_forum_forum_show', {slug: 'lorem-ipsum'}) }}" class="text-decoration-none">Forum {{ forum }}</a>
+                <a href="{{ path('app_forum_forum_show', {slug: forum.slug}) }}" class="text-decoration-none">
+                    {{ forum.title }}
+                </a>
             </h3>
-            <p class="forum-description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt pariatur voluptates dignissimos. Facere iure labore quam quae veniam, dolorem qui corrupti distinctio.</p>
+            <p class="forum-description">{{ forum.description }}</p>
         </article>
     {% else %}
-        <article class="forum-row bg-default">
+        <article class="forum-row bg-white">
             <h3 class="forum-row-title">Cette catégorie est vide</h3>
         </article>
     {% endfor %}

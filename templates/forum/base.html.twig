@@ -12,16 +12,18 @@
                 <ul class="navigation-group">
                     {% if is_granted('ROLE_ADMIN') %}
                         <li>
-                            <a href="#" class="text-decoration-none">
+                            <a href="{{ path('admin_app_idiom_forum_list') }}" class="text-decoration-none">
                                 <i class="fa-fw fas fa-cogs me-1" aria-hidden="true"></i> Administration
                             </a>
                         </li>
                     {% endif %}
-                    <li>
-                        <a href="#" class="text-decoration-none">
-                            <i class="fas fa-gavel fa-fw" aria-hidden="true"></i> Modération
-                        </a>
-                    </li>
+                    {% if is_granted('ROLE_MODERATOR') %}
+                        <li>
+                            <a href="#" class="text-decoration-none">
+                                <i class="fas fa-gavel fa-fw" aria-hidden="true"></i> Modération
+                            </a>
+                        </li>
+                    {% endif %}
                 </ul>
                 <hr class="navbar-separator">
             {% endif %}

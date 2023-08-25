@@ -2,9 +2,13 @@
 
 namespace App\Controller\Forum;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Forum;
+use App\Entity\ForumCategory;
+use App\Repository\ForumCategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/forum')]
 class ForumController extends AbstractController
@@ -17,23 +21,27 @@ class ForumController extends AbstractController
     }
 
     #[Route('/', name: 'app_forum_index')]
-    public function index(): Response
+    public function index(ForumCategoryRepository $forumCategoryRepository): Response
     {
         return $this->render('forum/index.html.twig', [
+            'categories' => $forumCategoryRepository->findByOrder(),
         ]);
     }
 
     #[Route('/category-{slug}', name: 'app_forum_category_show')]
-    public function category(string $slug): Response
+    #[Entity('category', expr: 'repository.findBySlug(slug)')]
+    public function category(ForumCategory $category): Response
     {
         return $this->render('forum/category.html.twig', [
+            'category' => $category,
         ]);
     }
 
     #[Route('/forum-{slug}', name: 'app_forum_forum_show')]
-    public function forum(string $slug): Response
+    public function forum(Forum $forum): Response
     {
         return $this->render('forum/forum.html.twig', [
+            'forum' => $forum
         ]);
     }
 }

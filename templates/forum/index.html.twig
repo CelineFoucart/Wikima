@@ -1,8 +1,8 @@
 {% extends 'forum/base.html.twig' %}
 
 {% block forum_content %}
-    {% for category in range(1, 5) %}
-        {% include "forum/components/_category_block.html.twig" %}
+    {% for category in categories %}
+        {% include "forum/components/_category_block.html.twig" with {with_link: true} %}
     {% else %}
         <div class="alert alert-danger">
             <p class="mb-0">Ce forum ne contient aucune catégorie</p>

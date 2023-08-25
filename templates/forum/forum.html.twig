@@ -1,15 +1,17 @@
 {% extends 'forum/base.html.twig' %}
 
+{% block title %}{{ forum.title }} | Forum de {{ app_name }}{% endblock %}
+
 {% block breadcrumb %}
     <li class="breadcrumb-item">
-        <a href="{{ path('app_forum_category_show', {slug: 'lorem-ipsum'}) }}">Lorem ispum</a>
+        <a href="{{ path('app_forum_category_show', {slug: forum.category.slug}) }}">{{ forum.category.title }}</a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page">Forum 1</li> 
+    <li class="breadcrumb-item active" aria-current="page">{{ forum.title }}</li> 
 {% endblock %}
 
 {% block forum_content %}
-    <h2>Forum 1</h2>
-    <p> description du forum</p>
+    <h2>{{ forum.title }}</h2>
+    <p>{{ forum.description }}</p>
     {% for message in app.flashes('success') %}
         <div class="alert alert-success mt-1">
             {{ message }}

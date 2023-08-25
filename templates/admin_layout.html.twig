@@ -19,7 +19,7 @@
 	</head>
 	<body>
 		<nav class="navbar fixed-top bg-white navbar-white navbar-expand-md navbar-light border-bottom">
-			<a href="#" class="navbar-brand pe-2">
+			<a href="{{ path('admin_app_dashboard') }}" class="navbar-brand pe-2">
 				<i class="fas fa-cogs"></i>
 				<span class="ms-1">Administration</span>
 			</a>
@@ -69,10 +69,6 @@
 		
 		<aside class="dashboard-nav">
 			<nav class="dashboard-nav-list">
-				<a href="{{ path('admin_app_dashboard') }}" class="dashboard-nav-item {% block activeDashboard %}{% endblock %}">
-					<i class="fas fa-tachometer-alt"></i>
-					<span>Tableau de bord</span>
-				</a>
 				<div class="dashboard-nav-dropdown {% block activeWiki %}{% endblock %}">
 					<a href="#" class="dashboard-nav-item dashboard-nav-dropdown-toggle ">
 						<i class="fas fa-folder"></i>
@@ -190,6 +186,11 @@
 							</a>
 						</div>
 					</div>
+				
+					<a href="{{ path('admin_app_note_list') }}" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
+						<i class="fas fa-sticky-note me-1"></i>
+						<span>Notes</span>
+					</a>
 
 					<div class="dashboard-nav-dropdown {% block activeAdmin %}{% endblock %}">
 						<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
@@ -209,6 +210,12 @@
 								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 								<span>Membres</span>
 							</a>
+							{% if enable_forum == 1 %}
+								<a href="{{ path('admin_app_idiom_forum_list') }}" class="dashboard-nav-dropdown-item {% block activeForum %}{% endblock %}">
+									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+									<span>Forum</span>
+								</a>
+							{% endif %}
 							{% if enable_comment == 1 %}
 								<a href="{{ path('admin_app_comment_list') }}" class="dashboard-nav-dropdown-item {% block activeComment %}{% endblock %}">
 									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
@@ -233,19 +240,10 @@
 					</div>
 				{% endif %}
 				
-				<a href="{{ path('admin_app_note_list') }}" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
-					<i class="fas fa-sticky-note me-1"></i>
-					<span>Notes</span>
-				</a>
-				
 				<div class="nav-item-divider"></div>
 				<a href="{{ path('app_home') }}" class="dashboard-nav-item">
 					<i class="fas fa-globe"></i>
 					<span>Index de {{ app_name }}</span>
-				</a>
-				<a href="{{ path('app_logout') }}" class="dashboard-nav-item">
-					<i class="fas fa-sign-out-alt"></i>
-					<span>Déconnexion</span>
 				</a>
 			</nav>
 		</aside>

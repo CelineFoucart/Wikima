@@ -6,10 +6,6 @@
 
 {% block title %}Tableau de bord{% endblock %}
 
-{% block activeDashboard %}
-	active show
-{% endblock %}
-
 {% block toolbar %}
 	{% if is_granted('ROLE_ADMIN') %}
 		<a href="{{ path('admin_app_image_download') }}" class="btn btn-sm btn-primary">

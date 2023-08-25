@@ -21,28 +21,30 @@ class ForumCategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, ForumCategory::class);
     }
 
-//    /**
-//     * @return ForumCategory[] Returns an array of ForumCategory objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('f.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+    * @return ForumCategory[] Returns an array of ForumCategory objects
+    */
+    public function findByOrder(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.forums', 'f')->addSelect('f')
+            ->addOrderBy('c.position', 'ASC')
+            ->addOrderBy('f.position', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
-//    public function findOneBySomeField($value): ?ForumCategory
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findBySlug(string $slug): ?ForumCategory
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.forums', 'f')->addSelect('f')
+            ->addOrderBy('c.position', 'ASC')
+            ->addOrderBy('f.position', 'ASC')
+            ->andWhere('c.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }
