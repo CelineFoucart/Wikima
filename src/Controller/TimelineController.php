@@ -3,14 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Timeline;
-use App\Form\Search\SearchType;
 use App\Entity\Data\SearchData;
-use App\Form\Search\AdvancedSearchType;
+use App\Form\Search\SearchType;
 use App\Repository\TimelineRepository;
+use App\Form\Search\AdvancedSearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TimelineController extends AbstractController
@@ -36,8 +36,7 @@ class TimelineController extends AbstractController
     }
 
     #[Route('/timeline/{slug}', name: 'app_timeline_show')]
-    #[Entity('timeline', expr: 'repository.findTimelineEventsBySlug(slug)')]
-    public function show(Timeline $timeline): Response
+    public function show(#[MapEntity(expr: 'repository.findTimelineEventsBySlug(slug)')] Timeline $timeline): Response
     {
         return $this->render('timeline/show.html.twig', [
             'timeline' => $timeline,

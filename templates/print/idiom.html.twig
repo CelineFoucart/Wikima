@@ -17,7 +17,12 @@
 					<strong>{{ idiom.createdAt|date(date_format) }}</strong>
 				</span>
 			</p>
-			<h1>{{ idiom.translatedName }} <small class="small">({{ idiom.originalName }})</small></h1>
+			<h1>
+				{{ idiom.translatedName }}
+				{% if idiom.originalName %}
+					<small class="small">({{ idiom.originalName }})</small>
+				{% endif %}
+			</h1>
             
 			<p class="parents">
 				{{ portals|join(', ')}}

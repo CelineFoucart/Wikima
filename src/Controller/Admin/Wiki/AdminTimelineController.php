@@ -16,11 +16,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/timeline')]
-#[Security("is_granted('ROLE_ADMIN')")]
+#[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
 final class AdminTimelineController extends AbstractAdminController
 {
     protected string $entityName = "timeline";
@@ -105,9 +105,7 @@ final class AdminTimelineController extends AbstractAdminController
     }
 
     #[Route('/{id}/event', name: 'admin_app_timeline_event', methods:['GET', 'POST'])]
-    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')")]
-    #[Entity('timeline', expr: 'repository.findTimelineEventsById(id)')]
-    public function eventAction(Timeline $timeline, Request $request): Response
+    public function eventAction(Request $request, Timeline $timeline): Response
     {
         $event = $this->getEvent($timeline, $request->query->getInt('event'));
         $form = $this->createForm(TimelineEventType::class, $event);

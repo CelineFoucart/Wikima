@@ -3,16 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Person;
-use App\Form\Search\SearchType;
 use App\Entity\PersonType;
 use App\Entity\Data\SearchData;
+use App\Form\Search\SearchType;
 use App\Repository\PersonRepository;
-use App\Form\Search\AdvancedPersonSearchType;
 use App\Repository\PersonTypeRepository;
+use App\Form\Search\AdvancedPersonSearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PersonController extends AbstractController
@@ -44,8 +44,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/persons/{slug}', name: 'app_person_show')]
-    #[Entity('person', expr: 'repository.findBySlug(slug)')]
-    public function show(Person $person): Response
+    public function show(#[MapEntity(expr: 'repository.findBySlug(slug)')] Person $person): Response
     {
         return $this->render('person/show.html.twig', [
             'person' => $person,

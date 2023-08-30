@@ -10,10 +10,11 @@ use App\Repository\PageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin/page')]
-#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')")]
+#[IsGranted(new Expression("is_granted('ROLE_ADMIN')  or is_granted('ROLE_SUPER_ADMIN')"))]
 final class AdminPageController extends AbstractAdminController
 {
     protected string $entityName = "page";

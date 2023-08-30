@@ -15,12 +15,13 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
 use App\Form\Admin\ImageType;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Finder\Finder;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin/image')]
-#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_EDITOR')")]
+#[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
 final class AdminImageController extends AbstractAdminController
 {
     protected string $entityName = "image";

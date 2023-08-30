@@ -8,15 +8,16 @@ use App\Service\Modules\ModuleService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin')]
 class AdminSettingsController extends AbstractController
 {
     #[Route('/settings', name: 'admin_app_settings')]
-    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')"))]
     public function settingsAction(Request $request, ConfigService $configService): Response
     {
         $envVars = $configService->getEnvVars();
@@ -74,7 +75,7 @@ class AdminSettingsController extends AbstractController
     }
 
     #[Route('/modules', name: 'admin_app_modules')]
-    #[Security("is_granted('ROLE_SUPER_ADMIN')")]
+    #[IsGranted(new Expression("is_granted('ROLE_SUPER_ADMIN')"))]
     public function modulesAction(Request $request, ModuleService $moduleService): Response
     {
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('module_handler', $request->request->get('_token'))) {

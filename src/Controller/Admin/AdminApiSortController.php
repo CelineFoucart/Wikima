@@ -15,8 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 class AdminApiSortController extends AbstractController
 {
@@ -25,7 +26,7 @@ class AdminApiSortController extends AbstractController
     }
 
     #[Route('/api/admin/timeline/{id}/event', 'api_timeline_event', methods: ['POST'])]
-    #[Security("is_granted('ROLE_ADMIN')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
     public function updateTimelineEvents(Timeline $timeline, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -54,7 +55,7 @@ class AdminApiSortController extends AbstractController
     }
 
     #[Route('/api/admin/article/{id}/section', 'api_article_section', methods: ['POST'])]
-    #[Security("is_granted('ROLE_ADMIN')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
     public function updateArticleSections(Article $article, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -83,7 +84,7 @@ class AdminApiSortController extends AbstractController
     }
 
     #[Route('/api/admin/category/{id}/portals', 'api_category_portal_order', methods: ['POST'])]
-    #[Security("is_granted('ROLE_ADMIN')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
     public function updateCategoryPortalOrder(Category $category, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -112,7 +113,7 @@ class AdminApiSortController extends AbstractController
     }
 
     #[Route('/api/admin/category/{id}/timelines', 'api_category_timeline_order', methods: ['POST'])]
-    #[Security("is_granted('ROLE_ADMIN')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
     public function updateCategoryTimelinesOrder(Category $category, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
@@ -141,7 +142,7 @@ class AdminApiSortController extends AbstractController
     }
 
     #[Route('/api/admin/idiom/categories/sort', 'api_idiom_category_sort', methods: ['POST'])]
-    #[Security("is_granted('ROLE_ADMIN')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
     public function sortIdiomCategories(Request $request, IdiomCategoryRepository $idiomCategoryRepository, bool $enableIdiom): JsonResponse
     {
         if (false === $enableIdiom) {
@@ -170,7 +171,7 @@ class AdminApiSortController extends AbstractController
     }
 
     #[Route('/api/admin/idiom/articles/{id}/order', 'api_idiom_article_order', methods: ['POST'])]
-    #[Security("is_granted('ROLE_ADMIN')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
     public function updateIdiomArticleOrder(Idiom $idiom, Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);

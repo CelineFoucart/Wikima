@@ -7,7 +7,7 @@ use App\Entity\ForumCategory;
 use App\Repository\ForumCategoryRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/forum')]
@@ -29,8 +29,7 @@ class ForumController extends AbstractController
     }
 
     #[Route('/category-{slug}', name: 'app_forum_category_show')]
-    #[Entity('category', expr: 'repository.findBySlug(slug)')]
-    public function category(ForumCategory $category): Response
+    public function category(#[MapEntity(expr: 'repository.findBySlug(slug)')] ForumCategory $category): Response
     {
         return $this->render('forum/category.html.twig', [
             'category' => $category,

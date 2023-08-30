@@ -3,16 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Place;
-use App\Form\Search\SearchType;
 use App\Entity\PlaceType;
 use App\Entity\Data\SearchData;
+use App\Form\Search\SearchType;
 use App\Repository\PlaceRepository;
-use App\Form\Search\AdvancedPlaceSearchType;
 use App\Repository\PlaceTypeRepository;
+use App\Form\Search\AdvancedPlaceSearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PlaceController extends AbstractController
@@ -45,8 +45,7 @@ class PlaceController extends AbstractController
     }
 
     #[Route('/places/{slug}', name: 'app_place_show')]
-    #[Entity('place', expr: 'repository.findBySlug(slug)')]
-    public function show(Place $place): Response
+    public function show(#[MapEntity(expr: 'repository.findBySlug(slug)')]  Place $place): Response
     {
         return $this->render('place/show.html.twig', [
             'place' => $place,

@@ -7,10 +7,10 @@ use App\Entity\User;
 use App\Entity\Portal;
 use App\Form\NoteType;
 use App\Entity\ImageTag;
-use App\Form\Search\SearchType;
 use App\Entity\PlaceType;
 use App\Entity\PersonType;
 use App\Entity\Data\SearchData;
+use App\Form\Search\SearchType;
 use App\Repository\ImageRepository;
 use App\Repository\PlaceRepository;
 use App\Repository\PersonRepository;
@@ -25,8 +25,9 @@ use App\Service\AlphabeticalHelperService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class PortalController extends AbstractController
@@ -40,8 +41,7 @@ final class PortalController extends AbstractController
     }
 
     #[Route('/portals/{slug}', name: 'app_portal_show')]
-    #[Entity('portal', expr: 'repository.findBySlug(slug)')]
-    public function portal(int $perPageOdd, Portal $portal, Request $request, AlphabeticalHelperService $helper, ArticleTypeRepository $articleTypeRepository, PersonRepository $personRepository): Response
+    public function portal(int $perPageOdd, #[MapEntity(expr: 'repository.findBySlug(slug)')] Portal $portal, Request $request, AlphabeticalHelperService $helper, ArticleTypeRepository $articleTypeRepository, PersonRepository $personRepository): Response
     {
         $types = $articleTypeRepository->findBy([], ['title' => 'ASC']);
         $page = $request->query->getInt('page', 1);
@@ -86,8 +86,7 @@ final class PortalController extends AbstractController
     }
 
     #[Route('/portals/{slug}/gallery', name: 'app_portal_gallery')]
-    #[Entity('portal', expr: 'repository.findBySlug(slug)')]
-    public function gallery(int $perPageOdd, Portal $portal, Request $request, ImageRepository $imageRepository, ImageTagRepository $imageTagRepository): Response
+    public function gallery(int $perPageOdd, #[MapEntity(expr: 'repository.findBySlug(slug)')] Portal $portal, Request $request, ImageRepository $imageRepository, ImageTagRepository $imageTagRepository): Response
     {
         $page = $request->query->getInt('page', 1);
         $types = $imageTagRepository->findAll();
@@ -118,8 +117,7 @@ final class PortalController extends AbstractController
     }
 
     #[Route('/portals/{slug}/persons', name: 'app_portal_persons')]
-    #[Entity('portal', expr: 'repository.findBySlug(slug)')]
-    public function persons(int $perPageOdd, Portal $portal, Request $request, PersonTypeRepository $personTypeRepository): Response
+    public function persons(int $perPageOdd, #[MapEntity(expr: 'repository.findBySlug(slug)')] Portal $portal, Request $request, PersonTypeRepository $personTypeRepository): Response
     {
         $types = $personTypeRepository->findAll();
         $page = $request->query->getInt('page', 1);
@@ -151,8 +149,7 @@ final class PortalController extends AbstractController
     }
 
     #[Route('/portals/{slug}/places', name: 'app_portal_places')]
-    #[Entity('portals', expr: 'repository.findBySlug(slug)')]
-    public function place(int $perPageOdd, Portal $portal, Request $request, PlaceTypeRepository $placeTypeRepository): Response
+    public function place(int $perPageOdd, #[MapEntity(expr: 'repository.findBySlug(slug)')] Portal $portal, Request $request, PlaceTypeRepository $placeTypeRepository): Response
     {
         $types = $placeTypeRepository->findAll();
         $page = $request->query->getInt('page', 1);
@@ -184,7 +181,7 @@ final class PortalController extends AbstractController
     }
 
     #[Route('/portals/{slug}/notes', name: 'app_portal_notes')]
-    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
     public function notes(Portal $portal, Request $request, EntityManagerInterface $em): Response
     {
         $note = (new Note())->setPortal($portal);

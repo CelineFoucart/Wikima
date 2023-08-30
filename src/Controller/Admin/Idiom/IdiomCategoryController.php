@@ -12,10 +12,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/idiom/category')]
-#[Security("is_granted('ROLE_ADMIN')")]
+#[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
 class IdiomCategoryController extends AbstractAdminController
 {
     protected string $entityName = "idiom_category";
