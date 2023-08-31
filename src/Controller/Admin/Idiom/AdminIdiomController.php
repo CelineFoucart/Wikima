@@ -95,7 +95,7 @@ class AdminIdiomController extends AbstractAdminController
             return $this->redirectTo($request, $idiom->getId());
         }
 
-        return $this->renderForm('Admin/idiom/create.html.twig', [
+        return $this->render('Admin/idiom/create.html.twig', [
             'idiom' => $idiom,
             'form' => $form,
             'images' => $this->imageRepository->findAll(),
@@ -182,7 +182,7 @@ class AdminIdiomController extends AbstractAdminController
             return $this->redirectTo($request, $idiom->getId());
         }
 
-        return $this->renderForm('Admin/idiom/edit.html.twig', [
+        return $this->render('Admin/idiom/edit.html.twig', [
             'idiom' => $idiom,
             'form' => $form,
             'images' => $this->imageRepository->findAll(),

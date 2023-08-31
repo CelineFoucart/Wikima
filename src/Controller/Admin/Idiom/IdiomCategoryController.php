@@ -53,7 +53,7 @@ class IdiomCategoryController extends AbstractAdminController
             return $this->redirectTo($request, $idiomCategory->getId());
         }
 
-        return $this->renderForm('Admin/idiom_category/create.html.twig', [
+        return $this->render('Admin/idiom_category/create.html.twig', [
             'idiom_category' => $idiomCategory,
             'form' => $form,
         ]);
@@ -81,7 +81,7 @@ class IdiomCategoryController extends AbstractAdminController
             return $this->redirectTo($request, $idiomCategory->getId());
         }
 
-        return $this->renderForm('Admin/idiom_category/edit.html.twig', [
+        return $this->render('Admin/idiom_category/edit.html.twig', [
             'idiom_category' => $idiomCategory,
             'form' => $form,
         ]);

@@ -47,6 +47,7 @@ final class Version20230825133824 extends AbstractMigration
         $this->addSql('INSERT INTO forum_group (title, role_name, colour, description, symfony_role) VALUES ("Modérateurs", "ROLE_MODERARTOR", "#DF2020", "Modérateurs du forum", 1)');
         $this->addSql('INSERT INTO forum_group (title, role_name, description, symfony_role) VALUES ("Editeurs", "ROLE_EDITOR", "Editeurs", 1)');
         $this->addSql('INSERT INTO forum_group (title, role_name, description, symfony_role) VALUES ("Utilisateurs", "ROLE_USER", "Utilisateurs", 1)');
+        $this->addSql('INSERT INTO forum_group (title, role_name, description, symfony_role) VALUES ("Invités", "PUBLIC_ACCESS", "Utilisateurs non authentifiés", 1)');
     }
 
     public function down(Schema $schema): void

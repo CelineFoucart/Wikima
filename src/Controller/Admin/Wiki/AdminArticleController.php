@@ -195,7 +195,7 @@ final class AdminArticleController extends AbstractAdminController
             return $this->redirectToRoute('admin_app_article_section', ['id' => $article->getId()]);
         }
 
-        return $this->renderForm('Admin/article/section.html.twig', [
+        return $this->render('Admin/article/section.html.twig', [
             'article' => $article,
             'sectionForm' => $sectionForm,
             'section_active' => true,

@@ -97,7 +97,7 @@ final class AdminCategoryController extends AbstractAdminController
     #[Route('/admin/category/{id}/sort', name: 'admin_app_category_sort')]
     public function sortAction(Category $category): Response
     {
-        return $this->renderForm('Admin/category/sort.html.twig', [
+        return $this->render('Admin/category/sort.html.twig', [
             'category' => $category,
         ]);
     }

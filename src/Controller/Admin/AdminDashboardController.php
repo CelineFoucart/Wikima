@@ -85,7 +85,7 @@ class AdminDashboardController extends AbstractController
             return $this->redirectToRoute('admin_app_overview');
         }
 
-        return $this->renderForm('Admin/overview.html.twig', [
+        return $this->render('Admin/overview.html.twig', [
             'form' => $form,
         ]);
     }

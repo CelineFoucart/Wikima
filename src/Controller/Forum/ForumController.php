@@ -23,6 +23,8 @@ class ForumController extends AbstractController
     #[Route('/', name: 'app_forum_index')]
     public function index(ForumCategoryRepository $forumCategoryRepository): Response
     {
+        
+
         return $this->render('forum/index.html.twig', [
             'categories' => $forumCategoryRepository->findByOrder(),
         ]);
