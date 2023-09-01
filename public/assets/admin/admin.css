@@ -748,3 +748,14 @@ blockquote {
     font-style: italic;
     margin: 10px 2rem;
 }
+
+.group-list > *::after {
+    content: ', ';
+    color: #212529;
+    font-weight: normal;
+    display: inline;
+}
+
+.group-list > *:last-of-type::after {
+    content: '';
+}

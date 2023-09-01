@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
 use Symfony\Component\ExpressionLanguage\Expression;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/forumcategory')]
