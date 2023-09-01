@@ -65,7 +65,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Report::class)]
     private Collection $reports;
 
-    #[ORM\ManyToMany(targetEntity: ForumGroup::class, mappedBy: 'members')]
+    #[ORM\ManyToMany(targetEntity: ForumGroup::class, mappedBy: 'members', cascade: ['persist', 'remove'])]
     private Collection $forumGroups;
 
     public function __construct()

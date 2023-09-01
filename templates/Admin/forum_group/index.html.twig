@@ -16,7 +16,7 @@
 {% endblock %}
 
 {% block toolbar %}
-    <a href="{{ path('app_admin_forum_group_new') }}" class="btn btn-default btn-sm">
+    <a href="{{ path('admin_app_forum_group_create') }}" class="btn btn-default btn-sm">
         <i class="fas fa-plus-circle" aria-hidden="true"></i>
         Ajouter
     </a>
@@ -58,14 +58,14 @@
                         </td>
                         <td data-label="Actions">
                             <div class="btn-group">
-                                <a href="{{ path('app_admin_forum_group_show', {id: forum_group.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                <a href="{{ path('admin_app_forum_group_show', {id: forum_group.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
-                                <a href="{{ path('app_admin_forum_group_edit', {id: forum_group.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                <a href="{{ path('admin_app_forum_group_edit', {id: forum_group.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
                                     <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                                 </a>
                                 {% if forum_group.symfonyRole != true %}
-                                    {% include "Admin/components/_delete_modal.html.twig" with { element: forum_group, path: 'app_admin_forum_group_delete' } %}
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: forum_group, path: 'admin_app_forum_group_delete' } %}
                                 {% endif %}
                             </div>
                         </td>

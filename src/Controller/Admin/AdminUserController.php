@@ -8,6 +8,7 @@ use App\Entity\User;
 use DateTimeImmutable;
 use App\Form\Admin\UserFormType;
 use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -72,7 +73,7 @@ final class AdminUserController extends AbstractAdminController
     }
 
     #[Route('/{id}/edit', name: 'admin_app_user_edit', methods:['GET', 'POST'])]
-    public function editAction(Request $request, User $user): Response
+    public function editAction(Request $request, User $user, EntityManagerInterface $em): Response
     {
         if ($user instanceof User && in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
             $this->canHandleFounderUser($user);
@@ -92,8 +93,9 @@ final class AdminUserController extends AbstractAdminController
                     )
                 );
             }
-            
-            $this->userRepository->add($user, true);
+
+            $em->persist($user);
+            $em->flush();
             $this->addFlash('success', "L'utilisateur " . $user . " a bien été modifié.");
 
             return $this->redirectTo($request, $user->getId());

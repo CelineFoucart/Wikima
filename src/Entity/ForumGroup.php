@@ -51,7 +51,7 @@ class ForumGroup
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'forumGroups')]
     private Collection $members;
 
-    #[ORM\ManyToMany(targetEntity: ForumCategory::class, mappedBy: 'groupAccess')]
+    #[ORM\ManyToMany(targetEntity: ForumCategory::class, mappedBy: 'groupAccess', cascade: ['persist', 'remove'])]
     private Collection $forumCategories;
 
     #[ORM\ManyToMany(targetEntity: Forum::class, mappedBy: 'groupAccess')]

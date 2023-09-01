@@ -3,11 +3,12 @@
 namespace App\Form\Admin;
 
 use App\Entity\User;
+use App\Entity\ForumGroup;
 use App\Service\UserService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -19,6 +20,7 @@ class UserFormType extends AbstractType
 {
     public function __construct(
         private UserService $userService,
+        private bool $enableForum
     ) {
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -57,6 +59,20 @@ class UserFormType extends AbstractType
                 'mapped' => false,
             ])
         ;
+
+        if ($this->enableForum) {
+            $builder->add('forumGroups', EntityType::class, [
+                'class' => ForumGroup::class,
+                'by_reference' => false,
+                'required' => false,
+                'multiple' => true,
+                'choice_label' => 'title',
+                'attr' => [
+                    'data-choices' => 'choices'
+                ],
+                'help' => "Un utilisateur sans groupe de forum sera considéré comme un invité sur le forum"
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

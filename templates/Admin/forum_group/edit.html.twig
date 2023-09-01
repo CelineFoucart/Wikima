@@ -10,7 +10,7 @@
 		</a>
 	</li>
     <li class="breadcrumb-item">
-		<a href="{{ path('app_admin_forum_group_index') }}" class="text-reset">
+		<a href="{{ path('admin_app_forum_group_list') }}" class="text-reset">
 			Groupes
 		</a>
 	</li>
@@ -18,6 +18,24 @@
 		Editer
 	</li>
 {% endblock %}
+
+{% block toolbar %}
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_forum_group_create') }}" data-bs-toggle="tooltip" title="Ajouter">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+    </a>
+    <div class="btn-group">             
+        <a href="{{ path('admin_app_forum_group_show', {id: forum_group.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+            <i class="fas fa-info-circle"></i>
+        </a>
+		<a href="{{ path('admin_app_forum_group_show', {id: forum_group.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+			<i class="fas fa-info-circle"></i>
+		</a>
+        {% if forum_group.symfonyRole != true %}
+            {% include "Admin/components/_delete_modal.html.twig" with { element: forum_group, path: 'admin_app_forum_group_delete' } %}
+        {% endif %}
+    </div>
+{% endblock %}
+
 
 {% block body %}
     {{ include('Admin/forum_group/_form.html.twig') }}

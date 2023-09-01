@@ -6,15 +6,25 @@ use App\Entity\ForumGroup;
 use App\Form\Admin\ForumGroupType;
 use App\Repository\ForumGroupRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\Admin\AbstractAdminController;
 
 #[Route('/admin/forumgroup')]
-class AdminForumGroupController extends AbstractController
+class AdminForumGroupController extends AbstractAdminController
 {
-    #[Route('/', name: 'app_admin_forum_group_index', methods: ['GET'])]
+    protected string $entityName = 'forum_group';
+
+    public function __construct(
+        bool $enableForum
+    ) {
+        if (false === $enableForum) {
+            throw $this->createNotFoundException('Not Found');
+        }
+    }
+
+    #[Route('/', name: 'admin_app_forum_group_list', methods: ['GET'])]
     public function index(ForumGroupRepository $forumGroupRepository): Response
     {
         return $this->render('Admin/forum_group/index.html.twig', [
@@ -22,7 +32,7 @@ class AdminForumGroupController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_forum_group_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'admin_app_forum_group_create', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $forumGroup = new ForumGroup();
@@ -33,7 +43,7 @@ class AdminForumGroupController extends AbstractController
             $entityManager->persist($forumGroup);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_forum_group_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectTo($request, $forumGroup->getId());
         }
 
         return $this->render('Admin/forum_group/new.html.twig', [
@@ -42,7 +52,7 @@ class AdminForumGroupController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_forum_group_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'admin_app_forum_group_show', methods: ['GET'])]
     public function show(ForumGroup $forumGroup): Response
     {
         return $this->render('Admin/forum_group/show.html.twig', [
@@ -50,7 +60,7 @@ class AdminForumGroupController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_forum_group_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'admin_app_forum_group_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, ForumGroup $forumGroup, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ForumGroupType::class, $forumGroup);
@@ -59,7 +69,7 @@ class AdminForumGroupController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_forum_group_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectTo($request, $forumGroup->getId());
         }
 
         return $this->render('Admin/forum_group/edit.html.twig', [
@@ -68,7 +78,7 @@ class AdminForumGroupController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_forum_group_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'admin_app_forum_group_delete', methods: ['POST'])]
     public function delete(Request $request, ForumGroup $forumGroup, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$forumGroup->getId(), $request->request->get('_token'))) {
@@ -76,6 +86,6 @@ class AdminForumGroupController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_admin_forum_group_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_app_forum_group_list', [], Response::HTTP_SEE_OTHER);
     }
 }

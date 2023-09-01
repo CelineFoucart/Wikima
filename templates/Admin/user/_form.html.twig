@@ -1,6 +1,14 @@
+{% block stylesheets %}
+    <style>
+        .choices {
+            margin-bottom: 0;
+        }
+    </style>
+{% endblock %}
+
 {{ form_start(form) }}
     <div class="row">
-        <div class="col-md-8 mb-2">
+        <div class="col-md-7 mb-2">
             <div class="card border-top-primary">
                 <div class="card-header">
                     <h2 class="card-title h5 mb-0">Informations</h2>
@@ -13,13 +21,16 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-5">
             <div class="card border-top-primary">
                 <div class="card-header">
                     <h2 class="card-title h5 mb-0">Statut</h2>
                 </div>
                 <div class="card-body">
                     {{ form_row(form.roles) }}
+                    {% if form.forumGroups is defined %}
+                        {{ form_row(form.forumGroups) }}
+                    {% endif %}
                     {{ form_row(form.isVerified) }}
                 </div>
             </div>
