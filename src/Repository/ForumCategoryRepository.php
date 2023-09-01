@@ -60,15 +60,24 @@ class ForumCategoryRepository extends ServiceEntityRepository
     /**
     * @return ForumCategory[] Returns an array of ForumCategory objects
     */
-    public function findByOrder(): array
+    public function findByOrder(array $groups = []): array
     {
-        return $this->createQueryBuilder('c')
+        $builder = $this->createQueryBuilder('c')
             ->leftJoin('c.forums', 'f')->addSelect('f')
             ->addOrderBy('c.position', 'ASC')
-            ->addOrderBy('f.position', 'ASC')
-            ->getQuery()
-            ->getResult()
-        ;
+            ->addOrderBy('f.position', 'ASC');
+
+        if (!empty($groups)) {
+            $builder
+                ->leftJoin('c.groupAccess', 'cg')
+                ->andWhere('cg IN (:groups)')
+                ->leftJoin('f.groupAccess', 'fg')
+                ->andWhere('fg IN (:groups)')
+                ->setParameter('groups', $groups)
+            ;
+        }
+        
+        return $builder->getQuery()->getResult();
     }
 
     public function findBySlug(string $slug): ?ForumCategory

@@ -16,6 +16,10 @@
 {% endblock %}
 
 {% block toolbar %}
+        <a href="{{ path('admin_app_forum_category_list') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-long-arrow-left"></i>
+        Retour
+    </a>
     <a href="{{ path('admin_app_forum_group_create') }}" class="btn btn-default btn-sm">
         <i class="fas fa-plus-circle" aria-hidden="true"></i>
         Ajouter
@@ -26,6 +30,10 @@
     <p>
         Vous ne pouvez pas supprimer les groupes natifs du forum, dont les noms sont en gras dans le tableau et 
         vous ne pouvez pas modifier leur nom. Ces groupes correspondent à des rôles prédéfinis dans l'application.
+    </p>
+    <p>
+        Les groupes vous permettent de définir uniquement les catégories et les forums que les utilisateurs voient.
+        Pour leur donner des pouvoirs d'administration ou de modération, modifiez les rôles des utilisateurs.
     </p>
     <div class="card border-top-primary">
         <div class="card-body p-1">

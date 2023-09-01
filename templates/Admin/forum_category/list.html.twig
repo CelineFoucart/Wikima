@@ -24,6 +24,7 @@
                         <th>Titre</th>
                         <th>Description</th>
                         <th>Forums</th>
+                        <th>Accès</th>
                         <th data-orderable="false">Actions</th>
                     </tr>
                 </thead>
@@ -38,6 +39,13 @@
                             </td>
                             <td data-label="Forums">
                                 {{ category.forums|length }}
+                            </td>
+                            <td data-label="Accès">
+                                <span class="group-list">
+                                    {% for group in category.groupAccess %}
+                                        <span class="fw-bold" style="color: {{ group.colour ? group.colour : '#000' }}">{{ group.title }}</span>
+                                    {% endfor %}
+                                </span>
                             </td>
                             <td data-label="Actions">
                                 <div class="btn-group">
