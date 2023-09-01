@@ -1,0 +1,64 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/colorpicker/coloris.min.css') }}">
+    <style>
+        .clr-field {
+            display: block;
+        }
+
+        .clr-field button {
+            border-radius: 0 0.25rem 0.25rem 0;
+            cursor: pointer;
+        }
+
+        .required:after {
+            content: '*';
+            display: inline-block;
+        }
+    </style>
+{% endblock %}
+
+{{ form_start(form) }}
+    <div class="card border-top-primary">
+        <div class="card-header bg-white">
+            <h2 class="card-title h5 mb-0">Groupe</h2>
+        </div>
+        <div class="card-body">
+            {{ form_widget(form) }}
+        </div>
+    </div>
+    <div class="card-btn mt-3">
+        <button class="btn btn-success btn-sm" type="submit" name="btn_save_and_edit">
+            <i class="fas fa-save" aria-hidden="true"></i>
+            Enregistrer
+        </button>
+        <button type="submit" class="btn btn-success btn-sm" name="btn_save_and_list">
+            <i class="fas fa-save"></i>
+            <i class="fas fa-list" aria-hidden="true"></i>
+            Enregistrer et retourner à la liste
+        </button>
+        <button class="btn btn-success btn-sm" type="submit" name="btn_save_and_create">
+            <i class="fas fa-plus-circle" aria-hidden="true"></i>
+            Enregistrer et ajouter
+        </button>
+    </div>
+{{ form_end(form) }}
+
+
+{% block javascripts %}
+    <script src="{{ asset('assets/colorpicker/coloris.min.js') }}"></script>
+    <script>
+        Coloris({
+            el: '#forum_group_colour',
+            swatches: [
+                '#FF9900',
+                '#9900CC',
+                '#8C2800',
+                '#008844',
+                '#CC3399',
+                '#DF2020'
+            ]
+        });
+        Coloris.setInstance('#forum_group_colour', { theme: 'polaroid' });
+    </script>
+{% endblock %}
+

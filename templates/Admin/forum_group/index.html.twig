@@ -1,0 +1,80 @@
+{% extends 'Admin/forum_category/base.html.twig' %}
+
+{% block title %}Liste des groupes du forum{% endblock %}
+
+{% block page_title %}Liste des groupes du forum{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_forum_category_list') }}" class="text-reset">
+			Gestions du forum
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Groupes
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('app_admin_forum_group_new') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block body %}
+    <p>
+        Vous ne pouvez pas supprimer les groupes natifs du forum, dont les noms sont en gras dans le tableau et 
+        vous ne pouvez pas modifier leur nom. Ces groupes correspondent à des rôles prédéfinis dans l'application.
+    </p>
+    <div class="card border-top-primary">
+        <div class="card-body p-1">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nom affiché</th>
+                        <th>Nom</th>
+                        <th>Couleur</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for forum_group in forum_groups %}
+                    <tr>
+                        <td data-label="Id">{{ forum_group.id }}</td>
+                        <td data-label="Nom affiché">
+                            {% if forum_group.symfonyRole %}
+                                <span class="fw-bold">{{ forum_group.title }}</span>
+                            {% else %}
+                                {{ forum_group.title }}
+                            {% endif %}
+                        </td>
+                        <td data-label="Nom">{{ forum_group.roleName }}</td>
+                        <td data-label="Couleur">
+                            <span style="color: {{ forum_group.colour ? forum_group.colour : '#000000' }}">
+                                {{ forum_group.colour ? forum_group.colour : '#000000' }}
+                            </span>
+                        </td>
+                        <td data-label="Actions">
+                            <div class="btn-group">
+                                <a href="{{ path('app_admin_forum_group_show', {id: forum_group.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                <a href="{{ path('app_admin_forum_group_edit', {id: forum_group.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                </a>
+                                {% if forum_group.symfonyRole != true %}
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: forum_group, path: 'app_admin_forum_group_delete' } %}
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    
+{% endblock %}

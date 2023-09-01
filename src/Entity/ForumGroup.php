@@ -6,8 +6,11 @@ use App\Repository\ForumGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ForumGroupRepository::class)]
+#[UniqueEntity('roleName')]
 class ForumGroup
 {
     #[ORM\Id]
@@ -16,15 +19,33 @@ class ForumGroup
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 50,
+    )]
     private ?string $title = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 100,
+    )]
     private ?string $roleName = null;
 
     #[ORM\Column(length: 15, nullable: true)]
+    #[Assert\Length(
+        min: 4,
+        max: 10,
+    )]
     private ?string $colour = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        min: 3,
+        max: 255,
+    )]
     private ?string $description = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'forumGroups')]
@@ -44,6 +65,7 @@ class ForumGroup
         $this->members = new ArrayCollection();
         $this->forumCategories = new ArrayCollection();
         $this->forums = new ArrayCollection();
+        $this->symfonyRole = false;
     }
 
     public function getId(): ?int
@@ -187,5 +209,10 @@ class ForumGroup
         $this->symfonyRole = $symfonyRole;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title ? $this->title : 'Nouveau groupe';
     }
 }

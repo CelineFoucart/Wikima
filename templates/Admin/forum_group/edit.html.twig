@@ -1,0 +1,24 @@
+{% extends 'Admin/forum_category/base.html.twig' %}
+
+{% block title %}Editer "{{ forum_group }}"{% endblock %}
+{% block page_title %}Editer "{{ forum_group }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_forum_category_list') }}" class="text-reset">
+			Gestions du forum
+		</a>
+	</li>
+    <li class="breadcrumb-item">
+		<a href="{{ path('app_admin_forum_group_index') }}" class="text-reset">
+			Groupes
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Editer
+	</li>
+{% endblock %}
+
+{% block body %}
+    {{ include('Admin/forum_group/_form.html.twig') }}
+{% endblock %}
