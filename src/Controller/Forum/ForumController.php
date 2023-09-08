@@ -8,10 +8,12 @@ use App\Entity\ForumGroup;
 use App\Entity\User;
 use App\Repository\ForumCategoryRepository;
 use App\Repository\ForumGroupRepository;
+use App\Repository\TopicRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 #[Route('/forum')]
 class ForumController extends AbstractController
@@ -55,7 +57,7 @@ class ForumController extends AbstractController
     }
 
     #[Route('/forum-{slug}', name: 'app_forum_forum_show')]
-    public function forum(Forum $forum): Response
+    public function forum(Forum $forum, TopicRepository $topicRepository, Request $request): Response
     {
         $hasAccess = $this->hasAccess($this->getCurrentUserRoles(), $forum);
 
@@ -63,8 +65,12 @@ class ForumController extends AbstractController
             throw $this->createAccessDeniedException('Access Denied');
         }
 
+        $page = $request->query->getInt('page', 1);
+        $topics = $topicRepository->findPaginated($forum->getId(), $page);
+
         return $this->render('forum/forum.html.twig', [
-            'forum' => $forum
+            'forum' => $forum,
+            'topics' => $topics,
         ]);
     }
 
@@ -77,15 +83,21 @@ class ForumController extends AbstractController
         
         $user = $this->getUser();
         if (!$user instanceof User) {
-            return [$anonymous];
+            return $anonymous;
         }
 
-        $groups = $user->getForumGroups();
-        if ($groups->isEmpty()) {
-            return [$anonymous];
+        $userGroups = $user->getUserGroups();
+        if ($userGroups->isEmpty()) {
+            return $anonymous;
         }
 
-        return $groups->toArray();
+        $groups = [];
+
+        foreach ($userGroups as $userGroup) {
+            $groups[] = $userGroup->getForumGroup();
+        }
+
+        return $groups;
     }
 
     /**

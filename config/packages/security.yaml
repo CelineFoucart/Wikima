@@ -60,7 +60,7 @@ security:
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/comment, roles: ROLE_USER }
         - { path: ^/draft, roles: ROLE_EDITOR }
-        - { path: ^/forum/moderation, roles: ROLE_MODERATOR }
+        - { path: ^/moderator-panel, roles: ROLE_MODERATOR }
 
 when@test:
     security:

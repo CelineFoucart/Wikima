@@ -16,6 +16,8 @@
                 <div class="card-body">
                     {{ form_row(form.username) }}
                     {{ form_row(form.email) }}
+                    {{ form_row(form.rank) }}
+                    {{ form_row(form.localisation) }}
                     {{ form_row(form.plainPassword) }}
                     <p class="small text-muted mb-0">Laisser le champ mot de passe vide pour ne pas modifier le mot de passe.</p>
                 </div>
@@ -28,9 +30,6 @@
                 </div>
                 <div class="card-body">
                     {{ form_row(form.roles) }}
-                    {% if form.forumGroups is defined %}
-                        {{ form_row(form.forumGroups) }}
-                    {% endif %}
                     {{ form_row(form.isVerified) }}
                 </div>
             </div>

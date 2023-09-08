@@ -48,9 +48,6 @@ class ForumGroup
     )]
     private ?string $description = null;
 
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'forumGroups')]
-    private Collection $members;
-
     #[ORM\ManyToMany(targetEntity: ForumCategory::class, mappedBy: 'groupAccess', cascade: ['persist', 'remove'])]
     private Collection $forumCategories;
 
@@ -60,12 +57,15 @@ class ForumGroup
     #[ORM\Column]
     private ?bool $symfonyRole = null;
 
+    #[ORM\OneToMany(mappedBy: 'forumGroup', targetEntity: UserGroup::class, orphanRemoval: true)]
+    private Collection $userGroups;
+
     public function __construct()
     {
-        $this->members = new ArrayCollection();
         $this->forumCategories = new ArrayCollection();
         $this->forums = new ArrayCollection();
         $this->symfonyRole = false;
+        $this->userGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -117,30 +117,6 @@ class ForumGroup
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getMembers(): Collection
-    {
-        return $this->members;
-    }
-
-    public function addMember(User $member): static
-    {
-        if (!$this->members->contains($member)) {
-            $this->members->add($member);
-        }
-
-        return $this;
-    }
-
-    public function removeMember(User $member): static
-    {
-        $this->members->removeElement($member);
 
         return $this;
     }
@@ -214,5 +190,35 @@ class ForumGroup
     public function __toString()
     {
         return $this->title ? $this->title : 'Nouveau groupe';
+    }
+
+    /**
+     * @return Collection<int, UserGroup>
+     */
+    public function getUserGroups(): Collection
+    {
+        return $this->userGroups;
+    }
+
+    public function addUserGroup(UserGroup $userGroup): static
+    {
+        if (!$this->userGroups->contains($userGroup)) {
+            $this->userGroups->add($userGroup);
+            $userGroup->setForumGroup($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserGroup(UserGroup $userGroup): static
+    {
+        if ($this->userGroups->removeElement($userGroup)) {
+            // set the owning side to null (unless already changed)
+            if ($userGroup->getForumGroup() === $this) {
+                $userGroup->setForumGroup(null);
+            }
+        }
+
+        return $this;
     }
 }

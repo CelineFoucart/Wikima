@@ -65,8 +65,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Report::class)]
     private Collection $reports;
 
-    #[ORM\ManyToMany(targetEntity: ForumGroup::class, mappedBy: 'members', cascade: ['persist', 'remove'])]
-    private Collection $forumGroups;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $rank = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $localisation = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avatar = null;
+
+    #[ORM\OneToMany(mappedBy: 'member', targetEntity: UserGroup::class, orphanRemoval: true)]
+    private Collection $userGroups;
 
     public function __construct()
     {
@@ -76,7 +85,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->topics = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->reports = new ArrayCollection();
-        $this->forumGroups = new ArrayCollection();
+        $this->userGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -374,28 +383,67 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, ForumGroup>
-     */
-    public function getForumGroups(): Collection
+    public function getRank(): ?string
     {
-        return $this->forumGroups;
+        return $this->rank;
     }
 
-    public function addForumGroup(ForumGroup $forumGroup): static
+    public function setRank(?string $rank): static
     {
-        if (!$this->forumGroups->contains($forumGroup)) {
-            $this->forumGroups->add($forumGroup);
-            $forumGroup->addMember($this);
+        $this->rank = $rank;
+
+        return $this;
+    }
+
+    public function getLocalisation(): ?string
+    {
+        return $this->localisation;
+    }
+
+    public function setLocalisation(?string $localisation): static
+    {
+        $this->localisation = $localisation;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): static
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserGroup>
+     */
+    public function getUserGroups(): Collection
+    {
+        return $this->userGroups;
+    }
+
+    public function addUserGroup(UserGroup $userGroup): static
+    {
+        if (!$this->userGroups->contains($userGroup)) {
+            $this->userGroups->add($userGroup);
+            $userGroup->setMember($this);
         }
 
         return $this;
     }
 
-    public function removeForumGroup(ForumGroup $forumGroup): static
+    public function removeUserGroup(UserGroup $userGroup): static
     {
-        if ($this->forumGroups->removeElement($forumGroup)) {
-            $forumGroup->removeMember($this);
+        if ($this->userGroups->removeElement($userGroup)) {
+            // set the owning side to null (unless already changed)
+            if ($userGroup->getMember() === $this) {
+                $userGroup->setMember(null);
+            }
         }
 
         return $this;

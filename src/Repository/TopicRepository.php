@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Topic;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Service\PaginatorService;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Topic>
@@ -16,25 +18,31 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TopicRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private PaginatorService $paginatorService;
+
+    public function __construct(ManagerRegistry $registry, PaginatorService $paginatorService)
     {
         parent::__construct($registry, Topic::class);
+        $this->paginatorService = $paginatorService;
     }
 
-//    /**
-//     * @return Topic[] Returns an array of Topic objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Returns the paginated result of Topic.
+     */
+    public function findPaginated(int $forumId, int $page, int $limit = 30): PaginationInterface
+    {
+        $builder = $this->createQueryBuilder('t')
+            ->leftJoin('t.author', 'u')->addSelect('u')
+            ->leftJoin('u.userGroups', 'g')->addSelect('g')
+            ->leftJoin('t.forum', 'f')->andWhere('f.id = :id')
+            ->setParameter('id', $forumId)
+            ->orderBy('t.createdAt', 'DESC')
+        ;
+
+        return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
+
+        return $this->getPaginatedQuery($builder, $page);
+    }
 
 //    public function findOneBySomeField($value): ?Topic
 //    {

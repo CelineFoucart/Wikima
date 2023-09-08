@@ -20,7 +20,6 @@ class UserFormType extends AbstractType
 {
     public function __construct(
         private UserService $userService,
-        private bool $enableForum
     ) {
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -58,21 +57,13 @@ class UserFormType extends AbstractType
                 'invalid_message' => 'Le mot de passe de confirmation ne concorde pas.',
                 'mapped' => false,
             ])
-        ;
-
-        if ($this->enableForum) {
-            $builder->add('forumGroups', EntityType::class, [
-                'class' => ForumGroup::class,
-                'by_reference' => false,
+            ->add('rank', TextType::class, [
                 'required' => false,
-                'multiple' => true,
-                'choice_label' => 'title',
-                'attr' => [
-                    'data-choices' => 'choices'
-                ],
-                'help' => "Un utilisateur sans groupe de forum sera considéré comme un invité sur le forum"
-            ]);
-        }
+            ])
+            ->add('localisation', TextType::class, [
+                'required' => false,
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

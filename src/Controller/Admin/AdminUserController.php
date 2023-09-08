@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Entity\UserGroup;
 use DateTimeImmutable;
 use App\Form\Admin\UserFormType;
+use App\Repository\ForumGroupRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,7 +27,8 @@ final class AdminUserController extends AbstractAdminController
 
     public function __construct(
         private UserRepository $userRepository,
-        private UserPasswordHasherInterface $userPasswordHasher
+        private UserPasswordHasherInterface $userPasswordHasher,
+        private EntityManagerInterface $em
     ) {
     }
 
@@ -73,7 +76,7 @@ final class AdminUserController extends AbstractAdminController
     }
 
     #[Route('/{id}/edit', name: 'admin_app_user_edit', methods:['GET', 'POST'])]
-    public function editAction(Request $request, User $user, EntityManagerInterface $em): Response
+    public function editAction(Request $request, User $user): Response
     {
         if ($user instanceof User && in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
             $this->canHandleFounderUser($user);
@@ -94,8 +97,8 @@ final class AdminUserController extends AbstractAdminController
                 );
             }
 
-            $em->persist($user);
-            $em->flush();
+            $this->em->persist($user);
+            $this->em->flush();
             $this->addFlash('success', "L'utilisateur " . $user . " a bien été modifié.");
 
             return $this->redirectTo($request, $user->getId());
@@ -120,6 +123,82 @@ final class AdminUserController extends AbstractAdminController
         }
 
         return $this->redirectToRoute('admin_app_user_list', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/group', name: 'admin_app_user_group', methods:['GET', 'POST'])]
+    public function groupAction(Request $request, User $user, bool $enableForum, ForumGroupRepository $forumGroupRepository): Response
+    {
+        if (false === $enableForum) {
+            throw $this->createNotFoundException('Not Found');
+        }
+
+        $userGroups = [];
+        foreach ($user->getUserGroups() as $group) {
+            $userGroups[] = $group->getForumGroup()->getId();
+        }
+
+        $groupId = $request->request->getInt('group', 0);
+        $defaultGroup = $request->request->getInt('defaultGroup', 0);
+
+        if ($request->isMethod('POST') && $groupId !== 0) {
+            if ($groupId === 0 || in_array($groupId, $userGroups)) {
+                $this->addFlash('error', 'Cet utilisateur est déjà membre de ce groupe.');
+
+                return $this->redirectToRoute('admin_app_user_group', ['id' => $user->getId()]);
+            }
+
+            $group = $forumGroupRepository->find($groupId);
+
+            if (null === $group) {
+                $this->addFlash('error', "Ce groupe n'existe pas.");
+
+                return $this->redirectToRoute('admin_app_user_group', ['id' => $user->getId()]);
+            }
+
+            $isDefault = (empty($userGroups));
+            $userGroup = (new UserGroup())->setDefaultGroup($isDefault)->setMember($user)->setForumGroup($group);
+            $this->em->persist($userGroup);
+            $this->em->flush();
+            $this->addFlash('success', "Le membre a bien été ajouté au groupe.");
+
+            return $this->redirectToRoute('admin_app_user_group', ['id' => $user->getId()]);
+        }
+
+        if ($request->isMethod('POST')) {
+            $toDelete = isset($request->request->all()['delete']) ? $request->request->all()['delete'] : [];
+
+            foreach ($user->getUserGroups() as $userGroup) {
+                if (in_array($userGroup->getId(), $toDelete, false)) {
+                    $user->removeUserGroup($userGroup);
+                } elseif ($userGroup->getForumGroup()->getId() !== $defaultGroup) {
+                    $userGroup->setDefaultGroup(false);
+                    $this->em->persist($userGroup);
+                } else {
+                    $userGroup->setDefaultGroup(true);
+                    $this->em->persist($userGroup);
+                }
+            }
+            
+            $this->em->persist($user);
+            $this->em->flush();
+            $this->addFlash('success', "Les modifications ont bien été enregistrés.");
+
+            return $this->redirectToRoute('admin_app_user_group', ['id' => $user->getId()]);
+        }
+
+        $groups = $forumGroupRepository->findAll();
+
+        $filteredGroups = [];
+        foreach ($groups as $group) {
+            if (!in_array($group->getId(), $userGroups)) {
+                $filteredGroups[] = $group;
+            }
+        }
+
+        return $this->render('Admin/user/group.html.twig', [
+            'user' => $user,
+            'groups' => $filteredGroups,
+        ]);
     }
 
     private function canHandleFounderUser(User $user): void

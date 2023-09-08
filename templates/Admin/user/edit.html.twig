@@ -17,34 +17,7 @@
 {% endblock %}
 
 {% block toolbar %}
-	<div class="dropdown d-inline">
-        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton9" data-bs-toggle="dropdown" aria-expanded="false">
-            Action
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton9">
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_user_create') }}">
-                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                    Ajouter
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_user_show', {id: user.id}) }}">
-                    <i class="fas fa-info-circle"></i>
-                    Informations
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_user_list') }}">
-                    <i class="fas fa-list" aria-hidden="true"></i>
-                    Retour à la liste
-                </a>
-            </li>
-        </ul>
-    </div>
-    {% if 'ROLE_ADMIN' not in user.roles and 'ROLE_SUPER_ADMIN' not in user.roles %}
-        {% include "Admin/components/_delete_modal.html.twig" with { element: user, path: 'admin_app_user_delete', full: true } %}
-    {% endif %}
+    {% include "Admin/user/_toolbar.html.twig" %}
 {% endblock %}
 
 {% block body %}

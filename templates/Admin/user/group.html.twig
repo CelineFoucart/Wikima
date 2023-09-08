@@ -1,0 +1,119 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Gérer les groupes de "{{ user }}"{% endblock %}
+{% block activeAdmin %}active show{% endblock %}
+{% block activeUser %} active {% endblock %}
+{% block page_title %}Gérer les groupes de "{{ user }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_user_list') }}" class="text-reset">
+			Utilisateur
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Gérer les groupes
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	{% include "Admin/user/_toolbar.html.twig" %}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-7 mb-2">
+            <div class="card border-top-primary">
+                <div class="card-header">
+                    <h2 class="card-title h5 mb-0">Groupes de l'utilisateur</h2>
+                </div>
+                <form action="" method="post">
+                    <div class="card-body">
+                        <table class="table mb-0 table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nom</th>
+                                    <th>Par défaut</th>
+                                    <th>
+                                        <span class="fw-bold text-danger">Suppression</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for userGroup in user.userGroups %}
+                                <tr>
+                                    <td data-label="Nom">
+                                        <label class="fw-bold form-check-label" for="default{{ userGroup.forumGroup.id }}" style="color: {{ userGroup.forumGroup.colour ? userGroup.forumGroup.colour : '#000000' }}">
+                                            {{ userGroup.forumGroup.title }}
+                                        </label>
+                                    </td>
+                                    <td data-label="Par défaut">
+                                        <div class="form-check">
+                                            <input 
+                                                class="form-check-input" 
+                                                type="radio" 
+                                                name="defaultGroup" 
+                                                value="{{ userGroup.forumGroup.id }}"
+                                                id="default{{ userGroup.forumGroup.id }}"
+                                                {{ userGroup.defaultGroup ? 'checked' : '' }}>
+                                        </div>
+                                    </td>
+                                    <td data-label="Supprimer">
+                                        <div class="form-check">
+                                            <input class="form-check-input" name="delete[]" type="checkbox" value="{{ userGroup.id }}" id="delete{{ userGroup.id }}">
+                                            <label class="form-check-label fw-bold text-danger" for="delete{{ userGroup.id }}">
+                                                Supprimer ?
+                                            </label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="2">Aucun groupe</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        <div class="text-end mt-3">
+                            <button type="submit" class="btn btn-success btn-sm">Sauvegarder</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="card border-top-primary">
+                <div class="card-header">
+                    <h2 class="card-title h5 mb-0">Groupes</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table data-table mb-0 table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for forum_group in groups %}
+                            <tr>
+                                <td data-label="Nom affiché">
+                                    <span class="fw-bold" style="color: {{ forum_group.colour ? forum_group.colour : '#000000' }}">
+                                        {{ forum_group.title }}
+                                    </span>
+                                </td>
+                                <td data-label="Actions">
+                                    <form action="" method="post">
+                                        <input type="hidden" name="group" value="{{ forum_group.id }}">
+                                        <button type="submit" class="btn btn-sm btn-success"><i class="fas fa-plus-circle" aria-hidden="true"></i> Ajouter</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

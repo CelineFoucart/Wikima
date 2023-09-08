@@ -17,31 +17,7 @@
 {% endblock %}
 
 {% block toolbar %}
-	<div class="dropdown">
-        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton10" data-bs-toggle="dropdown" aria-expanded="false">
-            Action
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton10">
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_user_create') }}">
-                    <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                    Ajouter
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_user_edit', {id: user.id}) }}">
-                    <i class="fas fa-edit" aria-hidden="true"></i>
-                    Editer
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_user_list') }}">
-                    <i class="fas fa-list" aria-hidden="true"></i>
-                    Retour à la liste
-                </a>
-            </li>
-        </ul>
-    </div>
+	{% include "Admin/user/_toolbar.html.twig" %}
 {% endblock %}
 
 {% block body %}
@@ -67,6 +43,14 @@
                             <tr>
                                 <th>Création</th>
                                 <td>{{ user.createdAt|date(date_format) }}</td>
+                            </tr>
+                            <tr>
+                                <th>Rang</th>
+                                <td>{{ user.rank }}</td>
+                            </tr>
+                            <tr>
+                                <th>Localisation</th>
+                                <td>{{ user.localisation }}</td>
                             </tr>
                         </tbody>
                     </table>

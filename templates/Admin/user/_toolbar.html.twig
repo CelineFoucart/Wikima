@@ -1,0 +1,26 @@
+
+<div class="btn-group">
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_user_create') }}" data-bs-toggle="tooltip" title="Ajouter">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+    </a>
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_user_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
+        <i class="fas fa-list" aria-hidden="true"></i>
+    </a>
+</div>
+
+<div class="btn-group">                  
+    <a href="{{ path('admin_app_user_show', {id: user.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+        <i class="fas fa-info-circle"></i>
+    </a>
+    <a href="{{ path('admin_app_user_edit', {id: user.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+    </a>
+    {% if enable_forum == 1 %}
+        <a href="{{ path('admin_app_user_group', {id: user.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Groupes">
+            <i class="fas fa-user-tag" aria-hidden="true"></i>
+        </a>
+    {% endif %}
+    {% if 'ROLE_ADMIN' not in user.roles and 'ROLE_SUPER_ADMIN' not in user.roles %}
+        {% include "Admin/components/_delete_modal.html.twig" with { element: user, path: 'admin_app_user_delete', full: false } %}
+    {% endif %}
+</div>

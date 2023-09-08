@@ -22,6 +22,12 @@ class AccountType extends AbstractType
     {
         $builder
             ->add('username', TextType::class)
+            ->add('rank', TextType::class, [
+                'required' => false,
+            ])
+            ->add('localisation', TextType::class, [
+                'required' => false,
+            ])
             ->add('email', EmailType::class)
         ;
     }

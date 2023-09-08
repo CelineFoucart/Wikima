@@ -57,7 +57,6 @@
                                     <a href="{{ path('admin_app_user_show', {id: user.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
                                         <i class="fas fa-info-circle"></i>
                                     </a>
-
                                     {% if 'ROLE_SUPER_ADMIN' not in user.roles %}
                                         <a href="{{ path('admin_app_user_edit', {id: user.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
                                             <i class="fas fa-pencil-alt" aria-hidden="true"></i>
@@ -65,6 +64,11 @@
                                     {% elseif 'ROLE_SUPER_ADMIN' in user.roles and is_granted('ROLE_SUPER_ADMIN') %}
                                         <a href="{{ path('admin_app_user_edit', {id: user.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
                                             <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                        </a>
+                                    {% endif %}
+                                    {% if enable_forum == 1 %}
+                                        <a href="{{ path('admin_app_user_group', {id: user.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Groupes">
+                                            <i class="fas fa-user-tag" aria-hidden="true"></i>
                                         </a>
                                     {% endif %}
                                     {% if 'ROLE_ADMIN' not in user.roles and 'ROLE_SUPER_ADMIN' not in user.roles %}
