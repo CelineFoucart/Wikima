@@ -1,5 +1,5 @@
 <div class="btn-group position-absolute top-0 end-0">
-    {% if true %}
+    {% if (post.id == app.user.id and topic.locked == false) or is_granted('ROLE_MODERATOR') %}
         <a href="#" 
             class="btn btn-outline-secondary btn-sm" 
             data-bs-toggle="tooltip" 
@@ -15,7 +15,7 @@
             <i class="fas fa-edit"></i>
         </a>
     {% endif %}
-    {% if true %}
+    {% if is_granted('ROLE_MODERATOR') %}
         <a href="#" 
             class="btn btn-outline-secondary btn-sm" 
             data-bs-toggle="tooltip" 
@@ -32,6 +32,8 @@
             title="Rapporter le message">
             <i class="fas fa-exclamation-triangle"></i>
         </a>
+    {% endif %}
+    {% if is_granted('ROLE_USER') and topic.locked == false %}
         <a href="#" 
             class="btn btn-outline-secondary btn-sm" 
             data-bs-toggle="tooltip" 

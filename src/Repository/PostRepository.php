@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use App\Service\PaginatorService;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * @extends ServiceEntityRepository<Post>
@@ -16,33 +18,30 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PostRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private PaginatorService $paginatorService;
+
+    public function __construct(ManagerRegistry $registry, PaginatorService $paginatorService)
     {
         parent::__construct($registry, Post::class);
+        $this->paginatorService = $paginatorService;
     }
 
-//    /**
-//     * @return Post[] Returns an array of Post objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Returns the paginated result of Topic.
+     */
+    public function findPaginated(int $forumId, int $page, int $limit = 30): PaginationInterface
+    {
+        $builder = $this->createQueryBuilder('p')
+            ->leftJoin('p.author', 'u')->addSelect('u')
+            ->leftJoin('u.userGroups', 'g')->addSelect('g')
+            ->leftJoin('g.forumGroup', 'fg')->addSelect('fg')
+            ->leftJoin('p.topic', 't')->andWhere('t.id = :id')
+            ->setParameter('id', $forumId)
+            ->orderBy('p.createdAt', 'ASC')
+        ;
 
-//    public function findOneBySomeField($value): ?Post
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
+
+        return $this->getPaginatedQuery($builder, $page);
+    }
 }

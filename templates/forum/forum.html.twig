@@ -21,7 +21,7 @@
     <aside class="d-flex justify-content-between">
         <div>
             {% if is_granted('ROLE_USER') %}
-                <a href="#" class="btn btn-outline-secondary">
+                <a href="{{ path('app_forum_topic_new', {slug: forum.slug}) }}" class="btn btn-outline-secondary">
                     Nouveau sujet <i class="bi bi-pencil-fill"></i>
                 </a>
             {% endif %}

@@ -57,7 +57,7 @@ class ForumController extends AbstractController
     }
 
     #[Route('/forum-{slug}', name: 'app_forum_forum_show')]
-    public function forum(Forum $forum, TopicRepository $topicRepository, Request $request): Response
+    public function forum(Forum $forum, TopicRepository $topicRepository, Request $request, int $perPageOdd): Response
     {
         $hasAccess = $this->hasAccess($this->getCurrentUserRoles(), $forum);
 
@@ -66,7 +66,7 @@ class ForumController extends AbstractController
         }
 
         $page = $request->query->getInt('page', 1);
-        $topics = $topicRepository->findPaginated($forum->getId(), $page);
+        $topics = $topicRepository->findPaginated($forum->getId(), $page, $perPageOdd);
 
         return $this->render('forum/forum.html.twig', [
             'forum' => $forum,

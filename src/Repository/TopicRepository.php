@@ -29,13 +29,13 @@ class TopicRepository extends ServiceEntityRepository
     /**
      * Returns the paginated result of Topic.
      */
-    public function findPaginated(int $forumId, int $page, int $limit = 30): PaginationInterface
+    public function findPaginated(int $topicId, int $page, int $limit = 30): PaginationInterface
     {
         $builder = $this->createQueryBuilder('t')
             ->leftJoin('t.author', 'u')->addSelect('u')
             ->leftJoin('u.userGroups', 'g')->addSelect('g')
             ->leftJoin('t.forum', 'f')->andWhere('f.id = :id')
-            ->setParameter('id', $forumId)
+            ->setParameter('id', $topicId)
             ->orderBy('t.createdAt', 'DESC')
         ;
 

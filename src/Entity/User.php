@@ -448,4 +448,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getDefaultColour(): string
+    {
+        $color = '#000';
+
+        if ($this->userGroups->isEmpty()) {
+            return $color;
+        }
+
+        foreach ($this->userGroups as $userGroup) {
+            if ($userGroup->isDefaultGroup()) {
+                $color = $userGroup->getForumGroup()->getColour();
+            }
+        }
+
+        return $color;
+    }
 }
