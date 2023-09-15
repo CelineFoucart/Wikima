@@ -7,46 +7,55 @@
 {% set title_page = "Liste des membres de "~ app_name %}
 
 {% block body %}
-	<section class="py-5 container-fluid">
-		<h2>Les contributeurs de {{ app_name }}</h2>
-		<table class="table mb-0">
-			<thead>
-				<tr>
-					<th>Pseudo</th>
-					<th>Roles</th>
-					<th>Contributions</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for user in users %}
-					<tr>
-						<td data-label="Pseudo">
-							<a href="{{ path('app_user_show', {id:user.id}) }}">{{ user.username }}</a>
-						</td>
-						<td data-label="Roles">
-							{{ format_roles(user.roles) }}
-						</td>
-						<td data-label="Contributions">
-							<a href="{{ path('app_article_user', {id: user.id}) }}">articles publiés</a>
-						</td>
-					</tr>
-				{% else %}
-					<tr>
-						<td colspan="3" class="text-center">Aucun membre trouvé</td>
-					</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		<p class="mt-1">
-            {% set total = users.getTotalItemCount %}            
-            {% set current = users|length %}
-            Affichage de <span class="fw-bold">{{ current }}</span>
-            sur <span class="fw-bold">{{ total }}</span>
-            utilisateur{{ total > 1 ? 's' : '' }}
-        </p>
+	<section class="mt-1 container-fluid">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Membres</li>
+			</ol>
+		</nav>
 
-		<div class="navigation">
-			{{ knp_pagination_render(users) }}
+		<div class="py-5">
+			<h2>Les contributeurs de {{ app_name }}</h2>
+			<table class="table mb-0">
+				<thead>
+					<tr>
+						<th>Pseudo</th>
+						<th>Roles</th>
+						<th>Contributions</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for user in users %}
+						<tr>
+							<td data-label="Pseudo">
+								<a href="{{ path('app_user_show', {id:user.id}) }}">{{ user.username }}</a>
+							</td>
+							<td data-label="Roles">
+								{{ format_roles(user.roles) }}
+							</td>
+							<td data-label="Contributions">
+								<a href="{{ path('app_article_user', {id: user.id}) }}">articles publiés</a>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="3" class="text-center">Aucun membre trouvé</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<p class="mt-1">
+				{% set total = users.getTotalItemCount %}            
+				{% set current = users|length %}
+				Affichage de <span class="fw-bold">{{ current }}</span>
+				sur <span class="fw-bold">{{ total }}</span>
+				utilisateur{{ total > 1 ? 's' : '' }}
+			</p>
+
+			<div class="navigation">
+				{{ knp_pagination_render(users) }}
+			</div>
 		</div>
 	</section>
 {% endblock %}

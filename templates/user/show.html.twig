@@ -3,31 +3,56 @@
 {% block title %}Profil de {{ user.username }}{% endblock %}
 
 {% block body %}
-<section class="my-5 container-fluid">
-    <h2>Informations sur {{ user.username }}</h2>
-    <div class="table-responsive">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Pseudo</th>
-                    <th>Roles</th>
-                    <th>Articles publiés</th>
-                    {% if enable_comment == 1 %}
-                        <th>Commentaires postés</th>
-                    {% endif %}
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td data-label="Pseudo">{{ user.username }}</td>
-                    <td data-label="Roles">{{ format_roles(user.roles) }}</td>
-                    <td data-label="Articles publiés">{{ user.articles|length }}</td>
-                    {% if enable_comment == 1 %}
-                        <td data-label="Commentaires postés">{{ user.comments|length }}</td>
-                    {% endif %}
-                </tr>
-            </tbody>
-        </table>
+<section class="container mt-1">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+            <li class="breadcrumb-item"><a href="{{ path('app_user') }}">Membres</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ user.username }}</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow my-5">
+        <div class="card-header">
+            <h2 class="h5 mb-0">Informations sur {{ user.username }}</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-3">
+                    {# ajout avatar #}
+                    <div class="no-avatar text-center rounded-3 p-5">
+                        <i class="fas fa-user fa-7x"></i>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <h3>{{ user.username }}</h3>
+                    <p class="small">{{ format_roles(user.roles) }}</p>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <h3 class="h5">A propos</h3>
+                            <div class="bg-light rounded-3 p-2">
+                                <ul class="list-unstyled mb-0">
+                                    <li><span class="fw-bold">Localisation :</span> {{ user.localisation }}</li>
+                                    <li><span class="fw-bold">Rang :</span> {{ user.rank }}</li>
+                                    <li><span class="fw-bold">Inscription :</span> {{ user.createdAt | date(date_format) }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <h3 class="h5">Statistiques</h3>
+                            <div class="bg-light rounded-3 p-2">
+                                <ul class="list-unstyled mb-0">
+                                    <li><span class="fw-bold">Articles :</span> {{ user.articles|length }}</li>
+                                    {% if enable_comment == 1 %}
+                                        <li><span class="fw-bold">Commentaires :</span> {{ user.comments|length}}</li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 {% endblock %}
