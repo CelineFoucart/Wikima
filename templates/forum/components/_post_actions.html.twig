@@ -1,45 +1,54 @@
-<div class="btn-group position-absolute top-0 end-0">
-    {% if (post.id == app.user.id and topic.locked == false) or is_granted('ROLE_MODERATOR') %}
-        <a href="#" 
-            class="btn btn-outline-secondary btn-sm" 
-            data-bs-toggle="tooltip" 
-            data-bs-placement="top"
-            title="Supprimer">
-            <i class="fas fa-trash-alt"></i>
-        </a>
-        <a href="#" 
-            class="btn btn-outline-secondary btn-sm" 
-            data-bs-toggle="tooltip" 
-            data-bs-placement="top"
-            title="Editer">
-            <i class="fas fa-edit"></i>
-        </a>
-    {% endif %}
-    {% if is_granted('ROLE_MODERATOR') %}
-        <a href="#" 
-            class="btn btn-outline-secondary btn-sm" 
-            data-bs-toggle="tooltip" 
-            data-bs-placement="top"
-            title="Informations">
-            <i class="fas fa-info-circle"></i>
-        </a> 
-    {% endif %}
-    {% if is_granted('ROLE_USER') %}
-        <a href="#" 
-            class="btn btn-outline-secondary btn-sm" 
-            data-bs-toggle="tooltip" 
-            data-bs-placement="top"
-            title="Rapporter le message">
-            <i class="fas fa-exclamation-triangle"></i>
-        </a>
-    {% endif %}
-    {% if is_granted('ROLE_USER') and topic.locked == false %}
-        <a href="#" 
-            class="btn btn-outline-secondary btn-sm" 
-            data-bs-toggle="tooltip" 
-            data-bs-placement="top"
-            title="Citer">
-            <i class="fas fa-reply"></i>
-        </a>
+{% set can_edit = (post.id == app.user.id and topic.locked == false) or is_granted('ROLE_MODERATOR') %}
+
+<div class="position-absolute top-0 end-0 d-flex">
+    <div class="btn-group">
+        {% if can_edit %}
+            <a href="{{ path('app_post_edit', {id: post.id, page: page})}}" 
+                class="btn btn-outline-secondary btn-sm " 
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                title="Editer">
+                <i class="fas fa-edit"></i>
+            </a>
+        {% endif %}
+        {% if is_granted('ROLE_MODERATOR') %}
+            <a href="#" 
+                class="btn btn-outline-secondary btn-sm" 
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                title="Informations">
+                <i class="fas fa-info-circle"></i>
+            </a> 
+        {% endif %}
+        {% if is_granted('ROLE_USER') %}
+            <a href="#" 
+                class="btn btn-outline-secondary btn-sm" 
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                title="Rapporter le message">
+                <i class="fas fa-exclamation-triangle"></i>
+            </a>
+        {% endif %}
+        {% if is_granted('ROLE_USER') and topic.locked == false %}
+            <a href="{{ path('app_forum_topic_show', {slug: topic.slug, page: page, reply: post.id}) }}#message-form" 
+                class="btn btn-outline-secondary btn-sm" 
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                title="Citer">
+                <i class="fas fa-reply"></i>
+            </a>
+        {% endif %}
+    </div>
+    {% if can_edit %}
+        <form action="{{ path('app_post_delete', {id: post.id})}}" method="post">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+            <button type="submit"
+                class="btn btn-outline-danger btn-sm ms-1" 
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                title="Supprimer">
+                <i class="fas fa-trash-alt"></i>
+            </button>
+        </form>
     {% endif %}
 </div>

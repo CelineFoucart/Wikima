@@ -44,4 +44,22 @@ class PostRepository extends ServiceEntityRepository
 
         return $this->getPaginatedQuery($builder, $page);
     }
+
+    /**
+     * @param int $topicId
+     * 
+     * @return Post[]
+     */
+    public function findFirstPost(int $topicId): array
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.topic', 't')->addSelect('t')
+            ->andWhere('t.id = :id')
+            ->setParameter('id', $topicId)
+            ->orderBy('p.createdAt', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

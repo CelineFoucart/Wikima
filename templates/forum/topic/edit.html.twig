@@ -1,0 +1,18 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block title %}Editer un message | Forum de {{ app_name }}{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_category_show', {slug: topic.forum.category.slug}) }}">{{ topic.forum.category.title }}</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_forum_show', {slug: topic.forum.slug}) }}">{{ topic.forum.title }}</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">{{ topic.title }}</li> 
+{% endblock %}
+
+{% block forum_content %}
+    <h2>{{ topic.title }}</h2>
+    {% include "forum/topic/_form.html.twig" %}
+{% endblock %}

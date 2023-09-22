@@ -6,6 +6,6 @@
         {% else %}
             <span class="author">Anonyme</span> &raquo;
         {% endif %}
-        {{ "now"|date(date_format) }} 
+        {{ post.createdAt|date(date_format) }} 
     </small>
 </p>

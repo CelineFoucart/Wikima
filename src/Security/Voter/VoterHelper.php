@@ -21,6 +21,11 @@ class VoterHelper
         return in_array("ROLE_ADMIN", $user->getRoles()) || in_array("ROLE_SUPER_ADMIN", $user->getRoles());
     }
 
+    public function canModerateForum(User $user): bool
+    {
+        return $this->canModerate($user) || in_array("ROLE_MODERATOR", $user->getRoles());
+    }
+
     public function isEditor(User $user): bool
     {
         return in_array("ROLE_EDITOR", $user->getRoles()) || $this->canModerate($user);

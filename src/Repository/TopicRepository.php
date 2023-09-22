@@ -43,14 +43,4 @@ class TopicRepository extends ServiceEntityRepository
 
         return $this->getPaginatedQuery($builder, $page);
     }
-
-//    public function findOneBySomeField($value): ?Topic
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

@@ -45,19 +45,19 @@
                 </div>
                 <div class="topic-bloc">
                     <h3 class="forum-row-title">
-                        <a href="{{ path('app_forum_topic_show', {slug: topic.slug})}}">{{ topic.title|capitalize }}</a>
+                        <a href="{{ path('app_forum_topic_show', {slug: topic.slug})}}">{{ topic.title }}</a>
                     </h3>
-                    <p class="forum-description m-0">
+                    <p class="forum-description m-0 small">
                         Par 
                         {% if topic.author is not null %}
                         
-                            <a href="{{path('profile', {id: topic.author.id})}}" style="color:{{ topic.author.defaultRole.color }}" class="fw-bold">
+                            <a href="{{path('app_profile', {id: topic.author.id})}}" style="color:{{ topic.author.defaultColour }}" class="fw-bold text-decoration-none">
                                 {{ topic.author.username }}
                             </a>
                         {% else %}
                             <span class="fw-bold">Anonyme</span>
                         {% endif %}
-                        &raquo; {{ "now" | date(date_format) }}
+                        &raquo; {{ topic.createdAt | date(date_format) }}
                     </p>
                 </div>
             </article>
