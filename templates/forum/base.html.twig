@@ -19,7 +19,7 @@
                     {% endif %}
                     {% if is_granted('ROLE_MODERATOR') %}
                         <li>
-                            <a href="#" class="text-decoration-none">
+                            <a href="{{ path('app_moderation_home') }}" class="text-decoration-none">
                                 <i class="fas fa-gavel fa-fw" aria-hidden="true"></i> Modération
                             </a>
                         </li>

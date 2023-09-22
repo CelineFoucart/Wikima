@@ -12,7 +12,7 @@
             </a>
         {% endif %}
         {% if is_granted('ROLE_MODERATOR') %}
-            <a href="#" 
+            <a href="{{ path('app_moderation_post', {id: post.id}) }}" 
                 class="btn btn-outline-secondary btn-sm" 
                 data-bs-toggle="tooltip" 
                 data-bs-placement="top"

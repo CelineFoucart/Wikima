@@ -1,0 +1,79 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block title %}Modérer un message | Forum de {{ app_name }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/choicesjs/choices.min.css') }}"/>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_moderation_home') }}">Modération</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Information sur un message</li> 
+{% endblock %}
+
+{% block forum_content %}
+    <h2>Panneau de modération</h2>
+    <section class="rounded-3 bg-light my-2 p-3 post-container">
+        <h3 class="h5">
+            <div class="row align-items-center">
+                <div class="col-10">Informations sur le message</div>
+                <div class="col-2 text-end">
+                    <a href="{{ path('app_post_edit', {id: post.id})}}" 
+                        class="btn btn-outline-secondary btn-sm" 
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top"
+                        title="Editer">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <form action="{{ path('app_post_delete', {id: post.id})}}" method="post" class="d-inline-block">
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+                        <button type="submit"
+                            class="btn btn-outline-danger btn-sm" 
+                            data-bs-toggle="tooltip" 
+                            data-bs-placement="top"
+                            title="Supprimer">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </h3>
+        <div class="rounded-3 bg-white p-3 mt-1">
+            <h3 class="h5 text-default">{{post.title}}</h3>
+            {% include "forum/components/_post_info.html.twig" with {author: post.author } %}
+            <p class="mb-0">
+                <small>
+                    <strong>Sujet :</strong> <a href="{{ path('app_forum_topic_show', {slug: post.topic.slug})}}">{{ post.topic.title }}</a>
+                </small>
+            </p>
+            <hr>
+            <div class="mb-2">
+                {{ post.content|raw }}
+            </div>
+        </div>
+        <div class="rounded-3 bg-white p-3 mt-1">
+            <h3 class="h5">Modifier l'auteur</h3>
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-default btn-sm">Modifier</button>
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
+<script>
+    new Choices(document.querySelector('#form_author'), {
+        removeItems: true,
+        removeItemButton: true,
+        allowHTML: false,
+        noResultsText: 'Aucun résultat',
+        noChoicesText: 'Aucun élément à choisir',
+        itemSelectText: 'Cliquez pour choisir',
+        shouldSort: false,
+    });
+</script>
+{% endblock %}

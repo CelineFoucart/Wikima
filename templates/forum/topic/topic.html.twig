@@ -21,7 +21,7 @@
         <p> 
             Par 
             {% if topic.author is not null %}
-                <a href="{{ path('app_profile', {id: topic.author.id})}}" style="color:{{ topic.author.defaultColour }}" class="author">
+                <a href="{{ path('app_user_show', {id: topic.author.id})}}" style="color:{{ topic.author.defaultColour }}" class="author">
                 {{ topic.author.username }}
             </a>
             {% else %}
@@ -39,7 +39,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="moderationAction">
                             <li>
-                                <a class="dropdown-item" href="#" title="informations">
+                                <a class="dropdown-item" href="{{ path('app_moderation_topic', {id: topic.id}) }}" title="informations">
                                     Informations sur le sujet
                                 </a>
                             </li>
@@ -92,7 +92,7 @@
                         {% if is_granted('ROLE_USER') %}
                             {% include "forum/components/_post_actions.html.twig" %}
                         {% endif %}
-                        <div class="mb-2">
+                        <div class="mb-2 mt-3">
                             {{ post.content|raw }}
                         </div>
                     </div>
