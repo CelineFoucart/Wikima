@@ -10,7 +10,7 @@
     <li class="breadcrumb-item">
         <a href="{{ path('app_moderation_home') }}">Modération</a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page">Information sur un message</li> 
+    <li class="breadcrumb-item active" aria-current="page">Informations sur un message</li> 
 {% endblock %}
 
 {% block forum_content %}
@@ -27,21 +27,12 @@
                         title="Editer">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <form action="{{ path('app_post_delete', {id: post.id})}}" method="post" class="d-inline-block">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
-                        <button type="submit"
-                            class="btn btn-outline-danger btn-sm" 
-                            data-bs-toggle="tooltip" 
-                            data-bs-placement="top"
-                            title="Supprimer">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </form>
+                    {% include "Admin/components/_delete_modal.html.twig" with { element: post, path: 'app_post_delete' } %}
                 </div>
             </div>
         </h3>
         <div class="rounded-3 bg-white p-3 mt-1">
-            <h3 class="h5 text-default">{{post.title}}</h3>
+            <h3 class="h5">{{post.title}}</h3>
             {% include "forum/components/_post_info.html.twig" with {author: post.author } %}
             <p class="mb-0">
                 <small>
@@ -59,6 +50,23 @@
                 {{ form_widget(form) }}
                 <button type="submit" class="btn btn-default btn-sm">Modifier</button>
             {{ form_end(form) }}
+        </div>
+
+        <div class="rounded-3 bg-white p-3 mt-1">
+            <h3 class="h5">Rapports</h3>
+            {% for report in post.reports %}
+                <div class="mx-4 ps-2 border-2 border-start mb-1">
+                    <h4 class="h6">
+                        Rapport du {{ report.post.createdAt|date(date_format) }} par
+                        <a href="{{ path('app_user_show', {id: report.author.id})}}" style="color:{{ report.author.defaultColour }}" class="author">
+                            {{ report.author.username }}
+                        </a>
+                    </h4>
+                    <p>{{ report.message|nl2br }}</p>
+                </div>
+            {% else %}
+                <p class="fst-italic">Aucun rapport</p>
+            {% endfor %}
         </div>
     </section>
 {% endblock %}

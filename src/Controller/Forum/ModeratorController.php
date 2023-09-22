@@ -3,9 +3,12 @@
 namespace App\Controller\Forum;
 
 use App\Entity\Post;
+use App\Entity\Report;
 use App\Entity\Topic;
 use App\Entity\User;
+use App\Form\TopicType;
 use App\Repository\PostRepository;
+use App\Repository\ReportRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,9 +28,11 @@ class ModeratorController extends AbstractController
     }
 
     #[Route('/', name: 'app_moderation_home')]
-    public function indexAction(): Response
+    public function indexAction(ReportRepository $reportRepository): Response
     {
-        return $this->render('forum/moderation/index.html.twig');
+        return $this->render('forum/moderation/index.html.twig', [
+            'reports' => $reportRepository->findAll(),
+        ]);
     }
 
     #[Route('/topic/{id}', name: 'app_moderation_topic')]
@@ -36,7 +41,7 @@ class ModeratorController extends AbstractController
         $post = $postRepository->findFirstPost($topic->getId());
         $post = (empty($post)) ? null : $post[0];
 
-        $form = $this->getAuthorForm($topic);
+        $form = $this->createForm(TopicType::class, $topic);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) { 
@@ -52,6 +57,18 @@ class ModeratorController extends AbstractController
             'form' => $form,
             'post' => $post,
         ]);
+    }
+
+    #[Route('/topic/{id}/delete', name: 'app_moderation_topic_delete')]
+    public function deleteTopicAction(Topic $topic, Request $request): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$topic->getId(), $request->request->get('_token'))) {
+            $this->em->remove($topic);
+            $this->em->flush();
+            $this->addFlash('success', "Le sujet a été supprimé avec succès.");
+        }
+
+        return $this->redirectToRoute('app_moderation_home');
     }
 
     #[Route('/post/{id}', name: 'app_moderation_post')]
@@ -74,6 +91,18 @@ class ModeratorController extends AbstractController
         ]);
     }
 
+    #[Route('/report/{id}', name: 'app_moderation_delete', methods:['POST'])]
+    public function deleteReportAction(Report $report, Request $request): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$report->getId(), $request->request->get('_token'))) {
+            $this->em->remove($report);
+            $this->em->flush();
+            $this->addFlash('success', "Le rapport a été supprimé avec succès.");
+        }
+
+        return $this->redirectToRoute('app_moderation_home');
+    }
+
     /**
      * @param Post|Topic $entity
      * 
@@ -82,10 +111,7 @@ class ModeratorController extends AbstractController
     private function getAuthorForm(mixed $entity): FormInterface
     {
         return  $this->createFormBuilder($entity)
-            ->add('author', EntityType::class, [
-                'class' => User::class,
-                'required' => true,
-            ])
+            ->add('author', EntityType::class, ['class' => User::class,'required' => true])
             ->getForm()
         ;
     }

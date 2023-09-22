@@ -19,8 +19,15 @@
                     {% endif %}
                     {% if is_granted('ROLE_MODERATOR') %}
                         <li>
-                            <a href="{{ path('app_moderation_home') }}" class="text-decoration-none">
+                            <a href="{{ path('app_moderation_home') }}" class="text-decoration-none position-relative">
                                 <i class="fas fa-gavel fa-fw" aria-hidden="true"></i> Modération
+                                {% set total = report_total() %}
+                                {% if total > 0 %}
+                                    <span class="position-absolute top-0 start-100 translate-middle bg-danger badge rounded-circle py-1 px-2">
+                                        {{ total }}
+                                        <span class="visually-hidden">rapports</span>
+                                    </span>
+                                {% endif %}
                             </a>
                         </li>
                     {% endif %}

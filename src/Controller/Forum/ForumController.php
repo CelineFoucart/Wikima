@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Repository\ForumCategoryRepository;
 use App\Repository\ForumGroupRepository;
 use App\Repository\TopicRepository;
+use App\Service\ForumHelper;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -18,7 +19,7 @@ use Symfony\Component\HttpFoundation\Request;
 #[Route('/forum')]
 class ForumController extends AbstractController
 {
-    public function __construct(private ForumGroupRepository $forumGroupRepository, bool $enableForum)
+    public function __construct(private ForumHelper $forumHelper, bool $enableForum)
     {
         if (false === $enableForum) {
             throw $this->createNotFoundException('Not Found');
@@ -29,14 +30,14 @@ class ForumController extends AbstractController
     public function index(ForumCategoryRepository $forumCategoryRepository): Response
     {
         return $this->render('forum/index.html.twig', [
-            'categories' => $forumCategoryRepository->findByOrder($this->getCurrentUserRoles()),
+            'categories' => $forumCategoryRepository->findByOrder($this->forumHelper->getCurrentUserRoles($this->getUser())),
         ]);
     }
 
     #[Route('/category-{slug}', name: 'app_forum_category_show')]
     public function category(#[MapEntity(expr: 'repository.findBySlug(slug)')] ForumCategory $category): Response
     {
-        $groups = $this->getCurrentUserRoles();
+        $groups = $this->forumHelper->getCurrentUserRoles($this->getUser());
         $hasAccess = $this->hasAccess($groups, $category);
         
         if (!$hasAccess) {
@@ -59,7 +60,7 @@ class ForumController extends AbstractController
     #[Route('/forum-{slug}', name: 'app_forum_forum_show')]
     public function forum(Forum $forum, TopicRepository $topicRepository, Request $request, int $perPageOdd): Response
     {
-        $hasAccess = $this->hasAccess($this->getCurrentUserRoles(), $forum);
+        $hasAccess = $this->hasAccess($this->forumHelper->getCurrentUserRoles($this->getUser()), $forum);
 
         if (!$hasAccess) {
             throw $this->createAccessDeniedException('Access Denied');
@@ -67,37 +68,13 @@ class ForumController extends AbstractController
 
         $page = $request->query->getInt('page', 1);
         $topics = $topicRepository->findPaginated($forum->getId(), $page, $perPageOdd);
+        $stickies = $topicRepository->findStickies($forum->getId());
 
         return $this->render('forum/forum.html.twig', [
             'forum' => $forum,
             'topics' => $topics,
+            'stickies' => $stickies,
         ]);
-    }
-
-    /**
-     * @return ForumGroup[]
-     */
-    private function getCurrentUserRoles(): array
-    {
-        $anonymous = $this->forumGroupRepository->findByRoleName(['roleName' => 'PUBLIC_ACCESS']);
-        
-        $user = $this->getUser();
-        if (!$user instanceof User) {
-            return $anonymous;
-        }
-
-        $userGroups = $user->getUserGroups();
-        if ($userGroups->isEmpty()) {
-            return $anonymous;
-        }
-
-        $groups = [];
-
-        foreach ($userGroups as $userGroup) {
-            $groups[] = $userGroup->getForumGroup();
-        }
-
-        return $groups;
     }
 
     /**

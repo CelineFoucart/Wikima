@@ -21,7 +21,7 @@
             </a> 
         {% endif %}
         {% if is_granted('ROLE_USER') %}
-            <a href="#" 
+            <a href="{{ path('app_post_report', {id: post.id}) }}" 
                 class="btn btn-outline-secondary btn-sm" 
                 data-bs-toggle="tooltip" 
                 data-bs-placement="top"
@@ -29,7 +29,7 @@
                 <i class="fas fa-exclamation-triangle"></i>
             </a>
         {% endif %}
-        {% if is_granted('ROLE_USER') and topic.locked == false %}
+        {% if (is_granted('ROLE_USER') and topic.locked == false) or is_granted('ROLE_MODERATOR') %}
             <a href="{{ path('app_forum_topic_show', {slug: topic.slug, page: page, reply: post.id}) }}#message-form" 
                 class="btn btn-outline-secondary btn-sm" 
                 data-bs-toggle="tooltip" 
@@ -39,16 +39,7 @@
             </a>
         {% endif %}
     </div>
-    {% if can_edit %}
-        <form action="{{ path('app_post_delete', {id: post.id})}}" method="post">
-            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
-            <button type="submit"
-                class="btn btn-outline-danger btn-sm ms-1" 
-                data-bs-toggle="tooltip" 
-                data-bs-placement="top"
-                title="Supprimer">
-                <i class="fas fa-trash-alt"></i>
-            </button>
-        </form>
+    {% if (can_edit and post.id != firstPostId) or is_granted('ROLE_MODERATOR') %}
+        <div class="ms-1">{% include "Admin/components/_delete_modal.html.twig" with { element: post, path: 'app_post_delete' } %}</div>
     {% endif %}
 </div>

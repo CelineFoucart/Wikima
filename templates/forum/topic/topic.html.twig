@@ -17,13 +17,23 @@
                 {{ message }}
             </div>
         {% endfor %}
-        <h2>{{ topic.title }}</h2>
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-success mt-1">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <h2>
+            {% if topic.locked %}
+                <i class="fa-fw fas fa-lock"></i>
+            {% endif %}
+            {{ topic.title }}
+        </h2>
         <p> 
             Par 
             {% if topic.author is not null %}
                 <a href="{{ path('app_user_show', {id: topic.author.id})}}" style="color:{{ topic.author.defaultColour }}" class="author">
-                {{ topic.author.username }}
-            </a>
+                    {{ topic.author.username }}
+                </a>
             {% else %}
                 <span class="author">Anonyme</span>
             {% endif %}
@@ -33,29 +43,9 @@
         <div class="row">
             <div class="col-md-6">
                 {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
-                    <div class="dropdown" style="display: inline-block">
-                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="moderationAction" title="outils de modération" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-gavel fa-fw" aria-hidden="true"></i>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="moderationAction">
-                            <li>
-                                <a class="dropdown-item" href="{{ path('app_moderation_topic', {id: topic.id}) }}" title="informations">
-                                    Informations sur le sujet
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="dropdown-item" title="Déplacedr">Déplacer le sujet</a>
-                            </li>
-                            <li>
-                                <a href="#" class="dropdown-item" title="Verrouiller">Verrouiller le sujet</a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" title="supprimer">
-                                    Supprimer le sujet
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <a href="{{ path('app_moderation_topic', {id: topic.id}) }}" class="btn btn-outline-secondary" data-bs-toggle="tooltip" title="modérer le sujet">
+                        <i class="fas fa-gavel fa-fw" aria-hidden="true"></i>
+                    </a>
                 {% endif %}
             </div>
             <div class="col-md-6">
@@ -104,7 +94,7 @@
             </section>
         {% endfor %}
 
-        {% if is_granted('ROLE_USER') %}
+        {% if (is_granted('ROLE_USER') and topic.locked == false) or (is_granted('ROLE_MODERATOR'))  %}
             <footer class="mt-3">
                 {% include "forum/topic/_form.html.twig" with {title: 'Nouveau message'} %}
             </footer>

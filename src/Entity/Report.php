@@ -84,4 +84,9 @@ class Report
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return 'Rapport de ' . $this->author->getUsername();
+    }
 }

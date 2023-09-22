@@ -2,25 +2,28 @@
 
 namespace App\Controller\Forum;
 
+use DateTime;
 use App\Entity\Post;
+use App\Entity\User;
 use App\Entity\Forum;
 use App\Entity\Topic;
-use App\Entity\User;
+use App\Entity\Report;
 use App\Form\PostType;
+use DateTimeImmutable;
+use App\Form\ReportType;
 use App\Repository\PostRepository;
 use App\Repository\TopicRepository;
 use App\Security\Voter\VoterHelper;
-use DateTime;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\ExpressionLanguage\Expression;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 #[Route('/forum')]
 class TopicController extends AbstractController
@@ -65,11 +68,19 @@ class TopicController extends AbstractController
             return $this->redirect($route.$id);
         }
 
+        $firstPost = $postRepository->findFirstPost($post->getTopic()->getId());
+        $firstPostId = null;
+
+        if (!empty($firstPost)) {
+            $firstPostId = $firstPost[0]->getId();
+        }
+
         return $this->render('forum/topic/topic.html.twig', [
             'topic' => $topic,
             'posts' => $posts,
             'form' => $form,
             'page' => $page,
+            'firstPostId' => $firstPostId,
         ]);
     }
 
@@ -115,16 +126,14 @@ class TopicController extends AbstractController
     }
 
     #[Route('/post/{id}', name: 'app_post_edit')]
+    #[IsGranted(new Expression("is_granted('ROLE_USER')"))]
     public function editPost(Post $post, Request $request, PostRepository $postRepository, SluggerInterface $slugger): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $post,'Access Denied.');
 
         $topicPage = $request->query->getInt('page', 1);
-        $isFirstTopic = false;
         $firstPost = $postRepository->findFirstPost($post->getTopic()->getId());
-        if (!empty($firstPost)) {
-            $isFirstTopic = $firstPost[0]->getId() === $post->getId();
-        }
+        $isFirstTopic = $firstPost[0]->getId() === $post->getId();
 
         $topic = $post->getTopic();
         $form = $this->createForm(PostType::class, $post);
@@ -154,18 +163,60 @@ class TopicController extends AbstractController
     }
 
     #[Route('/post/{id}/delete', name: 'app_post_delete')]
-    public function deleteAction(Post $post, Request $request): Response
+    #[IsGranted(new Expression("is_granted('ROLE_USER')"))]
+    public function deleteAction(Post $post, Request $request, PostRepository $postRepository): Response
     {
-        $this->denyAccessUnlessGranted(VoterHelper::DELETE, $post);
         $topic = $post->getTopic();
+        $forum = $topic->getForum();
+        $route = $this->generateUrl('app_forum_topic_show', ['slug' => $topic->getSlug()]);
 
-        if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
-            $this->em->remove($post);
-            $this->em->flush();
-            $this->addFlash('success', "Le post a été supprimé avec succès.");
+        try {
+            $this->denyAccessUnlessGranted(VoterHelper::DELETE, $post);
+    
+            if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
+                $this->em->remove($post);
+                $firstPost = $postRepository->findFirstPost($post->getTopic()->getId());
+                $isFirstTopic = $firstPost[0]->getId() === $post->getId();
+
+                if ($isFirstTopic) {
+                    $this->em->remove($topic);
+                    $route = $this->generateUrl('app_forum_forum_show', ['slug' => $forum->getSlug()]);
+                }
+
+                $this->em->flush();
+                $this->addFlash('success', "Le post a été supprimé avec succès.");
+            } else {
+                $this->addFlash('error', "La suppression a échoué car le token CSRF est invalide.");
+            }
+        } catch (AccessDeniedException $th) {
+            $this->addFlash('error', "Vous ne pouvez pas supprimer ce message.");
         }
 
-        return $this->redirectToRoute('app_forum_topic_show', ['slug' => $topic->getSlug()]);
+        return $this->redirect($route);
+    }
+
+    #[Route('/post/{id}/report', name: 'app_post_report')]
+    #[IsGranted(new Expression("is_granted('ROLE_USER')"))]
+    public function reportAction(Post $post, Request $request): Response
+    {
+        $report = (new Report())->setAuthor($this->getUser())->setPost($post);
+        $form = $this->createForm(ReportType::class, $report);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $report->setCreatedAt(new \DateTimeImmutable());
+            $this->em->persist($report);
+            $this->em->flush();
+            $this->addFlash('success', 'Votre rapport a bien été enregistré.');
+
+            return $this->redirectToRoute('app_forum_topic_show', ["slug" => $post->getTopic()->getSlug()]);
+        }
+
+        return $this->render('forum/topic/report.html.twig', [
+            'post' => $post,
+            'form' => $form,
+            'topic' => $post->getTopic(),
+        ]);
     }
 
     private function getReplyTo(PostRepository $postRepository, Request $request): string

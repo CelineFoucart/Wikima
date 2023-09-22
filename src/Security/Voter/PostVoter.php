@@ -4,6 +4,7 @@ namespace App\Security\Voter;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Repository\PostRepository;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -11,7 +12,8 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 class PostVoter extends Voter
 {
     public function __construct(
-        private VoterHelper $voterHelper
+        private VoterHelper $voterHelper,
+        private PostRepository $postRepository
     ) {
     }
 
@@ -40,7 +42,7 @@ class PostVoter extends Voter
                 return $this->voterHelper->canModerateForum($user);
                 break;
             case VoterHelper::DELETE:
-                return $this->candEdit($user, $subject);
+                return $this->canDelete($user, $subject);
                 break;
         }
 
@@ -51,6 +53,21 @@ class PostVoter extends Voter
     {
         if ($this->voterHelper->canModerateForum($user)) {
             return true;
+        }
+
+        return $this->voterHelper->canEdit($user, $post, false);
+    }
+
+    public function canDelete(User $user, Post $post)
+    {
+        if ($this->voterHelper->canModerateForum($user)) {
+            return true;
+        }
+
+        $firstPost = $this->postRepository->findFirstPost($post->getTopic()->getId());
+        
+        if ($firstPost[0]->getId() === $post->getId()) {
+            return false;
         }
 
         return $this->voterHelper->canEdit($user, $post, false);

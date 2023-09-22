@@ -10,7 +10,7 @@
     <li class="breadcrumb-item">
         <a href="{{ path('app_moderation_home') }}">Modération</a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page">Information sur un sujet</li> 
+    <li class="breadcrumb-item active" aria-current="page">Informations sur un sujet</li> 
 {% endblock %}
 
 {% block forum_content %}
@@ -25,20 +25,11 @@
                             class="btn btn-outline-secondary btn-sm" 
                             data-bs-toggle="tooltip" 
                             data-bs-placement="top"
-                            title="Editer">
+                            title="Editer le premier message">
                             <i class="fas fa-edit"></i>
                         </a>
                     {% endif %}
-                    {# <form action="{{ path('app_post_delete', {id: post.id})}}" method="post" class="d-inline-block">
-                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ topic.id) }}">
-                        <button type="submit"
-                            class="btn btn-outline-danger btn-sm" 
-                            data-bs-toggle="tooltip" 
-                            data-bs-placement="top"
-                            title="Supprimer">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </form> #}
+                    {% include "Admin/components/_delete_modal.html.twig" with { element: topic, path: 'app_moderation_topic_delete' } %}
                 </div>
             </div>
         </h3>
@@ -67,10 +58,10 @@
             </div>
         </div>
         <div class="rounded-3 bg-white p-3 mt-1">
-            <h3 class="h5">Modifier l'auteur</h3>
+            <h3 class="h5">Modifier le sujet</h3>
             {{ form_start(form) }}
                 {{ form_widget(form) }}
-                <button type="submit" class="btn btn-default btn-sm">Modifier</button>
+                <button type="submit" class="btn btn-default btn-sm">Sauvegarder</button>
             {{ form_end(form) }}
         </div>
     </section>
@@ -79,14 +70,17 @@
 {% block javascripts %}
 <script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
 <script>
-    new Choices(document.querySelector('#form_author'), {
-        removeItems: true,
-        removeItemButton: true,
-        allowHTML: false,
-        noResultsText: 'Aucun résultat',
-        noChoicesText: 'Aucun élément à choisir',
-        itemSelectText: 'Cliquez pour choisir',
-        shouldSort: false,
+    const elements = document.querySelectorAll('[data-choices]');
+    elements.forEach(element => {
+        new Choices(element, {
+            removeItems: true,
+            removeItemButton: true,
+            allowHTML: false,
+            noResultsText: 'Aucun résultat',
+            noChoicesText: 'Aucun élément à choisir',
+            itemSelectText: 'Cliquez pour choisir',
+            shouldSort: false,
+        });
     });
 </script>
 {% endblock %}

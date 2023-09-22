@@ -29,18 +29,42 @@ class TopicRepository extends ServiceEntityRepository
     /**
      * Returns the paginated result of Topic.
      */
-    public function findPaginated(int $topicId, int $page, int $limit = 30): PaginationInterface
+    public function findPaginated(int $forumId, int $page, int $limit = 30): PaginationInterface
     {
         $builder = $this->createQueryBuilder('t')
             ->leftJoin('t.author', 'u')->addSelect('u')
             ->leftJoin('u.userGroups', 'g')->addSelect('g')
-            ->leftJoin('t.forum', 'f')->andWhere('f.id = :id')
-            ->setParameter('id', $topicId)
+            ->leftJoin('t.forum', 'f')
+            ->andWhere('f.id = :id')
+            ->andWhere('t.sticky != :sticky')
+            ->setParameter('id', $forumId)
+            ->setParameter('sticky', true)
             ->orderBy('t.createdAt', 'DESC')
         ;
 
         return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
 
         return $this->getPaginatedQuery($builder, $page);
+    }
+
+    /**
+     * @param int $forumId
+     * 
+     * @return Topic[]
+     */
+    public function findStickies(int $forumId): array
+    {
+        return $this->createQueryBuilder('t')
+            ->leftJoin('t.author', 'u')->addSelect('u')
+            ->leftJoin('u.userGroups', 'g')->addSelect('g')
+            ->leftJoin('t.forum', 'f')
+            ->andWhere('f.id = :id')
+            ->andWhere('t.sticky = :sticky')
+            ->setParameter('id', $forumId)
+            ->setParameter('sticky', true)
+            ->orderBy('t.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
     }
 }
