@@ -24,7 +24,9 @@ class AdminDashboardController extends AbstractController
     #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_EDITOR')"))]
     public function dashboardAction(StatisticsHandler $statisticsHandler, NoteRepository $noteRepository, DatabaseSize $databaseSize, PortalRepository $portalRepository, Request $request): Response
     {
-        $tables = ['category', 'portal', 'article', 'image', 'place', 'person', 'page', 'note', 'comment', 'user', 'idiom', 'timeline'];
+        $tables = [
+            'category', 'portal', 'article', 'image', 'place', 'person', 'page', 'note', 'comment', 'user', 'idiom', 'timeline', 'topic', 'post'
+        ];
 
         foreach ($tables as $table) {
             $statisticsHandler->addEntity(new SatisticsEntity($table));

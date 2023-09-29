@@ -52,6 +52,14 @@
                                 <th>Localisation</th>
                                 <td>{{ user.localisation }}</td>
                             </tr>
+                            <tr>
+                                <th>Avatar</th>
+                                <td>
+                                    {% if user.avatar is not null %}
+                                        <img src="{{ vich_uploader_asset(user) }}" class="img-fluid rounded-3" alt=" avatar de {{ user.username }}">
+                                    {% endif %}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

@@ -60,10 +60,12 @@
             <section class="rounded-3 bg-light my-2 p-2 post-container">
                 <div class="d-flex position-relative">
                     <div class="pe-2 profile-post border-end border-white">
-                        {% if true %}
-                            {# <figure class="mb-0">
-                                {{ avatar_format(post.author.avatar) }}
-                            </figure> #}
+                        {% if post.author is not null %}
+                            {% if post.author.avatar is not null %}
+                                <div class="mb-0">
+                                    <img src="{{ vich_uploader_asset(post.author) }}" class="img-fluid rounded-3" alt=" avatar de {{ post.author.username }}">
+                                </div>
+                            {% endif %}
                             <a href="{{path('app_user_show', {id: app.user.id})}}" class="author" style="color:{{ post.author.defaultColour }}">
                                 {{ post.author.username }}
                             </a>

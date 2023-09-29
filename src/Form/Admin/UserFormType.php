@@ -3,11 +3,12 @@
 namespace App\Form\Admin;
 
 use App\Entity\User;
-use App\Entity\ForumGroup;
 use App\Service\UserService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -62,6 +63,25 @@ class UserFormType extends AbstractType
             ])
             ->add('localisation', TextType::class, [
                 'required' => false,
+            ])
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2048k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/gif',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Seuls sont autorisés les fichiers jpeg, jpg, gif et png.',
+                    ]),
+                    new Image([
+                        'maxWidth' => 300,
+                        'maxHeight' => 300,
+                    ])
+                ],
+                'help' => "Seuls sont autorisés les fichiers jpeg, jpg, gif et png d'une largeur et d'une hauteur maximale de 300 pixels."
             ])
         ;
     }

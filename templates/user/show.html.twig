@@ -18,11 +18,12 @@
         </div>
         <div class="card-body">
             <div class="row">
-                <div class="col-md-3">
-                    {# ajout avatar #}
-                    <div class="no-avatar text-center rounded-3 p-5">
-                        <i class="fas fa-user fa-7x"></i>
-                    </div>
+                <div class="col-md-3 text-center p-3">
+                    {% if user.avatar is not null %}
+                        <img src="{{ vich_uploader_asset(user) }}" class="img-fluid rounded-3" alt=" avatar de {{ user.username }}">
+                    {% else %}
+                        <i class="fas fa-user fa-7x mt-3"></i>
+                    {% endif %}
                 </div>
                 <div class="col-md-9">
                     <h3>{{ user.username }}</h3>

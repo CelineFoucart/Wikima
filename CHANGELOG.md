@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2023-09-29
+
+### Fixed
+
+- Ajout du lien manquant vers la licence MIT dans la modal
+
+### Added
+
+- Ajout du module forum : catégorie de forum, forum, topic, post, groupe d'utilisateur et espace administration
+- Ajout de la possibilité d'activer ou de désactiver le module
+- Ajout de l'avatar, de la localisation et du rang dans le profil utilisateur
+
+### Changed
+
+- Affichage de l'avatar à la place de l'icone utilisateur dans les commentaires, si l'utilisateur a un avatar.
+
 ## [1.3.1] - 2023-08-25
 
 ### Fixed

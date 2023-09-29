@@ -70,5 +70,12 @@ services:
                     title: 'Langues',
                     icon: 'fas fa-language',
                     description: "Ce module permet de gérer sur l'encyclopédie des langues qui comprennent des articles que vous pouvez regrouper par catégorie."
+                },
+                {
+                    id: 'FORUM_MODULE',
+                    title: 'Forum',
+                    icon: 'fas fa-comments',
+                    description: "Ce module permet d'intégrer au site un forum pour discuter avec vos utilisateurs et vos contributeurs."
                 }
+                
             ]
