@@ -18,6 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ajout de la possibilité d'activer ou de désactiver le module
 - Ajout de l'avatar, de la localisation et du rang dans le profil utilisateur
 - Ajout d'une flèche pour retourner en haut dans les pages lieu, personnage, article et chronologie
+- Ajout du lien vers les catégories dans la navbar
+- Ajout de la personnalisation du menu de navigation sur la page d'accueil
 
 ### Changed
 

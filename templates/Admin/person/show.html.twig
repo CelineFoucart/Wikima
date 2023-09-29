@@ -27,25 +27,7 @@
 {% endblock %}
 
 {% block toolbar %}
-    <a class="btn btn-sm btn-default" href="{{ path('admin_app_person_create') }}" data-bs-toggle="tooltip" title="Ajouter">
-        <i class="fas fa-plus-circle" aria-hidden="true"></i>
-    </a>
-    <div class="btn-group">
-        <a href="{{ path('app_person_show', {slug: person.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
-            <i class="fas fa-book-reader"></i>
-        </a>                   
-        <a href="{{ path('admin_app_person_show', {id: person.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
-            <i class="fas fa-info-circle"></i>
-        </a>
-        <a data-bs-toggle="tooltip" title="Gérer l'image" class="btn btn-sm btn-default"  href="{{ path('admin_app_person_image', {id: person.id}) }}">
-            <i class="fas fa-image"></i>
-        </a>
-        <a href="{{ path('admin_app_person_edit', {id: person.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
-            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-        </a>
-        {% include "Admin/components/_archive_modal.html.twig" with { element: person, path: 'admin_app_person_archive' } %}
-        {% include "Admin/components/_delete_modal.html.twig" with { element: person, path: 'admin_app_person_delete' } %}
-    </div>
+    {% include "Admin/person/_toolbar.html.twig" %}
 {% endblock %}
 
 {% block body %}

@@ -17,25 +17,7 @@
 {% endblock %}
 
 {% block toolbar %}
-	<div class="dropdown">
-        <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
-            Action
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_comment_edit', {id: comment.id}) }}">
-                    <i class="fas fa-edit" aria-hidden="true"></i>
-                    Editer
-                </a>
-            </li>
-            <li>
-                <a class="dropdown-item" href="{{ path('admin_app_comment_list') }}">
-                    <i class="fas fa-list" aria-hidden="true"></i>
-                    Retour à la liste
-                </a>
-            </li>
-        </ul>
-    </div>
+	{% include "Admin/comment/_toolbar.html.twig" %}
 {% endblock %}
 
 {% block body %}

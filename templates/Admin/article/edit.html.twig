@@ -19,24 +19,7 @@
 {% endblock %}
 
 {% block toolbar %}
-    <a class="btn btn-sm btn-default" href="{{ path('admin_app_article_create') }}" data-bs-toggle="tooltip" title="Ajouter">
-        <i class="fas fa-plus-circle" aria-hidden="true"></i>
-    </a>
-    <div class="btn-group">
-        <a href="{{ path('app_article_show', {slug: article.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
-            <i class="fas fa-book-reader"></i>
-        </a> 
-        <a href="{{ path('admin_app_article_show', {id: article.id}) }}" class="btn btn-sm btn-default" title="Informations">
-            <i class="fas fa-info-circle"></i>
-        </a>
-        <a href="{{ path('admin_app_article_section', {id: article.id}) }}" class="btn btn-sm btn-default" title="Gérer les section">
-            <i class="fas fa-clone"></i>
-        </a>
-        <a href="{{ path('admin_app_article_gallery', {id: article.id}) }}" class="btn btn-sm btn-default" title="Gérer la galerie">
-            <i class="fa fa-image" aria-hidden="true"></i> 
-        </a>
-        {% include "Admin/components/_delete_modal.html.twig" with { element: article, path: 'admin_app_article_delete'} %}
-    </div>
+    {% include "Admin/article/_toolbar.html.twig" %}
 {% endblock %}
 
 {% block body %}

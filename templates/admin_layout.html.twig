@@ -212,6 +212,10 @@
 										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 										<span>Page</span>
 									</a>
+									<a href="{{ path('admin_app_menu_item_list') }}" class="dashboard-nav-dropdown-item {% block activeMenu %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Menu</span>
+									</a>
 									<a href="{{ path('admin_app_user_list') }}" class="dashboard-nav-dropdown-item {% block activeUser %}{% endblock %}">
 										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 										<span>Membres</span>
@@ -258,10 +262,10 @@
 					<div class="container-fluid mt-2">
 						<header class="page-header mt-3">
 							<div class="row align-items-center">
-								<div class="col-md-8">
+								<div class="col-lg-8">
 									<h1 class="fs-5 mb-0">{% block page_title %}Tableau de bord{% endblock %}</h1>
 								</div>
-								<div class="col-md-4 d-flex justify-content-end" style="gap:5px">
+								<div class="col-lg-4 d-flex justify-content-end" style="gap:5px">
 									{% block toolbar %}{% endblock %}
 								</div>
 							</div>

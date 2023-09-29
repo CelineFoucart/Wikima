@@ -19,24 +19,7 @@
 {% endblock %}
 
 {% block toolbar %}
-    <a class="btn btn-sm btn-default" href="{{ path('admin_app_timeline_create') }}" data-bs-toggle="tooltip" title="Ajouter">
-        <i class="fas fa-plus-circle" aria-hidden="true"></i>
-    </a>
-    <div class="btn-group">
-        <a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
-            <i class="fas fa-book-reader"></i>
-        </a>                   
-        <a href="{{ path('admin_app_timeline_show', {id: timeline.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
-            <i class="fas fa-info-circle"></i>
-        </a>
-        <a href="{{ path('admin_app_timeline_event', {id: timeline.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Evénements">
-            <i class="fas fa-calendar" aria-hidden="true"></i>
-        </a>  
-        <a href="{{ path('admin_app_timeline_edit', {id: timeline.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
-            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-        </a>
-        {% include "Admin/components/_delete_modal.html.twig" with { element: timeline, path: 'admin_app_timeline_delete' } %}
-    </div>
+    {% include "Admin/timeline/_toolbar.html.twig" %}
 {% endblock %}
 
 {% block javascripts %}

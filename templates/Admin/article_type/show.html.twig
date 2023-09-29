@@ -25,6 +25,9 @@
     <a class="btn btn-sm btn-default" href="{{ path('admin_app_articletype_create') }}" data-bs-toggle="tooltip" title="Ajouter">
         <i class="fas fa-plus-circle" aria-hidden="true"></i>
     </a>
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_articletype_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
+        <i class="fas fa-list" aria-hidden="true"></i>
+    </a>
     <div class="btn-group">
         <a href="{{ path('app_articletype_show', {slug: articleType.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
             <i class="fas fa-book-reader"></i>
@@ -62,7 +65,8 @@
                     <tr>
                         <th>Description</th>
                         <td>{{ articleType.description|nl2br }}</td>
-                    </tr><tr>
+                    </tr>
+                    <tr>
                         <th>Icône</th>
                         <td><i class="{{ articleType.icon }}" data-bs-toggle="tooltip" title="{{ articleType.icon }}"></i></td>
                     </tr>
