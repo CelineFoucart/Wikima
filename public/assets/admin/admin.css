@@ -6,6 +6,17 @@ body {
     background-color: #ecf0f5;
 }
 
+#page-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+#container-admin {
+    display: flex;
+    flex: 1;
+}
+
 img {
     max-width: 100%;
 }
@@ -120,9 +131,7 @@ img {
 }
 
 .wrapper {
-    margin-left: 4.5rem;
     padding-bottom: 10px;
-    margin-top: 66px;
 }
 
 .sidebar-main-brand {
@@ -278,19 +287,13 @@ h1 {
 
 /* sidebar */
 .dashboard-nav {
-    width: 4.5rem;
-    position: fixed;
-    left: 0;
-    top: 56px;
-    bottom: 0;
-    overflow: visible;
+    max-width: 4.5rem;
+    min-width: 4.5rem;
     background-color: #222d32;
+    border-right: 1px solid #222d32;
     font-size: 0.9rem;
     z-index: 9990;
-}
-
-.dashboard-nav::-webkit-scrollbar{
-    display: none;
+    padding-top: 5px;
 }
 
 .dashboard-nav a {
@@ -733,12 +736,10 @@ div.dataTables_wrapper div.dataTables_filter input {
     }
 
     .dashboard-nav {
-        width: 230px;
+        max-width: 230px;
+        min-width: 230px;
         padding: 1rem 0;
-    }
-
-    .wrapper {
-        margin-left: 230px;
+        margin-top: -1px;
     }
 
     .dashboard-nav-item span {

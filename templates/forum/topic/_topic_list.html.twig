@@ -3,7 +3,7 @@
 {% endif %}
 
 <section class="rounded-3 p-2 forum-section bg-default">
-    <h2 class="section-title">{{ section_title }}</h2>
+    <h2 class="section-title-forum">{{ section_title }}</h2>
     {% for topic in topics %}
         <article class="forum-row d-flex bg-white align-items-center" {% if topic.locked %} data-bs-toggle="tooltip" data-bs-placement="top" title="Ce sujet est verrouillé, vous ne pouvez pas y répondre" {% endif %}>
             <div class="ps-1 pe-3 fs-2">

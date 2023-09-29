@@ -64,13 +64,13 @@
     text-decoration: underline;
 }
 
-.section-title {
+.section-title-forum {
     font-variant-caps: small-caps;
     color: #fff;
     font-size: 1.1rem;
 }
 
-.section-title a {
+.section-title-forum a {
     color: inherit;
 }
 

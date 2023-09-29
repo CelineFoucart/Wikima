@@ -10,12 +10,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Ajout du lien manquant vers la licence MIT dans la modal
+- Correction du menu latéral non scrollable de l'admin
 
 ### Added
 
 - Ajout du module forum : catégorie de forum, forum, topic, post, groupe d'utilisateur et espace administration
 - Ajout de la possibilité d'activer ou de désactiver le module
 - Ajout de l'avatar, de la localisation et du rang dans le profil utilisateur
+- Ajout d'une flèche pour retourner en haut dans les pages lieu, personnage, article et chronologie
 
 ### Changed
 

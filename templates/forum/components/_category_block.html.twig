@@ -1,5 +1,5 @@
 <section class="rounded-3 p-2 bg-default mb-2">
-    <h2 class="section-title">
+    <h2 class="section-title-forum">
         {% if with_link is defined and with_link == true %}
             <a href="{{ path('app_forum_category_show', {slug: category.slug}) }}">{{ category.title }}</a>
         {% else %}

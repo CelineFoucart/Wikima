@@ -75,6 +75,10 @@ class PersonFormType extends AbstractType
             ->add('isArchived', null, [
                 'required' => false,
             ])
+            ->add('comment', TextareaType::class, [
+                'required' => false,
+                'help' => "Ce champ permet d'ajouter des informations complémentaires, comme des statistiques pour personnage de jeu de rôle"
+            ])
         ;
     }
 
