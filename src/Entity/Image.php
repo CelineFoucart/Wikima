@@ -11,9 +11,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
-/**
- * @Vich\Uploadable
- */
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
 #[UniqueEntity('slug')]
 class Image
@@ -64,10 +62,8 @@ class Image
 
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'images')]
     private $articles;
-
-    /**
-     * @Vich\UploadableField(mapping="upload_images", fileNameProperty="filename")
-     */
+    
+    #[Vich\UploadableField(mapping:"upload_images", fileNameProperty:"filename")]
     private ?File $imageFile = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]

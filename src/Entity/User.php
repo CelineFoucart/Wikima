@@ -18,12 +18,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Ignore;
 
-/**
- * @Vich\Uploadable
- */
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['username'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serializable
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -80,11 +78,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar = null;
-
-    /**
-     * @Vich\UploadableField(mapping="upload_avatar", fileNameProperty="avatar")
-     */
+    
     #[Ignore]
+    #[Vich\UploadableField(mapping:"upload_avatar", fileNameProperty:"avatar")]
     private ?File $imageFile = null;
 
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: UserGroup::class, orphanRemoval: true)]

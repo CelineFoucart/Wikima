@@ -13,9 +13,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @Vich\Uploadable
- */
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: PlaceRepository::class)]
 #[UniqueEntity('slug')]
 class Place
@@ -54,10 +52,8 @@ class Place
         max: 255
     )]
     private ?string $dominatedBy = null;
-
-    /**
-     * @Vich\UploadableField(mapping="upload_images", fileNameProperty="mapFile")
-     */
+    
+    #[Vich\UploadableField(mapping:"upload_images", fileNameProperty:"mapFile")]
     private ?File $imageMap = null;
 
     #[ORM\Column(length: 255, nullable: true)]

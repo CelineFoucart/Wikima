@@ -35,7 +35,7 @@ class AdvancedSettingsType extends AbstractType
             ])
             ->add('WIKI_DESCRIPTION', TextType::class, [
                 'label' => "Description",
-                'help' => "Description rapide de moins de 160 caractères, utilisé pour le référencement",
+                'help' => "Description rapide de moins de 160 caractères, utilisé pour le référencement.",
                 "constraints" => [
                     new NotBlank(),
                     new Length([
@@ -75,7 +75,7 @@ class AdvancedSettingsType extends AbstractType
             ])
             ->add('BACKGROUND_COLOR', TextType::class, [
                 'label' =>"Couleur de l'arrière plan du site",
-                'help' => "Cette valeur définira l'arrière plan du body de la page (propriété CSS background)",
+                'help' => "Cette valeur définira l'arrière plan du body de la page (propriété CSS background).",
             ])
             ->add('CONTACT_EMAIL', TextType::class, [
                 'label' => "Email de contact",
@@ -107,7 +107,7 @@ class AdvancedSettingsType extends AbstractType
             ])
             ->add('PER_PAGE_EVEN_COLUMNS', IntegerType::class, [
                 'label' => "Pagination des affichages avec 1, 2 et 4 colonnes",
-                'help' => "Définissez le nombre d'éléments par page sur ce type d'affichage, de 10 à 100",
+                'help' => "Définissez le nombre d'éléments par page sur ce type d'affichage, de 10 à 100.",
                 'constraints' => [
                     new NotBlank(),
                     new Positive(),
@@ -119,7 +119,7 @@ class AdvancedSettingsType extends AbstractType
             ])
             ->add('PER_PAGE_ODD_COLUMNS', IntegerType::class, [
                 'label' => "Pagination des affichages avec 3 et 6 colonnes",
-                'help' => "Définissez le nombre d'éléments par page sur ce type d'affichage, de 6 à 90",
+                'help' => "Définissez le nombre d'éléments par page sur ce type d'affichage, de 6 à 90.",
                 'constraints' => [
                     new NotBlank(),
                     new Positive(),
@@ -143,7 +143,7 @@ class AdvancedSettingsType extends AbstractType
                     'Production' => 'prod'
                 ],
                 'label' => "Environnement",
-                'help' => "L'environnement de développement n'est à utiliser qu'en local, car il expose des données sensibles comme les identifiants de la base de données"
+                'help' => "L'environnement de développement n'est à utiliser qu'en local, car il expose des données sensibles comme les identifiants de la base de données."
             ])
             ->add('DATE_FORMAT', TextType::class, [
                 'label' =>"Format de la date",

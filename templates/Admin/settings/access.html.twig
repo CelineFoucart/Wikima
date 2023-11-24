@@ -1,0 +1,94 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Gérer les accès{% endblock %}
+
+{% block activeSetting %}active show{% endblock %}
+{% block activeAccess %}active{% endblock %}
+{% block page_title %}Gérer les accès aux pages du site{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item active">
+		Configuration
+	</li>
+{% endblock %}
+
+{% block body %}
+    <form action="" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card shadow-sm border-top-primary">
+                    <div class="card-header bg-white">
+                        <h2 class="card-title h5 mb-0">Module encyclopédie</h2>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Page</th>
+                                    <th>Non authentifié ?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for key, title  in accessKeyWiki %}
+                                    <tr>
+                                        <td>{{ title }}</td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input 
+                                                    class="form-check-input" 
+                                                    id="{{ key }}" 
+                                                    name="{{ key }}" 
+                                                    type="checkbox" 
+                                                    {{ key in publicAccess ? 'checked' : '' }}>
+                                                <label class="sr-only" for="{{ key }}">Rendre accessible</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow-sm border-top-primary">
+                    <div class="card-header bg-white">
+                        <h2 class="card-title h5 mb-0">Pages génériques et autres modules</h2>
+                    </div>
+                    <div class="card-body p-0">
+                        <table class="table table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Page</th>
+                                    <th>Non authentifié ?</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for key, title in accessKeyOther %}
+                                    <tr>
+                                        <td>{{ title }}</td>
+                                        <td>
+                                            <div class="form-check form-switch">
+                                                <input 
+                                                    class="form-check-input" 
+                                                    id="{{ key }}" 
+                                                    name="{{ key }}" 
+                                                    type="checkbox"
+                                                    {{ key in publicAccess ? 'checked' : '' }}>
+                                                <label class="sr-only" for="{{ key }}">Rendre accessible</label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 mt-4">
+                <input type="hidden" name="_token" value="{{ csrf_token('access') }}">
+                <button type="submit" class="btn btn-primary btn-sm">Sauvegarder</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}

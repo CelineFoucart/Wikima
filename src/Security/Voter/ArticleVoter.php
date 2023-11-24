@@ -24,9 +24,6 @@ class ArticleVoter extends Voter
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
-        if (!$user instanceof UserInterface) {
-            return false;
-        }
 
         switch ($attribute) {
             case VoterHelper::EDIT:
@@ -45,7 +42,7 @@ class ArticleVoter extends Voter
         return false;
     }
 
-    protected function canView(User $user, Article $article): bool
+    protected function canView(?User $user, Article $article): bool
     {
         if ($this->voterHelper->canEdit($user, $article, true)) {
             return true;

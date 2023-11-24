@@ -44,18 +44,9 @@ security:
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/installation, roles: PUBLIC_ACCESS }
-        - { path: ^/forum, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/contact, roles: PUBLIC_ACCESS }
         - { path: ^/faq, roles: PUBLIC_ACCESS }
-        - { path: ^/articles, roles: ROLE_USER }
-        - { path: ^/category, roles: ROLE_USER }
-        - { path: ^/portals, roles: ROLE_USER }
-        - { path: ^/idioms, roles: ROLE_USER }
-        - { path: ^/images, roles: ROLE_USER }
-        - { path: ^/persons, roles: ROLE_USER }
-        - { path: ^/timelines, roles: ROLE_USER }
-        - { path: ^/print, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_EDITOR }
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/comment, roles: ROLE_USER }

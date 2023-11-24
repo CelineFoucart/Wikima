@@ -12,9 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\HttpFoundation\File\File;
 
-/**
- * @Vich\Uploadable
- */
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: IdiomRepository::class)]
 #[UniqueEntity(fields: ['slug', 'translatedName'])]
 class Idiom
@@ -61,9 +59,7 @@ class Idiom
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $banner = null;
 
-    /**
-     * @Vich\UploadableField(mapping="upload_images", fileNameProperty="banner")
-     */
+    #[Vich\UploadableField(mapping:"upload_images", fileNameProperty:"banner")]
     private ?File $imageBanner = null;
 
     #[ORM\ManyToOne(inversedBy: 'idioms')]

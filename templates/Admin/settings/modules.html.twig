@@ -2,7 +2,7 @@
 
 {% block title %}Modules{% endblock %}
 
-{% block activeAdmin %}
+{% block activeSetting %}
 	active show
 {% endblock %}
 {% block activeModule %}active
@@ -24,6 +24,31 @@
 
 	<form action="" method="post">
         <div class="row mt-4">
+            <div class="col-sm-6 col-md-4 col-lg-3">
+                    <div class="card shadow-sm border-top-primary">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <p class="text-muted mb-0">MODULE</p>
+                                    <h2 class="card-title h5 fw-bold">Encyclopédie</h2>
+                                </div>
+                                <div class="col-md-3 text-end">
+                                    <i class="fas fa-file-alt text-primary display-5"></i>
+                                </div>
+                            </div>
+                            <p class="card-text mt-3">
+                                Ce module, non désactivable, permet d'organiser les informations sur l'univers&nbsp;: personnages,
+                                lieux et articles, en catégorie et portail.
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" id="flexSwitchCheckChecked" type="checkbox" checked disabled>
+                                <label class="form-check-label" for="flexSwitchCheckChecked">Activer</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% for module in modules %}
                 <div class="col-sm-6 col-md-4 col-lg-3">
                     <div class="card shadow-sm border-top-primary">
@@ -42,7 +67,7 @@
                         <div class="card-footer">
                             <div class="form-check form-switch">
                                 <input class="form-check-input" name="{{ module.id }}" type="checkbox" id="{{ module.id }}" {{ module.status ? 'checked' : '' }}>
-                                <label class="form-check-label" for="flexSwitchCheckChecked">Activer</label>
+                                <label class="form-check-label" for="{{ module.id }}">Activer</label>
                             </div>
                         </div>
                     </div>

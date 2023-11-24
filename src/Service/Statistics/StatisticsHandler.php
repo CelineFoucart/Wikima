@@ -4,7 +4,7 @@ namespace App\Service\Statistics;
 
 use Doctrine\ORM\EntityManagerInterface;
 
-class StatisticsHandler 
+class StatisticsHandler
 {
     /**
      * @var StatisticsEntityInterface[]
@@ -14,7 +14,7 @@ class StatisticsHandler
     private EntityManagerInterface $em;
 
     public function __construct(EntityManagerInterface $em)
-    { 
+    {
         $this->em = $em;
     }
 
@@ -31,27 +31,29 @@ class StatisticsHandler
             $connection = $this->em->getConnection();
             $query = $connection->prepare($this->formatQuery());
             $data = $query->executeQuery()->fetchAllAssociative();
+
             return $this->formatStats($data);
         } catch (\Exception $th) {
             return [];
         }
     }
 
-    public function getStatsByMonth(string $table, string $dateField, string $year, ?string $condition = null)
+    public function getStatsByMonth(string $table, string $dateField, string $year, string $condition = null): array
     {
-        if ($condition !== null) {
-            $condition = ' AND ' . $condition;
+        if (null !== $condition) {
+            $condition = ' AND '.$condition;
         }
 
         $sql = "SELECT COUNT(id) AS total, MONTH({$dateField}) AS monthId
             FROM `{$table}`
             WHERE YEAR({$dateField}) = :year_param {$condition}
             GROUP BY monthId";
-        
+
         $connection = $this->em->getConnection();
         $query = $connection->prepare($sql);
-        
-        return $query->executeQuery(['year_param' => $year])->fetchAllAssociative();
+        $query->bindValue('year_param', $year);
+
+        return $query->executeQuery()->fetchAllAssociative();
     }
 
     private function formatQuery(): string
@@ -62,12 +64,12 @@ class StatisticsHandler
             $sql[] = $entity->getQuery();
         }
 
-        return join(" UNION ", $sql);
+        return join(' UNION ', $sql);
     }
 
     private function formatStats($stats): array
     {
-        if(empty($stats)) {
+        if (empty($stats)) {
             return [];
         }
 
