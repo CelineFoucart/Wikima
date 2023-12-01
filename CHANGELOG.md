@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Ajout du lien manquant vers la licence MIT dans la modal
 - Correction du menu latéral non scrollable de l'admin
+- Déprécation doctrine : report_fields_where_declared et validate_xml_mapping
 
 ### Added
 
@@ -26,10 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Affichage de l'avatar à la place de l'icone utilisateur dans les commentaires, si l'utilisateur a un avatar.
-
-### Fixed
-
-- Déprécation doctrine : report_fields_where_declared et validate_xml_mapping
 
 ## [1.3.1] - 2023-08-25
 
