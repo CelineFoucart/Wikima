@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.4.0] - 2023-09-29
+## [1.4.0] - 2023-12-01
 
 ### Fixed
 
@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ajout d'une flèche pour retourner en haut dans les pages lieu, personnage, article et chronologie
 - Ajout du lien vers les catégories dans la navbar
 - Ajout de la personnalisation du menu de navigation sur la page d'accueil
+- Ajout de l'icône top dans le sommaire des articles avec sections
+- Ajout de la configuration des accès des pages principales (articles, portails, catégories, types, lieux, personnages, index du forum, images, accueil)
 
 ### Changed
 
