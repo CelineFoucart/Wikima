@@ -19,14 +19,15 @@ use App\Repository\TemplateGroupRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use App\Controller\Admin\AbstractAdminController;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/idiom')]
-#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+#[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
 class AdminIdiomController extends AbstractAdminController
 {
     protected string $entityName = 'idiom';
@@ -94,7 +95,7 @@ class AdminIdiomController extends AbstractAdminController
             return $this->redirectTo($request, $idiom->getId());
         }
 
-        return $this->renderForm('Admin/idiom/create.html.twig', [
+        return $this->render('Admin/idiom/create.html.twig', [
             'idiom' => $idiom,
             'form' => $form,
             'images' => $this->imageRepository->findAll(),
@@ -143,8 +144,7 @@ class AdminIdiomController extends AbstractAdminController
     }
 
     #[Route('/{id}/order', name: 'admin_app_idiom_order', methods: ['GET', 'POST'])]
-    #[Entity('idiom', expr: 'repository.findIdiomById(id)')]
-    public function orderAction(Idiom $idiom): Response
+    public function orderAction(#[MapEntity(expr: 'repository.findIdiomById(id)')] Idiom $idiom): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom,'Access Denied.');
         
@@ -182,7 +182,7 @@ class AdminIdiomController extends AbstractAdminController
             return $this->redirectTo($request, $idiom->getId());
         }
 
-        return $this->renderForm('Admin/idiom/edit.html.twig', [
+        return $this->render('Admin/idiom/edit.html.twig', [
             'idiom' => $idiom,
             'form' => $form,
             'images' => $this->imageRepository->findAll(),

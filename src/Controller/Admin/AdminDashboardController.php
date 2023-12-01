@@ -14,16 +14,19 @@ use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 class AdminDashboardController extends AbstractController
 {
     #[Route('/admin', name: 'admin_app_dashboard')]
-    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_EDITOR')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_EDITOR')"))]
     public function dashboardAction(StatisticsHandler $statisticsHandler, NoteRepository $noteRepository, DatabaseSize $databaseSize, PortalRepository $portalRepository, Request $request): Response
     {
-        $tables = ['category', 'portal', 'article', 'image', 'place', 'person', 'page', 'note', 'comment', 'user', 'idiom', 'timeline'];
+        $tables = [
+            'category', 'portal', 'article', 'image', 'place', 'person', 'page', 'note', 'comment', 'user', 'idiom', 'timeline', 'topic', 'post'
+        ];
 
         foreach ($tables as $table) {
             $statisticsHandler->addEntity(new SatisticsEntity($table));
@@ -66,7 +69,7 @@ class AdminDashboardController extends AbstractController
     }
 
     #[Route('/admin/about', name: 'admin_app_overview')]
-    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')"))]
     public function overviewAction(Request $request, AboutRepository $aboutRepository): Response
     {
         $overview = $aboutRepository->findAboutRow('overview');
@@ -84,7 +87,7 @@ class AdminDashboardController extends AbstractController
             return $this->redirectToRoute('admin_app_overview');
         }
 
-        return $this->renderForm('Admin/overview.html.twig', [
+        return $this->render('Admin/overview.html.twig', [
             'form' => $form,
         ]);
     }

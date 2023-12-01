@@ -1,0 +1,92 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block title %}Modérer un sujet | Forum de {{ app_name }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/choicesjs/choices.min.css') }}"/>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_category_show', {slug: topic.forum.category.slug}) }}">{{ topic.forum.category.title }}</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_forum_show', {slug: topic.forum.slug}) }}">{{ topic.forum.title }}</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_topic_show', {slug: topic.slug}) }}">{{ topic.title }}</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Informations sur un sujet</li> 
+{% endblock %}
+
+{% block forum_content %}
+    <h2>Modération d'un sujet</h2>
+    <section class="rounded-3 bg-light my-2 p-3 post-container">
+        <h3 class="h5">
+            <div class="row align-items-center">
+                <div class="col-10">Informations sur le sujet</div>
+                <div class="col-2 text-end">
+                    {% if post %}
+                        <a href="{{ path('app_post_edit', {id: post.id})}}" 
+                            class="btn btn-outline-secondary btn-sm" 
+                            data-bs-toggle="tooltip" 
+                            data-bs-placement="top"
+                            title="Editer le premier message">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                    {% endif %}
+                    {% include "Admin/components/_delete_modal.html.twig" with { element: topic, path: 'app_moderation_topic_delete' } %}
+                </div>
+            </div>
+        </h3>
+        <div class="rounded-3 bg-white p-3 mt-1">
+            <h3 class="h5 text-default"><a href="{{ path('app_forum_topic_show', {slug: topic.slug})}}">{{topic.title}}</a></h3>
+            <p class="mb-0"> 
+                Par 
+                {% if topic.author is not null %}
+                    <a href="{{ path('app_user_show', {id: topic.author.id})}}" style="color:{{ topic.author.defaultColour }}" class="author">
+                    {{ topic.author.username }}
+                </a>
+                {% else %}
+                    <span class="author">Anonyme</span>
+                {% endif %}
+                &raquo; {{ topic.createdAt | date(date_format) }}
+            </p>
+            <hr>
+            <p class="mb-0 fw-bold">Premier message : {{post.title}}</p>
+            {% include "forum/components/_post_info.html.twig" with {author: post.author } %}
+            <div class="mb-2 mt-3">
+                {% if post %}
+                    {{ post.content|raw }}
+                {% else %}
+                    <span class="fst-italic">Aucun message</span>
+                {% endif %}
+            </div>
+        </div>
+        <div class="rounded-3 bg-white p-3 mt-1">
+            <h3 class="h5">Modifier le sujet</h3>
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-default btn-sm">Sauvegarder</button>
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
+<script>
+    const elements = document.querySelectorAll('[data-choices]');
+    elements.forEach(element => {
+        new Choices(element, {
+            removeItems: true,
+            removeItemButton: true,
+            allowHTML: false,
+            noResultsText: 'Aucun résultat',
+            noChoicesText: 'Aucun élément à choisir',
+            itemSelectText: 'Cliquez pour choisir',
+            shouldSort: false,
+        });
+    });
+</script>
+{% endblock %}

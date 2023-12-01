@@ -1,0 +1,45 @@
+{% set can_edit = (post.id == app.user.id and topic.locked == false) or is_granted('ROLE_MODERATOR') %}
+
+<div class="position-absolute top-0 end-0 d-flex">
+    <div class="btn-group">
+        {% if can_edit %}
+            <a href="{{ path('app_post_edit', {id: post.id, page: page})}}" 
+                class="btn btn-outline-secondary btn-sm " 
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                title="Editer">
+                <i class="fas fa-edit"></i>
+            </a>
+        {% endif %}
+        {% if is_granted('ROLE_MODERATOR') %}
+            <a href="{{ path('app_moderation_post', {id: post.id}) }}" 
+                class="btn btn-outline-secondary btn-sm" 
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                title="Informations">
+                <i class="fas fa-info-circle"></i>
+            </a> 
+        {% endif %}
+        {% if is_granted('ROLE_USER') %}
+            <a href="{{ path('app_post_report', {id: post.id}) }}" 
+                class="btn btn-outline-secondary btn-sm" 
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                title="Rapporter le message">
+                <i class="fas fa-exclamation-triangle"></i>
+            </a>
+        {% endif %}
+        {% if (is_granted('ROLE_USER') and topic.locked == false) or is_granted('ROLE_MODERATOR') %}
+            <a href="{{ path('app_forum_topic_show', {slug: topic.slug, page: page, reply: post.id}) }}#message-form" 
+                class="btn btn-outline-secondary btn-sm" 
+                data-bs-toggle="tooltip" 
+                data-bs-placement="top"
+                title="Citer">
+                <i class="fas fa-reply"></i>
+            </a>
+        {% endif %}
+    </div>
+    {% if (can_edit and post.id != firstPostId) or is_granted('ROLE_MODERATOR') %}
+        <div class="ms-1">{% include "Admin/components/_delete_modal.html.twig" with { element: post, path: 'app_post_delete' } %}</div>
+    {% endif %}
+</div>

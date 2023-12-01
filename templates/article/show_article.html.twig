@@ -13,7 +13,7 @@
 
 {% block body %}
 	<article>
-		<header class="pt-4 bg-item header-item border-bottom">
+		<header class="pt-4 bg-item header-item border-bottom" id="title-top">
 			{{ include('article/components/_header.html.twig', {reading:true}) }}
 		</header>
 
@@ -40,7 +40,7 @@
 							<span title="afficher ou cacher" role="button" data-action="click->toggle#toggle" data-toggle-target="action" class="float-end">
 								<i class="fas fa-chevron-down"></i>
 							</span>
-							<h2 class="h6">Sommaire</h2>
+							<h2 class="h6"><a href="#title-top"><i class="fas fa-arrow-up me-1"></i></a> Sommaire</h2>
 						</div>
 						<ol class="mb-0" data-toggle-target="content">
 							{% for section in article.sections %}
@@ -60,6 +60,7 @@
 						<section id="part{{ section.id }}">
 							<h2 class="border-bottom h2 pb-1 position-relative section-title">
 								{{ section.title }}
+								<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
 								{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) or is_granted('ROLE_ADMIN') %}
 									<span class="position-absolute top-0 end-0 edit-actions">
 										<a href="{{ path('admin_app_section_edit', {id: section.id}) }}" class="text-success text-decoration-none" data-bs-toggle="tooltip" title="éditer">
@@ -81,6 +82,7 @@
 					<section id="gallery-article" class="mb-4">
 						<h2 class="border-bottom h2 pb-1 position-relative section-title">
 							Galerie
+							<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
 							{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) or is_granted('ROLE_ADMIN') %}
 								<span class="position-absolute top-0 end-0 edit-actions">
 									<a href="{{ path('admin_app_article_gallery', {id:article.id}) }}" class="text-success text-decoration-none" data-bs-toggle="tooltip" title="gérer la galerie">

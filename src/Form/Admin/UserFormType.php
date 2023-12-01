@@ -6,8 +6,10 @@ use App\Entity\User;
 use App\Service\UserService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -55,6 +57,31 @@ class UserFormType extends AbstractType
                 'required' => (null === $id) ? true : false,
                 'invalid_message' => 'Le mot de passe de confirmation ne concorde pas.',
                 'mapped' => false,
+            ])
+            ->add('rank', TextType::class, [
+                'required' => false,
+            ])
+            ->add('localisation', TextType::class, [
+                'required' => false,
+            ])
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '2048k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/gif',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => 'Seuls sont autorisés les fichiers jpeg, jpg, gif et png.',
+                    ]),
+                    new Image([
+                        'maxWidth' => 300,
+                        'maxHeight' => 300,
+                    ])
+                ],
+                'help' => "Seuls sont autorisés les fichiers jpeg, jpg, gif et png d'une largeur et d'une hauteur maximale de 300 pixels."
             ])
         ;
     }

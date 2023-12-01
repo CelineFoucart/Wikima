@@ -30,7 +30,7 @@ class UserExtension extends AbstractExtension
         return $this->userService->formatRoles($roles);
     }
 
-    public function canAccess(User $currentUser, $subject): bool
+    public function canAccess(?User $currentUser, $subject): bool
     {
         return $this->voterHelper->canEdit($currentUser, $subject, true);
     }

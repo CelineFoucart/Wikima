@@ -1,0 +1,93 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block title %}Modérer un message | Forum de {{ app_name }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/choicesjs/choices.min.css') }}"/>
+{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_category_show', {slug: post.topic.forum.category.slug}) }}">{{ post.topic.forum.category.title }}</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_forum_show', {slug: post.topic.forum.slug}) }}">{{ post.topic.forum.title }}</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_topic_show', {slug: post.topic.slug}) }}">{{ post.topic.title }}</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Informations sur un message</li> 
+{% endblock %}
+
+{% block forum_content %}
+    <h2>Modération d'un message</h2>
+    <section class="rounded-3 bg-light my-2 p-3 post-container">
+        <h3 class="h5">
+            <div class="row align-items-center">
+                <div class="col-10">Informations sur un message</div>
+                <div class="col-2 text-end">
+                    <a href="{{ path('app_post_edit', {id: post.id})}}" 
+                        class="btn btn-outline-secondary btn-sm" 
+                        data-bs-toggle="tooltip" 
+                        data-bs-placement="top"
+                        title="Editer">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    {% include "Admin/components/_delete_modal.html.twig" with { element: post, path: 'app_post_delete' } %}
+                </div>
+            </div>
+        </h3>
+        <div class="rounded-3 bg-white p-3 mt-1">
+            <h3 class="h5">{{post.title}}</h3>
+            {% include "forum/components/_post_info.html.twig" with {author: post.author } %}
+            <p class="mb-0">
+                <small>
+                    <strong>Sujet :</strong> <a href="{{ path('app_forum_topic_show', {slug: post.topic.slug})}}">{{ post.topic.title }}</a>
+                </small>
+            </p>
+            <hr>
+            <div class="mb-2">
+                {{ post.content|raw }}
+            </div>
+        </div>
+        <div class="rounded-3 bg-white p-3 mt-1">
+            <h3 class="h5">Modifier l'auteur</h3>
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-default btn-sm">Modifier</button>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="rounded-3 bg-white p-3 mt-1">
+            <h3 class="h5">Rapports</h3>
+            {% for report in post.reports %}
+                <div class="mx-4 ps-2 border-2 border-start mb-1">
+                    <h4 class="h6">
+                        Rapport du {{ report.post.createdAt|date(date_format) }} par
+                        <a href="{{ path('app_user_show', {id: report.author.id})}}" style="color:{{ report.author.defaultColour }}" class="author">
+                            {{ report.author.username }}
+                        </a>
+                    </h4>
+                    <p>{{ report.message|nl2br }}</p>
+                </div>
+            {% else %}
+                <p class="fst-italic">Aucun rapport</p>
+            {% endfor %}
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
+<script>
+    new Choices(document.querySelector('#form_author'), {
+        removeItems: true,
+        removeItemButton: true,
+        allowHTML: false,
+        noResultsText: 'Aucun résultat',
+        noChoicesText: 'Aucun élément à choisir',
+        itemSelectText: 'Cliquez pour choisir',
+        shouldSort: false,
+    });
+</script>
+{% endblock %}

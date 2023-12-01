@@ -3,22 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\Idiom;
+use App\Entity\Place;
+use App\Entity\Person;
 use App\Entity\Portal;
 use App\Entity\Article;
 use App\Entity\IdiomArticle;
-use App\Entity\Person;
-use App\Entity\Place;
 use App\Service\IdiomNavigationHelper;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PrintController extends AbstractController
 {
     #[Route('/print/article/{slug}', name: 'app_print_article')]
-    #[Entity('article', expr: 'repository.findBySlug(slug)')]
-    public function article(Article $article): Response
+    public function article(#[MapEntity(expr: 'repository.findBySlug(slug)')] Article $article): Response
     {
         $portals = [];
         foreach ($article->getPortals() as $portal) {
@@ -32,8 +31,7 @@ class PrintController extends AbstractController
     }
 
     #[Route('/print/person/{slug}', name: 'app_print_person')]
-    #[Entity('person', expr: 'repository.findBySlug(slug)')]
-    public function person(Person $person): Response
+    public function person(#[MapEntity(expr: 'repository.findBySlug(slug)')] Person $person): Response
     {
         $portals = [];
         foreach ($person->getPortals() as $portal) {
@@ -53,8 +51,7 @@ class PrintController extends AbstractController
     }
 
     #[Route('/print/place/{slug}', name: 'app_print_place')]
-    #[Entity('place', expr: 'repository.findBySlug(slug)')]
-    public function place(Place $place): Response
+    public function place(#[MapEntity(expr: 'repository.findBySlug(slug)')] Place $place): Response
     {
         $portals = [];
         foreach ($place->getPortals() as $portal) {
@@ -80,8 +77,7 @@ class PrintController extends AbstractController
     }
 
     #[Route('/print/portal/{slug}', name: 'app_print_portal')]
-    #[Entity('article', expr: 'repository.findBySlug(slug)')]
-    public function portal(Portal $portal): Response
+    public function portal(#[MapEntity(expr: 'repository.findBySlug(slug)')] Portal $portal): Response
     {
         $categories = [];
         foreach ($portal->getCategories() as $category) {
@@ -101,8 +97,7 @@ class PrintController extends AbstractController
     }
 
     #[Route('/print/idioms/{slug}', name: 'app_print_idiom')]
-    #[Entity('idiom', expr: 'repository.findIdiomBySlug(slug)')]
-    public function idiom(Idiom $idiom, bool $enableIdiom)
+    public function idiom(#[MapEntity(expr: 'repository.findIdiomBySlug(slug)')] Idiom $idiom, bool $enableIdiom)
     {
         if (false === $enableIdiom) {
             throw $this->createNotFoundException('Not Found');
@@ -121,8 +116,7 @@ class PrintController extends AbstractController
     }
 
     #[Route('/print/idioms/article/{slug}', name: 'app_print_idiom_article')]
-    #[Entity('article', expr: 'repository.findOneBySlug(slug)')]
-    public function idiomArticle(IdiomArticle $article): Response
+    public function idiomArticle(#[MapEntity(expr: 'repository.findOneBySlug(slug)')] IdiomArticle $article): Response
     {
         return $this->render('print/idiom_article.html.twig', [
             'article' => $article,

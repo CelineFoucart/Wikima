@@ -193,7 +193,7 @@ class ArticleRepository extends ServiceEntityRepository
         $builder = $this->getDefaultQueryBuilder();
         $builder->andWhere('(a.isArchived != :isArchived  OR a.isArchived IS NULL)')->setParameter('isArchived', true);
 
-        if (strlen($search->getQuery()) >= 3 and null !== $search->getQuery()) {
+        if (strlen((string) $search->getQuery()) >= 3 and null !== $search->getQuery()) {
             $builder
                 ->andWhere('a.title LIKE :q')
                 ->orWhere('a.description LIKE :q')

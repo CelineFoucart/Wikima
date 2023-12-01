@@ -13,9 +13,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-/**
- * @Vich\Uploadable
- */
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: PortalRepository::class)]
 #[UniqueEntity('slug')]
 class Portal
@@ -87,9 +85,7 @@ class Portal
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $banner = null;
 
-    /**
-     * @Vich\UploadableField(mapping="upload_images", fileNameProperty="banner")
-     */
+    #[Vich\UploadableField(mapping:"upload_images", fileNameProperty:"banner")]
     private ?File $imageBanner = null;
 
     #[ORM\OneToMany(mappedBy: 'portal', targetEntity: Note::class)]

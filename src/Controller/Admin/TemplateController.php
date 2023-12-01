@@ -37,7 +37,7 @@ class TemplateController extends AbstractAdminController
             return $this->redirectTo($request, $template->getId());
         }
 
-        return $this->renderForm('Admin/template/new.html.twig', [
+        return $this->render('Admin/template/new.html.twig', [
             'template' => $template,
             'form' => $form,
         ]);
@@ -63,7 +63,7 @@ class TemplateController extends AbstractAdminController
             return $this->redirectTo($request, $template->getId());
         }
 
-        return $this->renderForm('Admin/template/edit.html.twig', [
+        return $this->render('Admin/template/edit.html.twig', [
             'template' => $template,
             'form' => $form,
         ]);

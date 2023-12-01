@@ -21,7 +21,7 @@ class UserController extends AbstractController
     ) {  
     }
 
-    #[Route('/users', name: 'app_user')]
+    #[Route('/users', name: 'app_user_index')]
     public function list(Request $request): Response
     {
         $page = $request->query->getInt('page', 1);

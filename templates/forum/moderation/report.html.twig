@@ -1,0 +1,98 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block stylesheets %}
+	<link href="{{ asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block title %}Modération | Forum de {{ app_name }}{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active" aria-current="page">Modération</li> 
+{% endblock %}
+
+{% block forum_content %}
+    <h2>Signalement des membres</h2>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success mt-1">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div class="card my-3">
+        <div class="card-header">
+            <h3 class="card-title mb-0 h5">Rapports de sujet</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped" id="tableIndex">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Post</th>
+                        <th>Sujet</th>
+                        <th>Auteur</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for report in reports %}
+                        <tr>
+                            <td data-label="Date" data-sort="{{ report.createdAt|date('Y-m-d H:i:s') }}">
+                                {{ report.createdAt|date(date_format) }}
+                            </td>
+                            <td data-label="Post">
+                                <strong><a href="{{ path('app_moderation_post', {id: report.post.id}) }}">{{ report.post.title }}</a></strong> <br>
+                                Publié par <span class="fw-bold">{{ report.post.author ? report.post.author.username : 'Anonyme' }}</span> &raquo;
+                                {{ report.post.createdAt|date(date_format) }} 
+                            </td>
+                            <td>
+                                <a href="{{ path('app_forum_topic_show', {slug: report.post.topic.slug})}}">{{ report.post.topic.title }}</a>
+                            </td>
+                            <td data-label="Auteur">
+                                <a href="{{ path('app_user_show', {id: report.author.id})}}" style="color:{{ report.author.defaultColour }}" class="author">
+                                    {{ report.author.username }}
+                                </a>
+                            </td>
+                            <td data-label="Actions">
+                                <div class="modal fade" id="show{{ report.id }}" tabindex="-1" aria-labelledby="show{{ report.id }}Label" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h3 class="modal-title h5" id="show{{ report.id }}Label">Détails du rapport</h3>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h4 class="card-title h5">Post</h4>
+                                                <div class="bg-light rounded-3 p-3">{{ report.post.content|raw }}</div>
+                                                <h4 class="card-title h5 mt-2">Message du rapport</h4>
+                                                <div class="bg-light rounded-3 p-3">{{ report.message|nl2br }}</div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="{{ path('app_moderation_post', {id: report.post.id}) }}" class="btn btn-sm btn-secondary">Voir plus</a> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#show{{ report.id }}">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                {% include "Admin/components/_delete_modal.html.twig" with { element: report, path: 'app_moderation_delete' } %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('assets/DataTables/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
+<script>
+    $('#tableIndex').DataTable({
+        language: {
+            url: '/assets/DataTables/i18n/fr-FR.json',
+        },
+        order: [[0, 'desc']]
+    });
+</script>
+{% endblock %}

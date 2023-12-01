@@ -1,0 +1,20 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block title %}Nouveau sujet | Forum de {{ app_name }}{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_category_show', {slug: forum.category.slug}) }}">{{ forum.category.title }}</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">{{ forum.title }}</li> 
+{% endblock %}
+
+{% block forum_content %}
+    <h2>{{ forum.title }}</h2>
+    {% for message in errors %}
+        <div class="alert alert-success mt-1">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% include "forum/topic/_form.html.twig" %}
+{% endblock %}

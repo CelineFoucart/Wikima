@@ -1,0 +1,14 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block title %}{{ category.title }} | Forum de {{ app_name }}{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active" aria-current="page">{{ category.title }}</li> 
+{% endblock %}
+
+{% block forum_content %}
+    <h2>{{ category.title }}</h2>
+    <p>{{ category.description }}</p>
+
+    {% include "forum/components/_category_block.html.twig" with {with_link: false} %}
+{% endblock %}

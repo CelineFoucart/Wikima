@@ -1,0 +1,24 @@
+{% extends 'Admin/forum_category/base.html.twig' %}
+
+{% block title %}Editer "{{ category }}"{% endblock %}
+
+{% block page_title %}Editer "{{ category }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_forum_category_list') }}" class="text-reset">
+			Catégories de forum
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Editer
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+{% include 'Admin/forum_category/_toolbar.html.twig' %}
+{% endblock %}
+
+{% block body %}
+    {{ include('Admin/forum_category/_form.html.twig') }}
+{% endblock %}

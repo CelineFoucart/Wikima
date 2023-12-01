@@ -12,11 +12,12 @@ final class UserService
         'User' => 'ROLE_USER',
         'Editor' => 'ROLE_EDITOR',
         'Administrator' => 'ROLE_ADMIN',
+        'Moderator' => 'ROLE_MODERATOR'
     ];
 
     public function __construct(
         private TranslatorInterface $translator,
-        private TokenStorageInterface $tokenStorage
+        private TokenStorageInterface $tokenStorage,
     ) {
     }
 

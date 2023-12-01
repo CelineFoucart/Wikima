@@ -8,7 +8,7 @@ use App\Repository\IdiomRepository;
 use App\Service\IdiomNavigationHelper;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class IdiomController extends AbstractController
@@ -28,8 +28,7 @@ class IdiomController extends AbstractController
     }
 
     #[Route('/idioms/{slug}', name: 'app_idiom_show')]
-    #[Entity('idiom', expr: 'repository.findIdiomBySlug(slug)')]
-    public function showIdiomAction(Idiom $idiom): Response
+    public function showIdiomAction(#[MapEntity(expr: 'repository.findIdiomBySlug(slug)')] Idiom $idiom): Response
     {
         return $this->render('idiom/show_idiom.html.twig', [
             'idiom' => $idiom,
@@ -38,14 +37,14 @@ class IdiomController extends AbstractController
     }
 
     #[Route('/idioms/{idiom}/{article}', name: 'app_idiom_show_article')]
-    #[Entity('idiomArticle', expr: 'repository.findOneBySlug(article)')]
-    #[Entity('idiom', expr: 'repository.findIdiomBySlug(idiom)')]
-    public function showArticleAction(Idiom $idiom, IdiomArticle $idiomArticle): Response
-    {
+    public function showArticleAction(
+        #[MapEntity(expr: 'repository.findIdiomBySlug(idiom)')] Idiom $idiomEntity, 
+        #[MapEntity(expr: 'repository.findOneBySlug(article)')]  IdiomArticle $idiomArticle
+    ): Response {
         return $this->render('idiom/show_idiom_article.html.twig', [
-            'idiom' => $idiom,
+            'idiom' => $idiomEntity,
             'article' => $idiomArticle,
-            'navigations' => IdiomNavigationHelper::generateNavigation($idiom),
+            'navigations' => IdiomNavigationHelper::generateNavigation($idiomEntity),
         ]);
     }
 }

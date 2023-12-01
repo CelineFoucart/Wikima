@@ -1,0 +1,160 @@
+{% extends 'Admin/forum_category/base.html.twig' %}
+
+{% block title %}Voir "{{ category }}"{% endblock %}
+
+
+{% block page_title %}Voir "{{ category }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_forum_category_list') }}" class="text-reset">
+			Catégories de forum
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Voir
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+{% include 'Admin/forum_category/_toolbar.html.twig' %}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Informations</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Titre</th>
+                                <td>
+                                    <a href="{{ path('app_forum_category_show', {slug: category.slug}) }}">
+                                        {{ category.title }}
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Slug</th>
+                                <td>{{ category.slug }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ category.description|nl2br }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Groupes ayant accès à cette catégorie</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            {% for group in category.groupAccess %}
+                                <tr>
+                                    <th>
+                                        <span style="color: {{ group.colour ? group.colour : '#000' }}">
+                                            {{ group.title }}
+                                        </span>
+                                    </th>
+                                    <td>
+                                        {{ group.description }}
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="2">
+                                        Cette catégorie n'est visible par aucun groupe d'utilisateur.
+                                        Editez-la pour modifier ses permissions.
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mt-3">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <div class="float-end">
+                        <a href="{{ path('admin_app_forum_create', {id: category.id}) }}" class="btn btn-default btn-sm">
+                            <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                            Ajouter
+                        </a>
+                    </div>
+                    <h2 class="card-title h5 mb-0">Forums</h2>
+                </div>
+                <div class="card-body p-0">
+            <table class="table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Accès</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="forums">
+                    {% for forum in category.forums|sort((a, b) => a.position <=> b.position)  %}
+                        <tr class="handle" id="{{ forum.id }}">
+                            <td data-label="Titre">
+                                <i class="fas fa-arrows-alt me-1"></i> {{ forum.title }}
+                            </td>
+                            <td data-label="Description">
+                                {{ forum.description }}
+                            </td>
+                            <td data-label="Accès">
+                                <span class="group-list">
+                                    {% for group in forum.groupAccess %}
+                                        <span class="fw-bold" style="color: {{ group.colour ? group.colour : '#000' }}">{{ group.title }}</span>
+                                    {% endfor %}
+                                </span>
+                            </td>
+                            <td data-label="Actions">
+                                <div class="btn-group">
+                                    <a href="{{ path('app_forum_forum_show', {slug: forum.slug}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
+                                        <i class="fas fa-book-reader"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_forum_edit', {id: forum.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                    </a>
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: forum, path: 'admin_app_forum_delete' } %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="4">Aucun forum</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
+    <script>
+        window.addEventListener('load', () => {
+            let url = "{{ path('api_forum_order', {id: category.id}) }}";
+            sortable('#forums', url);
+        });
+    </script>
+{% endblock %}

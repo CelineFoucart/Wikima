@@ -2,19 +2,19 @@
 
 namespace App\Controller\Wiki;
 
+use DateTimeImmutable;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use App\Security\Voter\VoterHelper;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
-use App\Security\Voter\VoterHelper;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class CommentController extends AbstractController
 {
@@ -28,8 +28,7 @@ final class CommentController extends AbstractController
     }
 
     #[Route('/articles/{slug}/comment', name: 'app_comment')]
-    #[Entity('article', expr: 'repository.findBySlug(slug)')]
-    public function index(Article $article, Request $request, CommentRepository $commentRepository): Response
+    public function index(#[MapEntity(expr: 'repository.findBySlug(slug)')] Article $article, Request $request, CommentRepository $commentRepository): Response
     {
         $page = $request->query->getInt('page', 1);
         $user = $this->getUser();

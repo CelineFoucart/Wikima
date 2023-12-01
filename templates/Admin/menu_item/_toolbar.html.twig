@@ -1,0 +1,17 @@
+{% if total < limit %}
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_menu_item_create') }}" data-bs-toggle="tooltip" title="Ajouter">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+    </a>
+{% endif %}
+<a class="btn btn-sm btn-default" href="{{ path('admin_app_menu_item_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
+    <i class="fas fa-list" aria-hidden="true"></i>
+</a>
+<div class="btn-group">             
+    <a href="{{ path('admin_app_menu_item_edit', {id: menu_item.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Editer">
+        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+    </a>
+    <a href="{{ path('admin_app_menu_item_show', {id: menu_item.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+        <i class="fas fa-info-circle"></i>
+    </a>
+    {% include "Admin/components/_delete_modal.html.twig" with { element: menu_item, path: 'admin_app_menu_item_delete' } %}
+</div>

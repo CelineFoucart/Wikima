@@ -1,0 +1,73 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Liste des éléments de menu{% endblock %}
+{% block activeAdmin %}active show{% endblock %}
+{% block activeMenu %} active {% endblock %}
+{% block page_title %}Eléments de menu ({{ total }}/{{ limit }}) {% endblock %}
+
+{% block toolbar %}
+    {% if total < limit %}
+        <a href="{{ path('admin_app_menu_item_create') }}" class="btn btn-default btn-sm">
+            <i class="fas fa-plus-circle" aria-hidden="true"></i>
+            Ajouter
+        </a>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <p>
+        Définissez les éléments du menu de navigation qui apparaît sur la page d'accueil. Vous pouvez créer jusqu'à <strong>{{ limit }}</strong>
+        éléments dans le menu de navigation de l'index.
+    </p>
+    <p>Cliquer et glisser les éléments pour les réordonner sur l'affichage public.</p>
+    <div class="card border-top-primary">
+        <div class="card-body p-1">
+            <table class="table data-table-sort mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Icône</th>
+                        <th>Lien</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="sortables">
+                {% for menu_item in menu_items %}
+                    <tr class="handle" id="{{ menu_item.id }}">
+                        <td data-label="Titre">
+                            <i class="fas fa-arrows-alt me-1"></i> 
+                            {{ menu_item.title }}
+                        </td>
+                        <td data-label="Icône">
+                            <i class="{{ menu_item.icon }}" data-bs-toggle="tooltip" title="{{ menu_item.icon }}"></i>
+                        </td>
+                        <td data-label="Lien"><a href="{{ menu_item.link }}">{{ menu_item.link }}</a></td>
+                        <td data-label="Actions">
+                            <div class="btn-group"> 
+                                <a href="{{ path('admin_app_menu_item_show', {id: menu_item.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                <a href="{{ path('admin_app_menu_item_edit', {id: menu_item.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                </a>
+                                {% include "Admin/components/_delete_modal.html.twig" with { element: menu_item, path: 'admin_app_menu_item_delete' } %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
+	<script>
+		window.addEventListener('load', () => {
+			let url = "{{ path('api_menu_item_sort') }}";
+			sortable('#sortables', url);
+		});
+	</script>
+{% endblock %}

@@ -6,6 +6,7 @@ use App\Entity\Data\Contact;
 use App\Form\ContactType;
 use App\Repository\AboutRepository;
 use App\Repository\ArticleRepository;
+use App\Repository\MenuItemRepository;
 use App\Repository\PageRepository;
 use App\Service\ContactService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,11 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(ArticleRepository $articleRepository, AboutRepository $aboutRepository): Response
+    public function index(ArticleRepository $articleRepository, AboutRepository $aboutRepository, MenuItemRepository $menuItemRepository): Response
     {
         return $this->render('home/index.html.twig', [
             'article' => $articleRepository->getRandomArticle(),
             'overview' => $aboutRepository->findAboutRow('overview'),
+            'menu_items' => $menuItemRepository->findBy([], ['position' => 'ASC']),
         ]);
     }
 

@@ -6,10 +6,6 @@
 
 {% block title %}Tableau de bord{% endblock %}
 
-{% block activeDashboard %}
-	active show
-{% endblock %}
-
 {% block toolbar %}
 	{% if is_granted('ROLE_ADMIN') %}
 		<a href="{{ path('admin_app_image_download') }}" class="btn btn-sm btn-primary">
@@ -421,6 +417,7 @@
 					<p>
 						élément{{ total > 1 ? 's' : '' }}
 						textuel{{ total > 1 ? 's' : '' }}
+						dans l'encyclopédie
 					</p>
 				</div>
 				<div class="icon">
@@ -438,6 +435,31 @@
 					lieu{{ stats.place > 1 ? 'x' : '' }}
 				</div>
 			</div>
+
+			{% if enable_forum == 1 %}
+				<div class="card card-stats-forum mt-3">
+					<div class="card-body">
+						<h3>{{ stats.post }}</h3>
+						<p>
+							message{{ stats.post > 1 ? 's' : '' }} publié{{ stats.post > 1 ? 's' : '' }} sur le forum
+						</p>
+					</div>
+					<div class="icon">
+						<i class="fas fa-comment" aria-hidden="true"></i>
+					</div>
+				</div>
+				<div class="card card-stats-forum mt-3">
+					<div class="card-body">
+						<h3>{{ stats.topic }}</h3>
+						<p>
+							sujet{{ stats.topic > 1 ? 's' : '' }} publié{{ stats.topic > 1 ? 's' : '' }} sur le forum
+						</p>
+					</div>
+					<div class="icon">
+						<i class="fas fa-comments" aria-hidden="true"></i>
+					</div>
+				</div>
+			{% endif %}
 		</div>
 	</div>
 {% endblock %}

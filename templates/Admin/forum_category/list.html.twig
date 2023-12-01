@@ -1,0 +1,81 @@
+{% extends 'Admin/forum_category/base.html.twig' %}
+
+{% block toolbar %}
+    <a href="{{ path('app_forum_index') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-book-reader"></i>
+        Index du forum
+    </a>
+    <a href="{{ path('admin_app_forum_category_create') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+    <a href="{{ path('admin_app_forum_group_list') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-user-tag" aria-hidden="true"></i>
+        Groupes
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body p-0">
+            <table class="table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Description</th>
+                        <th>Forums</th>
+                        <th>Accès</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="categories">
+                    {% for category in categories %}
+                        <tr  class="handle" id="{{ category.id }}">
+                            <td data-label="Titre">
+                                <i class="fas fa-arrows-alt me-1"></i> {{ category.title }}
+                            </td>
+                            <td data-label="Description">
+                                {{ category.description }}
+                            </td>
+                            <td data-label="Forums">
+                                {{ category.forums|length }}
+                            </td>
+                            <td data-label="Accès">
+                                <span class="group-list">
+                                    {% for group in category.groupAccess %}
+                                        <span class="fw-bold" style="color: {{ group.colour ? group.colour : '#000' }}">{{ group.title }}</span>
+                                    {% endfor %}
+                                </span>
+                            </td>
+                            <td data-label="Actions">
+                                <div class="btn-group">
+                                    <a href="{{ path('app_forum_category_show', {slug: category.slug}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
+                                        <i class="fas fa-book-reader"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_forum_category_show', {id: category.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_forum_category_edit', {id: category.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                    </a>
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: category, path: 'admin_app_forum_category_delete' } %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
+    <script>
+        window.addEventListener('load', () => {
+            let url = "{{ path('api_category_forum_order') }}";
+            sortable('#categories', url);
+        });
+    </script>
+{% endblock %}

@@ -1,9 +1,15 @@
 <article class="rounded shadow-sm border mx-5 p-3 my-3">
     <header class="d-flex">
-        {{ include('components/utils/_user-icon.html.twig') }}
+        {% if comment.author.avatar is null %}
+            {{ include('components/utils/_user-icon.html.twig') }}
+        {% else %}
+            <img src="{{ vich_uploader_asset(comment.author)|imagine_filter('gallery_thumbnail') }}" 
+                width="50"
+                class="img-fluid rounded-circle" alt="avatar de {{ comment.author.username }}">
+        {% endif %}
         <div class="ms-3">
             <h4 class="h5 mb-2">
-                {{ comment.author.username }}
+                <a href="{{path('app_user_show', {id: comment.author.id})}}" class="text-decoration-none">{{ comment.author.username }}</a>
                 {% if app.user is not null and app.user.id == comment.author.id %}
                     <span class="fs-6">
                         [ <a href="{{ path('app_comment_edit', {id: comment.id}) }}">éditer</a> | 

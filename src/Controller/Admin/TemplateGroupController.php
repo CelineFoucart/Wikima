@@ -38,7 +38,7 @@ class TemplateGroupController extends AbstractAdminController
             return $this->redirectTo($request, $templateGroup->getId());
         }
 
-        return $this->renderForm('Admin/template_group/new.html.twig', [
+        return $this->render('Admin/template_group/new.html.twig', [
             'template_group' => $templateGroup,
             'form' => $form,
         ]);
@@ -64,7 +64,7 @@ class TemplateGroupController extends AbstractAdminController
             return $this->redirectTo($request, $templateGroup->getId());
         }
 
-        return $this->renderForm('Admin/template_group/edit.html.twig', [
+        return $this->render('Admin/template_group/edit.html.twig', [
             'template_group' => $templateGroup,
             'form' => $form,
         ]);

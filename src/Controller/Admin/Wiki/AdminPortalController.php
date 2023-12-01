@@ -6,18 +6,17 @@ namespace App\Controller\Admin\Wiki;
 
 use App\Entity\Portal;
 use App\Form\Admin\PortalFormType;
-use App\Repository\ImageRepository;
 use App\Repository\PortalRepository;
-use App\Repository\ArticleRepository;
 use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin/portal')]
-#[Security("is_granted('ROLE_ADMIN')")]
+#[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
 final class AdminPortalController extends AbstractAdminController
 {
     protected string $entityName = "portal";

@@ -4,9 +4,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Image;
 
-use App\Entity\PlaceType;
-use App\Form\Admin\PlaceTypeFormType;
-use App\Repository\PlaceTypeRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,10 +11,11 @@ use App\Controller\Admin\AbstractAdminController;
 use App\Entity\ImageTag;
 use App\Form\Admin\ImageTagFormType;
 use App\Repository\ImageTagRepository;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin/image/type')]
-#[Security("is_granted('ROLE_ADMIN')")]
+#[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
 final class AdminImageTagController extends AbstractAdminController
 {
     protected string $entityName = "imagetype";

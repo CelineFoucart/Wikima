@@ -15,8 +15,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Serializer\SerializerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 class AdminApiController extends AbstractController
 {
@@ -25,7 +26,7 @@ class AdminApiController extends AbstractController
     }
 
     #[Route('/api/admin/note/{id}/processed', 'api_note_processed', methods: ['POST'])]
-    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
     public function updateNoteProcessed(Note $note): JsonResponse
     {
         $currentStatus = $note->getIsProcessed();
@@ -42,7 +43,7 @@ class AdminApiController extends AbstractController
     }
 
     #[Route('/api/admin/articles', name: 'api_article_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
     public function articleAction(ArticleRepository $articleRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();
@@ -62,7 +63,7 @@ class AdminApiController extends AbstractController
     }
 
     #[Route('/api/admin/persons', name: 'api_person_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
     public function personAction(PersonRepository $personRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();
@@ -79,7 +80,7 @@ class AdminApiController extends AbstractController
     }
 
     #[Route('/api/admin/place', name: 'api_place_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
     public function placeAction(PlaceRepository $placeRepository, Request $request): JsonResponse
     {
         $parameters = $request->query->all();
@@ -98,7 +99,7 @@ class AdminApiController extends AbstractController
     }
 
     #[Route('/api/template', name: 'api_template_index', methods: ['GET'])]
-    #[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
     public function templateIndex(TemplateRepository $templateRepository, Request $request)
     {
         $parameters = $request->query->all();

@@ -45,131 +45,30 @@
 			</div>
 		</div>
 	</article>
-	<hr class="m-5">
-	<article class="my-5 px-5">
-		<h2 class="mb-5">Explorer {{ app_name }}</h2>
-		<div class="row">
-			<div class="col-md-4 mb-3">
-				<div class="card shadow-sm">
-					<div class="card-header">
-						<h3 class="card-title h5 mb-0">
-							<a href="{{ path('app_category_index') }}" class="text-decoration-none">
-								<i class="fas fa-folder me-1"></i>
-								Consulter l'encyclopédie
-							</a>
-						</h3>
+
+	{% if menu_items is not empty %}
+		<hr class="m-5">
+		<article class="my-5 px-5">
+			<h2 class="mb-5">Explorer {{ app_name }}</h2>
+			<div class="row">
+				{% for menu_item in menu_items %}
+					<div class="col-md-4 mb-3">
+						<div class="card shadow-sm position-relative">
+							<div class="card-header">
+								<h3 class="card-title h5 mb-0">
+									<a href="{{ menu_item.link }}" class="text-decoration-none stretched-link">
+										<i class="{{ menu_item.icon }} me-1"></i>
+										{{ menu_item.title }}
+									</a>
+								</h3>
+							</div>
+							<div class="card-body">
+								<p class="card-text">{{ menu_item.description|nl2br }}</p>
+							</div>
+						</div>
 					</div>
-					<div class="card-body">
-						<p class="card-text">Explorer les articles, les catégories et les portails de {{ app_name }}.</p>
-						<a href="{{ path('app_portal_index') }}" class="text-decoration-none card-link">
-							Portails
-							<i class="fas fa-external-link-alt"></i>
-						</a>
-						<a href="{{ path('app_article_index') }}" class="text-decoration-none card-link">
-							Articles
-							<i class="fas fa-external-link-alt"></i>
-						</a>
-					</div>
-				</div>
+				{% endfor %}
 			</div>
-			<div class="col-md-4 mb-3">
-				<div class="card shadow-sm">
-					<div class="card-header">
-						<h3 class="card-title h5 mb-0">
-							<a href="{{ path('app_person_index') }}" class="text-decoration-none">
-								<i class="fas fa-user me-1"></i>
-								Consulter les personnages
-							</a>
-						</h3>
-					</div>
-					<div class="card-body">
-						<p class="card-text">Explorer les différents personnages renseignés dans {{ app_name }}.</p>
-						<a href="{{ path('app_person_index') }}" class="card-link text-decoration-none">
-							Personnages
-							<i class="fas fa-external-link-alt"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4 mb-3">
-				<div class="card shadow-sm">
-					<div class="card-header">
-						<h3 class="card-title h5 mb-0">
-							<a href="{{ path('app_timeline_index') }}" class="text-decoration-none">
-								<i class="fas fa-hourglass me-1"></i>
-								Consulter les chronologies
-							</a>
-						</h3>
-					</div>
-					<div class="card-body">
-						<p class="card-text">Explorer les événement marquants, organisés en chronologies.</p>
-						<a href="{{ path('app_timeline_index') }}" class="card-link text-decoration-none">
-							Chronologies
-							<i class="fas fa-external-link-alt"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4 mb-3">
-				<div class="card shadow-sm">
-					<div class="card-header">
-						<h3 class="card-title h5 mb-0">
-							<a href="{{ path('app_place_index') }}" class="text-decoration-none">
-								<i class="fas fa-globe me-1"></i>
-								Consulter les lieux
-							</a>
-						</h3>
-					</div>
-					<div class="card-body">
-						<p class="card-text">Explorer les lieux de {{ app_name }}, organisées en portails et catégories.</p>
-						<a href="{{ path('app_place_index') }}" class="text-decoration-none card-link">
-							Lieux
-							<i class="fas fa-external-link-alt"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-4 mb-3">
-				<div class="card shadow-sm">
-					<div class="card-header">
-						<h3 class="card-title h5 mb-0">
-							<a href="{{ path('app_image_index') }}" class="text-decoration-none">
-								<i class="fas fa-image me-1"></i>
-								Consulter la galerie
-							</a>
-						</h3>
-					</div>
-					<div class="card-body">
-						<p class="card-text">Explorer les images de la galerie de {{ app_name }}, organisées en portails et catégories.</p>
-						<a href="{{ path('app_image_index') }}" class="text-decoration-none card-link">
-							Images
-							<i class="fas fa-external-link-alt"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-			{% if enable_idiom == 1 %}
-			<div class="col-md-4 mb-3">
-				<div class="card shadow-sm">
-					<div class="card-header">
-						<h3 class="card-title h5 mb-0">
-							<a href="{{ path('app_idiom_index') }}" class="text-decoration-none">
-								<i class="fas fa-language me-1"></i>
-								Consulter les langues
-							</a>
-						</h3>
-					</div>
-					<div class="card-body">
-						<p class="card-text">Explorer les langues de l'univers, postées par les utilisateur de {{ app_name }}.</p>
-						<a href="{{ path('app_idiom_index') }}" class="text-decoration-none card-link">
-							Langues
-							<i class="fas fa-external-link-alt"></i>
-						</a>
-					</div>
-				</div>
-			</div>
-			{% endif %}
-		</div>
-		
-	</article>
+		</article>
+	{% endif %}
 {% endblock %}

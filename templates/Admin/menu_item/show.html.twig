@@ -1,0 +1,59 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block activeAdmin %}active show{% endblock %}
+{% block activeMenu %} active {% endblock %}
+{% block title %}Afficher "{{ menu_item }}"{% endblock %}
+{% block page_title %}Afficher "{{ menu_item }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_menu_item_list') }}" class="text-reset">
+			Elément de menu
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Voir
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+    {{ include('Admin/menu_item/_toolbar.html.twig') }}
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-header bg-white">
+            <h2 class="card-title h5 mb-0">
+                Informations
+            </h2>
+        </div>
+        <div class="card-body card-show">
+            <table class="table table-striped mb-0">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ menu_item.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Titre</th>
+                        <td>{{ menu_item.title }}</td>
+                    </tr>
+                    <tr>
+                        <th>Icône</th>
+                        <td>
+                            <i class="{{ menu_item.icon }}" data-bs-toggle="tooltip" title="{{ menu_item.icon }}"></i>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ menu_item.description|nl2br }}</td>
+                    </tr>
+                    <tr>
+                        <th>Lien</th>
+                        <td><a href="{{ menu_item.link }}">{{ menu_item.link }}</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

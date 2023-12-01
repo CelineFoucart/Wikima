@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profil
+{% block title %}Profil{% endblock %}
+
+{% block stylesheets %}
+<style>
+	.vich-image a {
+		display:block;
+	}
+</style>
 {% endblock %}
 
 {% block body %}
@@ -52,7 +59,18 @@
 					<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
 						<div class="accordion-body">
 							{{ form_start(accountForm) }}
-							{{ form_widget(accountForm) }}
+							<h3 class="h6">Modifier le profil</h3>
+							{{ form_row(accountForm.username) }}
+							<div class="row">
+								<div class="col-md-6">{{ form_row(accountForm.rank) }}</div>
+								<div class="col-md-6">{{ form_row(accountForm.localisation) }}</div>
+							</div>
+							<hr>
+							<h3 class="h6">Modifier l'avatar</h3>
+							{{ form_row(accountForm.imageFile) }}
+							<hr>
+							<h3 class="h6">Modifier l'email</h3>
+							{{ form_rest(accountForm) }}
 							<a href="{{ path('app_profile_confirmation') }}">Renvoyer le mail de confirmation</a>
 							<div class="text-center">
 								<button type="submit" class="btn btn-default">Changer mes informations</button>

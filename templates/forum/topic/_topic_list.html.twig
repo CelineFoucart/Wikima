@@ -1,0 +1,39 @@
+{% if section_title  is not defined %}
+    {% set section_title = 'Sujets' %}
+{% endif %}
+
+<section class="rounded-3 p-2 forum-section bg-default">
+    <h2 class="section-title-forum">{{ section_title }}</h2>
+    {% for topic in topics %}
+        <article class="forum-row d-flex bg-white align-items-center" {% if topic.locked %} data-bs-toggle="tooltip" data-bs-placement="top" title="Ce sujet est verrouillé, vous ne pouvez pas y répondre" {% endif %}>
+            <div class="ps-1 pe-3 fs-2">
+                {% if topic.locked %}
+                    <i class="fa-fw fas fa-lock"></i>
+                {% else %}
+                    <i class="fa-fw fas fa-comments"></i>
+                {% endif %}
+            </div>
+            <div class="topic-bloc">
+                <h3 class="forum-row-title">
+                    <a href="{{ path('app_forum_topic_show', {slug: topic.slug})}}">{{ topic.title }}</a>
+                </h3>
+                <p class="forum-description m-0 small">
+                    Par 
+                    {% if topic.author is not null %}
+                    
+                        <a href="{{path('app_profile', {id: topic.author.id})}}" style="color:{{ topic.author.defaultColour }}" class="fw-bold text-decoration-none">
+                            {{ topic.author.username }}
+                        </a>
+                    {% else %}
+                        <span class="fw-bold">Anonyme</span>
+                    {% endif %}
+                    &raquo; {{ topic.createdAt | date(date_format) }}
+                </p>
+            </div>
+        </article>
+    {% else %}
+        <article class="forum-row bg-default bg-white">
+            <h3 class="forum-row-title text-center">Ce forum est vide</h3>
+        </article>
+    {% endfor %}
+</section>

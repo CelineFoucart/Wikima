@@ -217,21 +217,30 @@
 
 		{% if place.presentation %}
 			<div id="presentation" class="article-content">
-				<h2 class="h2 pb-1 overflow-hidden">Présentation</h2>
+				<h2 class="h2 pb-1 overflow-hidden">
+					Présentation
+					<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
+				</h2>
 				{{ place.presentation|raw }}
 			</div>
 		{% endif %}
 
 		{% if place.history %}
 			<div id="history" class="article-content">
-				<h2 class="h2 pb-1 overflow-hidden">Histoire</h2>
+				<h2 class="h2 pb-1 overflow-hidden">
+					Histoire
+					<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
+				</h2>
 				{{ place.history|raw }}
 			</div>
 		{% endif %}
 
 		{% if place.places is not empty %}
 			<div id="associated" class="article-content">
-				<h2 class="h2 pb-1 overflow-hidden">Lieux associés</h2>
+				<h2 class="h2 pb-1 overflow-hidden">
+					Lieux associés
+					<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
+				</h2>
 				<div class="row">
 					{% for element in place.places|sort((a, b) => a.title <=> b.title)  %}
 						<div class="col-md-6 col-lg-4 my-2">

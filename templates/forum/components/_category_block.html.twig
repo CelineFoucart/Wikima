@@ -1,0 +1,24 @@
+<section class="rounded-3 p-2 bg-default mb-2">
+    <h2 class="section-title-forum">
+        {% if with_link is defined and with_link == true %}
+            <a href="{{ path('app_forum_category_show', {slug: category.slug}) }}">{{ category.title }}</a>
+        {% else %}
+            Forums
+        {% endif %}
+    </h2>
+
+    {% for forum in category.forums %}
+        <article class="forum-row bg-white">
+            <h3 class="forum-row-title">
+                <a href="{{ path('app_forum_forum_show', {slug: forum.slug}) }}" class="text-decoration-none">
+                    {{ forum.title }}
+                </a>
+            </h3>
+            <p class="forum-description">{{ forum.description }}</p>
+        </article>
+    {% else %}
+        <article class="forum-row bg-white">
+            <h3 class="forum-row-title">Cette catégorie est vide</h3>
+        </article>
+    {% endfor %}
+</section>

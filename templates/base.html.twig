@@ -22,8 +22,8 @@
 			<header class="index-header rounded-top d-print-none" {{ banner() }}>
 				{{ include('includes/_navbar.html.twig') }}
 				<div class="heading">
-					<h1 class="heading-title">{{ title|default(app_name) }}</h1>
-					<p class="lead text-center">{{ description|default(app_description) }}</p>
+					<h1 class="heading-title">{% block heading_title %}{{ title|default(app_name) }}{% endblock %}</h1>
+					<p class="lead text-center">{% block heading_description %} {{ description|default(app_description) }}{% endblock %}</p>
 				</div>
 			</header>
 

@@ -18,269 +18,294 @@
 		{% block stylesheets %}{% endblock %}
 	</head>
 	<body>
-		<nav class="navbar fixed-top bg-white navbar-white navbar-expand-md navbar-light border-bottom">
-			<a href="#" class="navbar-brand pe-2">
-				<i class="fas fa-cogs"></i>
-				<span class="ms-1">Administration</span>
-			</a>
-			<div class="navbar-nav">
-				<div aria-label="breadcrumb">
-					<ol class="breadcrumb mb-0">
-						<li class="breadcrumb-item">
-							<a href="{{ path('admin_app_dashboard') }}" class="text-reset"><i class="fas fa-home" title="accueil"></i> </a>
-						</li>
-						{% block breadcrumb %}{% endblock %}
-					</ol>
+		<div id="page-content">
+			<nav class="navbar bg-white navbar-white navbar-expand-md navbar-light border-bottom">
+				<a href="{{ path('admin_app_dashboard') }}" class="navbar-brand pe-2">
+					<i class="fas fa-cogs"></i>
+					<span class="ms-1">Administration</span>
+				</a>
+				<div class="navbar-nav">
+					<div aria-label="breadcrumb">
+						<ol class="breadcrumb mb-0">
+							<li class="breadcrumb-item">
+								<a href="{{ path('admin_app_dashboard') }}" class="text-reset"><i class="fas fa-home" title="accueil"></i> </a>
+							</li>
+							{% block breadcrumb %}{% endblock %}
+						</ol>
+					</div>
 				</div>
-			</div>
 
-			<ul class="navbar-nav ms-auto">
-				<li class="nav-item dropdown">
-					<a class="nav-link" data-bs-toggle="dropdown" href="#">
-						<i class="fas fa-user mr-1"></i> {{ app.user.username }}
-						<i class="fas fa-caret-down ml-1"></i>
-					</a>
-					<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end user-menu">
-						<div class="dropdown-item">
-							<div class="d-flex align-items-start">
-								<div class="bg-light rounded d-flex justify-content-center align-items-center mr-2"
-									style="height: 48px; width: 48px;">
-									<div class="h5 text-muted m-0"><i class="fas fa-user"></i></div>
-								</div>
-								<div>
-									<p class="text-muted mb-0 ms-1">Vous êtes connecté en tant que</p>
-									<h3 class="dropdown-item-title mt-1 font-weight-bold h6 ms-1">
-										{{ app.user.username }}
-									</h3>
+				<ul class="navbar-nav ms-auto">
+					<li class="nav-item dropdown">
+						<a class="nav-link" data-bs-toggle="dropdown" href="#">
+							<i class="fas fa-user mr-1"></i> {{ app.user.username }}
+							<i class="fas fa-caret-down ml-1"></i>
+						</a>
+						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-end user-menu">
+							<div class="dropdown-item">
+								<div class="d-flex align-items-start">
+									<div class="bg-light rounded d-flex justify-content-center align-items-center mr-2"
+										style="height: 48px; width: 48px;">
+										<div class="h5 text-muted m-0"><i class="fas fa-user"></i></div>
+									</div>
+									<div>
+										<p class="text-muted mb-0 ms-1">Vous êtes connecté en tant que</p>
+										<h3 class="dropdown-item-title mt-1 font-weight-bold h6 ms-1">
+											{{ app.user.username }}
+										</h3>
+									</div>
 								</div>
 							</div>
+							<!-- User pseudo End -->
+							<div class="dropdown-divider"></div>
+							<div class="dropdown-item dropdown-footer">
+								<a href="{{ path('app_logout') }}" class="btn btn-light border btn-sm">
+									<i class="fas fa-sign-out-alt"></i> Déconnexion
+								</a>
+							</div>
 						</div>
-						<!-- User pseudo End -->
-						<div class="dropdown-divider"></div>
-						<div class="dropdown-item dropdown-footer">
-							<a href="{{ path('app_logout') }}" class="btn btn-light border btn-sm">
-								<i class="fas fa-sign-out-alt"></i> Déconnexion
-							</a>
-						</div>
-					</div>
-				</li>
-			</ul>
-		</nav>
-		
-		<aside class="dashboard-nav">
-			<nav class="dashboard-nav-list">
-				<a href="{{ path('admin_app_dashboard') }}" class="dashboard-nav-item {% block activeDashboard %}{% endblock %}">
-					<i class="fas fa-tachometer-alt"></i>
-					<span>Tableau de bord</span>
-				</a>
-				<div class="dashboard-nav-dropdown {% block activeWiki %}{% endblock %}">
-					<a href="#" class="dashboard-nav-item dashboard-nav-dropdown-toggle ">
-						<i class="fas fa-folder"></i>
-						<span>Encyclopédie</span>
-					</a>
-					<div class="dashboard-nav-dropdown-menu">
-						{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-							<a href="{{ path('admin_app_category_list') }}" class="dashboard-nav-dropdown-item {% block activeCategory %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Catégorie</span>
-							</a>
-							<a href="{{ path('admin_app_portal_list') }}" class="dashboard-nav-dropdown-item {% block activePortal %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Portail</span>
-							</a>
-						{% endif %}
-						<a href="{{ path('admin_app_article_list') }}" class="dashboard-nav-dropdown-item {% block activeArticle %}{% endblock %}">
-							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-							<span>Article</span>
-						</a>
-						{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-							<a href="{{ path('admin_app_articletype_list') }}" class="dashboard-nav-dropdown-item {% block activeArticleType %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Type d'article</span>
-							</a>
-							<a href="{{ path('admin_app_timeline_list') }}" class="dashboard-nav-dropdown-item {% block activeTimeline %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Chronologie</span>
-							</a>
-						{% endif %}
-					</div>
-				</div>
+					</li>
+				</ul>
+			</nav>
 
-				<div class="dashboard-nav-dropdown {% block activeImage %}{% endblock %}">
-					<a href="#" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
-						<i class="fas fa-image"></i>
-						<span>Images</span>
-					</a>
-					<div class="dashboard-nav-dropdown-menu">
-						<a href="{{ path('admin_app_image_list') }}" class="dashboard-nav-dropdown-item {% block activeImageList %}{% endblock %}">
-							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-							<span>Liste</span>
+			<div id="container-admin">
+				<aside class="dashboard-nav">
+					<nav class="dashboard-nav-list sticky-top">
+						<a href="{{ path('admin_app_dashboard') }}" class="dashboard-nav-item">
+							<i class="fas fa-tachometer-alt"></i>
+							<span>Tableau de bord</span>
 						</a>
-						<a href="{{ path('admin_app_imagetype_list') }}" class="dashboard-nav-dropdown-item {% block activeImageType %}{% endblock %}">
-							<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-							<span>Type</span>
-						</a>
-					</div>
-				</div>
-
-				{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-					<div class="dashboard-nav-dropdown {% block activePerson %}{% endblock %}">
-						<a href="#" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
-							<i class="fas fa-user"></i>
-							<span>Personnages</span>
-						</a>
-						<div class="dashboard-nav-dropdown-menu">
-							<a href="{{ path('admin_app_person_list') }}" class="dashboard-nav-dropdown-item {% block activePersonList %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Liste</span>
-							</a>
-							<a href="{{ path('admin_app_persontype_list') }}" class="dashboard-nav-dropdown-item {% block activePersonType %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Type</span>
-							</a>
-						</div>
-					</div>
-					<div class="dashboard-nav-dropdown {% block activePlace %}{% endblock %}">
-						<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
-							<i class="fas fa-building"></i>
-							<span>Lieux</span>
-						</a>
-						<div class="dashboard-nav-dropdown-menu">
-							<a href="{{ path('admin_app_place_list') }}" class="dashboard-nav-dropdown-item {% block activePlaceList %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Liste</span>
-							</a>
-							<a href="{{ path('admin_app_placetype_list') }}" class="dashboard-nav-dropdown-item {% block activePlaceType %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Type</span>
-							</a>
-						</div>
-					</div>
-					{% if enable_idiom == 1 %}
-						<div class="dashboard-nav-dropdown {% block activeIdiom %}{% endblock %}">
-							<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
-								<i class="fas fa-language"></i>
-								<span>Langues</span>
+						<div class="dashboard-nav-dropdown {% block activeWiki %}{% endblock %}">
+							<a href="#" class="dashboard-nav-item dashboard-nav-dropdown-toggle ">
+								<i class="fas fa-folder"></i>
+								<span>Encyclopédie</span>
 							</a>
 							<div class="dashboard-nav-dropdown-menu">
-								<a href="{{ path('admin_app_idiom_list') }}" class="dashboard-nav-dropdown-item {% block activeIdiomList %}{% endblock %}">
+								{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+									<a href="{{ path('admin_app_category_list') }}" class="dashboard-nav-dropdown-item {% block activeCategory %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Catégorie</span>
+									</a>
+									<a href="{{ path('admin_app_portal_list') }}" class="dashboard-nav-dropdown-item {% block activePortal %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Portail</span>
+									</a>
+								{% endif %}
+								<a href="{{ path('admin_app_article_list') }}" class="dashboard-nav-dropdown-item {% block activeArticle %}{% endblock %}">
+									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+									<span>Article</span>
+								</a>
+								{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+									<a href="{{ path('admin_app_articletype_list') }}" class="dashboard-nav-dropdown-item {% block activeArticleType %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Type d'article</span>
+									</a>
+									<a href="{{ path('admin_app_timeline_list') }}" class="dashboard-nav-dropdown-item {% block activeTimeline %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Chronologie</span>
+									</a>
+								{% endif %}
+							</div>
+						</div>
+
+						<div class="dashboard-nav-dropdown {% block activeImage %}{% endblock %}">
+							<a href="#" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+								<i class="fas fa-image"></i>
+								<span>Images</span>
+							</a>
+							<div class="dashboard-nav-dropdown-menu">
+								<a href="{{ path('admin_app_image_list') }}" class="dashboard-nav-dropdown-item {% block activeImageList %}{% endblock %}">
 									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 									<span>Liste</span>
 								</a>
-								<a href="{{ path('admin_app_idiom_category_list') }}" class="dashboard-nav-dropdown-item {% block activeIdiomCategory %}{% endblock %}">
+								<a href="{{ path('admin_app_imagetype_list') }}" class="dashboard-nav-dropdown-item {% block activeImageType %}{% endblock %}">
 									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-									<span>Catégorie</span>
+									<span>Type</span>
 								</a>
 							</div>
 						</div>
-					{% endif %}
-					<div class="dashboard-nav-dropdown {% block activeTemplate %}{% endblock %}">
-						<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
-							<i class="fas fa-table"></i>
-							<span>Modèles</span>
-						</a>
-						<div class="dashboard-nav-dropdown-menu">
-							<a href="{{ path('admin_app_template_list') }}" class="dashboard-nav-dropdown-item {% block activeTemplateList %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Liste</span>
-							</a>
-							<a href="{{ path('admin_app_template_group_list') }}" class="dashboard-nav-dropdown-item {% block activeTemplateGroup %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Groupe</span>
-							</a>
-						</div>
-					</div>
 
-					<div class="dashboard-nav-dropdown {% block activeAdmin %}{% endblock %}">
-						<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
-							<i class="fas fa-tools"></i>
-							<span>Administration</span>
-						</a>
-						<div class="dashboard-nav-dropdown-menu">
-							<a href="{{ path('admin_app_overview') }}" class="dashboard-nav-dropdown-item {% block activeAbout %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Présentation</span>
-							</a>
-							<a href="{{ path('admin_app_page_list') }}" class="dashboard-nav-dropdown-item {% block activePage %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Page</span>
-							</a>
-							<a href="{{ path('admin_app_user_list') }}" class="dashboard-nav-dropdown-item {% block activeUser %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Membres</span>
-							</a>
-							{% if enable_comment == 1 %}
-								<a href="{{ path('admin_app_comment_list') }}" class="dashboard-nav-dropdown-item {% block activeComment %}{% endblock %}">
-									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-									<span>Commentaire</span>
+						{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+							<div class="dashboard-nav-dropdown {% block activePerson %}{% endblock %}">
+								<a href="#" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+									<i class="fas fa-user"></i>
+									<span>Personnages</span>
 								</a>
+								<div class="dashboard-nav-dropdown-menu">
+									<a href="{{ path('admin_app_person_list') }}" class="dashboard-nav-dropdown-item {% block activePersonList %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Liste</span>
+									</a>
+									<a href="{{ path('admin_app_persontype_list') }}" class="dashboard-nav-dropdown-item {% block activePersonType %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Type</span>
+									</a>
+								</div>
+							</div>
+							<div class="dashboard-nav-dropdown {% block activePlace %}{% endblock %}">
+								<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+									<i class="fas fa-building"></i>
+									<span>Lieux</span>
+								</a>
+								<div class="dashboard-nav-dropdown-menu">
+									<a href="{{ path('admin_app_place_list') }}" class="dashboard-nav-dropdown-item {% block activePlaceList %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Liste</span>
+									</a>
+									<a href="{{ path('admin_app_placetype_list') }}" class="dashboard-nav-dropdown-item {% block activePlaceType %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Type</span>
+									</a>
+								</div>
+							</div>
+							{% if enable_idiom == 1 %}
+								<div class="dashboard-nav-dropdown {% block activeIdiom %}{% endblock %}">
+									<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+										<i class="fas fa-language"></i>
+										<span>Langues</span>
+									</a>
+									<div class="dashboard-nav-dropdown-menu">
+										<a href="{{ path('admin_app_idiom_list') }}" class="dashboard-nav-dropdown-item {% block activeIdiomList %}{% endblock %}">
+											<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+											<span>Liste</span>
+										</a>
+										<a href="{{ path('admin_app_idiom_category_list') }}" class="dashboard-nav-dropdown-item {% block activeIdiomCategory %}{% endblock %}">
+											<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+											<span>Catégorie</span>
+										</a>
+									</div>
+								</div>
 							{% endif %}
-							{% if is_granted('ROLE_SUPER_ADMIN') %}
-								<a href="{{ path('admin_app_backup_list') }}" class="dashboard-nav-dropdown-item {% block activeBackup %}{% endblock %}">
-									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-									<span>Sauvegarde</span>
+							<div class="dashboard-nav-dropdown {% block activeTemplate %}{% endblock %}">
+								<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+									<i class="fas fa-table"></i>
+									<span>Modèles</span>
 								</a>
-								<a href="{{ path('admin_app_modules') }}" class="dashboard-nav-dropdown-item {% block activeModule %}{% endblock %}">
-									<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-									<span>Modules</span>
-								</a>
-							{% endif %}
-							<a href="{{ path('admin_app_settings') }}" class="dashboard-nav-dropdown-item {% block activeConfig %}{% endblock %}">
-								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-								<span>Configuration</span>
+								<div class="dashboard-nav-dropdown-menu">
+									<a href="{{ path('admin_app_template_list') }}" class="dashboard-nav-dropdown-item {% block activeTemplateList %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Liste</span>
+									</a>
+									<a href="{{ path('admin_app_template_group_list') }}" class="dashboard-nav-dropdown-item {% block activeTemplateGroup %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Groupe</span>
+									</a>
+								</div>
+							</div>
+						
+							<a href="{{ path('admin_app_note_list') }}" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
+								<i class="fas fa-sticky-note me-1"></i>
+								<span>Notes</span>
 							</a>
-						</div>
-					</div>
-				{% endif %}
-				
-				<a href="{{ path('admin_app_note_list') }}" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
-					<i class="fas fa-sticky-note me-1"></i>
-					<span>Notes</span>
-				</a>
-				
-				<div class="nav-item-divider"></div>
-				<a href="{{ path('app_home') }}" class="dashboard-nav-item">
-					<i class="fas fa-globe"></i>
-					<span>Index de {{ app_name }}</span>
-				</a>
-				<a href="{{ path('app_logout') }}" class="dashboard-nav-item">
-					<i class="fas fa-sign-out-alt"></i>
-					<span>Déconnexion</span>
-				</a>
-			</nav>
-		</aside>
 
-		<div class="wrapper" id="wrapper">
-			<div class="container-fluid mt-2">
-				<header class="page-header mt-3">
-					<div class="row align-items-center">
-						<div class="col-md-8">
-							<h1 class="fs-5 mb-0">{% block page_title %}Tableau de bord{% endblock %}</h1>
-						</div>
-						<div class="col-md-4 d-flex justify-content-end" style="gap:5px">
-							{% block toolbar %}{% endblock %}
-						</div>
-					</div>
-				</header>
+							<div class="dashboard-nav-dropdown {% block activeAdmin %}{% endblock %}">
+								<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+									<i class="fas fa-users-cog"></i>
+									<span>Administration</span>
+								</a>
+								<div class="dashboard-nav-dropdown-menu">
+									<a href="{{ path('admin_app_overview') }}" class="dashboard-nav-dropdown-item {% block activeAbout %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Présentation</span>
+									</a>
+									<a href="{{ path('admin_app_page_list') }}" class="dashboard-nav-dropdown-item {% block activePage %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Page</span>
+									</a>
+									<a href="{{ path('admin_app_menu_item_list') }}" class="dashboard-nav-dropdown-item {% block activeMenu %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Menu</span>
+									</a>
+									<a href="{{ path('admin_app_user_list') }}" class="dashboard-nav-dropdown-item {% block activeUser %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Membres</span>
+									</a>
+									{% if enable_forum == 1 %}
+										<a href="{{ path('admin_app_forum_category_list') }}" class="dashboard-nav-dropdown-item {% block activeForum %}{% endblock %}">
+											<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+											<span>Forum</span>
+										</a>
+									{% endif %}
+									{% if enable_comment == 1 %}
+										<a href="{{ path('admin_app_comment_list') }}" class="dashboard-nav-dropdown-item {% block activeComment %}{% endblock %}">
+											<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+											<span>Commentaire</span>
+										</a>
+									{% endif %}
+									{% if is_granted('ROLE_SUPER_ADMIN') %}
+										<a href="{{ path('admin_app_backup_list') }}" class="dashboard-nav-dropdown-item {% block activeBackup %}{% endblock %}">
+											<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+											<span>Sauvegarde</span>
+										</a>
+									{% endif %}
+								</div>
+							</div>
 
-				{% for message in app.flashes('success') %}
-					<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
-						{{ message }}
-						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-					</div>
-				{% endfor %}
+							<div class="dashboard-nav-dropdown {% block activeSetting %}{% endblock %}">
+								<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+									<i class="fas fa-tools"></i>
+									<span>Configuration</span>
+								</a>
+								<div class="dashboard-nav-dropdown-menu">
+									<a href="{{ path('admin_app_settings') }}" class="dashboard-nav-dropdown-item {% block activeConfig %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Site</span>
+									</a>
+									<a href="{{ path('admin_app_access') }}" class="dashboard-nav-dropdown-item {% block activeAccess %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Accès</span>
+									</a>
+									{% if is_granted('ROLE_SUPER_ADMIN') %}
+										<a href="{{ path('admin_app_modules') }}" class="dashboard-nav-dropdown-item {% block activeModule %}{% endblock %}">
+											<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+											<span>Modules</span>
+										</a>
+									{% endif %}
+								</div>
+							</div>
+						{% endif %}
+						
+						<div class="nav-item-divider"></div>
+						<a href="{{ path('app_home') }}" class="dashboard-nav-item">
+							<i class="fas fa-globe"></i>
+							<span>Index de {{ app_name }}</span>
+						</a>
+					</nav>
+				</aside>
 
-				{% for message in app.flashes('error') %}
-					<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-						{{ message }}
-						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+				<div class="wrapper flex-fill">
+					<div class="container-fluid mt-2">
+						<header class="page-header mt-3">
+							<div class="row align-items-center">
+								<div class="col-lg-8">
+									<h1 class="fs-5 mb-0">{% block page_title %}Tableau de bord{% endblock %}</h1>
+								</div>
+								<div class="col-lg-4 d-flex justify-content-end" style="gap:5px">
+									{% block toolbar %}{% endblock %}
+								</div>
+							</div>
+						</header>
+
+						{% for message in app.flashes('success') %}
+							<div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+								{{ message }}
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+						{% endfor %}
+
+						{% for message in app.flashes('error') %}
+							<div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+								{{ message }}
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+						{% endfor %}
 					</div>
-				{% endfor %}
+
+					<main class="container-fluid mt-4">
+						{% block body %}{% endblock %}
+					</main>
+				</div>
 			</div>
-
-			<main class="container-fluid mt-4">
-				{% block body %}{% endblock %}
-			</main>
 		</div>
 
 		<script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>

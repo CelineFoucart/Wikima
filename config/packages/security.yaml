@@ -1,5 +1,4 @@
 security:
-    enable_authenticator_manager: true
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
@@ -36,7 +35,8 @@ security:
             # switch_user: true
 
     role_hierarchy:
-        ROLE_ADMIN: ['ROLE_EDITOR']
+        ROLE_MODERATOR: ['ROLE_USER']
+        ROLE_ADMIN: ['ROLE_EDITOR', 'ROLE_MODERATOR']
         ROLE_SUPER_ADMIN: ['ROLE_ADMIN', 'ROLE_EDITOR']
 
     # Easy way to control access for large sections of your site
@@ -47,18 +47,11 @@ security:
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/contact, roles: PUBLIC_ACCESS }
         - { path: ^/faq, roles: PUBLIC_ACCESS }
-        - { path: ^/articles, roles: ROLE_USER }
-        - { path: ^/category, roles: ROLE_USER }
-        - { path: ^/portals, roles: ROLE_USER }
-        - { path: ^/idioms, roles: ROLE_USER }
-        - { path: ^/images, roles: ROLE_USER }
-        - { path: ^/persons, roles: ROLE_USER }
-        - { path: ^/timelines, roles: ROLE_USER }
-        - { path: ^/print, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_EDITOR }
         - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/comment, roles: ROLE_USER }
         - { path: ^/draft, roles: ROLE_EDITOR }
+        - { path: ^/moderator-panel, roles: ROLE_MODERATOR }
 
 when@test:
     security:

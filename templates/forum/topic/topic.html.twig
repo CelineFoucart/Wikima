@@ -1,0 +1,105 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_category_show', {slug: topic.forum.category.slug}) }}">{{ topic.forum.category.title }}</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_forum_show', {slug: topic.forum.slug}) }}">{{ topic.forum.title }}</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">{{ topic.title }}</li> 
+{% endblock %}
+
+{% block forum_content %}
+    <article>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success mt-1">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-success mt-1">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <h2>
+            {% if topic.locked %}
+                <i class="fa-fw fas fa-lock"></i>
+            {% endif %}
+            {{ topic.title }}
+        </h2>
+        <p> 
+            Par 
+            {% if topic.author is not null %}
+                <a href="{{ path('app_user_show', {id: topic.author.id})}}" style="color:{{ topic.author.defaultColour }}" class="author">
+                    {{ topic.author.username }}
+                </a>
+            {% else %}
+                <span class="author">Anonyme</span>
+            {% endif %}
+            &raquo; {{ topic.createdAt | date(date_format) }}
+        </p>
+
+        <div class="row">
+            <div class="col-md-6">
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
+                    <a href="{{ path('app_moderation_topic', {id: topic.id}) }}" class="btn btn-outline-secondary" data-bs-toggle="tooltip" title="modérer le sujet">
+                        <i class="fas fa-gavel fa-fw" aria-hidden="true"></i>
+                    </a>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex justify-content-end align-items-center">
+                    <span class="pe-2">{{ posts.getTotalItemCount }} message{{ posts.getTotalItemCount  > 1 ? 's' : '' }}</span>
+                    {{ knp_pagination_render(posts) }}
+                </div>
+            </div>
+        </div>
+
+        {% for post in posts %}
+            <section class="rounded-3 bg-light my-2 p-2 post-container">
+                <div class="d-flex position-relative">
+                    <div class="pe-2 profile-post border-end border-white">
+                        {% if post.author is not null %}
+                            {% if post.author.avatar is not null %}
+                                <div class="mb-0">
+                                    <img src="{{ vich_uploader_asset(post.author) }}" class="img-fluid rounded-3" alt=" avatar de {{ post.author.username }}">
+                                </div>
+                            {% endif %}
+                            <a href="{{path('app_user_show', {id: app.user.id})}}" class="author" style="color:{{ post.author.defaultColour }}">
+                                {{ post.author.username }}
+                            </a>
+                            <ul class="profil-post-info">
+                                <li>Inscription : {{ post.author.createdAt | date(date_format) }} </li>
+                                <li>Localisation :  {{ post.author.localisation }} </li>
+                                <li>Rang : {{ post.author.rank }}</li>
+                            </ul>
+                        {% else %}
+                            <span class="author">Anonyme</span>
+                        {% endif %}
+                    </div>
+                    <div class="ps-2 w-100">
+                        <h3 id="post{{post.id}}" class="h4"><a href="#post{{post.id}}">{{post.title}}</a></h3>
+                        {% include "forum/components/_post_info.html.twig" with {author: post.author } %}
+                        {% if is_granted('ROLE_USER') %}
+                            {% include "forum/components/_post_actions.html.twig" %}
+                        {% endif %}
+                        <div class="mb-2 mt-3">
+                            {{ post.content|raw }}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% else %}
+            <section class="alert alert-danger">
+                <h3 class="h5">Ce topic est vide !</h3>
+            </section>
+        {% endfor %}
+
+        {% if (is_granted('ROLE_USER') and topic.locked == false) or (is_granted('ROLE_MODERATOR'))  %}
+            <footer class="mt-3">
+                {% include "forum/topic/_form.html.twig" with {title: 'Nouveau message'} %}
+            </footer>
+        {% endif %}
+    </article>
+{% endblock %}

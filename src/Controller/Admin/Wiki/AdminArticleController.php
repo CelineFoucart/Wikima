@@ -4,34 +4,35 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Wiki;
 
+use App\Entity\User;
 use App\Entity\Image;
+use DateTimeImmutable;
 use App\Entity\Article;
 use App\Entity\Section;
-use App\Form\Admin\ImageType;
 use App\Form\SectionType;
+use App\Form\Admin\ImageType;
 use App\Entity\Data\SearchData;
-use App\Form\Search\AdvancedSearchType;
 use App\Form\Admin\ArticleFormType;
 use App\Repository\ImageRepository;
 use App\Security\Voter\VoterHelper;
 use App\Repository\PortalRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\SectionRepository;
+use App\Repository\TemplateRepository;
+use App\Form\Search\AdvancedSearchType;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\TemplateGroupRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use App\Controller\Admin\AbstractAdminController;
-use App\Entity\User;
-use App\Repository\TemplateGroupRepository;
-use App\Repository\TemplateRepository;
-use DateTimeImmutable;
-use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/article')]
-#[Security("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')")]
+#[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
 final class AdminArticleController extends AbstractAdminController
 {
     protected string $entityName = "article";
@@ -166,8 +167,7 @@ final class AdminArticleController extends AbstractAdminController
 
     
     #[Route('/{id}/section', name: 'admin_app_article_section', methods:['GET', 'POST'])]
-    #[Entity('article', expr: 'repository.findById(id)')]
-    public function sectionAction(Article $article, Request $request): Response
+    public function sectionAction(#[MapEntity(expr: 'repository.findById(id)')] Article $article, Request $request): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
         $section = $this->getSection($request->query->getInt('section', 0), $article, $request->query->getInt('template', 0));
@@ -195,7 +195,7 @@ final class AdminArticleController extends AbstractAdminController
             return $this->redirectToRoute('admin_app_article_section', ['id' => $article->getId()]);
         }
 
-        return $this->renderForm('Admin/article/section.html.twig', [
+        return $this->render('Admin/article/section.html.twig', [
             'article' => $article,
             'sectionForm' => $sectionForm,
             'section_active' => true,

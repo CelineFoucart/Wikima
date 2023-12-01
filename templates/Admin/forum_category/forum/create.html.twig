@@ -1,0 +1,29 @@
+{% extends 'Admin/forum_category/base.html.twig' %}
+
+{% block title %}Créer un forum{% endblock %}
+
+{% block page_title %}Créer un forum{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_forum_category_list') }}" class="text-reset">
+			Catégories de forum
+		</a>
+	</li>
+    <li class="breadcrumb-item">
+		<a href="{{ path('admin_app_forum_category_show', {id: category.id}) }}" class="text-reset">
+			{{ category }}
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Nouveau forum
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+{% include 'Admin/forum_category/_toolbar.html.twig' %}
+{% endblock %}
+
+{% block body %}
+    {{ include('Admin/forum_category/forum/_form.html.twig') }}
+{% endblock %}

@@ -6,11 +6,11 @@ use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\Data\SearchData;
 use App\Repository\ArticleRepository;
-use App\Form\Search\AdvancedArticleSearchType;
 use Symfony\Component\HttpFoundation\Request;
+use App\Form\Search\AdvancedArticleSearchType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ArticleController extends AbstractController
@@ -21,8 +21,7 @@ final class ArticleController extends AbstractController
     }
 
     #[Route('/articles/{slug}', name: 'app_article_show')]
-    #[Entity('article', expr: 'repository.findBySlug(slug)')]
-    public function article(Article $article): Response
+    public function article(#[MapEntity(expr: 'repository.findBySlug(slug)')] Article $article): Response
     {
         $this->denyAccessUnlessGranted('view', $article);
 
