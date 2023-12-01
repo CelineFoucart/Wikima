@@ -8,17 +8,23 @@
 
 {% block breadcrumb %}
     <li class="breadcrumb-item">
-        <a href="{{ path('app_moderation_home') }}">Modération</a>
+        <a href="{{ path('app_forum_category_show', {slug: post.topic.forum.category.slug}) }}">{{ post.topic.forum.category.title }}</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_forum_show', {slug: post.topic.forum.slug}) }}">{{ post.topic.forum.title }}</a>
+    </li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('app_forum_topic_show', {slug: post.topic.slug}) }}">{{ post.topic.title }}</a>
     </li>
     <li class="breadcrumb-item active" aria-current="page">Informations sur un message</li> 
 {% endblock %}
 
 {% block forum_content %}
-    <h2>Panneau de modération</h2>
+    <h2>Modération d'un message</h2>
     <section class="rounded-3 bg-light my-2 p-3 post-container">
         <h3 class="h5">
             <div class="row align-items-center">
-                <div class="col-10">Informations sur le message</div>
+                <div class="col-10">Informations sur un message</div>
                 <div class="col-2 text-end">
                     <a href="{{ path('app_post_edit', {id: post.id})}}" 
                         class="btn btn-outline-secondary btn-sm" 

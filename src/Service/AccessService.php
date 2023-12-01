@@ -21,6 +21,7 @@ final class AccessService
         'APP_PERSON_TYPE' => "Page de détail d'un type de personnage",
         'APP_IMAGE_INDEX' => "Liste des images",
         'APP_IMAGE_SHOW' => "Page de détail d'une image",
+        'APP_IMAGE_TYPE' => "Page de détail d'un type d'image",
         'APP_TIMELINE_INDEX' => "Liste des chronologies",
         'APP_TIMELINE_SHOW' => "Page de détail d'une chronologie",
     ];

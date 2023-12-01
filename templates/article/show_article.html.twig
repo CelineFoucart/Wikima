@@ -13,7 +13,7 @@
 
 {% block body %}
 	<article>
-		<header class="pt-4 bg-item header-item border-bottom">
+		<header class="pt-4 bg-item header-item border-bottom" id="title-top">
 			{{ include('article/components/_header.html.twig', {reading:true}) }}
 		</header>
 
@@ -40,7 +40,7 @@
 							<span title="afficher ou cacher" role="button" data-action="click->toggle#toggle" data-toggle-target="action" class="float-end">
 								<i class="fas fa-chevron-down"></i>
 							</span>
-							<h2 class="h6">Sommaire</h2>
+							<h2 class="h6"><a href="#title-top"><i class="fas fa-arrow-up me-1"></i></a> Sommaire</h2>
 						</div>
 						<ol class="mb-0" data-toggle-target="content">
 							{% for section in article.sections %}

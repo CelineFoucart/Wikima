@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block forum_content %}
-    <h2>Panneau de modération</h2>
+    <h2>Signalement des membres</h2>
     {% for message in app.flashes('success') %}
         <div class="alert alert-success mt-1">
             {{ message }}
@@ -19,7 +19,7 @@
     {% endfor %}
     <div class="card my-3">
         <div class="card-header">
-            <h3 class="card-title mb-0 h4">Rapports</h3>
+            <h3 class="card-title mb-0 h5">Rapports de sujet</h3>
         </div>
         <div class="card-body">
             <table class="table table-striped" id="tableIndex">

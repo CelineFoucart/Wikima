@@ -30,7 +30,7 @@ class ModeratorController extends AbstractController
     #[Route('/', name: 'app_moderation_home')]
     public function indexAction(ReportRepository $reportRepository): Response
     {
-        return $this->render('forum/moderation/index.html.twig', [
+        return $this->render('forum/moderation/report.html.twig', [
             'reports' => $reportRepository->findAll(),
         ]);
     }
