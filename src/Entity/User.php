@@ -21,7 +21,7 @@ use Symfony\Component\Serializer\Annotation\Ignore;
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['username'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serializable
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -517,9 +517,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
         return $this;
     }
 
-    public function serialize(): ?string
+    public function __serialize(): array
     {
-        return serialize([
+        return [
             'id' => $this->getId(),
             'username' => $this->getUsername(),
             'email' => $this->getEmail(),
@@ -527,19 +527,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \Serial
             'userIdentifier' => $this->getUserIdentifier(),
             'roles' => $this->getRoles(),
             'isVerified' => $this->isVerified(),
-        ]);
+        ];
     }
 
-    public function unserialize(string $data): void
+    public function __unserialize(array $data): void
     {
-        $unserialized = unserialize($data);
-
-        $this->setId($unserialized['id'])
-            ->setUsername($unserialized['username'])
-            ->setEmail($unserialized['email'])
-            ->setPassword($unserialized['password'])
-            ->setRoles($unserialized['roles'])
-            ->setIsVerified($unserialized['isVerified'])
+        $this->setId($data['id'])
+            ->setUsername($data['username'])
+            ->setEmail($data['email'])
+            ->setPassword($data['password'])
+            ->setRoles($data['roles'])
+            ->setIsVerified($data['isVerified'])
         ;
     }
 }

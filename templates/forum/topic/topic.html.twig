@@ -66,7 +66,7 @@
                                     <img src="{{ vich_uploader_asset(post.author) }}" class="img-fluid rounded-3" alt=" avatar de {{ post.author.username }}">
                                 </div>
                             {% endif %}
-                            <a href="{{path('app_user_show', {id: app.user.id})}}" class="author" style="color:{{ post.author.defaultColour }}">
+                            <a href="{{path('app_user_show', {id: post.author.id})}}" class="author" style="color:{{ post.author.defaultColour }}">
                                 {{ post.author.username }}
                             </a>
                             <ul class="profil-post-info">
