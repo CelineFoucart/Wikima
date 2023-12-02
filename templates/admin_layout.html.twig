@@ -192,12 +192,30 @@
 									</a>
 								</div>
 							</div>
-						
-							<a href="{{ path('admin_app_note_list') }}" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
-								<i class="fas fa-sticky-note me-1"></i>
-								<span>Notes</span>
-							</a>
+						{% endif %}
 
+						<div class="dashboard-nav-dropdown {% block activeScenario %}{% endblock %}">
+								<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
+									<i class="fas fa-book"></i>
+									<span>Scénarios</span>
+								</a>
+								<div class="dashboard-nav-dropdown-menu">
+									<a href="#" class="dashboard-nav-dropdown-item {% block activeScenarioList %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Liste</span>
+									</a>
+									<a href="{{ path('admin_app_scenario_category_list') }}" class="dashboard-nav-dropdown-item {% block activeScenarioCategory %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Categorie</span>
+									</a>
+								</div>
+							</div>
+						
+						<a href="{{ path('admin_app_note_list') }}" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
+							<i class="fas fa-sticky-note me-1"></i>
+							<span>Notes</span>
+						</a>
+						{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
 							<div class="dashboard-nav-dropdown {% block activeAdmin %}{% endblock %}">
 								<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
 									<i class="fas fa-users-cog"></i>
