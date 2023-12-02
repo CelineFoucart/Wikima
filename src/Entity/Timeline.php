@@ -56,11 +56,15 @@ class Timeline
     #[ORM\Column(nullable: true)]
     private ?int $position = null;
 
+    #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'timelines')]
+    private Collection $scenarios;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->portals = new ArrayCollection();
         $this->events = new ArrayCollection();
+        $this->scenarios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -225,5 +229,32 @@ class Timeline
         }
 
         return $this->title;
+    }
+
+    /**
+     * @return Collection<int, Scenario>
+     */
+    public function getScenarios(): Collection
+    {
+        return $this->scenarios;
+    }
+
+    public function addScenario(Scenario $scenario): static
+    {
+        if (!$this->scenarios->contains($scenario)) {
+            $this->scenarios->add($scenario);
+            $scenario->addTimeline($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScenario(Scenario $scenario): static
+    {
+        if ($this->scenarios->removeElement($scenario)) {
+            $scenario->removeTimeline($this);
+        }
+
+        return $this;
     }
 }

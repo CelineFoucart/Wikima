@@ -127,6 +127,9 @@ class Place
     #[ORM\Column(nullable: true)]
     private ?bool $isArchived = null;
 
+    #[ORM\ManyToMany(targetEntity: Episode::class, mappedBy: 'places')]
+    private Collection $episodes;
+
     public function __construct()
     {
         $this->localisations = new ArrayCollection();
@@ -134,6 +137,7 @@ class Place
         $this->types = new ArrayCollection();
         $this->categories = new ArrayCollection();
         $this->portals = new ArrayCollection();
+        $this->episodes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -485,6 +489,33 @@ class Place
     public function setIsArchived(?bool $isArchived): static
     {
         $this->isArchived = $isArchived;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Episode>
+     */
+    public function getEpisodes(): Collection
+    {
+        return $this->episodes;
+    }
+
+    public function addEpisode(Episode $episode): static
+    {
+        if (!$this->episodes->contains($episode)) {
+            $this->episodes->add($episode);
+            $episode->addPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEpisode(Episode $episode): static
+    {
+        if ($this->episodes->removeElement($episode)) {
+            $episode->removePlace($this);
+        }
 
         return $this;
     }

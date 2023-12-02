@@ -100,6 +100,9 @@ class Portal
     #[ORM\ManyToMany(targetEntity: Idiom::class, mappedBy: 'portals')]
     private Collection $idioms;
 
+    #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'portals')]
+    private Collection $scenarios;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -111,6 +114,7 @@ class Portal
         $this->notes = new ArrayCollection();
         $this->places = new ArrayCollection();
         $this->idioms = new ArrayCollection();
+        $this->scenarios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -489,6 +493,33 @@ class Portal
     {
         if ($this->idioms->removeElement($idiom)) {
             $idiom->removePortal($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scenario>
+     */
+    public function getScenarios(): Collection
+    {
+        return $this->scenarios;
+    }
+
+    public function addScenario(Scenario $scenario): static
+    {
+        if (!$this->scenarios->contains($scenario)) {
+            $this->scenarios->add($scenario);
+            $scenario->addPortal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScenario(Scenario $scenario): static
+    {
+        if ($this->scenarios->removeElement($scenario)) {
+            $scenario->removePortal($this);
         }
 
         return $this;
