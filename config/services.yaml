@@ -50,11 +50,6 @@ services:
         arguments:
             $faviconFile: '%env(WIKI_FAVICON)%'
             $bannerFile: '%env(WIKI_BANNER)%'
-
-    Faker\Factory: ~
-
-    App\DataFixtures\HashPasswordProvider:
-        tags: [ { name: nelmio_alice.faker.provider } ]
     
     App\Service\Modules\ModuleService:
         arguments: 
