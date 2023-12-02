@@ -41,10 +41,6 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Slug</th>
-                                <td>{{ category.slug }}</td>
-                            </tr>
-                            <tr>
                                 <th>Mots clés</th>
                                 <td>{{ category.keywords }}</td>
                             </tr>
@@ -82,6 +78,10 @@
                 <div class="card-body card-show">
                     <table class="table table-striped mb-0">
                         <tbody>
+                            <tr>
+                                <th>Slug</th>
+                                <td>{{ category.slug }}</td>
+                            </tr>
                             <tr>
                                 <th>Création</th>
                                 <td>{{ category.createdAt|date(date_format) }}</td>

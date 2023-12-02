@@ -41,10 +41,6 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Slug</th>
-                                <td>{{ timeline.slug }}</td>
-                            </tr>
-                            <tr>
                                 <th>Description</th>
                                 <td>{{ timeline.description|nl2br }}</td>
                             </tr>
@@ -85,6 +81,10 @@
                 <div class="card-body card-show">
                     <table class="table table-striped mb-0">
                         <tbody>
+                            <tr>
+                                <th>Slug</th>
+                                <td>{{ timeline.slug }}</td>
+                            </tr>
                             <tr>
                                 <th>Création</th>
                                 <td>{{ timeline.createdAt|date(date_format) }}</td>

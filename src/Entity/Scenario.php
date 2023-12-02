@@ -7,8 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ScenarioRepository::class)]
+#[UniqueEntity(fields: ['slug', 'title'])]
 class Scenario
 {
     #[ORM\Id]
@@ -17,12 +20,27 @@ class Scenario
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        min: 3,
+        max: 255
+    )]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
+    #[Assert\Length(
+        min: 3,
+        max: 255
+    )]
     private ?string $slug = null;
 
     #[ORM\Column(length: 3000, nullable: true)]
+    #[Assert\Length(
+        min: 3,
+        max: 3000
+    )]
     private ?string $pitch = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -35,7 +53,7 @@ class Scenario
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\ManyToMany(targetEntity: ScenarioCategory::class, inversedBy: 'scenarios')]
-    private Collection $category;
+    private Collection $categories;
 
     #[ORM\ManyToMany(targetEntity: Portal::class, inversedBy: 'scenarios')]
     private Collection $portals;
@@ -48,7 +66,7 @@ class Scenario
 
     public function __construct()
     {
-        $this->category = new ArrayCollection();
+        $this->categories = new ArrayCollection();
         $this->portals = new ArrayCollection();
         $this->timelines = new ArrayCollection();
         $this->episodes = new ArrayCollection();
@@ -134,15 +152,15 @@ class Scenario
     /**
      * @return Collection<int, ScenarioCategory>
      */
-    public function getCategory(): Collection
+    public function getCategories(): Collection
     {
-        return $this->category;
+        return $this->categories;
     }
 
     public function addCategory(ScenarioCategory $category): static
     {
-        if (!$this->category->contains($category)) {
-            $this->category->add($category);
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
         }
 
         return $this;
@@ -150,7 +168,7 @@ class Scenario
 
     public function removeCategory(ScenarioCategory $category): static
     {
-        $this->category->removeElement($category);
+        $this->categories->removeElement($category);
 
         return $this;
     }
@@ -231,5 +249,10 @@ class Scenario
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title ? $this->title : 'Nouveau scénario';
     }
 }

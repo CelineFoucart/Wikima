@@ -1,0 +1,65 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Liste des scénarios{% endblock %}
+{% block activeScenario %}active show{% endblock %}
+{% block activeScenarioList %} active {% endblock %}
+{% block page_title %}Scénarios{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">Scénarios</li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_scenario_create') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body p-1">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Titre</th>
+                        <th>Slug</th>
+                        <th>Création</th>
+                        <th>Mise à jour</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for scenario in scenarios %}
+                        <tr>
+                            <td data-label="Id">{{ scenario.id }}</td>
+                            <td data-label="Titre">{{ scenario.title }}</td>
+                            <td data-label="Slug">{{ scenario.slug }}</td>
+                            <td data-label="Création" data-sort="{{ scenario.createdAt ? scenario.createdAt|date('Y-m-d H:i') : '' }}">
+                                {{ scenario.createdAt ? scenario.createdAt|date(date_format) : '' }}
+                            </td>
+                            <td data-label="Mise à jour" data-sort="{{ scenario.updatedAt ? scenario.updatedAt|date('Y-m-d H:i') : '' }}">
+                                {{ scenario.updatedAt ? scenario.updatedAt|date(date_format) : '' }}
+                            </td>
+                            <td data-label="Actions">
+                                <div class="btn-group">         
+                                <a href="{{ path('admin_app_scenario_show', {id: scenario.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                <a href="{{ path('admin_app_scenario_episode', {id: scenario.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Episodes">
+                                    <i class="fas fa-copy"></i>
+                                </a>
+                                <a href="{{ path('admin_app_scenario_edit', {id: scenario.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                </a>
+                                {% include "Admin/components/_delete_modal.html.twig" with { element: scenario, path: 'admin_app_scenario_delete' } %}
+                            </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

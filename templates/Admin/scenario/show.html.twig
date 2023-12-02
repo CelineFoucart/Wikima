@@ -1,0 +1,98 @@
+{% extends 'Admin/scenario/show_base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Informations</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Titre</th>
+                                <td>{{ scenario.title }}</td>
+                            </tr>
+                            <tr>
+                                <th>Pitch</th>
+                                <td>{{ scenario.pitch }}</td>
+                            </tr>
+                            <tr>
+                                <th>Description</th>
+                                <td>{{ scenario.description|raw }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Relations</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Catégories</th>
+                                <td class="container-list">
+                                    {% for category in scenario.categories %}
+                                        {{ category }}
+                                    {% else %}
+                                        <span class="fst-italic">Aucune chronologie</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Portails</th>
+                                <td class="container-list">
+                                    {% for portal in scenario.portals %}
+                                        <a href="{{ path('app_portal_show', {slug: portal.slug}) }}">{{ portal }}</a>
+                                    {% else %}
+                                        <span class="fst-italic">Aucun portail</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Chronologies</th>
+                                <td class="container-list">
+                                    {% for timeline in scenario.timelines %}
+                                        <a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}">{{ timeline }}</a>
+                                    {% else %}
+                                        <span class="fst-italic">Aucune chronologie</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card border-top-primary mt-3">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Méta données</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Slug</th>
+                                <td>{{ scenario.slug }}</td>
+                            </tr>
+                            <tr>
+                                <th>Création</th>
+                                <td>{{ scenario.createdAt ? scenario.createdAt|date(date_format) : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Mise à jour</th>
+                                <td>{{ scenario.updatedAt ? scenario.updatedAt|date(date_format) : '' }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

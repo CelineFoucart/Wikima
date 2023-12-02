@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20231202143845 extends AbstractMigration
+final class Version20231202152523 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -39,7 +39,6 @@ final class Version20231202143845 extends AbstractMigration
         $this->addSql('ALTER TABLE scenario_portal ADD CONSTRAINT FK_17EDFD23B887E1DD FOREIGN KEY (portal_id) REFERENCES portal (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE scenario_timeline ADD CONSTRAINT FK_46E100A6E04E49DF FOREIGN KEY (scenario_id) REFERENCES scenario (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE scenario_timeline ADD CONSTRAINT FK_46E100A6EDBEDD37 FOREIGN KEY (timeline_id) REFERENCES timeline (id) ON DELETE CASCADE');
-        $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL COMMENT \'(DC2Type:json)\'');
     }
 
     public function down(Schema $schema): void
@@ -64,6 +63,5 @@ final class Version20231202143845 extends AbstractMigration
         $this->addSql('DROP TABLE scenario_portal');
         $this->addSql('DROP TABLE scenario_timeline');
         $this->addSql('DROP TABLE scenario_category');
-        $this->addSql('ALTER TABLE user CHANGE roles roles JSON NOT NULL COMMENT \'(DC2Type:json)\'');
     }
 }

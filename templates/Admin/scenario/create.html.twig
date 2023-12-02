@@ -1,0 +1,24 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Créer un scénario{% endblock %}
+{% block activeScenario %}active show{% endblock %}
+{% block activeScenarioList %} active {% endblock %}
+{% block page_title %}Créer un scénario{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_scenario_list') }}" class="text-reset">Liste</a>
+	</li>
+	<li class="breadcrumb-item active">Création</li>
+{% endblock %}
+
+{% block toolbar %}
+	<a href="{{ path('admin_app_scenario_list') }}" class="btn btn-default btn-sm">
+		<i class="fas fa-long-arrow-left"></i>
+		Retour
+	</a>
+{% endblock %}
+
+{% block body %}
+    {{ include('Admin/scenario/_form.html.twig') }}
+{% endblock %}

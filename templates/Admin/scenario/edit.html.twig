@@ -1,0 +1,38 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Editer "{{ scenario }}"{% endblock %}
+{% block activeScenario %}active show{% endblock %}
+{% block activeScenarioList %} active {% endblock %}
+{% block page_title %}Editer "{{ scenario }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_scenario_list') }}" class="text-reset">Liste</a>
+	</li>
+	<li class="breadcrumb-item active">Editer</li>
+{% endblock %}
+
+{% block toolbar %}
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_scenario_create') }}" data-bs-toggle="tooltip" title="Ajouter">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+    </a>
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_scenario_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
+        <i class="fas fa-list" aria-hidden="true"></i>
+    </a>
+    <div class="btn-group">              
+        <a href="{{ path('admin_app_scenario_show', {id: scenario.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+            <i class="fas fa-info-circle"></i>
+        </a>
+        <a href="{{ path('admin_app_scenario_episode', {id: scenario.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Episodes">
+            <i class="fas fa-copy"></i>
+        </a>
+        <a href="{{ path('admin_app_scenario_edit', {id: scenario.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+        </a>
+        {% include "Admin/components/_delete_modal.html.twig" with { element: scenario, path: 'admin_app_scenario_delete' } %}
+    </div>
+{% endblock %}
+
+{% block body %}
+    {{ include('Admin/scenario/_form.html.twig') }}
+{% endblock %}

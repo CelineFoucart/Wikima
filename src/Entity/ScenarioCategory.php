@@ -28,7 +28,7 @@ class ScenarioCategory
     #[Assert\Length(min: 3, max: 15000)]
     private ?string $description = null;
 
-    #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'category')]
+    #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'categories')]
     private Collection $scenarios;
 
     public function __construct()
