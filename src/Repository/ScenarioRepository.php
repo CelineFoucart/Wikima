@@ -21,28 +21,15 @@ class ScenarioRepository extends ServiceEntityRepository
         parent::__construct($registry, Scenario::class);
     }
 
-//    /**
-//     * @return Scenario[] Returns an array of Scenario objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Scenario
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findById(int $id): ?Scenario
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.episodes', 'e')->addSelect('e')
+            ->orderBy('e.position', 'ASC')
+            ->andWhere('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

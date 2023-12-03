@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Admin;
+namespace App\Controller\Admin\Api;
 
 use App\Entity\Article;
 use App\Entity\Category;
 use App\Entity\Idiom;
+use App\Entity\Scenario;
 use App\Entity\Timeline;
 use App\Repository\IdiomCategoryRepository;
 use App\Repository\MenuItemRepository;
@@ -112,6 +113,20 @@ class AdminApiSortController extends AbstractController
 
         return new JsonResponse(
             $this->serializer->serialize(['id' => $idiom->getId()], 'json'),
+            Response::HTTP_OK,
+            [],
+            true
+        );
+    }
+
+    #[Route('/api/admin/scenario/episode/{id}/order', 'api_scenario_episodes', methods: ['POST'])]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
+    public function updateEpisodeOrder(Scenario $scenario, Request $request): JsonResponse
+    {
+        $this->sortItems($scenario->getEpisodes()->toArray(), json_decode($request->getContent(), true));
+
+        return new JsonResponse(
+            $this->serializer->serialize(['id' => $scenario->getId()], 'json'),
             Response::HTTP_OK,
             [],
             true

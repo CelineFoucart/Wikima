@@ -14,7 +14,7 @@ use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/scenario/category')]
-#[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
+#[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
 class ScenarioCategoryController extends AbstractAdminController
 {
     protected string $entityName = 'scenario_category';

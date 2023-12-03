@@ -36,13 +36,16 @@ class EpisodeRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Episode
-//    {
-//        return $this->createQueryBuilder('e')
-//            ->andWhere('e.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function findOneByScenario(int $id, int $scenario): ?Episode
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.scenario', 's')
+            ->andWhere('e.id = :id')
+            ->setParameter('id', $id)
+            ->andWhere('s.id = :scenario')
+            ->setParameter('scenario', $scenario)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
 }

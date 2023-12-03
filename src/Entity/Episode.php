@@ -44,6 +44,9 @@ class Episode
     #[ORM\JoinColumn(nullable: false)]
     private ?Scenario $scenario = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $position = null;
+
     public function __construct()
     {
         $this->places = new ArrayCollection();
@@ -183,6 +186,18 @@ class Episode
     public function setScenario(?Scenario $scenario): static
     {
         $this->scenario = $scenario;
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): static
+    {
+        $this->position = $position;
 
         return $this;
     }
