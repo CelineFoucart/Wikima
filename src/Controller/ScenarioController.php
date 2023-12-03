@@ -38,8 +38,8 @@ class ScenarioController extends AbstractController
     #[Route('/{slug}', name: 'app_scenario_show')]
     public function indexShow(Scenario $scenario): Response
     {
-        if (!$scenario->isPublic() && !$this->isGranted('ROLE_EDITOR')) {
-            $this->createAccessDeniedException();
+        if ($scenario->isPublic() !== true && !$this->isGranted('ROLE_EDITOR')) {
+            throw $this->createAccessDeniedException();
         }
 
         return $this->render('scenario/show.html.twig', [
