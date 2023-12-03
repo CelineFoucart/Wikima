@@ -19,6 +19,13 @@ class ScenarioCategoryController extends AbstractAdminController
 {
     protected string $entityName = 'scenario_category';
 
+    public function __construct(bool $enableScenario)
+    {
+        if (false === $enableScenario) {
+            throw $this->createNotFoundException('Not Found');
+        }
+    }
+
     #[Route('/', name: 'admin_app_scenario_category_list', methods: ['GET'])]
     public function index(ScenarioCategoryRepository $scenarioCategoryRepository): Response
     {

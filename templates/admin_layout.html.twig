@@ -194,7 +194,8 @@
 							</div>
 						{% endif %}
 
-						<div class="dashboard-nav-dropdown {% block activeScenario %}{% endblock %}">
+						{% if enable_scenario == 1 %}
+							<div class="dashboard-nav-dropdown {% block activeScenario %}{% endblock %}">
 								<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
 									<i class="fas fa-book"></i>
 									<span>Scénarios</span>
@@ -210,6 +211,7 @@
 									</a>
 								</div>
 							</div>
+						{% endif %}
 						
 						<a href="{{ path('admin_app_note_list') }}" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
 							<i class="fas fa-sticky-note me-1"></i>

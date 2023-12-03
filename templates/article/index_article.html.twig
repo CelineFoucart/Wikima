@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	Index des articles
+	Index des articles | {{ app_name }}
 {% endblock %}
 
 {% block body %}
@@ -40,12 +40,7 @@
 				<div class="navigation">
 					{{ knp_pagination_render(articles) }}
 				</div>
-			</div>
-		</div>
-	</section>
-{% endblock %}
-
-{% block javascripts %}
+			</div>{% block javascripts %}
 	{{ parent() }}
 
 	<script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
@@ -67,3 +62,8 @@
 		});
 	</script>
 {% endblock %}
+		</div>
+	</section>
+{% endblock %}
+
+

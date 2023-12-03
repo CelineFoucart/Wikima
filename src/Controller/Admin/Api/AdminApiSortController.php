@@ -107,8 +107,12 @@ class AdminApiSortController extends AbstractController
 
     #[Route('/api/admin/idiom/articles/{id}/order', 'api_idiom_article_order', methods: ['POST'])]
     #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
-    public function updateIdiomArticleOrder(Idiom $idiom, Request $request): JsonResponse
+    public function updateIdiomArticleOrder(Idiom $idiom, Request $request, bool $enableIdiom): JsonResponse
     {
+        if (false === $enableIdiom) {
+            throw $this->createNotFoundException('Not Found');
+        }
+
         $this->sortItems($idiom->getIdiomArticles()->toArray(), json_decode($request->getContent(), true));
 
         return new JsonResponse(
@@ -121,8 +125,12 @@ class AdminApiSortController extends AbstractController
 
     #[Route('/api/admin/scenario/episode/{id}/order', 'api_scenario_episodes', methods: ['POST'])]
     #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
-    public function updateEpisodeOrder(Scenario $scenario, Request $request): JsonResponse
+    public function updateEpisodeOrder(Scenario $scenario, Request $request, bool $enableScenario): JsonResponse
     {
+        if (false === $enableScenario) {
+            throw $this->createNotFoundException('Not Found');
+        }
+
         $this->sortItems($scenario->getEpisodes()->toArray(), json_decode($request->getContent(), true));
 
         return new JsonResponse(

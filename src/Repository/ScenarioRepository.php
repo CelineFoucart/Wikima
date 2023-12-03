@@ -2,9 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\Data\SearchData;
 use App\Entity\Scenario;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Service\PaginatorService;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Scenario>
@@ -16,9 +19,31 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ScenarioRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private PaginatorService $paginatorService;
+
+    public function __construct(ManagerRegistry $registry, PaginatorService $paginatorService)
     {
         parent::__construct($registry, Scenario::class);
+        $this->paginatorService = $paginatorService;
+    }
+
+    public function findPaginatedByName(SearchData $searchData, int $limit = 30, bool $withPrivate = false): PaginationInterface
+    {
+        $query = $this->createQueryBuilder('s')->leftJoin('s.portals', 'p')->addSelect('p')->orderBy('s.title', 'ASC');
+
+        if (!empty($searchData->getPortals())) {
+            $query->andWhere('p.id IN (:portals)')->setParameter('portals', $searchData->getPortals());
+        }
+
+        if (strlen((string) $searchData->getQuery()) >= 3 and null !== $searchData->getQuery()) {
+            $query->andWhere('s.title LIKE :q') ->setParameter('q', '%'.$searchData->getQuery().'%');
+        }
+
+        if ($withPrivate === false) {
+            $query->andWhere('s.public = 1');
+        }
+
+        return $this->paginatorService->setLimit($limit)->paginate($query, $searchData->getPage());
     }
 
     public function findById(int $id): ?Scenario

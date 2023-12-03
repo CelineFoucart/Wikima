@@ -64,6 +64,9 @@ class Scenario
     #[ORM\OneToMany(mappedBy: 'scenario', targetEntity: Episode::class, orphanRemoval: true)]
     private Collection $episodes;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $public = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -254,5 +257,17 @@ class Scenario
     public function __toString()
     {
         return $this->title ? $this->title : 'Nouveau scénario';
+    }
+
+    public function isPublic(): ?bool
+    {
+        return $this->public;
+    }
+
+    public function setPublic(?bool $public): static
+    {
+        $this->public = $public;
+
+        return $this;
     }
 }

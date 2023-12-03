@@ -64,6 +64,14 @@
 				</a>
 			</li>
 
+			{% if enable_scenario == 1 %}
+				<li class="nav-item me-3 text-uppercase">
+					<a class="nav-link {{ active_links(app.request, ['scenario']) }}" href="{{ path('app_scenario_index') }}">
+						Scénarios
+					</a>
+				</li>
+			{% endif %}
+
 			{% if enable_forum == 1 %}
 				<li class="nav-item me-3 text-uppercase">
 					<a class="nav-link {{ active_links(app.request, ['forum']) }}" href="{{ path('app_forum_index') }}">

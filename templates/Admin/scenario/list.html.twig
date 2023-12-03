@@ -25,6 +25,7 @@
                         <th>Id</th>
                         <th>Titre</th>
                         <th>Slug</th>
+                        <th>Public</th>
                         <th>Création</th>
                         <th>Mise à jour</th>
                         <th>Actions</th>
@@ -36,6 +37,7 @@
                             <td data-label="Id">{{ scenario.id }}</td>
                             <td data-label="Titre">{{ scenario.title }}</td>
                             <td data-label="Slug">{{ scenario.slug }}</td>
+                            <td data-label="Public">{{ scenario.public ? 'Oui' : 'Non' }}</td>
                             <td data-label="Création" data-sort="{{ scenario.createdAt ? scenario.createdAt|date('Y-m-d H:i') : '' }}">
                                 {{ scenario.createdAt ? scenario.createdAt|date(date_format) : '' }}
                             </td>

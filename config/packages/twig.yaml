@@ -13,6 +13,7 @@ twig:
         enable_comment: '%env(COMMENT_MODULE)%'
         enable_idiom: '%env(IDIOM_MODULE)%'
         enable_forum: '%env(FORUM_MODULE)%'
+        enable_scenario: '%env(SCENARIO_MODULE)%'
 
 when@test:
     twig:

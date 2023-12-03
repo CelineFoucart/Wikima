@@ -19,6 +19,7 @@ class IdiomController extends AbstractController
             throw $this->createNotFoundException('Not Found');
         }
     }
+    
     #[Route('/idioms', name: 'app_idiom_index')]
     public function indexAction(IdiomRepository $idiomRepository): Response
     {

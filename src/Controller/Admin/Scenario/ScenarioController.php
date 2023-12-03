@@ -23,9 +23,11 @@ class ScenarioController extends AbstractAdminController
 {
     protected string $entityName = 'scenario';
 
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(private EntityManagerInterface $entityManager, bool $enableScenario)
     {
-        
+        if (false === $enableScenario) {
+            throw $this->createNotFoundException('Not Found');
+        }
     }
 
     #[Route('/', name: 'admin_app_scenario_list', methods: ['GET'])]

@@ -89,6 +89,10 @@
                                 <th>Mise à jour</th>
                                 <td>{{ scenario.updatedAt ? scenario.updatedAt|date(date_format) : '' }}</td>
                             </tr>
+                            <tr>
+                                <th>Public</th>
+                                <td>{{ scenario.public ? 'Oui' : 'Non' }}</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
