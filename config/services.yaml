@@ -10,6 +10,7 @@ parameters:
     app.contact.mail: '%env(CONTACT_EMAIL)%' 
     app.contact.name: '%env(CONTACT_NAME)%'
     app.backup.folder: '%kernel.project_dir%/backup'
+    app.tmp.folder: '%kernel.project_dir%/var/cache'
     app.per_page_odd: '%env(PER_PAGE_ODD_COLUMNS)%'
     app.per_page_even: '%env(PER_PAGE_EVEN_COLUMNS)%'
     locale: fr
@@ -51,6 +52,10 @@ services:
             $faviconFile: '%env(WIKI_FAVICON)%'
             $bannerFile: '%env(WIKI_BANNER)%'
     
+    App\Service\WordGenerator:
+        arguments:
+            $tmpDir: '%app.tmp.folder%'
+
     App\Service\Modules\ModuleService:
         arguments: 
             $modules: [

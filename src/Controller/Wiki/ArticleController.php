@@ -4,13 +4,19 @@ namespace App\Controller\Wiki;
 
 use App\Entity\User;
 use App\Entity\Article;
+use App\Service\WordGenerator;
+use PhpOffice\PhpWord\PhpWord;
 use App\Entity\Data\SearchData;
+use PhpOffice\PhpWord\IOFactory;
 use App\Repository\ArticleRepository;
+use PhpOffice\PhpWord\Style\Language;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\Search\AdvancedArticleSearchType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class ArticleController extends AbstractController
@@ -18,16 +24,6 @@ final class ArticleController extends AbstractController
     public function __construct(
         private ArticleRepository $articleRepository
     ) {
-    }
-
-    #[Route('/articles/{slug}', name: 'app_article_show')]
-    public function article(#[MapEntity(expr: 'repository.findBySlug(slug)')] Article $article): Response
-    {
-        $this->denyAccessUnlessGranted('view', $article);
-
-        return $this->render('article/show_article.html.twig', [
-            'article' => $article,
-        ]);
     }
 
     #[Route('/articles', name: 'app_article_index')]
@@ -73,6 +69,32 @@ final class ArticleController extends AbstractController
             'articles' => $articles,
             'user' => $user,
         ]);
+    }
+
+    #[Route('/articles/{slug}', name: 'app_article_show')]
+    public function article(#[MapEntity(expr: 'repository.findBySlug(slug)')] Article $article): Response
+    {
+        $this->denyAccessUnlessGranted('view', $article);
+
+        return $this->render('article/show_article.html.twig', [
+            'article' => $article,
+        ]);
+    }
+    
+    #[Route('/articles/{slug}/word', name: 'app_article_word')]
+    public function articleToWord(#[MapEntity(expr: 'repository.findBySlug(slug)')] Article $article, WordGenerator $generator): Response
+    {
+        $this->denyAccessUnlessGranted('view', $article);
+        $file = $generator->setArticle($article)->generateFileArticle();
+
+        $response = new BinaryFileResponse($file['path']);
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $file['filename']
+        );
+        $response->deleteFileAfterSend();
+
+        return $response;
     }
 
     private function hidePrivate(): bool

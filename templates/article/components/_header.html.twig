@@ -11,8 +11,7 @@
 
 <div class="container-fluid">
 	<div class="border-bottom pb-3 pb-md-2">
-		<span class="label-title">Portails :
-		</span>
+		<span class="label-title">Portails :</span>
 		{% for portal in article.portals %}
 			{{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show', position: "bottom"}) }}
 		{% endfor %}
@@ -24,6 +23,12 @@
 				href="{{ path('app_print_article', {slug: article.slug}) }}" target="_blank">
 				<i class="fas fa-print"></i> 
 			</a>
+			<a class="btn btn-sm btn-outline-secondary" 
+				data-bs-toggle="tooltip" title="Télécharger le fichier word"
+				href="{{ path('app_article_word', {slug: article.slug}) }}" target="_blank">
+				<i class="fas fa-file-word"></i>
+			</a>
+
 			{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) or is_granted('ROLE_ADMIN') %}
 				<a data-bs-toggle="tooltip" title="Gérer le contenu textuel" class="btn btn-sm btn-outline-secondary" href="{{ path('admin_app_article_section', {id:article.id}) }}">
 					<i class="fas fa-edit"></i> 
