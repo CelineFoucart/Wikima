@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Scenario;
 use App\Entity\Data\SearchData;
+use App\Form\Search\SearchType;
 use App\Form\Search\SearchPortalType;
 use App\Repository\ScenarioRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,6 +45,7 @@ class ScenarioController extends AbstractController
 
         return $this->render('scenario/show.html.twig', [
             'scenario' => $scenario,
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }
 }

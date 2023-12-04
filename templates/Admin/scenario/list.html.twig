@@ -45,7 +45,10 @@
                                 {{ scenario.updatedAt ? scenario.updatedAt|date(date_format) : '' }}
                             </td>
                             <td data-label="Actions">
-                                <div class="btn-group">         
+                                <div class="btn-group">   
+                                    <a href="{{ path('app_scenario_show', {slug: scenario.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+                                        <i class="fas fa-book-reader"></i>
+                                    </a>        
                                     <a href="{{ path('admin_app_scenario_show', {id: scenario.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
                                         <i class="fas fa-info-circle"></i>
                                     </a>

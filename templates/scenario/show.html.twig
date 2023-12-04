@@ -1,6 +1,129 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ scenario.title}} | {{ app_name }}{% endblock %}
+{% block title %}{{ scenario.title }} | {{ app_name }}{% endblock %}
 
 {% block body %}
+<header class="bg-default-light border-bottom">
+		<div class="pt-3 border-bottom container-fluid">
+			<div class="row align-items-center">
+				<div class="col-md-6">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_scenario_index') }}">Scénarios</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">{{ scenario.title }}</li>
+						</ol>
+					</nav>
+				</div>
+				<div class="col-md-6">{{ include('includes/_search.html.twig', { route_name: 'app_scenario_index' }) }}</div>
+			</div>
+		</div>
+		<div class="item-heading position-relative">
+			<div class="p-2 position-absolute top-0" style="right:0px">
+				{% if is_granted('ROLE_EDITOR') %}
+					<a href="{{ path('admin_app_scenario_edit', {id: scenario.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
+						<i class="fas fa-pencil-alt"></i>
+					</a>
+					<a href="{{ path('admin_app_scenario_episode', {id: scenario.id}) }}" class="btn btn-outline-secondary btn-sm" title="gérer les épisodes">
+						<i class="fas fa-copy"></i>
+					</a>
+				{% endif %}
+				<a class="btn btn-sm btn-outline-secondary" 
+					data-bs-toggle="tooltip" title="Aperçu avant impression"
+					href="{{ path('app_print_person', {slug: scenario.slug}) }}" target="_blank">
+					<i class="fas fa-print"></i>
+				</a>
+			</div>
+			<p class="pt-4 pt-lg-0">
+				{% for category in scenario.categories %}
+					<span class="mb-1 d-block d-md-inline-block">
+						<span class="label mx-1">
+							<i class="fas fa-folder me-1"></i>
+							{{ category.title }}
+						</span>
+					</span>
+				{% endfor %}
+			</p>
+			<h2 class="mb-4 h1">
+				<i class="fas fa-book me-1"></i>
+				{{ scenario }}
+				<span class="float-end">
+					{% if not scenario.public %}
+                        <i class="fas fa-lock" data-bs-toggle="tooltip" title="Privé (visible uniquement par les administrateurs et éditeurs)"></i>
+                    {% endif %}
+				</span>
+			</h2>
+			<p class="lead mb-2">{{ scenario.pitch }}</p>
+		</div>
+	</header>
+    <section class="mt-4 px-4 container-fluid">
+        <div class="article-content">
+            {{ scenario.description|raw }}
+        </div>
+        
+        {% if scenario.episodes|length > 0 %}
+            <div class="m-4" data-controller="toggle">
+				<div class="category-section" style="max-width:300px">
+					<div>
+						<span title="afficher ou cacher" role="button" data-action="click->toggle#toggle" data-toggle-target="action" class="float-end">
+							<i class="fas fa-chevron-down"></i>
+						</span>
+						<h2 class="h6">Sommaire</h2>
+					</div>
+					<ol class="mb-0" data-toggle-target="content">
+                        {% for episode in scenario.episodes %}
+                            <li class="fs-6">
+								<a href="#episode{{ episode.id }}" class="text-dark">{{ episode.title }}</a>
+							</li>
+                        {% endfor %}
+					</ol>
+				</div>
+			</div>
+        {% endif %}
+
+        {% for episode in scenario.episodes %}
+            <div id="episode{{ episode.id }}" class="article-content">
+                <div class="border-bottom pb-1">
+                    <h2 class="h2 pb-0 mb-0">
+                        {{ episode.title }}
+                        <a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i><span class="visually-hidden">Retourner en haut</span></a>
+                    </h2>
+                    {% if episode.description %}
+                        <small>{{ episode.description }}</small>
+                    {% endif %}
+                </div>
+				{% if episode.persons|length > 0 %}
+					<div>
+						<span class="fw-bold">Personnages associés :</span>
+						<ul>
+							{% for person in episode.persons %}
+								<li>
+									<a href="{{ path('app_person_show', {slug: person.slug}) }}">{{ person }}</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% endif %}
+				{% if episode.places|length > 0 %}
+					<div>
+						<span class="fw-bold">Lieux associés :</span>
+						<ul>
+							{% for place in episode.places %}
+								<li>
+									<a href="{{ path('app_place_show', {slug: place.slug}) }}">{{ place }}</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				{% endif %}
+
+				{% if episode.content %}
+                    <p>{{ episode.content|nl2br }}</p>
+                {% else %}
+                    <p class="fst-italic">Aucun contenu</p>
+                {% endif %}
+			</div>
+        {% endfor %}
+    </section>
 {% endblock %}
