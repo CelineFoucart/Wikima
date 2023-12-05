@@ -6,6 +6,7 @@ namespace App\Controller\Admin\Api;
 
 use App\Entity\Article;
 use App\Entity\Category;
+use App\Entity\Event;
 use App\Entity\Idiom;
 use App\Entity\Scenario;
 use App\Entity\Timeline;
@@ -151,7 +152,13 @@ class AdminApiSortController extends AbstractController
             if (!empty($result)) {
                 $result = array_values($result)[0];
                 $position = $result['position'];
-                $element->setPosition($position);
+
+                if ($element instanceof Event) {
+                    $element->setTimelineOrder($position);
+                } else {
+                    $element->setPosition($position);
+                }
+
                 $this->em->persist($element);
             }
         }
