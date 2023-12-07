@@ -66,5 +66,5 @@ DirectoryIndex index.php
 </IfModule>
 
 <FilesMatch "\.(php4|php5|php3|php2|php|phtml)$">
-SetHandler application/x-lsphp80
+SetHandler application/x-lsphp81
 </FilesMatch>
