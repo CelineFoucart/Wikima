@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Scenario;
+use App\Service\WordGenerator;
 use App\Entity\Data\SearchData;
 use App\Form\Search\SearchType;
 use App\Form\Search\SearchPortalType;
@@ -10,6 +11,8 @@ use App\Repository\ScenarioRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/scenario')]
@@ -22,7 +25,7 @@ class ScenarioController extends AbstractController
         }
     }
 
-    #[Route('', name: 'app_scenario_index')]
+    #[Route('', name: 'app_scenario_index', methods:['GET'])]
     public function indexAction(ScenarioRepository $scenarioRepository, int $perPageEven, Request $request): Response
     {
         $withPrivate = $this->isGranted('ROLE_EDITOR');
@@ -36,8 +39,8 @@ class ScenarioController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'app_scenario_show')]
-    public function indexShow(Scenario $scenario): Response
+    #[Route('/{slug}', name: 'app_scenario_show', methods:['GET'])]
+    public function showAction(Scenario $scenario): Response
     {
         if ($scenario->isPublic() !== true && !$this->isGranted('ROLE_EDITOR')) {
             throw $this->createAccessDeniedException();
@@ -47,5 +50,24 @@ class ScenarioController extends AbstractController
             'scenario' => $scenario,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
+    }
+
+    #[Route('/{slug}/word', name: 'app_scenario_word')]
+    public function wordAction(Scenario $scenario, WordGenerator $generator): Response
+    {
+        if ($scenario->isPublic() !== true && !$this->isGranted('ROLE_EDITOR')) {
+            throw $this->createAccessDeniedException();
+        }
+
+        $file = $generator->setScenario($scenario)->generateFileScenario();
+
+        $response = new BinaryFileResponse($file['path']);
+        $response->setContentDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            $file['filename']
+        );
+        $response->deleteFileAfterSend();
+
+        return $response;
     }
 }

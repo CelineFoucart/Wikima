@@ -1,0 +1,55 @@
+{% extends 'base_print.html.twig' %}
+
+{% block title %}
+	{{ scenario.title }}
+{% endblock %}
+
+{% block body %}
+    <article>
+        <header>
+			<p class="meta-data">
+				<span>
+					Créé le <strong>{{ scenario.createdAt|date(date_format) }}</strong>
+				</span>
+				<span>
+					<strong>Genres :</strong> {{ categories|join(', ')}}
+				</span>
+			</p>
+			<h1>{{ scenario.title }}</h1>
+			<p class="parents">
+				{{ portals|join(', ')}}
+			</p>
+		</header>
+
+        {% if scenario.pitch %}
+            <aside>
+				<p class="summary-title">
+					<strong>Pitch&nbsp;:</strong>
+				</p>
+                <p>{{ scenario.pitch }}</p>
+			</aside>
+        {% endif %}
+        <p>
+			{{ scenario.description|raw }}
+		</p>
+
+		{% for episode in scenario.episodes %}
+			<section>
+				<h2>{{ episode.title }}</h2>
+				{% if episode.persons|length > 0 %}
+					<div>
+						<span class="fw-bold">Personnages associés :</span>
+						{{ episode.persons|map(p => p)|join(', ') }}
+					</div>
+				{% endif %}
+				{% if episode.places|length > 0 %}
+					<div>
+						<span class="fw-bold">Lieux associés :</span>
+						{{ episode.places|map(p => p)|join(', ') }}
+					</div>
+				{% endif %}
+				<div>{{ episode.content|nl2br }}</div>
+			</section>
+		{% endfor %}
+    </article>
+{% endblock %}

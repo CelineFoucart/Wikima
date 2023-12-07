@@ -233,3 +233,7 @@ figure {
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
 }
+
+.fw-bold {
+    font-weight: bold;
+}

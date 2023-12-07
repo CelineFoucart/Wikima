@@ -21,6 +21,7 @@ class EpisodeType extends AbstractType
             ->add('title', TextType::class)
             ->add('description', TextareaType::class, [
                 'required' => false,
+                'help' => "Petite description pour les cartes (elle ne sera pas visible sur la partie publique)"
             ])
             ->add('color', TextType::class, [
                 'required' => false,

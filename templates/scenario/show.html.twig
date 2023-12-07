@@ -21,31 +21,34 @@
 		</div>
 		<div class="item-heading position-relative">
 			<div class="p-2 position-absolute top-0" style="right:0px">
+				<a class="btn btn-sm btn-outline-secondary" 
+					data-bs-toggle="tooltip" title="Aperçu avant impression"
+					href="{{ path('app_print_scenario', {slug: scenario.slug}) }}" target="_blank">
+					<i class="fas fa-print"></i>
+				</a>
+				<a class="btn btn-sm btn-outline-secondary" 
+					data-bs-toggle="tooltip" title="Télécharger le fichier word"
+					href="{{ path('app_scenario_word', {slug: scenario.slug}) }}" target="_blank">
+					<i class="fas fa-file-word"></i>
+				</a>
 				{% if is_granted('ROLE_EDITOR') %}
 					<a href="{{ path('admin_app_scenario_edit', {id: scenario.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
-						<i class="fas fa-pencil-alt"></i>
+						<i class="fas fa-edit"></i>
 					</a>
 					<a href="{{ path('admin_app_scenario_episode', {id: scenario.id}) }}" class="btn btn-outline-secondary btn-sm" title="gérer les épisodes">
 						<i class="fas fa-copy"></i>
 					</a>
 				{% endif %}
-				<a class="btn btn-sm btn-outline-secondary" 
-					data-bs-toggle="tooltip" title="Aperçu avant impression"
-					href="{{ path('app_print_person', {slug: scenario.slug}) }}" target="_blank">
-					<i class="fas fa-print"></i>
-				</a>
 			</div>
 			<p class="pt-4 pt-lg-0">
-				{% for category in scenario.categories %}
-					<span class="mb-1 d-block d-md-inline-block">
-						<span class="label mx-1">
-							<i class="fas fa-folder me-1"></i>
-							{{ category.title }}
-						</span>
-					</span>
+				{% for portal in scenario.portals %}
+					<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="mb-1 d-block d-md-inline-block text-decoration-none">
+						<span class="label mx-1"> <i class="fas fa-tag me-1"></i> {{ portal }}</span>
+					</a>
 				{% endfor %}
 			</p>
-			<h2 class="mb-4 h1">
+
+			<h2 class="h1">
 				<i class="fas fa-book me-1"></i>
 				{{ scenario }}
 				<span class="float-end">
@@ -54,10 +57,28 @@
                     {% endif %}
 				</span>
 			</h2>
-			<p class="lead mb-2">{{ scenario.pitch }}</p>
+			{% for category in scenario.categories %}
+				<span class="badge rounded-pill bg-secondary link-light me-1">
+					{{ category.title }}
+				</span>
+			{% endfor %}
+			<p class="lead mb-2 mt-3">{{ scenario.pitch }}</p>
 		</div>
 	</header>
     <section class="mt-4 px-4 container-fluid">
+		<div class="text-end">
+			{% if scenario.timelines|length > 0 %}
+				<p>
+					<span class="fw-bold">Chronologies</span> |
+					{% for timeline in scenario.timelines|sort((a, b) => a.position <=> b.position) %}
+						<a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}">{{ timeline }}</a>
+						{% if not loop.last %}
+							|
+						{% endif %}
+					{% endfor %}
+				</p>
+			{% endif %}
+		</div>
         <div class="article-content">
             {{ scenario.description|raw }}
         </div>
@@ -89,9 +110,6 @@
                         {{ episode.title }}
                         <a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i><span class="visually-hidden">Retourner en haut</span></a>
                     </h2>
-                    {% if episode.description %}
-                        <small>{{ episode.description }}</small>
-                    {% endif %}
                 </div>
 				{% if episode.persons|length > 0 %}
 					<div>

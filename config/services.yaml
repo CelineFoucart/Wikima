@@ -76,7 +76,13 @@ services:
                     id: 'FORUM_MODULE',
                     title: 'Forum',
                     icon: 'fas fa-comments',
-                    description: "Ce module permet d'intégrer au site un forum pour discuter avec vos utilisateurs et vos contributeurs."
+                    description: "Ce module permet d'intégrer au site un forum de discussion pour échanger avec vos membres et les personnes qui contribuent."
+                },
+                {
+                    id: 'SCENARIO_MODULE',
+                    title: 'Scénarios',
+                    icon: 'fas fa-book',
+                    description: "Ce module intègre à l'application un système de conception de scénario dans lequel vous pouvez réordonner les épisodes."
                 }
                 
             ]

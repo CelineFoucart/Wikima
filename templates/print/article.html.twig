@@ -12,6 +12,11 @@
 					Par
 					<strong>{{ article.author ? article.author.username : 'Anonyme' }}</strong>
 				</span>
+
+				{% if article.type %}
+					<strong>{{ article.type.title }}</strong>
+				{% endif %}
+
 				<span>
 					Publié le
 					<strong>{{ article.createdAt|date(date_format) }}</strong>

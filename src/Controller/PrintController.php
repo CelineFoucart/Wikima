@@ -7,6 +7,7 @@ use App\Entity\Place;
 use App\Entity\Person;
 use App\Entity\Portal;
 use App\Entity\Article;
+use App\Entity\Scenario;
 use App\Entity\IdiomArticle;
 use App\Service\IdiomNavigationHelper;
 use Symfony\Component\HttpFoundation\Response;
@@ -97,7 +98,7 @@ class PrintController extends AbstractController
     }
 
     #[Route('/print/idioms/{slug}', name: 'app_print_idiom')]
-    public function idiom(#[MapEntity(expr: 'repository.findIdiomBySlug(slug)')] Idiom $idiom, bool $enableIdiom)
+    public function idiom(#[MapEntity(expr: 'repository.findIdiomBySlug(slug)')] Idiom $idiom, bool $enableIdiom): Response
     {
         if (false === $enableIdiom) {
             throw $this->createNotFoundException('Not Found');
@@ -112,6 +113,30 @@ class PrintController extends AbstractController
             'navigations' => IdiomNavigationHelper::generateNavigation($idiom),
             'idiom' => $idiom,
             'portals' => $portals,
+        ]);
+    }
+
+    #[Route('/print/scenario/{slug}', name: 'app_print_scenario')]
+    public function scenario(Scenario $scenario, bool $enableScenario): Response
+    {
+        if (false === $enableScenario) {
+            throw $this->createNotFoundException('Not Found');
+        }
+
+        $portals = [];
+        foreach ($scenario->getPortals() as $portal) {
+            $portals[] = $portal->getTitle();
+        }
+
+        $categories = [];
+        foreach ($scenario->getCategories() as $category) {
+            $categories[] = $category->getTitle();
+        }
+
+        return $this->render('print/scenario.html.twig',[
+            'scenario' => $scenario,
+            'portals' => $portals,
+            'categories' => $categories,
         ]);
     }
 
