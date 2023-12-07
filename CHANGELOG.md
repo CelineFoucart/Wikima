@@ -10,6 +10,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Ajout de la génération d'un fichier word pour les articles
+- Ajout de la gestion des scénarios : administration, affichage public, export PDF et word
+- Ajout de la gestion des catégories de scénarios
+
+### Fixed
+
+- Correction du bug de tri des événements de chronologie
+
+### Removed
+
+- Retrait des fixtures de développement, devenues trop obsolètes.
 
 ## [1.4.0] - 2023-12-01
 

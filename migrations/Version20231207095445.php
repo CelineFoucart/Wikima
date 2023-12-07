@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20231202152523 extends AbstractMigration
+final class Version20231207095445 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,10 +20,10 @@ final class Version20231202152523 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE TABLE episode (id INT AUTO_INCREMENT NOT NULL, scenario_id INT NOT NULL, title VARCHAR(255) NOT NULL, description VARCHAR(1500) DEFAULT NULL, color VARCHAR(30) DEFAULT NULL, content LONGTEXT DEFAULT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', updated_at DATETIME DEFAULT NULL, INDEX IDX_DDAA1CDAE04E49DF (scenario_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE episode (id INT AUTO_INCREMENT NOT NULL, scenario_id INT NOT NULL, title VARCHAR(255) NOT NULL, description VARCHAR(1500) DEFAULT NULL, color VARCHAR(30) DEFAULT NULL, content LONGTEXT DEFAULT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', updated_at DATETIME DEFAULT NULL, position INT DEFAULT NULL, INDEX IDX_DDAA1CDAE04E49DF (scenario_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE episode_place (episode_id INT NOT NULL, place_id INT NOT NULL, INDEX IDX_4F17A599362B62A0 (episode_id), INDEX IDX_4F17A599DA6A219 (place_id), PRIMARY KEY(episode_id, place_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE episode_person (episode_id INT NOT NULL, person_id INT NOT NULL, INDEX IDX_58E14E6D362B62A0 (episode_id), INDEX IDX_58E14E6D217BBB47 (person_id), PRIMARY KEY(episode_id, person_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE scenario (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, pitch VARCHAR(3000) DEFAULT NULL, description LONGTEXT DEFAULT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', updated_at DATETIME DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE scenario (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(255) NOT NULL, slug VARCHAR(255) NOT NULL, pitch VARCHAR(3000) DEFAULT NULL, description LONGTEXT DEFAULT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', updated_at DATETIME DEFAULT NULL, public TINYINT(1) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE scenario_scenario_category (scenario_id INT NOT NULL, scenario_category_id INT NOT NULL, INDEX IDX_93CB7EDEE04E49DF (scenario_id), INDEX IDX_93CB7EDE9341769F (scenario_category_id), PRIMARY KEY(scenario_id, scenario_category_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE scenario_portal (scenario_id INT NOT NULL, portal_id INT NOT NULL, INDEX IDX_17EDFD23E04E49DF (scenario_id), INDEX IDX_17EDFD23B887E1DD (portal_id), PRIMARY KEY(scenario_id, portal_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE scenario_timeline (scenario_id INT NOT NULL, timeline_id INT NOT NULL, INDEX IDX_46E100A6E04E49DF (scenario_id), INDEX IDX_46E100A6EDBEDD37 (timeline_id), PRIMARY KEY(scenario_id, timeline_id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
