@@ -1,7 +1,7 @@
 const basicToolbar = [
     ["Bold","Italic","Underline","Strike","Subscript","Superscript","-", "CopyFormatting", "RemoveFormat"],
     ["NumberedList","BulletedList","-","Outdent","Indent","-","Blockquote", "Image", "Table", "SpecialChar", "-","JustifyLeft","JustifyCenter","JustifyRight","JustifyBlock"], 
-    ["FontSize", "TextColor", "BGColor", "-", "Link","Unlink"]
+    ["FontSize", "TextColor", "BGColor", "-", "Link", "Unlink", "-", 'Maximize']
 ];
 
 const contentsCss = ['/assets/bootstrap/bootstrap.min.css', '/assets/ckeditor/contents.css'];

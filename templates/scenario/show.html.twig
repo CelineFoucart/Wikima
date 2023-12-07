@@ -62,7 +62,7 @@
 					{{ category.title }}
 				</span>
 			{% endfor %}
-			<p class="lead mb-2 mt-3">{{ scenario.pitch }}</p>
+			<p class="lead mb-2 mt-3">{{ scenario.pitch|nl2br }}</p>
 		</div>
 	</header>
     <section class="mt-4 px-4 container-fluid">
@@ -137,7 +137,7 @@
 				{% endif %}
 
 				{% if episode.content %}
-                    <p>{{ episode.content|nl2br }}</p>
+                    <p>{{ episode.content|raw }}</p>
                 {% else %}
                     <p class="fst-italic">Aucun contenu</p>
                 {% endif %}

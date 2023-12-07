@@ -6,14 +6,16 @@ use App\Entity\Episode;
 use App\Entity\Scenario;
 use App\Form\Admin\EpisodeType;
 use App\Form\Admin\ScenarioType;
+use App\Form\Admin\EpisodeShortType;
+use App\Repository\EpisodeRepository;
 use App\Repository\ScenarioRepository;
+use App\Form\Admin\ScenarioEpisodeType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use App\Controller\Admin\AbstractAdminController;
-use App\Repository\EpisodeRepository;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -70,39 +72,35 @@ class ScenarioController extends AbstractAdminController
     }
 
     #[Route('/{id}/episodes', name: 'admin_app_scenario_episode', methods: ['GET', 'POST'])]
-    public function episode(#[MapEntity(expr: 'repository.findById(id)')] Scenario $scenario, Request $request, EpisodeRepository $repository): Response
+    public function episode(Scenario $scenario, Request $request): Response
     {
-        $episodeId = $request->query->getInt('episode', 0);
-        $episode = null;
-
-        if ($episodeId > 0) {
-            $episode = $repository->findOneByScenario($episodeId, $scenario->getId());
-        }
-
-        if(null === $episode) {
-            $episode = (new Episode())->setScenario($scenario);
-        }
-        
-        $form = $this->createForm(EpisodeType::class, $episode);
+        $episode = (new Episode())->setScenario($scenario);
+        $form = $this->createForm(EpisodeShortType::class, $episode);
         $form->handleRequest($request);
         
         if ($form->isSubmitted() && $form->isValid()) { 
-            if (null === $episode->getCreatedAt()) {
-                $episode->setCreatedAt(new \DateTimeImmutable());
-                $lastSection = $scenario->getEpisodes()->last();
-                if ($lastSection instanceof Episode) {
-                    $position = $lastSection->getPosition() + 1;
-                } else {
-                    $position = 0;
-                }
-                $episode->setPosition($position);
+            $episode->setCreatedAt(new \DateTimeImmutable());
+            $lastSection = $scenario->getEpisodes()->last();
+            if ($lastSection instanceof Episode) {
+                $position = $lastSection->getPosition() + 1;
             } else {
-                $episode->setUpdatedAt(new \DateTime());
+                $position = 0;
             }
-            
+            $episode->setPosition($position);
             $this->entityManager->persist($episode);
             $this->entityManager->flush();
-            $this->addFlash('success', "L'épisode ".$scenario.' a bien été créé.');
+            $this->addFlash('success', "L'épisode ".$scenario.' a bien été enregistré.');
+
+            return $this->redirectToRoute('admin_app_scenario_episode', ['id' => $scenario->getId()]);
+        }
+
+        $formCollection = $this->createForm(ScenarioEpisodeType::class, $scenario);
+        $formCollection->handleRequest($request);
+        
+        if ($formCollection->isSubmitted() && $formCollection->isValid()) { 
+            $this->entityManager->persist($scenario);
+            $this->entityManager->flush();
+            $this->addFlash('success', "Les modifications ont bien été enregistrés.");
 
             return $this->redirectToRoute('admin_app_scenario_episode', ['id' => $scenario->getId()]);
         }
@@ -111,6 +109,8 @@ class ScenarioController extends AbstractAdminController
             'scenario' => $scenario,
             'episode_active' => true,
             'form' => $form,
+            'episode' => $episode,
+            'formCollection' => $formCollection,
         ]);
     }
 
@@ -135,7 +135,7 @@ class ScenarioController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}', name: 'admin_app_scenario_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'admin_app_scenario_delete', methods: ['POST'])]
     public function delete(Request $request, Scenario $scenario): Response
     {
         if ($this->isCsrfTokenValid('delete'.$scenario->getId(), $request->request->get('_token'))) {
@@ -147,17 +147,5 @@ class ScenarioController extends AbstractAdminController
         return $this->redirectToRoute('admin_app_scenario_list', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/delete-episode/{id}', name: 'admin_app_episode_delete', methods: ['POST'])]
-    public function deleteEpisode(Request $request, Episode $episode): Response
-    {
-        $scenarioId = $episode->getScenario()->getId();
-
-        if ($this->isCsrfTokenValid('delete'.$episode->getId(), $request->request->get('_token'))) {
-            $this->entityManager->remove($episode);
-            $this->entityManager->flush();
-            $this->addFlash('success', "L'épisode a bien été supprimé.");
-        }
-
-        return $this->redirectToRoute('admin_app_scenario_episode', ['id' => $scenarioId], Response::HTTP_SEE_OTHER);
-    }
+    
 }

@@ -1,0 +1,52 @@
+{% extends 'Admin/scenario/show_base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/colorpicker/coloris.min.css') }}">
+    <style>
+        .clr-field {
+            display: block;
+        }
+
+        .clr-field button {
+            border-radius: 0 0.25rem 0.25rem 0;
+            cursor: pointer;
+        }
+
+        .required:after {
+            content: '*';
+            display: inline-block;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% include 'Admin/scenario/episode/_form.html.twig' %}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('assets/colorpicker/coloris.min.js') }}"></script>
+    <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
+    <script src="{{ asset("assets/admin/editor.js") }}"></script>
+    <script>
+        Coloris({
+            el: '#episode_color',
+            swatches: [
+                '#212529',
+                '#6c757d',
+                '#eeeeee',
+                '#ecf0f5',
+                '#F3FAFE',
+                '#fff',
+                '#cfe2ff',
+                '#48cae4',
+                '#3c8dbc',
+                '#563d7c',
+                '#7952b3',
+                '#c29ffa'
+            ]
+        });
+        Coloris.setInstance('#episode_color', { theme: 'polaroid' });
+
+        enableBasicEditor("episode_content");
+    </script>
+{% endblock %}

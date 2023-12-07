@@ -471,11 +471,6 @@ h1 {
     background: linear-gradient(0deg, rgba(200, 235, 251, 1) 21%, rgba(200, 235, 251, 0.4) 52%, rgba(200, 235, 251, 1) 85%);
 }
 
-.sortable-chosen {
-    background-color: #fff;
-    border: 1px solid rgba(0, 0, 0, .125);
-}
-
 /* toastify style */
 .toastify-container {
     position: fixed;

@@ -62,6 +62,7 @@ class Scenario
     private Collection $timelines;
 
     #[ORM\OneToMany(mappedBy: 'scenario', targetEntity: Episode::class, orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private Collection $episodes;
 
     #[ORM\Column(nullable: true)]

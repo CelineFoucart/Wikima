@@ -26,7 +26,7 @@
 				<p class="summary-title">
 					<strong>Pitch&nbsp;:</strong>
 				</p>
-                <p>{{ scenario.pitch }}</p>
+                <p>{{ scenario.pitch|nl2br }}</p>
 			</aside>
         {% endif %}
         <p>
@@ -48,7 +48,7 @@
 						{{ episode.places|map(p => p)|join(', ') }}
 					</div>
 				{% endif %}
-				<div>{{ episode.content|nl2br }}</div>
+				<div>{{ episode.content|raw }}</div>
 			</section>
 		{% endfor %}
     </article>

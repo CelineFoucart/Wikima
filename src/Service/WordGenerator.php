@@ -56,8 +56,9 @@ class WordGenerator
         }
 
         if ($this->scenario->getPitch()) {
+            $textWithBreakLines = str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', $this->scenario->getPitch());
             $section->addText(
-                'Pitch : ' . $this->scenario->getPitch(), 
+                'Pitch : ' . $textWithBreakLines, 
                 ['bold' => true, 'italic' => true], 
                 ['spaceAfter' => Converter::cmToTwip(0.6)]
             );
@@ -78,8 +79,7 @@ class WordGenerator
                 $section->addText($placeList, ['bold' => true, 'italic' => true]);
             }
 
-            $textWithBreakLines = str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', $episode->getContent());
-            $section->addText($textWithBreakLines);
+            HTML::addHtml($section, $episode->getContent());
         }
 
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');

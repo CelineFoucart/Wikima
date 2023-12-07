@@ -7,6 +7,10 @@
             display: block;
         }
 
+        .clr-picker {
+            z-index: 99999;
+        }
+
         .clr-field button {
             border-radius: 0 0.25rem 0.25rem 0;
             cursor: pointer;
@@ -21,95 +25,107 @@
 
 
 {% block content %}
-<div class="row">
-    <div class="col-lg-8">
-        <div class="row g-2" id="episodes">
-            {% for episode in scenario.episodes %}
-                <div class="col-md-4 handle" id="{{ episode.id }}">
-                    {% set color = episode.color ? episode.color : 'rgba(0,0,0,.125)' %}
-                    <div class="card" style="border-color: {{ color }}">
-                        <div class="card-body">
-                            <h3 class="card-title h5 fw-bold">
-                                <i class="fas fa-square" style="color: {{ color }}"></i>
-                                {{ episode.title }}
-                            </h3>
-                            {% if episode.description %}
-                                <p>{{ episode.description|nl2br }}</p>
-                            {% else %}
-                                <p class="fst-italic">Aucune description</p>
-                            {% endif %}
-                            {% if episode.persons|length > 0 or episode.places|length > 0 %}
-                                <hr>
-                            {% endif %}
-                            {% if episode.persons|length > 0 %}
-                                <div class="container-list">
-                                    <span class="fw-bold">Personnages :</span>
-                                    {% for person in episode.persons %}
-                                        <a href="{{ path('app_person_show', {slug: person.slug}) }}">{{ person.fullname }}</a>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                            {% if episode.places|length > 0 %}
-                                <div class="container-list">
-                                    <span class="fw-bold">Lieux :</span>
-                                    {% for place in episode.places %}
-                                        <a href="{{ path('app_place_show', {slug: place.slug}) }}">{{ place.title }}</a>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                        </div>
-                        <div class="card-footer text-end">
-                            <form method="post" action="{{ path('admin_app_episode_delete', {'id': episode.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet élément ?');">
-                                <div class="btn-group">   
-                                    <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#showModal{{ episode.id }}">
-                                        <i class="fas fa-eye" aria-hidden="true"></i>
-                                    </a>
-                                    <a href="{{ path('admin_app_scenario_episode', {id: scenario.id, episode: episode.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
-                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                                    </a>
-                                
-                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ episode.id) }}">
-                                    <button class="btn btn-danger btn-sm" data-bs-toggle="tooltip" title="Supprimer">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="modal fade" id="showModal{{ episode.id }}" tabindex="-1" aria-labelledby="showModal{{ episode.id }}Label" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="showModal{{ episode.id }}Label">{{ episode.title }}</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    {% if episode.content %}
-                                        {{ episode.content|nl2br }}
-                                    {% else %}
-                                        <p class="fst-italic mb-0">Aucun contenu</p>
-                                    {% endif %}
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary btn-sm" data-bs-dismiss="modal">Fermer</button>
-                                </div>
+<div class="text-end mb-3">
+    <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+        Ajouter rapidement
+    </a>
+    <a href="{{ path('admin_app_episode_create', {id: scenario.id}) }}" class="btn btn-primary btn-sm">Ajouter</a>
+</div>
+{{ form_start(formCollection) }}
+{{ form_widget(formCollection._token) }}
+<div class="row g-2" id="episodes">
+    {% for element in formCollection.episodes %}
+        {% set episode = element.vars.data %}
+        <div class="col-md-4 col-lg-3 handle" id="{{ episode.id }}">
+            {% set color = episode.color ? episode.color : 'rgba(0,0,0,.125)' %}
+            <div class="card h-100" style="border-color: {{ color }}">
+                <div class="card-body">
+                    <h3 class="card-title h5 fw-bold">
+                        <i class="fas fa-square" style="color: {{ color }}"></i>
+                        {{ episode.title }}
+                    </h3>
+                    {% if episode.description %}
+                        <p>{{ episode.description|nl2br }}</p>
+                    {% else %}
+                        <p class="fst-italic">Aucune description</p>
+                    {% endif %}
+                    <div class="collapse" id="collapse{{ episode.id }}">
+                        {% if episode.persons|length == 0 and episode.places|length == 0 %}
+                            <p class="fst-italic">Aucun personnage et aucun lieu</p>
+                        {% endif %}
+                        {% if episode.persons|length > 0 %}
+                            <div class="container-list">
+                                <span class="fw-bold">Personnages :</span>
+                                {% for person in episode.persons %}
+                                    <a href="{{ path('app_person_show', {slug: person.slug}) }}">{{ person.fullname }}</a>
+                                {% endfor %}
                             </div>
+                        {% endif %}
+                        {% if episode.places|length > 0 %}
+                            <div class="container-list">
+                                <span class="fw-bold">Lieux :</span>
+                                {% for place in episode.places %}
+                                    <a href="{{ path('app_place_show', {slug: place.slug}) }}">{{ place.title }}</a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="card-footer text-end">
+                    <form method="post" action="{{ path('admin_app_episode_delete', {'id': episode.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet élément ?');">
+                        <div class="btn-group">  
+                            <button class="btn btn-default btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ episode.id }}" aria-expanded="false" aria-controls="collapseExample">
+                                <i class="fas fa-user"></i>
+                                <i class="fas fa-building"></i>
+                            </button> 
+                            <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#showModal{{ episode.id }}">
+                                <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                            </a>
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ episode.id) }}">
+                            <button class="btn btn-danger btn-sm" data-bs-toggle="tooltip" title="Supprimer">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="modal fade" id="showModal{{ episode.id }}" tabindex="-1" aria-labelledby="showModal{{ episode.id }}Label" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="showModal{{ episode.id }}Label">{{ episode.title }}</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {{ form_widget(element) }}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success btn-sm">Sauvegarder</button>
+                            <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default">
+                                Formulaire complet
+                            </a>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class="col-lg-4 border-start">
-        <div class="card border-top-primary">
-            <div class="card-header">
-                <h3 class="card-title h5 mb-0">Episode</h3>
             </div>
-            <div class="card-body">
-                {{ form_start(form) }}
-                    {{ form_widget(form) }}
+        </div> 
+    {% endfor %}
+</div>
+{{ form_end(formCollection) }}
+
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="addModalLabel">{{ episode }}</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            {{ form_start(form) }}
+                <div class="modal-body">
+                    {{ form_widget(form) }} 
+                </div>
+                <div class="modal-footer">
                     <button class="btn btn-success btn-sm" type="submit">
                         <i class="fas fa-save" aria-hidden="true"></i>
                         Enregistrer
@@ -118,8 +134,8 @@
                         <i class="fas fa-times" aria-hidden="true"></i>
                         Annuler
                     </a>
-                {{ form_end(form) }}
-            </div>
+                </div>
+            {{ form_end(form) }}
         </div>
     </div>
 </div>
@@ -131,7 +147,7 @@
 	<script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
     <script>
         Coloris({
-            el: '#episode_color',
+            el: '.color-input',
             swatches: [
                 '#212529',
                 '#6c757d',
@@ -147,10 +163,12 @@
                 '#c29ffa'
             ]
         });
-        Coloris.setInstance('#episode_color', { theme: 'polaroid' });
+        Coloris.setInstance('.color-input', { theme: 'polaroid' });
+
         window.addEventListener('load', () => {
 			let url = "{{ path('api_scenario_episodes', {'id': scenario.id}) }}";
 			sortable('#episodes', url);
 		});
     </script>
 {% endblock %}
+

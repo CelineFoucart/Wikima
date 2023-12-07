@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Correction du bug de tri des événements de chronologie
+- Correction du problème d'affichage de l'éditeur des portails
 
 ### Removed
 
