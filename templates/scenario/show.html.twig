@@ -106,10 +106,18 @@
         {% for episode in scenario.episodes %}
             <div id="episode{{ episode.id }}" class="article-content">
                 <div class="border-bottom pb-1">
-                    <h2 class="h2 pb-0 mb-0">
+                    <h2 class="h2 pb-0 mb-0 position-relative section-title">
                         {{ episode.title }}
                         <a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i><span class="visually-hidden">Retourner en haut</span></a>
-                    </h2>
+                    
+						{% if is_granted('ROLE_EDITOR') %}
+							<span class="position-absolute top-0 end-0 edit-actions">
+								<a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="text-success text-decoration-none" data-bs-toggle="tooltip" title="éditer">
+									<i class="fas fa-edit"></i>
+								</a>
+							</span>
+						{% endif %}
+					</h2>
                 </div>
 				{% if episode.persons|length > 0 %}
 					<div>

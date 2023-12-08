@@ -1,5 +1,13 @@
 <div class="card border-top-primary">
     <div class="card-header">
+        <div class="float-end">
+            <a href="{{ path('admin_app_scenario_episode', {id: scenario.id}) }}" class="btn btn-primary btn-sm"  data-bs-toggle="tooltip" title="Gérer le scénario">
+                <i class="fas fa-copy"></i> Gérer
+            </a>
+            <a href="{{ path('app_scenario_show', {slug: scenario.slug}) ~ '#episode' ~ episode.id }}" class="btn btn-primary btn-sm"  data-bs-toggle="tooltip" title="Consulter">
+                <i class="fas fa-book-reader"></i> Consulter
+            </a>
+        </div>
         <h3 class="card-title h5 mb-0">{{ episode }}</h3>
     </div>
     <div class="card-body">

@@ -62,7 +62,7 @@ class EpisodeController extends AbstractController
             $this->entityManager->flush();
             $this->addFlash('success', "L'épisode ".$episode.' a bien été modifié.');
 
-            return $this->redirectToRoute('admin_app_scenario_episode', ['id' => $episode->getScenario()->getId()], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('admin_app_episode_edit', ['id' => $episode->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('Admin/scenario/episode/edit.html.twig', [

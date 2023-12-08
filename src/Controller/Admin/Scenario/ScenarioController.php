@@ -89,7 +89,7 @@ class ScenarioController extends AbstractAdminController
             $episode->setPosition($position);
             $this->entityManager->persist($episode);
             $this->entityManager->flush();
-            $this->addFlash('success', "L'épisode ".$scenario.' a bien été enregistré.');
+            $this->addFlash('success', "L'épisode ".$episode.' a bien été enregistré.');
 
             return $this->redirectToRoute('admin_app_scenario_episode', ['id' => $scenario->getId()]);
         }
