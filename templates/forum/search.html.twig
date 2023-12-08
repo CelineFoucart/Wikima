@@ -1,0 +1,61 @@
+{% extends 'forum/base.html.twig' %}
+
+{% block title %}Recherche | Forum de {{ app_name }}{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active" aria-current="page">Recherche</li> 
+{% endblock %}
+
+{% block forum_content %}
+    <h2 class="mb-3">Rechercher par sujet dans le forum</h2>
+
+    <aside class="rounded-3 bg-light my-2 p-2 post-container">
+        {{ form_start(form) }}
+            {{ form_row(form.query) }}
+
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.categories) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.forums) }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-outline-secondary mt-1">
+                <i class="fas fa-search"></i>
+                Rechercher
+            </button>
+        {{ form_end(form) }}
+    </aside>
+
+    <h3 class="h4 mt-4">Résultats</h3>
+    {% if topics|length == 0 %}
+        <p class="fst-italic">Aucun résultat</p>
+    {% else %}
+        {% include "forum/topic/_topic_list.html.twig" with {topics: topics} %}
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
+	<script>
+		const elements = document.querySelectorAll('[data-choices]');
+		elements.forEach(element => {
+			const choices = new Choices(element, {
+				removeItems: true,
+				removeItemButton: true,
+				allowHTML: false,
+				noResultsText: 'Aucun résultat',
+				noChoicesText: 'Aucun élément à choisir',
+				itemSelectText: 'Cliquez pour choisir'
+			});
+		});
+
+		document.querySelectorAll('[name="search_terms"]').forEach(element => {
+			element.removeAttribute('name');
+		});
+	</script>
+{% endblock %}

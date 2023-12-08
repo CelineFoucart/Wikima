@@ -2,12 +2,11 @@
 
 namespace App\Controller\Forum;
 
+use App\Entity\Data\SearchForumData;
 use App\Entity\Forum;
 use App\Entity\ForumCategory;
-use App\Entity\ForumGroup;
-use App\Entity\User;
+use App\Form\Search\SearchTopicType;
 use App\Repository\ForumCategoryRepository;
-use App\Repository\ForumGroupRepository;
 use App\Repository\TopicRepository;
 use App\Service\ForumHelper;
 use Symfony\Component\HttpFoundation\Response;
@@ -74,6 +73,26 @@ class ForumController extends AbstractController
             'forum' => $forum,
             'topics' => $topics,
             'stickies' => $stickies,
+        ]);
+    }
+
+    #[Route('/search', name: 'app_forum_search')]
+    public function search(Request $request, TopicRepository $topicRepository, int $perPageOdd): Response
+    {
+        $searchData = (new SearchForumData())->setPage($request->query->getInt('page', 1));
+        $userRoles = $this->forumHelper->getCurrentUserRoles($this->getUser());
+        $form = $this->createForm(SearchTopicType::class, $searchData, ['user_roles' => $userRoles]);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $topics = $topicRepository->findSearchResultPaginated($searchData, $userRoles, $perPageOdd);
+        } else {
+            $topics = [];
+        }
+
+        return $this->render('forum/search.html.twig', [
+            'form' => $form,
+            'topics' => $topics,
         ]);
     }
 

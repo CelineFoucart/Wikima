@@ -40,7 +40,12 @@
 				<div class="navigation">
 					{{ knp_pagination_render(articles) }}
 				</div>
-			</div>{% block javascripts %}
+			</div>
+		</div>
+	</section>
+{% endblock %}
+
+{% block javascripts %}
 	{{ parent() }}
 
 	<script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
@@ -61,9 +66,6 @@
 			element.removeAttribute('name');
 		});
 	</script>
-{% endblock %}
-		</div>
-	</section>
 {% endblock %}
 
 

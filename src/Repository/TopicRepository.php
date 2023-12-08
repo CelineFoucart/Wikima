@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Data\SearchForumData;
 use App\Entity\Topic;
 use App\Service\PaginatorService;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,6 +46,27 @@ class TopicRepository extends ServiceEntityRepository
         return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
 
         return $this->getPaginatedQuery($builder, $page);
+    }
+
+    public function findSearchResultPaginated(SearchForumData $searchData, array $groups, int $limit = 30): PaginationInterface
+    {
+        $builder = $this->createQueryBuilder('t')
+            ->leftJoin('t.author', 'u')->addSelect('u')
+            ->leftJoin('u.userGroups', 'g')->addSelect('g')
+            ->leftJoin('t.forum', 'f')->addSelect('f')
+            ->leftJoin('f.category', 'c')->addSelect('f')
+            ->leftJoin('c.groupAccess', 'cg')
+            ->leftJoin('f.groupAccess', 'fg')
+            ->andWhere('fg IN (:groups)')
+            ->andWhere('cg IN (:groups)')
+            ->setParameter('groups', $groups)
+            ->orderBy('t.createdAt', 'DESC');
+        
+        if (strlen((string) $searchData->getQuery()) >= 3 and null !== $searchData->getQuery()) {
+            $builder->andWhere('t.title LIKE :q')->setParameter('q', '%'.$searchData->getQuery().'%');
+        }
+
+        return $this->paginatorService->setLimit($limit)->paginate($builder, $searchData->getPage());
     }
 
     /**
