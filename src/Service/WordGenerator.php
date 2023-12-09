@@ -83,7 +83,7 @@ class WordGenerator
         }
 
         $objWriter = IOFactory::createWriter($phpWord, 'Word2007');
-        $filename = $this->scenario->getSlug() . '.docx';
+        $filename = 'synopsis-' . $this->scenario->getSlug() . '.docx';
         $objWriter->save($this->tmpDir . DIRECTORY_SEPARATOR . $filename);
 
         return [
