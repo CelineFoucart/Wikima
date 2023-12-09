@@ -38,12 +38,41 @@
 					</a>
 				</div>
 			{% endif %}
-			<h1 class="mb-5">
+			{% for portal in image_group.portals %}
+				{{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show', position: "bottom"}) }}
+			{% endfor %}
+			<h2 class="h1">
 				<i class="fas fa-images me-1"></i>
 				{{ image_group }}
-			</h1>
+			</h2>
 
-            <div class="mx-3">{{ image_group.description|raw }}</div>
+            <div class="mx-3 mt-4">{{ image_group.description|raw }}</div>
+            <div class="mx-3">
+                {% if image_group.scenarios|length > 0 %}
+                    <span class="fw-bold">Scénarios</span> |
+                    {% for scenario in image_group.scenarios %}
+                        <a href="{{ path('app_scenario_show', {slug:scenario.slug}) }}">
+                            {{ scenario }}
+                        </a>
+                        {% if not loop.last %}
+                            |
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="mx-3">
+                {% if image_group.places|length > 0 %}
+                    <span class="fw-bold">Lieux</span> |
+                    {% for place in image_group.places %}
+                        <a href="{{ path('app_place_show', {slug:place.slug}) }}">
+                            {{ place }}
+                        </a>
+                        {% if not loop.last %}
+                            |
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
 		</div>
 	</header>
 

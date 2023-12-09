@@ -185,7 +185,7 @@
 			{{ place.description|raw }}
 		</div>
 
-		{% if place.history or place.presentation or (place.places is not empty) %}
+		{% if place.history or place.presentation or (place.places is not empty) or place.imageGroup %}
 			<div class="m-4" data-controller="toggle">
 				<div class="category-section" style="max-width:273px">
 					<div>
@@ -203,6 +203,11 @@
 						{% if place.history %}
 							<li class="fs-6">
 								<a href="#history" class="text-dark">Histoire</a>
+							</li>
+						{% endif %}
+						{% if place.imageGroup %}
+							<li class="fs-6">
+								<a href="#gallery-place" class="text-dark">Galerie</a>
 							</li>
 						{% endif %}
 						{% if place.places is not empty %}
@@ -232,6 +237,18 @@
 					<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
 				</h2>
 				{{ place.history|raw }}
+			</div>
+		{% endif %}
+
+		{% if place.imageGroup %}
+			<div id="gallery-place" class="article-content mb-3">
+				<h2 class="h2 pb-1 overflow-hidden">
+					Galerie
+					<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
+				</h2>
+				<h3 class="h5"><a href="{{ path('app_image_group_show', {slug: place.imageGroup.slug}) }}">{{ place.imageGroup }}</a></h3>
+				{{ place.imageGroup.description|raw }}
+				{% include "image/components/_not_paginated_list.html.twig" with {images: place.imageGroup.images} only %}
 			</div>
 		{% endif %}
 

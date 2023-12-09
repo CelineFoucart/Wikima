@@ -82,6 +82,29 @@
         <div class="article-content">
             {{ scenario.description|raw }}
         </div>
+
+		{% if scenario.imageGroup %}
+			<div class="accordion" id="accordionFlushExample">
+				<div class="accordion-item">
+					<h3 class="accordion-header">
+						<button class="accordion-button collapsed bg-light fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+							Illustrations
+						</button>
+					</h3>
+					<div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+						<div class="accordion-body">
+							<h4 class="h5">
+								<a href="{{ path('app_image_group_show', {slug: scenario.imageGroup.slug}) }}" class="text-decoration-none">
+									<i class="fas fa-images"></i>
+									{{ scenario.imageGroup }}
+								</a>
+							</h4>
+							{% include "image/components/_not_paginated_list.html.twig" with {images: scenario.imageGroup.images} only %}
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endif %}
         
         {% if scenario.episodes|length > 0 %}
             <div class="m-4" data-controller="toggle">

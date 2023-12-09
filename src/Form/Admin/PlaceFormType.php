@@ -6,6 +6,7 @@ use App\Entity\Place;
 use App\Entity\Portal;
 use App\Entity\Category;
 use App\Entity\PlaceType;
+use App\Entity\ImageGroup;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -112,6 +113,14 @@ class PlaceFormType extends AbstractType
                 'attr' => [
                     'data-choices' => 'choices'
                 ]
+            ])
+            ->add('imageGroup', EntityType::class, [
+                'class' => ImageGroup::class,
+                'choice_label' => 'title',
+                'attr' => [
+                    'data-choices' => 'choices'
+                ],
+                'required' => false,
             ])
             ->add('isArchived', null, [
                 'required' => false,

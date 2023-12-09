@@ -98,5 +98,31 @@
                 </div>
             </div>
         </div>
+
+        {% if scenario.imageGroup %}
+            <div class="col-12 mt-3">
+                <article class="card border-top-primary">
+                    <div class="card-header">
+                        <h3 class="card-title h5 mb-0">
+                            Groupe d'images illustrant ce scénario :
+                            <a href="{{ path('app_image_group_show', {slug: scenario.imageGroup.slug}) }}">{{ scenario.imageGroup }}</a>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="image-container">
+                            {% for image in scenario.imageGroup.images %}
+                                <div class="image-block">
+                                    <a href="{{ vich_uploader_asset(image) }}" data-fslightbox="first-lightbox">
+                                        <img data-bs-toggle="tooltip" title="{{ image.title }}" src="{{ vich_uploader_asset(image)|imagine_filter('gallery_thumbnail') }}" alt="{{ image.title }}">
+                                    </a>
+                                </div>
+                            {% else %}
+                                <p class="text-center">Ce groupe n'a pas d'image.</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </article>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\Form\Admin;
 
+use App\Entity\ImageGroup;
 use App\Entity\Portal;
 use App\Entity\Scenario;
 use App\Entity\Timeline;
@@ -50,6 +51,14 @@ class ScenarioType extends AbstractType
                 'class' => Timeline::class,
                 'choice_label' => 'title',
                 'multiple' => true,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ],
+                'required' => false,
+            ])
+            ->add('imageGroup', EntityType::class, [
+                'class' => ImageGroup::class,
+                'choice_label' => 'title',
                 'attr' => [
                     'data-choices' => 'choices'
                 ],
