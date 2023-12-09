@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.0.1] - 2023-12-09
+
+### Fixed
+
+- Ajout d'un icône pour indiquer si le contenu de l'épisode de scénario est rédigé ou pas
+- Ajout de couleurs plus diversifiée dans le color picker des formulaires épisodes
+
 ## [2.0.0] - 2023-12-08
 
 ### Added

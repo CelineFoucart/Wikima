@@ -43,6 +43,11 @@
                     <h3 class="card-title h5 fw-bold">
                         <i class="fas fa-square" style="color: {{ color }}"></i>
                         {{ episode.title }}
+                        {% if episode.content == null or episode.content|length < 1 %}
+                            <i class="fas fa-exclamation-circle text-danger" data-bs-toggle="tooltip" title="Contenu vide"></i>
+                        {% elseif episode.content|length < 30 %}
+                            <i class="fas fa-exclamation-circle" data-bs-toggle="tooltip" title="Contenu très court"></i>
+                        {% endif %}
                     </h3>
                     {% if episode.description %}
                         <p>{{ episode.description|nl2br }}</p>
@@ -149,20 +154,21 @@
         Coloris({
             el: '.color-input',
             swatches: [
-                '#212529',
-                '#6c757d',
-                '#eeeeee',
-                '#ecf0f5',
-                '#F3FAFE',
-                '#fff',
-                '#cfe2ff',
-                '#48cae4',
-                '#3c8dbc',
-                '#563d7c',
-                '#7952b3',
-                '#c29ffa'
+                '#7952b3', // violet
+                '#d946ef', // fuchsia
+                '#d63384', // pink
+                '#dc3545', // red
+                '#92400e', // brown
+                '#fd7e14', // orange
+                '#ffc107', // yellow
+                '#198754', // green
+                '#3c8dbc', // blue
+                '#93c5fd', // blue 300
+                '#6c757d', // grey
+                '#212529', // dark
             ]
         });
+
         Coloris.setInstance('.color-input', { theme: 'polaroid' });
 
         window.addEventListener('load', () => {
