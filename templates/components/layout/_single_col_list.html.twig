@@ -1,9 +1,0 @@
-{% if handlePrivate is not defined %}
-	{% set handlePrivate = false %}
-{% endif %}
-
-{% for item in items %}
-	{{ include('components/utils/_border_bottom_link.html.twig', {item: item, path: path, handlePrivate: handlePrivate}) }}
-{% else %}
-	<p class="text-muted">Aucun element trouvé</p>
-{% endfor %}

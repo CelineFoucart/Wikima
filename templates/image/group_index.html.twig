@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Groupes d'image | {{ app_name }}
+{% endblock %}
+
+{% block body %}
+    <article>
+        <header>
+            <div class="pt-3 border-bottom container-fluid bg-default-light">
+                <div class="row align-items-center">
+                    <div class="col-md-6">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item">
+                                    <a href="{{ path('app_home') }}">Accueil</a>
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">Groupes d'image</li>
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        {{ include('includes/_search.html.twig', { route_name: 'app_image_index' }) }}
+                    </div>
+                </div>
+            </div>
+            <h2 class="list-title">Les groupes d'images</h2>
+            <p class="text-center text-muted fs-5 mb-5">
+                L'encyclopédie de <strong>{{ app_name }}</strong> regroupe les groupes d'image suivants :
+            </p>
+        </header>
+
+        <div class="mx-5 mb-5">
+            <div class="row">
+                {% for image_group in image_groups %}
+                    <div class="col-md-6">
+                        <p class="article-link position-relative h5">
+                            <a href="{{ path('app_image_group_show', {slug: image_group.slug}) }}" class="stretched-link">
+                                <i class="fas fa-images me-1 fa-fw"></i>
+                                {{ image_group.title }}
+                            </a>
+                            <i class="fas fa-chevron-right fw-bold"></i>
+                        </p>
+                    </div>
+                {% else %}
+                    <div class="col-12 text-align">Aucun groupe</div>
+                {% endfor %}
+            </div>
+        </div>
+    </article>
+{% endblock %}

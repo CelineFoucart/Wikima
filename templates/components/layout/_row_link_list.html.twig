@@ -1,9 +1,0 @@
-<div class="row gx-5">
-    {% for item in items %}
-        <div class="col-md-6">
-            {{ include('components/utils/_border_bottom_link.html.twig', {item: item, path: path}) }}
-        </div>
-    {% else %}
-        <p class="text-center">Aucun element trouvé</p>
-    {% endfor %}
-</div>
