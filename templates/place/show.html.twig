@@ -246,8 +246,11 @@
 					Galerie
 					<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
 				</h2>
-				<h3 class="h5"><a href="{{ path('app_image_group_show', {slug: place.imageGroup.slug}) }}">{{ place.imageGroup }}</a></h3>
-				{{ place.imageGroup.description|raw }}
+				<h3 class="h4 text-center">
+					<a href="{{ path('app_image_group_show', {slug: place.imageGroup.slug}) }}">
+						{{ place.imageGroup }}
+					</a>
+				</h3>
 				{% include "image/components/_not_paginated_list.html.twig" with {images: place.imageGroup.images} only %}
 			</div>
 		{% endif %}

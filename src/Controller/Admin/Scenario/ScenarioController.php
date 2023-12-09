@@ -100,7 +100,7 @@ class ScenarioController extends AbstractAdminController
         if ($formCollection->isSubmitted() && $formCollection->isValid()) { 
             $this->entityManager->persist($scenario);
             $this->entityManager->flush();
-            $this->addFlash('success', "Les modifications ont bien été enregistrés.");
+            $this->addFlash('success', "Les modifications ont bien été enregistrées.");
 
             return $this->redirectToRoute('admin_app_scenario_episode', ['id' => $scenario->getId()]);
         }
