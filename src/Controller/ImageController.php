@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\ImageTag;
-use App\Form\Search\SearchType;
+use App\Entity\ImageGroup;
 use App\Entity\Data\SearchData;
-use App\Form\Search\AdvancedImageSearchType;
+use App\Form\Search\SearchType;
 use App\Repository\ImageRepository;
 use App\Repository\ImageTagRepository;
+use App\Repository\ImageGroupRepository;
+use App\Form\Search\AdvancedImageSearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -68,6 +70,22 @@ class ImageController extends AbstractController
             'type' => $imageTag,
             'imageType' => $imageTag,
             'types' => $imageTagRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/image-group', name: 'app_image_group_index')]
+    public function imageGroupIndex(ImageGroupRepository $imageGroupRepository): Response
+    {
+        return $this->render('image/group_index.html.twig', [
+            'types' => $imageGroupRepository->findAll()
+        ]);
+    }
+
+    #[Route('/image-group/{slug}', name: 'app_image_group_show')]
+    public function imageGroupShow(ImageGroup $imageGroup): Response
+    {
+        return $this->render('image/group_show.html.twig', [
+            'image_group' => $imageGroup
         ]);
     }
 }

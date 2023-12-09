@@ -47,6 +47,9 @@ class Episode
     #[ORM\Column(nullable: true)]
     private ?int $position = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $valid = null;
+
     public function __construct()
     {
         $this->places = new ArrayCollection();
@@ -205,5 +208,17 @@ class Episode
     public function __toString()
     {
         return $this->title ? $this->title : 'Episode';
+    }
+
+    public function isValid(): ?bool
+    {
+        return $this->valid;
+    }
+
+    public function setValid(?bool $valid): static
+    {
+        $this->valid = $valid;
+
+        return $this;
     }
 }

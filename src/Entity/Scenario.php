@@ -68,6 +68,12 @@ class Scenario
     #[ORM\Column(nullable: true)]
     private ?bool $public = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $comment = null;
+
+    #[ORM\ManyToOne(inversedBy: 'scenarios')]
+    private ?ImageGroup $imageGroup = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -268,6 +274,30 @@ class Scenario
     public function setPublic(?bool $public): static
     {
         $this->public = $public;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(?string $comment): static
+    {
+        $this->comment = $comment;
+
+        return $this;
+    }
+
+    public function getImageGroup(): ?ImageGroup
+    {
+        return $this->imageGroup;
+    }
+
+    public function setImageGroup(?ImageGroup $imageGroup): static
+    {
+        $this->imageGroup = $imageGroup;
 
         return $this;
     }

@@ -80,6 +80,9 @@ class Image
 
     #[ORM\ManyToMany(targetEntity: ImageTag::class, inversedBy: 'images')]
     private Collection $tags;
+
+    #[ORM\ManyToMany(targetEntity: ImageGroup::class, mappedBy: 'images')]
+    private Collection $imageGroups;
     
     public function __construct()
     {
@@ -90,6 +93,7 @@ class Image
         $this->places = new ArrayCollection();
         $this->idiomArticles = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->imageGroups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -386,6 +390,33 @@ class Image
     public function removeTag(ImageTag $tag): static
     {
         $this->tags->removeElement($tag);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ImageGroup>
+     */
+    public function getImageGroups(): Collection
+    {
+        return $this->imageGroups;
+    }
+
+    public function addImageGroup(ImageGroup $imageGroup): static
+    {
+        if (!$this->imageGroups->contains($imageGroup)) {
+            $this->imageGroups->add($imageGroup);
+            $imageGroup->addImage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImageGroup(ImageGroup $imageGroup): static
+    {
+        if ($this->imageGroups->removeElement($imageGroup)) {
+            $imageGroup->removeImage($this);
+        }
 
         return $this;
     }

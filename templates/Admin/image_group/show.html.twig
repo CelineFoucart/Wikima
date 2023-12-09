@@ -1,0 +1,186 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Afficher "{{ image_group }}"{% endblock %}
+{% block activeImage %} active show {% endblock %}
+{% block activeImageGroupList %}active{% endblock %}
+{% block page_title %}Afficher "{{ image_group }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_image_group_list') }}" class="text-reset">
+			Groupe d'images
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		{{ image_group }}
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_image_group_create') }}" data-bs-toggle="tooltip" title="Ajouter">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+    </a>
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_image_group_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
+        <i class="fas fa-list" aria-hidden="true"></i>
+    </a>
+    <div class="btn-group">
+        <a href="{{ path('app_image_group_show', {slug: image_group.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+            <i class="fas fa-book-reader"></i>
+        </a>                   
+        <a href="{{ path('admin_app_image_group_show', {id: image_group.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+            <i class="fas fa-info-circle"></i>
+        </a>
+        <a href="{{ path('admin_app_image_group_edit', {id: image_group.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+        </a>
+        {% include "Admin/components/_delete_modal.html.twig" with { element: image_group, path: 'admin_app_image_group_delete' } %}
+    </div>
+{% endblock %}
+
+{% block body %}
+    <article class="card border-top-primary">
+        <div class="card-header bg-white">
+            <h2 class="card-title h5 mb-0">{{ image_group }}</h2>
+        </div>
+        <div class="card-body card-show">
+            <table class="table table-striped mb-0">
+                <tbody>
+                    <tr>
+                        <th>Titre</th>
+                        <td>
+                            <a href="{{ path('app_image_show', {slug: image_group.slug}) }}">
+                                {{ image_group.title }}
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Slug</th>
+                        <td>{{ image_group.slug }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ image_group.description|raw }}</td>
+                    </tr>
+                    <tr>
+                        <th>Portails</th>
+                        <td>
+                            {% if image_group.portals is not empty %}
+                                <ul class="mb-0">
+                                    {% for portal in image_group.portals %}
+                                        <li><a href="{{ path('app_portal_show', {slug: portal.slug}) }}">{{ portal }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </article>
+
+    <article class="card border-top-primary mt-3">
+		<div class="card-header">
+			<div class="float-end">
+				<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#form-modal">
+					Uploader
+				</button>
+			</div>
+			<h3 class="card-title h5 mb-0">Images de ce groupe</h3>
+		</div>
+		<div class="card-body">
+			<div class="image-container">
+				{% for image in image_group.images %}
+					<div class="image-block">
+						<a href="{{ vich_uploader_asset(image) }}" data-fslightbox="first-lightbox">
+							<img data-bs-toggle="tooltip" title="{{ image.title }}" src="{{ vich_uploader_asset(image)|imagine_filter('gallery_thumbnail') }}" alt="{{ image.title }}">
+						</a>
+						<form action="" method="post" class="text-center">
+							<input type="hidden" name="imageId" value="{{ image.id }}">
+							<input type="hidden" name="_token" value="{{ csrf_token('image' ~ image.id) }}">
+							<input type="hidden" name="delete" value="delete">
+							<button type="submit" class="btn btn-danger btn-sm">Enlever</button>
+						</form>
+					</div>
+				{% else %}
+					<p class="text-center">Ce groupe n'a pas d'image.</p>
+				{% endfor %}
+			</div>
+		</div>
+	</article>
+
+    <div class="modal fade" id="form-modal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Uploader une image</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				{{ form_start(formImage) }}
+				<div class="modal-body">
+					{{ form_row(formImage.title) }}
+					<div class="mb-2">
+						{{ form_label(formImage.slug) }}
+						<div class="input-group">
+							{{ form_widget(formImage.slug) }}
+							<span 
+								class="input-group-text" 
+								data-action="slugify" 
+								data-target="#image_slug" 
+								role="btton" 
+								data-source="#image_title"
+								title="Générer"
+								data-bs-toggle="tooltip">
+								<i class="fas fa-sync-alt"></i>
+							</span>
+						</div>
+						{{ form_errors(formImage.slug) }}
+					</div>
+					{{ form_rest(formImage) }}
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Fermer</button>
+					<button type="submit" class="btn btn-primary btn-sm">Ajouter</button>
+				</div>
+				{{ form_end(formImage) }}
+			</div>
+		</div>
+	</div>
+
+    <div class="row mt-3">
+		<aside class="col-md-4">
+			<div class="card border-top-primary">
+				<div class="card-header">
+					<h3 class="card-title h5 mb-0">Recherche</h3>
+				</div>
+				<div class="card-body">
+					{{ form_start(form) }}
+					<h4 class="mt-4 mb-3 h6 fw-bold">Par mot clé</h4>
+					{{ form_widget(form.query) }}
+					<h4 class="mt-4 mb-3 h6 fw-bold">Par catégorie</h4>
+					{{ form_widget(form.categories) }}
+					<h4 class="mt-4 mb-3 h6 fw-bold">Par portail</h3>
+					{{ form_widget(form.portals) }}
+					<div style="margin-top:10px">
+						<a href="{{ path('admin_app_image_group_show', {id: image_group.id}) }}" class="btn btn-sm btn-primary">Tout afficher</a>
+						<button type="submit" class="btn btn-sm btn-primary">Rechercher</button>
+					</div>
+					{{ form_end(form) }}
+				</div>
+			</div>
+		</aside>
+
+		<article class="col-md-8">
+			{{ include('Admin/components/_item_gallery.html.twig', {title: 'Galerie de '~ app_name}) }}
+		</article>
+	</div>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+	const error = document.querySelector('.is-invalid');
+	if (error) {
+		$('#form-modal').modal('show');
+	}
+</script>
+{% endblock %}
+

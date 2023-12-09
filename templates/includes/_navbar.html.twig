@@ -58,10 +58,25 @@
 					{{ get_pages() }}
 				</ul>
 			</li>
-			<li class="nav-item me-3 text-uppercase">
-				<a class="nav-link {{ active_links(app.request, ['image']) }}" href="{{ path('app_image_index') }}">
+
+			<li class="nav-item dropdown me-3">
+				<a class="nav-link text-uppercase dropdown-toggle {{ active_links(app.request, ['image']) }}" href="#" id="pages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					Galerie
 				</a>
+				<ul class="dropdown-menu">
+					<li>
+						<a class="dropdown-item" href="{{ path('app_image_index') }}">
+							<i class="fas fa-image fa-fw me-1"></i>
+							Toutes les images
+						</a>
+					</li>
+					<li>
+						<a class="dropdown-item" href="{{ path('app_image_group_index') }}">
+							<i class="fas fa-images fa-fw me-1"></i>
+							Groupes d'images
+						</a>
+					</li>
+				</ul>
 			</li>
 
 			{% if enable_scenario == 1 %}

@@ -130,6 +130,9 @@ class Place
     #[ORM\ManyToMany(targetEntity: Episode::class, mappedBy: 'places')]
     private Collection $episodes;
 
+    #[ORM\ManyToOne(inversedBy: 'places')]
+    private ?ImageGroup $imageGroup = null;
+
     public function __construct()
     {
         $this->localisations = new ArrayCollection();
@@ -516,6 +519,18 @@ class Place
         if ($this->episodes->removeElement($episode)) {
             $episode->removePlace($this);
         }
+
+        return $this;
+    }
+
+    public function getImageGroup(): ?ImageGroup
+    {
+        return $this->imageGroup;
+    }
+
+    public function setImageGroup(?ImageGroup $imageGroup): static
+    {
+        $this->imageGroup = $imageGroup;
 
         return $this;
     }

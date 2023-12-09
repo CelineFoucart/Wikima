@@ -1,0 +1,38 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Créer un groupe d'images{% endblock %}
+{% block activeImage %} active show {% endblock %}
+{% block activeImageGroupList %}active{% endblock %}
+
+{% block page_title %}Créer un groupe d'images{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_image_group_list') }}" class="text-reset">
+			Groupe d'images
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Création
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+	<a href="{{ path('admin_app_image_group_list') }}" class="btn btn-default btn-sm">
+		<i class="fas fa-long-arrow-left"></i>
+		Retour
+	</a>
+{% endblock %}
+
+{% block body %}
+	{% include "Admin/image_group/_form.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
+    <script src="{{ asset("assets/admin/editor.js") }}"></script>
+    <script>   
+        enableBasicEditor("image_group_form_description");
+    </script>
+{% endblock %}

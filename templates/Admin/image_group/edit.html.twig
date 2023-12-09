@@ -1,0 +1,56 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Editer "{{ image_group }}"{% endblock %}
+{% block activeImage %} active show {% endblock %}
+{% block activeImageGroupList %}active{% endblock %}
+{% block page_title %}Editer "{{ image_group }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_image_group_list') }}" class="text-reset">
+			Groupe d'images
+		</a>
+	</li>
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_image_group_show', {id: image_group.id}) }}" class="text-reset">
+			Editer
+		</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Editer
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_image_group_create') }}" data-bs-toggle="tooltip" title="Ajouter">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+    </a>
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_image_group_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
+        <i class="fas fa-list" aria-hidden="true"></i>
+    </a>
+    <div class="btn-group">
+        <a href="{{ path('app_image_group_show', {slug: image_group.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+            <i class="fas fa-book-reader"></i>
+        </a>                   
+        <a href="{{ path('admin_app_image_group_show', {id: image_group.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+            <i class="fas fa-info-circle"></i>
+        </a>
+        <a href="{{ path('admin_app_image_group_edit', {id: image_group.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+        </a>
+        {% include "Admin/components/_delete_modal.html.twig" with { element: image_group, path: 'admin_app_image_group_delete' } %}
+    </div>
+{% endblock %}
+
+{% block body %}
+	{% include "Admin/image_group/_form.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
+    <script src="{{ asset("assets/admin/editor.js") }}"></script>
+    <script>   
+        enableBasicEditor("image_group_form_description");
+    </script>
+{% endblock %}
