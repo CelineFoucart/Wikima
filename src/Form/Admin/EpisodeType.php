@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class EpisodeType extends AbstractType
@@ -45,6 +46,9 @@ class EpisodeType extends AbstractType
                 'attr' => [
                     'data-choices' => 'choices'
                 ],
+                'required' => false,
+            ])
+            ->add('valid', CheckboxType::class, [
                 'required' => false,
             ])
         ;

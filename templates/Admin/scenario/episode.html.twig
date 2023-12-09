@@ -25,11 +25,25 @@
 
 
 {% block content %}
-<div class="text-end mb-3">
-    <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
-        Ajouter rapidement
-    </a>
-    <a href="{{ path('admin_app_episode_create', {id: scenario.id}) }}" class="btn btn-primary btn-sm">Ajouter</a>
+<div class="row mb-3">
+    <div class="col-6">
+        {% if scenario.comment %}
+            <button href="#" class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseComment" aria-expanded="false" aria-controls="collapseComment">
+                Commentaires
+            </button>
+            <div class="collapse" id="collapseComment">
+                <div class="card card-body mt-3">
+                    {{ scenario.comment|nl2br }}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    <div class="col-6 text-end">
+        <a href="#" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addModal">
+            Ajouter rapidement
+        </a>
+        <a href="{{ path('admin_app_episode_create', {id: scenario.id}) }}" class="btn btn-primary btn-sm">Ajouter</a>
+    </div>
 </div>
 {{ form_start(formCollection) }}
 {{ form_widget(formCollection._token) }}
@@ -47,6 +61,9 @@
                             <i class="fas fa-exclamation-circle text-danger" data-bs-toggle="tooltip" title="Contenu vide"></i>
                         {% elseif episode.content|length < 30 %}
                             <i class="fas fa-exclamation-circle" data-bs-toggle="tooltip" title="Contenu très court"></i>
+                        {% endif %}
+                        {% if episode.valid %}
+                            <i class="fas fa-check-circle text-success" data-bs-toggle="tooltip" title="Validé"></i>
                         {% endif %}
                     </h3>
                     {% if episode.description %}
