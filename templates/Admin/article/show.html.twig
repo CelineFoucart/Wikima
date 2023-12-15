@@ -33,14 +33,20 @@
 {% block body %}
     <ul class="nav nav-custom-style nav-pills mb-4">
         <li class="nav-item">
-            <a class="nav-link {{ general_active is defined ? 'active' : '' }}" href="{{ path('admin_app_article_show', {id: article.id}) }}">Général</a>
+            <a class="nav-link {{ general_active is defined ? 'active' : '' }}" href="{{ path('admin_app_article_show', {id: article.id}) }}">
+                <i class="fas fa-eye" aria-hidden="true"></i> <span class="d-none d-sm-inline">Informations</span>
+            </a>
         </li>
         {% if can_access(app.user, article) %}
             <li class="nav-item">
-                <a class="nav-link {{ section_active is defined ? 'active' : '' }}" href="{{ path('admin_app_article_section', {id: article.id}) }}">Gérer les sections</a>
+                <a class="nav-link {{ section_active is defined ? 'active' : '' }}" href="{{ path('admin_app_article_section', {id: article.id}) }}">
+                    <i class="fas fa-clone" aria-hidden="true"></i> <span class="d-none d-sm-inline">Sections</span>
+                </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ gallery_active is defined ? 'active' : '' }}" href="{{ path('admin_app_article_gallery', {id: article.id}) }}">Gérer la galerie</a>
+                <a class="nav-link {{ gallery_active is defined ? 'active' : '' }}" href="{{ path('admin_app_article_gallery', {id: article.id}) }}">
+                    <i class="fa fa-image" aria-hidden="true"></i> <span class="d-none d-sm-inline">Galerie</span>
+                </a>
             </li>
         {% endif %}
     </ul>

@@ -72,7 +72,7 @@
 			<div id="container-admin">
 				<aside class="dashboard-nav">
 					<nav class="dashboard-nav-list sticky-top">
-						<a href="{{ path('admin_app_dashboard') }}" class="dashboard-nav-item">
+						<a href="{{ path('admin_app_dashboard') }}" class="dashboard-nav-item {% block activeDashboard %}{% endblock %}">
 							<i class="fas fa-tachometer-alt"></i>
 							<span>Tableau de bord</span>
 						</a>

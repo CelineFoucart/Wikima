@@ -10,9 +10,11 @@
             </a>  
         {% endif %}
 
-        <a href="{{ path('admin_app_' ~ prefix ~ '_show', {id: entity.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
-            <i class="fas fa-info-circle"></i>
-        </a>
+        {% block show_action %}
+            <a href="{{ path('admin_app_' ~ prefix ~ '_show', {id: entity.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+                <i class="fas fa-info-circle"></i>
+            </a>
+        {% endblock %}
 
         {% block custom_action %}{% endblock %}
 

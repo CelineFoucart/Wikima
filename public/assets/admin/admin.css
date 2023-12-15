@@ -117,7 +117,6 @@ img {
     justify-content: center;
 }
 
-
 .image-block form {
     padding-top: 5px;
 }
@@ -476,9 +475,9 @@ h1 {
 /* toastify style */
 .toastify-container {
     position: fixed;
-    top: 70px;
-    right: 0px;
-    z-index: 9000;
+    top: 5px;
+    right: 5px;
+    z-index: 9999;
 }
 
 .toastify {
@@ -772,4 +771,13 @@ blockquote {
 
 .group-list > *:last-of-type::after {
     content: '';
+}
+
+.dropdown .article-dropdown {
+    white-space: nowrap;
+    border-radius: 0;
+}
+
+.dropdown-menu {
+    z-index: 9999;
 }

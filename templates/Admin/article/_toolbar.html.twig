@@ -1,11 +1,27 @@
 {% embed 'Admin/components/_toolbar.html.twig' with { prefix: 'article', entity: article, show_route: 'app_article_show'  } %}
-    {% block custom_action %}
-        <a href="{{ path('admin_app_article_section', {id: article.id}) }}" class="btn btn-sm btn-default" title="Gérer les section">
-            <i class="fas fa-clone"></i>
-        </a>
-        <a href="{{ path('admin_app_article_gallery', {id: article.id}) }}" class="btn btn-sm btn-default" title="Gérer la galerie">
-            <i class="fa fa-image" aria-hidden="true"></i> 
-        </a>
+    {% block show_action %}
+        <div class="dropdown d-inline">
+            <button class="btn btn-default btn-sm dropdown-toggle article-dropdown" type="button" id="dropdownMenuButton6" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-info-circle"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton6">
+                <li>
+                    <a class="dropdown-item" href="{{ path('admin_app_article_show', {id: article.id}) }}">
+                        <i class="fas fa-eye" aria-hidden="true"></i> Informations
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('admin_app_article_section', {id: article.id}) }}" class="dropdown-item">
+                        <i class="fas fa-clone" aria-hidden="true"></i> Sections
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('admin_app_article_gallery', {id: article.id}) }}" class="dropdown-item">
+                        <i class="fa fa-image" aria-hidden="true"></i> Galerie
+                    </a>
+                </li>
+            </ul>
+        </div>
     {% endblock %}
 
     {% block edit_action %}
