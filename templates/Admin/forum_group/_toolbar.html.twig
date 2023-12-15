@@ -1,0 +1,5 @@
+{% embed 'Admin/components/_toolbar.html.twig' with { prefix: 'forum_group', entity: forum_group } %}
+    {% block delete_action %}
+        {% if forum_group.symfonyRole != true %} {{ parent() }} {% endif %}
+    {% endblock %}
+{% endembed %}

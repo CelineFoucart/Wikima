@@ -9,12 +9,21 @@
                 <i class="fas fa-book-reader"></i>
             </a>  
         {% endif %}
+
         <a href="{{ path('admin_app_' ~ prefix ~ '_show', {id: entity.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
             <i class="fas fa-info-circle"></i>
         </a>
-        <a href="{{ path('admin_app_' ~ prefix ~ '_edit', {id: entity.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
-            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-        </a>
-        {% include "Admin/components/_delete_modal.html.twig" with { element: entity, path: 'admin_app_' ~ prefix ~ '_delete' } %}
+
+        {% block custom_action %}{% endblock %}
+
+        {% block edit_action %}
+            <a href="{{ path('admin_app_' ~ prefix ~ '_edit', {id: entity.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+                <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+            </a>
+        {% endblock %}
+
+        {% block delete_action %}
+            {% include "Admin/components/_delete_modal.html.twig" with { element: entity, path: 'admin_app_' ~ prefix ~ '_delete' } %}
+        {% endblock %}
     </div>
 {% endif %}

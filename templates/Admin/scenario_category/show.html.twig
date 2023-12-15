@@ -6,21 +6,7 @@
 {% block page_title %}Afficher "{{ scenario_category }}"{% endblock %}
 
 {% block toolbar %}
-    <a class="btn btn-sm btn-default" href="{{ path('admin_app_scenario_category_create') }}" data-bs-toggle="tooltip" title="Ajouter">
-        <i class="fas fa-plus-circle" aria-hidden="true"></i>
-    </a>
-    <a class="btn btn-sm btn-default" href="{{ path('admin_app_scenario_category_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
-        <i class="fas fa-list" aria-hidden="true"></i>
-    </a>
-    <div class="btn-group">              
-        <a href="{{ path('admin_app_scenario_category_show', {id: scenario_category.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
-            <i class="fas fa-info-circle"></i>
-        </a>
-        <a href="{{ path('admin_app_scenario_category_edit', {id: scenario_category.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
-            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-        </a>
-        {% include "Admin/components/_delete_modal.html.twig" with { element: scenario_category, path: 'admin_app_scenario_category_delete' } %}
-    </div>
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'scenario_category', entity: scenario_category } %}
 {% endblock %}
 
 {% block breadcrumb %}

@@ -22,24 +22,7 @@
 {% endblock %}
 
 {% block toolbar %}
-    <a class="btn btn-sm btn-default" href="{{ path('admin_app_persontype_create') }}" data-bs-toggle="tooltip" title="Ajouter">
-        <i class="fas fa-plus-circle" aria-hidden="true"></i>
-    </a>
-    <a class="btn btn-sm btn-default" href="{{ path('admin_app_persontype_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
-        <i class="fas fa-list" aria-hidden="true"></i>
-    </a>
-    <div class="btn-group">   
-        <a href="{{ path('app_person_type', {slug: personType.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
-            <i class="fas fa-book-reader"></i>
-        </a>             
-        <a href="{{ path('admin_app_persontype_show', {id: personType.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
-            <i class="fas fa-info-circle"></i>
-        </a>
-        <a href="{{ path('admin_app_persontype_edit', {id: personType.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
-            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-        </a>
-        {% include "Admin/components/_delete_modal.html.twig" with { element: personType, path: 'admin_app_persontype_delete' } %}
-    </div>
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'persontype', entity: personType, show_route: 'app_person_type' } %}
 {% endblock %}
 
 {% block body %}

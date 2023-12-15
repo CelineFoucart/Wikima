@@ -22,25 +22,9 @@
 {% endblock %}
 
 {% block toolbar %}
-    <a class="btn btn-sm btn-default" href="{{ path('admin_app_placetype_create') }}" data-bs-toggle="tooltip" title="Ajouter">
-        <i class="fas fa-plus-circle" aria-hidden="true"></i>
-    </a>
-    <a class="btn btn-sm btn-default" href="{{ path('admin_app_placetype_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
-        <i class="fas fa-list" aria-hidden="true"></i>
-    </a>
-    <div class="btn-group">
-        <a href="{{ path('app_place_type', {slug: placeType.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
-            <i class="fas fa-book-reader"></i>
-        </a>                   
-        <a href="{{ path('admin_app_placetype_show', {id: placeType.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
-            <i class="fas fa-info-circle"></i>
-        </a>
-        <a href="{{ path('admin_app_placetype_edit', {id: placeType.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
-            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-        </a>
-        {% include "Admin/components/_delete_modal.html.twig" with { element: placeType, path: 'admin_app_placetype_delete' } %}
-    </div>
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'placetype', entity: placeType, show_route: 'app_place_type' } %}
 {% endblock %}
+
 
 {% block body %}
 	<div class="card border-top-primary">

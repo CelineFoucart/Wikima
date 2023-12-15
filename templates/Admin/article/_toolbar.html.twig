@@ -1,24 +1,23 @@
-<a class="btn btn-sm btn-default" href="{{ path('admin_app_article_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
-    <i class="fas fa-list" aria-hidden="true"></i>
-</a>
-<div class="btn-group">
-    <a href="{{ path('app_article_show', {slug: article.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
-        <i class="fas fa-book-reader"></i>
-    </a> 
-    <a href="{{ path('admin_app_article_show', {id: article.id}) }}" class="btn btn-sm btn-default" title="Informations">
-        <i class="fas fa-info-circle"></i>
-    </a>
-    <a href="{{ path('admin_app_article_section', {id: article.id}) }}" class="btn btn-sm btn-default" title="Gérer les section">
-        <i class="fas fa-clone"></i>
-    </a>
-    <a href="{{ path('admin_app_article_gallery', {id: article.id}) }}" class="btn btn-sm btn-default" title="Gérer la galerie">
-        <i class="fa fa-image" aria-hidden="true"></i> 
-    </a>
-    {% if can_access(app.user, article) %}
-        <a href="{{ path('admin_app_article_edit', {id: article.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
-            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+{% embed 'Admin/components/_toolbar.html.twig' with { prefix: 'article', entity: article, show_route: 'app_article_show'  } %}
+    {% block custom_action %}
+        <a href="{{ path('admin_app_article_section', {id: article.id}) }}" class="btn btn-sm btn-default" title="Gérer les section">
+            <i class="fas fa-clone"></i>
         </a>
-        {% include "Admin/components/_archive_modal.html.twig" with { element: article, path: 'admin_app_article_archive' } %}
-        {% include "Admin/components/_delete_modal.html.twig" with { element: article, path: 'admin_app_article_delete' } %}
-    {% endif %}
-</div>
+        <a href="{{ path('admin_app_article_gallery', {id: article.id}) }}" class="btn btn-sm btn-default" title="Gérer la galerie">
+            <i class="fa fa-image" aria-hidden="true"></i> 
+        </a>
+    {% endblock %}
+
+    {% block edit_action %}
+        {% if can_access(app.user, article) %}
+            {{ parent() }}
+            {% include "Admin/components/_archive_modal.html.twig" with { element: article, path: 'admin_app_article_archive' } %}
+        {% endif %}
+    {% endblock %}
+
+    {% block delete_action %}
+        {% if can_access(app.user, article) %}
+            {{ parent() }}
+        {% endif %}
+    {% endblock %}
+{% endembed %}

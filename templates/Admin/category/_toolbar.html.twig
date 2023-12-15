@@ -1,21 +1,7 @@
-<a class="btn btn-sm btn-default" href="{{ path('admin_app_category_create') }}" data-bs-toggle="tooltip" title="Ajouter">
-    <i class="fas fa-plus-circle" aria-hidden="true"></i>
-</a>
-<a class="btn btn-sm btn-default" href="{{ path('admin_app_category_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
-    <i class="fas fa-list" aria-hidden="true"></i>
-</a>
-<div class="btn-group">
-    <a href="{{ path('app_category_show', {slug: category.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
-        <i class="fas fa-book-reader"></i>
-    </a>                   
-    <a href="{{ path('admin_app_category_show', {id: category.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
-        <i class="fas fa-info-circle"></i>
-    </a>                 
-    <a href="{{ path('admin_app_category_sort', {id: category.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Ordonner">
-        <i class="fas fa-sort-amount-down-alt"></i>
-    </a>
-    <a href="{{ path('admin_app_category_edit', {id: category.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
-        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-    </a>
-    {% include "Admin/components/_delete_modal.html.twig" with { element: category, path: 'admin_app_category_delete' } %}
-</div>
+{% embed 'Admin/components/_toolbar.html.twig' with { prefix: 'category', entity: category, show_route: 'app_category_show'  } %}
+    {% block custom_action %}
+        <a href="{{ path('admin_app_category_sort', {id: category.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Ordonner">
+            <i class="fas fa-sort-amount-down-alt"></i>
+        </a>
+    {% endblock %}
+{% endembed %}

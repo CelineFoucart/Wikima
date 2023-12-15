@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block toolbar %}
-	{{ include('Admin/menu_item/_toolbar.html.twig') }}
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'menu_item', entity: menu_item } %}
 {% endblock %}
 
 {% block body %}

@@ -1,0 +1,7 @@
+{% embed 'Admin/components/_toolbar.html.twig' with { prefix: 'scenario', entity: scenario, show_route: 'app_scenario_show'  } %}
+    {% block custom_action %}
+        <a href="{{ path('admin_app_scenario_episode', {id: scenario.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Episodes">
+            <i class="fas fa-copy"></i>
+        </a>
+    {% endblock %}
+{% endembed %}
