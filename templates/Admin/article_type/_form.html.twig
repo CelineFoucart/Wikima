@@ -27,19 +27,7 @@
             {{ form_row(form.icon) }}
         </div>
         <div class="card-footer">
-            <button class="btn btn-success btn-sm" type="submit" name="btn_save_and_edit">
-                <i class="fas fa-save" aria-hidden="true"></i>
-                Enregistrer
-            </button>
-            <button type="submit" class="btn btn-success btn-sm" name="btn_save_and_list">
-                <i class="fas fa-save"></i>
-                <i class="fas fa-list" aria-hidden="true"></i>
-                Enregistrer et retourner à la liste
-            </button>
-            <button class="btn btn-success btn-sm" type="submit" name="btn_save_and_create">
-                <i class="fas fa-plus-circle" aria-hidden="true"></i>
-                Enregistrer et ajouter
-            </button>
+            {% include "Admin/components/_form_btns.html.twig" %}
             {{ form_rest(form) }}
         </div>
     {{ form_end(form) }}

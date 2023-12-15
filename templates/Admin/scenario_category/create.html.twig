@@ -3,7 +3,7 @@
 {% block title %}Créer une categorie de scénario{% endblock %}
 {% block activeScenario %}active show{% endblock %}
 {% block activeScenarioCategory %} active {% endblock %}
-{% block page_title %}Créer une categorie de scénario{% endblock %}
+{% block page_title %}Créer une catégorie de scénario{% endblock %}
 
 {% block breadcrumb %}
 	<li class="breadcrumb-item">
@@ -13,10 +13,7 @@
 {% endblock %}
 
 {% block toolbar %}
-	<a href="{{ path('admin_app_scenario_category_list') }}" class="btn btn-default btn-sm">
-		<i class="fas fa-long-arrow-left"></i>
-		Retour
-	</a>
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'scenario_category', entity: null } %}
 {% endblock %}
 
 {% block body %}

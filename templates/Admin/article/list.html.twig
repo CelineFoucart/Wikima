@@ -88,7 +88,7 @@
                     render: function ( data, type, row ) {
                         let portals = '';
                         row.portals.forEach(element => {
-                            portals += `<a href="/portal/${element.slug}">${element.title}</a>`
+                            portals += `<a href="/portals/${element.slug}">${element.title}</a>`
                         });
                         return `<div class="container-list">${portals}</div>`;
                     }
@@ -108,6 +108,9 @@
 
                         if (isAdmin || currentUserId === data.author.id) {
                             editActions = `
+                                <a href="/admin/article/${row.id}/section" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Gérer les section">
+                                    <i class="fas fa-clone"></i>
+                                </a>
                                 <a href="/admin/article/${row.id}/edit" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
                                     <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                                 </a>
@@ -134,10 +137,9 @@
             createdRow: function( row, data, dataIndex ) {
                 $( row ).find('td:eq(0)').attr('data-label', 'Id');
                 $( row ).find('td:eq(1)').attr('data-label', 'Titre');
-                $( row ).find('td:eq(2)').attr('data-label', 'Mots clés');
-                $( row ).find('td:eq(3)').attr('data-label', 'Portail');
-                $( row ).find('td:eq(4)').attr('data-label', 'Auteur');
-                $( row ).find('td:eq(5)').attr('data-label', 'Actions');
+                $( row ).find('td:eq(2)').attr('data-label', 'Portail');
+                $( row ).find('td:eq(3)').attr('data-label', 'Auteur');
+                $( row ).find('td:eq(4)').attr('data-label', 'Actions');
             }
         });
     </script>

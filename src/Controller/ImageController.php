@@ -77,7 +77,7 @@ class ImageController extends AbstractController
     public function imageGroupIndex(ImageGroupRepository $imageGroupRepository): Response
     {
         return $this->render('image/group_index.html.twig', [
-            'image_groups' => $imageGroupRepository->findAll(),
+            'image_groups' => $imageGroupRepository->findBy([], ['title' => 'ASC']),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }

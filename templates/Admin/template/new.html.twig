@@ -2,10 +2,12 @@
 
 {% block activeTemplate %}active show{% endblock %}
 {% block activeTemplateList %}active{% endblock %}
-
 {% block title %}Créer un modèle{% endblock %}
+{% block page_title %}Créer un modèle{% endblock %}
 
-{% block page_title %}Créer un de modèle{% endblock %}
+{% block toolbar %}
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'template', entity: null } %}
+{% endblock %}
 
 {% block body %}
     {{ include('Admin/template/_form.html.twig') }}

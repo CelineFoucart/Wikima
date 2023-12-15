@@ -1,0 +1,20 @@
+<a class="btn btn-sm btn-default" href="{{ path('admin_app_' ~ prefix ~ '_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
+    <i class="fas fa-list" aria-hidden="true"></i>
+</a>
+
+{% if entity is not null %}
+    <div class="btn-group">
+        {% if show_route is defined %}
+            <a href="{{ path(show_route, {slug: entity.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+                <i class="fas fa-book-reader"></i>
+            </a>  
+        {% endif %}
+        <a href="{{ path('admin_app_' ~ prefix ~ '_show', {id: entity.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+            <i class="fas fa-info-circle"></i>
+        </a>
+        <a href="{{ path('admin_app_' ~ prefix ~ '_edit', {id: entity.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+        </a>
+        {% include "Admin/components/_delete_modal.html.twig" with { element: entity, path: 'admin_app_' ~ prefix ~ '_delete' } %}
+    </div>
+{% endif %}

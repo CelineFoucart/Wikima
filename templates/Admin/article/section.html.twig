@@ -65,12 +65,7 @@
 												<a href="{{ path('admin_app_article_section', {id:article.id, section: section.id}) }}" class="btn btn-success btn-sm" data-bs-toggle="tooltip" title="Editer">
 													<i class="fas fa-edit" aria-hidden="true"></i>
 												</a>
-												<form method="post" action="{{ path('admin_app_section_delete', {'id': section.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet élément ?');" style="display:inline-block">
-													<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ section.id) }}">
-													<button class="btn btn-danger btn-sm" data-bs-toggle="tooltip" title="Supprimer">
-														<i class="fas fa-trash"></i>
-													</button>
-												</form>
+												{% include "Admin/components/_delete_modal.html.twig" with { element: section, path: 'admin_app_section_delete' } %}
 											</div>
 											<h4 class="h5">{{ section.title }}</h4>
 											{{ section.content|striptags|raw|u.truncate(190, '...', false)|raw }}

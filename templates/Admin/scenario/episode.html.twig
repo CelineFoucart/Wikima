@@ -94,21 +94,17 @@
                     </div>
                 </div>
                 <div class="card-footer text-end">
-                    <form method="post" action="{{ path('admin_app_episode_delete', {'id': episode.id}) }}" onsubmit="return confirm('Voulez-vous vraiment supprimer cet élément ?');">
-                        <div class="btn-group">  
-                            <button class="btn btn-default btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ episode.id }}" aria-expanded="false" aria-controls="collapseExample">
-                                <i class="fas fa-user"></i>
-                                <i class="fas fa-building"></i>
-                            </button> 
-                            <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#showModal{{ episode.id }}">
-                                <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                            </a>
-                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ episode.id) }}">
-                            <button class="btn btn-danger btn-sm" data-bs-toggle="tooltip" title="Supprimer">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </form>
+                    <div class="btn-group">  
+                        <button class="btn btn-default btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ episode.id }}" aria-expanded="false" aria-controls="collapseExample">
+                            <i class="fas fa-user"></i>
+                            <i class="fas fa-building"></i>
+                        </button> 
+                        <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#showModal{{ episode.id }}">
+                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                        </a>
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ episode.id) }}">
+                        {% include "Admin/components/_delete_modal.html.twig" with { element: episode, path: 'admin_app_episode_delete' } %}
+                    </div>
                 </div>
             </div>
 

@@ -14,12 +14,8 @@
 {% endblock %}
 
 {% block toolbar %}
-    <a href="{{ path('admin_app_person_list') }}" class="btn btn-default btn-sm">
-		<i class="fas fa-long-arrow-left"></i>
-		Retour
-	</a>
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'person', entity: null } %}
 {% endblock %}
-
 {% block body %}
     <div class="card border-top-primary">
     <div class="card-body p-1">

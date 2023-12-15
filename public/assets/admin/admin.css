@@ -600,6 +600,17 @@ div.dataTables_wrapper div.dataTables_filter input {
     display: block;
 }
 
+@media (max-width: 576px) {
+    .page-header .btn-default {
+        white-space: wrap;
+    }
+    .ctx-container {
+        width:75vw;
+        padding-right: 0.25rem;
+        padding-left: 0.25rem;
+    }
+}
+
 @media (min-width: 400px) {
     .table td::before {
         display: inline-block;

@@ -19,12 +19,8 @@
 {% block page_title %}Créer une langue{% endblock %}
 
 {% block toolbar %}
-	<a href="{{ path('admin_app_idiom_list') }}" class="btn btn-default btn-sm">
-		<i class="fas fa-long-arrow-left"></i>
-		Retour
-	</a>
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'idiom', entity: null } %}
 {% endblock %}
-
 {% block body %}
     {{ include('Admin/idiom/_form.html.twig') }}
 {% endblock %}

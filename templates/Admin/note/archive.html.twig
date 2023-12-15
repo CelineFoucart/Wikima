@@ -12,10 +12,7 @@
 {% endblock %}
 
 {% block toolbar %}
-    <a href="{{ path('admin_app_note_list') }}" class="btn btn-default btn-sm">
-		<i class="fas fa-long-arrow-left"></i>
-		Retour
-	</a>
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'note', entity: null } %}
 {% endblock %}
 
 {% block body %}

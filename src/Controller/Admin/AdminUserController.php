@@ -5,19 +5,21 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use App\Entity\UserGroup;
 use DateTimeImmutable;
+use App\Entity\UserGroup;
+use App\Service\UserService;
 use App\Form\Admin\UserFormType;
-use App\Repository\ForumGroupRepository;
 use App\Repository\UserRepository;
+use App\Repository\ForumGroupRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin/user')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
@@ -33,10 +35,29 @@ final class AdminUserController extends AbstractAdminController
     }
 
     #[Route('/', name: 'admin_app_user_list', methods:['GET'])]
-    public function listAction(): Response
+    public function listAction(Request $request, UserService $userService): Response
     {
+        $roles = $userService->getAvailableRoles();
+        $data = array_values($roles);
+        $form = $this->createFormBuilder(['roles' => $data])
+            ->setMethod('GET')
+            ->add('roles', ChoiceType::class, [
+                'choices' => $roles,
+                'multiple' => true,
+                'attr' => ['data-choices' => 'choices']
+            ])
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $data = $form->get('roles')->getData();
+        }
+
         return $this->render('Admin/user/list.html.twig', [
-            'users' => $this->userRepository->findAll(),
+            'users' => $this->userRepository->findByRoles($data),
+            'form' => $form,
         ]);
     }
 
