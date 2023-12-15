@@ -92,7 +92,8 @@ img {
     background-color: #367fa9;
 }
 
-.btn-primary:hover {
+.btn-primary:hover,
+.btn-primary:focus {
     background-color: #286090;
     border-color: #204d74;
     color: #fff;

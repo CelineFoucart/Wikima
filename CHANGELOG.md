@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Ajout d'un icône pour indiquer si le contenu de l'épisode de scénario est rédigé ou pas
 - Ajout de couleurs plus diversifiée dans le color picker des formulaires épisodes
+- Supprimer les boutons inactifs
 
 ## [2.0.0] - 2023-12-08
 

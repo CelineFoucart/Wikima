@@ -206,7 +206,7 @@ class WordGenerator
     {
         $phpWord->addTitleStyle(0, ['size' => 30, 'bold' => true]);
         $phpWord->addTitleStyle(1, ['size' => 18,  'bold' => true]);
-        $phpWord->addTitleStyle(2, ['size' => 15,  'bold' => true]);
+        $phpWord->addTitleStyle(2, ['size' => 13,  'bold' => true]);
         $phpWord->setDefaultFontName('Times New Roman');
         $phpWord->setDefaultFontSize(12);
         $phpWord->getSettings()->setThemeFontLang(new Language(Language::FR_FR));

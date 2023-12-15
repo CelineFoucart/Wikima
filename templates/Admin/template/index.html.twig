@@ -41,10 +41,7 @@
                         <td data-label="Groupe">{{ template.templateGroups|join(', ') }}</td>
                         <td data-label="Description">{{ template.description }}</td>
                         <td data-label="Actions">
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
-                                    <i class="fas fa-book-reader"></i>
-                                </a>                   
+                            <div class="btn-group">               
                                 <a href="{{ path('admin_app_template_show', {id: template.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
                                     <i class="fas fa-info-circle"></i>
                                 </a>
