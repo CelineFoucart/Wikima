@@ -8,4 +8,15 @@
 		</h2>
 		<p class="card-text">{{ timeline.description }}</p>
 	</div>
+	<div class="card-footer text-muted d-flex justify-content-between align-items-center">
+		<span>
+			<i class="fas fa-calendar-alt me-1"></i>
+			Le {{ timeline.createdAt|date(date_format) }}
+		</span>
+		{% if is_granted('ROLE_ADMIN') %}
+			<a href="{{ path('admin_app_timeline_show', {id: timeline.id}) }}" class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Gérer">
+				<i class="fas fa-cogs" ></i>
+			</a>
+		{% endif %}
+	</div>
 </article>
