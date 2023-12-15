@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Ajout des groupes d'images
 - Ajout d'un filtre par rôle sur l'index des utilisateurs dans l'administration
+- Ajout du bouton accès à la gestion pour les articles, les scénarios et les timelines sur le listing public
 
 ### Changed
 
