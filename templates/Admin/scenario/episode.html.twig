@@ -102,7 +102,7 @@
                         <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#showModal{{ episode.id }}">
                             <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                         </a>
-                        <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" data-bs-toggle="tooltip" title="Formulaire complet">
+                        <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Formulaire complet">
                             <i class="fas fa-file-alt" aria-hidden="true"></i>
                         </a>
                         {% include "Admin/components/_delete_modal.html.twig" with { element: episode, path: 'admin_app_episode_delete' } %}
