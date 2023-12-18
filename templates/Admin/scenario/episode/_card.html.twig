@@ -1,0 +1,77 @@
+<div class="col-md-4 col-lg-3 handle" id="{{ episode.id }}">
+    {% set color = episode.color ? episode.color : 'rgba(0,0,0,.125)' %}
+    <div class="card h-100" style="border-color: {{ color }}">
+        <div class="card-body">
+            <h3 class="card-title h5 fw-bold">
+                <i class="fas fa-square" style="color: {{ color }}"></i>
+                {{ episode.title }}
+                {% if episode.content == null or episode.content|length < 1 %}
+                    <i class="fas fa-exclamation-circle text-danger" data-bs-toggle="tooltip" title="Contenu vide"></i>
+                {% elseif episode.content|length < 30 %}
+                    <i class="fas fa-exclamation-circle" data-bs-toggle="tooltip" title="Contenu très court"></i>
+                {% endif %}
+                {% if episode.valid %}
+                    <i class="fas fa-check-circle text-success" data-bs-toggle="tooltip" title="Validé"></i>
+                {% endif %}
+            </h3>
+            {% if episode.description %}
+                <p>{{ episode.description|nl2br }}</p>
+            {% else %}
+                <p class="fst-italic">Aucune description</p>
+            {% endif %}
+        </div>
+
+        <div class="card-footer text-end">
+            <div class="btn-group">
+                <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#contentModal{{ episode.id }}">
+                    <i class="fas fa-eye"></i>
+                </a>
+                <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#showModal{{ episode.id }}">
+                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                </a>
+                <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Formulaire complet">
+                    <i class="fas fa-file-alt" aria-hidden="true"></i>
+                </a>
+                {% include "Admin/components/_delete_modal.html.twig" with { element: episode, path: 'admin_app_episode_delete' } %}
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="contentModal{{ episode.id }}" tabindex="-1" aria-labelledby="contentModal{{ episode.id }}Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="contentModal{{ episode.id }}Label">Détail</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% if episode.persons|length > 0 or episode.places|length > 0 %}
+                            {% if episode.persons|length > 0 %}
+                                <div class="container-list">
+                                    <span class="fw-bold">Personnages :</span>
+                                    {% for person in episode.persons %}
+                                        <a href="{{ path('app_person_show', {slug: person.slug}) }}">{{ person.fullname }}</a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if episode.places|length > 0 %}
+                                <div class="container-list">
+                                    <span class="fw-bold">Lieux :</span>
+                                    {% for place in episode.places %}
+                                        <a href="{{ path('app_place_show', {slug: place.slug}) }}">{{ place.title }}</a>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <hr>
+                        {% endif %}
+                        {{ episode.content|raw }}
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default">
+                            Modifier
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div> 

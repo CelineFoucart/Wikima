@@ -45,93 +45,39 @@
         <a href="{{ path('admin_app_episode_create', {id: scenario.id}) }}" class="btn btn-primary btn-sm">Ajouter</a>
     </div>
 </div>
-{{ form_start(formCollection) }}
-{{ form_widget(formCollection._token) }}
-<div class="row g-2" id="episodes">
-    {% for element in formCollection.episodes %}
-        {% set episode = element.vars.data %}
-        <div class="col-md-4 col-lg-3 handle" id="{{ episode.id }}">
-            {% set color = episode.color ? episode.color : 'rgba(0,0,0,.125)' %}
-            <div class="card h-100" style="border-color: {{ color }}">
-                <div class="card-body">
-                    <h3 class="card-title h5 fw-bold">
-                        <i class="fas fa-square" style="color: {{ color }}"></i>
-                        {{ episode.title }}
-                        {% if episode.content == null or episode.content|length < 1 %}
-                            <i class="fas fa-exclamation-circle text-danger" data-bs-toggle="tooltip" title="Contenu vide"></i>
-                        {% elseif episode.content|length < 30 %}
-                            <i class="fas fa-exclamation-circle" data-bs-toggle="tooltip" title="Contenu très court"></i>
-                        {% endif %}
-                        {% if episode.valid %}
-                            <i class="fas fa-check-circle text-success" data-bs-toggle="tooltip" title="Validé"></i>
-                        {% endif %}
-                    </h3>
-                    {% if episode.description %}
-                        <p>{{ episode.description|nl2br }}</p>
-                    {% else %}
-                        <p class="fst-italic">Aucune description</p>
-                    {% endif %}
-                    <div class="collapse" id="collapse{{ episode.id }}">
-                        {% if episode.persons|length == 0 and episode.places|length == 0 %}
-                            <p class="fst-italic">Aucun personnage et aucun lieu</p>
-                        {% endif %}
-                        {% if episode.persons|length > 0 %}
-                            <div class="container-list">
-                                <span class="fw-bold">Personnages :</span>
-                                {% for person in episode.persons %}
-                                    <a href="{{ path('app_person_show', {slug: person.slug}) }}">{{ person.fullname }}</a>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                        {% if episode.places|length > 0 %}
-                            <div class="container-list">
-                                <span class="fw-bold">Lieux :</span>
-                                {% for place in episode.places %}
-                                    <a href="{{ path('app_place_show', {slug: place.slug}) }}">{{ place.title }}</a>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-                <div class="card-footer text-end">
-                    <div class="btn-group">  
-                        <button class="btn btn-default btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ episode.id }}" aria-expanded="false" aria-controls="collapseExample">
-                            <i class="fas fa-user"></i>
-                            <i class="fas fa-building"></i>
-                        </button> 
-                        <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#showModal{{ episode.id }}">
-                            <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                        </a>
-                        <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Formulaire complet">
-                            <i class="fas fa-file-alt" aria-hidden="true"></i>
-                        </a>
-                        {% include "Admin/components/_delete_modal.html.twig" with { element: episode, path: 'admin_app_episode_delete' } %}
-                    </div>
-                </div>
-            </div>
 
-            <div class="modal fade" id="showModal{{ episode.id }}" tabindex="-1" aria-labelledby="showModal{{ episode.id }}Label" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="showModal{{ episode.id }}Label">{{ episode.title }}</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            {{ form_widget(element) }}
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-success btn-sm">Sauvegarder</button>
-                            <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default">
-                                Formulaire complet
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> 
+{# boucle card show #}
+<div class="row g-2" id="episodes">
+    {% for episode in scenario.episodes %}
+        {% include "Admin/scenario/episode/_card.html.twig" with {episode: episode } %}
     {% endfor %}
 </div>
+{# boucle form #}
+
+{{ form_start(formCollection) }}
+{{ form_widget(formCollection._token) }}
+    {% for element in formCollection.episodes %}
+        {% set episode = element.vars.data %}
+        <div class="modal fade" id="showModal{{ episode.id }}" tabindex="-1" aria-labelledby="showModal{{ episode.id }}Label" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="showModal{{ episode.id }}Label">{{ episode.title }}</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ form_widget(element) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success btn-sm">Sauvegarder</button>
+                        <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default">
+                            Formulaire complet
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 {{ form_end(formCollection) }}
 
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
