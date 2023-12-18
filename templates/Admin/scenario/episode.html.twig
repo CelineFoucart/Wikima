@@ -134,7 +134,7 @@
 
         window.addEventListener('load', () => {
 			let url = "{{ path('api_scenario_episodes', {'id': scenario.id}) }}";
-			sortable('#episodes', url);
+			sortable('#episodes', url, true);
 		});
     </script>
 {% endblock %}

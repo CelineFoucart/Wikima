@@ -38,40 +38,40 @@
     </div>
 
     <div class="modal fade" id="contentModal{{ episode.id }}" tabindex="-1" aria-labelledby="contentModal{{ episode.id }}Label" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="contentModal{{ episode.id }}Label">Détail</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        {% if episode.persons|length > 0 or episode.places|length > 0 %}
-                            {% if episode.persons|length > 0 %}
-                                <div class="container-list">
-                                    <span class="fw-bold">Personnages :</span>
-                                    {% for person in episode.persons %}
-                                        <a href="{{ path('app_person_show', {slug: person.slug}) }}">{{ person.fullname }}</a>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                            {% if episode.places|length > 0 %}
-                                <div class="container-list">
-                                    <span class="fw-bold">Lieux :</span>
-                                    {% for place in episode.places %}
-                                        <a href="{{ path('app_place_show', {slug: place.slug}) }}">{{ place.title }}</a>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
-                            <hr>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="contentModal{{ episode.id }}Label">Détail</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {% if episode.persons|length > 0 or episode.places|length > 0 %}
+                        {% if episode.persons|length > 0 %}
+                            <div class="container-list">
+                                <span class="fw-bold">Personnages :</span>
+                                {% for person in episode.persons %}
+                                    <a href="{{ path('app_person_show', {slug: person.slug}) }}">{{ person.fullname }}</a>
+                                {% endfor %}
+                            </div>
                         {% endif %}
-                        {{ episode.content|raw }}
-                    </div>
-                    <div class="modal-footer">
-                        <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default">
-                            Modifier
-                        </a>
-                    </div>
+                        {% if episode.places|length > 0 %}
+                            <div class="container-list">
+                                <span class="fw-bold">Lieux :</span>
+                                {% for place in episode.places %}
+                                    <a href="{{ path('app_place_show', {slug: place.slug}) }}">{{ place.title }}</a>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                        <hr>
+                    {% endif %}
+                    {{ episode.content|raw }}
+                </div>
+                <div class="modal-footer">
+                    <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default">
+                        Modifier
+                    </a>
                 </div>
             </div>
         </div>
+    </div>
 </div> 

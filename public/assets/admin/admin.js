@@ -56,20 +56,20 @@ function toastify(type = 'success', text = null) {
  * @param {string} list     selector of the list
  * @param {string} path     the path used to send the updated data
  */
-async function sortable(list, path) {
+async function sortable(list, path, withReload = false) {
     const events = document.querySelector(list);
     if (!events) {
         return;
     }
 
-    await renderSortable(events, path);
+    await renderSortable(events, path, withReload);
 }
 
 /**
  * @param {HTMLElement} element
  * @param {string}      path
  */
-async function renderSortable(element, path) {
+async function renderSortable(element, path, withReload) {
     await Sortable.create(element, {
         dataIdAttr: 'data-order',
         ghostClass: 'blue-background-class',
@@ -98,7 +98,10 @@ async function renderSortable(element, path) {
                         throw new Error("Il y a eu une erreur et les données n'ont pas été sauvegardées.");
                     }
                 })
-                .then(response => toastify('success', JSON.stringify(response)))
+                .then(response => {
+                    toastify('success', JSON.stringify(response))
+                    location.reload()
+                })
                 .catch(error => toastify('error', error));
         }
     });
