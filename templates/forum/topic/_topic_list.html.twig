@@ -20,8 +20,7 @@
                 <p class="forum-description m-0 small">
                     Par 
                     {% if topic.author is not null %}
-                    
-                        <a href="{{path('app_profile', {id: topic.author.id})}}" style="color:{{ topic.author.defaultColour }}" class="fw-bold text-decoration-none">
+                        <a href="{{path('app_user_show', {id: topic.author.id})}}" style="color:{{ topic.author.defaultColour }}" class="fw-bold text-decoration-none">
                             {{ topic.author.username }}
                         </a>
                     {% else %}
