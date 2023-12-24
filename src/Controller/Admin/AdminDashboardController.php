@@ -68,6 +68,7 @@ class AdminDashboardController extends AbstractController
             'totalThisYear' => $totalThisYear,
             'year' => $year,
             'portalStats' => $portalRepository->getPortalStats(),
+            'imagesSize' => $this->getImagesSize(),
         ]);
     }
 
@@ -139,5 +140,21 @@ class AdminDashboardController extends AbstractController
         header('Content-Length: '.filesize($zipname));
         readfile($zipname);
         unlink($zipname);
+    }
+
+    private function getImagesSize($precision = 2): string
+    {
+        $uploadedDir = $this->getParameter('kernel.project_dir').'/public/uploads/';
+        $dirIterator = new \DirectoryIterator($uploadedDir);
+        $bytes = $dirIterator->getSize();
+
+        if ($bytes === false) {
+            return '0 KB';
+        }
+
+        $base = log($bytes, 1024);
+        $suffixes = ['', 'KB', 'MB', 'GB', 'TB'];   
+
+        return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
     }
 }
