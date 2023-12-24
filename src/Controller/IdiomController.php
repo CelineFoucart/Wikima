@@ -6,6 +6,7 @@ use App\Entity\Idiom;
 use App\Entity\IdiomArticle;
 use App\Repository\IdiomRepository;
 use App\Service\IdiomNavigationHelper;
+use App\Service\Word\WordIdiomArticleGenerator;
 use App\Service\Word\WordIdiomGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -70,5 +71,30 @@ class IdiomController extends AbstractController
             'article' => $idiomArticle,
             'navigations' => IdiomNavigationHelper::generateNavigation($idiomEntity),
         ]);
+    }
+
+    #[Route('/idioms/articles/{article}/word', name: 'app_idiom_show_article_word')]
+    public function idiomArticleWordAction(
+        #[MapEntity(expr: 'repository.findOneBySlug(article)')] IdiomArticle $idiomArticle, 
+        WordIdiomArticleGenerator $generator
+    ): Response {
+        try {
+            $file = $generator->setArticle($idiomArticle)->generate();
+            $response = new BinaryFileResponse($file['path']);
+            $response->setContentDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                $file['filename']
+            );
+            $response->deleteFileAfterSend();
+
+            return $response;
+        } catch (\Exception $th) {
+            $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
+
+            return $this->redirectToRoute('app_idiom_show_article', [
+                'idiom' => $idiomArticle->getIdiom()->getSlug(),
+                'article' => $idiomArticle->getSlug(),
+            ]);
+        }
     }
 }

@@ -34,6 +34,11 @@
 							<a href="{{  path('app_print_idiom_article', {slug:article.slug}) }}" target="_blank" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip"  title="aperçu avant impression">
 								<i class="fas fa-print"></i>
 							</a>
+							<a class="btn btn-sm btn-outline-secondary" 
+								data-bs-toggle="tooltip" title="Télécharger le fichier word"
+								href="{{ path('app_idiom_show_article_word', {article: article.slug}) }}" target="_blank">
+								<i class="fas fa-file-word"></i>
+							</a>
 						</div>
 					</div>
 					
@@ -76,6 +81,8 @@
 				</p>
 			</header>
 		</div>
+
+		<div class="px-4">{% include "components/_flashes.html.twig" %}</div>
 
 		<div class="row p-4">
 			<div class="col-md-9">
