@@ -223,27 +223,20 @@
 							<span>Notes</span>
 						</a>
 						{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
+							<a href="{{ path('admin_app_page_list') }}" class="dashboard-nav-item {% block activePage %}{% endblock %}">
+								<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+								<span>Page</span>
+							</a>
+
 							<div class="dashboard-nav-dropdown {% block activeAdmin %}{% endblock %}">
 								<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
 									<i class="fas fa-users-cog"></i>
-									<span>Administration</span>
+									<span>Membres</span>
 								</a>
 								<div class="dashboard-nav-dropdown-menu">
-									<a href="{{ path('admin_app_overview') }}" class="dashboard-nav-dropdown-item {% block activeAbout %}{% endblock %}">
-										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-										<span>Présentation</span>
-									</a>
-									<a href="{{ path('admin_app_page_list') }}" class="dashboard-nav-dropdown-item {% block activePage %}{% endblock %}">
-										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-										<span>Page</span>
-									</a>
-									<a href="{{ path('admin_app_menu_item_list') }}" class="dashboard-nav-dropdown-item {% block activeMenu %}{% endblock %}">
-										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-										<span>Menu</span>
-									</a>
 									<a href="{{ path('admin_app_user_list') }}" class="dashboard-nav-dropdown-item {% block activeUser %}{% endblock %}">
 										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-										<span>Membres</span>
+										<span>Liste des membres</span>
 									</a>
 									{% if enable_forum == 1 %}
 										<a href="{{ path('admin_app_forum_category_list') }}" class="dashboard-nav-dropdown-item {% block activeForum %}{% endblock %}">
@@ -275,6 +268,14 @@
 									<a href="{{ path('admin_app_settings') }}" class="dashboard-nav-dropdown-item {% block activeConfig %}{% endblock %}">
 										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 										<span>Site</span>
+									</a>
+									<a href="{{ path('admin_app_overview') }}" class="dashboard-nav-dropdown-item {% block activeAbout %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Présentation</span>
+									</a>
+									<a href="{{ path('admin_app_menu_item_list') }}" class="dashboard-nav-dropdown-item {% block activeMenu %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Menu</span>
 									</a>
 									<a href="{{ path('admin_app_access') }}" class="dashboard-nav-dropdown-item {% block activeAccess %}{% endblock %}">
 										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
