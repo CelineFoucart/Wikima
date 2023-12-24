@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Scenario;
-use App\Service\WordGenerator;
+use App\Service\Word\WordScenarioGenerator;
 use App\Entity\Data\SearchData;
 use App\Form\Search\SearchType;
 use App\Form\Search\SearchPortalType;
@@ -53,13 +53,13 @@ class ScenarioController extends AbstractController
     }
 
     #[Route('/{slug}/word', name: 'app_scenario_word')]
-    public function wordAction(Scenario $scenario, WordGenerator $generator): Response
+    public function wordAction(Scenario $scenario, WordScenarioGenerator $generator): Response
     {
         if ($scenario->isPublic() !== true && !$this->isGranted('ROLE_EDITOR')) {
             throw $this->createAccessDeniedException();
         }
 
-        $file = $generator->setScenario($scenario)->generateFileScenario();
+        $file = $generator->setScenario($scenario)->generate();
 
         $response = new BinaryFileResponse($file['path']);
         $response->setContentDisposition(

@@ -40,6 +40,11 @@
 							<a href="{{ path('app_print_idiom', {slug:idiom.slug}) }}" target="_blank" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip"  title="aperçu avant impression">
 								<i class="fas fa-print"></i>
 							</a>
+							<a class="btn btn-sm btn-outline-secondary" 
+								data-bs-toggle="tooltip" title="Télécharger le fichier word"
+								href="{{ path('app_idiom_word', {slug: idiom.slug}) }}" target="_blank">
+								<i class="fas fa-file-word"></i>
+							</a>
 						</div>
 					</div>
 					
@@ -114,6 +119,8 @@
 				</a>
 			</p>
 		{% endif %}
+
+		<div class="px-4">{% include "components/_flashes.html.twig" %}</div>
 
 		<div class="py-2 px-4">
 			<hr>

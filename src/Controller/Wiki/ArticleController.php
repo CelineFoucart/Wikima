@@ -4,12 +4,9 @@ namespace App\Controller\Wiki;
 
 use App\Entity\User;
 use App\Entity\Article;
-use App\Service\WordGenerator;
-use PhpOffice\PhpWord\PhpWord;
+use App\Service\Word\ArticleWordGenerator;
 use App\Entity\Data\SearchData;
-use PhpOffice\PhpWord\IOFactory;
 use App\Repository\ArticleRepository;
-use PhpOffice\PhpWord\Style\Language;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\Search\AdvancedArticleSearchType;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,19 +79,24 @@ final class ArticleController extends AbstractController
     }
     
     #[Route('/articles/{slug}/word', name: 'app_article_word')]
-    public function articleToWord(#[MapEntity(expr: 'repository.findBySlug(slug)')] Article $article, WordGenerator $generator): Response
+    public function articleToWord(#[MapEntity(expr: 'repository.findBySlug(slug)')] Article $article, ArticleWordGenerator $generator): Response
     {
         $this->denyAccessUnlessGranted('view', $article);
-        $file = $generator->setArticle($article)->generateFileArticle();
+        try {
+            $file = $generator->setArticle($article)->generate();
+            $response = new BinaryFileResponse($file['path']);
+            $response->setContentDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                $file['filename']
+            );
+            $response->deleteFileAfterSend();
 
-        $response = new BinaryFileResponse($file['path']);
-        $response->setContentDisposition(
-            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
-            $file['filename']
-        );
-        $response->deleteFileAfterSend();
-
-        return $response;
+            return $response;
+        } catch (\Exception $th) {
+            $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
+            
+            return $this->redirectToRoute('app_article_show', ['slug' => $article->getSlug()]);
+        }
     }
 
     private function hidePrivate(): bool
