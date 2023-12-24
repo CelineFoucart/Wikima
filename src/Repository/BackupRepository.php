@@ -61,16 +61,14 @@ class BackupRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    /*
-    public function findOneBySomeField($value): ?Backup
+    
+    public function findLastBackup(): ?Backup
     {
         return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
+            ->orderBy('b.createdAt', 'DESC')
+            ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 }

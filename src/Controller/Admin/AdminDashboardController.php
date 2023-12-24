@@ -2,25 +2,28 @@
 
 namespace App\Controller\Admin;
 
+use DateTime;
 use App\Entity\About;
 use App\Form\AboutType;
 use App\Repository\NoteRepository;
 use App\Repository\AboutRepository;
+use App\Repository\BackupRepository;
 use App\Repository\PortalRepository;
+use Symfony\Component\Finder\Finder;
 use App\Service\Statistics\DatabaseSize;
 use App\Service\Statistics\SatisticsEntity;
 use App\Service\Statistics\StatisticsHandler;
-use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route('/admin')]
 class AdminDashboardController extends AbstractController
 {
-    #[Route('/admin', name: 'admin_app_dashboard')]
+    #[Route('', name: 'admin_app_dashboard')]
     #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_EDITOR')"))]
     public function dashboardAction(StatisticsHandler $statisticsHandler, NoteRepository $noteRepository, DatabaseSize $databaseSize, PortalRepository $portalRepository, Request $request): Response
     {
@@ -68,7 +71,7 @@ class AdminDashboardController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/about', name: 'admin_app_overview')]
+    #[Route('/about', name: 'admin_app_overview')]
     #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')"))]
     public function overviewAction(Request $request, AboutRepository $aboutRepository): Response
     {
@@ -90,5 +93,51 @@ class AdminDashboardController extends AbstractController
         return $this->render('Admin/overview.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/export', name: 'admin_app_export')]
+    #[IsGranted(new Expression("is_granted('ROLE_SUPER_ADMIN')"))]
+    public function exportAction(BackupRepository $backupRepository): Response
+    {
+        return $this->render('Admin/export.html.twig', [
+            'backup' => $backupRepository->findLastBackup(),
+        ]);
+    }
+
+    #[Route('/export-favicon-banner', name: 'admin_app_export_favicon')]
+    public function downloadFaviconAction()
+    {
+        $uploadedDir = $this->getParameter('kernel.project_dir').'/public/img/';
+
+        if (!is_dir($uploadedDir)) {
+            $this->addFlash('error', "Il n'y a aucune image à télécharger");
+
+            return $this->redirectToRoute('admin_app_export');
+        }
+
+        $finder = new Finder();
+        $finder->files()->in($uploadedDir);
+        $zip = new \ZipArchive();
+        $zipname = 'favicons-banner.zip';
+        $zip->open($zipname, \ZipArchive::CREATE);
+
+        if ($finder->hasResults()) {
+            foreach ($finder as $file) {
+                $absoluteFilePath = $file->getRealPath();
+                $zip->addFile($absoluteFilePath, $file->getFilename());
+            }
+        } else {
+            $this->addFlash('error',"Il n'y a aucune image à télécharger.");
+
+            return $this->redirectToRoute('admin_app_export');
+        }
+
+        $zip->close();
+
+        header('Content-Type: application/zip');
+        header('Content-disposition: attachment; filename='.$zipname);
+        header('Content-Length: '.filesize($zipname));
+        readfile($zipname);
+        unlink($zipname);
     }
 }

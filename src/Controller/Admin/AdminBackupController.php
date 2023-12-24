@@ -34,8 +34,9 @@ final class AdminBackupController extends AbstractAdminController
     }
     
     #[Route('/create', name: 'admin_app_backup_create', methods:['GET'])]
-    public function createAction(): Response
+    public function createAction(Request $request): Response
     {
+        $referer = $request->server->get('HTTP_REFERER', null);
         $filename = $this->backupService->save()->getFilename();
 
         if (null === $filename) {
@@ -48,6 +49,10 @@ final class AdminBackupController extends AbstractAdminController
             $this->backupRepository->add($backup);
 
             $this->addFlash( 'success', 'La sauvegarde de la base de donnée a été réalisée avec succès');
+        }
+
+        if ($referer !== null) {
+            return $this->redirect($referer);
         }
 
         return $this->redirectToRoute('admin_app_backup_list');

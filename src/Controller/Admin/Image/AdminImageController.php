@@ -154,10 +154,7 @@ final class AdminImageController extends AbstractAdminController
                 $zip->addFile($absoluteFilePath, $file->getFilename());
             }
         } else {
-            $this->addFlash(
-                'error',
-                "Il n'y a aucune image à télécharger."
-            );
+            $this->addFlash('error',"Il n'y a aucune image à télécharger.");
 
             return $this->redirectToRoute('admin_app_image_list');
         }

@@ -1,0 +1,107 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Exporter les données du site{% endblock %}
+{% block activeExport %}active{% endblock %}
+
+{% block page_title %}Exporter les données du site{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item active">
+		Exporter les données
+	</li>
+{% endblock %}
+
+{% block body %}
+    <p>
+        Cette page va vous guider à travers l'export manuel des données de votre site. Pour réaliser une sauvegarde complète,
+        vous devez sauvegarder la base de données, le dossier des images de la galerie ainsi que le dossier comprenant la bannière
+        si vous en avez défini une, et le favicon.
+    </p>
+
+    <div class="row g-2">
+        <div class="col-md-6">
+            <article class="card border-top-primary">
+                <div class="card-header">
+                    <div class="float-end">
+                        <a href="{{ path('admin_app_backup_list') }}" class="btn btn-default btn-sm" data-bs-toggle="tooltip" title="Anciennes sauvegardes">
+                            <i class="fas fa-list fa-fw"  aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <h2 class="card-title h5 mb-0"><i class="fas fa-database fa-fw"></i> Base de données</h2>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        La base de données comprend l'ensemble des données textuels ainsi que les informations des comptes 
+                        et une partie de vos configurations. Vous pouvez ensuite importer ces données via par exemple 
+                        <em>phpmyadmin</em>.
+                    </p>
+                    <a href="{{ path('admin_app_backup_create') }}" class="btn btn-primary btn-sm">
+                        <i class="fas fa-plus-circle fa-fw" aria-hidden="true"></i>
+                        Ajouter une sauvegarde
+                    </a>
+
+                    <a href="{{ path('admin_app_backup_download', {id: backup.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-primary">
+                        <i class="fas fa-download"></i>
+                        Dernière sauvegarde ({{backup.createdAt|date(date_format)}})
+                    </a>
+                    
+                </div>
+            </article>
+        </div>
+        <div class="col-md-6">
+            <article class="card border-top-primary">
+                <div class="card-header">
+                    <h2 class="card-title h5 mb-0"><i class="fas fa-file-code fa-fw"></i> Configuration</h2>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Une partie de la configuration est stocké dans la base de données, mais il y a aussi des règlages
+                        conservés dans un fichier <strong>.env.local</strong> à la racine du dossier de l'application. Pour 
+                        exporter vos réglages, connectez-vous en ftp et téléchargez le fichier. Attention,
+                        il contient des informations sensibles comme les idenfiants de connexion à la base de données.
+                    </p>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6">
+            <article class="card border-top-primary">
+                <div class="card-header">
+                    <h2 class="card-title h5 mb-0"><i class="fas fa-images fa-fw"></i> Galerie et avatars</h2>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Les images de la galerie du site et les avatars peuvent être téléchargés via le bouton ci-dessous. Vous obtenez
+                        alors un dossier zip. Pour réimporter les données, placez le contenu du dossier zippé à l'intérieur du dossier 
+                        <code>/public/uploads</code>.
+                    </p>
+                    <a href="{{ path('admin_app_image_download') }}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-download"></i>
+                        Galerie et avatars
+                    </a>
+                </div>
+            </article>
+        </div>
+
+        <div class="col-md-6">
+            <article class="card border-top-primary">
+                <div class="card-header">
+                    <h2 class="card-title h5 mb-0"><i class="fas fa-image fa-fw"></i> Favicon et bannière</h2>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Vous avez peut-être ajouté un favicon et une bannière via la page de configuration du site. Pour les télécharger,
+                        cliquez sur le  bouton ci-dessous. Vous obtiendrez un dossier zip avec les deux fichiers. Ces images doivent être
+                        replacées dans le dossier <code>/public/img</code>.
+                    </p>
+                    <a href="{{ path('admin_app_export_favicon') }}" class="btn btn-sm btn-primary">
+                        <i class="fas fa-download"></i>
+                        Favicon et bannière
+                    </a>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    
+{% endblock %}

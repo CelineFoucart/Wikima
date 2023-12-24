@@ -8,16 +8,10 @@
 {% block activeDashboard %}active show{% endblock %}
 
 {% block toolbar %}
-	{% if is_granted('ROLE_ADMIN') %}
-		<a href="{{ path('admin_app_image_download') }}" class="btn btn-sm btn-primary">
-			<i class="fas fa-download"></i>
-			Télécharger les images
-		</a>
-	{% endif %}
 	{% if is_granted('ROLE_SUPER_ADMIN') %}
-		<a href="{{ path('admin_app_backup_create') }}" class="btn btn-primary btn-sm">
-			<i class="fas fa-plus-circle" aria-hidden="true"></i>
-			Sauvegarder les données
+		<a href="{{ path('admin_app_export') }}" class="btn btn-primary btn-sm">
+			<i class="fas fa-download fa-fw"></i>
+			Exporter les données
 		</a>
 	{% endif %}
 {% endblock %}
