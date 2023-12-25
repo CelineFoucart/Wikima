@@ -223,8 +223,6 @@
 							<span>Notes</span>
 						</a>
 						{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-							
-
 							<div class="dashboard-nav-dropdown {% block activeAdmin %}{% endblock %}">
 								<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
 									<i class="fas fa-users-cog fa-fw"></i>
@@ -296,6 +294,11 @@
 									<span>Sauvegardes</span>
 								</a>
 							{% endif %}
+
+							<a href="{{ path('admin_app_log_list') }}" class="dashboard-nav-item {% block activeLog %}{% endblock %}">
+								<i class="fas fa-clipboard-list fa-fw" aria-hidden="true"></i>
+								<span>Logs</span>
+							</a>
 						{% endif %}
 						
 						<div class="nav-item-divider"></div>

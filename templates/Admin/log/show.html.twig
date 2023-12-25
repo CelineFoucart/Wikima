@@ -1,0 +1,73 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Logs de l'application{% endblock %}
+{% block activeLog %}active{% endblock %}
+{% block page_title %}Logs de l'application{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+		<a href="{{ path('admin_app_log_list') }}" class="text-reset">
+			Logs
+		</a>
+	</li>
+    <li class="breadcrumb-item active">Voir un log</li>
+{% endblock %}
+
+{% block toolbar %}
+    <a class="btn btn-sm btn-default" href="{{ path('admin_app_log_list') }}" data-bs-toggle="tooltip" title="Retour à la liste">
+        <i class="fas fa-list" aria-hidden="true"></i>
+    </a>
+    {% include "Admin/components/_delete_modal.html.twig" with { element: log, path: 'admin_app_log_delete' } %}
+{% endblock %}
+
+{% block body %}
+    <div class="card {{ log.level == 'ERROR' ? 'delete-modal' : 'border-top-primary' }}">
+        <div class="card-header bg-white">
+            <h2 class="card-title h5 mb-0">
+                {% if log.level == 'ERROR' %}
+                    <span class="text-danger">
+                        <i class="fas fa-times-circle fa-fw"></i> {{ log.level }}
+                    </span>
+                {% else %}
+                    <span class="text-info">
+                        <i class="fas fa-info-circle fa-fw"></i> {{ log.level }}
+                    </span>
+                {% endif %}
+            </h2>
+        </div>
+        <div class="card-body card-show">
+            <table class="table table-striped mb-0">
+                <tbody>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <td>
+                            {% if log.userid %}
+                                <a href="{{ path('admin_app_user_show', {id: log.userid}) }}">{{ log.username }}</a>
+                            {% else %}
+                                {{ log.username }}
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Date</th>
+                        <td>
+                            {{ log.createdAt|date(date_format) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Type</th>
+                        <td>{{ log.action }}</td>
+                    </tr>
+                    <tr>
+                        <th>Objet</th>
+                        <td>{{ log.object }}</td>
+                    </tr>
+                    <tr>
+                        <th>Message</th>
+                        <td>{{ log.message|nl2br }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

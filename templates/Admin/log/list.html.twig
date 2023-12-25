@@ -1,0 +1,123 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Logs de l'application{% endblock %}
+{% block activeLog %}active{% endblock %}
+{% block page_title %}Logs de l'application{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">Logs</li>
+{% endblock %}
+
+{% block toolbar %}{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body p-1">
+            <table class="table mb-0 table-striped" id="tableIndex">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Utilisateur</th>
+                        <th>Niveau</th>
+                        <th>Objet</th>
+                        <th>Type</th>
+                        <th>Message</th>
+                        <th data-orderable="false"></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        const articleRoute = "{{ path('api_log_index') }}";
+
+        $('#tableIndex').DataTable({
+            language: {
+                url: '/assets/DataTables/i18n/fr-FR.json',
+            },
+            order: [[0, 'desc']],
+            processing: true,
+            serverSide: true,
+            paging:true,
+            info: true,
+            autoWidth: false,
+            ajax: articleRoute,
+            columns: [
+                { 
+                    data: "createdAt", 
+                    name:"l.createdAt", 
+                    render: function (data, type, row) {
+                        const date = new Date(row.createdAt);
+                        const options = {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                        };
+
+                        return date.toLocaleDateString('fr-FR', options) + ' ' + date.toLocaleTimeString('fr-FR');
+                    }
+                },
+                { 
+                    data: "username", 
+                    name:"l.username",
+                    render: function ( data, type, row ) {
+                        if (row.userid === null) {
+                            return row.username;
+                        }
+                        return `<a href="/admin/user/${row.userid}/show">${row.username}</a>`;
+                    }
+                },
+                { 
+                    data: "level", 
+                    name:"l.level",
+                    render: function ( data, type, row ) {
+                        if (row.level === 'ERROR') {
+                            return `<span class="text-danger fw-bold"><i class="fas fa-times-circle fa-fw"></i> ${row.level}</span>`;
+                        }
+                        return `<span class="text-primary fw-bold"><i class="fas fa-info-circle fa-fw"></i> ${row.level}</span>`;
+                    }
+                },
+                { data: "object", name:"l.object" },
+                { data: "action", name:"l.action" },
+                { 
+                    data: "message", 
+                    name:"l.message",
+                    render: function ( data, type, row ) {
+                        if (row.message.length < 50) {
+                            return row.message;
+                        }
+
+                        return row.message.substring(0, 50) + '[...]';
+                    }
+                },
+                { 
+                    data: "actions", 
+                    name: null,
+                    render: function ( data, type, row ) {
+                        return `
+                            <a href="/admin/logs/${row.id}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                        `;
+                    }
+                },
+            ],
+            createdRow: function( row, data, dataIndex ) {
+                $( row ).find('td:eq(0)').attr('data-label', 'Date');
+                $( row ).find('td:eq(1)').attr('data-label', 'Utilisateur');
+                $( row ).find('td:eq(2)').attr('data-label', 'Niveau');
+                $( row ).find('td:eq(3)').attr('data-label', 'Objet');
+                $( row ).find('td:eq(5)').attr('data-label', 'Type');
+                $( row ).find('td:eq(4)').attr('data-label', 'Message');
+                $( row ).find('td:eq(5)').attr('data-label', 'Actions');
+            }
+        });
+    </script>
+{% endblock %}
+
