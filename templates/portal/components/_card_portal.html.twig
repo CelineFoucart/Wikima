@@ -1,0 +1,21 @@
+<div class="col-md-6 col-lg-4 my-2">
+    <div class="card h-100">
+        {% if portal.banner %}
+            <a href="{{ vich_uploader_asset(portal) }}">
+                <img src="{{ vich_uploader_asset(portal)|imagine_filter('medium_image') }}" class="card-img-top" alt="{{ portal.title }}">
+            </a>
+        {% endif %}
+        <div class="card-body">
+            <h3 class="card-title h5">
+                {{ portal.title }}
+            </h3>
+            <p class="card-text">{{ portal.description }}</p>
+        </div>
+        <div class="card-footer">
+            <a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="stretched-link text-decoration-none">
+                Afficher
+                <i class="fas fa-external-link-alt"></i>
+            </a>
+        </div>
+    </div>
+</div>

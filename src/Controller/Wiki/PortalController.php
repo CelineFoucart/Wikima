@@ -72,7 +72,7 @@ final class PortalController extends AbstractController
     }
 
     #[Route('/portals', name: 'app_portal_index')]
-    public function index(Request $request, AlphabeticalHelperService $helper, int $perPageOdd): Response
+    public function index(Request $request, int $perPageOdd): Response
     {
         $page = $request->query->getInt('page', 1);
 
@@ -81,7 +81,6 @@ final class PortalController extends AbstractController
         return $this->render('portal/index_portal.html.twig', [
             'portals' => $portals,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
-            'items' => $helper->formatArray($portals->getItems()),
         ]);
     }
 

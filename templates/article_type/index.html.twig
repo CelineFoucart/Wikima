@@ -3,27 +3,19 @@
 {% block title %}Tous les types d'article{% endblock %}
 
 {% block body %}    
-    <section class="my-5 px-4 container-fluid">
-        <h2 class="h4 my-4 text-center">Explorez l'encyclopédie par thématique</h2>
-        <div class="bg-light border p-3 text-center row">
-            <div class="col-md-4">
-                <a href="{{ path('app_timeline_index') }}" class="w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1">
-                    Chronologies
-                </a>
-            </div>
-
-            <div class="col-md-4">
-                <a href="{{ path('app_person_index') }}" class="w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1">
-                    Personnages
-                </a>
-            </div>
-
-            <div class="col-md-4">
-                <a href="{{ path('app_place_index') }}" class="w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1">
-                    Lieux
-                </a>
-            </div>
+    <section class="mb-5 container-fluid">
+        <div class="row border-bottom align-items-center py-3 bg-default-light">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('app_home') }}">Accueil</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Types d'articles</li>
+                </ol>
+            </nav>
         </div>
+
+        <h2 class="list-title text-center">Explorez l'encyclopédie par thématique</h2>
         <div class="row mt-5">
             {% for type in types %}
                 <div class="col-md-4 text-center mb-3">

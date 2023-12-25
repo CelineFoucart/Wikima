@@ -5,26 +5,22 @@
 {% set heading_title = type.icon ? "<i class='"~ type.icon ~" me-3' aria-hidden='true'></i>"~type.title : type.title %}
 
 {% block body %}
-    <section class="mt-4 px-4 container-fluid">
-        <div class="bg-light border p-3 text-center row">
-            <div class="col-md-3">
-                <a href="{{ path('app_timeline_index') }}" class="w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1">
-                    Chronologies
-                </a>
+    <section class="mb-4 container-fluid">
+        <div class="row border-bottom align-items-center py-3 bg-default-light">
+            <div class="col-md-8 col-lg-9">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('app_home') }}">Accueil</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('app_articletype_index') }}">Types d'article</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ type }}</li>
+                    </ol>
+                </nav>
             </div>
-
-            <div class="col-md-3">
-                <a href="{{ path('app_person_index') }}" class="w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1">
-                    Personnages
-                </a>
-            </div>
-
-            <div class="col-md-3">
-                <a href="{{ path('app_place_index') }}" class="w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1">
-                    Lieux
-                </a>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-4 col-lg-3">
                 <div class="dropdown">
                     <button class="border-0 w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1 dropdown-toggle" type="button" id="dropdownMenuButtonType1" data-bs-toggle="dropdown" aria-expanded="false">
                         Types d'article
@@ -45,6 +41,7 @@
                 </div>
             </div>
         </div>
+
         <h2 class="display-6 mt-4">
             Les articles du type &laquo;&nbsp;{{ type }}&nbsp;&raquo;
         </h2>

@@ -26,20 +26,13 @@
             portail{{ total > 1 ? 's' : '' }}.
         </p>
 
-        <div class="column-3 mx-2">
-            {% for key, elements in items %}
-                <div class="mb-4">
-                    <h3 class="h4 mb-0 fw-bold">{{ key }}</h3>
-                    <ul>
-                        {% for item in elements %}
-                            <li data-bs-toggle="tooltip" title="{{ item.description ? item.description : 'Aucune description' }}">
-                                <a href="{{ path('app_portal_show', {slug: item.slug}) }}" class="text-decoration-none">
-                                    {{ item.title }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
+        <div class="row">
+            {% for portal in portals %}
+                {% include "portal/components/_card_portal.html.twig" %}
+            {% else %}
+                <p class="text-center text-muted">
+                    Aucun portail n'a été trouvé
+                </p>
             {% endfor %}
         </div>
 
