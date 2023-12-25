@@ -44,6 +44,8 @@ final class LogService
         $user = $this->security->getUser();
         if ($user instanceof User) {
             $log->setUsername($user->getUsername())->setUserid($user->getId());
+        } else {
+            $log->setUsername("Anonyme");
         }
 
         return $log;
