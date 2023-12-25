@@ -5,26 +5,34 @@
 {% endblock %}
 
 {% block body %}
-	<section class="mt-5 container-fluid">
-		<header class="text-center">
-			<h2 class="h4">
-				Galerie des articles de {{ app_name }}
-			</h2>
-			<p class="w-75 m-auto pt-3 lh-lg text-muted">Ici, vous pouvez explorer l'ensemble des articles disponibles sur le site ou les filtrer.</p>
-		</header>
+	<section class="mb-5 container-fluid">
+		<header class="mb-4">
+            <div class="row border-bottom align-items-center py-3 bg-default-light">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('app_home') }}">Accueil</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Articles</li>
+                    </ol>
+                </nav>
+            </div>
+        </header>
+
+		<h2 class="list-title text-center">Liste des articles de {{ app_name }}</h2>
+		<p class="text-center text-muted fs-5 mb-5">Ici, vous pouvez explorer l'ensemble des articles disponibles sur le site ou les filtrer.</p>
 
 		<div class="row justify-content-between my-5">
-			<div class="col-md-4 mt-3">
+			<div class="col-md-4">
 				{% include "components/layout/_advance_search_form.html.twig" %}
 			</div>
 			<div class="col-md-8">
-				<h3 class="border-bottom display-6 mb-2 mt-0">Tous les articles</h3>
-				<p class="mb-4">
+				<h3 class="lead mb-2 mt-0 fs-4 mb-3">
 					{% set current = articles|length %}
 					Affichage de <span class="fw-bold">{{ current }}</span>
 					sur <span class="fw-bold">{{ articles.getTotalItemCount }}</span>
-					article{{ articles.getTotalItemCount > 1 ? 's' : '' }}.
-				</p>
+					article{{ articles.getTotalItemCount > 1 ? 's' : '' }}
+				</h3>
 				<div class="row gy-3">
 					{% for article in articles %}
 						<div class="col-md-6">

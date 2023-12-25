@@ -3,7 +3,18 @@
 {% block title %}Conditions d’utilisation | {{ app_name }}{% endblock %}
 
 {% block body %}
-	<article class="py-5 px-5">
+	<article class="container-fluid">
+		<div class="row border-bottom align-items-center py-3 bg-default-light mb-5">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('app_home') }}">Accueil</a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">Conditions d’utilisation</li>
+                </ol>
+            </nav>
+        </div>
+
 		<header class="col-12 mb-4">
 			<h2 class="text-uppercase text-center mb-5 text-default h1">Conditions d’utilisation</h2>
 		</header>

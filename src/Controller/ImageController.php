@@ -22,7 +22,7 @@ class ImageController extends AbstractController
     }
 
     #[Route('/images', name: 'app_image_index')]
-    public function gallery(Request $request, int $perPageEven, ImageTagRepository $imageTagRepository): Response
+    public function gallery(Request $request, int $perPageEven): Response
     {
         $search = (new SearchData())
             ->setPage($request->query->getInt('page', 1))
@@ -40,7 +40,6 @@ class ImageController extends AbstractController
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'images' => $images,
             'imageForm' => $imageForm->createView(),
-            'types' => $imageTagRepository->findAll()
         ]);
     }
 

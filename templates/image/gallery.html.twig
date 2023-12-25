@@ -5,32 +5,40 @@
 {% endblock %}
 
 {% block body %}
-	<article class="mt-5">
+	<article class="container-fluid mb-5">
+		<div class="row border-bottom align-items-center py-3 mb-4 bg-default-light">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb mb-0">
+					<li class="breadcrumb-item">
+						<a href="{{ path('app_home') }}">Accueil</a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">Galerie</li>
+				</ol>
+			</nav>
+		</div>
 		<header class="text-center">
-			<h2 class="h4">Bienvenue sur la galerie d'image de
-				{{ app_name }}
-				!</h2>
-			<p class="w-75 m-auto pt-3 lh-lg text-muted">Ici, vous pouvez voir l'ensemble des images chargées sur
-				{{ app_name }}. Pour accéder à la page d'information de l'image et l'afficher en plus grand, il suffit de cliquer sur la miniature.</p>
+			<h2 class="list-title">Galerie d'image de {{ app_name }}</h2>
+			<p class="text-center text-muted fs-5 mb-4">Explorez les images chargées sur {{ app_name }} ou filtrez-les.</p>
 		</header>
 
 		<div class="row justify-content-between my-5">
 			<aside class="col-md-4">
-				{% include "components/layout/_advance_search_form.html.twig" 
-            with {form: imageForm, index_path: 'app_image_index'} only %}
+				{% include "components/layout/_advance_search_form.html.twig" with {form: imageForm, index_path: 'app_image_index'} only %}
 			</aside>
 
 			<section class="col-md-8">
-				<h3 class="border-bottom display-6 mb-2 mt-0">Galerie de {{ app_name }}</h3>
-				<p>
-					{% for type in types %}
-						<a href="{{ path('app_image_type', {slug: type.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none me-1">
-							{{ type }}
-						</a>
-					{% endfor %}
-				</p>
+				<h3 class="lead mb-2 mt-0 fs-4 mb-3">
+					{% set current = images|length %}
+					{% set plural = images.getTotalItemCount > 1 ? 's' : '' %}
+					Affichage de <span class="fw-bold">{{ current }}</span>
+					sur <span class="fw-bold">{{ images.getTotalItemCount }}</span>
+					image{{ plural }}
+				</h3>
+				{% include "image/components/_not_paginated_list.html.twig" %}
 
-				{% include "image/components/_list.html.twig" with {images: images} only %}
+				<div class="navigation">
+					{{ knp_pagination_render(images) }}
+				</div>
 			</section>
 		</div>
 

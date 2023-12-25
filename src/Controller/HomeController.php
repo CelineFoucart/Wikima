@@ -54,7 +54,7 @@ final class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/page/{slug}', name: 'app_page', requirements: ['slug' => '[a-z\-]*'])]
+    #[Route('/page-{slug}', name: 'app_page', requirements: ['slug' => '[a-z\-]*'])]
     public function page(string $slug, PageRepository $pageRepository): Response
     {
         $page = $pageRepository->findOneBy(['slug' => $slug]);

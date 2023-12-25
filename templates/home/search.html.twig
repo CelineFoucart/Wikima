@@ -17,7 +17,18 @@
 {% endblock %}
 
 {% block body %}
-    <article class="m-4">
+    <article class="container-fluid">
+        <div class="row border-bottom align-items-center py-3 bg-default-light mb-5">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb mb-0">
+					<li class="breadcrumb-item">
+						<a href="{{ path('app_home') }}">Accueil</a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">Recherche avancée</li>
+				</ol>
+			</nav>
+		</div>
+
         <header>
 			<h2 class="h2 mb-2">
                 {% if search is not null or search|length > 0  %}

@@ -6,9 +6,20 @@
 
 {% block body %}    
     <article class="container-fluid">
-        <p class="mt-2">
-            <a href="{{ path('app_image_index') }}" class="text-decoration-none"><i class="fas fa-arrow-left me-1"></i> Retour à la galerie</a>
-        </p>
+        <div class="row border-bottom align-items-center py-3 mb-4 bg-default-light">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb mb-0">
+					<li class="breadcrumb-item">
+						<a href="{{ path('app_home') }}">Accueil</a>
+					</li>
+					<li class="breadcrumb-item">
+						<a href="{{ path('app_image_index') }}">Galerie</a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">Type d'image</li>
+				</ol>
+			</nav>
+		</div>
+
 		<header class="text-center mt-5 pb-4">
             <p class="w-75 m-auto mb-2">
                 {% for tag in types %}

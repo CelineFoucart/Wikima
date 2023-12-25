@@ -8,12 +8,14 @@
 
 {% block body %}
 	<section class="mt-1 container-fluid">
-		<nav aria-label="breadcrumb">
-			<ol class="breadcrumb">
-				<li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Membres</li>
-			</ol>
-		</nav>
+		<div class="row border-bottom align-items-center py-3 bg-default-light">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb mb-0">
+					<li class="breadcrumb-item"><a href="{{ path('app_home') }}">Accueil</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Membres</li>
+				</ol>
+			</nav>
+		</div>
 
 		<div class="py-5">
 			<h2>Les contributeurs de {{ app_name }}</h2>

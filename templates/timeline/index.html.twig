@@ -4,12 +4,23 @@
 {% endblock %}
 
 {% block body %}
-	<article class="my-5 px-5 container-fluid">
-		<header class="text-center">
-			<h2 class="h2">Index des chronologies</h2>
-			<p class="w-75 m-auto pt-3 lh-lg text-muted">Ici s'affichent l'ensemble des chronologies disponibles sur
-				{{ app_name }}. Cliquez sur une chronologie pour consulter les événements qu'elle regroupe.</p>
-		</header>
+	<article class="mb-5 container-fluid">
+		<header class="mb-4">
+            <div class="row border-bottom align-items-center py-3 bg-default-light">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('app_home') }}">Accueil</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Chronologies</li>
+                    </ol>
+                </nav>
+            </div>
+        </header>
+
+		<h2 class="list-title text-center">Index des chronologies</h2>
+		<p class="text-center text-muted fs-5 mb-5">Explorez l'ensemble des chronologies disponibles sur
+			{{ app_name }} ou filtrez-les.</p>
 
 		<div class="row justify-content-between my-5">
 			<aside class="col-md-4">
@@ -18,17 +29,12 @@
 			</aside>
 
 			<section class="col-md-8">
-				<h3 class="border-bottom display-6 mb-2 mt-0">
-					Chronologies de
-					{{ app_name }}
-				</h3>
-				<p class="mb-4">
+				<h3 class="lead mb-2 mt-0 fs-4 mb-3">
 					{% set current = timelines|length %}
 					Affichage de <span class="fw-bold">{{ current }}</span>
 					sur <span class="fw-bold">{{ timelines.getTotalItemCount }}</span>
-					chronologie{{ timelines.getTotalItemCount > 1 ? 's' : '' }}.
-				</p>
-
+					chronologie{{ timelines.getTotalItemCount > 1 ? 's' : '' }}
+				</h3>
 				<div class="row gy-3">
 					{% for timeline in timelines %}
 						<div class="col-md-6">

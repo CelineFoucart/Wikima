@@ -5,23 +5,35 @@
 {% endblock %}
 
 {% block body %}
-	<section class="py-5 row justify-content-center">
-		<div class="col-12 col-md-9 col-lg-7">
-			<div class="card shadow mx-5 border-0 rounded-3">
-				<div class="card-body">
-					<h2 class="text-uppercase text-center mb-5">Nous contacter</h2>
-					{% for message in app.flashes('success') %}
-						<div class="alert alert-success">{{ message }}</div>
-					{% endfor %}
-					{% for message in app.flashes('error') %}
-						<div class="alert alert-danger">{{ message }}</div>
-					{% endfor %}
-					{{ form_start(form) }}
-					{{ form_widget(form) }}
-					<button type="submit" class="btn btn-default mt-2">Envoyer</button>
-					{{ form_end(form) }}
+	<div class="container-fluid">
+		<div class="row border-bottom align-items-center py-3 bg-default-light mb-5">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb mb-0">
+					<li class="breadcrumb-item">
+						<a href="{{ path('app_home') }}">Accueil</a>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">Contact</li>
+				</ol>
+			</nav>
+		</div>
+		<section class="py-5 row justify-content-center">
+			<div class="col-12 col-md-9 col-lg-7">
+				<div class="card shadow mx-5 border-0 rounded-3">
+					<div class="card-body">
+						<h2 class="text-uppercase text-center mb-5">Nous contacter</h2>
+						{% for message in app.flashes('success') %}
+							<div class="alert alert-success">{{ message }}</div>
+						{% endfor %}
+						{% for message in app.flashes('error') %}
+							<div class="alert alert-danger">{{ message }}</div>
+						{% endfor %}
+						{{ form_start(form) }}
+						{{ form_widget(form) }}
+						<button type="submit" class="btn btn-default mt-2">Envoyer</button>
+						{{ form_end(form) }}
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
+		</section>
+	</div>
 {% endblock %}

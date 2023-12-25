@@ -4,7 +4,20 @@
 {% endblock %}
 
 {% block body %}
-	<article class="my-5 container-fluid">
+	<article class="mb-5 container-fluid">
+		<header class="mb-4">
+            <div class="row border-bottom align-items-center py-3 bg-default-light">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('app_home') }}">Accueil</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Catégories</li>
+                    </ol>
+                </nav>
+            </div>
+        </header>
+
 		<h2 class="list-title">Les catégories</h2>
 		<p class="text-center text-muted fs-5 mb-5">L'encyclopédie de <strong>{{ app_name }}</strong> regroupe les catégories suivantes :</p>
 

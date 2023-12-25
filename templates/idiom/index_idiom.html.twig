@@ -3,9 +3,22 @@
 {% block title %}Index des langues{% endblock %}
 
 {% block body %}
-    <article class="container-fluid py-5">
-        <h2 class="display-4 text-center mb-4">Index des langues</h2>
-        <p class="lead text-center">Ici, vous pouvez explorer l'ensemble des langues disponibles sur le site.</p>
+    <article class="container-fluid mb-5">
+        <header class="mb-4">
+            <div class="row border-bottom align-items-center py-3 bg-default-light">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('app_home') }}">Accueil</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Langues</li>
+                    </ol>
+                </nav>
+            </div>
+        </header>
+
+        <h2 class="list-title text-center mb-4">Index des langues</h2>
+        <p class="text-center text-muted fs-5 mb-5">Ici, vous pouvez explorer l'ensemble des langues disponibles sur le site.</p>
         <div class="row mt-5">
             {% for idiom in idioms %}
                 {% include "idiom/_idiom_card.html.twig" %}

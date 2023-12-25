@@ -18,7 +18,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class PlaceController extends AbstractController
 {
     public function __construct(
-        private PlaceTypeRepository $placeTypeRepository,
         private PlaceRepository $placeRepository
     ) {
 
@@ -40,7 +39,6 @@ class PlaceController extends AbstractController
         return $this->render('place/index.html.twig', [
             'form' => $form->createView(),
             'places' => $places,
-            'types' => $this->placeTypeRepository->findAll(),
         ]);
     }
 
@@ -54,7 +52,7 @@ class PlaceController extends AbstractController
     }
 
     #[Route('/type/places/{slug}', name: 'app_place_type')]
-    public function type(Request $request, PlaceType $placeType, int $perPageOdd): Response
+    public function type(Request $request, PlaceType $placeType, int $perPageOdd, PlaceTypeRepository $placeTypeRepository): Response
     {
         $page = $request->query->getInt('page', 1);
         $places = $this->placeRepository->findByType($placeType, $page, $perPageOdd);
@@ -62,7 +60,7 @@ class PlaceController extends AbstractController
         return $this->render('place/type.html.twig', [
             'places' => $places,
             'type' => $placeType,
-            'types' => $this->placeTypeRepository->findAll(),
+            'types' => $placeTypeRepository->findAll(),
         ]);
     }
 }

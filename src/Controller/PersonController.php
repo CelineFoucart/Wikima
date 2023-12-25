@@ -19,7 +19,6 @@ class PersonController extends AbstractController
 {
     public function __construct(
         private PersonRepository $personRepository,
-        private PersonTypeRepository $personTypeRepository
     ) {
     }
 
@@ -39,7 +38,6 @@ class PersonController extends AbstractController
         return $this->render('person/index.html.twig', [
             'persons' => $persons,
             'form' => $form->createView(),
-            'types' => $this->personTypeRepository->findAll(),
         ]);
     }
 
@@ -53,7 +51,7 @@ class PersonController extends AbstractController
     }
 
     #[Route('/type/persons/{slug}', name: 'app_person_type')]
-    public function type(PersonType $personType, Request $request, int $perPageOdd): Response
+    public function type(PersonType $personType, Request $request, int $perPageOdd, PersonTypeRepository $personTypeRepository): Response
     {
         $page = $request->query->getInt('page', 1);
         $persons = $this->personRepository->findByType($personType, $page, $perPageOdd);
@@ -61,7 +59,7 @@ class PersonController extends AbstractController
         return $this->render('person/type.html.twig', [
             'persons' => $persons,
             'type' => $personType,
-            'types' => $this->personTypeRepository->findAll(),
+            'types' => $personTypeRepository->findAll(),
         ]);
     }
 }

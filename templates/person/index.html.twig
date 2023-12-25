@@ -6,17 +6,26 @@
 {% endblock %}
 
 {% block body %}
-	<article class="mt-5 container-fluid">
-		<header class="text-center mt-5">
-			<h2 class="h4">
-				Galerie des personnages
-			</h2>
-			<p class="w-75 m-auto pt-3 lh-lg text-muted">
-				Ici, vous pouvez voir l'ensemble des personages de
-				{{ app_name }}
-				ou les filtrer.
-			</p>
-		</header>
+	<article class="mb-5 container-fluid">
+		<header class="mb-4">
+            <div class="row border-bottom align-items-center py-3 bg-default-light">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('app_home') }}">Accueil</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Personnages</li>
+                    </ol>
+                </nav>
+            </div>
+        </header>
+		<h2 class="text-center list-title">
+			Index des personnages
+		</h2>
+		<p class="text-center text-muted fs-5 mb-5">
+			Ici, vous pouvez voir l'ensemble des personages de
+			{{ app_name }} ou les filtrer.
+		</p>
 		<div class="row justify-content-between my-5">
 			<aside class="col-md-4">
 				{% include "components/layout/_advance_search_form.html.twig" 
@@ -24,20 +33,12 @@
 			</aside>
 
 			<section class="col-md-8">
-				<h3 class="border-bottom display-6 mb-2 mt-0">Liste des personnages</h3>
-				<p>
-					{% for type in types %}
-						<a href="{{ path('app_person_type', {slug: type.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none me-1">
-							{{ type }}
-						</a>
-					{% endfor %}
-				</p>
-				<p class="mb-1">
+				<h3 class="lead mb-2 mt-0 fs-4 mb-3">
 					{% set current = persons|length %}
 					Affichage de <span class="fw-bold">{{ current }}</span>
 					sur <span class="fw-bold">{{ persons.getTotalItemCount }}</span>
-					personnage{{ persons.getTotalItemCount > 1 ? 's' : '' }}.
-				</p>
+					personnage{{ persons.getTotalItemCount > 1 ? 's' : '' }}
+				</h3>
 				<div class="row">
 					{% for person in persons %}
 						<div class="col-md-6 my-2">

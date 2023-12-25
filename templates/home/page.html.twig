@@ -5,37 +5,51 @@
 {% endblock %}
 
 {% block body %}
-	<div class="mt-5 mb-3 px-5">
-		<div class="row">
-			<div class="col-11 mb-3">
-				{% if page.categories is not empty %}
-					{% for category in page.categories %}
-						<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label me-1 mb-1" title="catégorie">
-							<i class="fas fa-folder me-1"></i>
-							{{ category.title }}
+	<div class="container-fluid">
+		<header class="mb-4">
+			<div class="row border-bottom align-items-center py-3 bg-default-light">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb mb-0">
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_home') }}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">{{ page.title }}</li>
+					</ol>
+				</nav>
+			</div>
+		</header>
+		<div class="mt-5 mb-3">
+			<div class="row">
+				<div class="col-11 mb-3">
+					{% if page.categories is not empty %}
+						{% for category in page.categories %}
+							<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label me-1 mb-1" title="catégorie">
+								<i class="fas fa-folder me-1"></i>
+								{{ category.title }}
+							</a>
+						{% endfor %}
+					{% endif %}
+				</div>
+				{% if is_granted('ROLE_ADMIN') %}
+					<div class="col-1 text-end">
+						<a href="{{ path('admin_app_page_edit', {id:page.id}) }}" class="btn btn-sm btn-outline-secondary" title="administrer">
+							<i class="fas fa-pencil-alt"></i>
 						</a>
-					{% endfor %}
+					</div>
 				{% endif %}
 			</div>
-			{% if is_granted('ROLE_ADMIN') %}
-				<div class="col-1 text-end">
-					<a href="{{ path('admin_app_page_edit', {id:page.id}) }}" class="btn btn-sm btn-outline-secondary" title="administrer">
-						<i class="fas fa-pencil-alt"></i>
-					</a>
-				</div>
-			{% endif %}
-		</div>
-		
-		{{ page.content|raw }}
-
-		<div class="mt-3 text-end">
-			{% for portal in page.portals %}
 			
-				<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="label ms-1" title="portail">
-					<i class="fas fa-tag me-1"></i>
-					{{ portal.title }}
-				</a>
-			{% endfor %}
+			{{ page.content|raw }}
+
+			<div class="mt-3 text-end">
+				{% for portal in page.portals %}
+				
+					<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="label ms-1" title="portail">
+						<i class="fas fa-tag me-1"></i>
+						{{ portal.title }}
+					</a>
+				{% endfor %}
+			</div>
 		</div>
 	</div>
 {% endblock %}
