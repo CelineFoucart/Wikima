@@ -59,7 +59,7 @@
 
             {{ form_rest(form) }}
             <div class="card-footer">
-                <a href="{{ path('app_article_show', {slug: section.article.slug}) }}" class="btn btn-primary btn-sm" title="Consulter">
+                <a href="{{ path('app_article_show', {slug: section.article.slug}) }}#part{{ section.id }}" class="btn btn-primary btn-sm" title="Consulter">
                     <i class="fas fa-book-reader"></i> Retourner à l'article
                 </a>
                 <button type="submit" class="btn btn-success btn-sm">
