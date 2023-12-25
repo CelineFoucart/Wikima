@@ -18,9 +18,14 @@ class ExceptionSubscriber implements EventSubscriberInterface
     public function onKernelException(ExceptionEvent $event): void
     {
         $exception = $event->getThrowable();
-        $className = get_class($exception);
-        $message = $exception->getMessage();
         $statusCode = ($exception instanceof HttpException) ? $exception->getStatusCode() : 500;
+
+        if ($statusCode === 404 || $statusCode === 400) {
+            return;
+        }
+
+        $className = (new \ReflectionClass($exception))->getShortName();
+        $message = $exception->getMessage();
         $this->logService->error("Erreur $statusCode", $message, $className);
     }
 
