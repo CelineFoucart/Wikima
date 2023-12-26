@@ -3,7 +3,7 @@
 {% block title %}{{ scenario.title }} | {{ app_name }}{% endblock %}
 
 {% block body %}
-<header class="bg-default-light border-bottom">
+	<header class="bg-default-light border-bottom">
 		<div class="pt-3 border-bottom container-fluid">
 			<div class="row align-items-center">
 				<div class="col-md-6">
@@ -68,7 +68,7 @@
 			<p class="lead mb-2 mt-3">{{ scenario.pitch|nl2br }}</p>
 		</div>
 	</header>
-    <section class="mt-4 px-4 container-fluid">
+    <section class="my-4 px-4 container-fluid">
 		<div class="text-end">
 			{% if scenario.timelines|length > 0 %}
 				<p>
@@ -177,5 +177,7 @@
                 {% endif %}
 			</div>
         {% endfor %}
+		
+		{{ include('includes/_block_info.html.twig', {entity: scenario}) }}
     </section>
 {% endblock %}

@@ -4,9 +4,10 @@ namespace App\Controller\Wiki;
 
 use App\Entity\User;
 use App\Entity\Article;
-use App\Service\Word\ArticleWordGenerator;
 use App\Entity\Data\SearchData;
+use App\Form\Search\SearchType;
 use App\Repository\ArticleRepository;
+use App\Service\Word\ArticleWordGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\Search\AdvancedArticleSearchType;
 use Symfony\Component\HttpFoundation\Response;
@@ -75,6 +76,7 @@ final class ArticleController extends AbstractController
 
         return $this->render('article/show_article.html.twig', [
             'article' => $article,
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }
     

@@ -1,0 +1,33 @@
+{% if entity.author is defined %}
+    {% set with_author = true %}
+{% else %}
+    {% set with_author = false %}
+{% endif %}
+
+{% if entity.updatedAt is defined %}
+    {% set with_updated = true %}
+{% else %}
+    {% set with_updated = false %}
+{% endif %}
+
+{% if entity.createdAt is defined %}
+    {% set with_created = true %}
+{% else %}
+    {% set with_created = false %}
+{% endif %}
+
+<footer class="bg-light border px-4 py-3">
+    <p class="mb-1">
+        <i class="fas fa-calendar-alt me-1"></i>
+        Publié le <strong>{{ entity.createdAt|date(date_format) }}</strong>
+        {% if with_author %}
+            par <strong>{{ entity.author is not null ? entity.author.username : 'Anonyme' }}</strong>
+        {% endif %}
+    </p>
+    {% if with_updated and entity.updatedAt %}
+        <p class="mb-0">
+            <i class="fas fa-edit me-1"></i>
+            Dernière mise à jour le <strong>{{ entity.updatedAt|date(date_format) }}</strong>
+        </p>
+    {% endif %}
+</footer>

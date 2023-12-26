@@ -12,6 +12,9 @@
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb">
 							<li class="breadcrumb-item">
+								<a href="{{ path('app_home') }}">Accueil</a>
+							</li>
+							<li class="breadcrumb-item">
 								<a href="{{ path('app_place_index') }}">Lieux</a>
 							</li>
 							<li class="breadcrumb-item active" aria-current="page">{{ place }}</li>
@@ -63,7 +66,7 @@
 			</h2>
 		</div>
 	</header>
-	<section class="mt-4 px-4 container-fluid">
+	<section class="my-4 px-4 container-fluid">
 		{% include "components/_flashes.html.twig" %}
 
 		<aside class="about-person">

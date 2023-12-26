@@ -22,6 +22,8 @@ final class AccessService
         'APP_IMAGE_INDEX' => "Liste des images",
         'APP_IMAGE_SHOW' => "Page de détail d'une image",
         'APP_IMAGE_TYPE' => "Page de détail d'un type d'image",
+        'APP_IMAGE_GROUP_INDEX' => "Liste des groupes d'images",
+        'APP_IMAGE_GROUP_SHOW' => "Page de détail d'un groupe d'images",
         'APP_TIMELINE_INDEX' => "Liste des chronologies",
         'APP_TIMELINE_SHOW' => "Page de détail d'une chronologie",
     ];

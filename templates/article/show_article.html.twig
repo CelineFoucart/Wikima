@@ -13,13 +13,13 @@
 
 {% block body %}
 	<article>
-		<header class="pt-4 bg-item header-item border-bottom" id="title-top">
+		<header class="pt-4 bg-item border-bottom" id="title-top">
 			{{ include('article/components/_header.html.twig', {reading:true}) }}
 		</header>
 
 		<div class="px-4">{% include "components/_flashes.html.twig" %}</div>
 
-		<div class="pt-4 px-4 {{ has_sections ? 'article-grid' : '' }}">
+		<div class="py-4 px-4 {{ has_sections ? 'article-grid' : '' }}">
 			<div class="article-content article-intro">
 				{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) or is_granted('ROLE_ADMIN') %}
 					<div class="position-relative" style="height: 30px">
@@ -100,6 +100,7 @@
 					</section>
 				</div>
 			{% endif %}
+			{{ include('includes/_block_info.html.twig', {entity: article}) }}
 		</div>
 	</article>
 {% endblock %}
