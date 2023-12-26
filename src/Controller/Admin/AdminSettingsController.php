@@ -117,6 +117,9 @@ class AdminSettingsController extends AbstractController
         return $this->render('Admin/settings/access.html.twig', [
             'accessKeyWiki' => $accessService->getAccessKeyWiki(),
             'accessKeyOther' => $accessService->getAccessKeyOther(),
+            'accessKeyImage' => $accessService->getAccessImages(),
+            'accessKeyPerson' => $accessService->getAccessPersons(),
+            'accessKeyPlace' => $accessService->getAccessPlaces(),
             'publicAccess' => $accessService->getPublicAccess(),
         ]);
     }

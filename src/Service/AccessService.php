@@ -13,19 +13,28 @@ final class AccessService
         'APP_ARTICLE_SHOW' => "Page de détail d'un article",
         'APP_ARTICLETYPE_INDEX' => "Liste des types d'article",
         'APP_ARTICLETYPE_SHOW' => "Page de détail d'un type d'article",
-        'APP_PLACE_INDEX' => "Liste des lieux",
-        'APP_PLACE_SHOW' => "Page de détail d'un lieu",
-        'APP_PLACE_TYPE' => "Page de détail d'un type de lieu",
+        'APP_TIMELINE_INDEX' => "Liste des chronologies",
+        'APP_TIMELINE_SHOW' => "Page de détail d'une chronologie",
+    ];
+
+    private array $accessPersons = [
         'APP_PERSON_INDEX' => "Liste des personnages",
         'APP_PERSON_SHOW' => "Page de détail d'un personnage",
         'APP_PERSON_TYPE' => "Page de détail d'un type de personnage",
+    ];
+
+    private array $accessPlaces = [
+        'APP_PLACE_INDEX' => "Liste des lieux",
+        'APP_PLACE_SHOW' => "Page de détail d'un lieu",
+        'APP_PLACE_TYPE' => "Page de détail d'un type de lieu",
+    ];
+
+    private array $accessImages = [
         'APP_IMAGE_INDEX' => "Liste des images",
         'APP_IMAGE_SHOW' => "Page de détail d'une image",
         'APP_IMAGE_TYPE' => "Page de détail d'un type d'image",
         'APP_IMAGE_GROUP_INDEX' => "Liste des groupes d'images",
         'APP_IMAGE_GROUP_SHOW' => "Page de détail d'un groupe d'images",
-        'APP_TIMELINE_INDEX' => "Liste des chronologies",
-        'APP_TIMELINE_SHOW' => "Page de détail d'une chronologie",
     ];
 
     private array $accessKeyOther = [
@@ -60,6 +69,30 @@ final class AccessService
     public function getAccessKeyWiki(): array
     {
         return $this->accessKeyWiki;
+    }
+
+    /**
+     * Get the value of accessImages
+     *
+     * @return array
+     */
+    public function getAccessImages(): array
+    {
+        return $this->accessImages;
+    }
+
+    /**
+     * Set the value of accessImages
+     *
+     * @param array $accessImages
+     *
+     * @return self
+     */
+    public function setAccessImages(array $accessImages): self
+    {
+        $this->accessImages = $accessImages;
+
+        return $this;
     }
 
     /**
@@ -105,6 +138,54 @@ final class AccessService
     public function getError(): ?string
     {
         return $this->error;
+    }
+
+    /**
+     * Get the value of accessPersons
+     *
+     * @return array
+     */
+    public function getAccessPersons(): array
+    {
+        return $this->accessPersons;
+    }
+
+    /**
+     * Set the value of accessPersons
+     *
+     * @param array $accessPersons
+     *
+     * @return self
+     */
+    public function setAccessPersons(array $accessPersons): self
+    {
+        $this->accessPersons = $accessPersons;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of accessPlaces
+     *
+     * @return array
+     */
+    public function getAccessPlaces(): array
+    {
+        return $this->accessPlaces;
+    }
+
+    /**
+     * Set the value of accessPlaces
+     *
+     * @param array $accessPlaces
+     *
+     * @return self
+     */
+    public function setAccessPlaces(array $accessPlaces): self
+    {
+        $this->accessPlaces = $accessPlaces;
+
+        return $this;
     }
 
     public function persist(): bool
