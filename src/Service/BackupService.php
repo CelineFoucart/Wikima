@@ -30,6 +30,7 @@ class BackupService
     private ?DateTimeImmutable $date = null;
     private array   $errors = [];
     private Filesystem $filesystem;
+    private LogService $logService;
 
     /**
      * Constructor of BackupService.
@@ -37,12 +38,13 @@ class BackupService
      * @param EntityManagerInterface $entityManager
      * @param string                 $backupFolder
      */
-    public function __construct(EntityManagerInterface $entityManager, string $backupFolder, Filesystem $filesystem)
+    public function __construct(EntityManagerInterface $entityManager, string $backupFolder, Filesystem $filesystem, LogService $logService)
     { 
         $dbparams = $entityManager->getConnection()->getParams();
         $this->setBackupFolder($backupFolder);
         $this->setSettings($dbparams);
         $this->filesystem = $filesystem;
+        $this->logService = $logService;
     }
 
     /**
@@ -56,7 +58,9 @@ class BackupService
             $dump = shell_exec($command);
             $this->filesystem->dumpFile($this->backupFolder . DIRECTORY_SEPARATOR . $this->filename, $dump);
         } catch (\Exception $e) {
-            $this->errors['save'] = ['mysqldump error: ' . $e->getMessage()];
+            $message = 'mysqldump error: ' . $e->getMessage();
+            $this->errors['save'] = [$message];
+            $this->logService->error("Création", $message, 'Backup');
         }
 
         return $this;
@@ -113,7 +117,9 @@ class BackupService
             $this->user = $dbparams['user'];
             $this->password = $dbparams['password'];
         } catch (\Exception $e) {
-            $this->errors['settings'] = 'settings error: ' . $e->getMessage();
+            $message = 'settings error: ' . $e->getMessage();
+            $this->errors['settings'] = $message;
+            $this->logService->error("Configuration", $message, 'Backup');
         }
     }
 

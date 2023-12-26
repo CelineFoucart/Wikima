@@ -10,6 +10,7 @@ use App\Repository\ArticleRepository;
 use App\Service\Word\ArticleWordGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use App\Form\Search\AdvancedArticleSearchType;
+use App\Service\LogService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
@@ -81,7 +82,7 @@ final class ArticleController extends AbstractController
     }
     
     #[Route('/articles/{slug}/word', name: 'app_article_word')]
-    public function articleToWord(#[MapEntity(expr: 'repository.findBySlug(slug)')] Article $article, ArticleWordGenerator $generator): Response
+    public function articleToWord(#[MapEntity(expr: 'repository.findBySlug(slug)')] Article $article, ArticleWordGenerator $generator, LogService $logService): Response
     {
         $this->denyAccessUnlessGranted('view', $article);
         try {
@@ -96,6 +97,7 @@ final class ArticleController extends AbstractController
             return $response;
         } catch (\Exception $th) {
             $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
+            $logService->error("Génération de '{$article->getSlug()}.docx'", $th->getMessage(), 'Article');
             
             return $this->redirectToRoute('app_article_show', ['slug' => $article->getSlug()]);
         }

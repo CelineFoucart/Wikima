@@ -5,6 +5,7 @@ namespace App\Controller\User;
 use App\Entity\User;
 use App\Form\User\ChangePasswordFormType;
 use App\Form\User\ResetPasswordRequestFormType;
+use App\Service\LogService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,10 +30,12 @@ class ResetPasswordController extends AbstractController
     private $entityManager;
     private string $contactMail; 
     private string $contactName;
+    private LogService $logService;
 
     public function __construct(
         ResetPasswordHelperInterface $resetPasswordHelper, 
         EntityManagerInterface $entityManager,
+        LogService $logService,
         string $contactMail, 
         string $contactName
     ) {
@@ -40,6 +43,7 @@ class ResetPasswordController extends AbstractController
         $this->entityManager = $entityManager;
         $this->contactMail = $contactMail;
         $this->contactName = $contactName;
+        $this->logService = $logService;
     }
 
     /**
@@ -154,6 +158,7 @@ class ResetPasswordController extends AbstractController
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
         } catch (ResetPasswordExceptionInterface $e) {
+            $this->logService->error("ResetPassword", $e->getMessage(), 'ResetPasswordExceptionInterface');
 
             return $this->redirectToRoute('app_check_email');
         }

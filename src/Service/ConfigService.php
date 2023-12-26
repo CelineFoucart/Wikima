@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Service\LogService;
 use Symfony\Component\Mailer\Transport;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
@@ -32,7 +33,7 @@ class ConfigService
 
     private bool $appendTo = false;
 
-    public function __construct(private string $configFile, private string $publicDir)
+    public function __construct(private string $configFile, private string $publicDir, private LogService $logService)
     {
         $this->hydrateEnvVars();
         $this->hydrateDsnParams();
@@ -183,6 +184,7 @@ class ConfigService
 
             return true;
         } catch (FileException $th) {
+            $this->logService->error("Configuration", $th->getMessage(), "FileException");
             return false;
         }
     }

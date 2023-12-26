@@ -2,6 +2,7 @@
 
 namespace App\Service\Statistics;
 
+use App\Service\LogService;
 use Doctrine\ORM\EntityManagerInterface;
 
 class StatisticsHandler
@@ -11,11 +12,8 @@ class StatisticsHandler
      */
     private array $entities = [];
 
-    private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(private EntityManagerInterface $em, private LogService $logService)
     {
-        $this->em = $em;
     }
 
     public function addEntity(StatisticsEntityInterface $entity): self
@@ -34,6 +32,7 @@ class StatisticsHandler
 
             return $this->formatStats($data);
         } catch (\Exception $th) {
+            $this->logService->error("Statistiques", $th->getMessage(), "Exception");
             return [];
         }
     }

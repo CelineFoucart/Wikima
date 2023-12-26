@@ -14,6 +14,7 @@ use App\Form\ReportType;
 use App\Repository\PostRepository;
 use App\Repository\TopicRepository;
 use App\Security\Voter\VoterHelper;
+use App\Service\LogService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -164,7 +165,7 @@ class TopicController extends AbstractController
 
     #[Route('/post/{id}/delete', name: 'app_post_delete')]
     #[IsGranted(new Expression("is_granted('ROLE_USER')"))]
-    public function deleteAction(Post $post, Request $request, PostRepository $postRepository): Response
+    public function deleteAction(Post $post, Request $request, PostRepository $postRepository, LogService $logService): Response
     {
         $topic = $post->getTopic();
         $forum = $topic->getForum();
@@ -186,10 +187,13 @@ class TopicController extends AbstractController
                 $this->em->flush();
                 $this->addFlash('success', "Le post a été supprimé avec succès.");
             } else {
-                $this->addFlash('error', "La suppression a échoué car le token CSRF est invalide.");
+                $message = "La suppression a échoué car le token CSRF est invalide";
+                $this->addFlash('error', $message);
+                $logService->error("Suppression", $message . ' : ' . $post->getTitle() . '('. $post->getId() .')', 'Post');
             }
         } catch (AccessDeniedException $th) {
             $this->addFlash('error', "Vous ne pouvez pas supprimer ce message.");
+            $logService->error("Suppression", "Tentative de suppression d'un message : " . $post->getTitle() . '('. $post->getId() .')', 'AccessDeniedException');
         }
 
         return $this->redirect($route);

@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Service\LogService;
+
 final class AccessService
 {
     private array $accessKeyWiki = [
@@ -54,7 +56,7 @@ final class AccessService
 
     private ?string $error = null;
 
-    public function __construct(private string $configFile)
+    public function __construct(private string $configFile, private LogService $logService)
     {
         if (isset($_ENV[$this->envVarName])) {
             $this->publicAccess = explode(',', $_ENV[$this->envVarName]);
@@ -202,6 +204,7 @@ final class AccessService
             }
         } catch (\Exception $th) {
             $this->error = $th->getMessage();
+            $this->logService->error('Modification des accès', $th->getMessage(), 'Exception');
 
             return false;
         }

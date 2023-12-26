@@ -6,6 +6,7 @@ use App\Entity\Idiom;
 use App\Entity\IdiomArticle;
 use App\Repository\IdiomRepository;
 use App\Service\IdiomNavigationHelper;
+use App\Service\LogService;
 use App\Service\Word\WordIdiomArticleGenerator;
 use App\Service\Word\WordIdiomGenerator;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,7 +43,7 @@ class IdiomController extends AbstractController
     }
 
     #[Route('/idioms/{slug}/word', name: 'app_idiom_word')]
-    public function wordAction(#[MapEntity(expr: 'repository.findIdiomBySlug(slug)')] Idiom $idiom, WordIdiomGenerator $generator): Response
+    public function wordAction(#[MapEntity(expr: 'repository.findIdiomBySlug(slug)')] Idiom $idiom, WordIdiomGenerator $generator, LogService $logService): Response
     {
         try {
             $file = $generator->setIdiom($idiom)->generate();
@@ -55,7 +56,8 @@ class IdiomController extends AbstractController
 
             return $response;
         } catch (\Exception $th) {
-            $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
+            $this->addFlash('error', "Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
+            $logService->error("Génération de '{$idiom->getSlug()}.docx'", $th->getMessage(), 'Idiom');
 
             return $this->redirectToRoute('app_idiom_show', ['slug' => $idiom->getSlug()]);
         }
@@ -76,7 +78,8 @@ class IdiomController extends AbstractController
     #[Route('/idioms/articles/{article}/word', name: 'app_idiom_show_article_word')]
     public function idiomArticleWordAction(
         #[MapEntity(expr: 'repository.findOneBySlug(article)')] IdiomArticle $idiomArticle, 
-        WordIdiomArticleGenerator $generator
+        WordIdiomArticleGenerator $generator,
+        LogService $logService
     ): Response {
         try {
             $file = $generator->setArticle($idiomArticle)->generate();
@@ -89,7 +92,9 @@ class IdiomController extends AbstractController
 
             return $response;
         } catch (\Exception $th) {
-            $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
+            $filename = "{$idiomArticle->getIdiom()->getSlug()}-{$idiomArticle->getSlug()}.docx";
+            $this->addFlash('error', "Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
+            $logService->error("Génération de '{$filename}'", $th->getMessage(), 'IdiomArticle');
 
             return $this->redirectToRoute('app_idiom_show_article', [
                 'idiom' => $idiomArticle->getIdiom()->getSlug(),
