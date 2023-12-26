@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Service\ConfigService;
 use App\Form\Admin\AdvancedSettingsType;
 use App\Service\AccessService;
+use App\Service\LogService;
 use App\Service\Modules\ModuleService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -98,7 +99,7 @@ class AdminSettingsController extends AbstractController
 
     #[Route('/access', name: 'admin_app_access')]
     #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')"))]
-    public function accessAction(AccessService $accessService, Request $request): Response
+    public function accessAction(AccessService $accessService, Request $request, LogService $logService): Response
     {
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('access', $request->request->get('_token'))) {
             $postData = $request->request->all();
@@ -106,9 +107,13 @@ class AdminSettingsController extends AbstractController
             $status = $accessService->setPublicAccess(array_keys($postData))->persist();
 
             if ($status) {
-                $this->addFlash('success', "Les modifications ont bien été enregistrées.");
+                $message = "La modification des accès a bien été enregistrée.";
+                $this->addFlash('success', $message);
+                $logService->info('Configuration', $message, 'Access');
             } else {
-                $this->addFlash('error', "L'opération a échoué. Vérifiez que le fichier le configuration .env.local n'a pas été supprimé.");
+                $message = "La modification des accès a échoué. Vérifiez que le fichier le configuration .env.local n'a pas été supprimé.";
+                $this->addFlash('error', $message);
+                $logService->error('Configuration', $message, 'Access');
             }
             
             return $this->redirectToRoute('admin_app_access');
