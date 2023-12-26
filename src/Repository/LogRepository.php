@@ -45,6 +45,30 @@ class LogRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
+
+    public function clearLogs(?string $date = null)
+    {
+        try {
+            if (strlen($date) > 0) {
+                $date .= ' 23:59:59';
+            } else {
+                $date = new \DateTime();
+                $date = $date->format('Y-m-d H:i:s');
+            }
+
+            $this->createQueryBuilder('l')
+                ->delete(Log::class, 'l')
+                ->andWhere('l.createdAt <= :end')
+                ->setParameter('end', $date)
+                ->getQuery()
+                ->execute();
+
+            return true;
+        } catch (\Exception $th) {
+            return false;
+        }
+
+    }
     
     public function countSearchTotal(array $parameters): array
     {

@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Log;
 use App\Repository\LogRepository;
+use App\Service\LogService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,9 +18,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')"))]
 final class LogController extends AbstractController
 {
-    #[Route('/', name: 'admin_app_log_list', methods:['GET'])]
-    public function listAction(): Response
+    #[Route('/', name: 'admin_app_log_list', methods:['GET', 'POST'])]
+    public function listAction(Request $request, LogRepository $logRepository, LogService $logService): Response
     {
+        if ($request->isMethod('POST') && $this->isCsrfTokenValid('delete', $request->request->get('_token'))) {
+            $date = $request->request->get('date', "");
+            $status = $logRepository->clearLogs($date);
+
+            if (!$status) {
+                $this->addFlash('error','La suppression des logs a échoué.');
+            } else {
+                $message = "Les logs ont été supprimés";
+                $this->addFlash('success', $message);
+
+                if ($date) {
+                    $message .= " depuis la date : {$date}";
+                }
+
+                $logService->info('Suppression des logs', $message, 'Log');
+            }
+            
+            return $this->redirectToRoute('admin_app_log_list');
+        }
+
         return $this->render('Admin/log/list.html.twig');
     }
 

@@ -1,5 +1,9 @@
 {% extends 'admin_layout.html.twig' %}
 
+{% block stylesheets %}
+	<link rel="stylesheet" href="{{ asset('assets/vanillajs-datepicker/datepicker-bs5.min.css') }}">
+{% endblock %}
+
 {% block title %}Logs de l'application{% endblock %}
 {% block activeLog %}active{% endblock %}
 {% block page_title %}Logs de l'application{% endblock %}
@@ -8,7 +12,17 @@
     <li class="breadcrumb-item active">Logs</li>
 {% endblock %}
 
-{% block toolbar %}{% endblock %}
+{% block toolbar %}
+    <form action="" method="post">
+        <div class="input-group">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete') }}">
+            <span class="input-group-text" id="basic-addon1">Avant le</span>
+            <input type="text" name="date" id="date" class="form-control">
+            <button type="submit" class="btn btn-danger">Supprimer</button>
+        </div>
+        <div class="small"><i class="fas fa-info-circle fa-fw"></i> Laisser le champ date vide pour tout supprimer.</div>
+    </form>
+{% endblock %}
 
 {% block body %}
     <div class="card border-top-primary">
@@ -33,7 +47,18 @@
 
 {% block javascripts %}
     {{ parent() }}
+	<script src="{{ asset('assets/vanillajs-datepicker/datepicker-full.min.js') }}"></script>
+	<script src="{{ asset('assets/vanillajs-datepicker/fr.js') }}"></script>
     <script>
+        const elem = document.querySelector('#date');
+		const datepicker = new Datepicker(elem, {
+			buttonClass: 'btn',
+			format: 'yyyy-mm-dd',
+			language: 'fr',
+            clearButton: true,
+            todayButton: true
+		});
+
         const articleRoute = "{{ path('api_log_index') }}";
 
         $('#tableIndex').DataTable({
