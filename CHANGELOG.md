@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2023-12-26
+
+### Added
+
+- Ajouter le dossier /public/img/ dans l'export images
+- Ajouter une explication : comment réimporter les données
+- Ajouter la taille du dossier images
+- Ajouter l'export d'une langue en word
+- Ajouter la configuration des accès groupes d'image
+- Ajouter les logs
+
+### Changed
+
+- Après clic sur l'édition d'une section, le bouton retourner à l'article doit ramener à la section.
+- Améliorer la page liste des portails
+
+### Fixed
+
+- Correction du bug du lien de l'auteur d'un sujet dans la liste des sujets
+- Ajouter les breadcrumbs manquants
+
 ## [2.1.0] - 2023-12-15
 
 ### Added
