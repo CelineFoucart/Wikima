@@ -78,15 +78,19 @@ class AdminSettingsController extends AbstractController
 
     #[Route('/modules', name: 'admin_app_modules')]
     #[IsGranted(new Expression("is_granted('ROLE_SUPER_ADMIN')"))]
-    public function modulesAction(Request $request, ModuleService $moduleService): Response
+    public function modulesAction(Request $request, ModuleService $moduleService, LogService $logService): Response
     {
         if ($request->isMethod('POST') && $this->isCsrfTokenValid('module_handler', $request->request->get('_token'))) {
             $status = $moduleService->handleSubmitData($request->request->all());
 
             if ($status) {
-                $this->addFlash('success', "Les modifications ont bien été enregistrées.");
+                $message = "La modification des activations des modules a bien été enregistrée.";
+                $this->addFlash('success', $message);
+                $logService->info('Configuration', $message, 'Module');
             } else {
-                $this->addFlash('error', "L'opération a échoué. Vérifiez que le fichier le configuration .env.local n'a pas été supprimé.");
+                $message = "La modification des activations de modules a échoué. Vérifiez que le fichier le configuration .env.local n'a pas été supprimé.";
+                $this->addFlash('error', $message);
+                $logService->error('Configuration', $message, 'Module');
             }
 
             return $this->redirectToRoute('admin_app_modules');
