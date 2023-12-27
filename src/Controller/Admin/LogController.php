@@ -32,7 +32,7 @@ final class LogController extends AbstractController
                 $this->addFlash('success', $message);
 
                 if ($date) {
-                    $message .= " depuis la date : {$date}";
+                    $message .= " jusqu'à la date : {$date}";
                 }
 
                 $logService->info('Suppression des logs', $message, 'Log');
