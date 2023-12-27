@@ -40,7 +40,6 @@
             <table class="table mb-0 table-striped" id="tableIndex">
                 <thead>
                     <tr>
-                        <th class="table-id">Id</th>
                         <th>Titre</th>
                         <th data-orderable="false">Portail</th>
                         <th data-orderable="false">Auteur</th>
@@ -72,15 +71,6 @@
             autoWidth: false,
             ajax: articleRoute,
             columns: [
-                { 
-                    data: "id", 
-                    name:"a.id", 
-                    render: function (data, type, row) {
-                        return `
-                            <a href="/articles/${row.slug}" class="fw-bold">${row.id}</a>
-                        `;
-                    }
-                },
                 { data: "title", name:"a.title" },
                 { 
                     data: "portals", 
@@ -135,11 +125,10 @@
                 },
             ],
             createdRow: function( row, data, dataIndex ) {
-                $( row ).find('td:eq(0)').attr('data-label', 'Id');
-                $( row ).find('td:eq(1)').attr('data-label', 'Titre');
-                $( row ).find('td:eq(2)').attr('data-label', 'Portail');
-                $( row ).find('td:eq(3)').attr('data-label', 'Auteur');
-                $( row ).find('td:eq(4)').attr('data-label', 'Actions');
+                $( row ).find('td:eq(0)').attr('data-label', 'Titre');
+                $( row ).find('td:eq(1)').attr('data-label', 'Portail');
+                $( row ).find('td:eq(2)').attr('data-label', 'Auteur');
+                $( row ).find('td:eq(3)').attr('data-label', 'Actions');
             }
         });
     </script>

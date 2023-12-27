@@ -26,7 +26,6 @@
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
-                        <th class="table-id">Id</th>
                         <th>Titre</th>
                         <th>Création</th>
                         <th>Mise à jour</th>
@@ -36,9 +35,6 @@
                 <tbody>
                     {% for category in categories %}
                         <tr>
-                            <td data-label="Id">
-                                <a href="{{ path('app_category_show', {slug: category.slug}) }}" class="fw-bold">{{category.id }}</a>
-                            </td>
                             <td data-label="Titre">
                                 {{ category.title }}
                             </td>

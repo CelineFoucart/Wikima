@@ -33,9 +33,7 @@
                     {% for image_group in image_groups %}
                         <tr>
                             <td data-label="Titre">
-                                <a href="{{ path('app_image_group_show', {slug: image_group.slug}) }}">
-                                    {{ image_group.title }}
-                                </a>
+                                {{ image_group.title }}
                             </td>
                             <td data-label="Slug">{{ image_group.slug }}</td>
                             <td data-label="Actions">

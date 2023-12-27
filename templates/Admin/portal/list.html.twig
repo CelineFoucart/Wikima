@@ -26,7 +26,6 @@
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
-                        <th class="table-id">Id</th>
                         <th>Titre</th>
                         <th>Catégories</th>
                         <th>Création</th>
@@ -37,9 +36,6 @@
                 <tbody>
                     {% for portal in portals %}
                         <tr>
-                            <td data-label="Id">
-                                <a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="fw-bold">{{portal.id }}</a>
-                            </td>
                             <td data-label="Titre">
                                 {{ portal.title }}
                             </td>

@@ -30,7 +30,6 @@
             <table class="table mb-0 table-striped" id="tableIndex">
                 <thead>
                     <tr>
-                        <th class="table-id">Id</th>
                         <th>Prénom</th>
                         <th>Nom de famille</th>
                         <th>Nationalité</th>
@@ -62,15 +61,6 @@
             autoWidth: false,
             ajax: personRoute,
             columns: [
-                { 
-                    data: "id", 
-                    name:"p.id", 
-                    render: function (data, type, row) {
-                        return `
-                            <a href="/person/${row.slug}" class="fw-bold">${row.id}</a>
-                        `;
-                    }
-                },
                 { data: "firstname", name:"p.firstname" },
                 { data: "lastname", name:"p.lastname" },
                 { data: "nationality", name:"p.nationality" },
@@ -112,14 +102,13 @@
                 },
             ],
             createdRow: function( row, data, dataIndex ) {
-                $( row ).find('td:eq(0)').attr('data-label', 'Id');
-                $( row ).find('td:eq(1)').attr('data-label', 'Prénom');
-                $( row ).find('td:eq(2)').attr('data-label', 'Nom');
-                $( row ).find('td:eq(3)').attr('data-label', 'Nationalité');
-                $( row ).find('td:eq(4)').attr('data-label', 'Naissance');
-                $( row ).find('td:eq(5)').attr('data-label', 'Mort');
-                $( row ).find('td:eq(6)').attr('data-label', 'Type');
-                $( row ).find('td:eq(7)').attr('data-label', 'Actions');
+                $( row ).find('td:eq(0)').attr('data-label', 'Prénom');
+                $( row ).find('td:eq(1)').attr('data-label', 'Nom');
+                $( row ).find('td:eq(2)').attr('data-label', 'Nationalité');
+                $( row ).find('td:eq(3)').attr('data-label', 'Naissance');
+                $( row ).find('td:eq(4)').attr('data-label', 'Mort');
+                $( row ).find('td:eq(5)').attr('data-label', 'Type');
+                $( row ).find('td:eq(6)').attr('data-label', 'Actions');
             }
         });
     </script>

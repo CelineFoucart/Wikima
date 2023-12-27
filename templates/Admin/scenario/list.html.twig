@@ -22,7 +22,6 @@
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Titre</th>
                         <th>Slug</th>
                         <th>Public</th>
@@ -34,7 +33,6 @@
                 <tbody>
                     {% for scenario in scenarios %}
                         <tr>
-                            <td data-label="Id">{{ scenario.id }}</td>
                             <td data-label="Titre">{{ scenario.title }}</td>
                             <td data-label="Slug">{{ scenario.slug }}</td>
                             <td data-label="Public">{{ scenario.public ? 'Oui' : 'Non' }}</td>

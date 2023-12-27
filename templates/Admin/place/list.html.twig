@@ -30,7 +30,6 @@
             <table class="table mb-0 table-striped" id="tableIndex">
                 <thead>
                     <tr>
-                        <th class="table-id">Id</th>
                         <th>Nom</th>
                         <th>Slug</th>
                         <th data-orderable="false">Type</th>
@@ -59,15 +58,6 @@
             autoWidth: false,
             ajax: placeRoute,
             columns: [
-                { 
-                    data: "id", 
-                    name:"p.id", 
-                    render: function (data, type, row) {
-                        return `
-                            <a href="/place/${row.slug}" class="fw-bold">${row.id}</a>
-                        `;
-                    }
-                },
                 { data: "title", name:"pl.title" },
                 { data: "slug", name:"pl.slug" },
                 { 
@@ -106,11 +96,10 @@
                 },
             ],
             createdRow: function( row, data, dataIndex ) {
-                $( row ).find('td:eq(0)').attr('data-label', 'Id');
-                $( row ).find('td:eq(1)').attr('data-label', 'Nom');
-                $( row ).find('td:eq(2)').attr('data-label', 'Slug');
-                $( row ).find('td:eq(3)').attr('data-label', 'Type');
-                $( row ).find('td:eq(4)').attr('data-label', 'Actions');
+                $( row ).find('td:eq(0)').attr('data-label', 'Nom');
+                $( row ).find('td:eq(1)').attr('data-label', 'Slug');
+                $( row ).find('td:eq(2)').attr('data-label', 'Type');
+                $( row ).find('td:eq(3)').attr('data-label', 'Actions');
             }
         });
     </script>

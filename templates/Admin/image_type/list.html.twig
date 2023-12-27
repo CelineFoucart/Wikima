@@ -26,7 +26,6 @@
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
-                        <th class="table-id">Id</th>
                         <th>Titre</th>
                         <th>Slug</th>
                         <th data-orderable="false">Actions</th>
@@ -35,9 +34,6 @@
                 <tbody>
                     {% for imageType in imageTypes %}
                         <tr>
-                            <td data-label="Id">
-                                <a href="#" class="fw-bold">{{imageType.id }}</a>
-                            </td>
                             <td data-label="Titre">{{imageType.title }}</td>
                             <td data-label="Slug">{{imageType.slug }}</td>
                             <td data-label="Actions">

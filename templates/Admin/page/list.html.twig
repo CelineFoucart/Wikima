@@ -24,7 +24,6 @@
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
-                        <th class="table-id">Id</th>
                         <th>Titre</th>
                         <th>Description</th>
                         <th data-orderable="false">Actions</th>
@@ -33,13 +32,8 @@
                 <tbody>
                     {% for page in pages %}
                         <tr>
-                            <td data-label="Id">
-                                {{ page.id }}
-                            </td>
                             <td data-label="Titre">
-                                <a href="{{ path('admin_app_page_show', {id: page.id}) }}">
-                                    {{ page.title }}
-                                </a>
+                                {{ page.title }}
                             </td>
                             <td data-label="Description" class="w-50">
                                 {{ page.description }}

@@ -22,7 +22,6 @@
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Titre</th>
                         <th data-orderable="false">Actions</th>
                     </tr>
@@ -30,7 +29,6 @@
                 <tbody>
                 {% for scenario_category in scenario_categories %}
                     <tr>
-                        <td data-label="Id">{{ scenario_category.id }}</td>
                         <td data-label="Titre">{{ scenario_category.title }}</td>
                         <td data-label="Actions">
                             <div class="btn-group">         

@@ -26,7 +26,6 @@
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
-                        <th class="table-id">Id</th>
                         <th>Titre</th>
                         <th>Slug</th>
                         <th>Icône</th>
@@ -36,9 +35,6 @@
                 <tbody>
                     {% for articleType in articleTypes %}
                         <tr>
-                            <td data-label="Id">
-                                <a href="#" class="fw-bold">{{articleType.id }}</a>
-                            </td>
                             <td data-label="Titre">{{articleType.title }}</td>
                             <td data-label="Slug">{{articleType.slug }}</td>
                             <td data-label="Icône"><i class="{{ articleType.icon }}" data-bs-toggle="tooltip" title="{{ articleType.icon }}"></i></td>

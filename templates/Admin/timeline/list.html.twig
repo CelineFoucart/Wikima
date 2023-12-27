@@ -26,7 +26,6 @@
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
-                        <th class="table-id">Id</th>
                         <th>Titre</th>
                         <th>Création</th>
                         <th>Mise à jour</th>
@@ -36,9 +35,6 @@
                 <tbody>
                     {% for timeline in timelines %}
                         <tr>
-                            <td data-label="Id">
-                                <a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}" class="fw-bold">{{timeline.id }}</a>
-                            </td>
                             <td data-label="Titre">
                                 {{ timeline.title }}
                             </td>

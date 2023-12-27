@@ -16,9 +16,7 @@
                 {% for note in notes %}
                     <tr>
                         <td data-label="Titre">
-                            <a href="{{ path('admin_app_note_show', {id: note.id}) }}">
-                                {{ note.title }}
-                            </a>
+                            {{ note.title }}
                         </td>
                         <td data-label="Création" data-sort="{{ note.createdAt ? note.createdAt|date('Y-m-d H:i') : '' }}">
                             {{ note.createdAt|date(date_format) }}

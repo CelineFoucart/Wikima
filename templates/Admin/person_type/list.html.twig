@@ -26,7 +26,6 @@
             <table class="table data-table mb-0 table-striped">
                 <thead>
                     <tr>
-                        <th class="table-id">Id</th>
                         <th>Titre</th>
                         <th>Slug</th>
                         <th data-orderable="false">Actions</th>
@@ -35,9 +34,6 @@
                 <tbody>
                     {% for personType in personTypes %}
                         <tr>
-                            <td data-label="Id">
-                                <a href="#" class="fw-bold">{{personType.id }}</a>
-                            </td>
                             <td data-label="Titre">{{personType.title }}</td>
                             <td data-label="Slug">{{personType.slug }}</td>
                             <td data-label="Actions">
