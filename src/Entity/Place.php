@@ -133,6 +133,9 @@ class Place
     #[ORM\ManyToOne(inversedBy: 'places')]
     private ?ImageGroup $imageGroup = null;
 
+    #[ORM\OneToMany(mappedBy: 'place', targetEntity: MapPosition::class)]
+    private Collection $mapPositions;
+
     public function __construct()
     {
         $this->localisations = new ArrayCollection();
@@ -141,6 +144,7 @@ class Place
         $this->categories = new ArrayCollection();
         $this->portals = new ArrayCollection();
         $this->episodes = new ArrayCollection();
+        $this->mapPositions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -531,6 +535,36 @@ class Place
     public function setImageGroup(?ImageGroup $imageGroup): static
     {
         $this->imageGroup = $imageGroup;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MapPosition>
+     */
+    public function getMapPositions(): Collection
+    {
+        return $this->mapPositions;
+    }
+
+    public function addMapPosition(MapPosition $mapPosition): static
+    {
+        if (!$this->mapPositions->contains($mapPosition)) {
+            $this->mapPositions->add($mapPosition);
+            $mapPosition->setPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMapPosition(MapPosition $mapPosition): static
+    {
+        if ($this->mapPositions->removeElement($mapPosition)) {
+            // set the owning side to null (unless already changed)
+            if ($mapPosition->getPlace() === $this) {
+                $mapPosition->setPlace(null);
+            }
+        }
 
         return $this;
     }

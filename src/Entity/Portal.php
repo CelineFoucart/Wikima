@@ -106,6 +106,9 @@ class Portal
     #[ORM\ManyToMany(targetEntity: ImageGroup::class, mappedBy: 'portals')]
     private Collection $imageGroups;
 
+    #[ORM\ManyToMany(targetEntity: Map::class, mappedBy: 'portals')]
+    private Collection $maps;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -119,6 +122,7 @@ class Portal
         $this->idioms = new ArrayCollection();
         $this->scenarios = new ArrayCollection();
         $this->imageGroups = new ArrayCollection();
+        $this->maps = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -551,6 +555,33 @@ class Portal
     {
         if ($this->imageGroups->removeElement($imageGroup)) {
             $imageGroup->removePortal($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Map>
+     */
+    public function getMaps(): Collection
+    {
+        return $this->maps;
+    }
+
+    public function addMap(Map $map): static
+    {
+        if (!$this->maps->contains($map)) {
+            $this->maps->add($map);
+            $map->addPortal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMap(Map $map): static
+    {
+        if ($this->maps->removeElement($map)) {
+            $map->removePortal($this);
         }
 
         return $this;

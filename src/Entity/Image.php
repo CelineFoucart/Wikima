@@ -83,6 +83,9 @@ class Image
 
     #[ORM\ManyToMany(targetEntity: ImageGroup::class, mappedBy: 'images')]
     private Collection $imageGroups;
+
+    #[ORM\OneToMany(mappedBy: 'image', targetEntity: Map::class)]
+    private Collection $maps;
     
     public function __construct()
     {
@@ -94,6 +97,7 @@ class Image
         $this->idiomArticles = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->imageGroups = new ArrayCollection();
+        $this->maps = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -416,6 +420,36 @@ class Image
     {
         if ($this->imageGroups->removeElement($imageGroup)) {
             $imageGroup->removeImage($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Map>
+     */
+    public function getMaps(): Collection
+    {
+        return $this->maps;
+    }
+
+    public function addMap(Map $map): static
+    {
+        if (!$this->maps->contains($map)) {
+            $this->maps->add($map);
+            $map->setImage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMap(Map $map): static
+    {
+        if ($this->maps->removeElement($map)) {
+            // set the owning side to null (unless already changed)
+            if ($map->getImage() === $this) {
+                $map->setImage(null);
+            }
         }
 
         return $this;
