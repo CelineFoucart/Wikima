@@ -51,7 +51,8 @@ img {
     box-shadow: 0 1px 1px rgba(0,0,0,.1);
 }
 
-.nav-custom-style .nav-link {
+.nav-custom-style .nav-link,
+.nav-pills .nav-link.active {
     color: inherit;
 }
 
@@ -60,7 +61,12 @@ img {
     color: #444;
 }
 
-.nav-custom-style .nav-link.active {
+.nav-link {
+    color: #337ab7;
+}
+
+.nav-custom-style .nav-link.active,
+.nav-pills .nav-link.active {
     color: #fff;
     background-color: #337ab7;
 }

@@ -1,0 +1,49 @@
+{% extends 'Admin/map/show_base.html.twig' %}
+
+{% block show_tab %}
+    <div class="row g-2">
+        <div class="col-12">
+            <article class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Image de la carte</h2>
+                </div>
+                <div class="card-body">
+                    {% if map.image is not null %}
+                        <img src="{{ vich_uploader_asset(map.image) }}" class="img-thumbnail" alt="{{ map.image.title }}">
+                        <p class="mb-0 text-center">
+                            <a href="{{ path('admin_app_image_show', {id: map.image.id}) }}">{{ map.image.title }}</a>
+                        </p>
+                    {% else %}
+                        <p class="fst-italic">Aucune image</p>
+                    {% endif %}
+                </div>
+            </article>
+        </div>
+
+        <aside class="col-md-4 mb-2">
+			<div class="card border-top-primary">
+				<div class="card-header">
+					<h3 class="card-title h5 mb-0">Recherche</h3>
+				</div>
+				<div class="card-body">
+					{{ form_start(searchForm) }}
+					<h4 class="mb-3 fw-bold h6">Par mot clé</h4>
+					{{ form_widget(searchForm.query) }}
+					<h4 class="mt-4 mb-3 fw-bold h6">Par catégorie</h4>
+					{{ form_widget(searchForm.categories) }}
+					<h4 class="mt-4 mb-3 fw-bold h6">Par portail</h3>
+					{{ form_widget(searchForm.portals) }}
+					<div class="mt-2">
+						<a href="{{ path('admin_app_map_show', {id: map.id}) }}" class="btn btn-primary btn-sm">Tout afficher</a>
+						<button type="submit" class="btn btn-primary btn-sm">Rechercher</button>
+					</div>
+					{{ form_end(searchForm) }}
+				</div>
+			</div>
+		</aside>
+
+		<article class="col-md-8">
+			{{ include('Admin/components/_item_gallery.html.twig', {title: 'Ajouter une image de la galerie de '~ app_name}) }}
+		</article>
+    </div>
+{% endblock %}

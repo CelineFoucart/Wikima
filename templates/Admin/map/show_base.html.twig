@@ -1,0 +1,34 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Afficher "{{ map }}"{% endblock %}
+{% block activePlace %} active show {% endblock %}
+{% block activeMap %}active{% endblock %}
+{% block page_title %}{{ map }}{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_map_list') }}" class="text-reset">Cartes</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Voir
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'map', entity: map, show_route: 'app_map_show'  } %}
+{% endblock %}
+
+{% block body %}
+    <ul class="nav nav-custom-style nav-pills mb-4">
+        <li class="nav-item">
+            <a class="nav-link {{ general_active is defined ? 'active' : '' }}" href="{{ path('admin_app_map_show', {id: map.id}) }}">Général</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ image_active is defined ? 'active' : '' }}" href="{{ path('admin_app_map_image', {id: map.id}) }}">
+                Gérer l'image
+            </a>
+        </li>
+    </ul>
+
+    {% block show_tab %}{% endblock %}
+{% endblock %}
