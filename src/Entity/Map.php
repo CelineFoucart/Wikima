@@ -47,10 +47,14 @@ class Map
     #[ORM\OneToMany(mappedBy: 'map', targetEntity: MapPosition::class, orphanRemoval: true)]
     private Collection $mapPositions;
 
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'maps')]
+    private Collection $categories;
+
     public function __construct()
     {
         $this->portals = new ArrayCollection();
         $this->mapPositions = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -182,5 +186,34 @@ class Map
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Category>
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Category $category): static
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Category $category): static
+    {
+        $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title ? $this->title : 'Nouvelle carte';
     }
 }

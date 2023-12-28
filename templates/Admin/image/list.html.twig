@@ -45,9 +45,7 @@
                                 </a>
                             </td>
                             <td data-label="Titre">
-                                <a href="{{ path('app_image_show', {slug: image.slug}) }}">
-                                    {{ image.title }}
-                                </a>
+                                {{ image.title }}
                             </td>
                             <td data-label="Mots clés">{{ image.keywords }}</td>
                             <td data-label="Mise à jour" data-sort="{{ image.updatedAt ? image.updatedAt|date('Y-m-d H:i') : '' }}">

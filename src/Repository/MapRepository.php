@@ -21,6 +21,24 @@ class MapRepository extends ServiceEntityRepository
         parent::__construct($registry, Map::class);
     }
 
+    public function save(Map $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(Map $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
 //    /**
 //     * @return Map[] Returns an array of Map objects
 //     */

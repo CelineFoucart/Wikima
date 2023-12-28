@@ -1,0 +1,28 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Editer "{{ map }}"{% endblock %}
+{% block activePlace %} active show {% endblock %}
+{% block activeMap %}active{% endblock %}
+{% block page_title %}Editer "{{ map }}"{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item">
+		<a href="{{ path('admin_app_map_list') }}" class="text-reset">Cartes</a>
+	</li>
+	<li class="breadcrumb-item active">
+		Editer
+	</li>
+{% endblock %}
+
+{% block toolbar %}
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'map', entity: map, show_route: 'app_map_show'  } %}
+{% endblock %}
+
+{% block body %}
+	{% include "Admin/map/_form.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
+{% endblock %}

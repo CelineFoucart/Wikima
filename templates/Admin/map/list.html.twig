@@ -1,0 +1,71 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Liste des cartes{% endblock %}
+{% block activePlace %} active show {% endblock %}
+{% block activeMap %}active{% endblock %}
+{% block page_title %}Cartes{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">
+        Cartes
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    <a href="{{ path('admin_app_map_create') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        Ajouter
+    </a>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body p-1">
+            <table class="table data-table mb-0 table-striped">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Portails</th>
+                        <th>Création</th>
+                        <th>Mise à jour</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for map in maps %}
+                        <tr>
+                            <td data-label="Titre">
+                                {{ map.title }}
+                            </td>
+                            <td data-label="Catégories" class="container-list">
+                                {% for portal in map.portals %}
+                                    <a href="{{ path('admin_app_portal_show', {id: portal.id}) }}">{{ portal }}</a>
+                                {% endfor %}
+                            </td>
+                            <td data-sort="{{ map.createdAt|date('Y-m-d H:i') }}">
+                                {{ map.createdAt|date(date_format) }}
+                            </td>
+                            <td data-sort="{{ map.updatedAt ? map.updatedAt|date('Y-m-d H:i') : '' }}">
+                                {{ map.updatedAt ? map.updatedAt|date(date_format) : '' }}
+                            </td>
+                            <td data-label="Actions">
+                                <div class="btn-group">
+                                    <a href="{{ path('app_map_show', {slug: map.slug}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
+                                        <i class="fas fa-book-reader"></i>
+                                    </a>                   
+                                    <a href="{{ path('admin_app_map_show', {id: map.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                        <i class="fas fa-info-circle"></i>
+                                    </a>
+                                    <a href="{{ path('admin_app_map_edit', {id: map.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                    </a>
+                                    {% include "Admin/components/_delete_modal.html.twig" with { element: map, path: 'admin_app_map_delete' } %}
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

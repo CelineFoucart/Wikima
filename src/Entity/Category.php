@@ -87,6 +87,9 @@ class Category
     #[ORM\ManyToMany(targetEntity: Place::class, mappedBy: 'categories')]
     private Collection $places;
 
+    #[ORM\ManyToMany(targetEntity: Map::class, mappedBy: 'categories')]
+    private Collection $maps;
+
     public function __construct()
     {
         $this->portals = new ArrayCollection();
@@ -96,6 +99,7 @@ class Category
         $this->people = new ArrayCollection();
         $this->notes = new ArrayCollection();
         $this->places = new ArrayCollection();
+        $this->maps = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -411,6 +415,33 @@ class Category
     {
         if ($this->places->removeElement($place)) {
             $place->removeCategory($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Map>
+     */
+    public function getMaps(): Collection
+    {
+        return $this->maps;
+    }
+
+    public function addMap(Map $map): static
+    {
+        if (!$this->maps->contains($map)) {
+            $this->maps->add($map);
+            $map->addCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMap(Map $map): static
+    {
+        if ($this->maps->removeElement($map)) {
+            $map->removeCategory($this);
         }
 
         return $this;
