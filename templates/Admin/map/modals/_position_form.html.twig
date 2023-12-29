@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="title" class="form-label required">Titre</label>
-                        <input type="text" name="title" class="form-control" id="title" maxlength="255" required>
+                        <input type="text" name="title" class="form-control" id="title" minlength="2" maxlength="255" required>
                         <div class="invalid-feedback">
                             Le titre est obligatoire et ne peut dépasser 255 caractères
                         </div>
@@ -32,6 +32,27 @@
                         <input type="text" name="color" maxlength="30" class="form-control" id="color" value="#212529" required>
                         <div class="invalid-feedback">
                             La couleur est obligatoire et ne peut dépasser 30 caractères
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="positionY" class="form-label">Depuis le haut de l'image</label>
+                                <input type="number" name="positionY" step="0.01" class="form-control" id="positionY"  required>
+                                <div class="invalid-feedback">
+                                    Ce champ est obligatoire
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="positionX" class="form-label">Depuis la gauche de l'image</label>
+                                <input type="number" name="positionX" step="0.01" class="form-control" id="positionX"  required>
+                                <div class="invalid-feedback">
+                                    Ce champ est obligatoire
+                                </div>
+                            </div>
                         </div>
                     </div>
 

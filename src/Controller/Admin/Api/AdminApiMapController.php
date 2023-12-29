@@ -15,7 +15,9 @@ use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 #[Route('/admin/api/map')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
@@ -32,15 +34,8 @@ final class AdminApiMapController extends AbstractController
         $position = $this->serializer->deserialize($request->getContent(), MapPosition::class, 'json', ['groups' => 'index']);
         $position->setMap($map);
 
-        $violations = $validator->validate($position);
-
-        if (count($violations) > 0) {
-            $errors = [];
-
-            foreach ($violations as $violation) {
-                $errors[$violation->getPropertyPath()][] = $violation->getMessage();
-            }
-
+        $errors = $this->getErrors($validator->validate($position));
+        if (!empty($errors)) {
             return $this->json($errors, Response::HTTP_BAD_REQUEST);
         }
 
@@ -48,5 +43,38 @@ final class AdminApiMapController extends AbstractController
         $this->entityManager->flush();
 
         return $this->json($position, Response::HTTP_CREATED, [], ['groups' => 'index']);
+    }
+
+    #[Route('-position/{id}', name: 'api_edit_position', methods: ['PUT'])]
+    public function editAction(Request $request, MapPosition $position, ValidatorInterface $validator): JsonResponse
+    {
+        /** @var MapPosition */
+        $this->serializer->deserialize(
+            $request->getContent(), 
+            MapPosition::class, 'json', ['groups' => 'index', AbstractNormalizer::OBJECT_TO_POPULATE => $position]
+        );
+
+        $errors = $this->getErrors($validator->validate($position));
+        if (!empty($errors)) {
+            return $this->json($errors, Response::HTTP_BAD_REQUEST);
+        }
+
+        $this->entityManager->persist($position);
+        $this->entityManager->flush();
+
+        return $this->json($position, Response::HTTP_OK, [], ['groups' => 'index']);
+    }
+
+    private function getErrors(ConstraintViolationListInterface $violations): array
+    {
+        $errors = [];
+
+        if (count($violations) > 0) {
+            foreach ($violations as $violation) {
+                $errors[$violation->getPropertyPath()][] = $violation->getMessage();
+            }
+        }
+
+        return $errors;
     }
 }

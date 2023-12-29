@@ -11,3 +11,12 @@
 .marker {
     position: absolute;
 }
+
+.modal {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.modal::-webkit-scrollbar {
+    display: none;
+}

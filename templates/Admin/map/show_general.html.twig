@@ -147,6 +147,7 @@
                                 
                                     {% for position in map.mapPositions %}
                                         <div data-title="{{ position.title }}"
+                                            data-id="{{ position.id }}"
                                             data-description="{{ position.description }}"
                                             data-placeId="{{ position.place ? position.place.id : '' }}"
                                             data-placeName="{{ position.place ? position.place.name : '' }}"

@@ -4,16 +4,53 @@
 			<div class="modal-header">
 				<h4 class="modal-title h5" id="showModalLabel">
                     <i id="pointer-icon"></i>
-                    <span id="pointer-title"></span>
+                    Emplacement
                 </h4>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
-			<div class="modal-body">
-                <p id="pointer-description"></p>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default btn-sm" data-bs-dismiss="modal">Fermer</button>
-			</div>
+			<form action="" method="post">
+				<div class="modal-body">
+					<div class="mb-3">
+						<label for="titleEdit" class="form-label required">Titre</label>
+						<input type="text" name="titleEdit" class="form-control" id="titleEdit" minlength="2" maxlength="255" required>
+						<div class="invalid-feedback">
+							Le titre est obligatoire et ne peut dépasser 255 caractères
+						</div>
+					</div>
+					<div class="mb-3">
+						<label for="description" class="form-label">Description</label>
+						<textarea class="form-control" name="descriptionEdit" maxlength="1500" id="descriptionEdit"></textarea>
+						<div class="invalid-feedback">
+							La description ne peut dépasser 1500 caractères
+						</div>
+					</div>
+					<h5 class="h5 bg-light border py-1 text-center">Déplacer le marqueur</h5>
+					<div class="mb-3">
+						<label for="positionYEdit" class="form-label">Depuis le haut de l'image</label>
+						<input type="number" name="positionYEdit" step="0.01" class="form-control" id="positionYEdit"  required>
+						<div class="invalid-feedback">
+							Ce champ est obligatoire
+						</div>
+					</div>
+					<div class="mb-3">
+						<label for="positionXEdit" class="form-label">Depuis la gauche de l'image</label>
+						<input type="number" name="positionXEdit" step="0.01" class="form-control" id="positionXEdit"  required>
+						<div class="invalid-feedback">
+							Ce champ est obligatoire
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default btn-sm" data-bs-dismiss="modal">
+						<i class="fas fa-times fa-fw"></i>
+						Fermer
+					</button>
+					<button type="button" class="btn btn-success btn-sm" id="edit-btn">
+						<i class="fas fa-save fa-fw"></i>
+						Sauvegarder
+					</button>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>

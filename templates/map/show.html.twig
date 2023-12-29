@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Carte {{ map.title }} | {{ app_name }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/admin/map.css') }}">
+{% endblock %}
+
+{% block body %}
+    <header class="bg-default-light border-bottom">
+		<div class="pt-3 border-bottom container-fluid">
+			<div class="row align-items-center">
+				<div class="col-md-6">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_home') }}">Accueil</a>
+							</li>
+							<li class="breadcrumb-item">
+								<a href="{{ path('app_map_index') }}">Cartes</a>
+							</li>
+							<li class="breadcrumb-item active" aria-current="page">{{ map.title }}</li>
+						</ol>
+					</nav>
+				</div>
+				<div class="col-md-6">{{ include('includes/_search.html.twig', { route_name: 'app_map_index' }) }}</div>
+			</div>
+		</div>
+		<div class="item-heading position-relative">
+			<div class="p-2 position-absolute top-0" style="right:0px">
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('admin_app_map_edit', {id: map.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
+						<i class="fas fa-edit"></i>
+					</a>
+					<a href="{{ path('admin_app_map_show', {id: map.id}) }}" class="btn btn-outline-secondary btn-sm" title="gérer les lieux">
+						<i class="fas fa-map-marker-alt"></i>
+					</a>
+				{% endif %}
+			</div>
+			<p class="pt-4 pt-lg-0">
+                <div style="width:90%">
+                    {% for category in map.categories %}
+                        <a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1" data-bs-placement="bottom" data-bs-toggle="tooltip" title="{{ category.description ? category.description : 'Aucune description' }}">
+                            <i class="fas fa-folder me-1"></i>
+                            {{ category.title }}
+                        </a>
+                    {% endfor %}
+                    </div>
+                </p>
+
+			<h2 class="display-3 text-center mb-3">{{ map.title }}</h2>
+            <p class="lead text-center">
+                {{ map.description|nl2br }}
+            </p>
+
+            <aside class="my-1 text-center">
+                {% for portal in map.portals %}
+                    {{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show', position: 'bottom'}) }}
+                {% endfor %}
+            </aside>
+		</div>
+	</header>
+
+    <section class="my-5 px-4 container-fluid">
+        <h2 class="h4 my-4 text-center">Fichier de la carte "{{ map.title }}"</h2>
+        <div class="bg-light border align-items-center p-3 row m-0 mb-3 rounded-1">
+            <div class="col-md-8 h5 mb-0 text-default">
+                Cliquez sur un marqueur de la carte pour afficher les détails de ce lieu
+            </div>
+            <div class="col-md-4 text-center">
+                <a href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample" class="w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1">
+                    Index des lieux de la carte
+                </a>
+            </div>
+        </div>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+            <div class="offcanvas-header d-block">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h4 class="offcanvas-title d-flex" id="offcanvasExampleLabel">
+                        Lieux répertoriés sur la carte
+                    </h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <input type="text" class="form-control mt-2" placeholder="Filtrer" id="searchable-dropdown-input" value="">
+            </div>
+            <div class="offcanvas-body">
+                {% for position in map.mapPositions %}
+                    <div class="border p-2 mt-2 bg-light">
+                        <h5>
+                            {% if position.place is not null %}
+                                <a href="{{ path('app_place_show', {slug: position.place.slug}) }}" data-bs-toggle="tooltips" title="{{ position.place.title }}">
+                                    position.title
+                                </a>
+                            {% else %}
+                                {{ position.title }}
+                            {% endif %}
+                        </h5>
+                        <p>{{ position.description|nl2br }}</p>
+                    </div>
+                {% else %}
+                    <p class="fst-italic">Aucun lieu sur la carte</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        {% if map.image is not null %}
+            <div id="map-container">
+                <img src="{{ vich_uploader_asset(map.image) }}" class="img-thumbnail" alt="{{ map.image.title }}">
+                {% for position in map.mapPositions %}
+                    <div class="marker fas fa-map-marker"
+                        data-bs-toggle="popover" data-bs-title="{{ position.title }}" 
+                        data-bs-content="{{ position.description ? position.description : 'Aucune description' }}"
+                        style="color: {{ position.color ? position.color : '#000' }}; top: {{ position.points[0] }}%; left: {{ position.points[1] }}%">
+                    </div>
+                {% endfor %}
+            </div>
+            <p class="mb-0 text-center">
+                <a href="{{ path('admin_app_image_show', {id: map.image.id}) }}">{{ map.image.title }}</a>
+            </p>
+        {% endif %}
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
+        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
+    </script>
+{% endblock %}

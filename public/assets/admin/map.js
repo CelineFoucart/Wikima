@@ -1,3 +1,45 @@
+function dragElement(elmnt) {
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    if (document.getElementById(elmnt.id + "header")) {
+        // if present, the header is where you move the DIV from:
+        document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+    } else {
+        // otherwise, move the DIV from anywhere inside the DIV:
+        elmnt.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e) {
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+}
+
+const controller = new AbortController();
+const { signal } = controller;
+
 class MapMarker {
     container = null;
     coordinates = {
@@ -6,12 +48,11 @@ class MapMarker {
         offsetTop: null,
         offsetLeft: null
     }
-
     editModal = null;
     showModal = null;
-
     positionY = null;
     positionX = null;
+    newPosition = null;
 
     constructor(selector) {
         this.container = document.querySelector(selector);
@@ -59,9 +100,32 @@ class MapMarker {
             });
         });
     }
+
     addMarker(e) {
-        this.positionY = ((e.pageY - this.coordinates.offsetTop) * 100) / this.coordinates.height;
-        this.positionX = ((e.pageX - e.width - this.coordinates.offsetLeft)  * 100) / this.coordinates.width;
+        this.positionY = (((e.pageY - this.coordinates.offsetTop) * 100) / this.coordinates.height).toFixed(2);
+        this.positionX = (((e.pageX - e.width - this.coordinates.offsetLeft)  * 100) / this.coordinates.width).toFixed(2);
+
+        this.newPosition = document.createElement('div');
+        this.newPosition.classList = ('marker fas fa-map-marker');
+        this.newPosition.style.top = `${this.positionY}%`;
+        this.newPosition.style.left = `${this.positionX}%`;
+
+        const positionYInput = document.querySelector('#positionY');
+        const positionXInput = document.querySelector('#positionX');
+        positionYInput.value = this.positionY;
+        positionXInput.value = this.positionX;
+
+        positionYInput.addEventListener('input', (e) => {
+            this.positionY = positionYInput.value;
+            this.newPosition.style.top = `${this.positionY}%`;
+        }, { signal })
+
+        positionXInput.addEventListener('input', (e) => {
+            this.positionX = positionXInput.value;
+            this.newPosition.style.left = `${this.positionX}%`;
+        }, { signal })
+        
+        this.container.parentElement.appendChild(this.newPosition);
         document.querySelector('#title').value = "";
         document.querySelector('#description').value = "";
         this.editModal.show();
@@ -80,18 +144,15 @@ class MapMarker {
         data.points = [this.positionY, this.positionX];
 
         // Générer l'élément avec les informations
-        const newPosition = document.createElement('div');
-        newPosition.dataset.title=data.title;
-        newPosition.dataset.description=data.description;
-        newPosition.dataset.placeId=data.placeId;
-        newPosition.dataset.placeName=data.placeName;
-        newPosition.dataset.marker=data.marker;
-        newPosition.style.color = data.color;
-        newPosition.setAttribute('data-bs-toggle', 'tooltip');
-        newPosition.title = data.title;
-        newPosition.classList = ('marker ' + data.marker);
-        newPosition.style.top = `${this.positionY}%`;
-        newPosition.style.left = `${this.positionX}%`;
+        this.newPosition.dataset.title=data.title;
+        this.newPosition.dataset.description=data.description;
+        this.newPosition.dataset.placeId=data.placeId;
+        this.newPosition.dataset.placeName=data.placeName;
+        this.newPosition.dataset.marker=data.marker;
+        this.newPosition.style.color = data.color;
+        this.newPosition.setAttribute('data-bs-toggle', 'tooltip');
+        this.newPosition.title = data.title;
+        this.newPosition.classList = ('marker ' + data.marker);
 
         // faire la requête et ajouter l'élément sur la carte
         try {
@@ -103,15 +164,18 @@ class MapMarker {
             })
 
             if (response.ok) {
-                this.container.parentElement.appendChild(newPosition);
-                new bootstrap.Tooltip(newPosition);
-                newPosition.addEventListener('click', (e) => {
+                new bootstrap.Tooltip(this.newPosition);
+                this.newPosition.addEventListener('click', (e) => {
                     e.preventDefault();
                     this.openMarkerModal(e)
                 });
+
+                const position = await response.json();
+                this.newPosition.dataset.id = position.id;
     
                 toastify('success', "La position a été ajoutée");
                 this.editModal.hide();
+                controller.abort();
                 location.reload()
             } else {
                 toastify('error', "Le formulaire n'était pas valide.");
@@ -120,21 +184,98 @@ class MapMarker {
         } catch (error) {
             toastify('error', "Le formulaire n'était pas valide.");
         }
-
-        
     }
 
     openMarkerModal(e) {
-        document.querySelector('#pointer-icon').classList = e.target.dataset.icon;
-        document.querySelector('#pointer-title').innerHTML = e.target.dataset.title;
+        document.querySelector('#pointer-icon').classList = e.target.dataset.marker;
+        const elementId = e.target.dataset.id;
 
-        const description = e.target.dataset.description;
-        if (description !== null && description.length > 0) {
-            document.querySelector('#pointer-description').innerHTML = description;
-        } else {
-            document.querySelector('#pointer-description').innerHTML = "Aucune description";
-        }
+        const topInput =  document.querySelector('#positionYEdit');
+        const leftInput =  document.querySelector('#positionXEdit');
+        topInput.value = parseFloat(e.target.style.top).toFixed(2);
+        leftInput.value = parseFloat(e.target.style.left).toFixed(2);
+
+        topInput.addEventListener('input', () => {
+            e.target.style.top = `${topInput.value}%`;
+        }, { signal })
+
+        leftInput.addEventListener('input', () => {
+            e.target.style.left = `${leftInput.value}%`;
+        }, { signal });
+
+        const titleInput = document.querySelector('#titleEdit');
+        titleInput.value = e.target.dataset.title;
+
+        const descriptionInput = document.querySelector('#descriptionEdit');
+        descriptionInput.value = e.target.dataset.description;
+
+        descriptionInput.addEventListener('input', () => {
+            e.target.dataset.description = descriptionInput.value;
+        }, { signal });
+
+        titleInput.addEventListener('input', () => {
+            e.target.dataset.title = titleInput.value;
+            e.target.title = titleInput.value;
+            new bootstrap.Tooltip(e.target);
+        }, { signal });
+
         this.showModal.show();
+        document.querySelector('#edit-btn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            let error = false;
+
+            if (!titleInput.checkValidity()) {
+                titleInput.classList.add('is-invalid');
+                error = true;
+            } else {
+                titleInput.classList.remove('is-invalid');
+            }
+
+            if (!descriptionInput.checkValidity()) {
+                descriptionInput.classList.add('is-invalid');
+                error = true;
+            } else {
+                descriptionInput.classList.remove('is-invalid');
+            }
+
+            if (!topInput.checkValidity()) {
+                topInput.classList.add('is-invalid');
+                error = true;
+            } else {
+                topInput.classList.remove('is-invalid');
+            }
+
+            if (!leftInput.checkValidity()) {
+                leftInput.classList.add('is-invalid');
+                error = true;
+            } else {
+                leftInput.classList.remove('is-invalid');
+            }
+
+            if (error === true) {
+                return;
+            }
+            
+            const data = {
+                title: titleInput.value,
+                description: descriptionInput.value,
+                points: [topInput.value, leftInput.value]
+            }
+            
+            const response = await fetch(`/admin/api/map-position/${elementId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json;charset=utf-8'},
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                this.showModal.hide();
+                controller.abort();
+                location.reload();
+            } else {
+                toastify('error', "Le formulaire n'était pas valide.");
+            }
+        })
     }
 }
 
@@ -159,3 +300,6 @@ form.addEventListener('submit', async function (event) {
 
     btnIcon.classList = 'fas fa-save fa-fw';
 }, false)
+
+dragElement(document.getElementById("showModal"));
+dragElement(document.getElementById("editModal"));
