@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\MapPositionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: MapPositionRepository::class)]
 class MapPosition
@@ -12,18 +14,35 @@ class MapPosition
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['index'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3,max: 255)]
+    #[Groups(['index'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 1500, nullable: true)]
+    #[Assert\Length(min: 0, max: 1500)]
+    #[Groups(['index'])]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::JSON)]
+    #[Assert\NotBlank]
+    #[Groups(['index'])]
     private array $points = [];
 
+    #[ORM\Column(length: 30, nullable: true)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3,max: 30)]
+    #[Groups(['index'])]
+    private ?string $color = null;
+
     #[ORM\Column(length: 50, nullable: true)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3,max: 50)]
+    #[Groups(['index'])]
     private ?string $marker = null;
 
     #[ORM\ManyToOne(inversedBy: 'mapPositions')]
@@ -74,6 +93,18 @@ class MapPosition
         return $this;
     }
 
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): static
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
     public function getMarker(): ?string
     {
         return $this->marker;
@@ -108,5 +139,10 @@ class MapPosition
         $this->map = $map;
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->title ? $this->title : 'Position';
     }
 }

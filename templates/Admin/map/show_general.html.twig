@@ -1,5 +1,30 @@
 {% extends 'Admin/map/show_base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('assets/admin/map.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/colorpicker/coloris.min.css') }}">
+        <style>
+            .clr-field {
+                display: block;
+            }
+
+            .clr-picker {
+                z-index: 99999;
+            }
+
+            .clr-field button {
+                border-radius: 0 0.25rem 0.25rem 0;
+                cursor: pointer;
+            }
+
+            .required:after {
+                content: '*';
+                display: inline-block;
+            }
+        </style>
+{% endblock %}
+
 {% block show_tab %}
     <div class="row g-2">
         <div class="col-md-8">
@@ -118,7 +143,20 @@
                             </p>
                             {% if map.image is not null %}
                                 <div id="map-container">
-                                    <img src="{{ vich_uploader_asset(map.image) }}" class="img-thumbnail" alt="{{ map.image.title }}">
+                                    <img id="map" data-map="{{ map.id }}" src="{{ vich_uploader_asset(map.image) }}" class="img-thumbnail" alt="{{ map.image.title }}">
+                                
+                                    {% for position in map.mapPositions %}
+                                        <div data-title="{{ position.title }}"
+                                            data-description="{{ position.description }}"
+                                            data-placeId="{{ position.place ? position.place.id : '' }}"
+                                            data-placeName="{{ position.place ? position.place.name : '' }}"
+                                            data-marker="{{ position.marker ? position.marker : 'fas fa-map-marker' }}"
+                                            class="marker fas fa-map-marker"
+                                            title="{{ position.title }}"
+                                            data-bs-toggle="tooltip"
+                                            style="color: {{ position.color ? position.color : '#000' }}; top: {{ position.points[0] }}%; left: {{ position.points[1] }}%">
+                                        </div>
+                                    {% endfor %}
                                 </div>
                                 <p class="mb-0 text-center">
                                     <a href="{{ path('admin_app_image_show', {id: map.image.id}) }}">{{ map.image.title }}</a>
@@ -160,4 +198,13 @@
             </article>
         </div>
     </div>
+
+    {% include "Admin/map/modals/_position_form.html.twig" %}
+    {% include "Admin/map/modals/_position_show.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+        <script src="{{ asset('assets/colorpicker/coloris.min.js') }}"></script>
+		<script src="{{ asset('assets/admin/map.js') }}"></script>
 {% endblock %}

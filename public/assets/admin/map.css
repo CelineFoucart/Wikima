@@ -1,0 +1,13 @@
+/* map */
+#map-container {
+    position: relative;
+    overflow: hidden;
+}
+
+#map-container img {
+    width: 100%;
+}
+
+.marker {
+    position: absolute;
+}

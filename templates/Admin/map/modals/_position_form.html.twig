@@ -1,0 +1,59 @@
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="editModalLabel">Ajouter un emplacement</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+            <form action="" class="needs-validation" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="title" class="form-label required">Titre</label>
+                        <input type="text" name="title" class="form-control" id="title" maxlength="255" required>
+                        <div class="invalid-feedback">
+                            Le titre est obligatoire et ne peut dépasser 255 caractères
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="marker" class="form-label required">Icône</label>
+                        <input type="text" name="marker" class="form-control" maxlength="50" id="marker" value="fas fa-map-marker" required>
+                        <div class="form-text">
+                            Entrer les classes d'un icône <a href="https://fontawesome.com/v5/search?o=r&m=free" target="_blank">fontawesome</a>,
+                            par exemple pour <i class="fas fa-map-marker"></i>, <em>fas fa-map-marker</em>.
+                        </div>
+                        <div class="invalid-feedback">
+                            L'icône est obligatoire et ne peut dépasser 50 caractères
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="color" class="form-label">Couleur de l'icône</label>
+                        <input type="text" name="color" maxlength="30" class="form-control" id="color" value="#212529" required>
+                        <div class="invalid-feedback">
+                            La couleur est obligatoire et ne peut dépasser 30 caractères
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea class="form-control" name="description" maxlength="1500" id="description" rows="3"></textarea>
+                        <div class="invalid-feedback">
+                            La description ne peut dépasser 1500 caractères
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-sm" data-bs-dismiss="modal">
+                        <i class="fas fa-times fa-fw"></i>
+                        Annuler
+                    </button>
+                    <button type="submit" class="btn btn-success btn-sm" id="save-btn">
+                        <i class="fas fa-save fa-fw"></i>
+                        Sauvegarder
+                    </button>
+                </div>
+            </form>
+		</div>
+	</div>
+</div>
