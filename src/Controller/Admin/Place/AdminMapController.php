@@ -47,7 +47,19 @@ class AdminMapController extends AbstractAdminController
         if (0 !== $imageId) {
             $image = $imageRepository->find($imageId);
             if ($image) {
-                $map->setImage($image);
+                $map->setImage($image)
+                    ->setTitle($image->getTitle())
+                    ->setSlug($image->getSlug())
+                    ->setDescription($image->getDescription())
+                ;
+
+                foreach ($image->getCategories() as $category) {
+                    $map->addCategory($category);
+                }
+
+                foreach ($image->getPortals() as $portal) {
+                    $map->addPortal($portal);
+                }
             }
         }
 
