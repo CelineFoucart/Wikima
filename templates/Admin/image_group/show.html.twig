@@ -50,7 +50,19 @@
                             {% if image_group.portals is not empty %}
                                 <ul class="mb-0">
                                     {% for portal in image_group.portals %}
-                                        <li><a href="{{ path('app_portal_show', {slug: portal.slug}) }}">{{ portal }}</a></li>
+                                        <li><a href="{{ path('admin_app_portal_show', {id: portal.id}) }}">{{ portal }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Scénarios</th>
+                        <td>
+                            {% if image_group.scenarios is not empty %}
+                                <ul class="mb-0">
+                                    {% for scenario in image_group.scenarios %}
+                                        <li><a href="{{ path('admin_app_scenario_show', {id: scenario.id}) }}">{{ scenario }}</a></li>
                                     {% endfor %}
                                 </ul>
                             {% endif %}
