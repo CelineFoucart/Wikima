@@ -1,7 +1,12 @@
 {{ form_start(form) }}
     <div class="card border-top-primary">
         <div class="card-header">
-            <h2 class="card-title h5 mb-0">Carte</h2>
+            <h2 class="card-title h5 mb-0">
+                Carte
+                {% if map.image is not null %}
+                    à partir de l'image <a href="{{ path('admin_app_image_show', {id: map.image.id}) }}">{{ map.image }}</a>
+                {% endif %}
+            </h2>
         </div>
         <div class="card-body">
             <div class="row">

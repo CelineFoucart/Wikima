@@ -89,6 +89,25 @@
                                 </td>
                             </tr>
                             <tr>
+                                <th>Cartes</th>
+                                <td>
+                                    <div class="float-end">
+                                        <a href="{{ path('admin_app_map_create', {image:image.id}) }}" class="btn btn-default btn-sm" title="créer une carte à partir">
+                                            <i class="fas fa-map"></i>
+                                        </a>
+                                    </div>
+                                    {% if image.maps is not empty %}
+                                        <ul class="mb-0">
+                                            {% for map in image.map %}
+                                                <li><a href="{{ path('admin_app_map_show', {id: map.id}) }}">{{ map }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% else %}
+                                        <span class="fst-italic">Aucune carte</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>Mise à jour</th>
                                 <td>{{ image.updatedAt ? image.updatedAt|date(date_format) : '' }}</td>
                             </tr>

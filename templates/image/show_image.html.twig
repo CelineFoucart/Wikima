@@ -36,6 +36,9 @@
 					<a href="{{ path('admin_app_image_edit', {id:image.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
 						<i class="fas fa-pencil-alt"></i>
 					</a>
+					<a href="{{ path('admin_app_map_create', {image:image.id}) }}" class="btn btn-outline-secondary btn-sm" title="créer une carte à partir">
+						<i class="fas fa-map"></i>
+					</a>
 				</div>
 			{% endif %}
 			<h2 class="h1">
@@ -145,6 +148,21 @@
 											<a href="{{ path('app_place_show', {slug: place.slug }) }}" class="text-decoration-none">
 												<i class="fas fa-building me-1"></i>
 												{{ place.title }}
+											</a>
+										</li>
+									{% endfor %}
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<th>Cartes</th>
+							<td>
+								<ul class="list-unstyled">
+									{% for map in image.maps %}
+										<li>
+											<a href="{{ path('app_map_show', {slug: map.slug }) }}" class="text-decoration-none">
+												<i class="fas fa-map me-1"></i>
+												{{ map.title }}
 											</a>
 										</li>
 									{% endfor %}

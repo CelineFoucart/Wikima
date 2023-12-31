@@ -37,9 +37,20 @@ class AdminMapController extends AbstractAdminController
     }
 
     #[Route('/create', name: 'admin_app_map_create', methods:['GET', 'POST'])]
-    public function createAction(Request $request): Response
+    public function createAction(Request $request, ImageRepository $imageRepository): Response
     {
         $map = new Map();
+
+        $imageId = $request->query->getInt('image');
+        $image = null;
+        
+        if (0 !== $imageId) {
+            $image = $imageRepository->find($imageId);
+            if ($image) {
+                $map->setImage($image);
+            }
+        }
+
         $form = $this->createForm(MapFormType::class, $map);
         $form->handleRequest($request);
         
@@ -53,6 +64,7 @@ class AdminMapController extends AbstractAdminController
 
         return $this->render('Admin/map/create.html.twig', [
             'form' => $form,
+            'map' => $map,
         ]);
     }
 
