@@ -169,6 +169,36 @@
 			</section>
 		{% endif %}
 
+		{% if portal.maps is not empty %}
+			<section class="pt-1 px-4">
+				<h2 class="content-title-section">
+					Les cartes du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
+					<a class="text-white float-end" data-bs-toggle="collapse"  href="#collapseMaps" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+						<i class="fas fa-eye"></i>
+					</a>
+				</h2>
+				<div class="collapse show" id="collapseMaps">
+					{% set total = portal.maps|length %}
+					{% set plural = total > 1 ? 's' : '' %}
+
+					<p class="mb-2 p-2">
+						<span class="fw-bold">{{ total }}</span>
+						carte{{ plural }}
+						trouvée{{ plural }}.
+					</p>
+
+					<div class="row p-2 pb-5">
+						{% for map in portal.maps %}
+							<div class="col-md-6 col-lg-4 mb-2">
+								{% include 'map/_map_card.html.twig' %}
+							</div>
+						{% else %}
+							<div class="col-12 text-center text-muted">Aucune carte n'a été trouvée</div>
+						{% endfor %}
+					</div>
+				</div>
+			</section>
+		{% endif %}
 
 		{% if enable_idiom == 1 and portal.idioms is not empty %}
 			<section class="pt-1 py-5 px-4">

@@ -79,6 +79,29 @@
 			</section>
 		</div>
 
+		{% if category.maps is not empty %}
+			<section class="pt-0">
+				<h2 class="content-title-section">
+					Explorer les cartes de &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
+					<a class="text-white float-end" data-bs-toggle="collapse"  href="#collapseMaps" role="button" aria-expanded="true" aria-controls="collapsePresentation">
+						<i class="fas fa-eye"></i>
+					</a>
+				</h2>
+				<div class="collapse show" id="collapseMaps">
+					<h3 class="h5 mb-3 text-center text-default fw-bold"><i class="fas fa-map"></i> Cartes de cette catégorie</h3>
+					<div class="row g-2">
+						{% for map in category.maps %}
+							<div class="col-md-6 col-lg-4 mb-2">
+								{% include 'map/_map_card.html.twig' %}
+							</div>
+						{% else %}
+							<div class="col-12 text-center text-muted">Aucune carte n'a été trouvée</div>
+						{% endfor %}
+					</div>
+				</div>
+			</section>
+		{% endif %}
+
 		<div class="pt-0">
 			{% if category.timelines is not empty %}
 				<h2 class="content-title-section mb-4">
