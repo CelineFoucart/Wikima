@@ -43,6 +43,8 @@ class ScenarioRepository extends ServiceEntityRepository
             $query->andWhere('s.public = 1');
         }
 
+        $query->andWhere('(s.archived != :isArchived OR s.archived IS NULL)')->setParameter('isArchived', true);
+
         return $this->paginatorService->setLimit($limit)->paginate($query, $searchData->getPage());
     }
 
@@ -56,5 +58,18 @@ class ScenarioRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    public function findForAdminList(bool $isArchived = false): array
+    {
+        $builder = $this->createQueryBuilder('s')
+            ->andWhere('s.archived = :isArchived')
+            ->setParameter('isArchived', $isArchived);
+        
+        if (!$isArchived) {
+            $builder->orWhere('s.archived IS NULL');
+        }
+
+        return $builder->getQuery()->getResult();
     }
 }

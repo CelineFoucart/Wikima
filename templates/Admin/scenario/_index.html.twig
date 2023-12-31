@@ -1,0 +1,49 @@
+<div class="card border-top-primary">
+    <div class="card-body p-1">
+        <table class="table data-table mb-0 table-striped">
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Slug</th>
+                    <th>Public</th>
+                    <th>Création</th>
+                    <th>Mise à jour</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for scenario in scenarios %}
+                    <tr>
+                        <td data-label="Titre">{{ scenario.title }}</td>
+                        <td data-label="Slug">{{ scenario.slug }}</td>
+                        <td data-label="Public">{{ scenario.public ? 'Oui' : 'Non' }}</td>
+                        <td data-label="Création" data-sort="{{ scenario.createdAt ? scenario.createdAt|date('Y-m-d H:i') : '' }}">
+                            {{ scenario.createdAt ? scenario.createdAt|date(date_format) : '' }}
+                        </td>
+                        <td data-label="Mise à jour" data-sort="{{ scenario.updatedAt ? scenario.updatedAt|date('Y-m-d H:i') : '' }}">
+                            {{ scenario.updatedAt ? scenario.updatedAt|date(date_format) : '' }}
+                        </td>
+                        <td data-label="Actions">
+                            <div class="btn-group">   
+                                <a href="{{ path('app_scenario_show', {slug: scenario.slug}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Consulter">
+                                    <i class="fas fa-book-reader"></i>
+                                </a>        
+                                <a href="{{ path('admin_app_scenario_show', {id: scenario.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
+                                    <i class="fas fa-info-circle"></i>
+                                </a>
+                                <a href="{{ path('admin_app_scenario_episode', {id: scenario.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Episodes">
+                                    <i class="fas fa-copy"></i>
+                                </a>
+                                <a href="{{ path('admin_app_scenario_edit', {id: scenario.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                </a>
+                                {% include "Admin/components/_archive_modal.html.twig" with { element: scenario, path: 'admin_app_scenario_archive' } %}
+                                {% include "Admin/components/_delete_modal.html.twig" with { element: scenario, path: 'admin_app_scenario_delete' } %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -2,21 +2,18 @@
 
 namespace App\Controller\Admin\Scenario;
 
+use App\Controller\Admin\AbstractAdminController;
 use App\Entity\Episode;
 use App\Entity\Scenario;
-use App\Form\Admin\EpisodeType;
-use App\Form\Admin\ScenarioType;
 use App\Form\Admin\EpisodeShortType;
-use App\Repository\EpisodeRepository;
-use App\Repository\ScenarioRepository;
 use App\Form\Admin\ScenarioEpisodeType;
+use App\Form\Admin\ScenarioType;
+use App\Repository\ScenarioRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
-use App\Controller\Admin\AbstractAdminController;
-use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/scenario')]
@@ -36,7 +33,15 @@ class ScenarioController extends AbstractAdminController
     public function list(ScenarioRepository $scenarioRepository): Response
     {
         return $this->render('Admin/scenario/list.html.twig', [
-            'scenarios' => $scenarioRepository->findAll(),
+            'scenarios' => $scenarioRepository->findForAdminList(false),
+        ]);
+    }
+
+    #[Route('/archive', name: 'admin_app_scenario_archive_index', methods: ['GET'])]
+    public function archiveIndexAction(ScenarioRepository $scenarioRepository): Response
+    {
+        return $this->render('Admin/scenario/archive.html.twig', [
+            'scenarios' => $scenarioRepository->findForAdminList(true),
         ]);
     }
 
@@ -77,8 +82,8 @@ class ScenarioController extends AbstractAdminController
         $episode = (new Episode())->setScenario($scenario);
         $form = $this->createForm(EpisodeShortType::class, $episode);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $episode->setCreatedAt(new \DateTimeImmutable());
             $lastSection = $scenario->getEpisodes()->last();
             if ($lastSection instanceof Episode) {
@@ -96,11 +101,11 @@ class ScenarioController extends AbstractAdminController
 
         $formCollection = $this->createForm(ScenarioEpisodeType::class, $scenario);
         $formCollection->handleRequest($request);
-        
-        if ($formCollection->isSubmitted() && $formCollection->isValid()) { 
+
+        if ($formCollection->isSubmitted() && $formCollection->isValid()) {
             $this->entityManager->persist($scenario);
             $this->entityManager->flush();
-            $this->addFlash('success', "Les modifications ont bien été enregistrées.");
+            $this->addFlash('success', 'Les modifications ont bien été enregistrées.');
 
             return $this->redirectToRoute('admin_app_scenario_episode', ['id' => $scenario->getId()]);
         }
@@ -147,5 +152,19 @@ class ScenarioController extends AbstractAdminController
         return $this->redirectToRoute('admin_app_scenario_list', [], Response::HTTP_SEE_OTHER);
     }
 
-    
+    #[Route('/{id}/archive', name: 'admin_app_scenario_archive', methods: ['POST'])]
+    public function archiveAction(Request $request, Scenario $scenario): Response
+    {
+        if ($this->isCsrfTokenValid('archive'.$scenario->getId(), $request->request->get('_token'))) {
+            $isArchived = (bool) $scenario->isArchived();
+            $message = $isArchived ? 'désarchivée' : 'archivée';
+            $scenario->setArchived(!$isArchived);
+            $this->entityManager->persist($scenario);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', "Le scénario a été {$message} avec succès.");
+        }
+
+        return $this->redirectToRoute('admin_app_scenario_list', [], Response::HTTP_SEE_OTHER);
+    }
 }

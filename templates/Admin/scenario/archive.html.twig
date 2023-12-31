@@ -1,0 +1,18 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Liste des scénarios{% endblock %}
+{% block activeScenario %}active show{% endblock %}
+{% block activeScenarioList %} active {% endblock %}
+{% block page_title %}Scénarios{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item active">Scénarios archivés</li>
+{% endblock %}
+
+{% block toolbar %}
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'scenario', entity: null } %}
+{% endblock %}
+
+{% block body %}
+    {% include "Admin/scenario/_index.html.twig" %}
+{% endblock %}

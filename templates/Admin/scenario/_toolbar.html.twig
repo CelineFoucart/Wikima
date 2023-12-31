@@ -4,4 +4,8 @@
             <i class="fas fa-copy"></i>
         </a>
     {% endblock %}
+    {% block delete_action %}
+        {% include "Admin/components/_archive_modal.html.twig" with { element: scenario, path: 'admin_app_scenario_archive' } %}
+        {{ parent() }}
+    {% endblock %}
 {% endembed %}
