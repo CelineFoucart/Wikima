@@ -251,7 +251,7 @@
 								<a href="#personality" class="text-dark">Personnalité</a>
 							</li>
 						{% endif %}
-						{% if person.comment %}
+						{% if person.comment or person.scenarios|length > 0 %}
 							<li class="fs-6">
 								<a href="#comment" class="text-dark">Informations complémentaires</a>
 							</li>
