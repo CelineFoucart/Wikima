@@ -45,6 +45,7 @@ class Map
     private Collection $portals;
 
     #[ORM\OneToMany(mappedBy: 'map', targetEntity: MapPosition::class, orphanRemoval: true)]
+    #[ORM\OrderBy(['title' => 'ASC'])]
     private Collection $mapPositions;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'maps')]

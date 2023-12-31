@@ -44,4 +44,7 @@ window.onload = () => {
 
     // Enable search input in navbar
     searchInput('#searchable-dropdown-input', '#searchable-dropdown');
+
+    // Enable search input in map show
+    searchInput('#search-positions-input', '#positions-container');
 }

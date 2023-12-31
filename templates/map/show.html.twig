@@ -82,15 +82,15 @@
                     </h4>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-                <input type="text" class="form-control mt-2" placeholder="Filtrer" id="searchable-dropdown-input" value="">
+                <input type="text" class="form-control mt-2" placeholder="Filtrer" id="search-positions-input" value="">
             </div>
-            <div class="offcanvas-body">
+            <div class="offcanvas-body" id="positions-container">
                 {% for position in map.mapPositions %}
-                    <div class="border p-2 mt-2 bg-light">
+                    <div class="border p-2 mt-2 bg-light search-item">
                         <h5>
                             {% if position.place is not null %}
-                                <a href="{{ path('app_place_show', {slug: position.place.slug}) }}" data-bs-toggle="tooltips" title="{{ position.place.title }}">
-                                    position.title
+                                <a href="{{ path('app_place_show', {slug: position.place.slug}) }}" data-bs-toggle="tooltip" title="{{ position.place.title }}">
+                                    {{ position.title }}
                                 </a>
                             {% else %}
                                 {{ position.title }}
