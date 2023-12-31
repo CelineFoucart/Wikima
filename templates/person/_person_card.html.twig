@@ -1,6 +1,10 @@
 {% if disable_type is not defined %}
 	{% set disable_type = false %}
 {% endif %}
+{% if with_association is not defined %}
+	{% set with_association = true %}
+{% endif %}
+
 <div class="about-block">
 	<div class="about-title px-1 bg-light border"> 
 	{% if disable_type  == false %}
@@ -17,16 +21,18 @@
 				{{ person.firstname }} {{ person.lastname }}
 			</a>
 		</p>
-		<div>
-			<i class="fas fa-tag small me-1"></i>
-			{% for portal in person.portals %}
-				<span class="person-label small">
-					{{ portal.title }}
-				</span>
-			{% else %}
-				<span>Aucun portail</span>
-			{% endfor %}
-		</div>
+		{% if with_association %}
+			<div>
+				<i class="fas fa-tag small me-1"></i>
+				{% for portal in person.portals %}
+					<span class="person-label small">
+						{{ portal.title }}
+					</span>
+				{% else %}
+					<span>Aucun portail</span>
+				{% endfor %}
+			</div>
+		{% endif %}
 	</div>
 	<div class="about-card">
 		<div class="content-card">

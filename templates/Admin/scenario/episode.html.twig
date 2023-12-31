@@ -11,8 +11,14 @@
     <div class="col-6">
         {% if scenario.comment %}
             <button href="#" class="btn btn-sm btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseComment" aria-expanded="false" aria-controls="collapseComment">
-                Commentaires
+                <i class="fas fa-comment" aria-hidden="true"></i> Commentaires
             </button>
+        {% endif %}
+        <a href="{{ path('admin_app_scenario_episode_archives', {id: scenario.id}) }}" class="btn btn-primary btn-sm">
+            <i class="fas fa-archive" aria-hidden="true"></i>
+            Archives
+        </a>
+        {% if scenario.comment %}
             <div class="collapse" id="collapseComment">
                 <div class="card card-body mt-3">
                     {{ scenario.comment|nl2br }}

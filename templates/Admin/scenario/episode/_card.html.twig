@@ -1,4 +1,8 @@
-<div class="col-md-4 col-lg-3 handle" id="{{ episode.id }}">
+{% if with_edit is not defined %}
+    {% set with_edit = true %}
+{% endif %}
+
+<div class="col-md-4 col-lg-3 {{ with_edit ? 'handle' : '' }}" id="{{ episode.id }}">
     {% set color = episode.color ? episode.color : 'rgba(0,0,0,.125)' %}
     <div class="card h-100" style="border-color: {{ color }}">
         <div class="card-body">
@@ -26,12 +30,17 @@
                 <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#contentModal{{ episode.id }}">
                     <i class="fas fa-eye"></i>
                 </a>
+                {% if with_edit == true %}
                 <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#showModal{{ episode.id }}">
                     <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                 </a>
+                {% endif %}
+                
                 <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Formulaire complet">
                     <i class="fas fa-file-alt" aria-hidden="true"></i>
                 </a>
+                
+                {% include "Admin/components/_archive_modal.html.twig" with { element: episode, path: 'admin_app_episode_archive' } %}
                 {% include "Admin/components/_delete_modal.html.twig" with { element: episode, path: 'admin_app_episode_delete' } %}
             </div>
         </div>

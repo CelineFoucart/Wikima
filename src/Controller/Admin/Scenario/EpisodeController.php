@@ -28,6 +28,15 @@ class EpisodeController extends AbstractController
     public function create(Scenario $scenario, Request $request): Response
     {
         $episode = (new Episode())->setScenario($scenario);
+
+        foreach ($scenario->getPersons() as $person) {
+            $episode->addPerson($person);
+        }
+
+        foreach ($scenario->getPlaces() as $place) {
+            $episode->addPlace($place);
+        }
+
         $form = $this->createForm(EpisodeType::class, $episode);
         $form->handleRequest($request);
 
@@ -84,5 +93,21 @@ class EpisodeController extends AbstractController
         }
 
         return $this->redirectToRoute('admin_app_scenario_episode', ['id' => $scenarioId], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/archive', name: 'admin_app_episode_archive', methods: ['POST'])]
+    public function archiveAction(Request $request, Episode $episode): Response
+    {
+        if ($this->isCsrfTokenValid('archive'.$episode->getId(), $request->request->get('_token'))) {
+            $isArchived = (bool) $episode->isArchived();
+            $message = $isArchived ? 'désarchivé' : 'archivé';
+            $episode->setArchived(!$isArchived);
+            $this->entityManager->persist($episode);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', "L'épisode a été {$message} avec succès.");
+        }
+
+        return $this->redirectToRoute('admin_app_scenario_episode', ['id' => $episode->getScenario()->getId()], Response::HTTP_SEE_OTHER);
     }
 }

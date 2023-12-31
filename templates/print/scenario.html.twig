@@ -34,22 +34,24 @@
 		</p>
 
 		{% for episode in scenario.episodes %}
-			<section>
-				<h2>{{ episode.title }}</h2>
-				{% if episode.persons|length > 0 %}
-					<div>
-						<span class="fw-bold">Personnages associés :</span>
-						{{ episode.persons|map(p => p)|join(', ') }}
-					</div>
-				{% endif %}
-				{% if episode.places|length > 0 %}
-					<div>
-						<span class="fw-bold">Lieux associés :</span>
-						{{ episode.places|map(p => p)|join(', ') }}
-					</div>
-				{% endif %}
-				<div>{{ episode.content|raw }}</div>
-			</section>
+			{% if episode.archived != true %}
+				<section>
+					<h2>{{ episode.title }}</h2>
+					{% if episode.persons|length > 0 %}
+						<div>
+							<span class="fw-bold">Personnages associés :</span>
+							{{ episode.persons|map(p => p)|join(', ') }}
+						</div>
+					{% endif %}
+					{% if episode.places|length > 0 %}
+						<div>
+							<span class="fw-bold">Lieux associés :</span>
+							{{ episode.places|map(p => p)|join(', ') }}
+						</div>
+					{% endif %}
+					<div>{{ episode.content|raw }}</div>
+				</section>
+			{% endif %}
 		{% endfor %}
     </article>
 {% endblock %}

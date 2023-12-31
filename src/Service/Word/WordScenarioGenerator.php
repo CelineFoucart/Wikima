@@ -96,6 +96,10 @@ final class WordScenarioGenerator extends AbstractWordGenerator
     private function appendEpisodes(Section $section): static
     {
         foreach ($this->scenario->getEpisodes() as $episode) {
+            if ((bool) $episode->isArchived() === true) {
+                continue;
+            }
+
             $section->addTitle($episode->getTitle(), 1);
 
             if (!$episode->getPersons()->isEmpty()) {

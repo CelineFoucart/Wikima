@@ -2,18 +2,19 @@
 
 namespace App\Controller\Admin\Scenario;
 
-use App\Controller\Admin\AbstractAdminController;
 use App\Entity\Episode;
 use App\Entity\Scenario;
-use App\Form\Admin\EpisodeShortType;
-use App\Form\Admin\ScenarioEpisodeType;
 use App\Form\Admin\ScenarioType;
+use App\Form\Admin\EpisodeShortType;
 use App\Repository\ScenarioRepository;
+use App\Form\Admin\ScenarioEpisodeType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use App\Controller\Admin\AbstractAdminController;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/scenario')]
@@ -77,9 +78,18 @@ class ScenarioController extends AbstractAdminController
     }
 
     #[Route('/{id}/episodes', name: 'admin_app_scenario_episode', methods: ['GET', 'POST'])]
-    public function episode(Scenario $scenario, Request $request): Response
+    public function episode(#[MapEntity(expr: 'repository.findById(id)')] Scenario $scenario, Request $request): Response
     {
         $episode = (new Episode())->setScenario($scenario);
+
+        foreach ($scenario->getPersons() as $person) {
+            $episode->addPerson($person);
+        }
+
+        foreach ($scenario->getPlaces() as $place) {
+            $episode->addPlace($place);
+        }
+
         $form = $this->createForm(EpisodeShortType::class, $episode);
         $form->handleRequest($request);
 
@@ -116,6 +126,15 @@ class ScenarioController extends AbstractAdminController
             'form' => $form,
             'episode' => $episode,
             'formCollection' => $formCollection,
+        ]);
+    }
+
+    #[Route('/{id}/archives', name: 'admin_app_scenario_episode_archives', methods: ['GET'])]
+    public function episodeArchives(Scenario $scenario): Response
+    {
+        return $this->render('Admin/scenario/episode_archives.html.twig', [
+            'scenario' => $scenario,
+            'episode_active' => true,
         ]);
     }
 
@@ -157,7 +176,7 @@ class ScenarioController extends AbstractAdminController
     {
         if ($this->isCsrfTokenValid('archive'.$scenario->getId(), $request->request->get('_token'))) {
             $isArchived = (bool) $scenario->isArchived();
-            $message = $isArchived ? 'désarchivée' : 'archivée';
+            $message = $isArchived ? 'désarchivé' : 'archivé';
             $scenario->setArchived(!$isArchived);
             $this->entityManager->persist($scenario);
             $this->entityManager->flush();

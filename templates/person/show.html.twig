@@ -281,13 +281,27 @@
 			</div>
 		{% endif %}
 
-		{% if person.comment %}
-			<div id="comment" class="article-content">
+		{% if person.comment or person.scenarios|length > 0 %}
+			<div id="comment" class="article-content mb-3">
 				<h2 class="h2 pb-1 overflow-hidden">
 					Informations complémentaires
 					<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
 				</h2>
-				{{ person.comment|raw }}
+				
+				{% if person.comment %}
+					<h3 class="h4">Commentaires</h3>
+					{{ person.comment|raw }}
+				{% endif %}
+
+				<h3 class="h4">Scénarios</h3>
+				{% for scenario in person.scenarios %}
+					<div class="mb-2 bg-light border p-2">
+						<p class="fw-bold mb-0"><a href="{{ path('app_scenario_show', {slug: scenario.slug})}}">{{ scenario }}</a></p>
+						<div>{{ scenario.comment|raw }}</div>
+					</div>
+				{% else %}
+					<div class="fst-italic">Aucun scénario</div>
+				{% endfor %}
 			</div>
 		{% endif %}
 	</section>

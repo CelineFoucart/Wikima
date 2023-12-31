@@ -1,0 +1,26 @@
+{% extends 'Admin/scenario/show_base.html.twig' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-8">
+            <h3 class="mb-3 h4">
+                <i class="fas fa-archive" aria-hidden="true"></i> Archivés
+            </h3>
+        </div>
+        <div class="col-4 text-end">
+            <a href="{{ path('admin_app_scenario_episode', {id: scenario.id}) }}" class="btn btn-primary btn-sm">
+                <i class="fas fa-arrow-left"></i>
+                Retour
+            </a>
+        </div>
+    </div>
+    <div class="row g-2" id="episodes">
+        {% for episode in scenario.episodes %}
+            {% if episode.archived == true %}
+                {% include "Admin/scenario/episode/_card.html.twig" with {episode: episode, with_edit: false } %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% endblock %}
+
+

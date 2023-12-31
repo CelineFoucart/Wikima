@@ -52,9 +52,32 @@ class ScenarioRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('s')
             ->leftJoin('s.episodes', 'e')->addSelect('e')
+            ->leftJoin('s.persons', 'p')->addSelect('p')
+            ->leftJoin('e.persons', 'pe')->addSelect('pe')
+            ->leftJoin('s.places', 'pl')->addSelect('pl')
+            ->leftJoin('e.places', 'ple')->addSelect('ple')
             ->orderBy('e.position', 'ASC')
             ->andWhere('s.id = :id')
             ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function findBySlug(string $slug): ?Scenario
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.episodes', 'e')->addSelect('e')
+            ->leftJoin('s.persons', 'p')->addSelect('p')
+            ->leftJoin('e.persons', 'pe')->addSelect('pe')
+            ->leftJoin('s.places', 'pl')->addSelect('pl')
+            ->leftJoin('e.places', 'ple')->addSelect('ple')
+            ->leftJoin('s.timelines', 't')->addSelect('t')
+            ->leftJoin('s.categories', 'c')->addSelect('c')
+            ->leftJoin('s.portals', 'pt')->addSelect('pt')
+            ->orderBy('e.position', 'ASC')
+            ->andWhere('s.slug = :slug')
+            ->setParameter('slug', $slug)
             ->getQuery()
             ->getOneOrNullResult()
         ;
