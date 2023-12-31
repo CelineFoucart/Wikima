@@ -1,0 +1,40 @@
+{% if with_association is not defined %}
+	{% set with_association = true %}
+{% endif %}
+
+<div class="about-block lh-base">
+    <div class="about-title px-1 bg-light border">
+        <p class="mb-0">
+            <a href="{{ path('app_map_show', {slug: map.slug}) }}" class="text-decoration-none text-reset stretched-link fs-5">
+                {{ map }}
+            </a>
+        </p>
+        {% if with_association %}
+			<div>
+				<i class="fas fa-tag small me-1"></i>
+				{% for portal in map.portals %}
+					<span class="person-label small">{{ portal }}</span>
+				{% else %}
+					<span class="small">Aucun portail</span>
+				{% endfor %}
+			</div>
+		{% endif %}
+    </div>
+
+    <div class="about-card">
+		<div class="content-card">
+			{% if map.image %}
+				<img src="{{ vich_uploader_asset(map.image)|imagine_filter('card_image') }}" alt="{{ map.image.title }}" class="about-img">
+			{% endif %}
+
+			<div class="about-content-card">
+				<h3 class="h6 mb-0">{{ map }}</h3>
+				{% if map.description %}
+					<p>{{ map.description|striptags|raw|u.truncate(100, '...', false)|raw }}</p>
+				{% else %}
+					<p>Aucune description disponible pour cette carte.</p>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+</div>

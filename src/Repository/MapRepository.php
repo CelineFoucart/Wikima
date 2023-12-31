@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Map;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Data\SearchData;
+use App\Service\PaginatorService;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Map>
@@ -16,7 +19,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class MapRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry, private PaginatorService $paginatorService)
     {
         parent::__construct($registry, Map::class);
     }
@@ -38,29 +41,31 @@ class MapRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    
+    public function searchPaginated(SearchData $search, int $limit = 20): PaginationInterface
+    {
+        $builder = $this->createQueryBuilder('m')
+            ->leftJoin('m.portals', 'p')
+            ->leftJoin('m.categories', 'c');
 
-//    /**
-//     * @return Map[] Returns an array of Map objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+        if (strlen($search->getQuery()) >= 3 and null !== $search->getQuery()) {
+            $builder ->andWhere('m.title LIKE :q')->setParameter('q', '%'.$search->getQuery().'%');
+        }
 
-//    public function findOneBySomeField($value): ?Map
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        if (!empty($search->getPortals())) {
+            $builder
+                ->andWhere('p.id IN (:portals)')
+                ->setParameter('portals', $search->getPortals())
+            ;
+        }
+
+        if (!empty($search->getCategories())) {
+            $builder
+                ->andWhere('c.id IN (:categories)')
+                ->setParameter('categories', $search->getCategories())
+            ;
+        }
+        
+        return $this->paginatorService->setLimit($limit)->paginate($builder, $search->getPage());
+    }
 }

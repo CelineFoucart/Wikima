@@ -1,20 +1,82 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello MapController!{% endblock %}
+{% block title %}
+	Index des cartes
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <article class="mb-5 container-fluid">
+		<header class="mb-4">
+            <div class="row border-bottom align-items-center py-3 bg-default-light">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('app_home') }}">Accueil</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Cartes</li>
+                    </ol>
+                </nav>
+            </div>
+        </header>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <h2 class="text-center list-title">
+			Index des cartes
+		</h2>
+		<p class="text-center text-muted fs-5 mb-5">
+			Ici, vous pouvez voir l'ensemble des cartes de {{ app_name }} ou les filtrer.
+		</p>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'D:/Projets/Wikima-1.1.0/src/Controller/MapController.php'|file_link(0) }}">src/Controller/MapController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'D:/Projets/Wikima-1.1.0/templates/map/index.html.twig'|file_link(0) }}">templates/map/index.html.twig</a></code></li>
-    </ul>
-</div>
+        <div class="row justify-content-between my-5">
+            <aside class="col-md-4">
+				{% include "components/layout/_advance_search_form.html.twig" with {form: form, index_path: 'app_map_index'} only %}
+			</aside>
+
+            <section class="col-md-8">
+				<h3 class="lead mb-2 mt-0 fs-4 mb-3">
+					{% set current = maps|length %}
+					Affichage de <span class="fw-bold">{{ current }}</span>
+					sur <span class="fw-bold">{{ maps.getTotalItemCount }}</span>
+					carte{{ maps.getTotalItemCount > 1 ? 's' : '' }}.
+				</h3>
+				<div class="row">
+					{% for map in maps %}
+						<div class="col-md-6 my-2">
+                            {% include 'map/_map_card.html.twig' %}
+						</div>
+					{% else %}
+						<div class="col-12">
+							<p class="alert alert-danger">Votre recherche n'a donné aucun résultat</p>
+						</div>
+					{% endfor %}
+                </div>
+
+				<div class="navigation">
+					{{ knp_pagination_render(maps) }}
+				</div>
+			</section>
+        </div>
+    </article>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
+	<script>
+		elements = document.querySelectorAll('[data-choices]');
+		elements.forEach(element => {
+			const choices = new Choices(element, {
+				removeItems: true,
+				removeItemButton: true,
+				allowHTML: false,
+				noResultsText: 'Aucun résultat',
+				noChoicesText: 'Aucun élément à choisir',
+				itemSelectText: 'Cliquez pour choisir'
+			});
+		});
+
+		document.querySelectorAll('[name="search_terms"]').forEach(element => {
+			element.removeAttribute('name');
+		});
+	</script>
 {% endblock %}
