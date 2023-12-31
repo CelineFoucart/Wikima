@@ -1,4 +1,9 @@
 {% embed 'Admin/components/_toolbar.html.twig' with { prefix: 'person', entity: person, show_route: 'app_person_show'  } %}
+    {% block custom_action %}
+        <a data-bs-toggle="tooltip" title="Gérer l'image" class="btn btn-sm btn-default"  href="{{ path('admin_app_person_image', {id: person.id}) }}">
+            <i class="fas fa-image"></i>
+        </a>
+    {% endblock %}
     {% block delete_action %}
         {% include "Admin/components/_archive_modal.html.twig" with { element: person, path: 'admin_app_person_archive' } %}
         {{ parent() }}
