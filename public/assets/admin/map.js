@@ -189,6 +189,24 @@ class MapMarker {
     openMarkerModal(e) {
         document.querySelector('#pointer-icon').classList = e.target.dataset.marker;
         const elementId = e.target.dataset.id;
+        const editLink = `/admin/map-position/${elementId}/edit`;
+
+        document.querySelector('#advanced-edit-btn').href = editLink;
+        const placeContainer = document.querySelector('#place-linked');
+        let place = '';
+
+        if (e.target.dataset.placeid && e.target.dataset.placename) {
+            place = `<a href="/admin/place/${e.target.dataset.placeid}/show">${e.target.dataset.placename}</a>`;
+        } else {
+            place = '<span class="fst-italic">aucun lieu</span>';
+        }
+
+        placeContainer.innerHTML = `
+            <span class="fw-bold">Lieu associé :</span> ${place}
+            <a href="${editLink}" id="advanced-edit-btn" data-bs-toggle="tooltip" title="Modifier">
+                <i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+            </a>
+        `
 
         const topInput =  document.querySelector('#positionYEdit');
         const leftInput =  document.querySelector('#positionXEdit');
