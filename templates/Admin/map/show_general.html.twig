@@ -4,25 +4,7 @@
     {{ parent() }}
         <link rel="stylesheet" href="{{ asset('assets/admin/map.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/colorpicker/coloris.min.css') }}">
-        <style>
-            .clr-field {
-                display: block;
-            }
-
-            .clr-picker {
-                z-index: 99999;
-            }
-
-            .clr-field button {
-                border-radius: 0 0.25rem 0.25rem 0;
-                cursor: pointer;
-            }
-
-            .required:after {
-                content: '*';
-                display: inline-block;
-            }
-        </style>
+        <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
 {% endblock %}
 
 {% block show_tab %}
@@ -139,7 +121,7 @@
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
                             <p>
                                 <i class="fas fa-info-circle fa-fw"></i>
-                                Cliquez sur la carte pour ajouter un lieu ou sur un marqueur pour afficher les détails d'un lieu.
+                                Cliquez sur la carte pour ajouter une localisation ou sur un marqueur pour afficher les détails d'une localisation.
                             </p>
                             {% if map.image is not null %}
                                 <div id="map-container">
@@ -150,7 +132,7 @@
                                             data-id="{{ position.id }}"
                                             data-description="{{ position.description }}"
                                             data-placeId="{{ position.place ? position.place.id : '' }}"
-                                            data-placeName="{{ position.place ? position.place.name : '' }}"
+                                            data-placeName="{{ position.place ? position.place.title : '' }}"
                                             data-marker="{{ position.marker ? position.marker : 'fas fa-map-marker' }}"
                                             class="marker fas fa-map-marker"
                                             title="{{ position.title }}"
@@ -167,12 +149,17 @@
                             {% endif %}
                         </div>
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+                            <p>
+                                <i class="fas fa-info-circle fa-fw"></i>
+                                Cliquer sur le bouton d'édition de l'un des emplacements pour le lier à un lieu ou accéder à l'édition avancée.
+                            </p>
                             <table class="table data-table mb-0 table-striped">
                                 <thead>
                                     <tr>
                                         <th>Titre</th>
                                         <th>Description</th>
                                         <th>Lieu associé</th>
+                                        <th data-orderable="false">Actions</th> 
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -188,6 +175,14 @@
                                                 {% if position.place %}
                                                     <a href="{{ path('admin_app_place_show', {id: position.place.id}) }}">{{ position.place }}</a>
                                                 {% endif %}
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{ path('admin_app_map_position_edit', {id: position.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                                                    </a>
+                                                    {% include "Admin/components/_delete_modal.html.twig" with { element: position, path: 'admin_app_map_position_delete' } %}
+                                                </div>
                                             </td>
                                         </tr>
                                     {% endfor %}
@@ -206,6 +201,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-        <script src="{{ asset('assets/colorpicker/coloris.min.js') }}"></script>
-		<script src="{{ asset('assets/admin/map.js') }}"></script>
+    <script src="{{ asset('assets/colorpicker/coloris.min.js') }}"></script>
+	<script src="{{ asset('assets/admin/map.js') }}"></script>
 {% endblock %}

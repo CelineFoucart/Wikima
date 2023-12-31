@@ -1,0 +1,17 @@
+.clr-field {
+    display: block;
+}
+
+.clr-picker {
+    z-index: 99999;
+}
+
+.clr-field button {
+    border-radius: 0 0.25rem 0.25rem 0;
+    cursor: pointer;
+}
+
+.required:after {
+    content: '*';
+    display: inline-block;
+}

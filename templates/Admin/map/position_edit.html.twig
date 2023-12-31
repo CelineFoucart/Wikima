@@ -1,0 +1,45 @@
+{% extends 'Admin/map/show_base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/admin/map.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/colorpicker/coloris.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
+{% endblock %}
+
+{% block show_tab %}
+    {{ form_start(form) }}
+        <div class="card border-top-primary">
+            <div class="card-header bg-white">
+                <div class="float-end">
+                    <a href="{{ path('admin_app_map_show', {id: map.id}) }}" class="btn btn-primary btn-sm"  data-bs-toggle="tooltip" title="Gérer le scénario">
+                        <i class="fas fa-arrow-left fa-fw"></i> Retour à la carte
+                    </a>
+                </div>
+                <h2 class="card-title h5 mb-0">Position de carte</h2>
+            </div>
+            <div class="card-body">
+                {{ form_widget(form) }}
+            </div>
+        </div>
+        <div class="card-btn mt-3">
+            <button class="btn btn-success btn-sm" type="submit">
+                <i class="fas fa-save" aria-hidden="true"></i>
+                <span class="d-none d-sm-inline">Enregistrer</span>
+            </button>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('assets/colorpicker/coloris.min.js') }}"></script>
+	<script src="{{ asset('assets/admin/map.js') }}"></script>
+    <script>
+        Coloris({
+            el: '#map_position_color',
+            swatches: ['#7952b3', '#dc3545', '#92400e', '#198754', '#3c8dbc', '#212529']
+        });
+        Coloris.setInstance('#map_position_color', { theme: 'polaroid' });
+    </script>
+{% endblock %}

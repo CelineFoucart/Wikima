@@ -90,7 +90,7 @@
 		enableFullEditor("section_content");
 		window.addEventListener('load', () => {
 			let url = "{{ path('api_article_section', {'id': article.id}) }}";
-			sortable('#sections', url);
+			sortable('#sections', url, false);
 		});
 	</script>
 {% endblock %}

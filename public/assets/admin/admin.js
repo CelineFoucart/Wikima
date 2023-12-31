@@ -100,7 +100,10 @@ async function renderSortable(element, path, withReload) {
                 })
                 .then(response => {
                     toastify('success', JSON.stringify(response))
-                    location.reload()
+                    
+                    if (withReload === true) {
+                        location.reload();
+                    }
                 })
                 .catch(error => toastify('error', error));
         }

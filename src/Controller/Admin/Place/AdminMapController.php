@@ -127,7 +127,7 @@ class AdminMapController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'admin_app_map_delete', methods:['GET', 'POST'])]
+    #[Route('/{id}/delete', name: 'admin_app_map_delete', methods:['POST'])]
     public function deleteAction(Request $request, Map $map): Response
     {
         if ($this->isCsrfTokenValid('delete'.$map->getId(), $request->request->get('_token'))) {
