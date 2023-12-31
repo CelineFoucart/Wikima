@@ -134,7 +134,7 @@
                                             data-placeId="{{ position.place ? position.place.id : '' }}"
                                             data-placeName="{{ position.place ? position.place.title : '' }}"
                                             data-marker="{{ position.marker ? position.marker : 'fas fa-map-marker' }}"
-                                            class="marker fas fa-map-marker"
+                                            class="marker {{ position.marker ? position.marker : 'fas fa-map-marker' }}"
                                             title="{{ position.title }}"
                                             data-bs-toggle="tooltip"
                                             style="color: {{ position.color ? position.color : '#000' }}; top: {{ position.points[0] }}%; left: {{ position.points[1] }}%">

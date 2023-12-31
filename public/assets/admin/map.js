@@ -239,6 +239,9 @@ class MapMarker {
             e.target.dataset.description = descriptionInput.value;
         }, { signal });
 
+        const markerInput = document.querySelector('#markerEdit');
+        markerInput.value = e.target.dataset.marker;
+
         titleInput.addEventListener('input', () => {
             e.target.dataset.title = titleInput.value;
             e.target.title = titleInput.value;
@@ -259,6 +262,20 @@ class MapMarker {
                 error = true;
             } else {
                 titleInput.classList.remove('is-invalid');
+            }
+
+            if (!markerInput.checkValidity()) {
+                markerInput.classList.add('is-invalid');
+                error = true;
+            } else {
+                markerInput.classList.remove('is-invalid');
+            }
+
+            if (!descriptionInput.checkValidity()) {
+                descriptionInput.classList.add('is-invalid');
+                error = true;
+            } else {
+                descriptionInput.classList.remove('is-invalid');
             }
 
             if (!descriptionInput.checkValidity()) {
@@ -289,6 +306,7 @@ class MapMarker {
             const data = {
                 title: titleInput.value,
                 description: descriptionInput.value,
+                marker: markerInput.value,
                 points: [topInput.value, leftInput.value]
             }
             

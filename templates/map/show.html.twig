@@ -108,7 +108,7 @@
             <div id="map-container">
                 <img src="{{ vich_uploader_asset(map.image) }}" class="img-thumbnail" alt="{{ map.image.title }}">
                 {% for position in map.mapPositions %}
-                    <div class="marker fas fa-map-marker"
+                    <div class="marker {{ position.marker ? position.marker : 'fas fa-map-marker' }}"
                         data-bs-toggle="popover" data-bs-title="{{ position.title }}" 
                         data-bs-content="{{ position.description ? position.description : 'Aucune description' }}"
                         style="color: {{ position.color ? position.color : '#000' }}; top: {{ position.points[0] }}%; left: {{ position.points[1] }}%">
