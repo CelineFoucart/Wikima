@@ -125,7 +125,7 @@
 							<div class="row g-2">
 								{% for person in scenario.persons %}
 									<div class="col-md-4">
-										{% include "person/_person_card.html.twig" with {with_association: false, disable_type: true} %}
+										{% include "person/_person_card.html.twig" with {with_association: false, disable_type: false} %}
 									</div>
 								{% endfor %}
 							</div>
