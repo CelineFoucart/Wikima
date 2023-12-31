@@ -50,6 +50,9 @@ class Episode
     #[ORM\Column(nullable: true)]
     private ?bool $valid = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $archived = null;
+
     public function __construct()
     {
         $this->places = new ArrayCollection();
@@ -218,6 +221,18 @@ class Episode
     public function setValid(?bool $valid): static
     {
         $this->valid = $valid;
+
+        return $this;
+    }
+
+    public function isArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(?bool $archived): static
+    {
+        $this->archived = $archived;
 
         return $this;
     }

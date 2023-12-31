@@ -26,14 +26,17 @@
                     </div>
                     {{ form_row(form.pitch) }}
                     {{ form_row(form.description) }}
+                    {{ form_row(form.persons) }}
+                    {{ form_row(form.places) }}
                     {{ form_row(form.public) }}
+                    {{ form_row(form.archived) }}
                 </div>
             </div>
         </div>
         <div class="col-lg-4">
             <div class="card border-top-primary">
                 <div class="card-header">
-                    <h3 class="card-title h5 mb-0">Catégorisation et relation</h3>
+                    <h3 class="card-title h5 mb-0">Catégorisation et relations</h3>
                 </div>
                 <div class="card-body">
                     {{ form_row(form.categories) }}

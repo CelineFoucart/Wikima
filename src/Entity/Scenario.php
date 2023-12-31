@@ -74,12 +74,23 @@ class Scenario
     #[ORM\ManyToOne(inversedBy: 'scenarios')]
     private ?ImageGroup $imageGroup = null;
 
+    #[ORM\ManyToMany(targetEntity: Person::class, inversedBy: 'scenarios')]
+    private Collection $persons;
+
+    #[ORM\ManyToMany(targetEntity: Place::class, inversedBy: 'scenarios')]
+    private Collection $places;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $archived = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->portals = new ArrayCollection();
         $this->timelines = new ArrayCollection();
         $this->episodes = new ArrayCollection();
+        $this->persons = new ArrayCollection();
+        $this->places = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -298,6 +309,66 @@ class Scenario
     public function setImageGroup(?ImageGroup $imageGroup): static
     {
         $this->imageGroup = $imageGroup;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getPersons(): Collection
+    {
+        return $this->persons;
+    }
+
+    public function addPerson(Person $person): static
+    {
+        if (!$this->persons->contains($person)) {
+            $this->persons->add($person);
+        }
+
+        return $this;
+    }
+
+    public function removePerson(Person $person): static
+    {
+        $this->persons->removeElement($person);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Place>
+     */
+    public function getPlaces(): Collection
+    {
+        return $this->places;
+    }
+
+    public function addPlace(Place $place): static
+    {
+        if (!$this->places->contains($place)) {
+            $this->places->add($place);
+        }
+
+        return $this;
+    }
+
+    public function removePlace(Place $place): static
+    {
+        $this->places->removeElement($place);
+
+        return $this;
+    }
+
+    public function isArchived(): ?bool
+    {
+        return $this->archived;
+    }
+
+    public function setArchived(?bool $archived): static
+    {
+        $this->archived = $archived;
 
         return $this;
     }

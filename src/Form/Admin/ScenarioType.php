@@ -2,17 +2,19 @@
 
 namespace App\Form\Admin;
 
-use App\Entity\ImageGroup;
+use App\Entity\Place;
+use App\Entity\Person;
 use App\Entity\Portal;
 use App\Entity\Scenario;
 use App\Entity\Timeline;
+use App\Entity\ImageGroup;
 use App\Entity\ScenarioCategory;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ScenarioType extends AbstractType
@@ -68,7 +70,28 @@ class ScenarioType extends AbstractType
                 ],
                 'required' => false,
             ])
+            ->add('places', EntityType::class, [
+                'class' => Place::class,
+                'choice_label' => 'title',
+                'multiple' => true,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ],
+                'required' => false,
+            ])
+            ->add('persons', EntityType::class, [
+                'class' => Person::class,
+                'choice_label' => 'fullname',
+                'multiple' => true,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ],
+                'required' => false,
+            ])
             ->add('public', CheckboxType::class, [
+                'required' => false,
+            ])
+            ->add('archived', CheckboxType::class, [
                 'required' => false,
             ])
         ;

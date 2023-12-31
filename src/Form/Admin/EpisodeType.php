@@ -51,6 +51,9 @@ class EpisodeType extends AbstractType
             ->add('valid', CheckboxType::class, [
                 'required' => false,
             ])
+            ->add('archived', CheckboxType::class, [
+                'required' => false,
+            ])
         ;
     }
 

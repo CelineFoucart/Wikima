@@ -182,12 +182,16 @@ class Person
     #[ORM\ManyToMany(targetEntity: Episode::class, mappedBy: 'persons')]
     private Collection $episodes;
 
+    #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'persons')]
+    private Collection $scenarios;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->portals = new ArrayCollection();
         $this->type = new ArrayCollection();
         $this->episodes = new ArrayCollection();
+        $this->scenarios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -597,6 +601,33 @@ class Person
     {
         if ($this->episodes->removeElement($episode)) {
             $episode->removePerson($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scenario>
+     */
+    public function getScenarios(): Collection
+    {
+        return $this->scenarios;
+    }
+
+    public function addScenario(Scenario $scenario): static
+    {
+        if (!$this->scenarios->contains($scenario)) {
+            $this->scenarios->add($scenario);
+            $scenario->addPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScenario(Scenario $scenario): static
+    {
+        if ($this->scenarios->removeElement($scenario)) {
+            $scenario->removePerson($this);
         }
 
         return $this;

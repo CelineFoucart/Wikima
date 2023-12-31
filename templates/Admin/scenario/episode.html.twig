@@ -31,7 +31,9 @@
 {# boucle card show #}
 <div class="row g-2" id="episodes">
     {% for episode in scenario.episodes %}
-        {% include "Admin/scenario/episode/_card.html.twig" with {episode: episode } %}
+        {% if episode.archived != true %}
+            {% include "Admin/scenario/episode/_card.html.twig" with {episode: episode } %}
+        {% endif %}
     {% endfor %}
 </div>
 {# boucle form #}

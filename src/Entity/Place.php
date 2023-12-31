@@ -136,6 +136,9 @@ class Place
     #[ORM\OneToMany(mappedBy: 'place', targetEntity: MapPosition::class)]
     private Collection $mapPositions;
 
+    #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'places')]
+    private Collection $scenarios;
+
     public function __construct()
     {
         $this->localisations = new ArrayCollection();
@@ -145,6 +148,7 @@ class Place
         $this->portals = new ArrayCollection();
         $this->episodes = new ArrayCollection();
         $this->mapPositions = new ArrayCollection();
+        $this->scenarios = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -564,6 +568,33 @@ class Place
             if ($mapPosition->getPlace() === $this) {
                 $mapPosition->setPlace(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Scenario>
+     */
+    public function getScenarios(): Collection
+    {
+        return $this->scenarios;
+    }
+
+    public function addScenario(Scenario $scenario): static
+    {
+        if (!$this->scenarios->contains($scenario)) {
+            $this->scenarios->add($scenario);
+            $scenario->addPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeScenario(Scenario $scenario): static
+    {
+        if ($this->scenarios->removeElement($scenario)) {
+            $scenario->removePlace($this);
         }
 
         return $this;

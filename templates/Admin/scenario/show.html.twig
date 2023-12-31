@@ -22,6 +22,26 @@
                                 <th>Description</th>
                                 <td>{{ scenario.description|raw }}</td>
                             </tr>
+                            <tr>
+                                <th>Personnages</th>
+                                <td class="container-list">
+                                    {% for person in scenario.persons %}
+                                        <a href="{{ path('app_person_show', {slug: person.slug}) }}">{{ person }}</a>
+                                    {% else %}
+                                        <span class="fst-italic">Aucun personnage</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Lieux</th>
+                                <td class="container-list">
+                                    {% for place in scenario.places %}
+                                        <a href="{{ path('app_place_show', {slug: place.slug}) }}">{{ place }}</a>
+                                    {% else %}
+                                        <span class="fst-italic">Aucun lieu</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
