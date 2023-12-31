@@ -32,7 +32,7 @@
 	</div>
 	<div class="about-card">
 		<div class="content-card">
-			{% if place.illustration and with_association %}
+			{% if place.illustration %}
 				<img src="{{ vich_uploader_asset(place.illustration)|imagine_filter('card_image') }}" alt="{{ place.illustration.title }}" class="about-img">
 			{% endif %}
 
