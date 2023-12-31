@@ -297,7 +297,7 @@
 				{% for scenario in person.scenarios %}
 					<div class="mb-2 bg-light border p-2">
 						<p class="fw-bold mb-0"><a href="{{ path('app_scenario_show', {slug: scenario.slug})}}">{{ scenario }}</a></p>
-						<div>{{ scenario.comment|raw }}</div>
+						<div>{{ scenario.pitch|nl2br }}</div>
 					</div>
 				{% else %}
 					<div class="fst-italic">Aucun scénario</div>
