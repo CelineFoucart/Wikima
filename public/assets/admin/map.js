@@ -128,6 +128,14 @@ class MapMarker {
         this.container.parentElement.appendChild(this.newPosition);
         document.querySelector('#title').value = "";
         document.querySelector('#description').value = "";
+
+        const btnCancelled = document.querySelectorAll('.btn-cancel');
+        btnCancelled.forEach(button => {
+            button.addEventListener('click', (e) => {
+                this.newPosition.remove();
+            }, { signal });
+        })
+
         this.editModal.show();
     }
 
@@ -238,9 +246,13 @@ class MapMarker {
         }, { signal });
 
         this.showModal.show();
+
         document.querySelector('#edit-btn').addEventListener('click', async (e) => {
             e.preventDefault();
             let error = false;
+
+            const btnIcon = document.querySelector('#edit-btn i');
+            btnIcon.classList = 'fas fa-spinner fa-spin fa-fw';
 
             if (!titleInput.checkValidity()) {
                 titleInput.classList.add('is-invalid');
@@ -286,12 +298,29 @@ class MapMarker {
                 body: JSON.stringify(data)
             });
 
+            btnIcon.classList = 'fas fa-save fa-fw';
+
             if (response.ok) {
                 this.showModal.hide();
                 controller.abort();
                 location.reload();
             } else {
                 toastify('error', "Le formulaire n'était pas valide.");
+            }
+
+        })
+
+        document.querySelector('#delete-btn').addEventListener('click', async (e) => {
+            e.preventDefault();
+            const response = await fetch(`/admin/api/map-position/${elementId}/delete`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                controller.abort();
+                location.reload();
+            } else {
+                toastify('error', "La suppression a échoué.");
             }
         })
     }

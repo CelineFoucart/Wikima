@@ -65,6 +65,15 @@ final class AdminApiMapController extends AbstractController
         return $this->json($position, Response::HTTP_OK, [], ['groups' => 'index']);
     }
 
+    #[Route('-position/{id}/delete', name: 'api_delete_position', methods: ['DELETE'])]
+    public function deleteAction(MapPosition $position): JsonResponse
+    {
+        $this->entityManager->remove($position);
+        $this->entityManager->flush();
+
+        return $this->json("", Response::HTTP_NO_CONTENT, [], ['groups' => 'index']);
+    }
+
     private function getErrors(ConstraintViolationListInterface $violations): array
     {
         $errors = [];

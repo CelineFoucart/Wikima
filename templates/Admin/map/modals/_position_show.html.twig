@@ -42,6 +42,10 @@
 					<div id="place-linked"></div>
 				</div>
 				<div class="modal-footer">
+					<button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal">
+						<i class="fas fa-trash-alt"></i>
+						Supprimer
+					</button>
 					<a href="" id="advanced-edit-btn" class="btn btn-default btn-sm" data-bs-toggle="tooltip" title="Éditer">
 						<i class="fas fa-pencil-alt" aria-hidden="true"></i>
 						Formulaire avancé
@@ -52,6 +56,27 @@
 					</button>
 				</div>
 			</form>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="deleteModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModal" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content delete-modal">
+			<div class="modal-header">
+				<h3 class="modal-title fs-5 text-danger" id="deleteModalLabel">Confirmation de suppression</h3>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body text-start">
+				Êtes-vous sûr de vouloir supprimer cet élément élément ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default btn-sm" data-bs-dismiss="modal">Annuler</button>
+				<button type="button" id="delete-btn" class="btn btn-danger btn-sm">
+					<i class="fas fa-trash-alt" aria-hidden="true"></i> Oui, supprimer
+				</button>
+			</div>
 		</div>
 	</div>
 </div>
