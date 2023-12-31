@@ -195,7 +195,6 @@ class MapMarker {
     }
 
     openMarkerModal(e) {
-        document.querySelector('#pointer-icon').classList = e.target.dataset.marker;
         const elementId = e.target.dataset.id;
         const editLink = `/admin/map-position/${elementId}/edit`;
 
