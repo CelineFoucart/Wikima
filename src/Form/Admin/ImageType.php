@@ -68,6 +68,7 @@ class ImageType extends AbstractType
                     'data-choices' => 'choices'
                 ],
                 'required' => false,
+                'multiple' => true,
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => (null === $id) ? true : false,
