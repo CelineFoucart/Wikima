@@ -69,6 +69,7 @@ class ImageType extends AbstractType
                 ],
                 'required' => false,
                 'multiple' => true,
+                'by_reference' => false,
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => (null === $id) ? true : false,
