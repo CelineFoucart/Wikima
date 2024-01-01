@@ -34,6 +34,7 @@ final class LogService
 
     private function createLog(string $action, string $object, string $message): Log
     {
+
         $log = (new Log())
             ->setCreatedAt(new \DateTimeImmutable())
             ->setAction($action)
