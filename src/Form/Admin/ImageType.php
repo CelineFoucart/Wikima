@@ -6,6 +6,7 @@ use App\Entity\Image;
 use App\Entity\Portal;
 use App\Entity\Category;
 use App\Entity\ImageTag;
+use App\Entity\ImageGroup;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -59,6 +60,14 @@ class ImageType extends AbstractType
                 'attr' => [
                     'data-choices' => 'choices'
                 ]
+            ])
+            ->add('imageGroups', EntityType::class, [
+                'class' => ImageGroup::class,
+                'choice_label' => 'title',
+                'attr' => [
+                    'data-choices' => 'choices'
+                ],
+                'required' => false,
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => (null === $id) ? true : false,

@@ -44,7 +44,7 @@
                                     <a href="{{ path('admin_app_image_group_show', {id: image_group.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
                                         <i class="fas fa-info-circle"></i>
                                     </a>
-                                    <a href="{{ path('admin_app_image_edit', {id: image_group.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
+                                    <a href="{{ path('admin_app_image_group_edit', {id: image_group.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Éditer">
                                         <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                                     </a>
                                     {% include "Admin/components/_delete_modal.html.twig" with { element: image_group, path: 'admin_app_image_group_delete' } %}
