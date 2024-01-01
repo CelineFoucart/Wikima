@@ -29,7 +29,7 @@ class LogRepository extends ServiceEntityRepository
     public function add(Log $entity, bool $flush = true): void
     {
         if (!$this->_em->isOpen()) {
-            $this->registry->resetManager();
+            return;
         }
 
         $this->_em->persist($entity);
