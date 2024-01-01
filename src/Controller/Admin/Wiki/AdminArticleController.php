@@ -275,16 +275,19 @@ final class AdminArticleController extends AbstractAdminController
     }
 
     #[Route('/{id}/delete', name: 'admin_app_article_delete', methods:['POST'])]
-    public function deleteAction(Request $request, Article $article, EntityManagerInterface $em): Response
+    public function deleteAction(Request $request, Article $article, EntityManagerInterface $entityManager): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::DELETE, $article);
 
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
 
             if (!$article->getIdioms()->isEmpty()) {
-                $article->getIdioms()->clear();
-                $em->persist($article);
-                $em->flush();
+                foreach ($article->getIdioms() as $idiom) {
+                    $article->removeIdiom($idiom);
+                }
+
+                $entityManager->persist($article);
+                $entityManager->flush();
             }
 
             $this->articleRepository->remove($article, true);
