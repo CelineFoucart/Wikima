@@ -55,6 +55,7 @@ final class CommentController extends AbstractController
             'article' => $article,
             'comments' => $commentRepository->findPaginatedByArticle($page, $article),
             'formComment' => $form->createView(),
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }
 
