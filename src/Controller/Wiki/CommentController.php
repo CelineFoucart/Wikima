@@ -52,7 +52,7 @@ final class CommentController extends AbstractController
         return $this->render('comment/index.html.twig', [
             'article' => $article,
             'comments' => $commentRepository->findPaginatedByArticle($page, $article),
-            'form' => $form->createView(),
+            'formComment' => $form->createView(),
         ]);
     }
 
@@ -75,7 +75,7 @@ final class CommentController extends AbstractController
         }
 
         return $this->render('comment/edit.html.twig', [
-            'form' => $form->createView(),
+            'formComment' => $form->createView(),
             'article' => $comment->getArticle(),
         ]);
     }
