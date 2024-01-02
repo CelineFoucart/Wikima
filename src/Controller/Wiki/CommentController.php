@@ -6,6 +6,8 @@ use DateTimeImmutable;
 use App\Entity\Article;
 use App\Entity\Comment;
 use App\Form\CommentType;
+use App\Entity\Data\SearchData;
+use App\Form\Search\SearchType;
 use App\Security\Voter\VoterHelper;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
@@ -77,6 +79,7 @@ final class CommentController extends AbstractController
         return $this->render('comment/edit.html.twig', [
             'formComment' => $form->createView(),
             'article' => $comment->getArticle(),
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }
 
@@ -94,6 +97,7 @@ final class CommentController extends AbstractController
         return $this->render('comment/delete.html.twig', [
             'comment' => $comment,
             'article' => $article,
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }
 }
