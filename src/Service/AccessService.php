@@ -29,6 +29,8 @@ final class AccessService
         'APP_PLACE_INDEX' => "Liste des lieux",
         'APP_PLACE_SHOW' => "Page de détail d'un lieu",
         'APP_PLACE_TYPE' => "Page de détail d'un type de lieu",
+        'APP_MAP_INDEX' => "Liste des cartes",
+        'APP_MAP_SHOW' => "Page de détail d'une carte",
     ];
 
     private array $accessImages = [

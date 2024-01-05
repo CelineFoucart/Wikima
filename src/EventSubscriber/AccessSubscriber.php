@@ -21,9 +21,14 @@ class AccessSubscriber implements EventSubscriberInterface
         $routeName = strtoupper($event->getRequest()->attributes->get('_route'));
 
         $routesWiki = array_keys($this->accessService->getAccessKeyWiki());
+        $routesPersons = array_keys($this->accessService->getAccessPersons());
+        $routesPlaces = array_keys($this->accessService->getAccessPlaces());
+        $routesImages = array_keys($this->accessService->getAccessImages());
         $routeOther = array_keys($this->accessService->getAccessKeyOther());
+
+        $allKeys = [...$routesWiki,...$routesPersons,...$routesPlaces,...$routesImages,...$routeOther];
         
-        if (!in_array($routeName, array_merge($routeOther, $routesWiki))) {
+        if (!in_array($routeName, $allKeys)) {
             return;
         }
 
