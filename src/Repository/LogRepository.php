@@ -26,22 +26,6 @@ class LogRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Log $entity, bool $flush = true): void
-    {
-        if (!$this->_em->isOpen()) {
-            return;
-        }
-
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
-
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function remove(Log $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);

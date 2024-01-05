@@ -7,11 +7,13 @@ namespace App\Service;
 use App\Entity\Log;
 use App\Entity\User;
 use App\Repository\LogRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\SecurityBundle\Security;
+use Doctrine\Persistence\ManagerRegistry;
 
 final class LogService
 {
-    public function __construct(private LogRepository $logRepository, private Security $security)
+    public function __construct(private ManagerRegistry $doctrine, private Security $security, private EntityManagerInterface $entityManager)
     {
         
     }
@@ -19,7 +21,8 @@ final class LogService
     public function info(string $action, string $message, string $object): static
     {
         $log = $this->createLog($action, $object, $message)->setLevel('INFO');
-        $this->logRepository->add($log, true);
+        $this->entityManager->persist($log);
+        $this->entityManager->flush();
 
         return $this;
     }
@@ -27,7 +30,13 @@ final class LogService
     public function error(string $action, string $message, string $object = "Exception"): static
     {
         $log = $this->createLog($action, $object, $message)->setLevel('ERROR');
-        $this->logRepository->add($log, true);
+        
+        if (!$this->entityManager->isOpen()) {
+            $this->doctrine->resetManager();
+        }
+
+        $this->entityManager->persist($log);
+        $this->entityManager->flush();
         
         return $this;
     }
