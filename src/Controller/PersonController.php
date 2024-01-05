@@ -71,7 +71,7 @@ class PersonController extends AbstractController
             $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
             $logService->error("Génération de '{$person->getSlug()}.docx'", $th->getMessage(), 'Person');
             
-            return $this->redirectToRoute('app_person_word', ['slug' => $person->getSlug()]);
+            return $this->redirectToRoute('app_person_show', ['slug' => $person->getSlug()]);
         }
     }
 

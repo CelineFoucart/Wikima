@@ -7,7 +7,6 @@ namespace App\Service\Word;
 use App\Entity\Person;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Html;
-use PhpOffice\PhpWord\Style\Table;
 
 final class WordPersonGenerator extends AbstractWordGenerator
 {
@@ -54,7 +53,7 @@ final class WordPersonGenerator extends AbstractWordGenerator
 
         $section->addTitle((string) $this->person, 0);
         $categories = $this->reduceCollectionToString($this->person->getCategories());
-        $section->addText('Catégories : ' . $categories, ['bold' => true, 'italic' => true], ['spaceAfter' => 0]);
+        $section->addText('Catégories : ' . $categories, ['bold' => true, 'italic' => true]);
         $portals = $this->reduceCollectionToString($this->person->getPortals());
         $section->addText('Portails : ' . $portals, ['bold' => true, 'italic' => true], ['spaceAfter' => Converter::cmToTwip(0.6)]);
 

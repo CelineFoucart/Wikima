@@ -94,6 +94,7 @@ class Place
     private Collection $localisations;
 
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'localisations')]
+    #[ORM\OrderBy(['title' => 'ASC'])]
     private Collection $places;
 
     #[ORM\ManyToMany(targetEntity: PlaceType::class, inversedBy: 'places')]

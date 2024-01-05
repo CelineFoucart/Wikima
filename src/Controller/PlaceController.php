@@ -4,15 +4,19 @@ namespace App\Controller;
 
 use App\Entity\Place;
 use App\Entity\PlaceType;
+use App\Service\LogService;
 use App\Entity\Data\SearchData;
 use App\Form\Search\SearchType;
 use App\Repository\PlaceRepository;
 use App\Repository\PlaceTypeRepository;
+use App\Service\Word\WordPlaceGenerator;
 use App\Form\Search\AdvancedPlaceSearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PlaceController extends AbstractController
@@ -49,6 +53,27 @@ class PlaceController extends AbstractController
             'place' => $place,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
+    }
+
+    #[Route('/places/{slug}/word', name: 'app_place_word')]
+    public function word(#[MapEntity(expr: 'repository.findBySlug(slug)')] Place $place, WordPlaceGenerator $generator, LogService $logService): Response
+    {
+        try {
+            $file = $generator->setPlace($place)->generate();
+            $response = new BinaryFileResponse($file['path']);
+            $response->setContentDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                $file['filename']
+            );
+            $response->deleteFileAfterSend();
+
+            return $response;
+        } catch (\Exception $th) {
+            $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
+            $logService->error("Génération de '{$place->getSlug()}.docx'", $th->getMessage(), 'Place');
+            
+            return $this->redirectToRoute('app_place_show', ['slug' => $place->getSlug()]);
+        }
     }
 
     #[Route('/type/places/{slug}', name: 'app_place_type')]
