@@ -78,7 +78,7 @@ final class WordPlaceGenerator extends AbstractWordGenerator
         return [
             'title' => (string) $this->place,
             'description' => $this->place->getDescription() ? $this->place->getDescription() : '',
-            'category' => 'Personnage',
+            'category' => 'Lieu',
             'subject' => 'Worldbuilding',
         ];
     }

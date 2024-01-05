@@ -51,6 +51,7 @@ class Timeline
     private $portals;
 
     #[ORM\OneToMany(mappedBy: 'timeline', targetEntity: Event::class, orphanRemoval: true)]
+    #[ORM\OrderBy(['timelineOrder' => 'ASC'])]
     private $events;
 
     #[ORM\Column(nullable: true)]
