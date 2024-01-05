@@ -21,6 +21,7 @@ use App\Repository\PlaceTypeRepository;
 use App\Repository\PersonTypeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ArticleTypeRepository;
+use App\Repository\ScenarioRepository;
 use App\Service\AlphabeticalHelperService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -148,7 +149,7 @@ final class PortalController extends AbstractController
     }
 
     #[Route('/portals/{slug}/places', name: 'app_portal_places')]
-    public function place(int $perPageOdd, #[MapEntity(expr: 'repository.findBySlug(slug)')] Portal $portal, Request $request, PlaceTypeRepository $placeTypeRepository): Response
+    public function places(int $perPageOdd, #[MapEntity(expr: 'repository.findBySlug(slug)')] Portal $portal, Request $request, PlaceTypeRepository $placeTypeRepository): Response
     {
         $types = $placeTypeRepository->findAll();
         $page = $request->query->getInt('page', 1);
@@ -176,6 +177,21 @@ final class PortalController extends AbstractController
             'title' => $portal->getTitle(),
             'description' => $portal->getDescription(),
             'route_name' => 'app_place_index',
+        ]);
+    }
+
+    #[Route('/portals/{slug}/scenarios', name: 'app_portal_scenarios')]
+    public function scenarios(int $perPageOdd, #[MapEntity(expr: 'repository.findBySlug(slug)')] Portal $portal, Request $request, ScenarioRepository $repository): Response
+    {
+        $page = $request->query->getInt('page', 1);
+
+        return $this->render('portal/scenario_portal.html.twig', [
+            'portal' => $portal,
+            'scenarios' => $repository->findByParent([$portal], $page, $perPageOdd),
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'title' => $portal->getTitle(),
+            'description' => $portal->getDescription(),
+            'route_name' => 'app_scenario_index',
         ]);
     }
 

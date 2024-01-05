@@ -21,6 +21,7 @@ use App\Repository\PlaceTypeRepository;
 use App\Repository\PersonTypeRepository;
 use App\Repository\ArticleTypeRepository;
 use App\Repository\ImageTagRepository;
+use App\Repository\ScenarioRepository;
 use App\Service\AlphabeticalHelperService;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -184,6 +185,21 @@ final class CategoryController extends AbstractController
             'title' => $category->getTitle(),
             'description' => $category->getDescription(),
             'route_name' => 'app_place_index',
+        ]);
+    }
+
+    #[Route('/category/{slug}/scenarios', name: 'app_category_scenarios')]
+    public function scenarios(int $perPageOdd, Category $category, Request $request, ScenarioRepository $scenarioRepository): Response
+    {
+        $page = $request->query->getInt('page', 1);
+
+        return $this->render('category/category_scenario.html.twig', [
+            'category' => $category,
+            'scenarios' => $scenarioRepository->findByParent($category->getPortals()->toArray(), $page, $perPageOdd),
+            'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'title' => $category->getTitle(),
+            'description' => $category->getDescription(),
+            'route_name' => 'app_scenario_index',
         ]);
     }
 

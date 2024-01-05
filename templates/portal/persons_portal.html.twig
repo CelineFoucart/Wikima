@@ -9,63 +9,61 @@
 {% endblock %}
 
 {% block body %}
-	<article>
-		{% include "portal/components/_header.html.twig" with {persons:true} %}
-		<div class="m-4">
-			<h2 class="content-title-section">
-				Les personnages du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
-			</h2>
-			<div class="row">
-				<div class="col-md-8">
-					<p class="mb-4">
-						{% set plural = persons.getTotalItemCount > 1 ? 's' : '' %}
-						{% set current = persons|length %}
-						Affichage de <span class="fw-bold">{{ current }}</span> sur
-						<span class="fw-bold">{{ persons.getTotalItemCount }}</span>
-						personnage{{ plural }}
-						{% if type %}
-							du type <strong>{{ type }}</strong>
-						{% endif %}
-						trouvé{{ plural }}.
-					</p>
-				</div>
-				<div class="col-md-4 text-end">
-					<div class="dropdown">
-						<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButtonPersonType1" data-bs-toggle="dropdown" aria-expanded="false">
-							Filtrer
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonPersonType1">
+	{% include "portal/components/_header.html.twig" with {persons:true} %}
+	<article class="pb-4 px-4">
+		<h2 class="content-title-section">
+			Les personnages du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
+		</h2>
+		<div class="row">
+			<div class="col-md-8">
+				<p class="mb-4">
+					{% set plural = persons.getTotalItemCount > 1 ? 's' : '' %}
+					{% set current = persons|length %}
+					Affichage de <span class="fw-bold">{{ current }}</span> sur
+					<span class="fw-bold">{{ persons.getTotalItemCount }}</span>
+					personnage{{ plural }}
+					{% if type %}
+						du type <strong>{{ type }}</strong>
+					{% endif %}
+					trouvé{{ plural }}.
+				</p>
+			</div>
+			<div class="col-md-4 text-end">
+				<div class="dropdown">
+					<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButtonPersonType1" data-bs-toggle="dropdown" aria-expanded="false">
+						Filtrer
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonPersonType1">
+						<li>
+							<a href="{{ path('app_portal_persons', {slug: portal.slug}) }}" class="dropdown-item fw-bold">
+								Tous les personnages
+							</a>
+						</li>
+						{% for type in types %}
 							<li>
-								<a href="{{ path('app_portal_persons', {slug: portal.slug}) }}" class="dropdown-item fw-bold">
-									Tous les personnages
+								<a class="dropdown-item" href="{{ path('app_portal_persons', {slug: portal.slug, type: type.slug}) }}">
+									{{ type }}
 								</a>
 							</li>
-							{% for type in types %}
-								<li>
-									<a class="dropdown-item" href="{{ path('app_portal_persons', {slug: portal.slug, type: type.slug}) }}">
-										{{ type }}
-									</a>
-								</li>
-							{% endfor %}
-						</ul>
-					</div>
+						{% endfor %}
+					</ul>
 				</div>
 			</div>
+		</div>
 
-			{% if stickyElements is not empty %}
-				{{ include("components/layout/_sticky_elements.html.twig", {elements: stickyElements, route: 'app_person_show'}) }}
-			{% endif %}
-			<div class="row mt-3">
-				{% for person in persons %}
-					<div class="col-md-4 my-2">
-						{% include "person/_person_card.html.twig" %}
-					</div>
-				{% else %}
-					<div class="col-12">
-						<div class="text-center text-muted">Aucun personnage trouvé</div>
-					</div>
-				{% endfor %}
-			</div>
+		{% if stickyElements is not empty %}
+			{{ include("components/layout/_sticky_elements.html.twig", {elements: stickyElements, route: 'app_person_show'}) }}
+		{% endif %}
+		<div class="row mt-3">
+			{% for person in persons %}
+				<div class="col-md-4 my-2">
+					{% include "person/_person_card.html.twig" %}
+				</div>
+			{% else %}
+				<div class="col-12">
+					<div class="text-center text-muted">Aucun personnage trouvé</div>
+				</div>
+			{% endfor %}
 		</div>
 
 		<div class="navigation">

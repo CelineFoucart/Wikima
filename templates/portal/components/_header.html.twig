@@ -10,6 +10,9 @@
 {% if places is not defined %}
 	{% set places = false %}
 {% endif %}
+{% if scenarios is not defined %}
+	{% set scenarios = false %}
+{% endif %}
 
 <header class="pt-3 bg-item header-item">
 	<div class="container-fluid">
@@ -124,6 +127,11 @@
 		<div class="item {{ images ? 'active': '' }}">
 			<a href="{{ path('app_portal_gallery', {slug:portal.slug}) }}" data-bs-toggle="tooltip" title="Galerie">
 				<i class="fas fa-image"></i>
+			</a>
+		</div>
+		<div class="item {{ scenarios ? 'active': '' }}">
+			<a href="{{ path('app_portal_scenarios', {slug:portal.slug}) }}" data-bs-toggle="tooltip" title="Scénarios">
+				<i class="fas fa-book"></i>
 			</a>
 		</div>
 	</nav>

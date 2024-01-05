@@ -83,6 +83,26 @@ class ScenarioRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * Find a person by parent.
+     *
+     * @param int[] $parents
+     *
+     * @return PaginationInterface
+     */
+    public function findByParent(array $parents, int $page = 1, int $limit = 23): PaginationInterface
+    {
+        $builder = $this->createQueryBuilder('s')
+            ->leftJoin('s.portals', 'pt')
+            ->orderBy('s.title', 'ASC')
+            ->andWhere('(s.archived != :isArchived OR s.archived IS NULL)')
+            ->setParameter('isArchived', true)
+            ->andWhere('pt IN (:parents)')
+            ->setParameter('parents', $parents);
+
+        return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
+    }
+
     public function findForAdminList(bool $isArchived = false): array
     {
         $builder = $this->createQueryBuilder('s')

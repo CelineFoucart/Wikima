@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Scénarios de {{ category.title }}{% endblock %}
+{% block description %}
+	{{ category.description }}
+{% endblock %}
+
+{% block body %}
+    <article>
+		{% include "category/components/_header.html.twig" with {scenarios:true} %}
+		<div class="m-4">
+			<h2 class="content-title-section">
+				Les scénarios de la catégorie &laquo;&nbsp;{{ category.title }}&nbsp;&raquo;
+			</h2>
+            <p class="mb-4">
+                {% set current = scenarios|length %}
+                Affichage de <span class="fw-bold">{{ current }}</span> sur
+                <span class="fw-bold">{{ scenarios.getTotalItemCount }}</span>
+                scénario{{ scenarios.getTotalItemCount > 1 ? 's' : '' }}.
+            </p>
+
+			<div class="row mt-3">
+				{% for scenario in scenarios %}
+                    <div class="col-md-4 my-2">
+                        {% include "scenario/_scenario_card.html.twig" %}
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                        <div class="text-center text-muted">Aucun scénario trouvé</div>
+                    </div>
+                {% endfor %}
+			</div>
+		</div>
+
+		<div class="navigation">
+			{{ knp_pagination_render(scenarios) }}
+		</div>
+	</article>
+{% endblock %}

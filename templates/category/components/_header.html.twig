@@ -16,6 +16,10 @@
 {% if places is not defined %}
 	{% set places = false %}
 {% endif %}
+{% if scenarios is not defined %}
+	{% set scenarios = false %}
+{% endif %}
+
 
 <div class="pt-3 pb-0 bg-item header-item">
 	<div class="container-fluid">
@@ -118,6 +122,11 @@
 		<div class="item {{ images ? 'active': '' }}">
 			<a href="{{ path('app_category_gallery', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Galerie">
 				<i class="fas fa-image"></i>
+			</a>
+		</div>
+		<div class="item {{ scenarios ? 'active': '' }}">
+			<a href="{{ path('app_category_scenarios', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Scénarios">
+				<i class="fas fa-book"></i>
 			</a>
 		</div>
 	</nav>

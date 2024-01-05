@@ -10,37 +10,34 @@
 {% endblock %}
 
 {% block body %}
-	<article>
-		{% include "portal/components/_header.html.twig" with {images:true} %}
+	{% include "portal/components/_header.html.twig" with {images:true} %}
+	<article class="pb-4 px-4">
+		<h2 class="content-title-section">
+			Les images du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
+		</h2>
 
-		<div class="m-4">
-			<h2 class="content-title-section">
-				Les images du portail &laquo;&nbsp;{{ portal.title }}&nbsp;&raquo;
-			</h2>
-
-			<div class="float-end">
-				<div class="dropdown">
-					<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButtonImageType1" data-bs-toggle="dropdown" aria-expanded="false">
-						Filtrer
-					</button>
-					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonImageType1">
+		<div class="float-end">
+			<div class="dropdown">
+				<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButtonImageType1" data-bs-toggle="dropdown" aria-expanded="false">
+					Filtrer
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonImageType1">
+					<li>
+						<a href="{{ path('app_portal_gallery', {slug: portal.slug}) }}" class="dropdown-item fw-bold">
+							Toutes les images
+						</a>
+					</li>
+					{% for type in types %}
 						<li>
-							<a href="{{ path('app_portal_gallery', {slug: portal.slug}) }}" class="dropdown-item fw-bold">
-								Toutes les images
+							<a class="dropdown-item" href="{{ path('app_portal_gallery', {slug: portal.slug, type: type.slug}) }}">
+								{{ type }}
 							</a>
 						</li>
-						{% for type in types %}
-							<li>
-								<a class="dropdown-item" href="{{ path('app_portal_gallery', {slug: portal.slug, type: type.slug}) }}">
-									{{ type }}
-								</a>
-							</li>
-						{% endfor %}
-					</ul>
-				</div>
+					{% endfor %}
+				</ul>
 			</div>
-
-			{% include "image/components/_list.html.twig" with {images: images, type: type} only %}
 		</div>
+
+		{% include "image/components/_list.html.twig" with {images: images, type: type} only %}
 	</article>
 {% endblock %}
