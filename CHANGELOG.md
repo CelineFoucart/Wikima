@@ -5,6 +5,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.3.0] - 2024-01-05
+
+### Added
+
+- Ajouter le module carte : gestion des cartes, index, page détail, liaison des éléments de la carte aux lieux
+- Ajouter au formulaire de la carte le titre de l'image, ses catégories et ses portails dans "créer depuis une image"
+- Ajouter le réglage des accès des cartes
+- Ajouter l'archivage du scénario et de ses épisodes
+- Ajouter un champ personnages dans le syno,  afficher sur le personnage ses synos et préremplir les cartes avec
+- Ajouter un champ lieu pour le scénario et préremplir les cartes avec
+- Ajouter un champ groupe d'image au formulaire image
+- Ajouter l'onglet scenario dans la page détail portail et la page détail categorie
+
+### Changed
+
+- Le lien du groupe d'image du scénario renvoie vers la page de gestion
+
+### Fixed
+
+- Corriger les contrôle des accès manquants
+- Corriger du lien manquant dans la gestion du personnage : ajouter son image
+- Correction du bug "entityManager is closed" lors de la création d'un log suite à une erreur doctrine
+
 ## [2.2.0] - 2023-12-26
 
 ### Added
