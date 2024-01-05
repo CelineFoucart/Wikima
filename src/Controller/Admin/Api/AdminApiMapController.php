@@ -6,6 +6,7 @@ namespace App\Controller\Admin\Api;
 
 use App\Entity\Map;
 use App\Entity\MapPosition;
+use App\Repository\PlaceRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,11 +29,17 @@ final class AdminApiMapController extends AbstractController
     }
 
     #[Route('/{id}/append', name: 'api_append_position', methods: ['POST'])]
-    public function appendAction(Request $request, Map $map, ValidatorInterface $validator): JsonResponse
+    public function appendAction(Request $request, Map $map, ValidatorInterface $validator, PlaceRepository $placeRepository): JsonResponse
     {
         /** @var MapPosition */
         $position = $this->serializer->deserialize($request->getContent(), MapPosition::class, 'json', ['groups' => 'index']);
         $position->setMap($map);
+
+        $data = json_decode($request->getContent(), true);
+        if (isset($data['placeId']) && $data['placeId'] !== null) {
+            $place = $placeRepository->find($data['placeId']);
+            $position->setPlace($place);
+        }
 
         $errors = $this->getErrors($validator->validate($position));
         if (!empty($errors)) {

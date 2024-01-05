@@ -95,7 +95,12 @@ class AdminApiController extends AbstractController
         ];
         
         return $this->json($data, 200, [], ['groups' => 'index']);
-        
+    }
+
+    #[Route('/api/admin/place/all', name: 'api_place_index_all', methods: ['GET'])]
+    public function placeIndexAction(PlaceRepository $placeRepository): JsonResponse
+    {
+        return $this->json($placeRepository->findBy([], ['title' => 'asc']), 200, [], ['groups' => 'select']);
     }
 
     #[Route('/api/template', name: 'api_template_index', methods: ['GET'])]

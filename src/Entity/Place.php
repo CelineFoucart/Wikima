@@ -21,7 +21,7 @@ class Place
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['index'])]
+    #[Groups(['index', 'select'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -30,7 +30,7 @@ class Place
         min: 1,
         max: 255
     )]
-    #[Groups(['index'])]
+    #[Groups(['index', 'select'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]

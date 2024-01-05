@@ -53,6 +53,8 @@ class MapMarker {
     positionY = null;
     positionX = null;
     newPosition = null;
+    placeElement = null;
+    placeChoice = null;
 
     constructor(selector) {
         this.container = document.querySelector(selector);
@@ -81,6 +83,30 @@ class MapMarker {
             swatches: ['#7952b3', '#dc3545', '#92400e', '#198754', '#3c8dbc', '#212529']
         });
         Coloris.setInstance('#color', { theme: 'polaroid' });
+        this.setChoice();
+    }
+
+    setChoice() {
+        if (this.placeChoice === null) {
+            this.placeElement = document.querySelector('#placeSelect');
+            this.placeChoice = new Choices(this.placeElement, {
+                removeItems: true,
+                removeItemButton: true,
+                allowHTML: false,
+                noResultsText: 'Aucun résultat',
+                noChoicesText: 'Aucun élément à choisir',
+                itemSelectText: 'Cliquez pour choisir',
+            });
+        }
+
+        this.placeChoice.setChoices(async () => {
+            try {
+                const items = await fetch('/api/admin/place/all');
+                return items.json();
+            } catch (err) {
+                console.error(err);
+            }
+        }, 'id', 'title', true);
     }
 
     run() {
@@ -147,8 +173,16 @@ class MapMarker {
             data[input.id] = input.value;
         });
 
-        data.placeId = null;
-        data.placeName = null;
+        // ajouter le lieu si un lieu a été choisi.
+        const option = this.placeElement.querySelector('option')
+        if (option !== null) {
+            data.placeId = parseInt(option.value);
+            data.placeName = option.innerHTML;
+        } else {
+            data.placeId = null;
+            data.placeName = null;
+        }
+    
         data.points = [this.positionY, this.positionX];
 
         // Générer l'élément avec les informations
