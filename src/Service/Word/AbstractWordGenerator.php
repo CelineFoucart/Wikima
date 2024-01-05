@@ -7,10 +7,12 @@ namespace App\Service\Word;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Style\Table;
 use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\Element\Section;
-use Doctrine\Common\Collections\Collection;
 use PhpOffice\PhpWord\Shared\Converter;
+use Doctrine\Common\Collections\Collection;
+use PhpOffice\PhpWord\SimpleType\TblWidth;
 
 abstract class AbstractWordGenerator
 {
@@ -50,7 +52,7 @@ abstract class AbstractWordGenerator
             ->setTitle($params['title'])
             ->setDescription(isset($params['description']) ? $params['description'] : '')
             ->setCategory(isset($params['category']) ? $params['category'] : '')
-            ->setCreated($params['created'])
+            ->setCreated(isset(($params['created']))  ? $params['created'] : null)
             ->setModified(isset($params['modified']) ? $params['modified'] : null)
             ->setKeywords(isset($params['keywords']) ? $params['keywords'] : '')
             ->setSubject(isset($params['subject']) ? $params['subject'] : '');
@@ -66,7 +68,7 @@ abstract class AbstractWordGenerator
     protected function setStyle(int $h1Size = 30, int $h2Size = 18, int $h3Size = 13): static
     {
         $this->phpWord->addTitleStyle(0, ['size' => $h1Size, 'bold' => true]);
-        $this->phpWord->addTitleStyle(1, ['size' => $h2Size,  'bold' => true]);
+        $this->phpWord->addTitleStyle(1, ['size' => $h2Size,  'bold' => true], ['spaceBefore' => Converter::cmToTwip(0.5)]);
         $this->phpWord->addTitleStyle(2, ['size' => $h3Size,  'bold' => true]);
         $this->phpWord->setDefaultFontName('Times New Roman');
         $this->phpWord->setDefaultFontSize(12);
@@ -112,6 +114,17 @@ abstract class AbstractWordGenerator
         return [
             'path' => $this->tmpDir.DIRECTORY_SEPARATOR.$filename.'.docx',
             'filename' => $filename.'.docx',
+        ];
+    }
+
+    protected function getDefaultTableStyle(): array
+    {
+        return [
+            'borderColor' => '000000', 
+            'borderSize'  => 1, 
+            'cellMargin'  => Converter::cmToTwip(0.09),
+            'unit' => TblWidth::PERCENT, 
+            'width' => 100 * 50
         ];
     }
 }

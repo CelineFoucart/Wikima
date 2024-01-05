@@ -8,11 +8,15 @@ use App\Entity\Data\SearchData;
 use App\Form\Search\SearchType;
 use App\Repository\PersonRepository;
 use App\Repository\PersonTypeRepository;
+use App\Service\Word\WordPersonGenerator;
 use App\Form\Search\AdvancedPersonSearchType;
+use App\Service\LogService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class PersonController extends AbstractController
@@ -48,6 +52,27 @@ class PersonController extends AbstractController
             'person' => $person,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
+    }
+
+    #[Route('/persons/{slug}/word', name: 'app_person_word')]
+    public function word(#[MapEntity(expr: 'repository.findBySlug(slug)')] Person $person, WordPersonGenerator $generator, LogService $logService): Response
+    {
+        try {
+            $file = $generator->setPerson($person)->generate();
+            $response = new BinaryFileResponse($file['path']);
+            $response->setContentDisposition(
+                ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+                $file['filename']
+            );
+            $response->deleteFileAfterSend();
+
+            return $response;
+        } catch (\Exception $th) {
+            $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
+            $logService->error("Génération de '{$person->getSlug()}.docx'", $th->getMessage(), 'Person');
+            
+            return $this->redirectToRoute('app_person_word', ['slug' => $person->getSlug()]);
+        }
     }
 
     #[Route('/type/persons/{slug}', name: 'app_person_type')]

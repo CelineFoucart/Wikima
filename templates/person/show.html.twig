@@ -47,6 +47,11 @@
 					href="{{ path('app_print_person', {slug: person.slug}) }}" target="_blank">
 					<i class="fas fa-print"></i> 
 				</a>
+				<a class="btn btn-sm btn-outline-secondary" 
+					data-bs-toggle="tooltip" title="Télécharger le fichier word"
+					href="{{ path('app_person_word', {slug: person.slug}) }}" target="_blank">
+					<i class="fas fa-file-word"></i>
+				</a>
 			</div>
 			<p class="pt-4 pt-lg-0">
 				{% for category in person.categories %}
