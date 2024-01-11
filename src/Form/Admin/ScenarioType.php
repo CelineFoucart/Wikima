@@ -28,6 +28,9 @@ class ScenarioType extends AbstractType
                 'help' => "Courte présentation du projet de moins de 3000 caractères.",
                 'required' => false,
             ])
+            ->add('defaultColor', TextType::class, [
+                'required' => false,
+            ])
             ->add('comment', TextareaType::class, [
                 'required' => false,
                 'help' => "Texte explicatif affiché sur l'interface de gestion des épisodes"

@@ -113,6 +113,15 @@
                                 <th>Public</th>
                                 <td>{{ scenario.public ? 'Oui' : 'Non' }}</td>
                             </tr>
+                            <tr>
+                                <th>Couleur par défaut</th>
+                                <td>
+                                    {% if scenario.defaultColor %}
+                                        <i class="fas fa-square" style="color: {{ scenario.defaultColor }}"></i>
+                                        {{ scenario.defaultColor }}
+                                    {% endif %}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

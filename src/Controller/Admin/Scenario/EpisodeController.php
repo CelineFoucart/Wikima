@@ -27,7 +27,7 @@ class EpisodeController extends AbstractController
     #[Route('/{id}/create', name: 'admin_app_episode_create', methods: ['GET', 'POST'])]
     public function create(Scenario $scenario, Request $request): Response
     {
-        $episode = (new Episode())->setScenario($scenario);
+        $episode = (new Episode())->setScenario($scenario)->setColor($scenario->getDefaultColor());
 
         foreach ($scenario->getPersons() as $person) {
             $episode->addPerson($person);

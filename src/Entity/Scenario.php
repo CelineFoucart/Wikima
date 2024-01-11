@@ -83,6 +83,9 @@ class Scenario
     #[ORM\Column(nullable: true)]
     private ?bool $archived = null;
 
+    #[ORM\Column(length: 30, nullable: true)]
+    private ?string $defaultColor = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -369,6 +372,18 @@ class Scenario
     public function setArchived(?bool $archived): static
     {
         $this->archived = $archived;
+
+        return $this;
+    }
+
+    public function getDefaultColor(): ?string
+    {
+        return $this->defaultColor;
+    }
+
+    public function setDefaultColor(?string $defaultColor): static
+    {
+        $this->defaultColor = $defaultColor;
 
         return $this;
     }

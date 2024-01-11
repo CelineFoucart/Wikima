@@ -80,7 +80,7 @@ class ScenarioController extends AbstractAdminController
     #[Route('/{id}/episodes', name: 'admin_app_scenario_episode', methods: ['GET', 'POST'])]
     public function episode(#[MapEntity(expr: 'repository.findById(id)')] Scenario $scenario, Request $request): Response
     {
-        $episode = (new Episode())->setScenario($scenario);
+        $episode = (new Episode())->setScenario($scenario)->setColor($scenario->getDefaultColor());
 
         foreach ($scenario->getPersons() as $person) {
             $episode->addPerson($person);
