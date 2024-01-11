@@ -35,6 +35,12 @@
                     <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                 </a>
                 {% endif %}
+
+                <a href="{{ path('admin_app_episode_create', {id: scenario.id, episode: episode.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Dupliquer">
+                    <i class="fas fa-paste" aria-hidden="true"></i>
+                </a>
+
+                
                 
                 <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Formulaire complet">
                     <i class="fas fa-file-alt" aria-hidden="true"></i>

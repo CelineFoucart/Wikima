@@ -5,6 +5,7 @@ namespace App\Controller\Admin\Scenario;
 use App\Entity\Episode;
 use App\Entity\Scenario;
 use App\Form\Admin\EpisodeType;
+use App\Repository\EpisodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,16 +26,37 @@ class EpisodeController extends AbstractController
     }
 
     #[Route('/{id}/create', name: 'admin_app_episode_create', methods: ['GET', 'POST'])]
-    public function create(Scenario $scenario, Request $request): Response
+    public function create(Scenario $scenario, Request $request, EpisodeRepository $episodeRepository): Response
     {
-        $episode = (new Episode())->setScenario($scenario)->setColor($scenario->getDefaultColor());
+        $episode = (new Episode())->setScenario($scenario);
+        $episodeId = $request->query->getInt('episode', 0);
+        $fromEpisode = ($episodeId > 0) ? $episodeRepository->find($episodeId) : null;
 
-        foreach ($scenario->getPersons() as $person) {
-            $episode->addPerson($person);
-        }
+        if ($fromEpisode !== null) {
+            $episode
+                ->setTitle($fromEpisode->getTitle())
+                ->setDescription($fromEpisode->getDescription())
+                ->setContent($fromEpisode->getContent())
+                ->setColor($fromEpisode->getColor())
+            ;
 
-        foreach ($scenario->getPlaces() as $place) {
-            $episode->addPlace($place);
+            foreach ($fromEpisode->getPersons() as $person) {
+                $episode->addPerson($person);
+            }
+
+            foreach ($fromEpisode->getPlaces() as $place) {
+                $episode->addPlace($place);
+            }
+
+        } else {
+            $episode->setColor($scenario->getDefaultColor());
+            foreach ($scenario->getPersons() as $person) {
+                $episode->addPerson($person);
+            }
+    
+            foreach ($scenario->getPlaces() as $place) {
+                $episode->addPlace($place);
+            }
         }
 
         $form = $this->createForm(EpisodeType::class, $episode);
