@@ -89,6 +89,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: PrivateMessageSent::class, orphanRemoval: true)]
+    private Collection $privateMessageSents;
+
+    #[ORM\OneToMany(mappedBy: 'addressee', targetEntity: PrivateMessageReceived::class, orphanRemoval: true)]
+    private Collection $receivedPrivateMessages;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -98,6 +104,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->posts = new ArrayCollection();
         $this->reports = new ArrayCollection();
         $this->userGroups = new ArrayCollection();
+        $this->privateMessageSents = new ArrayCollection();
+        $this->receivedPrivateMessages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -539,5 +547,65 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             ->setRoles($data['roles'])
             ->setIsVerified($data['isVerified'])
         ;
+    }
+
+    /**
+     * @return Collection<int, PrivateMessageSent>
+     */
+    public function getPrivateMessageSents(): Collection
+    {
+        return $this->privateMessageSents;
+    }
+
+    public function addPrivateMessageSent(PrivateMessageSent $privateMessageSent): static
+    {
+        if (!$this->privateMessageSents->contains($privateMessageSent)) {
+            $this->privateMessageSents->add($privateMessageSent);
+            $privateMessageSent->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrivateMessageSent(PrivateMessageSent $privateMessageSent): static
+    {
+        if ($this->privateMessageSents->removeElement($privateMessageSent)) {
+            // set the owning side to null (unless already changed)
+            if ($privateMessageSent->getAuthor() === $this) {
+                $privateMessageSent->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PrivateMessageReceived>
+     */
+    public function getReceivedPrivateMessages(): Collection
+    {
+        return $this->receivedPrivateMessages;
+    }
+
+    public function addReceivedPrivateMessage(PrivateMessageReceived $receivedPrivateMessage): static
+    {
+        if (!$this->receivedPrivateMessages->contains($receivedPrivateMessage)) {
+            $this->receivedPrivateMessages->add($receivedPrivateMessage);
+            $receivedPrivateMessage->setAddressee($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceivedPrivateMessage(PrivateMessageReceived $receivedPrivateMessage): static
+    {
+        if ($this->receivedPrivateMessages->removeElement($receivedPrivateMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($receivedPrivateMessage->getAddressee() === $this) {
+                $receivedPrivateMessage->setAddressee(null);
+            }
+        }
+
+        return $this;
     }
 }

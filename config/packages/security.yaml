@@ -49,6 +49,7 @@ security:
         - { path: ^/faq, roles: PUBLIC_ACCESS }
         - { path: ^/admin, roles: ROLE_EDITOR }
         - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/private-message, roles: ROLE_USER }
         - { path: ^/comment, roles: ROLE_USER }
         - { path: ^/draft, roles: ROLE_EDITOR }
         - { path: ^/moderator-panel, roles: ROLE_MODERATOR }
