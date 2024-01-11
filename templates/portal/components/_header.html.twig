@@ -38,75 +38,106 @@
 					<p>
 						{% for category in portal.categories %}
 							<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label me-1" data-bs-toggle="tooltip" title="{{ category.description ? category.description : 'Aucune description' }}">
-								<i class="fas fa-folder me-1"></i>
+								<i class="fas fa-folder fa-fw"></i>
 								{{ category.title }}
 							</a>
 						{% endfor %}
 					</p>
 				</div>
 				<div class="col-md-2 text-end">
-					<div>
-						<div class="dropdown d-inline-block">
-							<button class="btn btn-outline-secondary btn-sm dropdown-toggle w-100" type="button" id="dropdownMenuButtonActionPortal" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
-								<i class="fas fa-wrench me-1"></i>
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonActionPortal">
+					<div class="dropdown d-inline-block">
+						<button class="btn btn-outline-secondary btn-sm dropdown-toggle w-100" type="button" id="dropdownMenuWord" data-bs-toggle="dropdown" aria-expanded="false" title="export word">
+							<i class="fas fa-file-word fa-fw"></i>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuWord">
+							<li>
+								<a class="dropdown-item" href="{{ path('app_portal_word_article', {slug: portal.slug}) }}" target="_blank">
+									<i class="fas fa-file-alt"></i>
+									Exporter les articles
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_portal_word_timeline', {slug: portal.slug}) }}" target="_blank">
+									<i class="fas fa-hourglass"></i>
+									Exporter les chronologies
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_portal_word_person', {slug: portal.slug}) }}" target="_blank">
+									<i class="fas fa-user"></i>
+									Exporter les personnages
+								</a>
+							</li>
+							<li>
+								<a class="dropdown-item" href="{{ path('app_portal_word_place', {slug: portal.slug}) }}" target="_blank">
+									<i class="fas fa-globe"></i>
+									Exporter les lieux
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="dropdown d-inline-block">
+						<button class="btn btn-outline-secondary btn-sm dropdown-toggle w-100" type="button" id="dropdownMenuButtonActionPortal" data-bs-toggle="dropdown" aria-expanded="false" title="outils">
+							<i class="fas fa-wrench me-1"></i>
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButtonActionPortal">
+							<li>
+								<a class="dropdown-item" href="{{ path('app_print_portal', {slug: portal.slug}) }}" target="_blank">
+									<i class="fas fa-print"></i>
+									Aperçu avant impression
+								</a>
+							</li>
+							{% if is_granted('ROLE_ADMIN') %}
 								<li>
-									<a class="dropdown-item" href="{{ path('app_print_portal', {slug: portal.slug}) }}" target="_blank">
-										<i class="fas fa-print"></i>
-										Aperçu avant impression
+									<a class="dropdown-item" href="{{ path('admin_app_portal_edit', {id:portal.id}) }}">
+										<i class="fas fa-pencil-alt"></i>
+										Editer le portail
 									</a>
 								</li>
-								{% if is_granted('ROLE_ADMIN') %}
-									<li>
-										<a class="dropdown-item" href="{{ path('admin_app_portal_edit', {id:portal.id}) }}">
-											<i class="fas fa-pencil-alt"></i>
-											Editer le portail
-										</a>
-									</li>
-									<li>
-										<a class="dropdown-item" href="{{ path('admin_app_article_create', {portal:portal.id}) }}">
-											<i class="fas fa-file-alt"></i>
-											Ajouter un article
-										</a>
-									</li>
-									<li>
-										<a class="dropdown-item" href="{{ path('admin_app_timeline_create', {portal:portal.id}) }}">
-											<i class="fas fa-hourglass"></i>
-											Ajouter une chronologie
-										</a>
-									</li>
-									<li>
-										<a class="dropdown-item" href="{{ path('admin_app_person_create', {portal:portal.id}) }}">
-											<i class="fas fa-user"></i>
-											Ajouter un personnage
-										</a>
-									</li>
-									<li>
-										<a class="dropdown-item" href="{{ path('admin_app_place_create', {portal:portal.id}) }}">
-											<i class="fas fa-globe"></i>
-											Ajouter un lieu
-										</a>
-									</li>
-									<li>
-										<a class="dropdown-item" href="{{ path('admin_app_image_create', {portal:portal.id}) }}">
-											<i class="fas fa-image"></i>
-											Ajouter une image
-										</a>
-									</li>
-								{% endif %}
-							</ul>
-						</div>
-						{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
-							<a href="{{ path('app_portal_notes', {slug: portal.slug}) }}" class="btn btn-outline-secondary btn-sm" title="note">
-								Notes
-							</a>
-						{% endif %}
+								<li>
+									<a class="dropdown-item" href="{{ path('admin_app_article_create', {portal:portal.id}) }}">
+										<i class="fas fa-file-alt"></i>
+										Ajouter un article
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('admin_app_timeline_create', {portal:portal.id}) }}">
+										<i class="fas fa-hourglass"></i>
+										Ajouter une chronologie
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('admin_app_person_create', {portal:portal.id}) }}">
+										<i class="fas fa-user"></i>
+										Ajouter un personnage
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('admin_app_place_create', {portal:portal.id}) }}">
+										<i class="fas fa-globe"></i>
+										Ajouter un lieu
+									</a>
+								</li>
+								<li>
+									<a class="dropdown-item" href="{{ path('admin_app_image_create', {portal:portal.id}) }}">
+										<i class="fas fa-image"></i>
+										Ajouter une image
+									</a>
+								</li>
+							{% endif %}
+						</ul>
 					</div>
+					{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR') %}
+						<a href="{{ path('app_portal_notes', {slug: portal.slug}) }}" class="btn btn-outline-secondary btn-sm" title="note">
+							Notes
+						</a>
+					{% endif %}
 				</div>
 			</div>
 		</div>
 	</div>
+
+	<div class="px-4">{% include "components/_flashes.html.twig" %}</div>
 
 	<nav class="tab-default mt-3">
 		<div class="item {{ articles ? 'active': '' }}">

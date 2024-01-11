@@ -96,7 +96,7 @@ final class ArticleController extends AbstractController
 
             return $response;
         } catch (\Exception $th) {
-            $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
+            $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides ou un code HTML invalide.");
             $logService->error("Génération de '{$article->getSlug()}.docx'", $th->getMessage(), 'Article');
             
             return $this->redirectToRoute('app_article_show', ['slug' => $article->getSlug()]);

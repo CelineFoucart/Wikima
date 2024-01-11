@@ -128,8 +128,9 @@ class MapMarker {
     }
 
     addMarker(e) {
+        const width = (e.width !== undefined) ? e.width : 1
         this.positionY = (((e.offsetY) * 100) / this.coordinates.height).toFixed(2);
-        this.positionX = (((e.pageX - e.width - this.coordinates.offsetLeft)  * 100) / this.coordinates.width).toFixed(2);
+        this.positionX = (((e.pageX - width - this.coordinates.offsetLeft)  * 100) / this.coordinates.width).toFixed(2);
 
         this.newPosition = document.createElement('div');
         this.newPosition.classList = ('marker fas fa-map-marker');

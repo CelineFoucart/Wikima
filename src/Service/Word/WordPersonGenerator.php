@@ -60,7 +60,7 @@ final class WordPersonGenerator extends AbstractWordGenerator
         HTML::addHtml($section, $this->person->getPresentation());
 
         $table = $section->addTable($this->getDefaultTableStyle());
-        $tableData = $this->getTableData();
+        $tableData = self::getTableData($this->person);
         foreach ($tableData as $key => $value) {
             $table->addRow();
             $table->addCell(null, ['valign' => 'center'])->addText($key, ['bold' => true], ['spaceAfter' => Converter::cmToTwip(0)]);
@@ -85,52 +85,52 @@ final class WordPersonGenerator extends AbstractWordGenerator
         ];
     }
 
-    private function getTableData(): array
+    public static function getTableData(Person $person): array
     {
-        $tableValues = ['Nom complet' => $this->person->getFullname()];
+        $tableValues = ['Nom complet' => $person->getFullname()];
 
-        if ($this->person->getSpecies()) {
-            $tableValues['Espèce'] = $this->person->getSpecies();
+        if ($person->getSpecies()) {
+            $tableValues['Espèce'] = $person->getSpecies();
         }
 
-        if ($this->person->getGender()) {
-            $tableValues['Genre'] = $this->person->getGender();
+        if ($person->getGender()) {
+            $tableValues['Genre'] = $person->getGender();
         }
 
-        if ($this->person->getNationality()) {
-            $tableValues['Nationalité'] = $this->person->getNationality();
+        if ($person->getNationality()) {
+            $tableValues['Nationalité'] = $person->getNationality();
         }
 
-        if ($this->person->getBirthday()) {
-            $tableValues['Naissance'] = $this->person->getBirthday();
+        if ($person->getBirthday()) {
+            $tableValues['Naissance'] = $person->getBirthday();
         }
 
-        if ($this->person->getBirthdayPlace()) {
-            $tableValues['Lieu de naissance'] = $this->person->getBirthdayPlace();
+        if ($person->getBirthdayPlace()) {
+            $tableValues['Lieu de naissance'] = $person->getBirthdayPlace();
         }
 
-        if ($this->person->getDeathDate()) {
-            $tableValues['Mort'] = $this->person->getDeathDate();
+        if ($person->getDeathDate()) {
+            $tableValues['Mort'] = $person->getDeathDate();
         }
 
-        if ($this->person->getDeathPlace()) {
-            $tableValues['Lieu de mort'] = $this->person->getDeathPlace();
+        if ($person->getDeathPlace()) {
+            $tableValues['Lieu de mort'] = $person->getDeathPlace();
         }
 
-        if ($this->person->getParents()) {
-            $tableValues['Parents'] = $this->person->getParents();
+        if ($person->getParents()) {
+            $tableValues['Parents'] = $person->getParents();
         }
 
-        if ($this->person->getSiblings()) {
-            $tableValues['Fratrie'] = $this->person->getSiblings();
+        if ($person->getSiblings()) {
+            $tableValues['Fratrie'] = $person->getSiblings();
         }
 
-        if ($this->person->getJob()) {
-            $tableValues['Profession'] = $this->person->getJob();
+        if ($person->getJob()) {
+            $tableValues['Profession'] = $person->getJob();
         }
 
-        if ($this->person->getPhysicalDescription()) {
-            $tableValues['Physique'] = $this->person->getPhysicalDescription();
+        if ($person->getPhysicalDescription()) {
+            $tableValues['Physique'] = $person->getPhysicalDescription();
         }
 
         return $tableValues;

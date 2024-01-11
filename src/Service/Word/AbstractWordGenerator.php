@@ -65,11 +65,12 @@ abstract class AbstractWordGenerator
      * 
      * @return static
      */
-    protected function setStyle(int $h1Size = 30, int $h2Size = 18, int $h3Size = 13): static
+    protected function setStyle(int $h1Size = 30, int $h2Size = 18, int $h3Size = 14): static
     {
         $this->phpWord->addTitleStyle(0, ['size' => $h1Size, 'bold' => true]);
         $this->phpWord->addTitleStyle(1, ['size' => $h2Size,  'bold' => true], ['spaceBefore' => Converter::cmToTwip(0.5)]);
         $this->phpWord->addTitleStyle(2, ['size' => $h3Size,  'bold' => true]);
+        $this->phpWord->addTitleStyle(3, ['size' => 13,  'bold' => true]);
         $this->phpWord->setDefaultFontName('Times New Roman');
         $this->phpWord->setDefaultFontSize(12);
         $this->phpWord->getSettings()->setThemeFontLang(new Language(Language::FR_FR));

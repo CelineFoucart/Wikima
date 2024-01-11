@@ -50,7 +50,7 @@ final class WordPlaceGenerator extends AbstractWordGenerator
         $section->addText('Portails : '.$portals, ['bold' => true, 'italic' => true], ['spaceAfter' => Converter::cmToTwip(0.6)]);
         HTML::addHtml($section, $this->place->getDescription());
 
-        $tableData = $this->getTableData();
+        $tableData = self::getTableData($this->place, $this->reduceCollectionToString($this->place->getLocalisations()));
         if (!empty($tableData)) {
             $table = $section->addTable($this->getDefaultTableStyle());
             foreach ($tableData as $key => $value) {
@@ -83,38 +83,38 @@ final class WordPlaceGenerator extends AbstractWordGenerator
         ];
     }
 
-    private function getTableData(): array
+    public static function getTableData(Place $place, string $localisations): array
     {
-        if ($this->place->getSituation()) {
-            $tableValues['Situation'] = $this->place->getSituation();
+        if ($place->getSituation()) {
+            $tableValues['Situation'] = $place->getSituation();
         }
 
-        if ($this->place->getDominatedBy()) {
-            $tableValues['Controlé par'] = $this->place->getDominatedBy();
+        if ($place->getDominatedBy()) {
+            $tableValues['Controlé par'] = $place->getDominatedBy();
         }
 
-        if ($this->place->getIsInhabitable()) {
-            $tableValues['Habitable'] = $this->place->getIsInhabitable();
+        if ($place->getIsInhabitable()) {
+            $tableValues['Habitable'] = $place->getIsInhabitable();
         }
 
-        if ($this->place->getCapitaleCity()) {
-            $tableValues['Capitale'] = $this->place->getCapitaleCity();
+        if ($place->getCapitaleCity()) {
+            $tableValues['Capitale'] = $place->getCapitaleCity();
         }
 
-        if ($this->place->getLanguages()) {
-            $tableValues['Langues'] = $this->place->getLanguages();
+        if ($place->getLanguages()) {
+            $tableValues['Langues'] = $place->getLanguages();
         }
 
-        if (!$this->place->getLocalisations()->isEmpty()) {
-            $tableValues['Localisations'] = $this->reduceCollectionToString($this->place->getLocalisations());
+        if (!$place->getLocalisations()->isEmpty()) {
+            $tableValues['Localisations'] = $localisations;
         }
 
-        if ($this->place->getPopulation()) {
-            $tableValues['Population'] = $this->place->getPopulation();
+        if ($place->getPopulation()) {
+            $tableValues['Population'] = $place->getPopulation();
         }
 
-        if ($this->place->getSize()) {
-            $tableValues['Taille'] = $this->place->getSize();
+        if ($place->getSize()) {
+            $tableValues['Taille'] = $place->getSize();
         }
 
         return $tableValues;

@@ -65,6 +65,7 @@ class Portal
     private $categories;
 
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'portals')]
+    #[ORM\OrderBy(['title' => 'ASC'])]
     private $articles;
 
     #[ORM\ManyToMany(targetEntity: Image::class, mappedBy: 'portals')]
@@ -74,9 +75,11 @@ class Portal
     private $pages;
 
     #[ORM\ManyToMany(targetEntity: Timeline::class, mappedBy: 'portals')]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private $timelines;
 
     #[ORM\ManyToMany(targetEntity: Person::class, mappedBy: 'portals')]
+    #[ORM\OrderBy(['firstname' => 'ASC'])]
     private $people;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
