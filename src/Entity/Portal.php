@@ -95,6 +95,7 @@ class Portal
     private Collection $notes;
 
     #[ORM\ManyToMany(targetEntity: Place::class, mappedBy: 'portals')]
+    #[ORM\OrderBy(['title' => 'ASC'])]
     private Collection $places;
 
     #[ORM\Column(nullable: true)]

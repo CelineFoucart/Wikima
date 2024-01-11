@@ -58,7 +58,6 @@ final class WordPortalController extends AbstractController
 
             return $response;
         } catch (\Exception $th) {
-            dd($th);
             $this->addFlash('error', "Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides ou un code HTML invalide.");
             $this->logService->error("Génération de '{$type}-{$portal->getSlug()}.docx'", $th->getMessage(), 'Portail');
 
