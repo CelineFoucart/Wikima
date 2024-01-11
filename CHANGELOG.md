@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2024-01-11
+
+### Added
+
+- Ajouter l'export en word de la fiche personnage, de la fiche lieu et de la chronologie
+- Ajouter l'export en word d'un portail : articles, personnages, lieux, chronologie
+- Ajouter la possibilité de dupliquer un épisode de scénario
+- Ajouter le champ couleur par défaut sur le scénario
+
+### Changed
+
+- Revoir les boutons d'accès rapide sur les articles pour avoir un accès plus simple à l'édition de l'article
+
+### Fixed
+
+- Corriger le bug du marqueur de carte mal placé sur firefox
+
 ## [2.3.0] - 2024-01-05
 
 ### Added
