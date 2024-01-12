@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\PrivateMessageReceived;
 use App\Entity\PrivateMessageSent;
+use App\Entity\User;
 use App\Form\PrivateMessageType;
 use App\Repository\PrivateMessageReceivedRepository;
 use App\Repository\PrivateMessageSentRepository;
@@ -41,17 +42,7 @@ class PrivateMessageController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) { 
             $privateMessage->setCreatedAt(new \DateTimeImmutable());
             $entityManager->persist($privateMessage);
-
-            $privateMessageReceived = (new PrivateMessageReceived())
-                ->setReadStatus(false)
-                ->setAuthor($this->getUser())
-                ->setAddressee($privateMessage->getAddressee())
-                ->setTitle($privateMessage->getTitle())
-                ->setContent($privateMessage->getContent())
-                ->setCreatedAt($privateMessage->getCreatedAt())
-                ->setPrivateMessageSent($privateMessage)
-            ;
-
+            $privateMessageReceived = $this->setPrivateMessageReceived($privateMessage);
             $entityManager->persist($privateMessageReceived);
             $entityManager->flush();
             $this->addFlash('success','Le message a été envoyé.');
@@ -131,5 +122,68 @@ class PrivateMessageController extends AbstractController
         }
 
         return $this->redirectToRoute('app_private_message_sendbox', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/conversation/{id}', name: 'app_private_message_conversation', methods:['GET', 'POST'])]
+    public function conversationAction(
+        User $addressee, 
+        PrivateMessageReceivedRepository $receivedRepository, 
+        PrivateMessageSentRepository $sendRepository,
+        EntityManagerInterface $entityManager,
+        Request $request
+    ): Response {
+        $privateMessage = (new PrivateMessageSent())->setAuthor($this->getUser())->setAddressee($addressee);
+        $form = $this->createForm(PrivateMessageType::class, $privateMessage);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $privateMessage->setCreatedAt(new \DateTimeImmutable());
+            $entityManager->persist($privateMessage);
+            $privateMessageReceived = $this->setPrivateMessageReceived($privateMessage);
+            $entityManager->persist($privateMessageReceived);
+            $entityManager->flush();
+            $this->addFlash('success','Le message a été envoyé.');
+
+            return $this->redirectToRoute('app_private_message_conversation', ['id' => $addressee->getId()]);
+        }
+
+        $received = $receivedRepository->findForConversation($this->getUser(), $addressee);
+        
+        foreach ($received as $privateMessage) {
+            if (!$privateMessage->isReadStatus()) {
+                $privateMessage->setReadStatus(true);
+                $entityManager->persist($privateMessage);
+            }
+        }
+        $entityManager->flush();
+
+        $sent = $sendRepository->findForConversation($addressee, $this->getUser());
+        $privateMessages = [...$received, ...$sent];
+
+        usort($privateMessages, function($a, $b) {
+            if ($a->getCreatedAt() == $b->getCreatedAt()) {
+                return 0;
+            }
+            return ($a->getCreatedAt() > $b->getCreatedAt()) ? -1 : 1;
+        });
+
+        return $this->render('private_message/conversation.html.twig', [
+            'addressee' => $addressee,
+            'privateMessages' => $privateMessages,
+            'form' => $form,
+        ]);
+    }
+
+    private function setPrivateMessageReceived(PrivateMessageSent $privateMessage): PrivateMessageReceived
+    {
+        return (new PrivateMessageReceived())
+                ->setReadStatus(false)
+                ->setAuthor($this->getUser())
+                ->setAddressee($privateMessage->getAddressee())
+                ->setTitle($privateMessage->getTitle())
+                ->setContent($privateMessage->getContent())
+                ->setCreatedAt($privateMessage->getCreatedAt())
+                ->setPrivateMessageSent($privateMessage)
+            ;
     }
 }

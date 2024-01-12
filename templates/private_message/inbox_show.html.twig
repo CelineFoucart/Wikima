@@ -5,8 +5,15 @@
 {% block active_inbox %}active{% endblock %}
 
 {% block content_tab %}
+<div class="m-3">
     <div class="text-end mb-1">
+        {% if privateMessage.author %}
+            <a href="{{ path('app_private_message_conversation', {id: privateMessage.author.id}) }}" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" title="Conversation">
+                <i class="fas fa-comments"></i>
+            </a>
+        {% endif %}
         {% include "Admin/components/_delete_modal.html.twig" with { element: privateMessage, path: 'app_private_message_inbox_delete' } %}
     </div>
     {% include "private_message/fragments/_card_message.html.twig" %}
+</div>
 {% endblock %}

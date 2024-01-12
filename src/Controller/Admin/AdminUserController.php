@@ -11,6 +11,8 @@ use App\Service\UserService;
 use App\Form\Admin\UserFormType;
 use App\Repository\UserRepository;
 use App\Repository\ForumGroupRepository;
+use App\Repository\PrivateMessageReceivedRepository;
+use App\Repository\PrivateMessageSentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -64,7 +66,7 @@ final class AdminUserController extends AbstractAdminController
     #[Route('/create', name: 'admin_app_user_create', methods:['GET', 'POST'])]
     public function createAction(Request $request): Response
     {
-        $user = new User();
+        $user = (new User())->setRoles(["ROLE_USER"]);
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
         
@@ -132,13 +134,14 @@ final class AdminUserController extends AbstractAdminController
     }
 
     #[Route('/{id}/delete', name: 'admin_app_user_delete', methods:['POST'])]
-    public function deleteAction(Request $request, User $user): Response
+    public function deleteAction(Request $request, User $user, PrivateMessageSentRepository $sendRepository, PrivateMessageReceivedRepository $receiveRepository): Response
     {
         if (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
             throw new AccessDeniedException('Les administrateurs et les fondateurs ne peuvent être supprimés.');
         }
 
         if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+            $this->clearPrivateMessages($sendRepository, $receiveRepository, $user);
             $this->userRepository->remove($user, true);
             $this->addFlash('success', "L'utilisateur a été supprimé avec succès.");
         }
@@ -220,6 +223,40 @@ final class AdminUserController extends AbstractAdminController
             'user' => $user,
             'groups' => $filteredGroups,
         ]);
+    }
+
+    private function clearPrivateMessages(
+        PrivateMessageSentRepository $sendRepository, 
+        PrivateMessageReceivedRepository $receiveRepository,
+        User $user
+    ): void {
+        $sends = $sendRepository->getReferenced($user);
+        foreach ($sends as $pm) {
+            if ($pm->getAddressee() === $user) {
+                $pm->setAddressee(null);
+            }
+
+            if ($pm->getAuthor() === $user) {
+                $pm->setAuthor(null);
+            }
+
+            $this->em->persist($pm);
+        }
+        
+        $receiveds = $receiveRepository->getReferenced($user);
+        foreach ($receiveds as $pm) {
+            if ($pm->getAddressee() === $user) {
+                $pm->setAddressee(null);
+            }
+
+            if ($pm->getAuthor() === $user) {
+                $pm->setAuthor(null);
+            }
+
+            $this->em->persist($pm);
+        }
+
+        $this->em->flush();
     }
 
     private function canHandleFounderUser(User $user): void

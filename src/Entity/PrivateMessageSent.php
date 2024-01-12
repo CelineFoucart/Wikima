@@ -29,11 +29,11 @@ class PrivateMessageSent
     #[ORM\Column(type: 'datetime_immutable')]
     private $createdAt;
 
-    #[ORM\ManyToOne(inversedBy: 'privateMessageSents')]
+    #[ORM\ManyToOne(inversedBy: 'privateMessageSents', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     #[Assert\NotBlank]
     private ?User $addressee = null;
 

@@ -1,0 +1,55 @@
+{% extends 'private_message/base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        .container-conversation {
+            max-height: 500px;
+            overflow-y: scroll;
+            padding: 1rem;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Conversation avec {{ addressee.username }} | {{ parent() }} {% endblock %}
+{% block tab_title %}
+    Conversation avec <a href="{{path('app_user_show', {id: addressee.id})}}">{{addressee.username}}</a>
+{% endblock %}
+{% block active_inbox %}active{% endblock %}
+
+{% block content_tab %}
+    <div class="d-flex flex-column gap-2 container-conversation">
+        {% for privateMessage in privateMessages %}
+            <div class="w-50 {{ privateMessage.author == app.user ? 'align-self-end' : '' }}">
+                <section class="rounded-3 {{ privateMessage.author == app.user ? 'bg-primary text-white' : 'bg-light' }} p-3">
+                    <h3 class="h5">{{ privateMessage.title }}</h3>
+                    <p class="small">
+                        Envoyé le <strong>{{ privateMessage.createdAt|date(date_format) }}</strong>, par
+                        <strong>{{privateMessage.author.username}}</strong>
+                    </p>
+                    {{ privateMessage.content|raw }}
+                </section>
+            </div>
+        {% else %}
+            <p class="text-center text-muted mb-0">Aucun message dans la conversation</p>
+        {% endfor %}
+    </div>
+    <footer class="border-top p-3">
+        {{ form_start(form) }}
+            {{ form_row(form.title) }}
+            <div class="d-none">{{ form_row(form.addressee) }}</div>
+            {{ form_row(form.content) }}
+            {{ form_rest(form) }}
+            <div class="text-center">
+                <button type="submit" class="btn btn-default">Envoyer</button>
+            </div>
+        {{ form_end(form) }}
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
+    <script src="{{ asset("assets/admin/editor.js") }}"></script>
+    <script>
+        enableBasicEditor("private_message_content");
+    </script>
+{% endblock %}

@@ -9,55 +9,62 @@
 {% endblock %}
 
 {% block content_tab %}
-<table class="table table-striped" id="tableIndex">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Titre</th>
-            <th>Auteur</th>
-            <th>Statut</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for privateMessage in privateMessages %}
+<div class="m-3">
+    <table class="table table-striped" id="tableIndex">
+        <thead>
             <tr>
-                <td data-label="Date" data-sort="{{ privateMessage.createdAt|date('Y-m-d H:i:s') }}">
-                    {{ privateMessage.createdAt|date(date_format) }}
-                </td>
-                <td data-label="Titre">
-                    {{ privateMessage.title }}
-                </td>
-                <td data-label="Auteur">
-                    {% if privateMessage.author %}
-                        <a href="{{path('app_user_show', {id: privateMessage.author.id})}}">{{privateMessage.author.username}}</a>
-                    {% else %}
-                        Anonyme
-                    {% endif %}
-                </td>
-                <td data-label="Statut">
-                    {% if privateMessage.readStatus %}
-                        <span role="button" class="badge rounded-pill bg-success">
-                            Lu
-                        </span>
-                    {% else %}
-                        <span role="button" class="badge rounded-pill bg-danger">
-                            Non lu
-                        </span>
-                    {% endif %}
-                </td>
-                <td data-label="Actions">
-                    <div class="btn-group" role="group" aria-label="Actions">
-                        <a href="{{ path('app_private_message_inbox_show', {id: privateMessage.id}) }}" type="button" class="btn btn-primary btn-sm">
-                            <i class="fas fa-eye"></i>
-                        </a>
-                        {% include "Admin/components/_delete_modal.html.twig" with { element: privateMessage, path: 'app_private_message_inbox_delete' } %}
-                    </div>
-                </td>
+                <th>Date</th>
+                <th>Titre</th>
+                <th>Auteur</th>
+                <th>Statut</th>
+                <th>Actions</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for privateMessage in privateMessages %}
+                <tr>
+                    <td data-label="Date" data-sort="{{ privateMessage.createdAt|date('Y-m-d H:i:s') }}">
+                        {{ privateMessage.createdAt|date(date_format) }}
+                    </td>
+                    <td data-label="Titre">
+                        {{ privateMessage.title }}
+                    </td>
+                    <td data-label="Auteur">
+                        {% if privateMessage.author %}
+                            <a href="{{path('app_user_show', {id: privateMessage.author.id})}}">{{privateMessage.author.username}}</a>
+                        {% else %}
+                            Anonyme
+                        {% endif %}
+                    </td>
+                    <td data-label="Statut">
+                        {% if privateMessage.readStatus %}
+                            <span role="button" class="badge rounded-pill bg-success">
+                                Lu
+                            </span>
+                        {% else %}
+                            <span role="button" class="badge rounded-pill bg-danger">
+                                Non lu
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td data-label="Actions">
+                        <div class="btn-group" role="group" aria-label="Actions">
+                            <a href="{{ path('app_private_message_inbox_show', {id: privateMessage.id}) }}" type="button" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" title="Voir">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            {% if privateMessage.author %}
+                                <a href="{{ path('app_private_message_conversation', {id: privateMessage.author.id}) }}" class="btn btn-primary btn-sm" data-bs-toggle="tooltip" title="Conversation">
+                                    <i class="fas fa-comments"></i>
+                                </a>
+                            {% endif %}
+                            {% include "Admin/components/_delete_modal.html.twig" with { element: privateMessage, path: 'app_private_message_inbox_delete' } %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}
 
 {% block javascripts %}

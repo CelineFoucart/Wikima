@@ -38,13 +38,37 @@ class PrivateMessageSentRepository extends ServiceEntityRepository
         ;
     }
 
-//    public function findOneBySomeField($value): ?PrivateMessageSent
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * @return PrivateMessageSent[] Returns an array of PrivateMessageSent objects
+     */
+    public function findForConversation(User $addressee, User $author): array
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.author', 'u')->addSelect('u')
+            ->leftJoin('p.addressee', 'a')->addSelect('a')
+            ->leftJoin('p.privateMessageReceived', 'pm')->addSelect('pm')
+            ->andWhere('a.id = :addressee')->setParameter('addressee', $addressee->getId())
+            ->andWhere('u.id = :author')->setParameter('author', $author->getId())
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return PrivateMessageSent[] Returns an array of PrivateMessageSent objects
+     */
+    public function getReferenced(User $user): array
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.author', 'u')->addSelect('u')
+            ->leftJoin('p.addressee', 'a')->addSelect('a')
+            ->leftJoin('p.privateMessageReceived', 'pm')->addSelect('pm')
+            ->andWhere('a.id = :userId')
+            ->orWhere('u.id = :userId')
+            ->setParameter('userId', $user->getId())
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }
