@@ -65,15 +65,36 @@ class PrivateMessageController extends AbstractController
     }
 
     #[Route('/{id}/show', name: 'app_private_message_inbox_show', methods:['GET'])]
-    public function inboxShowAction(PrivateMessageReceived $privateMessage): Response
+    public function inboxShowAction(PrivateMessageReceived $privateMessage, EntityManagerInterface $entityManager): Response
     {
+        if ($privateMessage->getAddressee() === null) {
+            throw $this->createAccessDeniedException();
+        } else if ($privateMessage->getAddressee() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if (!$privateMessage->isReadStatus()) {
+            $privateMessage->setReadStatus(true);
+            $entityManager->persist($privateMessage);
+            $entityManager->flush();
+        }
+
         return $this->render('private_message/inbox_show.html.twig', ['privateMessage' => $privateMessage]);
     }
 
     #[Route('/{id}/delete', name: 'app_private_message_inbox_delete', methods:['POST'])]
-    public function inboxDeleteAction(PrivateMessageReceived $privateMessage): Response
+    public function inboxDeleteAction(PrivateMessageReceived $privateMessage, Request $request, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('private_message/inbox_show.html.twig');
+        if ($this->isCsrfTokenValid('delete'.$privateMessage->getId(), $request->request->get('_token'))) {
+            $privateMessage->setPrivateMessageSent(null);
+            $entityManager->persist($privateMessage);
+
+            $entityManager->remove($privateMessage);
+            $entityManager->flush();
+            $this->addFlash('success', "Le message a été supprimée avec succès.");
+        }
+
+        return $this->redirectToRoute('app_private_message_inbox', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/sendbox', name: 'app_private_message_sendbox', methods:['GET'])]
@@ -87,12 +108,28 @@ class PrivateMessageController extends AbstractController
     #[Route('/sendbox/{id}/show', name: 'app_private_message_sendbox_show', methods:['GET'])]
     public function sendboxShowAction(PrivateMessageSent $privateMessage): Response
     {
+        if ($privateMessage->getAuthor() === null) {
+            throw $this->createAccessDeniedException();
+        } else if ($privateMessage->getAuthor() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
         return $this->render('private_message/sendbox_show.html.twig', ['privateMessage' => $privateMessage]);
     }
 
-    #[Route('/sendbox/{id}/delete', name: 'app_private_message_sendbox_delete', requirements: ['page' => '\d+'], methods:['POST'])]
-    public function sendboxDeleteAction(PrivateMessageSent $privateMessage): Response
+    #[Route('/sendbox/{id}/delete', name: 'app_private_message_sendbox_delete', methods:['POST'])]
+    public function sendboxDeleteAction(PrivateMessageSent $privateMessage, Request $request, EntityManagerInterface $entityManager): Response
     {
-        return $this->render('private_message/sendbox_show.html.twig');
+        if ($this->isCsrfTokenValid('delete'.$privateMessage->getId(), $request->request->get('_token'))) {
+            $privateMessage->setPrivateMessageReceived(null);
+            $entityManager->persist($privateMessage);
+            $entityManager->flush();
+
+            $entityManager->remove($privateMessage);
+            $entityManager->flush();
+            $this->addFlash('success', "Le message a été supprimée avec succès.");
+        }
+
+        return $this->redirectToRoute('app_private_message_sendbox', [], Response::HTTP_SEE_OTHER);
     }
 }

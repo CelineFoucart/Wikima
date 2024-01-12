@@ -48,9 +48,10 @@
                 </td>
                 <td data-label="Actions">
                     <div class="btn-group" role="group" aria-label="Actions">
-                        <a href="#" type="button" class="btn btn-primary btn-sm">
+                        <a href="{{ path('app_private_message_inbox_show', {id: privateMessage.id}) }}" type="button" class="btn btn-primary btn-sm">
                             <i class="fas fa-eye"></i>
                         </a>
+                        {% include "Admin/components/_delete_modal.html.twig" with { element: privateMessage, path: 'app_private_message_inbox_delete' } %}
                     </div>
                 </td>
             </tr>
@@ -67,6 +68,7 @@
         language: {
             url: '/assets/DataTables/i18n/fr-FR.json',
         },
+        order: [[0, 'desc']]
     });
 </script>
 {% endblock %}

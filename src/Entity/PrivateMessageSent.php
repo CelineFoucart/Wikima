@@ -116,4 +116,9 @@ class PrivateMessageSent
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return $this->title ? $this->title : 'Message privé';
+    }
 }

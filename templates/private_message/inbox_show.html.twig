@@ -1,7 +1,12 @@
 {% extends 'private_message/base.html.twig' %}
 
-{% block title %}Messages reçus |  {{ parent() }} {% endblock %}
-{% block tab_title %}Messages reçus{% endblock %}
+{% block title %}Consulter un message reçu | {{ parent() }} {% endblock %}
+{% block tab_title %}Consulter un message reçu{% endblock %}
 {% block active_inbox %}active{% endblock %}
 
-{% block content_tab %}{% endblock %}
+{% block content_tab %}
+    <div class="text-end mb-1">
+        {% include "Admin/components/_delete_modal.html.twig" with { element: privateMessage, path: 'app_private_message_inbox_delete' } %}
+    </div>
+    {% include "private_message/fragments/_card_message.html.twig" %}
+{% endblock %}

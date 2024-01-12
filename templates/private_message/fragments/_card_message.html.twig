@@ -1,0 +1,9 @@
+<section class="rounded-3 bg-light p-3">
+    <h3 class="h5">{{ privateMessage.title }}</h3>
+    <p class="small">
+        Envoyé le <strong>{{ privateMessage.createdAt|date(date_format) }}</strong>, par
+        <strong><a href="{{path('app_user_show', {id: privateMessage.author.id})}}">{{privateMessage.author.username}}</a></strong>,
+        à <strong><a href="{{path('app_user_show', {id: privateMessage.addressee.id})}}">{{privateMessage.addressee.username}}</a></strong>
+    </p>
+    {{ privateMessage.content|raw }}
+</section>

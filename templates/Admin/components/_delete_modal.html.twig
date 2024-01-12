@@ -11,7 +11,7 @@
 			<div class="modal-footer">
 				<form method="post" action="{{ path(path, {'id': element.id}) }}">
                     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ element.id) }}">
-                    <button type="button" class="btn btn-default btn-sm" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Annuler</button>
                     <button type="submit" class="btn btn-danger btn-sm">
                         <i class="fas fa-trash-alt" aria-hidden="true"></i> Oui, supprimer
                     </button>

@@ -1,7 +1,12 @@
 {% extends 'private_message/base.html.twig' %}
 
-{% block title %}Messages envoyés |  {{ parent() }} {% endblock %}
-{% block tab_title %}Messages envoyés{% endblock %}
+{% block title %}Consulter un message envoyé | {{ parent() }} {% endblock %}
+{% block tab_title %}Consulter un message envoyé{% endblock %}
 {% block active_sendbox %}active{% endblock %}
 
-{% block content_tab %}{% endblock %}
+{% block content_tab %}
+        <div class="text-end mb-1">
+        {% include "Admin/components/_delete_modal.html.twig" with { element: privateMessage, path: 'app_private_message_sendbox_delete' } %}
+    </div>
+    {% include "private_message/fragments/_card_message.html.twig" %}
+{% endblock %}

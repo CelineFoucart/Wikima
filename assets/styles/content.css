@@ -158,10 +158,14 @@
     background: #eee;
 }
 
-.btn-default {
+.btn-default,
+.btn-primary {
     background-color: var(--secondary);
     border: 1px solid var(--secondary);
     color: var(--primary);
+}
+
+.btn-default {
     box-shadow: 0 4px 9px -4px #3b71ca;
 }
 
