@@ -2,9 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\PrivateMessageSent;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<PrivateMessageSent>
@@ -21,20 +22,21 @@ class PrivateMessageSentRepository extends ServiceEntityRepository
         parent::__construct($registry, PrivateMessageSent::class);
     }
 
-//    /**
-//     * @return PrivateMessageSent[] Returns an array of PrivateMessageSent objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return PrivateMessageSent[] Returns an array of PrivateMessageSent objects
+     */
+    public function findByAuthor(User $user): array
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.author', 'a')->addSelect('a')
+            ->leftJoin('p.privateMessageReceived', 'pm')->addSelect('pm')
+            ->andWhere('a.id = :id')
+            ->setParameter('id', $user->getId())
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?PrivateMessageSent
 //    {

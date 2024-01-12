@@ -11,10 +11,22 @@
 {% endblock %}
 
 {% block body %}
-	<section class="m-5">
-		<h2 class="h4 mb-5 text-center">
-			Bienvenue sur votre profil
-		</h2>
+	<section class="mb-5 container-fluid">
+		<header class="mb-5">
+            <div class="row border-bottom align-items-center py-3 bg-default-light">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="{{ path('app_home') }}">Accueil</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Profil</li>
+                    </ol>
+                </nav>
+            </div>
+        </header>
+
+		<h2 class="list-title">Bienvenue sur votre profil</h2>
+		<p class="text-center text-muted fs-5 mb-5">Cette page vous permet de consulter vos statistiques et de modifier vos informations.</p>
 
 		{% for message in app.flashes('success') %}
 			<div class="alert alert-success" role="alert">{{ message }}</div>
@@ -23,13 +35,14 @@
 			<div class="alert alert-danger" role="alert">{{ flash_error }}</div>
 		{% endfor %}
 
+		<h3 class="lead mb-2 mt-0 fs-4 mb-2">Mon compte</h3>
 		<div class="accordion shadow-sm" id="accordionPanelsStayOpenExample">
 			<div class="accordion-item">
-				<h2 class="accordion-header" id="stats-heading">
+				<h3 class="accordion-header" id="stats-heading">
 					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#stats" aria-expanded="true" aria-controls="stats">
 						Mes statistiques
 					</button>
-				</h2>
+				</h3>
 				<div id="stats" class="accordion-collapse collapse show" aria-labelledby="stats-heading">
 					<div class="accordion-body">
 						<dl class="row">
@@ -50,53 +63,53 @@
 						</dl>
 					</div>
 				</div>
-				<div class="accordion-item">
-					<h2 class="accordion-header" id="panelsStayOpen-headingOne">
-						<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-							Modifier mes informations
-						</button>
-					</h2>
-					<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
-						<div class="accordion-body">
-							{{ form_start(accountForm) }}
-							<h3 class="h6">Modifier le profil</h3>
-							{{ form_row(accountForm.username) }}
-							<div class="row">
-								<div class="col-md-6">{{ form_row(accountForm.rank) }}</div>
-								<div class="col-md-6">{{ form_row(accountForm.localisation) }}</div>
-							</div>
-							<hr>
-							<h3 class="h6">Modifier l'avatar</h3>
-							{{ form_row(accountForm.imageFile) }}
-							<hr>
-							<h3 class="h6">Modifier l'email</h3>
-							{{ form_rest(accountForm) }}
-							<a href="{{ path('app_profile_confirmation') }}">Renvoyer le mail de confirmation</a>
-							<div class="text-center">
-								<button type="submit" class="btn btn-default">Changer mes informations</button>
-							</div>
-							{{ form_end(accountForm) }}
+			</div>
+			<div class="accordion-item">
+				<h3 class="accordion-header" id="panelsStayOpen-headingOne">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+						Modifier mes informations
+					</button>
+				</h3>
+				<div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+					<div class="accordion-body">
+						{{ form_start(accountForm) }}
+						<h3 class="h6">Modifier le profil</h3>
+						{{ form_row(accountForm.username) }}
+						<div class="row">
+							<div class="col-md-6">{{ form_row(accountForm.rank) }}</div>
+							<div class="col-md-6">{{ form_row(accountForm.localisation) }}</div>
 						</div>
+						<hr>
+						<h3 class="h6">Modifier l'avatar</h3>
+						{{ form_row(accountForm.imageFile) }}
+						<hr>
+						<h3 class="h6">Modifier l'email</h3>
+						{{ form_rest(accountForm) }}
+						<a href="{{ path('app_profile_confirmation') }}">Renvoyer le mail de confirmation</a>
+						<div class="text-center">
+							<button type="submit" class="btn btn-default">Changer mes informations</button>
+						</div>
+						{{ form_end(accountForm) }}
 					</div>
 				</div>
-				<div class="accordion-item">
-					<h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-						<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
-							Modifier mon mot de passe
-						</button>
-					</h2>
-					<div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
-						<div class="accordion-body">
-							{{ form_start(passwordForm) }}
-							{{ form_widget(passwordForm) }}
-							<div class="text-center">
-								<button type="submit" class="btn btn-default">Changer mon mot de passe</button>
-							</div>
-							{{ form_end(passwordForm) }}
+			</div>
+			<div class="accordion-item">
+				<h3 class="accordion-header" id="panelsStayOpen-headingTwo">
+					<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="true" aria-controls="panelsStayOpen-collapseTwo">
+						Modifier mon mot de passe
+					</button>
+				</h3>
+				<div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
+					<div class="accordion-body">
+						{{ form_start(passwordForm) }}
+						{{ form_widget(passwordForm) }}
+						<div class="text-center">
+							<button type="submit" class="btn btn-default">Changer mon mot de passe</button>
 						</div>
+						{{ form_end(passwordForm) }}
 					</div>
 				</div>
 			</div>
 		</div>
-
-	{% endblock %}
+	</section>
+{% endblock %}

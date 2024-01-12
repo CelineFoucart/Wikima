@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Twig;
 
-use App\Repository\NoteRepository;
-use App\Repository\PrivateMessageReceivedRepository;
-use Twig\Extension\AbstractExtension;
+use App\Entity\User;
 use Twig\TwigFunction;
+use App\Repository\NoteRepository;
+use Twig\Extension\AbstractExtension;
+use App\Repository\PrivateMessageReceivedRepository;
 
 final class NotificationExtension extends AbstractExtension
 {
@@ -40,13 +41,13 @@ final class NotificationExtension extends AbstractExtension
         </span>';
     }
 
-    public function getPrivateMessageNotifications(): string
+    public function getPrivateMessageNotifications(?User $user): string
     {
-        if (!$this->enablePrivateMessage) {
+        if (!$this->enablePrivateMessage || $user === null) {
             return '';
         }
 
-        $total = $this->privateMessageReceivedRepository->countNotRead();
+        $total = $this->privateMessageReceivedRepository->countNotRead($user);
         if ($total === 0) {
             return '';
         }

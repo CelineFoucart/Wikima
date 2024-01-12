@@ -17,7 +17,7 @@ use Doctrine\ORM\Events;
 #[AsDoctrineListener(event: Events::preRemove, priority: 500, connection: 'default')]
 final class EntityDoctrineSubscriber
 {
-    public const NO_LOG = ['Log', 'Post', 'Topic', 'Note', 'ResetPasswordRequest'];
+    public const NO_LOG = ['Log', 'Post', 'Topic', 'Note', 'ResetPasswordRequest', 'PrivateMessageReceived', 'PrivateMessageSent'];
 
     public function __construct(private LogService $logService)
     {

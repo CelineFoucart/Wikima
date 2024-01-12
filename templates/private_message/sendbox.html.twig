@@ -1,8 +1,8 @@
 {% extends 'private_message/base.html.twig' %}
 
-{% block title %}Messages reçus |  {{ parent() }} {% endblock %}
-{% block tab_title %}Messages reçus{% endblock %}
-{% block active_inbox %}active{% endblock %}
+{% block title %}Messages envoyés |  {{ parent() }} {% endblock %}
+{% block tab_title %}Messages envoyés{% endblock %}
+{% block active_sendbox %}active{% endblock %}
 
 {% block stylesheets %}
 	<link href="{{ asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
@@ -14,7 +14,7 @@
         <tr>
             <th>Date</th>
             <th>Titre</th>
-            <th>Auteur</th>
+            <th>Destinataire</th>
             <th>Statut</th>
             <th>Actions</th>
         </tr>
@@ -29,14 +29,14 @@
                     {{ privateMessage.title }}
                 </td>
                 <td data-label="Auteur">
-                    {% if privateMessage.author %}
-                        <a href="{{path('app_user_show', {id: privateMessage.author.id})}}">{{privateMessage.author.username}}</a>
+                    {% if privateMessage.addressee %}
+                        <a href="{{path('app_user_show', {id: privateMessage.addressee.id})}}">{{privateMessage.addressee.username}}</a>
                     {% else %}
                         Anonyme
                     {% endif %}
                 </td>
                 <td data-label="Statut">
-                    {% if privateMessage.readStatus %}
+                    {% if privateMessage.privateMessageReceived.readStatus %}
                         <span role="button" class="badge rounded-pill bg-success">
                             Lu
                         </span>

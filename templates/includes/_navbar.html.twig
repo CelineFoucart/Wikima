@@ -133,7 +133,7 @@
 				<a class="nav-link text-uppercase dropdown-toggle position-relative {{ active_link(app.request, 'app_profile') }}" href="#" id="account-nav" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 					{{ app.user and app.user.username is defined ? app.user.username : 'Compte' }}
 					{% if is_granted('IS_AUTHENTICATED_FULLY') and enable_private_message == 1 %}
-						{{ pm_notifications() }}
+						{{ pm_notifications(app.user) }}
 					{% endif %}
 				</a>
 				<ul class="dropdown-menu" aria-labelledby="account-nav">

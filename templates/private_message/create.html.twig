@@ -1,0 +1,35 @@
+{% extends 'private_message/base.html.twig' %}
+
+{% block title %}Nouveau message privé |  {{ parent() }} {% endblock %}
+{% block tab_title %}Nouveau message privé{% endblock %}
+{% block active_create %}active{% endblock %}
+
+{% block content_tab %}
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.addressee) }}
+        {{ form_row(form.content) }}
+
+        {{ form_rest(form) }}
+        <div class="text-center">
+            <button type="submit" class="btn btn-default">Envoyer</button>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
+    <script src="{{ asset("assets/admin/editor.js") }}"></script>
+    <script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
+    <script>   
+        enableBasicEditor("private_message_content");
+        new Choices('#private_message_addressee', {
+            removeItems: true,
+            removeItemButton: true,
+            allowHTML: false,
+            noResultsText: 'Aucun résultat',
+            noChoicesText: 'Aucun élément à choisir',
+            itemSelectText: 'Cliquez pour choisir'
+        });
+    </script>
+{% endblock %}

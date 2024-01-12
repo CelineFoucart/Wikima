@@ -34,6 +34,7 @@ class PrivateMessageSent
     private ?User $author = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotBlank]
     private ?User $addressee = null;
 
     #[ORM\OneToOne(inversedBy: 'privateMessageSent', cascade: ['persist', 'remove'])]
