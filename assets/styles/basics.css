@@ -130,3 +130,7 @@ dd {
     max-width: 300px;
     overflow-y: scroll;
 }
+
+.translate-badge {
+    transform: translate(-40%,-20%)!important;
+}

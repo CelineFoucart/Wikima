@@ -36,6 +36,7 @@ services:
             $enableIdiom: '%env(IDIOM_MODULE)%'
             $enableForum: '%env(FORUM_MODULE)%'
             $enableScenario: '%env(SCENARIO_MODULE)%'
+            $enablePrivateMessage: '%env(PM_MODULE)%'
             $tmpDir: '%app.tmp.folder%'
     
     # makes classes in src/ available to be used as services

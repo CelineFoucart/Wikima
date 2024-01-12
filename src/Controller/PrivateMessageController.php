@@ -11,6 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/private-message')]
 class PrivateMessageController extends AbstractController
 {
+    public function __construct(bool $enablePrivateMessage)
+    {
+        if (false === $enablePrivateMessage) {
+            throw $this->createNotFoundException('Not Found');
+        }
+    }
+
     #[Route('', name: 'app_private_message_inbox', methods:['GET'])]
     public function inboxAction(): Response
     {

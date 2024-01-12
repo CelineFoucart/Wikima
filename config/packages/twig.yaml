@@ -14,6 +14,7 @@ twig:
         enable_idiom: '%env(IDIOM_MODULE)%'
         enable_forum: '%env(FORUM_MODULE)%'
         enable_scenario: '%env(SCENARIO_MODULE)%'
+        enable_private_message: '%env(PM_MODULE)%'
 
 when@test:
     twig:

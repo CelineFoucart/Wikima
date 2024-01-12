@@ -36,6 +36,21 @@ class PrivateMessageReceivedRepository extends ServiceEntityRepository
 //        ;
 //    }
 
+    public function countNotRead(): int
+    {
+        try {
+            return $this->createQueryBuilder('p')
+                ->select('COUNT(p.id)')
+                ->andWhere('(p.readStatus = :readStatus OR p.readStatus IS NULL)')
+                ->setParameter('readStatus', false)
+                ->getQuery()
+                ->getSingleScalarResult()
+            ;
+        } catch (\Exception $th) {
+            return 0;
+        }
+    }
+
 //    public function findOneBySomeField($value): ?PrivateMessageReceived
 //    {
 //        return $this->createQueryBuilder('p')
