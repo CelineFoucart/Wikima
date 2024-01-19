@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block toolbar %}
-    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'portal', entity: portal, show_route: 'app_portal_show' } %}
+    {{ include('Admin/portal/_toolbar.html.twig') }}
 {% endblock %}
 
 {% block body %}

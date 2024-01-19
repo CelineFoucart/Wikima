@@ -1,5 +1,8 @@
 {% embed 'Admin/components/_toolbar.html.twig' with { prefix: 'category', entity: category, show_route: 'app_category_show'  } %}
     {% block custom_action %}
+        <a href="{{ path('admin_app_image_download_category', {id: entity.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Exporter la galerie">
+            <i class="fas fa-download"></i>
+        </a>
         <a href="{{ path('admin_app_category_sort', {id: category.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Ordonner">
             <i class="fas fa-sort-amount-down-alt"></i>
         </a>

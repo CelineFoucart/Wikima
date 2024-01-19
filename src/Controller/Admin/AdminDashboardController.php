@@ -105,43 +105,6 @@ class AdminDashboardController extends AbstractController
         ]);
     }
 
-    #[Route('/export-favicon-banner', name: 'admin_app_export_favicon')]
-    public function downloadFaviconAction()
-    {
-        $uploadedDir = $this->getParameter('kernel.project_dir').'/public/img/';
-
-        if (!is_dir($uploadedDir)) {
-            $this->addFlash('error', "Il n'y a aucune image à télécharger");
-
-            return $this->redirectToRoute('admin_app_export');
-        }
-
-        $finder = new Finder();
-        $finder->files()->in($uploadedDir);
-        $zip = new \ZipArchive();
-        $zipname = 'favicons-banner.zip';
-        $zip->open($zipname, \ZipArchive::CREATE);
-
-        if ($finder->hasResults()) {
-            foreach ($finder as $file) {
-                $absoluteFilePath = $file->getRealPath();
-                $zip->addFile($absoluteFilePath, $file->getFilename());
-            }
-        } else {
-            $this->addFlash('error',"Il n'y a aucune image à télécharger.");
-
-            return $this->redirectToRoute('admin_app_export');
-        }
-
-        $zip->close();
-
-        header('Content-Type: application/zip');
-        header('Content-disposition: attachment; filename='.$zipname);
-        header('Content-Length: '.filesize($zipname));
-        readfile($zipname);
-        unlink($zipname);
-    }
-
     private function getImagesSize($precision = 2): string
     {
         $uploadedDir = $this->getParameter('kernel.project_dir').'/public/uploads/';

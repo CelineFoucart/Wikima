@@ -1,0 +1,7 @@
+{% embed 'Admin/components/_toolbar.html.twig' with { prefix: 'portal', entity: portal, show_route: 'app_portal_show' } %}
+    {% block custom_action %}
+        <a href="{{ path('admin_app_image_download_portal', {id: entity.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Exporter la galerie">
+            <i class="fas fa-download"></i>
+        </a>
+    {% endblock %}
+{% endembed %}

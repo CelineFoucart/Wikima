@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Image;
 
-use ZipArchive;
+
 use App\Entity\Image;
+use App\Form\Admin\ImageType;
 use App\Repository\ImageRepository;
 use App\Repository\PortalRepository;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
-use App\Form\Admin\ImageType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Finder\Finder;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/image')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
@@ -129,42 +128,5 @@ final class AdminImageController extends AbstractAdminController
         }
 
         return $this->redirectToRoute('admin_app_image_list', [], Response::HTTP_SEE_OTHER);
-    }
-
-    #[Route('/download', name: 'admin_app_image_download')]
-    public function downloadAction()
-    {
-        $uploadedDir = $this->getParameter('kernel.project_dir').'/public/uploads/';
-
-        if (!is_dir($uploadedDir)) {
-            $this->addFlash('error', "Il n'y a aucune image à télécharger");
-
-            return $this->redirectToRoute('admin_app_image_list');
-        }
-
-        $finder = new Finder();
-        $finder->files()->in($uploadedDir);
-        $zip = new ZipArchive();
-        $zipname = 'images.zip';
-        $zip->open($zipname, ZipArchive::CREATE);
-
-        if ($finder->hasResults()) {
-            foreach ($finder as $file) {
-                $absoluteFilePath = $file->getRealPath();
-                $zip->addFile($absoluteFilePath, $file->getFilename());
-            }
-        } else {
-            $this->addFlash('error',"Il n'y a aucune image à télécharger.");
-
-            return $this->redirectToRoute('admin_app_image_list');
-        }
-
-        $zip->close();
-
-        header('Content-Type: application/zip');
-        header('Content-disposition: attachment; filename='.$zipname);
-        header('Content-Length: '.filesize($zipname));
-        readfile($zipname);
-        unlink($zipname);
     }
 }
