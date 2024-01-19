@@ -73,6 +73,12 @@
                                 <th>Est archivé</th>
                                 <td>{{ article.isArchived ? 'Oui' : 'Non' }}</td>
                             </tr>
+                            {% if enable_comment %}
+                                <tr>
+                                    <th>Avec commentaires</th>
+                                    <td>{{ article.enableComment ? 'Oui' : 'Non' }}</td>
+                                </tr>
+                            {% endif %}
                             <tr>
                                 <th>Auteur</th>
                                 <td>

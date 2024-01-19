@@ -68,7 +68,7 @@ final class AdminArticleController extends AbstractAdminController
         $templateId = $request->query->getInt('template', 0);
         $template =  ($templateId > 0) ? $templateGroupRepository->find($templateId) : null;
         $title = ($template) ? $template->getTitle() : '';
-        $article = (new Article())->setTitle($title);
+        $article = (new Article())->setTitle($title)->setEnableComment(true);
 
         $portalId = $request->query->getInt('portal');
         if (0 !== $portalId) {
@@ -133,6 +133,10 @@ final class AdminArticleController extends AbstractAdminController
             return $this->redirectToRoute('admin_app_article_show', ['id' => $article->getId()]);
         }
 
+        if ($article->isEnableComment() === null) {
+            $article->setEnableComment(true);
+        }
+
         return $this->render('Admin/article/show_general.html.twig', [
             'article' => $article,
             'general_active' => true,
@@ -144,6 +148,11 @@ final class AdminArticleController extends AbstractAdminController
     public function editAction(Request $request, Article $article): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
+
+        if ($article->isEnableComment() === null) {
+            $article->setEnableComment(true);
+        }
+
         $form = $this->createForm(ArticleFormType::class, $article);
         $form->handleRequest($request);
         

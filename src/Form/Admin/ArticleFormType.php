@@ -53,6 +53,10 @@ class ArticleFormType extends AbstractType
             ->add('isArchived', null, [
                 'required' => false,
             ])
+            ->add('enableComment', null, [
+                'required' => false,
+                'help' => "Si le module commentaire est activé par l'administrateur"
+            ])
         ;
     }
 

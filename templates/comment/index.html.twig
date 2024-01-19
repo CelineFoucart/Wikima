@@ -40,16 +40,20 @@
             {{ knp_pagination_render(comments) }}
         </div>
 
-        <article class="mx-5">
-            <h3 class="h4 mb-4">Laisser un commentaire</h3>
-            {% if is_granted('ROLE_USER') %}
-                {{ include('comment/components/_form.html.twig') }}
-            {% else %}
-                <p class="text-center">
-                    Veuillez vous <a href="{{ path('app_login') }}">connecter</a> pour laisser un commentaire.
-                </p>
-            {% endif %}
-        </article>
+            <article class="mx-5">
+                <h3 class="h4 mb-4">Laisser un commentaire</h3>
+                {% if article.enableComment is null or article.enableComment == true %}
+                    {% if is_granted('ROLE_USER') %}
+                        {{ include('comment/components/_form.html.twig') }}
+                    {% else %}
+                        <p class="text-center">
+                            Veuillez vous <a href="{{ path('app_login') }}">connecter</a> pour laisser un commentaire.
+                        </p>
+                    {% endif %}
+                {% else %}
+                    <p class="text-center text-muted fs-5">Les commentaires sont désactivés sur cet article.</p>
+                {% endif %}
+            </article>
     </section>
 </article>
 {% endblock %}
