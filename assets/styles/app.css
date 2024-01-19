@@ -165,3 +165,9 @@ a {
     display: none;
     content: '';
 }
+
+/* ckeditor modal */
+.cke_dialog
+{
+    z-index: 10055 !important;
+}
