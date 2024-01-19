@@ -43,7 +43,7 @@
 		</a>
 
 		{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) or is_granted('ROLE_ADMIN') %}
-			<a data-bs-toggle="tooltip" title="Editerel" class="btn btn-sm btn-outline-secondary" href="{{ path('admin_app_article_edit', {id:article.id}) }}">
+			<a data-bs-toggle="tooltip" title="Editer" class="btn btn-sm btn-outline-secondary" href="{{ path('admin_app_article_edit', {id:article.id}) }}">
 				<i class="fas fa-pencil-alt" aria-hidden="true"></i>
 			</a>
 			<a data-bs-toggle="tooltip" title="Gérer les sections" class="btn btn-sm btn-outline-secondary" href="{{ path('admin_app_article_section', {id:article.id}) }}">
