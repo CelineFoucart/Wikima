@@ -323,6 +323,7 @@ class ArticleRepository extends ServiceEntityRepository
     {
         $sql = "SELECT a.id, a.title, a.slug, a.description, a.content 
             FROM article a
+            WHERE a.is_archived != 1 AND a.is_draft != 1
             ORDER BY RAND ( )  
             LIMIT 1";
 
