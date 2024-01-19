@@ -5,6 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.5.0] - 2024-01-19
+
+### Added
+
+- Ajouter le module de messagerie privée : affichage, envoi, conversation, suppression
+- Ajouter la désactivation du module messagerie privée
+- Ajouter l'export des images d'un portail
+- Ajouter l'export des images d'une catégorie
+- Ajouter l'affichage du nombre de notes non traitées
+- Ajouter l'affichage du nombre de messages privés non lus
+- Ajouter la désactivation des commentaires d'un article
+- Ajouter l'export en un clic de tous les fichiers et de la page de données
+
+### Changed
+
+- Les articles privées et brouillons ne sont plus affichés dans la fonctionnalité article au hasard
+
+### Fixed
+
+- Corriger le bug des champs non éditables dans l'éditeur de la modal d'ajout public d'une note
+
 ## [2.4.0] - 2024-01-11
 
 ### Added
