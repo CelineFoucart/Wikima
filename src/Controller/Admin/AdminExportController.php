@@ -130,7 +130,7 @@ final class AdminExportController extends AbstractController
             $zipFile->addFile($uploadedDir . $image->getFilename(), $image->getFilename());
         }
 
-        if ($entity->getImageBanner() !== null) {
+        if ($entity->getBanner() !== null) {
             $zipFile->addFile($uploadedDir . $entity->getBanner(), $entity->getBanner());
         }
 
