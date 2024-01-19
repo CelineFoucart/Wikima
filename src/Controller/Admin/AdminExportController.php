@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Entity\Category;
-use App\Entity\Portal;
 use PhpZip\ZipFile;
+use App\Entity\Backup;
+use App\Entity\Portal;
+use App\Entity\Category;
+use App\Service\BackupService;
+use App\Repository\BackupRepository;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -19,6 +22,44 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/admin')]
 final class AdminExportController extends AbstractController
 {
+    #[IsGranted(new Expression("is_granted('ROLE_SUPER_ADMIN')"))]
+    #[Route('/image/download', name: 'admin_app_export_all')]
+    public function exportAllAction(BackupService $backupService, BackupRepository $backupRepository): Response
+    {
+        $filename = $backupService->save()->getFilename();
+        $backup = (new Backup())->setFilename($filename)->setCreatedAt($backupService->getDate());
+        $backupRepository->add($backup);
+
+        $zipFile = (new ZipFile())
+            ->addFile($backupService->getBackupFolder().DIRECTORY_SEPARATOR.$backup->getFilename())
+            ->addFile($this->getParameter('kernel.project_dir') . '/.env.local');
+
+        $uploadedDir = $this->getParameter('kernel.project_dir').'/public/uploads/';
+        if (is_dir($uploadedDir)) {
+            $zipFile->addEmptyDir('images');
+            $finder = new Finder();
+            $finder->files()->in($uploadedDir);
+            foreach ($finder as $file) {
+                $zipFile->addFile($file->getRealPath(), 'images/' . $file->getFilename());
+            }
+        }
+
+        $faviconDir = $this->getParameter('kernel.project_dir').'/public/img/';
+        if (is_dir($faviconDir)) {
+            $zipFile->addEmptyDir('favicons-banner');
+            $finderFavicon = new Finder();
+            $finderFavicon->files()->in($faviconDir);
+            foreach ($finderFavicon as $file) {
+                $zipFile->addFile($file->getRealPath(), 'favicons-banner/' . $file->getFilename());
+            }
+        }
+
+        $zipname = ((new \DateTime())->format('Y-m-d')) . '.zip';
+        $zipFile->saveAsFile($zipname)->close();
+
+        return $this->returnAsBinaryResponse($zipname);
+    }
+
     #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
     #[Route('/image/download', name: 'admin_app_image_download')]
     public function downloadAction(): Response
@@ -30,12 +71,12 @@ final class AdminExportController extends AbstractController
             return $this->redirectToRoute('admin_app_image_list');
         }
 
-        $response = $this->download($uploadedDir);
-        if (null === $response) {
+        $status = $this->download($uploadedDir);
+        if (false === $status) {
             return $this->redirectToRoute('admin_app_image_list');
         }
 
-        return $response;
+        return $this->returnAsBinaryResponse();
     }
 
     #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
@@ -64,12 +105,13 @@ final class AdminExportController extends AbstractController
             return $this->redirectToRoute('admin_app_export');
         }
 
-        $response = $this->download($uploadedDir, 'favicons-banner.zip');
-        if (null === $response) {
+        $zipname = 'favicons-banner.zip';
+        $status = $this->download($uploadedDir, $zipname);
+        if (false === $status) {
             return $this->redirectToRoute('admin_app_export');
         }
 
-        return $response;
+        return $this->returnAsBinaryResponse($zipname);
     }
 
     private function downloadGalleryEntity(object $entity, string $type): Response
@@ -93,6 +135,9 @@ final class AdminExportController extends AbstractController
         }
 
         $zipFile->saveAsFile($zipname)->close();
+
+        return $this->returnAsBinaryResponse($zipname);
+
         $response = new BinaryFileResponse($zipname);
         $response->headers->set('Content-Type', 'application/zip');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $zipname);
@@ -101,7 +146,7 @@ final class AdminExportController extends AbstractController
         return $response;
     }
 
-    private function download(string $directory, string $zipname = 'images.zip'): ?BinaryFileResponse
+    private function download(string $directory, string $zipname = 'images.zip'): bool
     {
         $finder = new Finder();
         $finder->files()->in($directory);
@@ -109,7 +154,7 @@ final class AdminExportController extends AbstractController
         if (!$finder->hasResults()) {
             $this->addFlash('error',"Il n'y a aucun éléments à télécharger.");
 
-            return null;
+            return false;
         }
 
         $zipFile = new ZipFile();
@@ -118,6 +163,11 @@ final class AdminExportController extends AbstractController
         }
         $zipFile->saveAsFile($zipname)->close();
 
+        return true;
+    }
+
+    private function returnAsBinaryResponse(string $zipname = 'images.zip')
+    {
         $response = new BinaryFileResponse($zipname);
         $response->headers->set('Content-Type', 'application/zip');
         $response->setContentDisposition(ResponseHeaderBag::DISPOSITION_ATTACHMENT, $zipname);

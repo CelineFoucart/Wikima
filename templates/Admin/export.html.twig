@@ -5,6 +5,13 @@
 
 {% block page_title %}Exporter les données du site{% endblock %}
 
+{% block toolbar %}
+    <a href="{{ path('admin_app_export_all') }}" class="btn btn-primary btn-sm" target="_blank" id="exportAll">
+        <i class="fas fa-download fa-fw"></i>
+        Tout exporter
+    </a>
+{% endblock %}
+
 {% block breadcrumb %}
 	<li class="breadcrumb-item active">
 		Exporter les données
@@ -104,4 +111,14 @@
     </div>
 
     
+{% endblock %}
+
+{% block javascripts %}
+    <script>
+    document.querySelector('#exportAll').addEventListener('click', (e) => {
+        setTimeout(() => {
+            window.location.reload();
+        }, 300);
+    });
+    </script>
 {% endblock %}
