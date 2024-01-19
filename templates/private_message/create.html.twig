@@ -5,6 +5,7 @@
 {% block active_create %}active{% endblock %}
 
 {% block content_tab %}
+<div class="m-3">
     {{ form_start(form) }}
         {{ form_row(form.title) }}
         {{ form_row(form.addressee) }}
@@ -15,6 +16,7 @@
             <button type="submit" class="btn btn-default">Envoyer</button>
         </div>
     {{ form_end(form) }}
+</div>
 {% endblock %}
 
 {% block javascripts %}

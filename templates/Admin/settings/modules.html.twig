@@ -20,11 +20,12 @@
 {% block body %}
 	<p>
 		Sur cette page, vous allez pouvoir activer des modules de l'application ou désactiver ceux qui ne correspondent pas à vos besoins.
+        Le module <strong>Encyclopédie</strong>, module de base, n'est pas désactivable.
 	</p>
 
 	<form action="" method="post">
         <div class="row mt-4 g-3">
-            <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="col-sm-6 col-md-4">
                 <div class="card shadow-sm border-top-primary">
                     <div class="card-body">
                         <div class="row">
@@ -50,7 +51,7 @@
                 </div>
             </div>
             {% for module in modules %}
-                <div class="col-sm-6 col-md-4 col-lg-3">
+                <div class="col-sm-6 col-md-4">
                     <div class="card shadow-sm border-top-primary">
                         <div class="card-body">
                             <div class="row">

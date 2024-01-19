@@ -59,16 +59,22 @@ services:
         arguments: 
             $modules: [
                 { 
-                    id: 'COMMENT_MODULE',
-                    title: 'Commentaires',
-                    icon: 'fas fa-comment-alt',
-                    description: "Ce module permet aux utilisateurs connectés de poster des commentaires sur les articles de l'encyclopédie."
-                },
-                { 
                     id: 'IDIOM_MODULE',
                     title: 'Langues',
                     icon: 'fas fa-language',
                     description: "Ce module permet de gérer sur l'encyclopédie des langues qui comprennent des articles que vous pouvez regrouper par catégorie."
+                },
+                {
+                    id: 'SCENARIO_MODULE',
+                    title: 'Scénarios',
+                    icon: 'fas fa-book',
+                    description: "Ce module intègre à l'application un système de conception de scénario dans lequel vous pouvez réordonner les épisodes."
+                },
+                { 
+                    id: 'COMMENT_MODULE',
+                    title: 'Commentaires',
+                    icon: 'fas fa-comment-alt',
+                    description: "Ce module permet aux utilisateurs connectés de poster des commentaires sur les articles de l'encyclopédie."
                 },
                 {
                     id: 'FORUM_MODULE',
@@ -77,10 +83,10 @@ services:
                     description: "Ce module permet d'intégrer au site un forum de discussion pour échanger avec vos membres et les personnes qui contribuent."
                 },
                 {
-                    id: 'SCENARIO_MODULE',
-                    title: 'Scénarios',
-                    icon: 'fas fa-book',
-                    description: "Ce module intègre à l'application un système de conception de scénario dans lequel vous pouvez réordonner les épisodes."
+                    id: 'PM_MODULE',
+                    title: 'Messagerie privée',
+                    icon: 'fas fa-inbox',
+                    description: "Ce module intègre à l'application un système de messagerie privée entre les membres inscrits à l'application."
                 }
                 
             ]
