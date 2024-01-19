@@ -116,7 +116,7 @@ final class AdminExportController extends AbstractController
 
     private function downloadGalleryEntity(object $entity, string $type): Response
     {
-        if ($entity->getImages()->isEmpty() && $entity->getImageBanner() === null) {
+        if ($entity->getImages()->isEmpty() && $entity->getBanner() === null) {
             $this->addFlash('error', "Il n'y a aucune image à télécharger");
 
             return $this->redirectToRoute('admin_app_'.$type.'_show', ['id' => $entity->getId()]);
@@ -131,7 +131,7 @@ final class AdminExportController extends AbstractController
         }
 
         if ($entity->getImageBanner() !== null) {
-            $zipFile->addFile($uploadedDir . $entity->getImageBanner(), $entity->getImageBanner());
+            $zipFile->addFile($uploadedDir . $entity->getBanner(), $entity->getBanner());
         }
 
         $zipFile->saveAsFile($zipname)->close();
