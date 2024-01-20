@@ -28,19 +28,19 @@
             <li class="nav-item">
                 <a class="nav-link {% block active_inbox %}{% endblock %}" href="{{ path('app_private_message_inbox') }}">
                     <i class="fas fa-sign-in-alt fa-fw"></i>
-                    Messages reçus
+                    <span class="d-none d-sm-inline">Messages reçus</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% block active_sendbox %}{% endblock %}" href="{{ path('app_private_message_sendbox') }}">
                     <i class="fas fa-share-square fa-fw"></i>
-                    Messages envoyés
+                    <span class="d-none d-sm-inline">Messages envoyés</span>
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {% block active_create %}{% endblock %}" href="{{ path('app_private_message_create') }}">
                     <i class="fas fa-plus fa-fw"></i>
-                    Nouveau message
+                    <span class="d-none d-sm-inline">Nouveau message</span>
                 </a>
             </li>
         </ul>

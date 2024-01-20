@@ -119,6 +119,7 @@ dd {
         display: inline-block;
         font-weight: bold;
         width: 30%;
+        flex-shrink: 0;
     }
 
     .dataTables_filter {
