@@ -5,6 +5,12 @@
 {% block activeMenu %} active {% endblock %}
 {% block page_title %}Eléments de menu ({{ total }}/{{ limit }}) {% endblock %}
 
+{% block breadcrumb %}
+	<li class="breadcrumb-item active">
+		Eléments de menu
+	</li>
+{% endblock %}
+
 {% block toolbar %}
     {% if total < limit %}
         <a href="{{ path('admin_app_menu_item_create') }}" class="btn btn-default btn-sm">

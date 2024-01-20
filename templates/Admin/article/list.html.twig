@@ -9,17 +9,19 @@
 
 {% block breadcrumb %}
     <li class="breadcrumb-item active">
-        Article
+        Articles
     </li>
 {% endblock %}
 
 {% block toolbar %}
     <a href="{{ path('admin_app_article_create') }}" class="btn btn-default btn-sm">
         <i class="fas fa-plus-circle" aria-hidden="true"></i>
-        Ajouter
+        <span class="d-none d-sm-inline">Ajouter</span>
     </a>
     <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <i class="fas fa-plus-circle" aria-hidden="true"></i> A partir d'un modèle
+        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        <i class="fas fa-table fa-fw" aria-hidden="true"></i>
+        <span class="d-none d-sm-inline">A partir d'un modèle</span>
     </button>
     <div class="dropdown-menu dropdown-template" aria-labelledby="dropdownMenuButton">
         {% for template in templates %}
@@ -30,7 +32,7 @@
     </div>
     <a href="{{ path('admin_app_article_archive_index') }}" class="btn btn-default btn-sm">
         <i class="fas fa-archive" aria-hidden="true"></i>
-        Archive
+        <span class="d-none d-sm-inline">Archive</span>
     </a>
 {% endblock %}
 

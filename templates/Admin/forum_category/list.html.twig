@@ -3,15 +3,15 @@
 {% block toolbar %}
     <a href="{{ path('app_forum_index') }}" class="btn btn-default btn-sm">
         <i class="fas fa-book-reader"></i>
-        Index du forum
+        <span class="d-none d-sm-inline">Index du forum</span>
     </a>
     <a href="{{ path('admin_app_forum_category_create') }}" class="btn btn-default btn-sm">
         <i class="fas fa-plus-circle" aria-hidden="true"></i>
-        Ajouter
+        <span class="d-none d-sm-inline">Ajouter</span>
     </a>
     <a href="{{ path('admin_app_forum_group_list') }}" class="btn btn-default btn-sm">
         <i class="fas fa-user-tag" aria-hidden="true"></i>
-        Groupes
+        <span class="d-none d-sm-inline">Groupes</span>
     </a>
 {% endblock %}
 

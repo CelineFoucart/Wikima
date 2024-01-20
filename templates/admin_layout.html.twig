@@ -20,11 +20,12 @@
 	</head>
 	<body>
 		<div id="page-content">
-			<nav class="navbar bg-white navbar-white navbar-expand-md navbar-light border-bottom">
+			<nav class="navbar bg-white navbar-white navbar-expand-md navbar-light border-bottom flex-nowrap">
 				<a href="{{ path('admin_app_dashboard') }}" class="navbar-brand pe-2">
 					<i class="fas fa-cogs"></i>
 					<span class="ms-1">Administration</span>
 				</a>
+				
 				<div class="navbar-nav">
 					<div aria-label="breadcrumb">
 						<ol class="breadcrumb mb-0">
@@ -36,7 +37,7 @@
 					</div>
 				</div>
 
-				<ul class="navbar-nav ms-auto">
+				<ul class="navbar-nav ms-auto d-none d-sm-block">
 					<li class="nav-item dropdown">
 						<a class="nav-link" data-bs-toggle="dropdown" href="#">
 							<i class="fas fa-user mr-1"></i> {{ app.user.username }}

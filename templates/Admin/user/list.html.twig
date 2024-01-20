@@ -7,7 +7,7 @@
 
 {% block breadcrumb %}
     <li class="breadcrumb-item active">
-        Utilisateur
+        Utilisateurs
     </li>
 {% endblock %}
 
@@ -22,15 +22,15 @@
     <div class="card border-top-primary">
         <div class="card-header">
             {{ form_start(form) }}
-                <div class="row align-items-center">
-                    <div class="col-1">
+                <div class="row align-items-center gy-1">
+                    <div class="col-md-1">
                         {{ form_label(form.roles) }}
                     </div>
-                    <div class="col-9">
+                    <div class="col-md-9">
                         {{ form_widget(form.roles) }}
                         {{ form_errors(form) }}
                     </div>
-                    <div class="col-2">
+                    <div class="col-md-2">
                         {{ form_rest(form) }}
                         <button class="btn btn-primary p-2 w-100 h-100" type="submit">Filtrer</button>
                     </div>
