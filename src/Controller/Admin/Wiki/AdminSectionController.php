@@ -59,7 +59,8 @@ class AdminSectionController extends AbstractController
             ->setContent($section->getContent())
             ->setKeywords($section->getArticle()->getKeywords())
             ->setType($section->getArticle()->getType())
-            ->setDescription($section->getTitle());
+            ->setDescription($section->getTitle())
+            ->setEnableComment(true);
 
         foreach ($section->getArticle()->getPortals() as $portal) {
             $article->addPortal($portal);
