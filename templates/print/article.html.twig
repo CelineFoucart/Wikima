@@ -52,9 +52,9 @@
 				{% if section.referencedArticles|length > 0 %}
 					<p style="border-bottom: 1px solid #dedede;">
 						<strong>Voir aussi :</strong>&nbsp;
-						{% for article in section.referencedArticles %}
-							<a href="{{ absolute_url(path('app_article_show', {slug: article.slug})) }}">
-							{{ article.title }}</a>{{ loop.last != true ? ',' : '' }}
+						{% for articleReferenced in section.referencedArticles %}
+							<a href="{{ absolute_url(path('app_article_show', {slug: articleReferenced.slug})) }}">
+							{{ articleReferenced.title }}</a>{{ loop.last != true ? ',' : '' }}
 						{% endfor %}
 					</p>
 				{% endif %}
