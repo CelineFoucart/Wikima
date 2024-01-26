@@ -78,6 +78,14 @@
 									</span>
 								{% endif %}
 							</h2>
+							{% if section.referencedArticles|length > 0 %}
+								<p class="border-top border-bottom small">
+									<strong><i class="fas fa-search fa-fw"></i> Voir aussi :</strong>&nbsp;
+									{% for article in section.referencedArticles %}
+										<a href="{{ path('app_article_show', {slug: article.slug}) }}">{{ article.title }}</a>{{ loop.last != true ? ',' : '' }}
+									{% endfor %}
+								</p>
+							{% endif %}
 							{{ section.content|raw }}
 						</section>
 					{% endfor %}

@@ -39,6 +39,7 @@ class Section
     private $article;
 
     #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'referencingSections')]
+    #[ORM\OrderBy(['title' => 'ASC'])]
     private Collection $referencedArticles;
 
     public function __construct()

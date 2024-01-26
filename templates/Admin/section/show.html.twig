@@ -42,6 +42,14 @@
                                 </td>
                             </tr>
                             <tr>
+                                <th>Voir aussi</th>
+                                <td>
+                                    {% for article in section.referencedArticles %}
+                                        <div><a href="{{ path('app_article_show', {slug: article.slug}) }}">{{ article.title }}</a></div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>Contenu</th>
                                 <td>{{ section.content|raw }}</td>
                             </tr>
