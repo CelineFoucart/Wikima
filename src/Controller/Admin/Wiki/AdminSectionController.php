@@ -36,8 +36,22 @@ class AdminSectionController extends AbstractController
     }
 
     #[Route('/{id}/show', name: 'admin_app_section_show')]
-    public function showAction(Section $section): Response
+    public function showAction(Section $section, Request $request, ArticleRepository $articleRepository): Response
     {
+        if ($request->isMethod('POST')) {
+            $this->denyAccessUnlessGranted(VoterHelper::EDIT, $section->getArticle(),'Access Denied.');
+            $id = $request->request->get('article');
+            $article = ($id !== null) ? $articleRepository->find($id) : null;
+
+            if ($article) {
+                $section->setArticle($article);
+                $this->sectionRepository->add($section, true);
+                $this->addFlash('success', "L'article a bien été lié à la langue.");
+            }
+
+            return $this->redirectToRoute('admin_app_section_show', ['id' => $section->getId()]);
+        }
+
         return $this->render('Admin/section/show.html.twig', [
             'section' => $section,
         ]);

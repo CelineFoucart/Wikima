@@ -134,6 +134,8 @@ class AdminIdiomController extends AbstractAdminController
                 $entityManager->flush();
                 $this->addFlash('success', "L'article a bien été lié à la langue.");
             }
+
+            return $this->redirectToRoute('admin_app_idiom_show', ['id' => $idiom->getId()]);
         }
 
         return $this->render('Admin/idiom/show.html.twig', [

@@ -61,6 +61,12 @@
                             <tr>
                                 <th>Article</th>
                                 <td>
+                                    {% if can_access(app.user, section.article) %}
+                                        <button type="button" class="btn btn-primary btn-sm float-end" title="Modifier" data-bs-toggle="modal" data-bs-target="#articleModal">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        {% include "Admin/idiom/_articles_wiki.html.twig" %}
+                                    {% endif %}
                                     <a href="{{ path('admin_app_article_section', {id: section.article.id}) }}" class="fw-bold">
                                         {{ section.article.title }} <i class="fas fa-cogs fa-fw"></i>
                                     </a> 
