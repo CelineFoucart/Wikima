@@ -82,8 +82,8 @@ aside.reduce {
 a,
 a:hover,
 a:visited {
-    color: #333333;
-    text-decoration: none;
+    color: #0d6efd; 
+    text-decoration: underline;
 }
 
 .description {

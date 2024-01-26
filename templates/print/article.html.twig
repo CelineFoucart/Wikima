@@ -48,8 +48,16 @@
 		{% set index = 1 %}
 		{% for section in article.sections %}
 			<section>
-				<h2>{{ index }}.
-					{{ section.title }}</h2>
+				<h2>{{ index }}. {{ section.title }}</h2>
+				{% if section.referencedArticles|length > 0 %}
+					<p style="border-bottom: 1px solid #dedede;">
+						<strong>Voir aussi :</strong>&nbsp;
+						{% for article in section.referencedArticles %}
+							<a href="{{ absolute_url(path('app_article_show', {slug: article.slug})) }}">
+							{{ article.title }}</a>{{ loop.last != true ? ',' : '' }}
+						{% endfor %}
+					</p>
+				{% endif %}
 				<div>{{ section.content|raw }}</div>
 			</section>
 
