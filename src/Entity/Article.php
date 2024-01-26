@@ -106,6 +106,9 @@ class Article
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Idiom::class)]
     private Collection $idioms;
 
+    #[ORM\ManyToMany(targetEntity: Section::class, mappedBy: 'referencedArticles')]
+    private Collection $referencingSections;
+
     public function __construct()
     {
         $this->portals = new ArrayCollection();
@@ -113,6 +116,7 @@ class Article
         $this->images = new ArrayCollection();
         $this->sections = new ArrayCollection();
         $this->idioms = new ArrayCollection();
+        $this->referencingSections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -430,6 +434,33 @@ class Article
             if ($idiom->getArticle() === $this) {
                 $idiom->setArticle(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Section>
+     */
+    public function getReferencingSections(): Collection
+    {
+        return $this->referencingSections;
+    }
+
+    public function addReferencingSection(Section $referencingSection): static
+    {
+        if (!$this->referencingSections->contains($referencingSection)) {
+            $this->referencingSections->add($referencingSection);
+            $referencingSection->addReferencedArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReferencingSection(Section $referencingSection): static
+    {
+        if ($this->referencingSections->removeElement($referencingSection)) {
+            $referencingSection->removeReferencedArticle($this);
         }
 
         return $this;

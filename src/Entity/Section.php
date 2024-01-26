@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\SectionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -35,6 +37,14 @@ class Section
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['index'])]
     private $article;
+
+    #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'referencingSections')]
+    private Collection $referencedArticles;
+
+    public function __construct()
+    {
+        $this->referencedArticles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -116,5 +126,29 @@ class Section
     public function __toString()
     {
         return $this->title ? $this->title : 'Section';
+    }
+
+    /**
+     * @return Collection<int, Article>
+     */
+    public function getReferencedArticles(): Collection
+    {
+        return $this->referencedArticles;
+    }
+
+    public function addReferencedArticle(Article $referencedArticle): static
+    {
+        if (!$this->referencedArticles->contains($referencedArticle)) {
+            $this->referencedArticles->add($referencedArticle);
+        }
+
+        return $this;
+    }
+
+    public function removeReferencedArticle(Article $referencedArticle): static
+    {
+        $this->referencedArticles->removeElement($referencedArticle);
+
+        return $this;
     }
 }

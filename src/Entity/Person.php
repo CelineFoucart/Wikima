@@ -185,6 +185,12 @@ class Person
     #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'persons')]
     private Collection $scenarios;
 
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'linkingPersons')]
+    private Collection $linkedPersons;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'linkedPersons')]
+    private Collection $linkingPersons;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -192,6 +198,8 @@ class Person
         $this->type = new ArrayCollection();
         $this->episodes = new ArrayCollection();
         $this->scenarios = new ArrayCollection();
+        $this->linkedPersons = new ArrayCollection();
+        $this->linkingPersons = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -628,6 +636,57 @@ class Person
     {
         if ($this->scenarios->removeElement($scenario)) {
             $scenario->removePerson($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getLinkedPersons(): Collection
+    {
+        return $this->linkedPersons;
+    }
+
+    public function addLinkedPerson(self $linkedPerson): static
+    {
+        if (!$this->linkedPersons->contains($linkedPerson)) {
+            $this->linkedPersons->add($linkedPerson);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkedPerson(self $linkedPerson): static
+    {
+        $this->linkedPersons->removeElement($linkedPerson);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getLinkingPersons(): Collection
+    {
+        return $this->linkingPersons;
+    }
+
+    public function addLinkingPerson(self $linkingPerson): static
+    {
+        if (!$this->linkingPersons->contains($linkingPerson)) {
+            $this->linkingPersons->add($linkingPerson);
+            $linkingPerson->addLinkedPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLinkingPerson(self $linkingPerson): static
+    {
+        if ($this->linkingPersons->removeElement($linkingPerson)) {
+            $linkingPerson->removeLinkedPerson($this);
         }
 
         return $this;
