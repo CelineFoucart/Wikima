@@ -157,6 +157,21 @@ class AdminIdiomController extends AbstractAdminController
         ]);
     }
 
+    #[Route('/{id}/remove-article', name: 'admin_app_idiom_remove_article', methods: ['GET', 'POST'])]
+    public function removeArticleAction(Idiom $idiom, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom,'Access Denied.');
+        
+        if ($this->isCsrfTokenValid('delete'.$idiom->getId(), $request->request->get('_token'))) {
+            $idiom->setArticle(null);
+            $entityManager->persist($idiom);
+            $entityManager->flush();
+            $this->addFlash('success', "L'article a bien été retiré de la langue.");
+        }
+        
+        return $this->redirectToRoute('admin_app_idiom_show', ['id' => $idiom->getId()]);
+    }
+
     #[Route('/{id}/articles', name: 'admin_app_idiom_article', methods: ['GET', 'POST'])]
     public function articlesAction(Idiom $idiom): Response
     {

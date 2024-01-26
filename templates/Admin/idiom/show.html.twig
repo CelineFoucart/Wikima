@@ -35,9 +35,15 @@
                                     {% endif %}
                                     
                                     {% if can_edit %}
-                                        <button type="button" class="btn btn-primary btn-sm float-end" title="Modifier" data-bs-toggle="modal" data-bs-target="#articleModal">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
+                                        <div class="float-end">
+                                            {% if idiom.article %}
+                                                {% include "Admin/components/_delete_modal.html.twig" with { action: 'retirer', target: idiom.id, element: idiom.article, path: 'admin_app_idiom_remove_article' } %}
+                                            {% endif %}
+                                            
+                                            <button type="button" class="btn btn-primary btn-sm" title="Modifier" data-bs-toggle="modal" data-bs-target="#articleModal">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                        </div>
                                         {% include "Admin/idiom/_articles_wiki.html.twig" %}
                                     {% endif %}
                                 </td>

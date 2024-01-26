@@ -1,3 +1,11 @@
+{% if action is not defined %}
+	{% set action = 'supprimer' %}
+{% endif %}
+
+{% if target is not defined %}
+	{% set target = element.id %}
+{% endif %}
+
 <div class="modal fade" id="deleteModal{{ element.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteModal{{ element.id }}" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content delete-modal">
@@ -6,14 +14,17 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body text-start">
-				Êtes-vous sûr de vouloir supprimer l'élément "<em>{{ element }}</em>" ?
+				Êtes-vous sûr de vouloir {{ action }} l'élément "<em>{{ element }}</em>" ?
 			</div>
 			<div class="modal-footer">
-				<form method="post" action="{{ path(path, {'id': element.id}) }}">
-                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ element.id) }}">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Annuler</button>
+				<form method="post" action="{{ path(path, {'id': target}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ target) }}">
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">
+						<i class="fas fa-times"></i>
+						Annuler
+					</button>
                     <button type="submit" class="btn btn-danger btn-sm">
-                        <i class="fas fa-trash-alt" aria-hidden="true"></i> Oui, supprimer
+                        <i class="fas fa-trash-alt" aria-hidden="true"></i> Confirmer
                     </button>
                 </form>
 			</div>
