@@ -144,6 +144,22 @@
                                 <th>Enfants</th>
                                 <td>{{ person.children }}</td>
                             </tr>
+                            <tr>
+                                <th>Relations</th>
+                                <td>
+                                    {% for linkedPersons in person.linkedPersons %}
+                                        <div><a href="{{ path('app_person_show', {slug: linkingPerson.slug}) }}">{{ linkedPersons }}</a></div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Référencé par</th>
+                                <td>
+                                    {% for linkingPerson in person.linkingPersons %}
+                                        <div><a href="{{ path('app_person_show', {slug: linkingPerson.slug}) }}">{{ linkingPerson }}</a></div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

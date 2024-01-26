@@ -236,7 +236,7 @@
 			{{ person.presentation|raw }}
 		</div>
 
-		{% if person.biography or person.personality or person.comment %}
+		{% if person.biography or person.personality or person.scenarios|length > 0 or person.comment or person.linkedPersons|length > 0 %}
 			<div class="m-4" data-controller="toggle">
 				<div class="category-section" style="max-width:300px">
 					<div>
@@ -259,6 +259,11 @@
 						{% if person.comment or person.scenarios|length > 0 %}
 							<li class="fs-6">
 								<a href="#comment" class="text-dark">Informations complémentaires</a>
+							</li>
+						{% endif %}
+						{% if person.linkedPersons|length > 0 %}
+							<li class="fs-6">
+								<a href="#relations" class="text-dark">Relations</a>
 							</li>
 						{% endif %}
 					</ol>
@@ -294,11 +299,11 @@
 				</h2>
 				
 				{% if person.comment %}
-					<h3 class="h4">Commentaires</h3>
+					<h3 class="h5">Commentaires</h3>
 					{{ person.comment|raw }}
 				{% endif %}
 
-				<h3 class="h4">Scénarios</h3>
+				<h3 class="h5">Scénarios</h3>
 				{% for scenario in person.scenarios %}
 					<div class="mb-2 bg-light border p-2">
 						<p class="fw-bold mb-0"><a href="{{ path('app_scenario_show', {slug: scenario.slug})}}">{{ scenario }}</a></p>
@@ -309,5 +314,24 @@
 				{% endfor %}
 			</div>
 		{% endif %}
+
+		{% if person.linkedPersons|length > 0 %}
+			<div id="relations" class="article-content mb-3">
+				<h2 class="h2 pb-1 overflow-hidden">
+					Relations
+					<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
+				</h2>
+				<div class="row">
+					{% for linkedPerson in person.linkedPersons %}
+						<div class="col-md-6 col-lg-4 my-2">
+							{% include "person/_person_card.html.twig" with {person: linkedPerson} %}
+						</div>
+					{% else %}
+						<div>Aucune relation</div>
+					{% endfor %}
+				</div>
+		{% endif %}
+
+		
 	</section>
 {% endblock %}

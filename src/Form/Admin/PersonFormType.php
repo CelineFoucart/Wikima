@@ -47,6 +47,12 @@ class PersonFormType extends AbstractType
             ->add('children', TextType::class, ['required' => false])
             ->add('siblings', TextType::class, ['required' => false])
             ->add('partner', TextType::class, [ 'required' => false])
+            ->add('linkedPersons', null, [
+                'required' => false,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ]
+            ])
             ->add('physicalDescription', TextareaType::class, [
                 'required' => false,
                 'attr' => ['style' => 'height: 73px' ]

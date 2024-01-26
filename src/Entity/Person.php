@@ -186,9 +186,11 @@ class Person
     private Collection $scenarios;
 
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'linkingPersons')]
+    #[ORM\OrderBy(['lastname' => 'ASC'])]
     private Collection $linkedPersons;
 
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'linkedPersons')]
+    #[ORM\OrderBy(['lastname' => 'ASC'])]
     private Collection $linkingPersons;
 
     public function __construct()
