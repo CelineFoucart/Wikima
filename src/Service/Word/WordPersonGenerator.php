@@ -7,13 +7,11 @@ namespace App\Service\Word;
 use App\Entity\Person;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Html;
+use PhpOffice\PhpWord\SimpleType\Jc;
 
 final class WordPersonGenerator extends AbstractWordGenerator
 {
     private Person $person;
-
-    
-
     /**
      * Get the value of person
      *
@@ -40,7 +38,7 @@ final class WordPersonGenerator extends AbstractWordGenerator
 
     public function generate(): array
     {
-        $this->setStyle()->setProperties();
+        $this->setStyle(h3Size:13)->setProperties();
 
         $section = $this->phpWord->addSection();
         if (null !== $this->person->getType()) {
@@ -57,6 +55,11 @@ final class WordPersonGenerator extends AbstractWordGenerator
         $portals = $this->reduceCollectionToString($this->person->getPortals());
         $section->addText('Portails : ' . $portals, ['bold' => true, 'italic' => true], ['spaceAfter' => Converter::cmToTwip(0.6)]);
 
+        if ($this->person->getImage() !== null) {
+            $filepath = $this->uploadDir . $this->person->getImage()->getFilename();
+            $section->addImage($filepath, $this->getImageDefaultStyles());
+        }
+
         HTML::addHtml($section, $this->person->getPresentation());
 
         $table = $section->addTable($this->getDefaultTableStyle());
@@ -71,6 +74,12 @@ final class WordPersonGenerator extends AbstractWordGenerator
         HTML::addHtml($section, $this->person->getBiography());
         $section->addTitle('Personnalité', 1);
         HTML::addHtml($section, $this->person->getPersonality());
+        $section->addTitle('Relations', 1);
+        foreach ($this->person->getLinkedPersons() as $relation) {
+            $section->addTitle((string) $relation, 2);
+            $textWithBreakLines = str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', $relation->getDescription());
+            $section->addText($textWithBreakLines);
+        }
 
         return $this->saveFile($this->person->getSlug());
     }

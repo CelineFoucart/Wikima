@@ -137,6 +137,11 @@ final class WordPortalGenerator extends AbstractWordGenerator
                 );
             }
 
+            if ($person->getImage() !== null) {
+                $filepath = $this->uploadDir . $person->getImage()->getFilename();
+                $subSection->addImage($filepath, $this->getImageDefaultStyles());
+            }
+
             HTML::addHtml($subSection, $person->getPresentation());
             
             $table = $subSection->addTable($this->getDefaultTableStyle());
@@ -175,6 +180,11 @@ final class WordPortalGenerator extends AbstractWordGenerator
                     ['bold' => true, 'italic' => true],
                     ['spaceAfter' => Converter::cmToTwip(0.6)]
                 );
+            }
+
+            if ($place->getIllustration() !== null) {
+                $filepath = $this->uploadDir . $place->getIllustration()->getFilename();
+                $subSection->addImage($filepath, $this->getImageDefaultStyles());
             }
 
             HTML::addHtml($subSection, $place->getDescription());

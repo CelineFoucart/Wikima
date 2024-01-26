@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Service\Word;
 
 use App\Entity\Place;
-use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Html;
+use PhpOffice\PhpWord\SimpleType\Jc;
+use PhpOffice\PhpWord\Shared\Converter;
 
 final class WordPlaceGenerator extends AbstractWordGenerator
 {
@@ -48,8 +49,13 @@ final class WordPlaceGenerator extends AbstractWordGenerator
         $section->addText('Catégories : '.$categories, ['bold' => true, 'italic' => true]);
         $portals = $this->reduceCollectionToString($this->place->getPortals());
         $section->addText('Portails : '.$portals, ['bold' => true, 'italic' => true], ['spaceAfter' => Converter::cmToTwip(0.6)]);
-        HTML::addHtml($section, $this->place->getDescription());
 
+        if ($this->place->getIllustration() !== null) {
+            $filepath = $this->uploadDir . $this->place->getIllustration()->getFilename();
+            $section->addImage($filepath, $this->getImageDefaultStyles());
+        }
+
+        HTML::addHtml($section, $this->place->getDescription());
         $tableData = self::getTableData($this->place, $this->reduceCollectionToString($this->place->getLocalisations()));
         if (!empty($tableData)) {
             $table = $section->addTable($this->getDefaultTableStyle());

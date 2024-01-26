@@ -7,21 +7,27 @@ namespace App\Service\Word;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\Style\Table;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\Style\Language;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Shared\Converter;
-use Doctrine\Common\Collections\Collection;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class AbstractWordGenerator
 {
     protected PhpWord $phpWord;
 
-    public function __construct(protected $tmpDir)
+    protected string $uploadDir;
+
+    public function __construct(protected $tmpDir, protected string $publicDir, protected UrlGeneratorInterface $urlGenerator)
     {
         Settings::setZipClass(Settings::PCLZIP);
         $this->phpWord = new PhpWord();
+        $this->uploadDir = $this->publicDir . '/uploads/';
     }
 
     /**
@@ -126,6 +132,15 @@ abstract class AbstractWordGenerator
             'cellMargin'  => Converter::cmToTwip(0.09),
             'unit' => TblWidth::PERCENT, 
             'width' => 100 * 50
+        ];
+    }
+
+    protected function getImageDefaultStyles(): array
+    {
+        return [
+            'width' =>  450, 
+            'alignment' => Jc::CENTER,
+            'wrappingStyle' => 'inline',
         ];
     }
 }

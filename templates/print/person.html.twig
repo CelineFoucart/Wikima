@@ -117,7 +117,7 @@
 		<p>{{ person.presentation|raw }}</p>
 	</header>
 
-    {% if person.biography or person.personality %}
+    {% if person.biography or person.personality or person.linkedPersons|length > 0 %}
         <aside class="reduce">
 			<p class="summary-title">
 				<strong>Sommaire&nbsp;:</strong>
@@ -125,6 +125,7 @@
 			<ol>
 				<li>Biographie</li>
 				<li>Personnalité</li>
+                <li>Relations</li>
 			</ol>
 		</aside>
     {% endif %}
@@ -140,6 +141,18 @@
         <article>
 			<h2>2. Personnalité</h2>
 			<div>{{ person.personality|raw }}</div>
+        </article>
+    {% endif %}
+
+    {% if person.linkedPersons|length > 0 %}
+        <article>
+			<h2>3. Relations</h2>
+			<div>
+				{% for personLinked in person.linkedPersons  %}
+					<h3>3.{{ loop.index }}. {{ personLinked }}</h3>
+					{{ personLinked.description }}
+				{% endfor %}
+			</div>
         </article>
     {% endif %}
 {% endblock %}
