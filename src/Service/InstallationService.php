@@ -4,7 +4,10 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArrayInput;
 
 final class InstallationService
 {
@@ -34,10 +37,20 @@ final class InstallationService
         $serverVersion = $data['serverVersion'];
         $databaseURL = 'mysql://'.$user.':'.$password.'@'.$host.':'.$port.'/'.$dbname.'?serverVersion='.$serverVersion;
         file_put_contents($this->configFile, 'DATABASE_URL="'.$databaseURL.'"' . "\n");
+    }
 
-        shell_exec("php ../bin/console doctrine:database:create --if-not-exists --no-interaction");
-        shell_exec("php ../bin/console doctrine:migrations:migrate --no-interaction");
-        shell_exec("php ../bin/console cache:clear --no-interaction");
+    public function execMigrations(KernelInterface $kernel): void
+    {
+        $application = new Application($kernel);
+        $application->setAutoExit(false);
+
+        $createDatabase = new ArrayInput(['command' => 'doctrine:database:create', '--if-not-exists' => true, '--no-interaction' => true]);
+        $migrations = new ArrayInput(['command' => 'doctrine:migrations:migrate', '--no-interaction' => true]);
+        $cacheClear = new ArrayInput(['command' => 'cache:clear', '--no-interaction' => true]);
+
+        $application->run($createDatabase);
+        $application->run($migrations);
+        $application->run($cacheClear);
     }
 
     public function setAdmin(User $user, string $plainPassword): void

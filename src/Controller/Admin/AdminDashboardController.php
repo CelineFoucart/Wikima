@@ -9,7 +9,6 @@ use App\Repository\NoteRepository;
 use App\Repository\AboutRepository;
 use App\Repository\BackupRepository;
 use App\Repository\PortalRepository;
-use Symfony\Component\Finder\Finder;
 use App\Service\Statistics\DatabaseSize;
 use App\Service\Statistics\SatisticsEntity;
 use App\Service\Statistics\StatisticsHandler;
@@ -107,17 +106,21 @@ class AdminDashboardController extends AbstractController
 
     private function getImagesSize($precision = 2): string
     {
-        $uploadedDir = $this->getParameter('kernel.project_dir').'/public/uploads/';
-        $dirIterator = new \DirectoryIterator($uploadedDir);
-        $bytes = $dirIterator->getSize();
+        try {
+            $uploadedDir = $this->getParameter('kernel.project_dir').'/public/uploads/';
+            $dirIterator = new \DirectoryIterator($uploadedDir);
+            $bytes = $dirIterator->getSize();
 
-        if ($bytes === false) {
+            if ($bytes === false) {
+                return '0 KB';
+            }
+
+            $base = log($bytes, 1024);
+            $suffixes = ['', 'KB', 'MB', 'GB', 'TB'];   
+
+            return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
+        } catch (\Exception $th) {
             return '0 KB';
         }
-
-        $base = log($bytes, 1024);
-        $suffixes = ['', 'KB', 'MB', 'GB', 'TB'];   
-
-        return round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
     }
 }

@@ -23,7 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 final class AdminExportController extends AbstractController
 {
     #[IsGranted(new Expression("is_granted('ROLE_SUPER_ADMIN')"))]
-    #[Route('/image/download', name: 'admin_app_export_all')]
+    #[Route('/image/download/all', name: 'admin_app_export_all')]
     public function exportAllAction(BackupService $backupService, BackupRepository $backupRepository): Response
     {
         $filename = $backupService->save()->getFilename();

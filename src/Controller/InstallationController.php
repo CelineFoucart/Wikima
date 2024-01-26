@@ -4,13 +4,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\InstallationType;
+use App\Service\ConfigService;
 use App\Service\InstallationService;
 use App\Form\User\RegistrationFormType;
 use App\Form\Admin\AdvancedSettingsType;
-use App\Service\ConfigService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class InstallationController extends AbstractController
@@ -43,12 +44,20 @@ class InstallationController extends AbstractController
             $data = $form->getData();
             $this->installationService->setDatabaseURL($data);
             
-            return $this->redirectToRoute('app_installation_account');
+            return $this->redirectToRoute('app_installation_database_exec');
         }
 
             return $this->render('installation/index.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/installation/database', name: 'app_installation_database_exec')]
+    public function database(KernelInterface $kernel): Response
+    {
+        $this->installationService->execMigrations($kernel);
+
+        return $this->redirectToRoute('app_installation_account');
     }
 
     #[Route('/installation/account', name: 'app_installation_account')]
@@ -69,7 +78,6 @@ class InstallationController extends AbstractController
 
             return $this->redirectToRoute('app_installation_settings');
         }
-
 
         return $this->render('installation/user.html.twig', [
             'form' => $form->createView(),

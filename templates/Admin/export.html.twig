@@ -47,11 +47,12 @@
                         Ajouter une sauvegarde
                     </a>
 
-                    <a href="{{ path('admin_app_backup_download', {id: backup.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-primary">
-                        <i class="fas fa-download"></i>
-                        Dernière sauvegarde ({{backup.createdAt|date(date_format)}})
-                    </a>
-                    
+                    {% if backup is not null %}
+                        <a href="{{ path('admin_app_backup_download', {id: backup.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-primary">
+                            <i class="fas fa-download"></i>
+                            Dernière sauvegarde ({{backup.createdAt|date(date_format)}})
+                        </a>
+                    {% endif %}
                 </div>
             </article>
         </div>

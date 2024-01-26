@@ -1,6 +1,6 @@
 
 ###> symfony/framework-bundle ###
-/backup
+/backup/*.sql
 /.env.local
 /.env.local.php
 /.env.*.local
@@ -12,6 +12,7 @@
 /var/log/
 /vendor/
 /composer.phar
+/var/data.db
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
