@@ -70,10 +70,13 @@ final class WordPlaceGenerator extends AbstractWordGenerator
         HTML::addHtml($section, $this->place->getPresentation());
         $section->addTitle('Histoire', 1);
         HTML::addHtml($section, $this->place->getHistory());
-        $section->addTitle('Lieux associés', 1);
-        foreach ($this->place->getPlaces() as $child) {
-            $section->addTitle($child->getTitle(), 2);
-            HTML::addHtml($section, $child->getDescription());
+        
+        if (!$this->place->getPlaces()->isEmpty()) {
+            $section->addTitle('Lieux associés', 1);
+            foreach ($this->place->getPlaces() as $child) {
+                $section->addTitle($child->getTitle(), 2);
+                HTML::addHtml($section, $child->getDescription());
+            }
         }
 
         return $this->saveFile($this->place->getSlug());
