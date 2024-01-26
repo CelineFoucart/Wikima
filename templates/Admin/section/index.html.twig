@@ -1,0 +1,103 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Sections d'article{% endblock %}
+
+{% block activeWiki %} active show {% endblock %}
+{% block activeSection %}active{% endblock %}
+{% block page_title %}Sections d'article{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+		<a href="{{ path('admin_app_article_list') }}" class="text-reset">
+			Articles
+		</a>
+	</li>
+    <li class="breadcrumb-item active">
+        Sections
+    </li>
+{% endblock %}
+
+{% block body %}
+    <div class="card border-top-primary">
+        <div class="card-body p-1">
+            <table class="table mb-0 table-striped" id="tableIndex">
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Article</th>
+                        <th data-orderable="false">Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        const sectionRoute = "{{ path('api_section_index') }}";
+
+        $('#tableIndex').DataTable({
+            language: {
+                url: '/assets/DataTables/i18n/fr-FR.json',
+            },
+            processing: true,
+            serverSide: true,
+            paging:true,
+            info: true,
+            autoWidth: false,
+            ajax: sectionRoute,
+            columns: [
+                { 
+                    data: "title", 
+                    name:"s.title",
+                    render: function ( data, type, row ) {
+                        return `${row.article.title} > ${row.title}`;
+                    }
+                },
+                { 
+                    data: "article", 
+                    name:"a.title",
+                    render: function ( data, type, row ) {
+                        return `
+                            <a href="/admin/article/${row.article.id}/section">
+                                ${row.article.title}
+                            </a>
+                        `;
+                    }
+                },
+                { 
+                    data: "actions", 
+                    name: null,
+                    render: function ( data, type, row ) {
+
+                        return `
+                            <div class="btn-group">
+                                <a href="/admin/section/${row.id}/show" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Afficher">
+                                    <i class="fas fa-eye fa-fw"></i>
+                                </a>
+                                <a href="/admin/section/${row.id}/edit" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Éditer">
+                                    <i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>
+                                </a>
+                                <a class="btn btn-sm btn-default" href="/admin/section/${row.id}/conversion" data-bs-toggle="tooltip" title="convertir">
+                                    <i class="fas fa-sync fa-fw"></i>
+                                </a>
+                            </div>
+                        `;
+                    }
+                },
+            ],
+            createdRow: function( row, data, dataIndex ) {
+                $( row ).find('td:eq(0)').attr('data-label', 'Prénom');
+                $( row ).find('td:eq(1)').attr('data-label', 'Nom');
+                $( row ).find('td:eq(2)').attr('data-label', 'Nationalité');
+                $( row ).find('td:eq(3)').attr('data-label', 'Naissance');
+                $( row ).find('td:eq(4)').attr('data-label', 'Mort');
+                $( row ).find('td:eq(5)').attr('data-label', 'Type');
+                $( row ).find('td:eq(6)').attr('data-label', 'Actions');
+            }
+        });
+    </script>
+{% endblock %}

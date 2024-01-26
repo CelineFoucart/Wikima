@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\SectionRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SectionRepository::class)]
 class Section
@@ -11,9 +12,11 @@ class Section
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['index'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['index'])]
     private $title;
 
     #[ORM\Column(type: 'text')]
@@ -30,6 +33,7 @@ class Section
 
     #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'sections')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['index'])]
     private $article;
 
     public function getId(): ?int

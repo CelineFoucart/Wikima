@@ -1,0 +1,37 @@
+<div class="dropdown d-inline">
+    <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenuButton8" data-bs-toggle="dropdown" aria-expanded="false">
+        Action
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton8">
+        <li>
+            <a class="dropdown-item" href="{{ path('admin_app_article_section', {id: section.article.id}) }}">
+                <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                Ajouter
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{{ path('admin_app_section_show', {id: section.id}) }}">
+                <i class="fas fa-eye fa-fw"></i>
+                Voir
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{{ path('admin_app_section_edit', {id: section.id}) }}">
+                <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                Editer
+            </a>
+        </li>
+        <li>
+            <a class="dropdown-item" href="{{ path('admin_app_section_conversion', {id: section.id}) }}">
+                <i class="fas fa-sync"></i>
+                Convertir
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('app_article_show', {slug: section.article.slug}) }}" class="dropdown-item">
+                <i class="fas fa-book-reader" aria-hidden="true"></i>
+                Retour à l'article
+            </a>
+        </li>
+    </ul>
+</div>

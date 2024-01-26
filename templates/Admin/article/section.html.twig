@@ -67,7 +67,11 @@
 												</a>
 												{% include "Admin/components/_delete_modal.html.twig" with { element: section, path: 'admin_app_section_delete' } %}
 											</div>
-											<h4 class="h5">{{ section.title }}</h4>
+											<h4 class="h5">
+												<a href="{{ path('admin_app_section_show', {id: section.id}) }}" data-bs-toggle="tooltip" title="Voir">
+													{{ section.title }}
+												</a>
+											</h4>
 											{{ section.content|striptags|raw|u.truncate(190, '...', false)|raw }}
 										</td>
 									</tr>

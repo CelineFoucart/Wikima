@@ -8,6 +8,7 @@ use App\Entity\Note;
 use App\Repository\PlaceRepository;
 use App\Repository\PersonRepository;
 use App\Repository\ArticleRepository;
+use App\Repository\SectionRepository;
 use App\Repository\TemplateRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -73,6 +74,23 @@ class AdminApiController extends AbstractController
             'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
             'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
             "data" => $personRepository->searchPaginatedItems($parameters),
+            'recordsTotal' =>isset($recordsTotal['recordsFiltered']) ? $recordsTotal['recordsFiltered'] : 0,
+        ];
+
+        return $this->json($data, 200, [], ['groups' => 'index']);
+    }
+
+    #[Route('/api/admin/sections', name: 'api_section_index', methods: ['GET'])]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
+    public function sectionAction(SectionRepository $sectionRepository, Request $request): JsonResponse
+    {
+        $parameters = $request->query->all();
+        $recordsFiltered = $sectionRepository->countSearchTotal($parameters);
+        $recordsTotal = $sectionRepository->countSearchTotal([]);
+        $data = [
+            'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
+            'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
+            "data" => $sectionRepository->searchPaginatedItems($parameters),
             'recordsTotal' =>isset($recordsTotal['recordsFiltered']) ? $recordsTotal['recordsFiltered'] : 0,
         ];
 

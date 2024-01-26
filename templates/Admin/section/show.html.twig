@@ -1,0 +1,101 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block activeWiki %} active show {% endblock %}
+{% block activeSection %}active{% endblock %}
+{% block title %}Afficher "{{ section.title }}"{% endblock %}
+{% block page_title %}Afficher "{{ section.title }}"{% endblock %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item">
+		<a href="{{ path('admin_app_article_list') }}" class="text-reset">
+			Articles
+		</a>
+	</li>
+    <li class="breadcrumb-item">
+        <a href="{{ path('admin_app_section_list') }}" class="text-reset">
+            Sections
+        </a>
+    </li>
+    <li class="breadcrumb-item active">
+        Voir
+    </li>
+{% endblock %}
+
+{% block toolbar %}
+    {% include "Admin/section/_toolbar.html.twig" %}
+{% endblock %}
+
+{% block body %}
+<div class="row">
+        <div class="col-md-8">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">{{ section.article }} > {{ section }}</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Titre</th>
+                                <td>
+                                    {{ section.title }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Contenu</th>
+                                <td>{{ section.content|raw }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-top-primary">
+                <div class="card-header bg-white">
+                    <h2 class="card-title h5 mb-0">Méta données</h2>
+                </div>
+                <div class="card-body card-show">
+                    <table class="table table-striped mb-0">
+                        <tbody>
+                            <tr>
+                                <th>Article</th>
+                                <td>
+                                    <a href="{{ path('admin_app_article_section', {id: section.article.id}) }}" class="fw-bold">
+                                        {{ section.article.title }} <i class="fas fa-cogs fa-fw"></i>
+                                    </a> 
+                                    <br>
+                                    {{ section.article.description|nl2br }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Portails</th>
+                                <td class="container-list">
+                                    {% for portal in section.article.portals %}
+                                        <a href="{{ path('app_portal_show', {slug: portal.slug}) }}">{{ portal }}</a>
+                                    {% else %}
+                                        <span class="fst-italic">Aucun portail</span>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Création</th>
+                                <td>{{ section.createdAt|date(date_format) }}</td>
+                            </tr>
+                            <tr>
+                                <th>Mise à jour</th>
+                                <td>{{ section.updatedAt ? section.updatedAt|date(date_format) : '' }}</td>
+                            </tr>
+                            <tr>
+                                <th>Auteur</th>
+                                <td>
+                                    {{ section.article.author ? section.article.author.username : '' }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -3,10 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Section;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use App\Service\DataFilterService;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Section|null find($id, $lockMode = null, $lockVersion = null)
@@ -56,5 +57,41 @@ class SectionRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult()
         ;
+    }
+
+    public function countSearchTotal(array $parameters): array
+    {
+        $builder = $this->createQueryBuilder('s')->leftJoin('s.article', 'a')->select('COUNT(s.id) AS recordsFiltered');
+
+        if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
+            $builder
+                ->andWhere('s.title LIKE :search')
+                ->orWhere('a.title LIKE :search')
+                ->orWhere('a.keywords LIKE :search')
+                ->setParameter('search', '%' . $parameters['search']['value'] . '%');
+        }
+
+        return $builder->getQuery()->getOneOrNullResult();
+    }
+
+    public function searchPaginatedItems(array $parameters): array
+    {
+        $builder = $this->createQueryBuilder('s')->leftJoin('s.article', 'a');
+        
+        $params = DataFilterService::formatParams($parameters, 'p');
+
+        if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
+            $builder
+                ->andWhere('s.title LIKE :search')
+                ->orWhere('a.title LIKE :search')
+                ->orWhere('a.keywords LIKE :search')
+                ->setParameter('search', '%' . $parameters['search']['value'] . '%');
+        }
+
+        if ($params['limit'] > 0) {
+            $builder->setMaxResults($params['limit'])->setFirstResult($params['start']);
+        }
+
+        return $builder->orderBy($params['orderBy'], $params['direction'])->getQuery()->getResult();
     }
 }

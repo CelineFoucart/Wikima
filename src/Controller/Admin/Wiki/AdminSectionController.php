@@ -29,6 +29,20 @@ class AdminSectionController extends AbstractController
     ) {
     }
 
+    #[Route('/', name: 'admin_app_section_list')]
+    public function indexAction(): Response
+    {
+        return $this->render('Admin/section/index.html.twig');
+    }
+
+    #[Route('/{id}/show', name: 'admin_app_section_show')]
+    public function showAction(Section $section): Response
+    {
+        return $this->render('Admin/section/show.html.twig', [
+            'section' => $section,
+        ]);
+    }
+
     #[Route('/{id}/edit', name: 'admin_app_section_edit')]
     public function editAction(Section $section, Request $request): Response
     {
@@ -37,7 +51,8 @@ class AdminSectionController extends AbstractController
         $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);
         
-        if ($form->isSubmitted() && $form->isValid()) { 
+        if ($form->isSubmitted() && $form->isValid()) {
+            $section->setUpdatedAt(new \DateTime()); 
             $this->sectionRepository->add($section, true);
             $this->addFlash('success', 'Les modifications ont bien été enregistrées.');
 
