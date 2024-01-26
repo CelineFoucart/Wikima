@@ -58,7 +58,7 @@
 				<div class="article-content article-sections">
 					{% for section in article.sections %}
 						<section id="part{{ section.id }}">
-							<h2 class="border-bottom h2 pb-1 position-relative section-title">
+							<h2 class="border-bottom h2  pb-1 position-relative section-title">
 								{{ section.title }}
 								<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
 								{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) or is_granted('ROLE_ADMIN') %}
@@ -79,7 +79,7 @@
 								{% endif %}
 							</h2>
 							{% if section.referencedArticles|length > 0 %}
-								<p class="border-top border-bottom small">
+								<p class="border-top border-bottom small lh-base py-1">
 									<strong><i class="fas fa-search fa-fw"></i> Voir aussi :</strong>&nbsp;
 									{% for article in section.referencedArticles %}
 										<a href="{{ path('app_article_show', {slug: article.slug}) }}">{{ article.title }}</a>{{ loop.last != true ? ',' : '' }}
