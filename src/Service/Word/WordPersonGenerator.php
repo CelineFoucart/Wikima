@@ -70,15 +70,23 @@ final class WordPersonGenerator extends AbstractWordGenerator
             $table->addCell(null, ['valign' => 'center'])->addText($value, [], ['spaceAfter' => Converter::cmToTwip(0)]);
         }
 
-        $section->addTitle('Biographie', 1);
-        HTML::addHtml($section, $this->person->getBiography());
-        $section->addTitle('Personnalité', 1);
-        HTML::addHtml($section, $this->person->getPersonality());
-        $section->addTitle('Relations', 1);
-        foreach ($this->person->getLinkedPersons() as $relation) {
-            $section->addTitle((string) $relation, 2);
-            $textWithBreakLines = str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', $relation->getDescription());
-            $section->addText($textWithBreakLines);
+        if ($this->person->getBiography() !== null) {
+            $section->addTitle('Biographie', 1);
+            HTML::addHtml($section, $this->person->getBiography());
+        }
+        
+        if ($this->person->getPersonality() !== null) {
+            $section->addTitle('Personnalité', 1);
+            HTML::addHtml($section, $this->person->getPersonality());
+        }
+
+        if (!$this->person->getLinkedPersons()->isEmpty()) {
+            $section->addTitle('Relations', 1);
+            foreach ($this->person->getLinkedPersons() as $relation) {
+                $section->addTitle((string) $relation, 2);
+                $textWithBreakLines = str_replace("\n", '</w:t><w:br/><w:t xml:space="preserve">', $relation->getDescription());
+                $section->addText($textWithBreakLines);
+            }
         }
 
         return $this->saveFile($this->person->getSlug());
