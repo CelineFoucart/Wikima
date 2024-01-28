@@ -60,7 +60,7 @@
 
 	<article class="my-4 container-fluid">
 		<div class="row g-2">
-			<div class="col-md-7 d-flex justify-content-center align-items-center flex-column">
+			<div class="col-md-7">
 				{% include "image/components/_medium.html.twig" with {image:image} %}
 				<div class="text-center"><a href="{{ vich_uploader_asset(image) }}" download>{{ image.filename }}</a></div>
 			</div>
