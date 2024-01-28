@@ -8,6 +8,14 @@
 	{{ image.description }}
 {% endblock %}
 
+{% block stylesheets %}
+	<style>
+	.h6 {
+		font-size: 1.1rem;
+	}
+	</style>
+{% endblock %}
+
 {% block body %}
 	<header class="bg-default-light border-bottom">
 		<div class="pt-3 border-bottom container-fluid">
@@ -50,148 +58,145 @@
 		</div>
 	</header>
 
-	<section class="my-4 container-fluid">
-		<div class="row">
-			<div class="col-md-5">
-				<h2 class="h3 mb-2">Informations sur l'image</h2>
-				<p class="text-muted mb-4">Cliquer sur l'image pour l'afficher en grand.</p>
-				<table class="table">
-					<tbody>
-						<tr>
-							<th>Fichier</th>
-							<td>{{ image.filename }}</td>
-						</tr>
-						<tr>
-							<th>Nom</th>
-							<td>{{ image.title }}</td>
-						</tr>
-						<tr>
-							<th>Mots clé</th>
-							<td>{{ image.keywords }}</td>
-						</tr>
-						<tr>
-							<th>Types</th>
-							<td>
-								{% for tag in image.tags %}
-									<a href="{{ path('app_image_type', {slug: tag.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none me-1">
-										{{ tag }}
-									</a>
-								{% endfor %}
-							</td>
-						</tr>
-						<tr>
-							<th>Catégories</th>
-							<td>
-								<ul class="list-unstyled">
-									{% for category in image.categories %}
-										<li>
-											<a href="{{ path('app_category_show', {slug: category.slug }) }}" class="text-decoration-none">
-												<i class="fas fa-folder me-1"></i>
-												{{ category.title }}
-											</a>
-										</li>
-									{% endfor %}
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<th>Portails</th>
-							<td>
-								<ul class="list-unstyled">
-									{% for portal in image.portals %}
-										<li>
-											<a href="{{ path('app_portal_show', {slug: portal.slug }) }}" class="text-decoration-none">
-												<i class="fas fa-tag me-1"></i>
-												{{ portal.title }}
-											</a>
-										</li>
-									{% endfor %}
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<th>Articles</th>
-							<td>
-								<ul class="list-unstyled">
-									{% for article in image.articles %}
-										<li>
-											<a href="{{ path('app_article_show', {slug: article.slug }) }}" class="text-decoration-none">
-												<i class="fas fa-file me-1"></i>
-												{{ article.title }}
-											</a>
-										</li>
-									{% endfor %}
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<th>Personnages</th>
-							<td>
-								<ul class="list-unstyled">
-									{% for person in image.people %}
-										<li>
-											<a href="{{ path('app_person_show', {slug: person.slug }) }}" class="text-decoration-none">
-												<i class="fas fa-user me-1"></i>
-												{{ person.firstname }} {{ person.lastname }}
-											</a>
-										</li>
-									{% endfor %}
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<th>Lieux</th>
-							<td>
-								<ul class="list-unstyled">
-									{% for place in image.places %}
-										<li>
-											<a href="{{ path('app_place_show', {slug: place.slug }) }}" class="text-decoration-none">
-												<i class="fas fa-building me-1"></i>
-												{{ place.title }}
-											</a>
-										</li>
-									{% endfor %}
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<th>Cartes</th>
-							<td>
-								<ul class="list-unstyled">
-									{% for map in image.maps %}
-										<li>
-											<a href="{{ path('app_map_show', {slug: map.slug }) }}" class="text-decoration-none">
-												<i class="fas fa-map me-1"></i>
-												{{ map.title }}
-											</a>
-										</li>
-									{% endfor %}
-								</ul>
-							</td>
-						</tr>
-						<tr>
-							<th>Groupes d'image</th>
-							<td>
-								<ul class="list-unstyled">
-									{% for imageGroup in image.imageGroups %}
-										<li>
-											<a href="{{ path('app_image_group_show', {slug: imageGroup.slug }) }}" class="text-decoration-none">
-												<i class="fas fa-images me-1"></i>
-												{{ imageGroup.title }}
-											</a>
-										</li>
-									{% endfor %}
-								</ul>
-							</td>
-						</tr>
-
-						
-					</tbody>
-				</table>
-			</div>
-			<div class="col-md-7 d-flex justify-content-center align-items-center">
+	<article class="my-4 container-fluid">
+		<div class="row g-2">
+			<div class="col-md-7 d-flex justify-content-center align-items-center flex-column">
 				{% include "image/components/_medium.html.twig" with {image:image} %}
+				<div class="text-center"><a href="{{ vich_uploader_asset(image) }}" download>{{ image.filename }}</a></div>
+			</div>
+
+			<div class="col-md-5">
+				<header>
+					<h2 class="h3 mb-2">Informations sur l'image</h2>
+				</header>
+
+				{% if image.tags|length > 0 %}
+					<section>
+						<h3 class="h6 bg-light border p-1">Types</h3>
+						<ul class="list-unstyled">
+							{% for tag in image.tags %}
+								<li>
+									<a href="{{ path('app_image_type', {slug: tag.slug}) }}" class="text-decoration-none">
+									<i class="fas fa-hashtag fa-fw"></i> {{ tag }}
+								</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</section>
+				{% endif %}
+
+				{% if image.categories|length > 0 %}
+					<section>
+						<h3 class="h6 bg-light border p-1">Catégories</h3>
+						<ul class="list-unstyled">
+							{% for category in image.categories %}
+								<li>
+									<a href="{{ path('app_category_show', {slug: category.slug }) }}" class="text-decoration-none">
+										<i class="fas fa-folder fa-fw"></i>
+										{{ category.title }}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</section>
+				{% endif %}
+
+				{% if image.portals|length > 0 %}
+					<section>
+						<h3 class="h6 bg-light border p-1">Portails</h3>
+						<ul class="list-unstyled">
+							{% for portal in image.portals %}
+								<li>
+									<a href="{{ path('app_portal_show', {slug: portal.slug }) }}" class="text-decoration-none">
+										<i class="fas fa-tag fa-fw"></i>
+										{{ portal.title }}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</section>
+				{% endif %}
+
+				{% if image.articles|length > 0 %}
+					<section>
+						<h3 class="h6 bg-light border p-1">Articles</h3>
+						<ul class="list-unstyled">
+							{% for article in image.articles %}
+								<li>
+									<a href="{{ path('app_article_show', {slug: article.slug }) }}" class="text-decoration-none">
+										<i class="fas fa-file fa-fw"></i>
+										{{ article.title }}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</section>
+				{% endif %}
+
+				{% if image.people|length > 0 %}
+					<section>
+						<h3 class="h6 bg-light border p-1">Personnages</h3>
+						<ul class="list-unstyled">
+							{% for person in image.people %}
+								<li>
+									<a href="{{ path('app_person_show', {slug: person.slug }) }}" class="text-decoration-none">
+										<i class="fas fa-user fa-fw"></i>
+										{{ person.firstname }} {{ person.lastname }}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</section>
+				{% endif %}
+
+				{% if image.places|length > 0 %}
+					<section>
+						<h3 class="h6 bg-light border p-1">Lieux</h3>
+						<ul class="list-unstyled">
+							{% for place in image.places %}
+								<li>
+									<a href="{{ path('app_place_show', {slug: place.slug }) }}" class="text-decoration-none">
+										<i class="fas fa-building fa-fw"></i>
+										{{ place.title }}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</section>
+				{% endif %}
+
+				{% if image.maps|length > 0 %}
+					<section>
+						<h3 class="h6 bg-light border p-1">Cartes</h3>
+						<ul class="list-unstyled">
+							{% for map in image.maps %}
+								<li>
+									<a href="{{ path('app_map_show', {slug: map.slug }) }}" class="text-decoration-none">
+										<i class="fas fa-map fa-fw"></i>
+										{{ map.title }}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</section>
+				{% endif %}
+
+				{% if image.imageGroups|length > 0 %}
+					<section>
+						<h3 class="h6 bg-light border p-1">Groupes d'image</h3>
+						<ul class="list-unstyled">
+							{% for imageGroup in image.imageGroups %}
+								<li>
+									<a href="{{ path('app_image_group_show', {slug: imageGroup.slug }) }}" class="text-decoration-none">
+										<i class="fas fa-images fa-fw"></i>
+										{{ imageGroup.title }}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</section>
+				{% endif %}
 			</div>
 		</div>
-	</section>
+	</article>
 {% endblock %}
