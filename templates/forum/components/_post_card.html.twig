@@ -1,0 +1,40 @@
+<section class="rounded-3 bg-light my-2 p-2 post-container">
+    <div class="d-flex">
+        <aside class="pe-2 profile-post border-end border-white">
+            {% if post.author is not null %}
+                {% if post.author.avatar is not null %}
+                    <div class="mb-0">
+                        <img src="{{ vich_uploader_asset(post.author) }}" class="img-fluid rounded-3" alt=" avatar de {{ post.author.username }}">
+                    </div>
+                {% endif %}
+                <a href="{{path('app_user_show', {id: post.author.id})}}" class="author" style="color:{{ post.author.defaultColour }}">
+                    {{ post.author.username }}
+                </a>
+                <ul class="profil-post-info">
+                    <li>Inscription : {{ post.author.createdAt | date(date_format) }} </li>
+                    <li>Localisation :  {{ post.author.localisation }} </li>
+                    <li>Rang : {{ post.author.rank }}</li>
+                </ul>
+            {% else %}
+                <span class="author">Anonyme</span>
+            {% endif %}
+        </aside>
+        <div class="ps-2 w-100">
+            <header class="row flex-md-row-reverse">
+                <div class="col-md-4 text-end">
+                    {% if is_granted('ROLE_USER') %}
+                        {% include "forum/components/_post_actions.html.twig" %}
+                    {% endif %}
+                </div>
+                <div class="col-md-8">
+                    <h3 id="post{{post.id}}" class="h4"><a href="#post{{post.id}}">{{post.title}}</a></h3>
+                    {% include "forum/components/_post_info.html.twig" with {author: post.author } %}
+                </div>
+            </header>
+            
+            <div class="mb-2 mt-3">
+                {{ post.content|raw }}
+            </div>
+        </div>
+    </div>
+</section>

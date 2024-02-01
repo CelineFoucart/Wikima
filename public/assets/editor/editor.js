@@ -24,7 +24,7 @@ function enableBasicEditor(textareaId) {
         menubar: 'file format edit insert table',
         plugins: [
             'advlist', 'anchor', 'autolink', 'charmap', 'fullscreen', 'help', 'image', 'importcss', 'link', 'lists', 'media', 'nonbreaking',
-            'preview', 'quickbars', 'searchreplace', 'table', 'visualblocks', 'visualchars', 'contextmenu', 'wordcount'
+            'preview', 'quickbars', 'searchreplace', 'table', 'visualblocks', 'visualchars', 'wordcount'
         ]
     });
 }
@@ -279,7 +279,7 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
         plugins: [
             'advlist', 'anchor', 'autolink', 'charmap', 'code', 'fullscreen', 'help', 'image', 'importcss', 'insertdatetime', 'link', 'lists',
             'media', 'nonbreaking', 'pagebreak', 'preview', 'quickbars', 'searchreplace', 'table', 'template', 'visualblocks',
-            'visualchars', 'wordcount', 'contextmenu'
+            'visualchars', 'wordcount',
         ],
         templates: '/api/template',
         setup: function (editor) {
