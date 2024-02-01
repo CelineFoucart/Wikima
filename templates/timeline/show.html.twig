@@ -26,29 +26,27 @@
 				{{ include('includes/_search.html.twig', { route_name: 'app_timeline_index' }) }}
 			</div>
 		</div>
-		<div class="item-heading position-relative pt-2 ps-0">
-			<div style="width:90%">
+		<div class="item-heading position-relative">
+			<div class="pt-4 pt-md-0">
 				{% for category in timeline.categories %}
-					<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1" data-bs-placement="bottom" data-bs-toggle="tooltip" title="{{ category.description ? category.description : 'Aucune description' }}">
+					<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1 mb-1 d-block d-md-inline-block" data-bs-placement="bottom" data-bs-toggle="tooltip" title="{{ category.description ? category.description : 'Aucune description' }}">
 						<i class="fas fa-folder me-1"></i>
 						{{ category.title }}
 					</a>
 				{% endfor %}
 			</div>
 			<div class="p-2 position-absolute top-0" style="right:-10px">
-				<div class="btn-group">
-					{% if is_granted('ROLE_ADMIN') %}
-						<a href="{{ path('admin_app_timeline_edit', {id:timeline.id}) }}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Editer">
-							<i class="fas fa-pencil-alt"></i>
-						</a>
-						<a href="{{ path('admin_app_timeline_event', {id:timeline.id}) }}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Gérer les événements">
-							<i class="fas fa-plus-circle"></i>
-						</a>
-					{% endif %}
-					<a class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Télécharger le fichier word" href="{{ path('app_timeline_word', {slug: timeline.slug}) }}" target="_blank">
-						<i class="fas fa-file-word"></i>
+				{% if is_granted('ROLE_ADMIN') %}
+					<a href="{{ path('admin_app_timeline_edit', {id:timeline.id}) }}" class="btn btn-outline-secondary btn-sm me-1" data-bs-toggle="tooltip" title="Editer">
+						<i class="fas fa-pencil-alt fa-fw"></i>
 					</a>
-				</div>
+					<a href="{{ path('admin_app_timeline_event', {id:timeline.id}) }}" class="btn btn-outline-secondary btn-sm me-1" data-bs-toggle="tooltip" title="Gérer les événements">
+						<i class="fas fa-plus-circle fa-fw"></i>
+					</a>
+				{% endif %}
+				<a class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Télécharger le fichier word" href="{{ path('app_timeline_word', {slug: timeline.slug}) }}" target="_blank">
+					<i class="fas fa-file-word fa-fw"></i>
+				</a>
 			</div>
 			<h1 class="display-3 text-center mb-3">
 				{{ timeline.title }}

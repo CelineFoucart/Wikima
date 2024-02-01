@@ -32,15 +32,16 @@
 					<a href="{{ path('admin_app_image_group_edit', {id:image_group.id}) }}" class="btn btn-outline-secondary btn-sm" title="éditer">
 						<i class="fas fa-pencil-alt"></i>
 					</a>
-
                     <a href="{{ path('admin_app_image_group_show', {id:image_group.id}) }}" class="btn btn-outline-secondary btn-sm" title="gérer les images">
 						<i class="fas fa-info-circle"></i>
 					</a>
 				</div>
 			{% endif %}
-			{% for portal in image_group.portals %}
-				{{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show', position: "bottom"}) }}
-			{% endfor %}
+			<div class="pt-4 pt-md-0">
+				{% for portal in image_group.portals %}
+					{{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show', position: "bottom"}) }}
+				{% endfor %}
+			</div>
 			<h2 class="h1">
 				<i class="fas fa-images me-1"></i>
 				{{ image_group }}
