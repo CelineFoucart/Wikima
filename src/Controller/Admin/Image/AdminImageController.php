@@ -57,6 +57,10 @@ final class AdminImageController extends AbstractAdminController
             $portal = $portalRepository->find($portalId);
             if ($portal) {
                 $image->addPortal($portal);
+
+                foreach ($portal->getCategories() as $category) {
+                    $image->addCategory($category);
+                }
             }
         }
         
