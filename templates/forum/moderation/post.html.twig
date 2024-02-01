@@ -21,7 +21,7 @@
 
 {% block forum_content %}
     <h2>Modération d'un message</h2>
-    <section class="rounded-3 bg-light my-2 p-3 post-container">
+    <section class="rounded-3 border bg-light my-2 p-3 post-container">
         <h3 class="h5">
             <div class="row align-items-center">
                 <div class="col-10">Informations sur un message</div>
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </h3>
-        <div class="rounded-3 bg-white p-3 mt-1">
+        <div class="rounded-3 border bg-white p-3 mt-1">
             <h3 class="h5">{{post.title}}</h3>
             {% include "forum/components/_post_info.html.twig" with {author: post.author } %}
             <p class="mb-0">
@@ -50,7 +50,7 @@
                 {{ post.content|raw }}
             </div>
         </div>
-        <div class="rounded-3 bg-white p-3 mt-1">
+        <div class="rounded-3 border bg-white p-3 mt-1">
             <h3 class="h5">Modifier l'auteur</h3>
             {{ form_start(form) }}
                 {{ form_widget(form) }}
@@ -58,7 +58,7 @@
             {{ form_end(form) }}
         </div>
 
-        <div class="rounded-3 bg-white p-3 mt-1">
+        <div class="rounded-3 border bg-white p-3 mt-1">
             <h3 class="h5">Rapports</h3>
             {% for report in post.reports %}
                 <div class="mx-4 ps-2 border-2 border-start mb-1">
