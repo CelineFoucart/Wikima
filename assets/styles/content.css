@@ -62,25 +62,6 @@
     border-color: var(--secondary);
 }
 
-.article-content {
-    line-height: 1.85rem;
-    text-align: justify;
-}
-
-.article-content h2 {
-    font-size: 1.45rem;
-}
-
-.article-content h3 {
-    font-size: 1.25rem;
-}
-
-.article-content h4,
-.article-content h5,
-.article-content h6 {
-    font-size: 1rem;
-}
-
 blockquote {
     padding-left: 20px;
     padding-right: 8px;
