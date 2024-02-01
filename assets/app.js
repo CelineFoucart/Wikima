@@ -47,4 +47,7 @@ window.onload = () => {
 
     // Enable search input in map show
     searchInput('#search-positions-input', '#positions-container');
+
+    // Enable search input in show page wiki
+    searchInput('#searchable-content', '#searchable-container');
 }

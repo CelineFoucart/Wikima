@@ -19,8 +19,8 @@
 
 		<div class="px-4">{% include "components/_flashes.html.twig" %}</div>
 
-		<div class="py-4 px-4 {{ has_sections ? 'article-grid' : '' }}">
-			<div class="article-content article-intro">
+		<div class="py-4 px-4 {{ has_sections ? 'article-grid' : '' }}" id="searchable-container">
+			<div class="article-content article-intro search-item">
 				{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) or is_granted('ROLE_ADMIN') %}
 					<div class="position-relative" style="height: 30px">
 						<div class="edit-actions text-end position-absolute start-0 end-0">
@@ -35,29 +35,38 @@
 
 			{% if has_sections %}
 				<div class="article-summary" data-controller="toggle">
-					<aside class="category-section sticky-lg-top" style="margin-top: 35px; top: 10px">
-						<div class="clearfix">
-							<span title="afficher ou cacher" role="button" data-action="click->toggle#toggle" data-toggle-target="action" class="float-end">
-								<i class="fas fa-chevron-down"></i>
-							</span>
-							<h2 class="h6"><a href="#title-top"><i class="fas fa-arrow-up me-1"></i></a> Sommaire</h2>
-						</div>
-						<ol class="mb-0" data-toggle-target="content">
-							{% for section in article.sections %}
+					<div class="sticky-lg-top" style="margin-top: 35px; top: 10px">
+						<aside class="category-section me-0">
+							<div class="clearfix">
+								<span title="afficher ou cacher" role="button" data-action="click->toggle#toggle" data-toggle-target="action" class="float-end">
+									<i class="fas fa-chevron-down"></i>
+								</span>
+								<h2 class="h6"><a href="#title-top"><i class="fas fa-arrow-up me-1"></i></a> Sommaire</h2>
+							</div>
+							<ol class="mb-0" data-toggle-target="content">
+								{% for section in article.sections %}
+									<li class="fs-6">
+										<a href="#part{{ section.id }}" class="text-dark">{{ section.title }}</a>
+									</li>
+								{% endfor %}
 								<li class="fs-6">
-									<a href="#part{{ section.id }}" class="text-dark">{{ section.title }}</a>
+									<a href="#gallery-article" class="text-dark">Galerie de l'article</a>
 								</li>
-							{% endfor %}
-							<li class="fs-6">
-								<a href="#gallery-article" class="text-dark">Galerie de l'article</a>
-							</li>
-						</ol>
-					</aside>
+							</ol>
+						</aside>
+						<div class="input-group mb-3">
+							<input type="text" class="form-control" placeholder="Rechercher dans l'article" id="searchable-content">
+							<span class="input-group-text" id="basic-addon2">
+								<i class="fas fa-search"></i>
+								<label for="searchable-content" class="visually-hidden">Rechercher dans l'article</label>
+							</span>
+						</div>
+					</div>
 				</div>
 
 				<div class="article-content article-sections">
 					{% for section in article.sections %}
-						<section id="part{{ section.id }}">
+						<section id="part{{ section.id }}" class="search-item">
 							<h2 class="border-bottom h2  pb-1 position-relative section-title">
 								{{ section.title }}
 								<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
@@ -90,7 +99,7 @@
 						</section>
 					{% endfor %}
 
-					<section id="gallery-article" class="mb-4">
+					<section id="gallery-article" class="mb-4 search-item">
 						<h2 class="border-bottom h2 pb-1 position-relative section-title">
 							Galerie
 							<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>

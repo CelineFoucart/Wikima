@@ -6,27 +6,27 @@
 {% endblock %}
 
 {% block body %}
-	<header class="pt-3 bg-item header-item border-bottom">
-		<div class="container-fluid">
-			<div class="row border-bottom align-items-center">
-				<div class="col-md-6">
-					<nav aria-label="breadcrumb">
-						<ol class="breadcrumb mb-2">
-							<li class="breadcrumb-item">
-								<a href="{{ path('app_home') }}">Accueil</a>
-							</li>
-							<li class="breadcrumb-item">
-								<a href="{{ path('app_timeline_index') }}">Chronologies</a>
-							</li>
-							<li class="breadcrumb-item active" aria-current="page">{{ timeline.title }}</li>
-						</ol>
-					</nav>
-				</div>
-				<div class="col-md-6 text-end">
-					{{ include('includes/_search.html.twig', { route_name: 'app_timeline_index' }) }}
-				</div>
+<header class="pt-3 bg-item header-item border-bottom">
+	<div class="container-fluid">
+		<div class="row border-bottom align-items-center">
+			<div class="col-md-6">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb mb-2">
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_home') }}">Accueil</a>
+						</li>
+						<li class="breadcrumb-item">
+							<a href="{{ path('app_timeline_index') }}">Chronologies</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">{{ timeline.title }}</li>
+					</ol>
+				</nav>
 			</div>
-			<div class="item-heading position-relative pt-2 ps-0">
+			<div class="col-md-6 text-end">
+				{{ include('includes/_search.html.twig', { route_name: 'app_timeline_index' }) }}
+			</div>
+		</div>
+		<div class="item-heading position-relative pt-2 ps-0">
 			<div style="width:90%">
 				{% for category in timeline.categories %}
 					<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1" data-bs-placement="bottom" data-bs-toggle="tooltip" title="{{ category.description ? category.description : 'Aucune description' }}">
@@ -35,44 +35,44 @@
 					</a>
 				{% endfor %}
 			</div>
-					<div class="p-2 position-absolute top-0" style="right:-10px">
-						<div class="btn-group">
-							{% if is_granted('ROLE_ADMIN') %}
-								<a href="{{ path('admin_app_timeline_edit', {id:timeline.id}) }}" 
-									class="btn btn-outline-secondary btn-sm" 
-									data-bs-toggle="tooltip"
-									title="Editer">
-									<i class="fas fa-pencil-alt"></i>
-								</a>
-								<a href="{{ path('admin_app_timeline_event', {id:timeline.id}) }}" 
-									class="btn btn-outline-secondary btn-sm" 
-									data-bs-toggle="tooltip"
-									title="Gérer les événements">
-									<i class="fas fa-plus-circle"></i>
-								</a>
-							{% endif %}
-							<a class="btn btn-sm btn-outline-secondary" 
-								data-bs-toggle="tooltip" title="Télécharger le fichier word"
-								href="{{ path('app_timeline_word', {slug: timeline.slug}) }}" target="_blank">
-								<i class="fas fa-file-word"></i>
-							</a>
-						</div>
-					</div>
+			<div class="p-2 position-absolute top-0" style="right:-10px">
+				<div class="btn-group">
+					{% if is_granted('ROLE_ADMIN') %}
+						<a href="{{ path('admin_app_timeline_edit', {id:timeline.id}) }}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Editer">
+							<i class="fas fa-pencil-alt"></i>
+						</a>
+						<a href="{{ path('admin_app_timeline_event', {id:timeline.id}) }}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Gérer les événements">
+							<i class="fas fa-plus-circle"></i>
+						</a>
+					{% endif %}
+					<a class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip" title="Télécharger le fichier word" href="{{ path('app_timeline_word', {slug: timeline.slug}) }}" target="_blank">
+						<i class="fas fa-file-word"></i>
+					</a>
+				</div>
+			</div>
+			<h1 class="display-3 text-center mb-3">
+				{{ timeline.title }}
+			</h1>
+			<p class="lead text-center">{{ timeline.description }}</p>
+			<aside class="my-1 text-center">
+				{% for portal in timeline.portals %}
+					{{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show', position: 'bottom'}) }}
+				{% endfor %}
+			</aside>
 
-				<h1 class="display-3 text-center mb-3">
-					{{ timeline.title }}
-				</h1>
-				<p class="lead text-center">{{ timeline.description }}</p>
-				<aside class="my-1 text-center">
-					{% for portal in timeline.portals %}
-						{{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show', position: 'bottom'}) }}
-					{% endfor %}
-				</aside>
+			<div class="input-group w-50 ms-auto mt-4">
+				<input type="text" class="form-control" placeholder="Rechercher dans la chronologie" id="searchable-content">
+				<span class="input-group-text" id="basic-addon2">
+					<i class="fas fa-search"></i>
+					<label for="searchable-content" class="visually-hidden">Rechercher dans la chronologie</label>
+				</span>
 			</div>
 		</div>
-	</header>
+	</div>
+</header>
 
-	<div class="my-3 container-fluid">
+
+	<div class="my-3 container-fluid" id="searchable-container">
 		{% if timeline.events is empty %}
 			<p class="text-center">Cette chronologie est vide.</p>
 		{% else %}

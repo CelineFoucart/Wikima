@@ -7,7 +7,6 @@
   * @return void
   */
 export default function searchInput(inputSelector, targetSelector) {
-
     const input = document.querySelector(inputSelector);
     if (null === input) {
         return;
@@ -22,6 +21,7 @@ export default function searchInput(inputSelector, targetSelector) {
         e.preventDefault();
         const value = input.value;
         const searchables = target.querySelectorAll('.search-item');
+
         searchables.forEach(element => {
             const text = element.innerText.toLowerCase();
             if (text.includes(value.toLowerCase())) {
