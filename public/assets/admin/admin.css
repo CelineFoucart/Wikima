@@ -21,6 +21,10 @@ img {
     max-width: 100%;
 }
 
+.tox-tinymce {
+    border-radius: 0.25rem !important;
+}
+
 .modal {
     z-index: 10010;
 }
@@ -134,6 +138,14 @@ img {
 .choices__list--multiple .choices__item {
     background-color: #3c8dbceb;
     border: 1px solid #3c8dbc;
+}
+
+.choices__list--dropdown, .choices__list[aria-expanded] {
+    z-index: 1111;
+}
+
+.tox-shadowhost.tox-fullscreen, .tox.tox-tinymce.tox-fullscreen {
+    z-index: 9991 !important;
 }
 
 .wrapper {
@@ -763,7 +775,6 @@ blockquote {
     padding-left: 20px;
     padding-right: 8px;
     border-left: 5px solid #ccc;
-    font-style: italic;
     margin: 10px 2rem;
 }
 

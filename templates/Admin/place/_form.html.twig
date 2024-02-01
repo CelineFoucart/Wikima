@@ -74,10 +74,11 @@
     </div>
 {{ form_end(form) }}
 
-<script src="{{ asset("assets/plugins/ckeditor/ckeditor.js") }}"></script>
+<script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
 <script src="{{ asset("assets/editor/editor.js") }}"></script>
 <script>   
-    enableFullEditor("place_form_presentation", "p;h3;h4;h5;h6;pre;address;div");
-    enableFullEditor("place_form_description", "p;h3;h4;h5;h6;pre;address;div");
-    enableFullEditor("place_form_history", "p;h3;h4;h5;h6;pre;address;div");
+    const formatTags = "Titre 1=h3; Titre 2=h4; Titre 3=h5; Titre 4=h6;";
+    enableFullEditor("place_form_presentation",  formatTags);
+    enableFullEditor("place_form_description",  formatTags);
+    enableFullEditor("place_form_history",  formatTags);
 </script>

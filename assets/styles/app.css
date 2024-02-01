@@ -166,8 +166,6 @@ a {
     content: '';
 }
 
-/* ckeditor modal */
-.cke_dialog
-{
-    z-index: 10055 !important;
+.tox-tinymce {
+    border-radius: 0.25rem !important;
 }

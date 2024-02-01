@@ -87,11 +87,11 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset("assets/plugins/ckeditor/ckeditor.js") }}"></script>
+	<script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
 	<script src="{{ asset("assets/editor/editor.js") }}"></script>
 	<script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
 	<script>
-		enableFullEditor("section_content");
+		enableFullEditor("section_content", "Titre 1=h3; Titre 2=h4; Titre 3=h5; Titre 4=h6;");
 		window.addEventListener('load', () => {
 			let url = "{{ path('api_article_section', {'id': article.id}) }}";
 			sortable('#sections', url, false);

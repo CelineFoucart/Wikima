@@ -1,12 +1,23 @@
 {{ form_start(form) }}
     <div class="row">
-        <div class="col-md-9 mb-2">
+        <div class="col-12 mb-4">
             <div class="card border-top-primary">
                 <div class="card-header">
                     <h2 class="card-title h5 mb-0">Contenu</h2>
                 </div>
                 <div class="card-body">
                     {{ form_row(form.title) }}
+                    {{ form_row(form.presentation) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <section class="card border-top-primary mb-2">
+                <div class="card-header">
+                    <h3 class="card-title h5 mb-0">Référencement</h3>
+                </div>
+                <div class="card-body">
                     <div class="mb-3">
                         {{ form_label(form.slug) }}
                         <div class="input-group">
@@ -25,30 +36,24 @@
                         {{ form_help(form.slug) }}
                         {{ form_errors(form.slug) }}
                     </div>
-                    {{ form_row(form.presentation) }}
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card border-top-primary">
-                <div class="card-header">
-                    <h2 class="card-title h5 mb-0">Informations</h2>
-                </div>
-                <div class="card-body">
                     {{ form_row(form.keywords) }}
                     {{ form_row(form.description) }}
                 </div>
-            </div>
-            <div class="card border-top-primary mt-3">
+            </section>
+        </div>
+
+        <div class="col-md-6">
+            <section class="card border-top-primary">
                 <div class="card-header">
                     <h2 class="card-title h5 mb-0">Illustration</h2>
                 </div>
                 <div class="card-body">
                     {{ form_row(form.imageBanner) }}
                 </div>
-            </div>
+            </section>
         </div>
     </div>
+
 
     <div class="card-btn mt-3">
         {% include "Admin/components/_form_btns.html.twig" %}
@@ -56,7 +61,7 @@
     </div>
 {{ form_end(form) }}
 
-<script src="{{ asset("assets/plugins/ckeditor/ckeditor.js") }}"></script>
+<script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
 <script src="{{ asset("assets/editor/editor.js") }}"></script>
 <script>   
     enableFullEditor("category_form_presentation");

@@ -1,12 +1,22 @@
 {{ form_start(form) }}
-    <div class="row">
-        <div class="col-md-8">
-            <div class="card border-top-primary">
+    <div class="row g-3">
+        <div class="col-12">
+            <section class="card border-top-primary">
                 <div class="card-header">
                     <h2 class="card-title h5 mb-0">Contenu</h2>
                 </div>
                 <div class="card-body">
                     {{ form_row(form.title) }}
+                    {{ form_row(form.content) }}
+                </div>
+            </section>
+        </div>
+        <div class="col-md-6">
+            <section class="card border-top-primary">
+                <div class="card-header">
+                    <h3 class="card-title h5 mb-0">Référencement</h3>
+                </div>
+                <div class="card-body">
                     <div class="mb-3">
                         {{ form_label(form.slug) }}
                         <div class="input-group">
@@ -26,12 +36,11 @@
                         {{ form_errors(form.slug) }}
                     </div>
                     {{ form_row(form.description) }}
-                    {{ form_row(form.content) }}
                 </div>
-            </div>
+            </section>
         </div>
-        <div class="col-md-4">
-            <div class="card border-top-primary">
+        <div class="col-md-6">
+            <section class="card border-top-primary">
                 <div class="card-header">
                     <h2 class="card-title h5 mb-0">Relations</h2>
                 </div>
@@ -40,7 +49,7 @@
                     {{ form_row(form.categories) }}
                     {{ form_rest(form) }}
                 </div>
-            </div>
+            </section>
         </div>
     </div>
     <div class="card-btn mt-3">
@@ -48,8 +57,8 @@
     </div>
 {{ form_end(form) }}
 
-<script src="{{ asset("assets/plugins/ckeditor/ckeditor.js") }}"></script>
+<script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
 <script src="{{ asset("assets/editor/editor.js") }}"></script>
 <script>   
-    enableFullEditor("page_form_content", "p;h3;h4;h5;h6;pre;address;div");
+    enableFullEditor("page_form_content");
 </script>

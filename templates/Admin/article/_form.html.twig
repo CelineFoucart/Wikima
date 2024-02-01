@@ -1,32 +1,36 @@
 
 {{ form_start(form) }}
-    <div class="row">
-        <div class="col-12">
-            <div class="d-flex flex-wrap justify-content-end pe-1" style="gap:10px">
-                {{ form_row(form.isSticky) }}
-                {{ form_row(form.isDraft) }}
-                {{ form_row(form.isPrivate) }}
-                {{ form_row(form.isArchived) }}
-            </div>
+    <div class="d-flex flex-wrap justify-content-end pe-1" style="gap:10px">
+        {{ form_row(form.isSticky) }}
+        {{ form_row(form.isDraft) }}
+        {{ form_row(form.isPrivate) }}
+        {{ form_row(form.isArchived) }}
+    </div>
+    <div class="card border-top-primary mb-4">
+        <div class="card-header">
+            <h3 class="card-title h5 mb-0">Contenu</h3>
         </div>
-        <div class="col-md-8 mb-2">
-            <div class="card border-top-primary">
-                <div class="card-header">
-                    <h3 class="card-title h5 mb-0">Contenu</h3>
-                </div>
-                <div class="card-body">
-                    {{ form_row(form.title) }}
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12">{{ form_row(form.title) }}</div>
+                <div class="col-md-6">
                     {{ form_row(form.type) }}
-                    {{ form_row(form.content) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.portals) }}
                 </div>
             </div>
+            {{ form_row(form.content) }}
         </div>
-        <div class="col-md-4">
-            <div class="card border-top-primary">
-                <div class="card-header">
-                    <h3 class="card-title h5 mb-0">Méta données</h3>
-                </div>
-                <div class="card-body">
+    </div>
+
+    <div class="card border-top-primary mb-2">
+        <div class="card-header">
+            <h3 class="card-title h5 mb-0">Référencement</h3>
+        </div>
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-6">
                     <div class="mb-3">
                         {{ form_label(form.slug) }}
                         <div class="input-group">
@@ -44,10 +48,13 @@
                         {{ form_help(form.slug) }}
                         {{ form_errors(form.slug) }}
                     </div>
-                    {{ form_row(form.keywords) }}
+                </div>
+                <div class="col-md-6">{{ form_row(form.keywords) }}</div>
+                <div class="col-md-6">
                     {{ form_row(form.description) }}
-                    {{ form_row(form.portals) }}
-                {{ form_row(form.enableComment) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.enableComment) }}
                 </div>
             </div>
         </div>
@@ -75,7 +82,7 @@
     </div>
 {{ form_end(form) }}
 
-<script src="{{ asset("assets/plugins/ckeditor/ckeditor.js") }}"></script>
+<script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
 <script src="{{ asset("assets/editor/editor.js") }}"></script>
 <script>   
     enableFullEditor("article_form_content");

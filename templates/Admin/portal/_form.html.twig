@@ -1,12 +1,23 @@
 {{ form_start(form) }}
     <div class="row">
-        <div class="col-md-9 mb-2">
-            <div class="card border-top-primary">
+        <div class="col-12 mb-4">
+            <section class="card border-top-primary">
                 <div class="card-header">
                     <h2 class="card-title h5 mb-0">Contenu</h2>
                 </div>
                 <div class="card-body">
                     {{ form_row(form.title) }}
+                    {{ form_row(form.categories) }}
+                    {{ form_row(form.presentation) }}
+                </div>
+            </section>
+        </div>
+        <div class="col-md-6">
+            <section class="card border-top-primary">
+                <div class="card-header">
+                    <h3 class="card-title h5 mb-0">Référencement</h3>
+                </div>
+                <div class="card-body">
                     <div class="mb-3">
                         {{ form_label(form.slug) }}
                         <div class="input-group">
@@ -25,29 +36,21 @@
                         {{ form_help(form.slug) }}
                         {{ form_errors(form.slug) }}
                     </div>
-                    {{ form_row(form.categories) }}
-                    {{ form_row(form.presentation) }}
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card border-top-primary">
-                <div class="card-header">
-                    <h2 class="card-title h5 mb-0">Informations</h2>
-                </div>
-                <div class="card-body">
                     {{ form_row(form.keywords) }}
                     {{ form_row(form.description) }}
                 </div>
-            </div>
-            <div class="card border-top-primary mt-3">
+            </section>
+        </div>
+
+        <div class="col-md-6">
+            <section class="card border-top-primary">
                 <div class="card-header">
                     <h2 class="card-title h5 mb-0">Illustration</h2>
                 </div>
                 <div class="card-body">
                     {{ form_row(form.imageBanner) }}
                 </div>
-            </div>
+            </section>
         </div>
     </div>
 
@@ -57,8 +60,8 @@
     </div>
 {{ form_end(form) }}
 
-<script src="{{ asset("assets/plugins/ckeditor/ckeditor.js") }}"></script>
+<script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
 <script src="{{ asset("assets/editor/editor.js") }}"></script>
 <script>   
-    enableFullEditor("portal_form_presentation", "p;h3;h4;h5;h6;pre;address;div");
+    enableFullEditor("portal_form_presentation",  "Titre 1=h3; Titre 2=h4; Titre 3=h5; Titre 4=h6;");
 </script>
