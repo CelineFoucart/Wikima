@@ -71,8 +71,8 @@
 								{{ section.title }}
 								<a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
 								{% if (is_granted('ROLE_EDITOR') and article.author is not null and article.author.id == app.user.id) or is_granted('ROLE_ADMIN') %}
-									<span class="position-absolute top-0 end-0 edit-actions">
-									<a class="text-success text-decoration-none" href="{{ path('admin_app_section_show', {id: section.id}) }}" data-bs-toggle="tooltip" title="informations">
+									<span class="position-absolute mb-2 bottom-0 end-0 edit-actions h4">
+										<a class="text-success text-decoration-none" href="{{ path('admin_app_section_show', {id: section.id}) }}" data-bs-toggle="tooltip" title="informations">
 											<i class="fas fa-eye"></i>
 										</a>
 										<a href="{{ path('admin_app_section_edit', {id: section.id}) }}" class="text-success text-decoration-none" data-bs-toggle="tooltip" title="éditer">
