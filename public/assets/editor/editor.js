@@ -3,6 +3,8 @@ const SKIN = 'tinymce-5';
 const LANGUAGE = "fr_FR";
 
 function enableBasicEditor(textareaId) {
+    document.querySelector(`#${textareaId}`).removeAttribute('required');
+
     tinyMCE.init({
         selector: `#${textareaId}`,
         language: LANGUAGE,
@@ -256,6 +258,8 @@ function enableWikiLinksPlugin(textareaId, editor) {
 }
 
 function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;") {
+    document.querySelector(`#${textareaId}`).removeAttribute('required');
+    
     const block_formats = 'Paragraph=p;' + headings + 'Division=div; Code=code;'
     tinyMCE.init({
         selector: '#' + textareaId,
