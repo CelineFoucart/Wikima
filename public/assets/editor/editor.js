@@ -11,7 +11,6 @@ function enableBasicEditor(textareaId) {
         skin: SKIN,
         promotion: false,
         content_css: CONTENT_CSS,
-        quickbars_insert_toolbar: false,
         contextmenu: "link inserttable | cut copy paste removeformat",
         quickbars_selection_toolbar: 'bold italic underline bullist quicklink blockquote quickimage quicktable',
         toolbar: 'undo redo |' +
@@ -269,7 +268,6 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
         promotion: false,
         content_css: CONTENT_CSS,
         contextmenu: "link inserttable | cut copy paste removeformat",
-        quickbars_insert_toolbar: false,
         quickbars_selection_toolbar: 'bold italic underline quicklink blockquote quickimage quicktable',
         toolbar: 'undo redo  | blocks | fontsizeinput |' + 
             'bold italic underline align | ' +
