@@ -3,7 +3,7 @@
 {% block title %}Modérer un message | Forum de {{ app_name }}{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/choicesjs/choices.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/plugins/choicesjs/choices.min.css') }}"/>
 {% endblock %}
 
 {% block breadcrumb %}
@@ -78,7 +78,7 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/choicesjs/choices.min.js') }}"></script>
 <script>
     new Choices(document.querySelector('#form_author'), {
         removeItems: true,

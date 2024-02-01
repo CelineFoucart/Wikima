@@ -20,9 +20,9 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
-    <script src="{{ asset("assets/admin/editor.js") }}"></script>
-    <script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
+    <script src="{{ asset("assets/plugins/ckeditor/ckeditor.js") }}"></script>
+    <script src="{{ asset("assets/editor/editor.js") }}"></script>
+    <script src="{{ asset('assets/plugins/choicesjs/choices.min.js') }}"></script>
     <script>   
         enableBasicEditor("private_message_content");
         new Choices('#private_message_addressee', {

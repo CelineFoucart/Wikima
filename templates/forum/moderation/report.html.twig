@@ -1,7 +1,7 @@
 {% extends 'forum/base.html.twig' %}
 
 {% block stylesheets %}
-	<link href="{{ asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
+	<link href="{{ asset('assets/plugins/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
 {% endblock %}
 
 {% block title %}Modération | Forum de {{ app_name }}{% endblock %}
@@ -85,12 +85,12 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/DataTables/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
-<script src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/DataTables/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/DataTables/datatables.min.js') }}"></script>
 <script>
     $('#tableIndex').DataTable({
         language: {
-            url: '/assets/DataTables/i18n/fr-FR.json',
+            url: '/assets/plugins/DataTables/i18n/fr-FR.json',
         },
         order: [[0, 'desc']]
     });

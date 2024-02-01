@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link href="{{ asset('assets/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('assets/plugins/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
     <style>
         .choices {
             margin-bottom: 0;
@@ -363,9 +363,9 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset('assets/choicesjs/choices.min.js') }}"></script>
-    <script src="{{ asset('assets/DataTables/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('assets/DataTables/datatables.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/choicesjs/choices.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/DataTables/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/DataTables/datatables.min.js') }}"></script>
 	<script>
 		elements = document.querySelectorAll('[data-choices]');
 		elements.forEach(element => {
@@ -385,7 +385,7 @@
 
         $('.data-table').DataTable({
             language: {
-                url: '/assets/DataTables/i18n/fr-FR.json',
+                url: '/assets/plugins/DataTables/i18n/fr-FR.json',
             },
         });
 	</script>

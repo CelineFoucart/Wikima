@@ -17,16 +17,10 @@
                     {{ form_widget(noteForm) }}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Sauvegarder</button>
                 </div>
             {{ form_end(noteForm) }}
 		</div>
 	</div>
 </div>
-
-<script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
-<script src="{{ asset("assets/admin/editor.js") }}"></script>
-<script>   
-    enableBasicEditor("note_message");
-</script>

@@ -1,7 +1,7 @@
 {% extends 'Admin/scenario/show_base.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/colorpicker/coloris.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/colorpicker/coloris.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
 {% endblock %}
 
@@ -99,8 +99,8 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/colorpicker/coloris.min.js') }}"></script>
-	<script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/colorpicker/coloris.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
     <script>
         Coloris({
             el: '.color-input',

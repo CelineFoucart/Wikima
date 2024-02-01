@@ -24,7 +24,7 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
 	<script>
 		window.onload = () => {
 			let url = "{{ path('api_timeline_event', {'id': timeline.id}) }}";

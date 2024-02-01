@@ -4,7 +4,7 @@ const basicToolbar = [
     ["FontSize", "TextColor", "BGColor", "-", "Link", "Unlink", "-", 'Maximize']
 ];
 
-const contentsCss = ['/assets/bootstrap/bootstrap.min.css', '/assets/ckeditor/contents.css'];
+const contentsCss = ['/assets/plugins/bootstrap/bootstrap.min.css', '/assets/plugins/ckeditor/contents.css'];
 
 function enableBasicEditor(textareaId) {
     CKEDITOR.replace(textareaId, {
@@ -24,7 +24,7 @@ function enableTemplatePlugin(textareaId, editor) {
             label: "Insérer l'un de vos modèles",
             command: 'custom_models_action', 
             toolbar: 'clipboard', 
-            icon: '/assets/icons/templates.svg' 
+            icon: '/assets/editor/icons/templates.svg' 
         }
     );
 
@@ -62,7 +62,7 @@ function enableTemplatePlugin(textareaId, editor) {
     });
     const $table = $('#'+tableId).DataTable({
         language: {
-            url: '/assets/DataTables/i18n/fr-FR.json',
+            url: '/assets/plugins/DataTables/i18n/fr-FR.json',
         },
         processing: true,
         serverSide: true,
@@ -123,7 +123,7 @@ function enableWikiLinksPlugin(textareaId, editor) {
             label: "Ajouter le lien d'un élément textuel",
             command: 'autolinks_action', 
             toolbar: 'insert', 
-            icon: '/assets/icons/articles.svg' 
+            icon: '/assets/editor/icons/articles.svg' 
         }
     );
 
@@ -200,7 +200,7 @@ function enableWikiLinksPlugin(textareaId, editor) {
 
     const $tablePerson = $('#'+tablePersonId).DataTable({
         language: {
-            url: '/assets/DataTables/i18n/fr-FR.json',
+            url: '/assets/plugins/DataTables/i18n/fr-FR.json',
         },
         processing: true,
         serverSide: true,
@@ -250,7 +250,7 @@ function enableWikiLinksPlugin(textareaId, editor) {
 
     const $tablePlace = $('#'+tablePlaceId).DataTable({
         language: {
-            url: '/assets/DataTables/i18n/fr-FR.json',
+            url: '/assets/plugins/DataTables/i18n/fr-FR.json',
         },
         processing: true,
         serverSide: true,
@@ -299,7 +299,7 @@ function enableWikiLinksPlugin(textareaId, editor) {
 
     const $tableArticle = $('#'+tableArticleId).DataTable({
         language: {
-            url: '/assets/DataTables/i18n/fr-FR.json',
+            url: '/assets/plugins/DataTables/i18n/fr-FR.json',
         },
         processing: true,
         serverSide: true,

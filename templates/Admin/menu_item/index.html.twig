@@ -69,7 +69,7 @@
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset('assets/sortable/Sortable.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
 	<script>
 		window.addEventListener('load', () => {
 			let url = "{{ path('api_menu_item_sort') }}";

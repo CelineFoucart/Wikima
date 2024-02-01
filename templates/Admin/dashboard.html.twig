@@ -1,7 +1,7 @@
 {% extends 'admin_layout.html.twig' %}
 
 {% block stylesheets %}
-	<link rel="stylesheet" href="{{ asset('assets/vanillajs-datepicker/datepicker-bs5.min.css') }}">
+	<link rel="stylesheet" href="{{ asset('assets/plugins/vanillajs-datepicker/datepicker-bs5.min.css') }}">
 {% endblock %}
 
 {% block title %}Tableau de bord{% endblock %}
@@ -466,9 +466,9 @@
 	{{ parent() }}
 	
 	{{ encore_entry_script_tags('app') }}
-	<script src="{{ asset('assets/chartjs/chart.min.js') }}"></script>
-	<script src="{{ asset('assets/vanillajs-datepicker/datepicker-full.min.js') }}"></script>
-	<script src="{{ asset('assets/vanillajs-datepicker/fr.js') }}"></script>
+	<script src="{{ asset('assets/plugins/chartjs/chart.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/vanillajs-datepicker/datepicker-full.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/vanillajs-datepicker/fr.js') }}"></script>
 	<script>
 		const elem = document.querySelector('#year');
 		const datepicker = new Datepicker(elem, {

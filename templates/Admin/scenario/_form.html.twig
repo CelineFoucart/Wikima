@@ -1,5 +1,5 @@
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/colorpicker/coloris.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/plugins/colorpicker/coloris.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
 {% endblock %}
 
@@ -68,9 +68,9 @@
 {{ form_end(form) }}
 
 {% block javascripts %}
-    <script src="{{ asset('assets/colorpicker/coloris.min.js') }}"></script>
-    <script src="{{ asset("assets/ckeditor/ckeditor.js") }}"></script>
-    <script src="{{ asset("assets/admin/editor.js") }}"></script>
+    <script src="{{ asset('assets/plugins/colorpicker/coloris.min.js') }}"></script>
+    <script src="{{ asset("assets/plugins/ckeditor/ckeditor.js") }}"></script>
+    <script src="{{ asset("assets/editor/editor.js") }}"></script>
     <script>   
         Coloris({
             el: '#scenario_defaultColor',

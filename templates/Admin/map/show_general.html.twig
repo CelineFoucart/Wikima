@@ -3,7 +3,7 @@
 {% block stylesheets %}
     {{ parent() }}
         <link rel="stylesheet" href="{{ asset('assets/admin/map.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/colorpicker/coloris.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/plugins/colorpicker/coloris.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
 {% endblock %}
 
@@ -201,6 +201,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/colorpicker/coloris.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/colorpicker/coloris.min.js') }}"></script>
 	<script src="{{ asset('assets/admin/map.js') }}"></script>
 {% endblock %}
