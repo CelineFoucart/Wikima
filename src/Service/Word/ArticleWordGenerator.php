@@ -71,9 +71,10 @@ final class ArticleWordGenerator extends AbstractWordGenerator
                         ['spaceAfter' => 0]
                     );
                 }
+                
+                $subSection->addTextBreak(1, null, ['spaceAfter' => 0]);
             }
 
-            $subSection->addTextBreak(1, null, ['spaceAfter' => 0]);
             HTML::addHtml($subSection, $part->getContent());
         }
 
