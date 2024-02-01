@@ -226,7 +226,7 @@
 		</aside>
 		
 		<div id="presentation" class="article-content">
-			<div>
+			<div class="mb-2">
 				{% for tag in person.type %}
 					<a href="{{ path('app_person_type', {slug: tag.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none">
 						{{ tag }}
