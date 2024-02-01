@@ -5,6 +5,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.0] - 2024-02-01
+
+### Added
+
+- Ajouter l'index des sections d'articles avec une page show indiquant les infos
+- Ajouter la possibilité de réattribuer une section à un autre article
+- Ajouter la possibilité de retirer un article d'une langue
+- Ajouter dans les section d'article le champ "voir aussi" pour référencer les articles ?
+- Ajouter les relations entre personnages
+- Ajouter dans la génération word et pdf perso : les relations et l'image
+- Ajouter dans les lieux word l'image
+- Ajouter les références articles des sections dans l'export word et pdf
+- Ajouter la possibilité de filtrer dans la chronologie et l'article avec un champ recherche js
+- Ajouter dans le menu de navigation des accès rapide vers l'ajout des éléments
+
+### Changed
+
+- Faire la migration de l'éditeur vers tinymce
+
+### Fixed
+
+- Corriger le problème responsive des bouton de modération des posts du forum
+- Revoir un peu l'interface du forum et mieux distinguer visuellement les posts
+
+### Removed
+
+- Retirer ckeditor
+
 ## [2.5.0] - 2024-01-20
 
 ### Added
