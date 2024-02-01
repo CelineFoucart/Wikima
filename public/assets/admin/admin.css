@@ -144,10 +144,6 @@ img {
     z-index: 1111;
 }
 
-.tox-shadowhost.tox-fullscreen, .tox.tox-tinymce.tox-fullscreen {
-    z-index: 9991 !important;
-}
-
 .wrapper {
     padding-bottom: 10px;
 }
