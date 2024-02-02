@@ -310,11 +310,7 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
             { title: 'Sans formatage', value: 'img-fluid' },
             { title: 'Miniature', value: 'img-thumbnail img-fluid' },
             { title: 'Image avec bord arrondi', valuee: 'rounded img-fluid' }
-        ],
-        image_uploadtab: true,
-        images_file_types: 'jpg,png,jpeg',
-        images_upload_url: 'postAcceptor.php', // pour uploader l'image sur le server et lui mettre comme titre le nom dy fichier
-        images_reuse_filename: true
+        ]
     };
 
     if (withScript) {
