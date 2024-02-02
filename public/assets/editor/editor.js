@@ -14,7 +14,7 @@ function enableBasicEditor(textareaId) {
         contextmenu: "link inserttable | cut copy paste removeformat",
         quickbars_selection_toolbar: 'bold italic underline bullist quicklink blockquote quickimage quicktable',
         toolbar: 'undo redo |' +
-            'fontsizeinput bold italic underline align bullist numlist blockquote link quicktable | fullscreen help',
+            'fontsizeinput bold italic underline align bullist numlist blockquote link quicktable emoticons | fullscreen help',
         menu: {
             file: { title: 'File', items: 'code wordcount | visualaid visualchars visualblocks | preview fullscreen | newdocument print ' },
             edit: { title: 'Edit', items: 'undo redo | cut copy paste removeformat | selectall | searchreplace' },
@@ -25,7 +25,7 @@ function enableBasicEditor(textareaId) {
         menubar: 'file format edit insert table',
         plugins: [
             'advlist', 'anchor', 'autolink', 'charmap', 'fullscreen', 'help', 'image', 'importcss', 'link', 'lists', 'media', 'nonbreaking',
-            'preview', 'quickbars', 'searchreplace', 'table', 'visualblocks', 'visualchars', 'wordcount'
+            'preview', 'quickbars', 'searchreplace', 'table', 'visualblocks', 'visualchars', 'wordcount', 'emoticons'
         ]
     });
 }
@@ -256,11 +256,11 @@ function enableWikiLinksPlugin(textareaId, editor) {
     });
 }
 
-function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;") {
+function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;", withScript = false) {
     document.querySelector(`#${textareaId}`).removeAttribute('required');
-    
-    const block_formats = 'Paragraph=p;' + headings + 'Division=div; Code=code;'
-    tinyMCE.init({
+    const block_formats = 'Paragraph=p;' + headings + 'Division=div; Code=code;';
+
+    const configs = {
         selector: '#' + textareaId,
         block_formats: block_formats,
         skin: SKIN,
@@ -272,16 +272,16 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
         toolbar: 'undo redo  | blocks | fontsizeinput |' + 
             'bold italic underline align | ' +
             'bullist numlist outdent indent | blockquote link image quicktable template searchWikiButton charmap |'  +
-            'searchreplace preview fullscreen',
+            'searchreplace preview fullscreen ' + (withScript ? 'code' : ''),
         menu: {
             file: { title: 'File', items: 'code wordcount | visualaid visualchars visualblocks | selectall preview fullscreen | newdocument print ' },
-            insert: {title: 'Insert', items: 'image link media template searchWikiButton inserttable | charmap hr | pagebreak nonbreaking anchor | insertdatetime'},
+            insert: {title: 'Insert', items: 'image link media template searchWikiButton inserttable | charmap hr | pagebreak nonbreaking anchor emoticons | insertdatetime'},
         },
         menubar: 'file format edit insert table help',
         plugins: [
             'advlist', 'anchor', 'autolink', 'charmap', 'code', 'fullscreen', 'help', 'image', 'importcss', 'insertdatetime', 'link', 'lists',
             'media', 'nonbreaking', 'pagebreak', 'preview', 'quickbars', 'searchreplace', 'table', 'template', 'visualblocks',
-            'visualchars', 'wordcount',
+            'visualchars', 'wordcount', 'emoticons', 'print'
         ],
         templates: '/api/template',
         setup: function (editor) {
@@ -306,19 +306,20 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
         image_title: true,
         file_picker_types: 'image',
         image_caption: true,
-        image_list: [
-            { title: 'Ashaen', value: 'https://wikima.celine-foucart.com/uploads/ashaen-659c762946be5974201766.png' },
-            { title: 'Rovan', value: 'https://wikima.celine-foucart.com/uploads/rovan-659c764eb4e28872522522.png' }
-        ],
-        // image_list: '/mylist.php',
         image_class_list: [
-            { title: 'None', value: '' },
-            { title: 'Miniature', value: 'img-thumbnail' },
-            { title: 'Responsive', value: 'img-fluid' },
+            { title: 'Sans formatage', value: 'img-fluid' },
+            { title: 'Miniature', value: 'img-thumbnail img-fluid' },
+            { title: 'Image avec bord arrondi', valuee: 'rounded img-fluid' }
         ],
         image_uploadtab: true,
         images_file_types: 'jpg,png,jpeg',
         images_upload_url: 'postAcceptor.php', // pour uploader l'image sur le server et lui mettre comme titre le nom dy fichier
         images_reuse_filename: true
-    });
+    };
+
+    if (withScript) {
+        configs.extended_valid_elements = 'script[src|async|defer|type|charset]';
+    }
+    
+    tinyMCE.init(configs);
 }

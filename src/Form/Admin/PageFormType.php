@@ -22,7 +22,9 @@ class PageFormType extends AbstractType
             ->add('description', TextareaType::class, [
                 'help' => 'help_description',
             ])
-            ->add('content', TextareaType::class)
+            ->add('content', TextareaType::class, [
+                'help' => "Attention, cet éditeur autorise les balises scripts. Ne donnez accès à cette page qu'aux utilisateurs de confiance."
+            ])
             ->add('portals', EntityType::class, [
                 'class' => Portal::class,
                 'choice_label' => 'title',
