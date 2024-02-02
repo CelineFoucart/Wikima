@@ -1,6 +1,7 @@
 const CONTENT_CSS = ['/assets/plugins/bootstrap/bootstrap.min.css', '/assets/editor/editor.css'];
 const SKIN = 'tinymce-5';
 const LANGUAGE = "fr_FR";
+const HOST = location.origin;
 
 function enableBasicEditor(textareaId) {
     document.querySelector(`#${textareaId}`).removeAttribute('required');
@@ -26,7 +27,8 @@ function enableBasicEditor(textareaId) {
         plugins: [
             'advlist', 'anchor', 'autolink', 'charmap', 'fullscreen', 'help', 'image', 'importcss', 'link', 'lists', 'media', 'nonbreaking',
             'preview', 'quickbars', 'searchreplace', 'table', 'visualblocks', 'visualchars', 'wordcount', 'emoticons'
-        ]
+        ],
+        convert_urls: false,
     });
 }
 
@@ -152,7 +154,7 @@ function enableWikiLinksPlugin(textareaId, editor) {
                 if (text.length > 0) {
                     title = text;
                 }
-                editor.insertContent(`<a href="/persons/${btn.dataset.slug}">${title}</a>`);
+                editor.insertContent(`<a href="${HOST}/persons/${btn.dataset.slug}">${title}</a>`);
             })
         });
     });
@@ -201,7 +203,7 @@ function enableWikiLinksPlugin(textareaId, editor) {
                     title = text;
                 }
 
-                editor.insertContent(`<a href="/places/${btn.dataset.slug}">${title}</a>`);
+                editor.insertContent(`<a href="${HOST}/places/${btn.dataset.slug}">${title}</a>`);
             })
         });
     });
@@ -250,7 +252,7 @@ function enableWikiLinksPlugin(textareaId, editor) {
                     title = text;
                 }
 
-                editor.insertContent(`<a href="/articles/${btn.dataset.slug}">${title}</a>`);
+                editor.insertContent(`<a href="${HOST}/articles/${btn.dataset.slug}">${title}</a>`);
             })
         });
     });
@@ -263,6 +265,7 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
     const configs = {
         selector: '#' + textareaId,
         block_formats: block_formats,
+        element_format : "xhtml",
         skin: SKIN,
         language: LANGUAGE,
         promotion: false,
@@ -281,7 +284,7 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
         plugins: [
             'advlist', 'anchor', 'autolink', 'charmap', 'code', 'fullscreen', 'help', 'image', 'importcss', 'insertdatetime', 'link', 'lists',
             'media', 'nonbreaking', 'pagebreak', 'preview', 'quickbars', 'searchreplace', 'table', 'template', 'visualblocks',
-            'visualchars', 'wordcount', 'emoticons', 'print'
+            'visualchars', 'wordcount', 'emoticons'
         ],
         templates: '/api/template',
         setup: function (editor) {
@@ -310,7 +313,8 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
             { title: 'Sans formatage', value: 'img-fluid' },
             { title: 'Miniature', value: 'img-thumbnail img-fluid' },
             { title: 'Image avec bord arrondi', valuee: 'rounded img-fluid' }
-        ]
+        ],
+        convert_urls: false,
     };
 
     if (withScript) {

@@ -42,7 +42,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Voir aussi</th>
+                                <th>Articles liés</th>
                                 <td>
                                     {% for article in section.referencedArticles %}
                                         <div><a href="{{ path('app_article_show', {slug: article.slug}) }}">{{ article.title }}</a></div>

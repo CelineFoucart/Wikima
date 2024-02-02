@@ -45,6 +45,14 @@ class AdminSectionController extends AbstractController
 
             if ($article) {
                 $section->setArticle($article);
+                $lastSection = $article->getSections()->last();
+                if ($lastSection instanceof Section) {
+                    $position = $lastSection->getPosition() + 1;
+                } else {
+                    $position = 0;
+                }
+                $section->setPosition($position);
+
                 $this->sectionRepository->add($section, true);
                 $this->addFlash('success', "L'article a bien été lié à la langue.");
             }
