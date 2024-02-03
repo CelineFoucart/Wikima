@@ -2,10 +2,10 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
 use App\Entity\PrivateMessageSent;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<PrivateMessageSent>

@@ -7,7 +7,7 @@ class AlphabeticalHelperService
     public function formatArray(iterable $items): array
     {
         $orderedItems = [];
-        
+
         foreach ($items as $item) {
             $title = mb_strtolower($item->getTitle());
             $title = preg_replace('#é|è|ë|ê#', 'e', $title);

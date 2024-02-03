@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 namespace App\Form\Search;
 
+use App\Entity\Data\SearchForumData;
 use App\Entity\Forum;
 use App\Entity\ForumCategory;
-use App\Entity\Data\SearchForumData;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 final class SearchTopicType extends AbstractType
 {
@@ -26,28 +25,28 @@ final class SearchTopicType extends AbstractType
                 'label' => 'Mot clé',
                 'attr' => [
                     'placeholder' => 'Search...',
-                ]
+                ],
             ])
             ->add('categories', EntityType::class, [
                 'required' => false,
                 'class' => ForumCategory::class,
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'query_builder' => function (EntityRepository $er) use ($userRoles) {
                     return $er->createQueryBuilder('c')
                         ->leftJoin('c.groupAccess', 'cg')
                         ->andWhere('cg IN (:groups)')
                         ->setParameter('groups', $userRoles);
-                }
+                },
             ])
             ->add('forums', EntityType::class, [
                 'required' => false,
                 'class' => Forum::class,
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'query_builder' => function (EntityRepository $er) use ($userRoles) {
                     return $er->createQueryBuilder('f')
@@ -57,7 +56,7 @@ final class SearchTopicType extends AbstractType
                         ->andWhere('fg IN (:groups)')
                         ->andWhere('cg IN (:groups)')
                         ->setParameter('groups', $userRoles);
-                }
+                },
             ])
         ;
     }

@@ -2,12 +2,11 @@
 
 namespace App\Service;
 
-use App\Service\LogService;
 use App\Entity\Data\Contact;
-use Symfony\Component\Mime\Address;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
 
 class ContactService
 {
@@ -15,16 +14,18 @@ class ContactService
         private string $contactMail,
         private MailerInterface $mailer,
         private LogService $logService
-    ) {  
+    ) {
     }
 
     public function notify(Contact $contact): bool
     {
         try {
             $this->send($contact);
+
             return true;
         } catch (TransportExceptionInterface $th) {
-            $this->logService->error("Contact", $th->getMessage(), "TransportExceptionInterface");
+            $this->logService->error('Contact', $th->getMessage(), 'TransportExceptionInterface');
+
             return false;
         }
     }

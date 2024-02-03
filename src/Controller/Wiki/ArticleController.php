@@ -2,21 +2,21 @@
 
 namespace App\Controller\Wiki;
 
-use App\Entity\User;
 use App\Entity\Article;
 use App\Entity\Data\SearchData;
+use App\Entity\User;
+use App\Form\Search\AdvancedArticleSearchType;
 use App\Form\Search\SearchType;
 use App\Repository\ArticleRepository;
-use App\Service\Word\ArticleWordGenerator;
-use Symfony\Component\HttpFoundation\Request;
-use App\Form\Search\AdvancedArticleSearchType;
 use App\Service\LogService;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Service\Word\ArticleWordGenerator;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Routing\Annotation\Route;
 
 final class ArticleController extends AbstractController
 {
@@ -80,7 +80,7 @@ final class ArticleController extends AbstractController
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }
-    
+
     #[Route('/articles/{slug}/word', name: 'app_article_word')]
     public function articleToWord(#[MapEntity(expr: 'repository.findBySlug(slug)')] Article $article, ArticleWordGenerator $generator, LogService $logService): Response
     {
@@ -96,9 +96,9 @@ final class ArticleController extends AbstractController
 
             return $response;
         } catch (\Exception $th) {
-            $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides ou un code HTML invalide.");
+            $this->addFlash('error', "Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides ou un code HTML invalide.");
             $logService->error("Génération de '{$article->getSlug()}.docx'", $th->getMessage(), 'Article');
-            
+
             return $this->redirectToRoute('app_article_show', ['slug' => $article->getSlug()]);
         }
     }

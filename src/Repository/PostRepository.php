@@ -3,9 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Service\PaginatorService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use App\Service\PaginatorService;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
@@ -46,8 +46,6 @@ class PostRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $topicId
-     * 
      * @return Post[]
      */
     public function findFirstPost(int $topicId): array

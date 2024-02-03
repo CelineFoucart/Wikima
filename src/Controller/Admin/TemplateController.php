@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/template')]
 class TemplateController extends AbstractAdminController
 {
-    protected string $entityName = "template";
+    protected string $entityName = 'template';
 
     #[Route('/', name: 'admin_app_template_list', methods: ['GET'])]
     public function index(TemplateRepository $templateRepository): Response

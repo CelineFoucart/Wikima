@@ -4,31 +4,31 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Place;
 
-use App\Entity\Map;
+use App\Controller\Admin\AbstractAdminController;
 use App\Entity\Data\SearchData;
+use App\Entity\Map;
 use App\Form\Admin\MapFormType;
+use App\Form\Search\AdvancedImageSearchType;
+use App\Repository\ImageRepository;
 use App\Repository\MapRepository;
-use App\Form\Search\AdvancedSearchType;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\Admin\AbstractAdminController;
-use App\Repository\ImageRepository;
-use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/map')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
 class AdminMapController extends AbstractAdminController
 {
-    protected string $entityName = "map";
+    protected string $entityName = 'map';
 
     public function __construct(
         private MapRepository $mapRepository,
     ) {
     }
 
-    #[Route('/', name: 'admin_app_map_list', methods:['GET'])]
+    #[Route('/', name: 'admin_app_map_list', methods: ['GET'])]
     public function listAction(): Response
     {
         return $this->render('Admin/map/list.html.twig', [
@@ -36,14 +36,14 @@ class AdminMapController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/create', name: 'admin_app_map_create', methods:['GET', 'POST'])]
+    #[Route('/create', name: 'admin_app_map_create', methods: ['GET', 'POST'])]
     public function createAction(Request $request, ImageRepository $imageRepository): Response
     {
         $map = new Map();
 
         $imageId = $request->query->getInt('image');
         $image = null;
-        
+
         if (0 !== $imageId) {
             $image = $imageRepository->find($imageId);
             if ($image) {
@@ -65,11 +65,11 @@ class AdminMapController extends AbstractAdminController
 
         $form = $this->createForm(MapFormType::class, $map);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $map->setCreatedAt(new \DateTimeImmutable());
             $this->mapRepository->save($map, true);
-            $this->addFlash('success', "La carte " . $map . " a bien été créée.");
+            $this->addFlash('success', 'La carte '.$map.' a bien été créée.');
 
             return $this->redirectTo($request, $map->getId());
         }
@@ -80,7 +80,7 @@ class AdminMapController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/show', name: 'admin_app_map_show', methods:['GET'])]
+    #[Route('/{id}/show', name: 'admin_app_map_show', methods: ['GET'])]
     public function showAction(Map $map): Response
     {
         return $this->render('Admin/map/show_general.html.twig', [
@@ -89,7 +89,7 @@ class AdminMapController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/image', name: 'admin_app_map_image', methods:['GET', 'POST'])]
+    #[Route('/{id}/image', name: 'admin_app_map_image', methods: ['GET', 'POST'])]
     public function imageAction(Request $request, Map $map, ImageRepository $imageRepository): Response
     {
         $page = $request->query->getInt('page', 1);
@@ -114,7 +114,7 @@ class AdminMapController extends AbstractAdminController
         }
 
         $searchData = (new SearchData())->setPage($page);
-        $searchForm = $this->createForm(AdvancedSearchType::class, $searchData, ['allow_extra_fields' => true]);
+        $searchForm = $this->createForm(AdvancedImageSearchType::class, $searchData, ['allow_extra_fields' => true]);
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
@@ -131,16 +131,16 @@ class AdminMapController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_app_map_edit', methods:['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'admin_app_map_edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Map $map): Response
     {
         $form = $this->createForm(MapFormType::class, $map);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $map->setUpdatedAt(new \DateTime());
             $this->mapRepository->save($map, true);
-            $this->addFlash('success', "La carte " . $map . " a bien été éditée.");
+            $this->addFlash('success', 'La carte '.$map.' a bien été éditée.');
 
             return $this->redirectTo($request, $map->getId());
         }
@@ -151,12 +151,12 @@ class AdminMapController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'admin_app_map_delete', methods:['POST'])]
+    #[Route('/{id}/delete', name: 'admin_app_map_delete', methods: ['POST'])]
     public function deleteAction(Request $request, Map $map): Response
     {
         if ($this->isCsrfTokenValid('delete'.$map->getId(), $request->request->get('_token'))) {
             $this->mapRepository->remove($map, true);
-            $this->addFlash('success', "La carte a été supprimée avec succès.");
+            $this->addFlash('success', 'La carte a été supprimée avec succès.');
         }
 
         return $this->redirectToRoute('admin_app_map_list', [], Response::HTTP_SEE_OTHER);

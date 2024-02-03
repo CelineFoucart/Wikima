@@ -2,17 +2,16 @@
 
 namespace App\Form\Admin;
 
-use App\Entity\Place;
-use App\Entity\Person;
 use App\Entity\Episode;
-use App\Entity\Scenario;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Entity\Person;
+use App\Entity\Place;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EpisodeType extends AbstractType
 {
@@ -22,7 +21,7 @@ class EpisodeType extends AbstractType
             ->add('title', TextType::class)
             ->add('description', TextareaType::class, [
                 'required' => false,
-                'help' => "Petite description pour les cartes (elle ne sera pas visible sur la partie publique)"
+                'help' => 'Petite description pour les cartes (elle ne sera pas visible sur la partie publique)',
             ])
             ->add('color', TextType::class, [
                 'required' => false,
@@ -35,7 +34,7 @@ class EpisodeType extends AbstractType
                 'choice_label' => 'title',
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'required' => false,
             ])
@@ -44,7 +43,7 @@ class EpisodeType extends AbstractType
                 'choice_label' => 'fullname',
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'required' => false,
             ])

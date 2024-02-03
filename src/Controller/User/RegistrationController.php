@@ -7,7 +7,6 @@ use App\Form\User\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\AppAuthenticator;
 use App\Security\EmailVerifier;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +30,7 @@ class RegistrationController extends AbstractController
         if (!$enableRegistration) {
             throw $this->createNotFoundException("Cette page n'existe pas.");
         }
-        
+
         $this->emailVerifier = $emailVerifier;
         $this->contactMail = $contactMail;
         $this->contactName = $contactName;
@@ -45,10 +44,10 @@ class RegistrationController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setCreatedAt(new DateTimeImmutable());
+            $user->setCreatedAt(new \DateTimeImmutable());
             $user->setRoles(['ROLE_USER']);
             $user->setPassword(
-            $userPasswordHasher->hashPassword(
+                $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('plainPassword')->getData()
                 )

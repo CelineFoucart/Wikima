@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Service\Word;
 
 use App\Entity\Scenario;
-use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Shared\Converter;
-use App\Service\Word\AbstractWordGenerator;
+use PhpOffice\PhpWord\Shared\Html;
 
 final class WordScenarioGenerator extends AbstractWordGenerator
 {
@@ -55,10 +54,6 @@ final class WordScenarioGenerator extends AbstractWordGenerator
 
     /**
      * Append to the file the scenario general informations.
-     * 
-     * @param Section $section
-     * 
-     * @return static
      */
     private function appendScenarioIntroduction(Section $section): static
     {
@@ -88,15 +83,11 @@ final class WordScenarioGenerator extends AbstractWordGenerator
 
     /**
      * Append to the file the episodes.
-     * 
-     * @param Section $section
-     * 
-     * @return static
      */
     private function appendEpisodes(Section $section): static
     {
         foreach ($this->scenario->getEpisodes() as $episode) {
-            if ((bool) $episode->isArchived() === true) {
+            if (true === (bool) $episode->isArchived()) {
                 continue;
             }
 

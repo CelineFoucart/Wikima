@@ -5,29 +5,28 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use DateTimeImmutable;
 use App\Entity\UserGroup;
-use App\Service\UserService;
 use App\Form\Admin\UserFormType;
-use App\Repository\UserRepository;
 use App\Repository\ForumGroupRepository;
 use App\Repository\PrivateMessageReceivedRepository;
 use App\Repository\PrivateMessageSentRepository;
+use App\Repository\UserRepository;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\ExpressionLanguage\Expression;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/user')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
 final class AdminUserController extends AbstractAdminController
 {
-    protected string $entityName = "user";
+    protected string $entityName = 'user';
 
     public function __construct(
         private UserRepository $userRepository,
@@ -36,7 +35,7 @@ final class AdminUserController extends AbstractAdminController
     ) {
     }
 
-    #[Route('/', name: 'admin_app_user_list', methods:['GET'])]
+    #[Route('/', name: 'admin_app_user_list', methods: ['GET'])]
     public function listAction(Request $request, UserService $userService): Response
     {
         $roles = $userService->getAvailableRoles();
@@ -46,14 +45,14 @@ final class AdminUserController extends AbstractAdminController
             ->add('roles', ChoiceType::class, [
                 'choices' => $roles,
                 'multiple' => true,
-                'attr' => ['data-choices' => 'choices']
+                'attr' => ['data-choices' => 'choices'],
             ])
             ->getForm()
         ;
 
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->get('roles')->getData();
         }
 
@@ -63,15 +62,15 @@ final class AdminUserController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/create', name: 'admin_app_user_create', methods:['GET', 'POST'])]
+    #[Route('/create', name: 'admin_app_user_create', methods: ['GET', 'POST'])]
     public function createAction(Request $request): Response
     {
-        $user = (new User())->setRoles(["ROLE_USER"]);
+        $user = (new User())->setRoles(['ROLE_USER']);
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $user->setCreatedAt(new DateTimeImmutable());
+            $user->setCreatedAt(new \DateTimeImmutable());
             $plainPassword = $form->get('plainPassword')->getData();
             $user->setPassword(
                 $this->userPasswordHasher->hashPassword(
@@ -80,7 +79,7 @@ final class AdminUserController extends AbstractAdminController
                 )
             );
             $this->userRepository->add($user, true);
-            $this->addFlash('success', "L'utilisateur " . $user . " a bien été créé.");
+            $this->addFlash('success', "L'utilisateur ".$user.' a bien été créé.');
 
             return $this->redirectTo($request, $user->getId());
         }
@@ -90,7 +89,7 @@ final class AdminUserController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/show', name: 'admin_app_user_show', methods:['GET'])]
+    #[Route('/{id}/show', name: 'admin_app_user_show', methods: ['GET'])]
     public function showAction(User $user): Response
     {
         return $this->render('Admin/user/show.html.twig', [
@@ -98,7 +97,7 @@ final class AdminUserController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_app_user_edit', methods:['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'admin_app_user_edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, User $user): Response
     {
         if ($user instanceof User && in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
@@ -107,11 +106,11 @@ final class AdminUserController extends AbstractAdminController
 
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $plainPassword = $form->get('plainPassword')->getData();
-            
-            if ($plainPassword !== null) {
+
+            if (null !== $plainPassword) {
                 $user->setPassword(
                     $this->userPasswordHasher->hashPassword(
                         $user,
@@ -122,7 +121,7 @@ final class AdminUserController extends AbstractAdminController
 
             $this->em->persist($user);
             $this->em->flush();
-            $this->addFlash('success', "L'utilisateur " . $user . " a bien été modifié.");
+            $this->addFlash('success', "L'utilisateur ".$user.' a bien été modifié.');
 
             return $this->redirectTo($request, $user->getId());
         }
@@ -133,7 +132,7 @@ final class AdminUserController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'admin_app_user_delete', methods:['POST'])]
+    #[Route('/{id}/delete', name: 'admin_app_user_delete', methods: ['POST'])]
     public function deleteAction(Request $request, User $user, PrivateMessageSentRepository $sendRepository, PrivateMessageReceivedRepository $receiveRepository): Response
     {
         if (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
@@ -149,7 +148,7 @@ final class AdminUserController extends AbstractAdminController
         return $this->redirectToRoute('admin_app_user_list', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/group', name: 'admin_app_user_group', methods:['GET', 'POST'])]
+    #[Route('/{id}/group', name: 'admin_app_user_group', methods: ['GET', 'POST'])]
     public function groupAction(Request $request, User $user, bool $enableForum, ForumGroupRepository $forumGroupRepository): Response
     {
         if (false === $enableForum) {
@@ -164,8 +163,8 @@ final class AdminUserController extends AbstractAdminController
         $groupId = $request->request->getInt('group', 0);
         $defaultGroup = $request->request->getInt('defaultGroup', 0);
 
-        if ($request->isMethod('POST') && $groupId !== 0) {
-            if ($groupId === 0 || in_array($groupId, $userGroups)) {
+        if ($request->isMethod('POST') && 0 !== $groupId) {
+            if (0 === $groupId || in_array($groupId, $userGroups)) {
                 $this->addFlash('error', 'Cet utilisateur est déjà membre de ce groupe.');
 
                 return $this->redirectToRoute('admin_app_user_group', ['id' => $user->getId()]);
@@ -183,7 +182,7 @@ final class AdminUserController extends AbstractAdminController
             $userGroup = (new UserGroup())->setDefaultGroup($isDefault)->setMember($user)->setForumGroup($group);
             $this->em->persist($userGroup);
             $this->em->flush();
-            $this->addFlash('success', "Le membre a bien été ajouté au groupe.");
+            $this->addFlash('success', 'Le membre a bien été ajouté au groupe.');
 
             return $this->redirectToRoute('admin_app_user_group', ['id' => $user->getId()]);
         }
@@ -202,10 +201,10 @@ final class AdminUserController extends AbstractAdminController
                     $this->em->persist($userGroup);
                 }
             }
-            
+
             $this->em->persist($user);
             $this->em->flush();
-            $this->addFlash('success', "Les modifications ont bien été enregistrés.");
+            $this->addFlash('success', 'Les modifications ont bien été enregistrés.');
 
             return $this->redirectToRoute('admin_app_user_group', ['id' => $user->getId()]);
         }
@@ -226,7 +225,7 @@ final class AdminUserController extends AbstractAdminController
     }
 
     private function clearPrivateMessages(
-        PrivateMessageSentRepository $sendRepository, 
+        PrivateMessageSentRepository $sendRepository,
         PrivateMessageReceivedRepository $receiveRepository,
         User $user
     ): void {
@@ -242,7 +241,7 @@ final class AdminUserController extends AbstractAdminController
 
             $this->em->persist($pm);
         }
-        
+
         $receiveds = $receiveRepository->getReferenced($user);
         foreach ($receiveds as $pm) {
             if ($pm->getAddressee() === $user) {

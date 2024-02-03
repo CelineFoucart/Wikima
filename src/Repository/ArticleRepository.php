@@ -58,7 +58,7 @@ class ArticleRepository extends ServiceEntityRepository
     /**
      * Returns a pagination of articles by portals.
      */
-    public function findByPortals(array $portals, int $page, int $limit = 30, bool $hidePrivate = true, ?ArticleType $type = null): PaginationInterface
+    public function findByPortals(array $portals, int $page, int $limit = 30, bool $hidePrivate = true, ArticleType $type = null): PaginationInterface
     {
         $query = $this->createQueryBuilder('a')
             ->orderBy('a.title', 'ASC')
@@ -136,8 +136,6 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param SearchData $search
-     * 
      * @return Article[]
      */
     public function advancedSearch(SearchData $search): array
@@ -151,25 +149,25 @@ class ArticleRepository extends ServiceEntityRepository
             ->setParameter('q', '%'.$search->getQuery().'%')
             ->leftJoin('p.categories', 'c')->addSelect('c');
 
-            if (empty($search->getFields())) {
-                $builder->andWhere('a.title LIKE :q OR a.keywords LIKE :q OR a.description LIKE :q OR t.title LIKE :q');
-            } else {
-                $where = [];
+        if (empty($search->getFields())) {
+            $builder->andWhere('a.title LIKE :q OR a.keywords LIKE :q OR a.description LIKE :q OR t.title LIKE :q');
+        } else {
+            $where = [];
 
-                if (in_array('name', $search->getFields())) {
-                    $where[] = 'a.title LIKE :q';
-                }
-
-                if (in_array('description', $search->getFields())) {
-                    $where[] = 'a.description LIKE :q OR a.keywords LIKE :q';
-                }
-
-                if (in_array('tags', $search->getFields())) {
-                    $where[] = 't.title LIKE :q';
-                }
-
-                $builder->andWhere(join(' OR ', $where));
+            if (in_array('name', $search->getFields())) {
+                $where[] = 'a.title LIKE :q';
             }
+
+            if (in_array('description', $search->getFields())) {
+                $where[] = 'a.description LIKE :q OR a.keywords LIKE :q';
+            }
+
+            if (in_array('tags', $search->getFields())) {
+                $where[] = 't.title LIKE :q';
+            }
+
+            $builder->andWhere(join(' OR ', $where));
+        }
 
         if (!empty($search->getPortals())) {
             $builder
@@ -250,7 +248,7 @@ class ArticleRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findSticky(?int $portalId = null): array
+    public function findSticky(int $portalId = null): array
     {
         $builder = $this->createQueryBuilder('a')
             ->orderBy('a.title', 'ASC')
@@ -300,7 +298,7 @@ class ArticleRepository extends ServiceEntityRepository
             $builder->setMaxResults($params['limit'])->setFirstResult($params['start']);
         }
 
-        return $builder ->orderBy($params['orderBy'], $params['direction'])->getQuery()->getResult();
+        return $builder->orderBy($params['orderBy'], $params['direction'])->getQuery()->getResult();
     }
 
     public function countSearchTotal(array $parameters): array
@@ -321,11 +319,11 @@ class ArticleRepository extends ServiceEntityRepository
 
     public function getRandomArticle(): array
     {
-        $sql = "SELECT a.id, a.title, a.slug, a.description, a.content 
+        $sql = 'SELECT a.id, a.title, a.slug, a.description, a.content 
             FROM article a
             WHERE a.is_archived != 1 AND a.is_draft != 1
             ORDER BY RAND ( )  
-            LIMIT 1";
+            LIMIT 1';
 
         $connection = $this->getEntityManager()->getConnection();
         $stmt = $connection->prepare($sql);

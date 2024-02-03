@@ -13,14 +13,14 @@ use App\Entity\Timeline;
 use App\Repository\IdiomCategoryRepository;
 use App\Repository\MenuItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class AdminApiSortController extends AbstractController
 {
@@ -90,7 +90,7 @@ class AdminApiSortController extends AbstractController
     {
         $this->sortItems($menuItemRepository->findAll(), json_decode($request->getContent(), true));
 
-        return $this->json(['message'=>'success'], Response::HTTP_OK);
+        return $this->json(['message' => 'success'], Response::HTTP_OK);
     }
 
     #[Route('/api/admin/idiom/categories/sort', 'api_idiom_category_sort', methods: ['POST'])]
@@ -103,7 +103,7 @@ class AdminApiSortController extends AbstractController
 
         $this->sortItems($idiomCategoryRepository->findAll(), json_decode($request->getContent(), true));
 
-        return $this->json(['message'=>'success'], Response::HTTP_OK);
+        return $this->json(['message' => 'success'], Response::HTTP_OK);
     }
 
     #[Route('/api/admin/idiom/articles/{id}/order', 'api_idiom_article_order', methods: ['POST'])]

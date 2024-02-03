@@ -2,20 +2,20 @@
 
 namespace App\Controller;
 
-use App\Entity\Timeline;
-use App\Service\LogService;
 use App\Entity\Data\SearchData;
+use App\Entity\Timeline;
+use App\Form\Search\AdvancedSearchType;
 use App\Form\Search\SearchType;
 use App\Repository\TimelineRepository;
-use App\Form\Search\AdvancedSearchType;
+use App\Service\LogService;
 use App\Service\Word\WordTimelineGenerator;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
 class TimelineController extends AbstractController
 {
@@ -62,9 +62,9 @@ class TimelineController extends AbstractController
 
             return $response;
         } catch (\Exception $th) {
-            $this->addFlash('error',"Le fichier n'a pas pu être généré.");
+            $this->addFlash('error', "Le fichier n'a pas pu être généré.");
             $logService->error("Génération de '{$timeline->getSlug()}.docx'", $th->getMessage(), 'Timeline');
-            
+
             return $this->redirectToRoute('app_timeline_show', ['slug' => $timeline->getSlug()]);
         }
     }

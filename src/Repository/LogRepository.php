@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Log;
 use App\Service\DataFilterService;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Log>
@@ -34,7 +34,7 @@ class LogRepository extends ServiceEntityRepository
         }
     }
 
-    public function clearLogs(?string $date = null)
+    public function clearLogs(string $date = null)
     {
         try {
             if (strlen($date) > 0) {
@@ -55,9 +55,8 @@ class LogRepository extends ServiceEntityRepository
         } catch (\Exception $th) {
             return false;
         }
-
     }
-    
+
     public function countSearchTotal(array $parameters): array
     {
         $builder = $this->createQueryBuilder('l')->select('COUNT(DISTINCT l.id) AS recordsFiltered');
@@ -73,7 +72,7 @@ class LogRepository extends ServiceEntityRepository
 
         return $builder->getQuery()->getOneOrNullResult();
     }
-    
+
     public function searchPaginatedItems(array $parameters): array
     {
         $builder = $this->createQueryBuilder('l');
@@ -92,6 +91,6 @@ class LogRepository extends ServiceEntityRepository
             $builder->setMaxResults($params['limit'])->setFirstResult($params['start']);
         }
 
-        return $builder ->orderBy($params['orderBy'], $params['direction'])->getQuery()->getResult();
+        return $builder->orderBy($params['orderBy'], $params['direction'])->getQuery()->getResult();
     }
 }

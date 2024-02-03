@@ -2,14 +2,14 @@
 
 namespace App\Form\Admin;
 
-use App\Entity\Place;
 use App\Entity\MapPosition;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Entity\Place;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MapPositionType extends AbstractType
 {
@@ -31,7 +31,7 @@ class MapPositionType extends AbstractType
                 'class' => Place::class,
                 'choice_label' => 'title',
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'required' => false,
             ])

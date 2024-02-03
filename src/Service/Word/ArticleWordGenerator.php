@@ -5,10 +5,8 @@ declare(strict_types=1);
 namespace App\Service\Word;
 
 use App\Entity\Article;
-use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Shared\Html;
 use PhpOffice\PhpWord\Shared\Converter;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use PhpOffice\PhpWord\Shared\Html;
 
 final class ArticleWordGenerator extends AbstractWordGenerator
 {
@@ -59,8 +57,6 @@ final class ArticleWordGenerator extends AbstractWordGenerator
         $this->appendSummary($section);
 
         return $this->saveFile($this->article->getSlug());
-
-        
     }
 
     protected function getParamProperties(): array

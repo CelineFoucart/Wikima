@@ -7,8 +7,6 @@ use App\Entity\Category;
 use App\Entity\Image;
 use App\Entity\Portal;
 use App\Entity\Timeline;
-use DateTime;
-use DateTimeImmutable;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class EditorService
@@ -28,7 +26,7 @@ class EditorService
     public function prepareCreation($entity)
     {
         $entity->setSlug($this->updateSlug($entity->getTitle()));
-        $entity->setCreatedAt(new DateTimeImmutable());
+        $entity->setCreatedAt(new \DateTimeImmutable());
 
         return $entity;
     }
@@ -41,7 +39,7 @@ class EditorService
     public function prepareEditing($entity)
     {
         $entity->setSlug($this->updateSlug($entity->getTitle()));
-        $entity->setUpdatedAt(new DateTime());
+        $entity->setUpdatedAt(new \DateTime());
 
         return $entity;
     }

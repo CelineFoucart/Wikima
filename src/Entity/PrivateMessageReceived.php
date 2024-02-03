@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use DateTimeImmutable;
 use App\Repository\PrivateMessageReceivedRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -41,6 +40,7 @@ class PrivateMessageReceived
     {
         return $this->id;
     }
+
     public function getTitle(): ?string
     {
         return $this->title;
@@ -65,12 +65,12 @@ class PrivateMessageReceived
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(?DateTimeImmutable $createdAt): self
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -109,12 +109,12 @@ class PrivateMessageReceived
     public function setPrivateMessageSent(?PrivateMessageSent $privateMessageSent): static
     {
         // unset the owning side of the relation if necessary
-        if ($privateMessageSent === null && $this->privateMessageSent !== null) {
+        if (null === $privateMessageSent && null !== $this->privateMessageSent) {
             $this->privateMessageSent->setPrivateMessageReceived(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($privateMessageSent !== null && $privateMessageSent->getPrivateMessageReceived() !== $this) {
+        if (null !== $privateMessageSent && $privateMessageSent->getPrivateMessageReceived() !== $this) {
             $privateMessageSent->setPrivateMessageReceived($this);
         }
 

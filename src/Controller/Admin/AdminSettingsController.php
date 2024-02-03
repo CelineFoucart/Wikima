@@ -2,18 +2,18 @@
 
 namespace App\Controller\Admin;
 
-use App\Service\ConfigService;
 use App\Form\Admin\AdvancedSettingsType;
 use App\Service\AccessService;
+use App\Service\ConfigService;
 use App\Service\LogService;
 use App\Service\Modules\ModuleService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin')]
 class AdminSettingsController extends AbstractController
@@ -26,27 +26,27 @@ class AdminSettingsController extends AbstractController
         $hasEnvFile = $configService->hasConfigFile();
         $form = $this->createForm(AdvancedSettingsType::class, $envVars);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $data = $form->getData();
 
             if ($data['faviconFile']) {
                 $statusFavicon = $configService->move($data['faviconFile'], $envVars['WIKI_FAVICON']);
 
                 if (!$statusFavicon) {
-                    $this->addFlash('error', "Le chargement du nouveau favicon a échoué.");
+                    $this->addFlash('error', 'Le chargement du nouveau favicon a échoué.');
                 }
             }
 
-            if ($data['bannerFile'] && $data['bannerFile'] ) {
+            if ($data['bannerFile'] && $data['bannerFile']) {
                 /** @var UploadedFile */
                 $file = $data['bannerFile'];
-                $name = "banner.".$file->getClientOriginalExtension();
+                $name = 'banner.'.$file->getClientOriginalExtension();
                 $statusBanner = $configService->move($data['bannerFile'], $name);
 
                 if (!$statusBanner) {
-                    $this->addFlash('error', "Le chargement de la nouvelle bannière a échoué.");
-                }  else {
+                    $this->addFlash('error', 'Le chargement de la nouvelle bannière a échoué.');
+                } else {
                     $data['WIKI_BANNER'] = $name;
                 }
             }
@@ -54,19 +54,19 @@ class AdminSettingsController extends AbstractController
             $status = $configService->save($data);
 
             if ($status) {
-                $this->addFlash('success', "Les paramètres ont bien été enregistrés.");
+                $this->addFlash('success', 'Les paramètres ont bien été enregistrés.');
             } else {
-                $this->addFlash('error', "La sauvegarde a échoué, car le fichier de configuration .env.local est manquant.");
+                $this->addFlash('error', 'La sauvegarde a échoué, car le fichier de configuration .env.local est manquant.');
             }
 
             return $this->redirectToRoute('admin_app_settings');
         }
 
-        $imgPath = $configService->getPublicDir() . DIRECTORY_SEPARATOR . 'img' . DIRECTORY_SEPARATOR;
+        $imgPath = $configService->getPublicDir().DIRECTORY_SEPARATOR.'img'.DIRECTORY_SEPARATOR;
 
-        $faviconFilePath = $imgPath . $envVars['WIKI_FAVICON'];
-        $bannerFilePath = $imgPath . $envVars['WIKI_FAVICON'];
-        
+        $faviconFilePath = $imgPath.$envVars['WIKI_FAVICON'];
+        $bannerFilePath = $imgPath.$envVars['WIKI_FAVICON'];
+
         return $this->render('Admin/settings/settings.html.twig', [
             'hasEnvFile' => $hasEnvFile,
             'form' => $form->createView(),
@@ -84,7 +84,7 @@ class AdminSettingsController extends AbstractController
             $status = $moduleService->handleSubmitData($request->request->all());
 
             if ($status) {
-                $message = "La modification des activations des modules a bien été enregistrée.";
+                $message = 'La modification des activations des modules a bien été enregistrée.';
                 $this->addFlash('success', $message);
                 $logService->info('Configuration', $message, 'Module');
             } else {
@@ -111,7 +111,7 @@ class AdminSettingsController extends AbstractController
             $status = $accessService->setPublicAccess(array_keys($postData))->persist();
 
             if ($status) {
-                $message = "La modification des accès a bien été enregistrée.";
+                $message = 'La modification des accès a bien été enregistrée.';
                 $this->addFlash('success', $message);
                 $logService->info('Configuration', $message, 'Access');
             } else {
@@ -119,7 +119,7 @@ class AdminSettingsController extends AbstractController
                 $this->addFlash('error', $message);
                 $logService->error('Configuration', $message, 'Access');
             }
-            
+
             return $this->redirectToRoute('admin_app_access');
         }
 

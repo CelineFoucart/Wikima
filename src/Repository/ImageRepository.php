@@ -87,7 +87,7 @@ class ImageRepository extends ServiceEntityRepository
             ->setParameter('categories', [$category->getId()])
         ;
 
-        if ($type  > 0) {
+        if ($type > 0) {
             $builder->andWhere('t.id IN (:type)')->setParameter('type', [$type]);
         }
 
@@ -104,7 +104,7 @@ class ImageRepository extends ServiceEntityRepository
             ->setParameter('portals', [$portal->getId()])
         ;
 
-        if ($type  > 0) {
+        if ($type > 0) {
             $builder->andWhere('t.id IN (:type)')->setParameter('type', [$type]);
         }
 
@@ -112,8 +112,6 @@ class ImageRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param SearchData $search
-     * 
      * @return Image[]
      */
     public function advancedSearch(SearchData $search): array
@@ -124,25 +122,25 @@ class ImageRepository extends ServiceEntityRepository
             ->leftJoin('i.tags', 't')->addSelect('t')
             ->setParameter('q', '%'.$search->getQuery().'%');
 
-            if (empty($search->getFields())) {
-                $builder->andWhere('i.title LIKE :q OR i.keywords LIKE :q OR i.description LIKE :q OR t.title LIKE :q');
-            } else {
-                $where = [];
+        if (empty($search->getFields())) {
+            $builder->andWhere('i.title LIKE :q OR i.keywords LIKE :q OR i.description LIKE :q OR t.title LIKE :q');
+        } else {
+            $where = [];
 
-                if (in_array('name', $search->getFields())) {
-                    $where[] = 'i.title LIKE :q';
-                }
-
-                if (in_array('description', $search->getFields())) {
-                    $where[] = 'i.description LIKE :q OR i.keywords LIKE :q';
-                }
-
-                if (in_array('tags', $search->getFields())) {
-                    $where[] = 't.title LIKE :q';
-                }
-
-                $builder->andWhere(join(' OR ', $where));
+            if (in_array('name', $search->getFields())) {
+                $where[] = 'i.title LIKE :q';
             }
+
+            if (in_array('description', $search->getFields())) {
+                $where[] = 'i.description LIKE :q OR i.keywords LIKE :q';
+            }
+
+            if (in_array('tags', $search->getFields())) {
+                $where[] = 't.title LIKE :q';
+            }
+
+            $builder->andWhere(join(' OR ', $where));
+        }
 
         if (!empty($search->getPortals())) {
             $builder

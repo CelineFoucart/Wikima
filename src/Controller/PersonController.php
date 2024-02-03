@@ -2,22 +2,22 @@
 
 namespace App\Controller;
 
+use App\Entity\Data\SearchData;
 use App\Entity\Person;
 use App\Entity\PersonType;
-use App\Entity\Data\SearchData;
+use App\Form\Search\AdvancedPersonSearchType;
 use App\Form\Search\SearchType;
 use App\Repository\PersonRepository;
 use App\Repository\PersonTypeRepository;
-use App\Service\Word\WordPersonGenerator;
-use App\Form\Search\AdvancedPersonSearchType;
 use App\Service\LogService;
+use App\Service\Word\WordPersonGenerator;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PersonController extends AbstractController
 {
@@ -68,9 +68,9 @@ class PersonController extends AbstractController
 
             return $response;
         } catch (\Exception $th) {
-            $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
+            $this->addFlash('error', "Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
             $logService->error("Génération de '{$person->getSlug()}.docx'", $th->getMessage(), 'Person');
-            
+
             return $this->redirectToRoute('app_person_show', ['slug' => $person->getSlug()]);
         }
     }

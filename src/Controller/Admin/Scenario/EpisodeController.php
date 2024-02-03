@@ -7,12 +7,12 @@ use App\Entity\Scenario;
 use App\Form\Admin\EpisodeType;
 use App\Repository\EpisodeRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/admin/scenario-episode')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
@@ -32,7 +32,7 @@ class EpisodeController extends AbstractController
         $episodeId = $request->query->getInt('episode', 0);
         $fromEpisode = ($episodeId > 0) ? $episodeRepository->find($episodeId) : null;
 
-        if ($fromEpisode !== null) {
+        if (null !== $fromEpisode) {
             $episode
                 ->setTitle($fromEpisode->getTitle())
                 ->setDescription($fromEpisode->getDescription())
@@ -47,13 +47,12 @@ class EpisodeController extends AbstractController
             foreach ($fromEpisode->getPlaces() as $place) {
                 $episode->addPlace($place);
             }
-
         } else {
             $episode->setColor($scenario->getDefaultColor());
             foreach ($scenario->getPersons() as $person) {
                 $episode->addPerson($person);
             }
-    
+
             foreach ($scenario->getPlaces() as $place) {
                 $episode->addPlace($place);
             }
@@ -86,8 +85,8 @@ class EpisodeController extends AbstractController
     {
         $form = $this->createForm(EpisodeType::class, $episode);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $episode->setUpdatedAt(new \DateTime());
             $this->entityManager->persist($episode);
             $this->entityManager->flush();

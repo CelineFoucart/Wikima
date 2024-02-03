@@ -2,15 +2,15 @@
 
 namespace App\Form\Admin;
 
+use App\Entity\Category;
 use App\Entity\Page;
 use App\Entity\Portal;
-use App\Entity\Category;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PageFormType extends AbstractType
 {
@@ -23,7 +23,7 @@ class PageFormType extends AbstractType
                 'help' => 'help_description',
             ])
             ->add('content', TextareaType::class, [
-                'help' => "Attention, cet éditeur autorise les balises scripts. Ne donnez accès à cette page qu'aux utilisateurs de confiance."
+                'help' => "Attention, cet éditeur autorise les balises scripts. Ne donnez accès à cette page qu'aux utilisateurs de confiance.",
             ])
             ->add('portals', EntityType::class, [
                 'class' => Portal::class,
@@ -31,8 +31,8 @@ class PageFormType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
             ->add('categories', EntityType::class, [
                 'class' => Category::class,
@@ -40,8 +40,8 @@ class PageFormType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
         ;
     }

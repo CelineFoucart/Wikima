@@ -2,15 +2,15 @@
 
 namespace App\Form\Admin;
 
-use App\Entity\Portal;
 use App\Entity\Category;
+use App\Entity\Portal;
 use App\Entity\Timeline;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TimelineFormType extends AbstractType
 {
@@ -28,16 +28,16 @@ class TimelineFormType extends AbstractType
                 'choice_label' => 'title',
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
             ->add('portals', EntityType::class, [
                 'class' => Portal::class,
                 'choice_label' => 'title',
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
         ;
     }

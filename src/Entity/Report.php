@@ -29,7 +29,7 @@ class Report
     #[ORM\JoinColumn(nullable: false)]
     private ?Post $post = null;
 
-    #[ORM\Column(options:['defaults' => 'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(options: ['defaults' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $createdAt = null;
 
     public function getId(): ?int
@@ -87,6 +87,6 @@ class Report
 
     public function __toString()
     {
-        return 'Rapport de ' . $this->author->getUsername();
+        return 'Rapport de '.$this->author->getUsername();
     }
 }

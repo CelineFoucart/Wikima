@@ -8,19 +8,19 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * Class ActiveLinkExtension
- * 
+ * Class ActiveLinkExtension.
+ *
  * ActiveLinkExtension handles active links.
- * 
+ *
  * @author Céline Foucart <celinefoucart@yahoo.fr>
  */
 class ActiveLinkExtension extends AbstractExtension
 {
-
     public function __construct(
         private UrlGeneratorInterface $urlGenerator
-    ) { }
-    
+    ) {
+    }
+
     public function getFunctions(): array
     {
         return [
@@ -45,7 +45,6 @@ class ActiveLinkExtension extends AbstractExtension
     public function areActive(Request $request, array $routes, bool $isStricted = false): string
     {
         foreach ($routes as $routeName) {
-
             $isActive = $this->isLinkActive($request, $routeName, $isStricted);
 
             if ($isActive) {
@@ -70,6 +69,5 @@ class ActiveLinkExtension extends AbstractExtension
         $parts = explode('_', $currentRoute);
 
         return in_array($routeName, $parts);
-
     }
 }

@@ -2,15 +2,15 @@
 
 namespace App\Controller\Wiki;
 
-use App\Entity\User;
 use App\Entity\ArticleType;
+use App\Entity\User;
 use App\Repository\ArticleRepository;
 use App\Repository\ArticleTypeRepository;
 use App\Service\AlphabeticalHelperService;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticleTypeController extends AbstractController
 {

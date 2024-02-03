@@ -3,20 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use DateTime;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -78,9 +76,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar = null;
-    
+
     #[Ignore]
-    #[Vich\UploadableField(mapping:"upload_avatar", fileNameProperty:"avatar")]
+    #[Vich\UploadableField(mapping: 'upload_avatar', fileNameProperty: 'avatar')]
     private ?File $imageFile = null;
 
     #[ORM\OneToMany(mappedBy: 'member', targetEntity: UserGroup::class, orphanRemoval: true)]
@@ -506,7 +504,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
 
-        if ($color === null) {
+        if (null === $color) {
             $color = '#000';
         }
 

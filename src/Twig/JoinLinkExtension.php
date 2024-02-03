@@ -6,12 +6,13 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class JoinLinkExtension  extends AbstractExtension
+class JoinLinkExtension extends AbstractExtension
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator
-    ) { }
-    
+    ) {
+    }
+
     public function getFunctions(): array
     {
         return [
@@ -23,10 +24,10 @@ class JoinLinkExtension  extends AbstractExtension
     {
         $parts = [];
 
-        foreach($elements as $element) {
+        foreach ($elements as $element) {
             $route = $this->urlGenerator->generate($routeName, ['slug' => $element->getSlug()]);
 
-            $parts[] = '<a href="'.$route.'" class="text-decoration-none">'. $element .'</a>';
+            $parts[] = '<a href="'.$route.'" class="text-decoration-none">'.$element.'</a>';
         }
 
         $html = join(', ', $parts);

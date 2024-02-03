@@ -3,13 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
-use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[UniqueEntity('slug')]
@@ -184,7 +183,7 @@ class Article
         return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -194,7 +193,7 @@ class Article
         if ($createdAt instanceof \DateTimeImmutable) {
             $this->createdAt = $createdAt;
         } else {
-            $this->createdAt = new DateTimeImmutable($createdAt->format('Y-m-d H:i:s'));
+            $this->createdAt = new \DateTimeImmutable($createdAt->format('Y-m-d H:i:s'));
         }
 
         return $this;

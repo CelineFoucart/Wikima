@@ -9,7 +9,6 @@ final class ForumHelper
 {
     public function __construct(private ForumGroupRepository $forumGroupRepository)
     {
-        
     }
 
     /**
@@ -18,7 +17,7 @@ final class ForumHelper
     public function getCurrentUserRoles(?User $user): array
     {
         $anonymous = $this->forumGroupRepository->findByRoleName(['roleName' => 'PUBLIC_ACCESS']);
-        
+
         if (!$user instanceof User) {
             return $anonymous;
         }

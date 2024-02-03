@@ -5,17 +5,17 @@ namespace App\Form\Admin;
 use App\Entity\User;
 use App\Service\UserService;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class UserFormType extends AbstractType
 {
@@ -23,6 +23,7 @@ class UserFormType extends AbstractType
         private UserService $userService,
     ) {
     }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $id = $options['data']->getId();
@@ -34,8 +35,8 @@ class UserFormType extends AbstractType
                 'choices' => $this->userService->getAvailableRoles(),
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
             ->add('isVerified')
             ->add('plainPassword', RepeatedType::class, [
@@ -79,9 +80,9 @@ class UserFormType extends AbstractType
                     new Image([
                         'maxWidth' => 300,
                         'maxHeight' => 300,
-                    ])
+                    ]),
                 ],
-                'help' => "Seuls sont autorisés les fichiers jpeg, jpg, gif et png d'une largeur et d'une hauteur maximale de 300 pixels."
+                'help' => "Seuls sont autorisés les fichiers jpeg, jpg, gif et png d'une largeur et d'une hauteur maximale de 300 pixels.",
             ])
         ;
     }

@@ -5,8 +5,8 @@ namespace App\Entity;
 use App\Repository\MapPositionRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MapPositionRepository::class)]
 class MapPosition
@@ -19,7 +19,7 @@ class MapPosition
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 3,max: 255)]
+    #[Assert\Length(min: 3, max: 255)]
     #[Groups(['index'])]
     private ?string $title = null;
 
@@ -35,13 +35,13 @@ class MapPosition
 
     #[ORM\Column(length: 30, nullable: true)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 3,max: 30)]
+    #[Assert\Length(min: 3, max: 30)]
     #[Groups(['index'])]
     private ?string $color = null;
 
     #[ORM\Column(length: 50, nullable: true)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 3,max: 50)]
+    #[Assert\Length(min: 3, max: 50)]
     #[Groups(['index'])]
     private ?string $marker = null;
 

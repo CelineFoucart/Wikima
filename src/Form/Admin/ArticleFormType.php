@@ -24,8 +24,8 @@ class ArticleFormType extends AbstractType
                 'choice_label' => 'title',
                 'required' => false,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
             ->add('slug', TextType::class)
             ->add('keywords', TextType::class)
@@ -34,8 +34,8 @@ class ArticleFormType extends AbstractType
                 'choice_label' => 'title',
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
             ->add('description', TextareaType::class)
             ->add('content', TextareaType::class)
@@ -55,7 +55,7 @@ class ArticleFormType extends AbstractType
             ])
             ->add('enableComment', null, [
                 'required' => false,
-                'help' => "Si le module commentaire est activé par l'administrateur"
+                'help' => "Si le module commentaire est activé par l'administrateur",
             ])
         ;
     }

@@ -97,6 +97,6 @@ class TemplateGroup
 
     public function __toString()
     {
-        return $this->title ? $this->title : "Nouveau groupe de modèles";
+        return $this->title ? $this->title : 'Nouveau groupe de modèles';
     }
 }

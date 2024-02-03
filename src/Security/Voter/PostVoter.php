@@ -5,9 +5,9 @@ namespace App\Security\Voter;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Repository\PostRepository;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class PostVoter extends Voter
 {
@@ -65,7 +65,7 @@ class PostVoter extends Voter
         }
 
         $firstPost = $this->postRepository->findFirstPost($post->getTopic()->getId());
-        
+
         if ($firstPost[0]->getId() === $post->getId()) {
             return false;
         }

@@ -4,26 +4,25 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Image;
 
-
+use App\Controller\Admin\AbstractAdminController;
 use App\Entity\Image;
 use App\Form\Admin\ImageType;
+use App\Repository\CategoryRepository;
 use App\Repository\ImageRepository;
 use App\Repository\PortalRepository;
-use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\Admin\AbstractAdminController;
-use Liip\ImagineBundle\Imagine\Cache\CacheManager;
-use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/image')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
 final class AdminImageController extends AbstractAdminController
 {
-    protected string $entityName = "image";
+    protected string $entityName = 'image';
 
     public function __construct(
         private ImageRepository $imageRepository,
@@ -31,7 +30,7 @@ final class AdminImageController extends AbstractAdminController
     ) {
     }
 
-    #[Route('/', name: 'admin_app_image_list', methods:['GET'])]
+    #[Route('/', name: 'admin_app_image_list', methods: ['GET'])]
     public function listAction(): Response
     {
         return $this->render('Admin/image/list.html.twig', [
@@ -39,7 +38,7 @@ final class AdminImageController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/create', name: 'admin_app_image_create', methods:['GET', 'POST'])]
+    #[Route('/create', name: 'admin_app_image_create', methods: ['GET', 'POST'])]
     public function createAction(Request $request, CategoryRepository $categoryRepository, PortalRepository $portalRepository): Response
     {
         $image = new Image();
@@ -63,14 +62,14 @@ final class AdminImageController extends AbstractAdminController
                 }
             }
         }
-        
+
         $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $image->setUpdatedAt(new \DateTime());
             $this->imageRepository->add($image, true);
-            $this->addFlash('success', "L'image " . $image->getTitle() . " a bien été créée.");
+            $this->addFlash('success', "L'image ".$image->getTitle().' a bien été créée.');
 
             return $this->redirectTo($request, $image->getId());
         }
@@ -80,7 +79,7 @@ final class AdminImageController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/show', name: 'admin_app_image_show', methods:['GET'])]
+    #[Route('/{id}/show', name: 'admin_app_image_show', methods: ['GET'])]
     public function showAction(Image $image): Response
     {
         return $this->render('Admin/image/show.html.twig', [
@@ -88,16 +87,16 @@ final class AdminImageController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_app_image_edit', methods:['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'admin_app_image_edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Image $image): Response
     {
         $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $image->setUpdatedAt(new \DateTime());
             $this->imageRepository->add($image, true);
-            $this->addFlash('success', "Les informations de l'image " . $image->getTitle() . " ont bien été modifiées.");
+            $this->addFlash('success', "Les informations de l'image ".$image->getTitle().' ont bien été modifiées.');
 
             return $this->redirectTo($request, $image->getId());
         }
@@ -108,12 +107,12 @@ final class AdminImageController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'admin_app_image_delete', methods:['POST'])]
+    #[Route('/{id}/delete', name: 'admin_app_image_delete', methods: ['POST'])]
     public function deleteAction(Request $request, Image $image, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
             $this->cacheManager->remove('/uploads/'.$image->getFilename());
-            
+
             if (count($image->getPlaces()) > 0 || count($image->getPeople()) > 0) {
                 foreach ($image->getPlaces() as $place) {
                     $image->removePlace($place);
@@ -122,7 +121,7 @@ final class AdminImageController extends AbstractAdminController
                 foreach ($image->getPeople() as $person) {
                     $image->removePerson($person);
                 }
-                
+
                 $em->persist($image);
                 $em->flush();
             }

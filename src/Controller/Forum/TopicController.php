@@ -2,29 +2,26 @@
 
 namespace App\Controller\Forum;
 
-use DateTime;
-use App\Entity\Post;
-use App\Entity\User;
 use App\Entity\Forum;
-use App\Entity\Topic;
+use App\Entity\Post;
 use App\Entity\Report;
+use App\Entity\Topic;
+use App\Entity\User;
 use App\Form\PostType;
-use DateTimeImmutable;
 use App\Form\ReportType;
 use App\Repository\PostRepository;
-use App\Repository\TopicRepository;
 use App\Security\Voter\VoterHelper;
 use App\Service\LogService;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\ExpressionLanguage\Expression;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/forum')]
 class TopicController extends AbstractController
@@ -41,7 +38,7 @@ class TopicController extends AbstractController
     {
         $post = (new Post())
             ->setTopic($topic)
-            ->setTitle('Re: ' . $topic->getTitle())
+            ->setTitle('Re: '.$topic->getTitle())
             ->setContent($this->getReplyTo($postRepository, $request))
         ;
 
@@ -51,10 +48,10 @@ class TopicController extends AbstractController
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid() && $this->getUser() instanceof User) { 
+        if ($form->isSubmitted() && $form->isValid() && $this->getUser() instanceof User) {
             $this->denyAccessUnlessGranted(VoterHelper::CREATE, $topic, 'Access Denied.');
 
-            $post->setCreatedAt(new DateTimeImmutable())->setAuthor($this->getUser());
+            $post->setCreatedAt(new \DateTimeImmutable())->setAuthor($this->getUser());
             $this->em->persist($post);
             $this->em->flush();
 
@@ -62,7 +59,7 @@ class TopicController extends AbstractController
             if ($totalCurrent < $perPageOdd) {
                 $route = $this->generateUrl('app_forum_topic_show', ['slug' => $topic->getSlug(), 'page' => $page]);
             } else {
-                $route = $this->generateUrl('app_forum_topic_show', ['slug' => $topic->getSlug(), 'page' => $page+1]);
+                $route = $this->generateUrl('app_forum_topic_show', ['slug' => $topic->getSlug(), 'page' => $page + 1]);
             }
             $id = '#post'.$post->getId();
 
@@ -93,9 +90,9 @@ class TopicController extends AbstractController
         $errors = [];
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
-            $created = new DateTimeImmutable();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $created = new \DateTimeImmutable();
             $topic = (new Topic())
                 ->setTitle($post->getTitle())
                 ->setSlug(strtolower($slugger->slug($post->getTitle())))
@@ -104,11 +101,11 @@ class TopicController extends AbstractController
                 ->setSticky(false)
                 ->setCreatedAt($created)
                 ->setAuthor($this->getUser());
-            
+
             $violations = $validator->validate($topic);
 
-            if (count($violations) > 0) {    
-                $errors[] = "Ce titre est déjà utilisé";
+            if (count($violations) > 0) {
+                $errors[] = 'Ce titre est déjà utilisé';
             } else {
                 $this->em->persist($topic);
                 $post->setTopic($topic)->setCreatedAt($created);
@@ -130,7 +127,7 @@ class TopicController extends AbstractController
     #[IsGranted(new Expression("is_granted('ROLE_USER')"))]
     public function editPost(Post $post, Request $request, PostRepository $postRepository, SluggerInterface $slugger): Response
     {
-        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $post,'Access Denied.');
+        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $post, 'Access Denied.');
 
         $topicPage = $request->query->getInt('page', 1);
         $firstPost = $postRepository->findFirstPost($post->getTopic()->getId());
@@ -139,9 +136,9 @@ class TopicController extends AbstractController
         $topic = $post->getTopic();
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
-            $post->setUpdatedAt(new DateTime());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $post->setUpdatedAt(new \DateTime());
             $this->em->persist($post);
 
             if ($isFirstTopic) {
@@ -154,7 +151,7 @@ class TopicController extends AbstractController
 
             $route = $this->generateUrl('app_forum_topic_show', ['slug' => $topic->getSlug(), 'page' => $topicPage]);
 
-            return $this->redirect($route . '#post'.$post->getId());
+            return $this->redirect($route.'#post'.$post->getId());
         }
 
         return $this->render('forum/topic/edit.html.twig', [
@@ -173,7 +170,7 @@ class TopicController extends AbstractController
 
         try {
             $this->denyAccessUnlessGranted(VoterHelper::DELETE, $post);
-    
+
             if ($this->isCsrfTokenValid('delete'.$post->getId(), $request->request->get('_token'))) {
                 $this->em->remove($post);
                 $firstPost = $postRepository->findFirstPost($post->getTopic()->getId());
@@ -185,15 +182,15 @@ class TopicController extends AbstractController
                 }
 
                 $this->em->flush();
-                $this->addFlash('success', "Le post a été supprimé avec succès.");
+                $this->addFlash('success', 'Le post a été supprimé avec succès.');
             } else {
-                $message = "La suppression a échoué car le token CSRF est invalide";
+                $message = 'La suppression a échoué car le token CSRF est invalide';
                 $this->addFlash('error', $message);
-                $logService->error("Suppression", $message . ' : ' . $post->getTitle() . '('. $post->getId() .')', 'Post');
+                $logService->error('Suppression', $message.' : '.$post->getTitle().'('.$post->getId().')', 'Post');
             }
         } catch (AccessDeniedException $th) {
-            $this->addFlash('error', "Vous ne pouvez pas supprimer ce message.");
-            $logService->error("Suppression", "Tentative de suppression d'un message : " . $post->getTitle() . '('. $post->getId() .')', 'AccessDeniedException');
+            $this->addFlash('error', 'Vous ne pouvez pas supprimer ce message.');
+            $logService->error('Suppression', "Tentative de suppression d'un message : ".$post->getTitle().'('.$post->getId().')', 'AccessDeniedException');
         }
 
         return $this->redirect($route);
@@ -206,14 +203,14 @@ class TopicController extends AbstractController
         $report = (new Report())->setAuthor($this->getUser())->setPost($post);
         $form = $this->createForm(ReportType::class, $report);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $report->setCreatedAt(new \DateTimeImmutable());
             $this->em->persist($report);
             $this->em->flush();
             $this->addFlash('success', 'Votre rapport a bien été enregistré.');
 
-            return $this->redirectToRoute('app_forum_topic_show', ["slug" => $post->getTopic()->getSlug()]);
+            return $this->redirectToRoute('app_forum_topic_show', ['slug' => $post->getTopic()->getSlug()]);
         }
 
         return $this->render('forum/topic/report.html.twig', [
@@ -227,17 +224,17 @@ class TopicController extends AbstractController
     {
         $replyTo = $request->query->getInt('reply', 0);
 
-        if ($replyTo === 0) {
+        if (0 === $replyTo) {
             return '';
         }
 
         $reply = $postRepository->find($replyTo);
 
-        if ($reply === null) {
+        if (null === $reply) {
             return '';
         }
 
-        $author = ($reply->getAuthor() !== null) ? '<p><strong>' . $reply->getAuthor()->getUsername() . ' a écrit :</strong></p> ' : '';
+        $author = (null !== $reply->getAuthor()) ? '<p><strong>'.$reply->getAuthor()->getUsername().' a écrit :</strong></p> ' : '';
 
         return "<blockquote>{$author}{$reply->getContent()}</blockquote>";
     }

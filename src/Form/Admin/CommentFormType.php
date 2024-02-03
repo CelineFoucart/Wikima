@@ -18,8 +18,8 @@ class CommentFormType extends AbstractType
             ])
             ->add('author', null, [
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
         ;
     }

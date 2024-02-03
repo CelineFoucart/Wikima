@@ -2,29 +2,28 @@
 
 namespace App\Controller;
 
+use App\Entity\Data\SearchData;
 use App\Entity\Place;
 use App\Entity\PlaceType;
-use App\Service\LogService;
-use App\Entity\Data\SearchData;
+use App\Form\Search\AdvancedPlaceSearchType;
 use App\Form\Search\SearchType;
 use App\Repository\PlaceRepository;
 use App\Repository\PlaceTypeRepository;
+use App\Service\LogService;
 use App\Service\Word\WordPlaceGenerator;
-use App\Form\Search\AdvancedPlaceSearchType;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PlaceController extends AbstractController
 {
     public function __construct(
         private PlaceRepository $placeRepository
     ) {
-
     }
 
     #[Route('/places', name: 'app_place_index')]
@@ -47,7 +46,7 @@ class PlaceController extends AbstractController
     }
 
     #[Route('/places/{slug}', name: 'app_place_show')]
-    public function show(#[MapEntity(expr: 'repository.findBySlug(slug)')]  Place $place): Response
+    public function show(#[MapEntity(expr: 'repository.findBySlug(slug)')] Place $place): Response
     {
         return $this->render('place/show.html.twig', [
             'place' => $place,
@@ -69,9 +68,9 @@ class PlaceController extends AbstractController
 
             return $response;
         } catch (\Exception $th) {
-            $this->addFlash('error',"Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
+            $this->addFlash('error', "Le fichier n'a pas pu être généré, car il y a des liens vers des images invalides.");
             $logService->error("Génération de '{$place->getSlug()}.docx'", $th->getMessage(), 'Place');
-            
+
             return $this->redirectToRoute('app_place_show', ['slug' => $place->getSlug()]);
         }
     }

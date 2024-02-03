@@ -3,9 +3,7 @@
 namespace App\Command;
 
 use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -96,11 +94,11 @@ class CreateUserCommand extends Command
         $errors = $this->validator->validate($user);
 
         if (count($errors) > 0 || strlen($plainPassword) < 6) {
-            throw new Exception((string) $errors);
+            throw new \Exception((string) $errors);
         }
 
         $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
-        $user->setPassword($hashedPassword)->setRoles(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_USER'])->setCreatedAt(new DateTimeImmutable());
+        $user->setPassword($hashedPassword)->setRoles(['ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_USER'])->setCreatedAt(new \DateTimeImmutable());
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 

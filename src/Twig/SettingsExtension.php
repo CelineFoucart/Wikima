@@ -2,21 +2,19 @@
 
 namespace App\Twig;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * Class ActiveLinkExtension
- * 
+ * Class ActiveLinkExtension.
+ *
  * ActiveLinkExtension handles active links.
- * 
+ *
  * @author Céline Foucart <celinefoucart@yahoo.fr>
  */
 class SettingsExtension extends AbstractExtension
 {
-
     public function __construct(
         private UrlGeneratorInterface $urlGenerator,
         private string $faviconFile,
@@ -24,7 +22,7 @@ class SettingsExtension extends AbstractExtension
         private string $bannerFile
     ) {
     }
-    
+
     public function getFunctions(): array
     {
         return [
@@ -33,31 +31,31 @@ class SettingsExtension extends AbstractExtension
         ];
     }
 
-    public function getFavicon():string 
+    public function getFavicon(): string
     {
         if (strlen($this->faviconFile) < 4 || null === $this->faviconFile) {
-            return "";
+            return '';
         }
 
-        $path = '/img/'. $this->faviconFile;
+        $path = '/img/'.$this->faviconFile;
 
-        if (!file_exists($this->publicDir . $path)) {
-            return "";
+        if (!file_exists($this->publicDir.$path)) {
+            return '';
         }
 
-        return '<link rel="shortcut icon" href="'. $path .'">';
+        return '<link rel="shortcut icon" href="'.$path.'">';
     }
 
-    public function getBanner(): string 
+    public function getBanner(): string
     {
         if (strlen($this->bannerFile) < 4 || null === $this->bannerFile) {
-            return "";
+            return '';
         }
 
-        $path = '/img/'. $this->bannerFile;
+        $path = '/img/'.$this->bannerFile;
 
-        if (!file_exists($this->publicDir . $path)) {
-            return "";
+        if (!file_exists($this->publicDir.$path)) {
+            return '';
         }
 
         return 'style="background: linear-gradient(to bottom, rgba(0, 0, 0, 0.82), rgba(54, 54, 54, 0.2)), url('.$path.') center center / cover no-repeat"';

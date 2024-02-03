@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractAdminController extends AbstractController
 {
-    protected string $entityName = "";
+    protected string $entityName = '';
 
     protected function redirectTo(Request $request, int $id): RedirectResponse
     {
@@ -29,16 +29,16 @@ abstract class AbstractAdminController extends AbstractController
 
     protected function redirectToList(): RedirectResponse
     {
-        return $this->redirectToRoute("admin_app_". $this->entityName ."_list");
+        return $this->redirectToRoute('admin_app_'.$this->entityName.'_list');
     }
 
     protected function redirectToCreate(): RedirectResponse
     {
-        return $this->redirectToRoute("admin_app_". $this->entityName ."_create");
+        return $this->redirectToRoute('admin_app_'.$this->entityName.'_create');
     }
 
     protected function redirectToEdit(int $id): RedirectResponse
     {
-        return $this->redirectToRoute("admin_app_". $this->entityName ."_edit", ['id' => $id]);
+        return $this->redirectToRoute('admin_app_'.$this->entityName.'_edit', ['id' => $id]);
     }
 }

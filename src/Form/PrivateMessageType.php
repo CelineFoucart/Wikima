@@ -2,15 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\User;
 use App\Entity\PrivateMessageSent;
-use App\Entity\PrivateMessageReceived;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PrivateMessageType extends AbstractType
 {
@@ -23,8 +22,8 @@ class PrivateMessageType extends AbstractType
                 'class' => User::class,
                 'choice_label' => 'username',
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
         ;
     }

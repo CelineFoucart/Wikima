@@ -4,28 +4,24 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\HttpKernel\KernelInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class InstallationService
 {
     public function __construct(
-        private string $configFile, 
-        private $projectDir, 
+        private string $configFile,
+        private $projectDir,
         private UserPasswordHasherInterface $userPasswordHasher,
         private UserRepository $userRepository
     ) {
     }
 
     /**
-     * Set the DATABASE_URL value in .env.local and create the database. 
+     * Set the DATABASE_URL value in .env.local and create the database.
      * If filename does not exist, the file is created. Otherwise, the existing file is overwritten.
-     * 
-     * @param array $data
-     * 
-     * @return void
      */
     public function setDatabaseURL(array $data): void
     {
@@ -36,7 +32,7 @@ final class InstallationService
         $dbname = $data['DB_NAME'];
         $serverVersion = $data['serverVersion'];
         $databaseURL = 'mysql://'.$user.':'.$password.'@'.$host.':'.$port.'/'.$dbname.'?serverVersion='.$serverVersion;
-        file_put_contents($this->configFile, 'DATABASE_URL="'.$databaseURL.'"' . "\n");
+        file_put_contents($this->configFile, 'DATABASE_URL="'.$databaseURL.'"'."\n");
     }
 
     public function execMigrations(KernelInterface $kernel): void
@@ -58,7 +54,7 @@ final class InstallationService
         $user->setCreatedAt(new \DateTimeImmutable());
         $user->setRoles(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN']);
         $user->setPassword(
-        $this->userPasswordHasher->hashPassword(
+            $this->userPasswordHasher->hashPassword(
                 $user,
                 $plainPassword
             )
@@ -69,12 +65,12 @@ final class InstallationService
 
     public function endInstallation(): void
     {
-        file_put_contents($this->configFile, 'INSTALLATION=1' . "\n", FILE_APPEND);
+        file_put_contents($this->configFile, 'INSTALLATION=1'."\n", FILE_APPEND);
     }
 
     public function isInstalled(): bool
     {
-        return $_ENV['INSTALLATION'] === '1';
+        return '1' === $_ENV['INSTALLATION'];
     }
 
     public function hasEnvVarFile(): bool

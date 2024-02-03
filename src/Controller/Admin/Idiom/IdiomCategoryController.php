@@ -4,22 +4,22 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Idiom;
 
+use App\Controller\Admin\AbstractAdminController;
 use App\Entity\IdiomCategory;
 use App\Form\Admin\IdiomCategoryType;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\IdiomCategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\Admin\AbstractAdminController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/idiom/category')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
 class IdiomCategoryController extends AbstractAdminController
 {
-    protected string $entityName = "idiom_category";
+    protected string $entityName = 'idiom_category';
 
     public function __construct(private IdiomCategoryRepository $idiomCategoryRepository, bool $enableIdiom)
     {
@@ -45,10 +45,10 @@ class IdiomCategoryController extends AbstractAdminController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $position = $this->idiomCategoryRepository->findMaxPosition();
-            $idiomCategory->setPosition($position+1);
+            $idiomCategory->setPosition($position + 1);
             $entityManager->persist($idiomCategory);
             $entityManager->flush();
-            $this->addFlash('success', "La catégorie a été créée.");
+            $this->addFlash('success', 'La catégorie a été créée.');
 
             return $this->redirectTo($request, $idiomCategory->getId());
         }
@@ -76,7 +76,7 @@ class IdiomCategoryController extends AbstractAdminController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($idiomCategory);
             $entityManager->flush();
-            $this->addFlash('success', "La catégorie a été modifiée.");
+            $this->addFlash('success', 'La catégorie a été modifiée.');
 
             return $this->redirectTo($request, $idiomCategory->getId());
         }
@@ -93,7 +93,7 @@ class IdiomCategoryController extends AbstractAdminController
         if ($this->isCsrfTokenValid('delete'.$idiomCategory->getId(), $request->request->get('_token'))) {
             $entityManager->remove($idiomCategory);
             $entityManager->flush();
-            $this->addFlash('success', "La catégorie a été supprimée.");
+            $this->addFlash('success', 'La catégorie a été supprimée.');
         }
 
         return $this->redirectToRoute('admin_app_idiom_category_list', [], Response::HTTP_SEE_OTHER);

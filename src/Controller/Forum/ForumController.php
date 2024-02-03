@@ -9,11 +9,11 @@ use App\Form\Search\SearchTopicType;
 use App\Repository\ForumCategoryRepository;
 use App\Repository\TopicRepository;
 use App\Service\ForumHelper;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/forum')]
 class ForumController extends AbstractController
@@ -38,7 +38,7 @@ class ForumController extends AbstractController
     {
         $groups = $this->forumHelper->getCurrentUserRoles($this->getUser());
         $hasAccess = $this->hasAccess($groups, $category);
-        
+
         if (!$hasAccess) {
             throw $this->createAccessDeniedException('Access Denied');
         }
@@ -83,8 +83,8 @@ class ForumController extends AbstractController
         $userRoles = $this->forumHelper->getCurrentUserRoles($this->getUser());
         $form = $this->createForm(SearchTopicType::class, $searchData, ['user_roles' => $userRoles]);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $topics = $topicRepository->findSearchResultPaginated($searchData, $userRoles, $perPageOdd);
         } else {
             $topics = [];
@@ -97,10 +97,7 @@ class ForumController extends AbstractController
     }
 
     /**
-     * @param array $groups
      * @param Forum|ForumCategory $element
-     * 
-     * @return bool
      */
     private function hasAccess(array $groups, $element): bool
     {

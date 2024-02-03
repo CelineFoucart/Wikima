@@ -7,17 +7,13 @@ namespace App\Service\Word;
 use App\Entity\Portal;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Html;
-use App\Service\Word\AbstractWordGenerator;
-use PhpOffice\PhpWord\Element\Section;
 
 final class WordPortalGenerator extends AbstractWordGenerator
 {
     private Portal $portal;
 
     /**
-     * Get the value of portal
-     *
-     * @return Portal
+     * Get the value of portal.
      */
     public function getPortal(): Portal
     {
@@ -25,11 +21,7 @@ final class WordPortalGenerator extends AbstractWordGenerator
     }
 
     /**
-     * Set the value of portal
-     *
-     * @param Portal $portal
-     *
-     * @return self
+     * Set the value of portal.
      */
     public function setPortal(Portal $portal): self
     {
@@ -40,7 +32,7 @@ final class WordPortalGenerator extends AbstractWordGenerator
 
     public function generate(string $type = 'article'): array
     {
-        $this->setStyle(h1Size:35, h2Size:22, h3Size:16)->setProperties();
+        $this->setStyle(h1Size: 35, h2Size: 22, h3Size: 16)->setProperties();
 
         $section = $this->phpWord->addSection();
         $section->addTitle($this->portal->getTitle(), 0);
@@ -68,7 +60,7 @@ final class WordPortalGenerator extends AbstractWordGenerator
 
         $this->appendSummary($section);
 
-        return $this->saveFile($type . '-' . $this->portal->getSlug());
+        return $this->saveFile($type.'-'.$this->portal->getSlug());
     }
 
     protected function getParamProperties(): array
@@ -87,7 +79,7 @@ final class WordPortalGenerator extends AbstractWordGenerator
     private function generateForArticles(): void
     {
         foreach ($this->portal->getArticles() as $article) {
-            if ($article->getIsArchived() === true || $article->getIsDraft() === true || $article->getIsPrivate() === true) {
+            if (true === $article->getIsArchived() || true === $article->getIsDraft() || true === $article->getIsPrivate()) {
                 continue;
             }
 
@@ -137,13 +129,13 @@ final class WordPortalGenerator extends AbstractWordGenerator
                 );
             }
 
-            if ($person->getImage() !== null) {
-                $filepath = $this->uploadDir . $person->getImage()->getFilename();
+            if (null !== $person->getImage()) {
+                $filepath = $this->uploadDir.$person->getImage()->getFilename();
                 $subSection->addImage($filepath, $this->getImageDefaultStyles());
             }
 
             HTML::addHtml($subSection, $person->getPresentation());
-            
+
             $table = $subSection->addTable($this->getDefaultTableStyle());
             $tableData = WordPersonGenerator::getTableData($person);
             foreach ($tableData as $key => $value) {
@@ -182,8 +174,8 @@ final class WordPortalGenerator extends AbstractWordGenerator
                 );
             }
 
-            if ($place->getIllustration() !== null) {
-                $filepath = $this->uploadDir . $place->getIllustration()->getFilename();
+            if (null !== $place->getIllustration()) {
+                $filepath = $this->uploadDir.$place->getIllustration()->getFilename();
                 $subSection->addImage($filepath, $this->getImageDefaultStyles());
             }
 

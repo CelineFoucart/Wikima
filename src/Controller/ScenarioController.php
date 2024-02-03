@@ -2,19 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Scenario;
 use App\Entity\Data\SearchData;
-use App\Form\Search\SearchType;
+use App\Entity\Scenario;
 use App\Form\Search\SearchPortalType;
+use App\Form\Search\SearchType;
 use App\Repository\ScenarioRepository;
 use App\Service\Word\WordScenarioGenerator;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/scenario')]
 class ScenarioController extends AbstractController
@@ -26,7 +26,7 @@ class ScenarioController extends AbstractController
         }
     }
 
-    #[Route('', name: 'app_scenario_index', methods:['GET'])]
+    #[Route('', name: 'app_scenario_index', methods: ['GET'])]
     public function indexAction(ScenarioRepository $scenarioRepository, int $perPageEven, Request $request): Response
     {
         $withPrivate = $this->isGranted('ROLE_EDITOR');
@@ -40,12 +40,12 @@ class ScenarioController extends AbstractController
         ]);
     }
 
-    #[Route('/{slug}', name: 'app_scenario_show', methods:['GET'])]
+    #[Route('/{slug}', name: 'app_scenario_show', methods: ['GET'])]
     public function showAction(#[MapEntity(expr: 'repository.findBySlug(slug)')] Scenario $scenario): Response
     {
-        if ($scenario->isPublic() !== true && !$this->isGranted('ROLE_EDITOR')) {
+        if (true !== $scenario->isPublic() && !$this->isGranted('ROLE_EDITOR')) {
             throw $this->createAccessDeniedException();
-        } elseif ($scenario->isArchived() !== true && !$this->isGranted('ROLE_EDITOR')) {
+        } elseif (true !== $scenario->isArchived() && !$this->isGranted('ROLE_EDITOR')) {
             throw $this->createAccessDeniedException();
         }
 
@@ -58,7 +58,7 @@ class ScenarioController extends AbstractController
     #[Route('/{slug}/word', name: 'app_scenario_word')]
     public function wordAction(Scenario $scenario, WordScenarioGenerator $generator): Response
     {
-        if ($scenario->isPublic() !== true && !$this->isGranted('ROLE_EDITOR')) {
+        if (true !== $scenario->isPublic() && !$this->isGranted('ROLE_EDITOR')) {
             throw $this->createAccessDeniedException();
         }
 

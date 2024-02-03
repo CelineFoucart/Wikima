@@ -5,19 +5,17 @@ declare(strict_types=1);
 namespace App\Service\Word;
 
 use App\Entity\Idiom;
-use PhpOffice\PhpWord\Shared\Html;
 use App\Service\IdiomNavigationHelper;
 use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\Shared\Html;
 
 final class WordIdiomGenerator extends AbstractWordGenerator
 {
     private Idiom $idiom;
 
     /**
-     * Get the value of idiom
-     *
-     * @return Idiom
+     * Get the value of idiom.
      */
     public function getIdiom(): Idiom
     {
@@ -25,11 +23,7 @@ final class WordIdiomGenerator extends AbstractWordGenerator
     }
 
     /**
-     * Set the value of idiom
-     *
-     * @param Idiom $idiom
-     *
-     * @return self
+     * Set the value of idiom.
      */
     public function setIdiom(Idiom $idiom): self
     {
@@ -37,9 +31,10 @@ final class WordIdiomGenerator extends AbstractWordGenerator
 
         return $this;
     }
+
     public function generate(): array
     {
-        $this->setStyle(h1Size:35, h2Size:25, h3Size:18)->setProperties();
+        $this->setStyle(h1Size: 35, h2Size: 25, h3Size: 18)->setProperties();
         $section = $this->phpWord->addSection();
         $this->setFirstPageContent($section)->appendIntroductionPart()->appendPartsFile()->appendSummary($section);
 
@@ -54,7 +49,7 @@ final class WordIdiomGenerator extends AbstractWordGenerator
             'category' => 'Conlang',
             'created' => $this->idiom->getCreatedAt()->getTimestamp(),
             'modified' => $this->idiom->getUpdatedAt() ? $this->idiom->getUpdatedAt()->getTimestamp() : null,
-            'subject' => 'Worldbuilding'
+            'subject' => 'Worldbuilding',
         ];
     }
 
@@ -64,14 +59,14 @@ final class WordIdiomGenerator extends AbstractWordGenerator
 
         if ($this->idiom->getOriginalName()) {
             $section->addText(
-                'Nom original : ' . $this->idiom->getOriginalName(),
+                'Nom original : '.$this->idiom->getOriginalName(),
                 ['bold' => true, 'italic' => true],
                 ['spaceAfter' => Converter::cmToTwip(0)]
             );
         }
 
         $portals = $this->reduceCollectionToString($this->idiom->getPortals());
-        $section->addText('Portails : ' . $portals, ['bold' => true, 'italic' => true], ['spaceAfter' => Converter::cmToTwip(0.6)]);
+        $section->addText('Portails : '.$portals, ['bold' => true, 'italic' => true], ['spaceAfter' => Converter::cmToTwip(0.6)]);
         $section->addText($this->idiom->getDescription());
 
         return $this;
@@ -95,17 +90,16 @@ final class WordIdiomGenerator extends AbstractWordGenerator
 
         foreach ($parts as $category) {
             $subSection = $this->phpWord->addSection();
-            $subSection->addTitle($starting . '. ' . $category['category'], 1);
+            $subSection->addTitle($starting.'. '.$category['category'], 1);
 
             foreach ($category['articles'] as $article) {
                 $subSection->addTitle($article->getTitle(), 2);
                 HTML::addHtml($subSection, $article->getContent());
             }
 
-            $starting++;
+            ++$starting;
         }
 
         return $this;
     }
-
 }

@@ -43,7 +43,7 @@ class ProfileController extends AbstractController
 
         if ($passwordForm->isSubmitted() && $passwordForm->isValid()) {
             $user->setPassword(
-            $userPasswordHasher->hashPassword(
+                $userPasswordHasher->hashPassword(
                     $user,
                     $passwordForm->get('plainPassword')->getData()
                 )
@@ -67,7 +67,7 @@ class ProfileController extends AbstractController
         if (false === $enableComment) {
             throw $this->createNotFoundException('Not Found');
         }
-        
+
         $page = $request->query->getInt('page', 1);
 
         return $this->render('user/user_comments.html.twig', [

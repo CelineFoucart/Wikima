@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Forum;
 
+use App\Controller\Admin\AbstractAdminController;
 use App\Entity\ForumCategory;
 use App\Form\Admin\ForumCategoryType;
 use App\Repository\ForumCategoryRepository;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\Admin\AbstractAdminController;
-use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/forumcategory')]
@@ -42,12 +42,12 @@ class AdminForumCategoryController extends AbstractAdminController
         $category = new ForumCategory();
         $form = $this->createForm(ForumCategoryType::class, $category);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $position = $forumCategoryRepository->findMaxPosition();
-            $category->setPosition($position+1);
+            $category->setPosition($position + 1);
             $forumCategoryRepository->add($category, true);
-            $this->addFlash('success', "La catégorie a été créée.");
+            $this->addFlash('success', 'La catégorie a été créée.');
 
             return $this->redirectTo($request, $category->getId());
         }
@@ -57,15 +57,15 @@ class AdminForumCategoryController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_app_forum_category_edit', methods:['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'admin_app_forum_category_edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, ForumCategory $category, ForumCategoryRepository $forumCategoryRepository): Response
     {
         $form = $this->createForm(ForumCategoryType::class, $category);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $forumCategoryRepository->add($category, true);
-            $this->addFlash('success', "La catégorie " . $category->getTitle() . " a bien été modifiée.");
+            $this->addFlash('success', 'La catégorie '.$category->getTitle().' a bien été modifiée.');
 
             return $this->redirectTo($request, $category->getId());
         }
@@ -84,7 +84,7 @@ class AdminForumCategoryController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'admin_app_forum_category_delete', methods:['POST'])]
+    #[Route('/{id}/delete', name: 'admin_app_forum_category_delete', methods: ['POST'])]
     public function deleteAction(Request $request, ForumCategory $category, ForumCategoryRepository $forumCategoryRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {

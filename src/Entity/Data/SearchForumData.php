@@ -20,9 +20,7 @@ final class SearchForumData extends AbstractSearchData
     private array $forums = [];
 
     /**
-     * Get the value of categories
-     *
-     * @return array
+     * Get the value of categories.
      */
     public function getCategories(): array
     {
@@ -30,11 +28,7 @@ final class SearchForumData extends AbstractSearchData
     }
 
     /**
-     * Set the value of categories
-     *
-     * @param array $categories
-     *
-     * @return self
+     * Set the value of categories.
      */
     public function setCategories(array $categories): self
     {
@@ -44,9 +38,7 @@ final class SearchForumData extends AbstractSearchData
     }
 
     /**
-     * Get the value of forums
-     *
-     * @return array
+     * Get the value of forums.
      */
     public function getForums(): array
     {
@@ -54,11 +46,7 @@ final class SearchForumData extends AbstractSearchData
     }
 
     /**
-     * Set the value of forums
-     *
-     * @param array $forums
-     *
-     * @return self
+     * Set the value of forums.
      */
     public function setForums(array $forums): self
     {

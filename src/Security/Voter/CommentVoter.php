@@ -10,7 +10,8 @@ class CommentVoter extends Voter
 {
     public function __construct(
         private VoterHelper $voterHelper
-    ) {  }
+    ) {
+    }
 
     protected function supports(string $attribute, $subject): bool
     {

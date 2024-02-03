@@ -3,9 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\ForumCategory;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<ForumCategory>
@@ -50,16 +50,16 @@ class ForumCategoryRepository extends ServiceEntityRepository
     {
         try {
             $position = $this->createQueryBuilder('c')->select('MAX(c.position)')->getQuery()->getSingleScalarResult();
-            
-            return $position === null ? 0 : $position;
+
+            return null === $position ? 0 : $position;
         } catch (NoResultException $th) {
             return 0;
         }
     }
 
     /**
-    * @return ForumCategory[] Returns an array of ForumCategory objects
-    */
+     * @return ForumCategory[] Returns an array of ForumCategory objects
+     */
     public function findByOrder(array $groups = []): array
     {
         $builder = $this->createQueryBuilder('c')
@@ -76,7 +76,7 @@ class ForumCategoryRepository extends ServiceEntityRepository
                 ->setParameter('groups', $groups)
             ;
         }
-        
+
         return $builder->getQuery()->getResult();
     }
 

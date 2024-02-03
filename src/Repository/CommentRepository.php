@@ -54,13 +54,14 @@ class CommentRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
-    
+
     public function findPaginatedByArticle(int $page, Article $article): PaginationInterface
     {
-        $builder =  $this->createQueryBuilder('c')
+        $builder = $this->createQueryBuilder('c')
             ->orderBy('c.createdAt', 'DESC')
             ->andWhere('c.article = :article')
             ->setParameter('article', $article);
+
         return $this->paginatorService->setLimit($this->perPageEven)->paginate($builder, $page);
     }
 

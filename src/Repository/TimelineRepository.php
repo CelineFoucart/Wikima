@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Data\SearchData;
-use App\Entity\Portal;
 use App\Entity\Timeline;
 use App\Service\PaginatorService;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -64,13 +63,11 @@ class TimelineRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param SearchData $search
-     * 
      * @return Timeline[]
      */
     public function advancedSearch(SearchData $search): array
     {
-        if (count($search->getFields()) === 1 && in_array('tags', $search->getFields())) {
+        if (1 === count($search->getFields()) && in_array('tags', $search->getFields())) {
             return [];
         }
 
@@ -81,21 +78,21 @@ class TimelineRepository extends ServiceEntityRepository
             ->setParameter('q', '%'.$search->getQuery().'%')
         ;
 
-            if (empty($search->getFields())) {
-                $builder->andWhere('t.title LIKE :q OR t.description LIKE :q');
-            } else {
-                $where = [];
+        if (empty($search->getFields())) {
+            $builder->andWhere('t.title LIKE :q OR t.description LIKE :q');
+        } else {
+            $where = [];
 
-                if (in_array('name', $search->getFields())) {
-                    $where[] = 't.title LIKE :q';
-                }
-
-                if (in_array('description', $search->getFields())) {
-                    $where[] = 't.description LIKE :q';
-                }
-
-                $builder->andWhere(join(' OR ', $where));
+            if (in_array('name', $search->getFields())) {
+                $where[] = 't.title LIKE :q';
             }
+
+            if (in_array('description', $search->getFields())) {
+                $where[] = 't.description LIKE :q';
+            }
+
+            $builder->andWhere(join(' OR ', $where));
+        }
 
         if (!empty($search->getPortals())) {
             $builder

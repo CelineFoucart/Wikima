@@ -2,17 +2,17 @@
 
 namespace App\Repository;
 
-use App\Entity\Place;
-use App\Entity\Portal;
 use App\Entity\Category;
-use App\Entity\PlaceType;
-use Doctrine\ORM\QueryBuilder;
 use App\Entity\Data\SearchData;
-use App\Service\PaginatorService;
+use App\Entity\Place;
+use App\Entity\PlaceType;
+use App\Entity\Portal;
 use App\Service\DataFilterService;
+use App\Service\PaginatorService;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Place>
@@ -25,7 +25,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 class PlaceRepository extends ServiceEntityRepository
 {
     private PaginatorService $paginatorService;
-    
+
     public function __construct(ManagerRegistry $registry, PaginatorService $paginatorService)
     {
         parent::__construct($registry, Place::class);
@@ -70,8 +70,6 @@ class PlaceRepository extends ServiceEntityRepository
      * Find a person by parent.
      *
      * @param Category|Portal $parent
-     *
-     * @return PaginationInterface
      */
     public function findByParent($parent, string $parentType = 'category', int $page = 1, int $type = 0, int $limit = 23): PaginationInterface
     {
@@ -80,7 +78,7 @@ class PlaceRepository extends ServiceEntityRepository
         $builder->andWhere($where)->setParameter('parents', [$parent->getId()]);
         $builder->andWhere('(pl.isArchived != :isArchived  OR pl.isArchived IS NULL)')->setParameter('isArchived', true);
 
-        if ($type  > 0) {
+        if ($type > 0) {
             $builder->andWhere('t.id IN (:type)')->setParameter('type', [$type]);
         }
 
@@ -88,8 +86,6 @@ class PlaceRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param SearchData $search
-     * 
      * @return Place[]
      */
     public function advancedSearch(SearchData $search): array
@@ -99,25 +95,25 @@ class PlaceRepository extends ServiceEntityRepository
             ->setParameter('isArchived', true)
             ->setParameter('q', '%'.$search->getQuery().'%');
 
-            if (empty($search->getFields())) {
-                $builder->andWhere('pl.title LIKE :q OR pl.description LIKE :q OR t.title LIKE :q');
-            } else {
-                $where = [];
+        if (empty($search->getFields())) {
+            $builder->andWhere('pl.title LIKE :q OR pl.description LIKE :q OR t.title LIKE :q');
+        } else {
+            $where = [];
 
-                if (in_array('name', $search->getFields())) {
-                    $where[] = 'pl.title LIKE :q';
-                }
-
-                if (in_array('description', $search->getFields())) {
-                    $where[] = 'pl.description LIKE :q';
-                }
-
-                if (in_array('tags', $search->getFields())) {
-                    $where[] = 't.title LIKE :q';
-                }
-
-                $builder->andWhere(join(' OR ', $where));
+            if (in_array('name', $search->getFields())) {
+                $where[] = 'pl.title LIKE :q';
             }
+
+            if (in_array('description', $search->getFields())) {
+                $where[] = 'pl.description LIKE :q';
+            }
+
+            if (in_array('tags', $search->getFields())) {
+                $where[] = 't.title LIKE :q';
+            }
+
+            $builder->andWhere(join(' OR ', $where));
+        }
 
         if (!empty($search->getPortals())) {
             $builder
@@ -139,7 +135,7 @@ class PlaceRepository extends ServiceEntityRepository
     public function search(SearchData $search, int $limit = 20): PaginationInterface
     {
         $builder = $this->getDefaultQuery();
-        
+
         $builder->andWhere('(pl.isArchived != :isArchived  OR pl.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if (strlen($search->getQuery()) >= 3 and null !== $search->getQuery()) {
@@ -187,13 +183,13 @@ class PlaceRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findSticky(?int $portalId = null, ?int $categoryId = null): array
+    public function findSticky(int $portalId = null, int $categoryId = null): array
     {
         $builder = $this->createQueryBuilder('p')
             ->orderBy('p.title', 'ASC')
             ->andWhere('p.isSticky = 1 AND p.isSticky IS NOT NULL')
         ;
-        
+
         $builder->andWhere('(p.isArchived != :isArchived  OR p.isArchived IS NULL)')->setParameter('isArchived', true);
 
         if ($portalId) {
@@ -220,7 +216,7 @@ class PlaceRepository extends ServiceEntityRepository
         $builder = $this->getDefaultQuery()
             ->andWhere('pl.isArchived = :isArchived')
             ->setParameter('isArchived', $isArchived);
-        
+
         if (!$isArchived) {
             $builder->orWhere('pl.isArchived IS NULL');
         }
@@ -233,12 +229,12 @@ class PlaceRepository extends ServiceEntityRepository
         $builder = $this->createQueryBuilder('p');
         $params = DataFilterService::formatParams($parameters, 'p');
         $builder->andWhere('(p.isArchived != :isArchived  OR p.isArchived IS NULL)')->setParameter('isArchived', true);
-        
+
         if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
             $builder
                 ->andWhere('p.title LIKE :search')
                 ->orWhere('p.description LIKE :search')
-                ->setParameter('search', '%' . $parameters['search']['value'] . '%' );
+                ->setParameter('search', '%'.$parameters['search']['value'].'%');
         }
 
         if ($params['limit'] > 0) {
@@ -261,7 +257,7 @@ class PlaceRepository extends ServiceEntityRepository
             $builder
                 ->andWhere('p.title LIKE :search')
                 ->orWhere('p.description LIKE :search')
-                ->setParameter('search', '%' . $parameters['search']['value'] . '%' );
+                ->setParameter('search', '%'.$parameters['search']['value'].'%');
         }
 
         return $builder->getQuery()->getOneOrNullResult();

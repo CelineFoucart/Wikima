@@ -22,7 +22,7 @@ class VoterHelper
             return false;
         }
 
-        return in_array("ROLE_ADMIN", $user->getRoles()) || in_array("ROLE_SUPER_ADMIN", $user->getRoles());
+        return in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_SUPER_ADMIN', $user->getRoles());
     }
 
     public function canModerateForum(?User $user): bool
@@ -31,7 +31,7 @@ class VoterHelper
             return false;
         }
 
-        return $this->canModerate($user) || in_array("ROLE_MODERATOR", $user->getRoles());
+        return $this->canModerate($user) || in_array('ROLE_MODERATOR', $user->getRoles());
     }
 
     public function isEditor(?User $user): bool
@@ -40,14 +40,11 @@ class VoterHelper
             return false;
         }
 
-        return in_array("ROLE_EDITOR", $user->getRoles()) || $this->canModerate($user);
+        return in_array('ROLE_EDITOR', $user->getRoles()) || $this->canModerate($user);
     }
 
     /**
-     * @param User $user
      * @param Comment|Article|Idiom $subject
-     * 
-     * @return bool
      */
     public function canEdit(?User $user, $subject, $forEditor = false): bool
     {
@@ -59,10 +56,10 @@ class VoterHelper
             return true;
         }
 
-        if ($subject->getAuthor() === null) {
+        if (null === $subject->getAuthor()) {
             return false;
         }
-        
+
         $isAuthor = $user->getId() === $subject->getAuthor()->getId();
 
         if ($forEditor) {
@@ -73,10 +70,7 @@ class VoterHelper
     }
 
     /**
-     * @param User $user
      * @param Comment|Article $subject
-     * 
-     * @return bool
      */
     public function canDelete(?User $user, $subject, $forEditor = false): bool
     {

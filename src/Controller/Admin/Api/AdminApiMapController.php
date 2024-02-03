@@ -8,17 +8,17 @@ use App\Entity\Map;
 use App\Entity\MapPosition;
 use App\Repository\PlaceRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\ExpressionLanguage\Expression;
-use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/admin/api/map')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
@@ -36,7 +36,7 @@ final class AdminApiMapController extends AbstractController
         $position->setMap($map);
 
         $data = json_decode($request->getContent(), true);
-        if (isset($data['placeId']) && $data['placeId'] !== null) {
+        if (isset($data['placeId']) && null !== $data['placeId']) {
             $place = $placeRepository->find($data['placeId']);
             $position->setPlace($place);
         }
@@ -55,9 +55,9 @@ final class AdminApiMapController extends AbstractController
     #[Route('-position/{id}', name: 'api_edit_position', methods: ['PUT'])]
     public function editAction(Request $request, MapPosition $position, ValidatorInterface $validator): JsonResponse
     {
-        /** @var MapPosition */
+        /* @var MapPosition */
         $this->serializer->deserialize(
-            $request->getContent(), 
+            $request->getContent(),
             MapPosition::class, 'json', ['groups' => 'index', AbstractNormalizer::OBJECT_TO_POPULATE => $position]
         );
 
@@ -78,7 +78,7 @@ final class AdminApiMapController extends AbstractController
         $this->entityManager->remove($position);
         $this->entityManager->flush();
 
-        return $this->json("", Response::HTTP_NO_CONTENT, [], ['groups' => 'index']);
+        return $this->json('', Response::HTTP_NO_CONTENT, [], ['groups' => 'index']);
     }
 
     private function getErrors(ConstraintViolationListInterface $violations): array

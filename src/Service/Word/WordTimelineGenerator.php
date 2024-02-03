@@ -50,7 +50,7 @@ final class WordTimelineGenerator extends AbstractWordGenerator
             $section->addText($presentationWithBreakLines);
         }
 
-        return $this->saveFile('chronologie-' . $this->timeline->getSlug());
+        return $this->saveFile('chronologie-'.$this->timeline->getSlug());
     }
 
     protected function getParamProperties(): array

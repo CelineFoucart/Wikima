@@ -26,8 +26,8 @@ class IdiomCategoryRepository extends ServiceEntityRepository
     {
         try {
             $position = $this->createQueryBuilder('i')->select('MAX(i.position)')->getQuery()->getSingleScalarResult();
-            
-            return $position === null ? 0 : $position;
+
+            return null === $position ? 0 : $position;
         } catch (NoResultException $th) {
             return 0;
         }

@@ -90,11 +90,10 @@ class Comment
 
     public function __toString()
     {
-        if ($this->author !== null) {
-            return 'Commentaire de ' . $this->author->getUsername() . ' du ' . $this->getCreatedAt()->format('d/m/Y'); 
+        if (null !== $this->author) {
+            return 'Commentaire de '.$this->author->getUsername().' du '.$this->getCreatedAt()->format('d/m/Y');
         } else {
             return 'Commentaire';
         }
-        
     }
 }

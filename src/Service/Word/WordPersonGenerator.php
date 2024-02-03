@@ -7,15 +7,13 @@ namespace App\Service\Word;
 use App\Entity\Person;
 use PhpOffice\PhpWord\Shared\Converter;
 use PhpOffice\PhpWord\Shared\Html;
-use PhpOffice\PhpWord\SimpleType\Jc;
 
 final class WordPersonGenerator extends AbstractWordGenerator
 {
     private Person $person;
+
     /**
-     * Get the value of person
-     *
-     * @return Person
+     * Get the value of person.
      */
     public function getPerson(): Person
     {
@@ -23,11 +21,7 @@ final class WordPersonGenerator extends AbstractWordGenerator
     }
 
     /**
-     * Set the value of person
-     *
-     * @param Person $person
-     *
-     * @return self
+     * Set the value of person.
      */
     public function setPerson(Person $person): self
     {
@@ -38,7 +32,7 @@ final class WordPersonGenerator extends AbstractWordGenerator
 
     public function generate(): array
     {
-        $this->setStyle(h3Size:13)->setProperties();
+        $this->setStyle(h3Size: 13)->setProperties();
 
         $section = $this->phpWord->addSection();
         if (null !== $this->person->getType()) {
@@ -51,12 +45,12 @@ final class WordPersonGenerator extends AbstractWordGenerator
 
         $section->addTitle((string) $this->person, 0);
         $categories = $this->reduceCollectionToString($this->person->getCategories());
-        $section->addText('Catégories : ' . $categories, ['bold' => true, 'italic' => true]);
+        $section->addText('Catégories : '.$categories, ['bold' => true, 'italic' => true]);
         $portals = $this->reduceCollectionToString($this->person->getPortals());
-        $section->addText('Portails : ' . $portals, ['bold' => true, 'italic' => true], ['spaceAfter' => Converter::cmToTwip(0.6)]);
+        $section->addText('Portails : '.$portals, ['bold' => true, 'italic' => true], ['spaceAfter' => Converter::cmToTwip(0.6)]);
 
-        if ($this->person->getImage() !== null) {
-            $filepath = $this->uploadDir . $this->person->getImage()->getFilename();
+        if (null !== $this->person->getImage()) {
+            $filepath = $this->uploadDir.$this->person->getImage()->getFilename();
             $section->addImage($filepath, $this->getImageDefaultStyles());
         }
 
@@ -70,12 +64,12 @@ final class WordPersonGenerator extends AbstractWordGenerator
             $table->addCell(null, ['valign' => 'center'])->addText($value, [], ['spaceAfter' => Converter::cmToTwip(0)]);
         }
 
-        if ($this->person->getBiography() !== null) {
+        if (null !== $this->person->getBiography()) {
             $section->addTitle('Biographie', 1);
             HTML::addHtml($section, $this->person->getBiography());
         }
-        
-        if ($this->person->getPersonality() !== null) {
+
+        if (null !== $this->person->getPersonality()) {
             $section->addTitle('Personnalité', 1);
             HTML::addHtml($section, $this->person->getPersonality());
         }

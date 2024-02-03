@@ -3,11 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Section;
-use Doctrine\ORM\ORMException;
 use App\Service\DataFilterService;
-use Doctrine\ORM\OptimisticLockException;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @method Section|null find($id, $lockMode = null, $lockVersion = null)
@@ -68,7 +68,7 @@ class SectionRepository extends ServiceEntityRepository
                 ->andWhere('s.title LIKE :search')
                 ->orWhere('a.title LIKE :search')
                 ->orWhere('a.keywords LIKE :search')
-                ->setParameter('search', '%' . $parameters['search']['value'] . '%');
+                ->setParameter('search', '%'.$parameters['search']['value'].'%');
         }
 
         return $builder->getQuery()->getOneOrNullResult();
@@ -77,7 +77,7 @@ class SectionRepository extends ServiceEntityRepository
     public function searchPaginatedItems(array $parameters): array
     {
         $builder = $this->createQueryBuilder('s')->leftJoin('s.article', 'a');
-        
+
         $params = DataFilterService::formatParams($parameters, 'p');
 
         if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
@@ -85,7 +85,7 @@ class SectionRepository extends ServiceEntityRepository
                 ->andWhere('s.title LIKE :search')
                 ->orWhere('a.title LIKE :search')
                 ->orWhere('a.keywords LIKE :search')
-                ->setParameter('search', '%' . $parameters['search']['value'] . '%');
+                ->setParameter('search', '%'.$parameters['search']['value'].'%');
         }
 
         if ($params['limit'] > 0) {

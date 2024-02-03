@@ -4,18 +4,18 @@ namespace App\Twig;
 
 use App\Entity\User;
 use App\Security\Voter\VoterHelper;
-use Twig\TwigFunction;
 use App\Service\UserService;
 use Twig\Extension\AbstractExtension;
+use Twig\TwigFunction;
 
 class UserExtension extends AbstractExtension
 {
-
     public function __construct(
         private UserService $userService,
         private VoterHelper $voterHelper
-    ) { }
-    
+    ) {
+    }
+
     public function getFunctions(): array
     {
         return [
@@ -23,10 +23,9 @@ class UserExtension extends AbstractExtension
             new TwigFunction('can_access', [$this, 'canAccess']),
         ];
     }
-    
+
     public function getFormattedRoles(array $roles): string
     {
-
         return $this->userService->formatRoles($roles);
     }
 

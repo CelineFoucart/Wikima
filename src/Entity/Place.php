@@ -8,10 +8,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: PlaceRepository::class)]
@@ -52,8 +52,8 @@ class Place
         max: 255
     )]
     private ?string $dominatedBy = null;
-    
-    #[Vich\UploadableField(mapping:"upload_images", fileNameProperty:"mapFile")]
+
+    #[Vich\UploadableField(mapping: 'upload_images', fileNameProperty: 'mapFile')]
     private ?File $imageMap = null;
 
     #[ORM\Column(length: 255, nullable: true)]

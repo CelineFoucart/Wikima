@@ -60,10 +60,10 @@ final class EntityDoctrineSubscriber
         $this->logService->info('Edition', "Edition d'un élément : ".(string) $entity.' ('.$entity->getId().')', $className);
     }
 
-    public function preRemove(PreRemoveEventArgs $args): void 
+    public function preRemove(PreRemoveEventArgs $args): void
     {
         $entity = $args->getObject();
-        
+
         $className = (new \ReflectionClass($entity))->getShortName();
         if (in_array($className, self::NO_LOG)) {
             return;

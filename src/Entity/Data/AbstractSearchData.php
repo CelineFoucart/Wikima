@@ -26,7 +26,7 @@ abstract class AbstractSearchData
     /**
      * Set the value of query.
      */
-    public function setQuery(?string $query = null): self
+    public function setQuery(string $query = null): self
     {
         $this->query = $query;
 

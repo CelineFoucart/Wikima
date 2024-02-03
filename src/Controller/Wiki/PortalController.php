@@ -2,34 +2,34 @@
 
 namespace App\Controller\Wiki;
 
-use App\Entity\Note;
-use App\Entity\User;
-use App\Entity\Portal;
-use App\Form\NoteType;
-use App\Entity\ImageTag;
-use App\Entity\PlaceType;
-use App\Entity\PersonType;
 use App\Entity\Data\SearchData;
+use App\Entity\ImageTag;
+use App\Entity\Note;
+use App\Entity\PersonType;
+use App\Entity\PlaceType;
+use App\Entity\Portal;
+use App\Entity\User;
+use App\Form\NoteType;
 use App\Form\Search\SearchType;
-use App\Repository\ImageRepository;
-use App\Repository\PlaceRepository;
-use App\Repository\PersonRepository;
-use App\Repository\PortalRepository;
 use App\Repository\ArticleRepository;
-use App\Repository\ImageTagRepository;
-use App\Repository\PlaceTypeRepository;
-use App\Repository\PersonTypeRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ArticleTypeRepository;
+use App\Repository\ImageRepository;
+use App\Repository\ImageTagRepository;
+use App\Repository\PersonRepository;
+use App\Repository\PersonTypeRepository;
+use App\Repository\PlaceRepository;
+use App\Repository\PlaceTypeRepository;
+use App\Repository\PortalRepository;
 use App\Repository\ScenarioRepository;
 use App\Service\AlphabeticalHelperService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
-use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class PortalController extends AbstractController
 {
@@ -92,7 +92,7 @@ final class PortalController extends AbstractController
         $types = $imageTagRepository->findAll();
         $typeSlug = $request->query->get('type');
 
-        $results = array_filter($types, function(ImageTag $imageTag) use ($typeSlug) {
+        $results = array_filter($types, function (ImageTag $imageTag) use ($typeSlug) {
             return $imageTag->getSlug() === $typeSlug;
         });
 
@@ -123,7 +123,7 @@ final class PortalController extends AbstractController
         $page = $request->query->getInt('page', 1);
         $typeSlug = $request->query->get('type');
 
-        $results = array_filter($types, function(PersonType $personType) use ($typeSlug) {
+        $results = array_filter($types, function (PersonType $personType) use ($typeSlug) {
             return $personType->getSlug() === $typeSlug;
         });
 
@@ -155,7 +155,7 @@ final class PortalController extends AbstractController
         $page = $request->query->getInt('page', 1);
         $typeSlug = $request->query->get('type');
 
-        $results = array_filter($types, function(PlaceType $placeType) use ($typeSlug) {
+        $results = array_filter($types, function (PlaceType $placeType) use ($typeSlug) {
             return $placeType->getSlug() === $typeSlug;
         });
 
@@ -202,8 +202,8 @@ final class PortalController extends AbstractController
         $note = (new Note())->setPortal($portal);
         $noteForm = $this->createForm(NoteType::class, $note);
         $noteForm->handleRequest($request);
-        
-        if ($noteForm->isSubmitted() && $noteForm->isValid()) { 
+
+        if ($noteForm->isSubmitted() && $noteForm->isValid()) {
             $note->setCreatedAt(new \DateTimeImmutable());
             $em->persist($note);
             $em->flush();

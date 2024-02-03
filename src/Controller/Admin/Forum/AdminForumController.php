@@ -2,17 +2,16 @@
 
 namespace App\Controller\Admin\Forum;
 
-use App\Entity\Forum;
-use App\Form\Admin\ForumType;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
-use App\Entity\Category;
+use App\Entity\Forum;
 use App\Entity\ForumCategory;
+use App\Form\Admin\ForumType;
 use App\Repository\ForumRepository;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/forum')]
@@ -29,7 +28,7 @@ class AdminForumController extends AbstractAdminController
         }
     }
 
-    #[Route('/{id}/create', name: 'admin_app_forum_create', methods:['GET', 'POST'])]
+    #[Route('/{id}/create', name: 'admin_app_forum_create', methods: ['GET', 'POST'])]
     public function createAction(ForumCategory $category, Request $request, ForumRepository $forumRepository): Response
     {
         $forum = (new Forum())->setCategory($category);
@@ -47,12 +46,12 @@ class AdminForumController extends AbstractAdminController
         $forum->setPosition($position);
         $form = $this->createForm(ForumType::class, $forum);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $forumRepository->add($forum, true);
 
             $this->addFlash('success', 'Le forum a bien été créé');
-            
+
             return $this->redirectForum($request, $forum);
         }
 
@@ -62,16 +61,16 @@ class AdminForumController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}', name: 'admin_app_forum_edit', methods:['GET', 'POST'])]
+    #[Route('/{id}', name: 'admin_app_forum_edit', methods: ['GET', 'POST'])]
     public function editAction(Forum $forum, Request $request, ForumRepository $forumRepository): Response
     {
         $form = $this->createForm(ForumType::class, $forum);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $forumRepository->add($forum, true);
             $this->addFlash('success', 'Le forum a bien été modifié');
-            
+
             return $this->redirectForum($request, $forum);
         }
 
@@ -95,7 +94,7 @@ class AdminForumController extends AbstractAdminController
         return $this->redirectTo($request, $forum->getId());
     }
 
-    #[Route('/{id}/delete', name: 'admin_app_forum_delete', methods:['POST'])]
+    #[Route('/{id}/delete', name: 'admin_app_forum_delete', methods: ['POST'])]
     public function deleteAction(Request $request, Forum $forum, ForumRepository $forumRepository): Response
     {
         $category = $forum->getCategory();

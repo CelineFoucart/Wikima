@@ -4,8 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Template;
 use App\Service\DataFilterService;
-use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Template>
@@ -26,12 +26,12 @@ class TemplateRepository extends ServiceEntityRepository
     {
         $builder = $this->createQueryBuilder('t');
         $params = DataFilterService::formatParams($parameters, 't');
-        
+
         if (isset($parameters['search']['value']) && strlen($parameters['search']['value']) > 1) {
             $builder
                 ->andWhere('t.title LIKE :search')
                 ->orWhere('t.description LIKE :search')
-                ->setParameter('search', '%' . $parameters['search']['value'] . '%' );
+                ->setParameter('search', '%'.$parameters['search']['value'].'%');
         }
 
         if ($params['limit'] > 0) {
@@ -52,7 +52,7 @@ class TemplateRepository extends ServiceEntityRepository
             $builder
                 ->andWhere('t.title LIKE :search')
                 ->orWhere('t.description LIKE :search')
-                ->setParameter('search', '%' . $parameters['search']['value'] . '%' );
+                ->setParameter('search', '%'.$parameters['search']['value'].'%');
         }
 
         return $builder->getQuery()->getOneOrNullResult();

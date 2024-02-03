@@ -62,8 +62,8 @@ class Image
 
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'images')]
     private $articles;
-    
-    #[Vich\UploadableField(mapping:"upload_images", fileNameProperty:"filename")]
+
+    #[Vich\UploadableField(mapping: 'upload_images', fileNameProperty: 'filename')]
     private ?File $imageFile = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
@@ -86,7 +86,7 @@ class Image
 
     #[ORM\OneToMany(mappedBy: 'image', targetEntity: Map::class)]
     private Collection $maps;
-    
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();

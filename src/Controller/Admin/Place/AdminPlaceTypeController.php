@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Place;
 
+use App\Controller\Admin\AbstractAdminController;
 use App\Entity\PlaceType;
 use App\Form\Admin\PlaceTypeFormType;
 use App\Repository\PlaceTypeRepository;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\Admin\AbstractAdminController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin/place/type')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
 final class AdminPlaceTypeController extends AbstractAdminController
 {
-    protected string $entityName = "placetype";
+    protected string $entityName = 'placetype';
 
-    #[Route('/', name: 'admin_app_placetype_list', methods:['GET'])]
+    #[Route('/', name: 'admin_app_placetype_list', methods: ['GET'])]
     public function listAction(PlaceTypeRepository $placeTypeRepository): Response
     {
         return $this->render('Admin/place_type/list.html.twig', [
@@ -28,16 +28,16 @@ final class AdminPlaceTypeController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/create', name: 'admin_app_placetype_create', methods:['GET', 'POST'])]
+    #[Route('/create', name: 'admin_app_placetype_create', methods: ['GET', 'POST'])]
     public function createAction(Request $request, PlaceTypeRepository $placeTypeRepository): Response
     {
         $placeType = new PlaceType();
         $form = $this->createForm(PlaceTypeFormType::class, $placeType);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $placeTypeRepository->save($placeType, true);
-            $this->addFlash('success', "Le type " . $placeType->getTitle() . " a bien été créé.");
+            $this->addFlash('success', 'Le type '.$placeType->getTitle().' a bien été créé.');
 
             return $this->redirectTo($request, $placeType->getId());
         }
@@ -47,7 +47,7 @@ final class AdminPlaceTypeController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/show', name: 'admin_app_placetype_show', methods:['GET'])]
+    #[Route('/{id}/show', name: 'admin_app_placetype_show', methods: ['GET'])]
     public function showAction(PlaceType $placeType): Response
     {
         return $this->render('Admin/place_type/show.html.twig', [
@@ -55,15 +55,15 @@ final class AdminPlaceTypeController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_app_placetype_edit', methods:['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'admin_app_placetype_edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, PlaceType $placeType, PlaceTypeRepository $placeTypeRepository): Response
     {
         $form = $this->createForm(PlaceTypeFormType::class, $placeType);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $placeTypeRepository->save($placeType, true);
-            $this->addFlash('success', "Le type " . $placeType->getTitle() . " a bien été modifié.");
+            $this->addFlash('success', 'Le type '.$placeType->getTitle().' a bien été modifié.');
 
             return $this->redirectTo($request, $placeType->getId());
         }
@@ -74,7 +74,7 @@ final class AdminPlaceTypeController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'admin_app_placetype_delete', methods:['POST'])]
+    #[Route('/{id}/delete', name: 'admin_app_placetype_delete', methods: ['POST'])]
     public function deleteAction(Request $request, PlaceType $placeType, PlaceTypeRepository $placeTypeRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$placeType->getId(), $request->request->get('_token'))) {

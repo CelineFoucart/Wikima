@@ -18,22 +18,22 @@ class Contact
     #[Assert\NotBlank]
     #[Assert\Email()]
     private ?string $email = null;
-    
+
     #[Assert\NotBlank]
     #[Assert\Length(
         min: 2,
         max: 150
     )]
     private ?string $subject = null;
-    
+
     #[Assert\NotBlank]
     #[Assert\Length(
         min: 10,
     )]
     private ?string $content = null;
 
-     /**
-     * Get the value of username
+    /**
+     * Get the value of username.
      */
     public function getUsername(): ?string
     {
@@ -41,9 +41,7 @@ class Contact
     }
 
     /**
-     * Set the value of username
-     *
-     * @return  self
+     * Set the value of username.
      */
     public function setUsername(string $username): self
     {
@@ -53,7 +51,7 @@ class Contact
     }
 
     /**
-     * Get the value of email
+     * Get the value of email.
      */
     public function getEmail(): ?string
     {
@@ -61,9 +59,7 @@ class Contact
     }
 
     /**
-     * Set the value of email
-     *
-     * @return  self
+     * Set the value of email.
      */
     public function setEmail(string $email): self
     {
@@ -73,7 +69,7 @@ class Contact
     }
 
     /**
-     * Get the value of subject
+     * Get the value of subject.
      */
     public function getSubject(): ?string
     {
@@ -81,9 +77,7 @@ class Contact
     }
 
     /**
-     * Set the value of subject
-     *
-     * @return  self
+     * Set the value of subject.
      */
     public function setSubject(string $subject): self
     {
@@ -93,7 +87,7 @@ class Contact
     }
 
     /**
-     * Get the value of content
+     * Get the value of content.
      */
     public function getContent(): ?string
     {
@@ -101,9 +95,7 @@ class Contact
     }
 
     /**
-     * Set the value of content
-     *
-     * @return  self
+     * Set the value of content.
      */
     public function setContent(string $content): self
     {

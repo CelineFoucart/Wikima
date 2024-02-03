@@ -7,13 +7,13 @@ namespace App\Controller\Admin;
 use App\Entity\Backup;
 use App\Repository\BackupRepository;
 use App\Service\BackupService;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin/backup')]
 #[IsGranted(new Expression("is_granted('ROLE_SUPER_ADMIN')"))]
@@ -25,15 +25,15 @@ final class AdminBackupController extends AbstractAdminController
     ) {
     }
 
-    #[Route('/', name: 'admin_app_backup_list', methods:['GET'])]
+    #[Route('/', name: 'admin_app_backup_list', methods: ['GET'])]
     public function listAction(): Response
     {
         return $this->render('Admin/backup.html.twig', [
             'backups' => $this->backupRepository->findAll(),
         ]);
     }
-    
-    #[Route('/create', name: 'admin_app_backup_create', methods:['GET'])]
+
+    #[Route('/create', name: 'admin_app_backup_create', methods: ['GET'])]
     public function createAction(Request $request): Response
     {
         $referer = $request->server->get('HTTP_REFERER', null);
@@ -48,17 +48,17 @@ final class AdminBackupController extends AbstractAdminController
             ;
             $this->backupRepository->add($backup);
 
-            $this->addFlash( 'success', 'La sauvegarde de la base de donnée a été réalisée avec succès');
+            $this->addFlash('success', 'La sauvegarde de la base de donnée a été réalisée avec succès');
         }
 
-        if ($referer !== null) {
+        if (null !== $referer) {
             return $this->redirect($referer);
         }
 
         return $this->redirectToRoute('admin_app_backup_list');
     }
 
-    #[Route('/{id}/download', name: 'admin_app_backup_download', methods:['GET'])]
+    #[Route('/{id}/download', name: 'admin_app_backup_download', methods: ['GET'])]
     public function downloadAction(Backup $backup): Response
     {
         $folder = $this->backupService->getBackupFolder();
@@ -73,18 +73,18 @@ final class AdminBackupController extends AbstractAdminController
         return $response;
     }
 
-    #[Route('/{id}/delete', name: 'admin_app_backup_delete', methods:['POST'])]
+    #[Route('/{id}/delete', name: 'admin_app_backup_delete', methods: ['POST'])]
     public function deleteAction(Request $request, Backup $backup): Response
     {
         if ($this->isCsrfTokenValid('delete'.$backup->getId(), $request->request->get('_token'))) {
-            $path = $this->backupService->getBackupFolder() . DIRECTORY_SEPARATOR . $backup->getFilename();
+            $path = $this->backupService->getBackupFolder().DIRECTORY_SEPARATOR.$backup->getFilename();
 
             if (file_exists($path)) {
                 unlink($path);
             }
 
             $this->backupRepository->remove($backup, true);
-            $this->addFlash('success', "La sauvegarde a été supprimée avec succès.");
+            $this->addFlash('success', 'La sauvegarde a été supprimée avec succès.');
         }
 
         return $this->redirectToRoute('admin_app_backup_list', [], Response::HTTP_SEE_OTHER);

@@ -4,28 +4,28 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Place;
 
+use App\Controller\Admin\AbstractAdminController;
+use App\Entity\Data\SearchData;
 use App\Entity\Image;
 use App\Entity\Place;
 use App\Form\Admin\ImageType;
-use App\Entity\Data\SearchData;
-use App\Form\Search\AdvancedSearchType;
 use App\Form\Admin\PlaceFormType;
+use App\Form\Search\AdvancedImageSearchType;
+use App\Repository\CategoryRepository;
 use App\Repository\ImageRepository;
 use App\Repository\PlaceRepository;
 use App\Repository\PortalRepository;
-use App\Repository\CategoryRepository;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\Admin\AbstractAdminController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin/place')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
 final class AdminPlaceController extends AbstractAdminController
 {
-    protected string $entityName = "place";
+    protected string $entityName = 'place';
 
     public function __construct(
         private ImageRepository $imageRepository,
@@ -33,13 +33,13 @@ final class AdminPlaceController extends AbstractAdminController
     ) {
     }
 
-    #[Route('/', name: 'admin_app_place_list', methods:['GET'])]
+    #[Route('/', name: 'admin_app_place_list', methods: ['GET'])]
     public function listAction(): Response
     {
         return $this->render('Admin/place/list.html.twig');
     }
 
-    #[Route('/archive', name: 'admin_app_place_archive_index', methods:['GET'])]
+    #[Route('/archive', name: 'admin_app_place_archive_index', methods: ['GET'])]
     public function archiveIndexAction(): Response
     {
         return $this->render('Admin/place/archive.html.twig', [
@@ -47,7 +47,7 @@ final class AdminPlaceController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/create', name: 'admin_app_place_create', methods:['GET', 'POST'])]
+    #[Route('/create', name: 'admin_app_place_create', methods: ['GET', 'POST'])]
     public function createAction(Request $request, CategoryRepository $categoryRepository, PortalRepository $portalRepository): Response
     {
         $place = new Place();
@@ -79,10 +79,10 @@ final class AdminPlaceController extends AbstractAdminController
 
         $form = $this->createForm(PlaceFormType::class, $place);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->placeRepository->save($place, true);
-            $this->addFlash('success', "Le lieu " . $place . " a bien été créé.");
+            $this->addFlash('success', 'Le lieu '.$place.' a bien été créé.');
 
             return $this->redirectTo($request, $place->getId());
         }
@@ -92,7 +92,7 @@ final class AdminPlaceController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/show', name: 'admin_app_place_show', methods:['GET'])]
+    #[Route('/{id}/show', name: 'admin_app_place_show', methods: ['GET'])]
     public function showAction(Place $place): Response
     {
         return $this->render('Admin/place/show.html.twig', [
@@ -100,15 +100,15 @@ final class AdminPlaceController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_app_place_edit', methods:['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'admin_app_place_edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Place $place): Response
     {
         $form = $this->createForm(PlaceFormType::class, $place);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->placeRepository->save($place, true);
-            $this->addFlash('success', "Le lieu " . $place . " a bien été modifié.");
+            $this->addFlash('success', 'Le lieu '.$place.' a bien été modifié.');
 
             return $this->redirectTo($request, $place->getId());
         }
@@ -119,36 +119,36 @@ final class AdminPlaceController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'admin_app_place_delete', methods:['POST'])]
+    #[Route('/{id}/delete', name: 'admin_app_place_delete', methods: ['POST'])]
     public function deleteAction(Request $request, Place $place): Response
     {
         if ($this->isCsrfTokenValid('delete'.$place->getId(), $request->request->get('_token'))) {
             $this->placeRepository->remove($place, true);
-            $this->addFlash('success', "Le lieu a été supprimé avec succès.");
+            $this->addFlash('success', 'Le lieu a été supprimé avec succès.');
         }
 
         return $this->redirectToRoute('admin_app_place_list', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/sticky', name: 'admin_app_place_sticky', methods:['POST'])]
+    #[Route('/{id}/sticky', name: 'admin_app_place_sticky', methods: ['POST'])]
     public function stickyAction(Request $request, Place $place): Response
     {
         if ($this->isCsrfTokenValid('sticky'.$place->getId(), $request->request->get('_token'))) {
             $sticky = !$place->getIsSticky();
             $place->setIsSticky($sticky);
             $this->placeRepository->save($place, true);
-            $this->addFlash('success', "Le lieu a été modifié avec succès.");
+            $this->addFlash('success', 'Le lieu a été modifié avec succès.');
         }
 
         return $this->redirectToRoute('app_place_show', ['slug' => $place->getSlug()], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/archive', name: 'admin_app_place_archive', methods:['POST'])]
+    #[Route('/{id}/archive', name: 'admin_app_place_archive', methods: ['POST'])]
     public function archiveAction(Request $request, Place $place): Response
     {
         if ($this->isCsrfTokenValid('archive'.$place->getId(), $request->request->get('_token'))) {
             $isArchived = (bool) $place->getIsArchived();
-            $message = $isArchived ? "désarchivé" : "archivé";
+            $message = $isArchived ? 'désarchivé' : 'archivé';
             $place->setIsArchived(!$isArchived);
             $this->placeRepository->save($place, true);
 
@@ -158,7 +158,7 @@ final class AdminPlaceController extends AbstractAdminController
         return $this->redirectToRoute('admin_app_place_list', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/image', name: 'admin_app_place_image', methods:['GET', 'POST'])]
+    #[Route('/{id}/image', name: 'admin_app_place_image', methods: ['GET', 'POST'])]
     public function imageAction(Place $place, Request $request): Response
     {
         $page = $request->query->getInt('page', 1);
@@ -182,7 +182,7 @@ final class AdminPlaceController extends AbstractAdminController
 
                 return $this->redirectToRoute('admin_app_place_image', ['id' => $place->getId()]);
             }
-        } else if ('POST' === $request->getMethod()) {
+        } elseif ('POST' === $request->getMethod()) {
             $status = $this->handleImage($request, $place);
             $uri = $request->server->get('REQUEST_URI');
 
@@ -194,7 +194,7 @@ final class AdminPlaceController extends AbstractAdminController
         }
 
         $searchData = (new SearchData())->setPage($page);
-        $searchForm = $this->createForm(AdvancedSearchType::class, $searchData, ['allow_extra_fields' => true]);
+        $searchForm = $this->createForm(AdvancedImageSearchType::class, $searchData, ['allow_extra_fields' => true]);
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
@@ -218,6 +218,7 @@ final class AdminPlaceController extends AbstractAdminController
 
         if (null === $image) {
             $this->addFlash('error', "L'image que vous avez choisi n'existe pas.");
+
             return false;
         }
 
@@ -227,11 +228,13 @@ final class AdminPlaceController extends AbstractAdminController
                 $place->setIllustration($image);
                 $this->placeRepository->save($place, true);
                 $this->addFlash('success', "L'image a bien été ajoutée.");
+
                 return true;
             } else {
                 $place->setIllustration(null);
                 $this->placeRepository->save($place, true);
                 $this->addFlash('success', "L'image a bien été enlevée.");
+
                 return true;
             }
         }

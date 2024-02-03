@@ -34,10 +34,10 @@ class Topic
     #[ORM\JoinColumn(nullable: false)]
     private ?Forum $forum = null;
 
-    #[ORM\Column(options:['defaults' => 'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(options: ['defaults' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options:['defaults' => 'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ['defaults' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeInterface $updatedAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'topics')]

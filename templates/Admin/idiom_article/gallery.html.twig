@@ -90,6 +90,8 @@
 					{{ form_widget(form.categories) }}
 					<h4 class="mt-4 mb-3 h6 fw-bold">Par portail</h3>
 					{{ form_widget(form.portals) }}
+					<h4 class="mt-4 mb-3 h6 fw-bold">Par type</h3>
+					{{ form_rest(form) }}
 					<div style="margin-top:10px">
 						<a href="{{ path('admin_app_article_gallery', {id: article.id}) }}" class="btn btn-sm btn-primary">Tout afficher</a>
 						<button type="submit" class="btn btn-sm btn-primary">Rechercher</button>

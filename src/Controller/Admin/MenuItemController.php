@@ -6,23 +6,22 @@ use App\Entity\MenuItem;
 use App\Form\Admin\MenuItemType;
 use App\Repository\MenuItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin/menu')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN')"))]
 class MenuItemController extends AbstractAdminController
 {
-    protected string $entityName = "menu_item";
+    protected string $entityName = 'menu_item';
 
-    private const MAX_LENGTH = 15; 
+    private const MAX_LENGTH = 15;
 
     public function __construct(private MenuItemRepository $menuItemRepository)
     {
-        
     }
 
     #[Route('/', name: 'admin_app_menu_item_list', methods: ['GET'])]
@@ -102,7 +101,7 @@ class MenuItemController extends AbstractAdminController
             $entityManager->flush();
             $this->addFlash('success', "L'élement de menu a bien été supprimé.");
         } else {
-            $this->addFlash('error', "Le token CSRF est invalide.");
+            $this->addFlash('error', 'Le token CSRF est invalide.');
         }
 
         return $this->redirectToRoute('admin_app_menu_item_index', [], Response::HTTP_SEE_OTHER);

@@ -2,14 +2,14 @@
 
 namespace App\Form\Admin;
 
-use App\Entity\ForumGroup;
 use App\Entity\ForumCategory;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Entity\ForumGroup;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ForumCategoryType extends AbstractType
 {
@@ -28,9 +28,9 @@ class ForumCategoryType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
-                'help' => "Ajoutez les groupes d'utilisateurs ayant accès à cette catégorie"
+                'help' => "Ajoutez les groupes d'utilisateurs ayant accès à cette catégorie",
             ])
         ;
     }

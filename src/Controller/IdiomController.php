@@ -9,12 +9,12 @@ use App\Service\IdiomNavigationHelper;
 use App\Service\LogService;
 use App\Service\Word\WordIdiomArticleGenerator;
 use App\Service\Word\WordIdiomGenerator;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Routing\Annotation\Route;
 
 class IdiomController extends AbstractController
 {
@@ -24,7 +24,7 @@ class IdiomController extends AbstractController
             throw $this->createNotFoundException('Not Found');
         }
     }
-    
+
     #[Route('/idioms', name: 'app_idiom_index')]
     public function indexAction(IdiomRepository $idiomRepository): Response
     {
@@ -65,8 +65,8 @@ class IdiomController extends AbstractController
 
     #[Route('/idioms/{idiom}/{article}', name: 'app_idiom_show_article')]
     public function showArticleAction(
-        #[MapEntity(expr: 'repository.findIdiomBySlug(idiom)')] Idiom $idiomEntity, 
-        #[MapEntity(expr: 'repository.findOneBySlug(article)')]  IdiomArticle $idiomArticle
+        #[MapEntity(expr: 'repository.findIdiomBySlug(idiom)')] Idiom $idiomEntity,
+        #[MapEntity(expr: 'repository.findOneBySlug(article)')] IdiomArticle $idiomArticle
     ): Response {
         return $this->render('idiom/show_idiom_article.html.twig', [
             'idiom' => $idiomEntity,
@@ -77,7 +77,7 @@ class IdiomController extends AbstractController
 
     #[Route('/idioms/articles/{article}/word', name: 'app_idiom_show_article_word')]
     public function idiomArticleWordAction(
-        #[MapEntity(expr: 'repository.findOneBySlug(article)')] IdiomArticle $idiomArticle, 
+        #[MapEntity(expr: 'repository.findOneBySlug(article)')] IdiomArticle $idiomArticle,
         WordIdiomArticleGenerator $generator,
         LogService $logService
     ): Response {

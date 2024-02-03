@@ -4,17 +4,16 @@ namespace App\Controller\Admin;
 
 use App\Entity\TemplateGroup;
 use App\Form\Admin\TemplateGroupType;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\TemplateGroupRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\Admin\AbstractAdminController;
 
 #[Route('/template/group')]
 class TemplateGroupController extends AbstractAdminController
 {
-    protected string $entityName = "template_group";
+    protected string $entityName = 'template_group';
 
     #[Route('/', name: 'admin_app_template_group_list', methods: ['GET'])]
     public function index(TemplateGroupRepository $templateGroupRepository): Response

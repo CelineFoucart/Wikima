@@ -5,9 +5,9 @@ namespace App\Repository;
 use App\Entity\Data\SearchData;
 use App\Entity\Scenario;
 use App\Service\PaginatorService;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Scenario>
@@ -36,10 +36,10 @@ class ScenarioRepository extends ServiceEntityRepository
         }
 
         if (strlen((string) $searchData->getQuery()) >= 3 and null !== $searchData->getQuery()) {
-            $query->andWhere('s.title LIKE :q') ->setParameter('q', '%'.$searchData->getQuery().'%');
+            $query->andWhere('s.title LIKE :q')->setParameter('q', '%'.$searchData->getQuery().'%');
         }
 
-        if ($withPrivate === false) {
+        if (false === $withPrivate) {
             $query->andWhere('s.public = 1');
         }
 
@@ -87,8 +87,6 @@ class ScenarioRepository extends ServiceEntityRepository
      * Find a person by parent.
      *
      * @param int[] $parents
-     *
-     * @return PaginationInterface
      */
     public function findByParent(array $parents, int $page = 1, int $limit = 23): PaginationInterface
     {
@@ -108,7 +106,7 @@ class ScenarioRepository extends ServiceEntityRepository
         $builder = $this->createQueryBuilder('s')
             ->andWhere('s.archived = :isArchived')
             ->setParameter('isArchived', $isArchived);
-        
+
         if (!$isArchived) {
             $builder->orWhere('s.archived IS NULL');
         }

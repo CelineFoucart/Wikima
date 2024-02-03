@@ -12,7 +12,6 @@ class ExceptionSubscriber implements EventSubscriberInterface
 {
     public function __construct(private LogService $logService)
     {
-        
     }
 
     public function onKernelException(ExceptionEvent $event): void
@@ -20,7 +19,7 @@ class ExceptionSubscriber implements EventSubscriberInterface
         $exception = $event->getThrowable();
         $statusCode = ($exception instanceof HttpException) ? $exception->getStatusCode() : 500;
 
-        if ($statusCode === 404 || $statusCode === 400) {
+        if (404 === $statusCode || 400 === $statusCode) {
             return;
         }
 

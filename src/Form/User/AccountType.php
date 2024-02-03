@@ -4,19 +4,19 @@ namespace App\Form\User;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 /**
- * Class AccountType
- * 
+ * Class AccountType.
+ *
  * AccountType represents an form for updating username and email.
- * 
+ *
  * @author Céline Foucart <celinefoucart@yahoo.fr>
  */
 class AccountType extends AbstractType
@@ -46,9 +46,9 @@ class AccountType extends AbstractType
                     new Image([
                         'maxWidth' => 300,
                         'maxHeight' => 300,
-                    ])
+                    ]),
                 ],
-                'help' => "Seuls sont autorisés les fichiers jpeg, jpg, gif et png d'une largeur et d'une hauteur maximale de 300 pixels."
+                'help' => "Seuls sont autorisés les fichiers jpeg, jpg, gif et png d'une largeur et d'une hauteur maximale de 300 pixels.",
             ])
             ->add('email', EmailType::class)
         ;

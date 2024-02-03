@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Admin\Api;
 
 use App\Repository\LogRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class AdminApiLogController extends AbstractController
 {
@@ -25,9 +25,9 @@ final class AdminApiLogController extends AbstractController
         $data = $logRepository->searchPaginatedItems($parameters);
 
         $data = [
-            'draw' => isset($parameters['draw']) ? (int)$parameters['draw'] : 0,
+            'draw' => isset($parameters['draw']) ? (int) $parameters['draw'] : 0,
             'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
-            "data" => $data,
+            'data' => $data,
             'recordsTotal' => isset($recordsTotal['recordsFiltered']) ? $recordsTotal['recordsFiltered'] : 0,
         ];
 

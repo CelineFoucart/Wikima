@@ -2,18 +2,17 @@
 
 namespace App\Service;
 
-use App\Service\LogService;
-use Symfony\Component\Mailer\Transport;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Mailer\Transport;
 use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 use Symfony\Component\Mailer\Transport\Smtp\Stream\SocketStream;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ConfigService
 {
     private array $envVars = [
         'WIKI_NAME' => 'Wikima',
-        'WIKI_DESCRIPTION' => "Une encyclopédie complète pour présenter un univers de fiction et ses personnages",
+        'WIKI_DESCRIPTION' => 'Une encyclopédie complète pour présenter un univers de fiction et ses personnages',
         'CONTACT_EMAIL' => '',
         'CONTACT_NAME' => '',
         'ENABLE_REGISTRATION' => true,
@@ -27,8 +26,8 @@ class ConfigService
         'WIKI_BANNER' => 'banner.png',
         'PER_PAGE_ODD_COLUMNS' => 30,
         'PER_PAGE_EVEN_COLUMNS' => 20,
-        'BACKGROUND_COLOR' => "#f5f7fa80",
-        'DATE_FORMAT' => "d/m/Y à H:i"
+        'BACKGROUND_COLOR' => '#f5f7fa80',
+        'DATE_FORMAT' => 'd/m/Y à H:i',
     ];
 
     private bool $appendTo = false;
@@ -39,7 +38,7 @@ class ConfigService
         $this->hydrateDsnParams();
     }
 
-    public function save(array $newData): bool 
+    public function save(array $newData): bool
     {
         if (!$this->hasConfigFile()) {
             return false;
@@ -56,7 +55,7 @@ class ConfigService
             'PER_PAGE_ODD_COLUMNS',
             'PER_PAGE_EVEN_COLUMNS',
             'BACKGROUND_COLOR',
-            'DATE_FORMAT'
+            'DATE_FORMAT',
         ];
 
         foreach ($keys as $key) {
@@ -71,7 +70,7 @@ class ConfigService
 
         if (isset($newData['ENABLE_CONTACT']) && true === $newData['ENABLE_CONTACT']) {
             $this->setEnv('ENABLE_CONTACT', 1);
-        }else {
+        } else {
             $this->setEnv('ENABLE_CONTACT', 0);
         }
 
@@ -91,9 +90,7 @@ class ConfigService
     }
 
     /**
-     * Gets the value of envVars
-     *
-     * @return array
+     * Gets the value of envVars.
      */
     public function getEnvVars(): array
     {
@@ -101,7 +98,7 @@ class ConfigService
     }
 
     /**
-     * Get the value of publicDir
+     * Get the value of publicDir.
      */
     public function getPublicDir()
     {
@@ -109,11 +106,7 @@ class ConfigService
     }
 
     /**
-     * Sets the value of envVars
-     *
-     * @param array $envVars
-     *
-     * @return self
+     * Sets the value of envVars.
      */
     public function setEnvVars(array $envVars): self
     {
@@ -123,9 +116,7 @@ class ConfigService
     }
 
     /**
-     * Hydrates envVars
-     *
-     * @return self
+     * Hydrates envVars.
      */
     public function hydrateEnvVars(): self
     {
@@ -151,7 +142,7 @@ class ConfigService
         if (!isset($_ENV['MAILER_DSN'])) {
             return $this;
         }
-        
+
         $transport = Transport::fromDsn($_ENV['MAILER_DSN']);
 
         if (!$transport instanceof EsmtpTransport) {
@@ -173,18 +164,19 @@ class ConfigService
     /**
      * Move an uploaded file to a directory in the server.
      *
-     * @param  UploadedFile  $file   the file to move
-     * @param  string        $name   the name of the file
+     * @param UploadedFile $file the file to move
+     * @param string       $name the name of the file
      */
     public function move(UploadedFile $file, string $name): bool
     {
         try {
-            $path = $this->publicDir . '/img';
+            $path = $this->publicDir.'/img';
             $file->move($path, $name);
 
             return true;
         } catch (FileException $th) {
-            $this->logService->error("Configuration", $th->getMessage(), "FileException");
+            $this->logService->error('Configuration', $th->getMessage(), 'FileException');
+
             return false;
         }
     }
@@ -193,26 +185,25 @@ class ConfigService
     {
         return file_exists($this->configFile);
     }
-    
 
     private function setEnv(string $key, mixed $value): bool
     {
-        $notStringValues = ['MAILER_DSN', 'APP_ENV', 'ENABLE_REGISTRATION','ENABLE_CONTACT', 'PER_PAGE_ODD_COLUMNS', 'PER_PAGE_EVEN_COLUMNS'];
+        $notStringValues = ['MAILER_DSN', 'APP_ENV', 'ENABLE_REGISTRATION', 'ENABLE_CONTACT', 'PER_PAGE_ODD_COLUMNS', 'PER_PAGE_EVEN_COLUMNS'];
         $parts = (is_string($_ENV[$key]) && !in_array($key, $notStringValues)) ? '"' : '';
         $search = $_ENV[$key];
 
-        if ($key === 'MAILER_DSN') {
+        if ('MAILER_DSN' === $key) {
             if (preg_match('/null:\/\/default/', file_get_contents($this->configFile))) {
-                $search = "null://default";
+                $search = 'null://default';
             }
         }
 
         if ($this->appendTo) {
-            $status = file_put_contents($this->configFile, $key . '=' . $parts . $value . $parts . "\n", FILE_APPEND);
+            $status = file_put_contents($this->configFile, $key.'='.$parts.$value.$parts."\n", FILE_APPEND);
         } else {
             $status = file_put_contents($this->configFile, str_replace(
-                $key . '=' . $parts . $search . $parts,
-                $key . '=' . $parts . $value . $parts,
+                $key.'='.$parts.$search.$parts,
+                $key.'='.$parts.$value.$parts,
                 file_get_contents($this->configFile)
             ));
         }
@@ -220,13 +211,8 @@ class ConfigService
         return is_int($status);
     }
 
-
     /**
-     * Set the value of appendTo
-     *
-     * @param bool $appendTo
-     *
-     * @return self
+     * Set the value of appendTo.
      */
     public function setAppendTo(bool $appendTo): self
     {

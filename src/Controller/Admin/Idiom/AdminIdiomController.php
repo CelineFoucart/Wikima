@@ -2,29 +2,27 @@
 
 namespace App\Controller\Admin\Idiom;
 
-use DateTime;
-use App\Entity\User;
+use App\Controller\Admin\AbstractAdminController;
 use App\Entity\Idiom;
-use DateTimeImmutable;
 use App\Entity\IdiomArticle;
+use App\Entity\User;
 use App\Form\Admin\IdiomFormType;
+use App\Repository\ArticleRepository;
 use App\Repository\IdiomRepository;
 use App\Repository\ImageRepository;
-use App\Security\Voter\VoterHelper;
 use App\Repository\PortalRepository;
-use App\Repository\ArticleRepository;
+use App\Repository\TemplateGroupRepository;
+use App\Security\Voter\VoterHelper;
 use App\Service\IdiomNavigationHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\TemplateGroupRepository;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
-use App\Controller\Admin\AbstractAdminController;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\ExpressionLanguage\Expression;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/admin/idiom')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
@@ -55,7 +53,7 @@ class AdminIdiomController extends AbstractAdminController
     public function createAction(Request $request, EntityManagerInterface $entityManager, PortalRepository $portalRepository, TemplateGroupRepository $templateGroupRepository): Response
     {
         $templateId = $request->query->getInt('template', 0);
-        $template =  ($templateId > 0) ? $templateGroupRepository->find($templateId) : null;
+        $template = ($templateId > 0) ? $templateGroupRepository->find($templateId) : null;
         $title = ($template) ? $template->getTitle() : '';
         $idiom = (new Idiom())->setTranslatedName($title);
 
@@ -71,17 +69,17 @@ class AdminIdiomController extends AbstractAdminController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $idiom->setCreatedAt(new DateTimeImmutable())->setAuthor($this->getUser());
+            $idiom->setCreatedAt(new \DateTimeImmutable())->setAuthor($this->getUser());
             $entityManager->persist($idiom);
             $entityManager->flush();
 
-            if ($template !== null) {
+            if (null !== $template) {
                 foreach ($template->getTemplates() as $section) {
                     $newArticle = (new IdiomArticle())
                         ->setTitle($section->getTitle())
                         ->setContent($section->getContent())
-                        ->setCreatedAt(new DateTimeImmutable())
-                        ->setSlug($this->slugger->slug(strtolower($section->getTitle() . '-' . $idiom->getId())))
+                        ->setCreatedAt(new \DateTimeImmutable())
+                        ->setSlug($this->slugger->slug(strtolower($section->getTitle().'-'.$idiom->getId())))
                         ->setIdiom($idiom);
                     $idiom->addIdiomArticle($newArticle);
                     $entityManager->persist($newArticle);
@@ -108,25 +106,25 @@ class AdminIdiomController extends AbstractAdminController
         $form = $this->createFormBuilder($idiom)
             ->add('author', EntityType::class, [
                 'class' => User::class,
-                'attr' => ['data-choices' => 'choices']
+                'attr' => ['data-choices' => 'choices'],
             ])
             ->getForm()
         ;
 
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid() && $voterHelper->canModerate($this->getUser())) { 
+
+        if ($form->isSubmitted() && $form->isValid() && $voterHelper->canModerate($this->getUser())) {
             $entityManager->persist($idiom);
             $entityManager->flush();
-            $this->addFlash( 'success',  "L'auteur a bien été modifié.");
+            $this->addFlash('success', "L'auteur a bien été modifié.");
 
             return $this->redirectToRoute('admin_app_idiom_show', ['id' => $idiom->getId()]);
         }
-        
+
         if ($request->isMethod('POST')) {
-            $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom,'Access Denied.');
+            $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom, 'Access Denied.');
             $id = $request->request->get('article');
-            $article = ($id !== null) ? $articleRepository->find($id) : null;
+            $article = (null !== $id) ? $articleRepository->find($id) : null;
 
             if ($article) {
                 $idiom->setArticle($article);
@@ -148,8 +146,8 @@ class AdminIdiomController extends AbstractAdminController
     #[Route('/{id}/order', name: 'admin_app_idiom_order', methods: ['GET', 'POST'])]
     public function orderAction(#[MapEntity(expr: 'repository.findIdiomById(id)')] Idiom $idiom): Response
     {
-        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom,'Access Denied.');
-        
+        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom, 'Access Denied.');
+
         return $this->render('Admin/idiom/order.html.twig', [
             'idiom' => $idiom,
             'order_active' => true,
@@ -160,23 +158,23 @@ class AdminIdiomController extends AbstractAdminController
     #[Route('/{id}/remove-article', name: 'admin_app_idiom_remove_article', methods: ['GET', 'POST'])]
     public function removeArticleAction(Idiom $idiom, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom,'Access Denied.');
-        
+        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom, 'Access Denied.');
+
         if ($this->isCsrfTokenValid('delete'.$idiom->getId(), $request->request->get('_token'))) {
             $idiom->setArticle(null);
             $entityManager->persist($idiom);
             $entityManager->flush();
             $this->addFlash('success', "L'article a bien été retiré de la langue.");
         }
-        
+
         return $this->redirectToRoute('admin_app_idiom_show', ['id' => $idiom->getId()]);
     }
 
     #[Route('/{id}/articles', name: 'admin_app_idiom_article', methods: ['GET', 'POST'])]
     public function articlesAction(Idiom $idiom): Response
     {
-        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom,'Access Denied.');
-        
+        $this->denyAccessUnlessGranted(VoterHelper::EDIT, $idiom, 'Access Denied.');
+
         return $this->render('Admin/idiom/articles.html.twig', [
             'idiom' => $idiom,
             'section_active' => true,
@@ -191,7 +189,7 @@ class AdminIdiomController extends AbstractAdminController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $idiom->setUpdatedAt(new DateTime());
+            $idiom->setUpdatedAt(new \DateTime());
             $entityManager->persist($idiom);
             $entityManager->flush();
             $this->addFlash('success', 'La langue '.$idiom.' a bien été modifiée.');

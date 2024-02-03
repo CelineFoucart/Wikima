@@ -29,6 +29,16 @@
     {{ form_start(form) }}
         <div class="card border-top-primary">
             <div class="card-header">
+                <div class="float-end">
+                    <a href="{{ path('app_article_show', {slug: section.article.slug}) }}#part{{ section.id }}" class="btn btn-primary btn-sm" title="Consulter">
+                        <i class="fas fa-book-reader"></i> 
+                        <span class="d-none d-sm-inline">Consulter</span>
+                    </a>
+                    <a class="btn btn-danger btn-sm" href="{{ path('admin_app_section_delete', {id: section.id}) }}">
+                        <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                        <span class="d-none d-sm-inline">Supprimer</span>
+                    </a>
+                </div>
                 <h3 class="card-title h5 mb-0">
                     Section
                 </h3>
@@ -46,16 +56,10 @@
 
             {{ form_rest(form) }}
             <div class="card-footer">
-                <a href="{{ path('app_article_show', {slug: section.article.slug}) }}#part{{ section.id }}" class="btn btn-primary btn-sm" title="Consulter">
-                    <i class="fas fa-book-reader"></i> Retourner à l'article
-                </a>
                 <button type="submit" class="btn btn-success btn-sm">
-                    <i class="fas fa-save" aria-hidden="true"></i> Mettre à jour
-                </button>
-                ou
-                <a class="btn btn-danger btn-sm" href="{{ path('admin_app_section_delete', {id: section.id}) }}">
-                    <i class="fas fa-times" aria-hidden="true"></i> Supprimer
-                </a>
+                    <i class="fas fa-save" aria-hidden="true"></i>
+                    <span class="d-none d-sm-inline">Enregistrer</span>
+                </button> 
             </div>
         </div>
     {{ form_end(form) }}

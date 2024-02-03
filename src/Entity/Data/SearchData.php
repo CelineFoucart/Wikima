@@ -9,7 +9,6 @@ use App\Entity\Portal;
 
 class SearchData extends AbstractSearchData
 {
-
     /**
      * @var Portal[]
      */
@@ -65,9 +64,7 @@ class SearchData extends AbstractSearchData
     }
 
     /**
-     * Get the value of tags
-     *
-     * @return array
+     * Get the value of tags.
      */
     public function getTags(): array
     {
@@ -75,11 +72,7 @@ class SearchData extends AbstractSearchData
     }
 
     /**
-     * Set the value of tags
-     *
-     * @param array $tags
-     *
-     * @return self
+     * Set the value of tags.
      */
     public function setTags(array $tags): self
     {
@@ -89,7 +82,7 @@ class SearchData extends AbstractSearchData
     }
 
     /**
-     * Get the value of fields
+     * Get the value of fields.
      *
      * @return ?array
      */
@@ -99,11 +92,9 @@ class SearchData extends AbstractSearchData
     }
 
     /**
-     * Set the value of fields
+     * Set the value of fields.
      *
      * @param ?array $fields
-     *
-     * @return self
      */
     public function setFields(?array $fields): self
     {

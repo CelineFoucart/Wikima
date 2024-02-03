@@ -50,10 +50,11 @@ class PortalRepository extends ServiceEntityRepository
             $this->_em->flush();
         }
     }
-    
+
     public function findPaginated(int $page, int $perPageOdd): PaginationInterface
     {
-        $builder =  $this->createQueryBuilder('p')->orderBy('p.title', 'ASC');
+        $builder = $this->createQueryBuilder('p')->orderBy('p.title', 'ASC');
+
         return $this->paginatorService->setLimit($perPageOdd)->paginate($builder, $page);
     }
 

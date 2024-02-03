@@ -5,9 +5,9 @@ namespace App\Repository;
 use App\Entity\Data\SearchForumData;
 use App\Entity\Topic;
 use App\Service\PaginatorService;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Topic>
@@ -61,7 +61,7 @@ class TopicRepository extends ServiceEntityRepository
             ->andWhere('cg IN (:groups)')
             ->setParameter('groups', $groups)
             ->orderBy('t.createdAt', 'DESC');
-        
+
         if (strlen((string) $searchData->getQuery()) >= 3 and null !== $searchData->getQuery()) {
             $builder->andWhere('t.title LIKE :q')->setParameter('q', '%'.$searchData->getQuery().'%');
         }
@@ -70,8 +70,6 @@ class TopicRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $forumId
-     * 
      * @return Topic[]
      */
     public function findStickies(int $forumId): array

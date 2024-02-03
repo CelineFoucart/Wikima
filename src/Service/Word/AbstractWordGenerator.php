@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace App\Service\Word;
 
+use Doctrine\Common\Collections\Collection;
+use PhpOffice\PhpWord\Element\Section;
+use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\Settings;
-use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\Style\Font;
-use PhpOffice\PhpWord\Style\Table;
-use PhpOffice\PhpWord\SimpleType\Jc;
-use PhpOffice\PhpWord\Style\Language;
-use PhpOffice\PhpWord\Element\Section;
 use PhpOffice\PhpWord\Shared\Converter;
+use PhpOffice\PhpWord\SimpleType\Jc;
 use PhpOffice\PhpWord\SimpleType\TblWidth;
-use Doctrine\Common\Collections\Collection;
+use PhpOffice\PhpWord\Style\Language;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 abstract class AbstractWordGenerator
@@ -27,28 +25,22 @@ abstract class AbstractWordGenerator
     {
         Settings::setZipClass(Settings::PCLZIP);
         $this->phpWord = new PhpWord();
-        $this->uploadDir = $this->publicDir . '/uploads/';
+        $this->uploadDir = $this->publicDir.'/uploads/';
     }
 
     /**
      * Generate a word file for an entity.
-     * 
-     * @return array
      */
-    public abstract function generate(): array;
+    abstract public function generate(): array;
 
     /**
      * Get an array of properties for the file with keys: title, description, category, created, modified, keywords and subject.
-     * 
-     * @return array
-    */
-    protected abstract function getParamProperties(): array;
+     */
+    abstract protected function getParamProperties(): array;
 
     /**
      * Set the properties of the file with the array returned by the method getParamProperties.
      * The the key title and created are mandatory.
-     * 
-     * @return static
      */
     protected function setProperties(): static
     {
@@ -58,7 +50,7 @@ abstract class AbstractWordGenerator
             ->setTitle($params['title'])
             ->setDescription(isset($params['description']) ? $params['description'] : '')
             ->setCategory(isset($params['category']) ? $params['category'] : '')
-            ->setCreated(isset(($params['created']))  ? $params['created'] : null)
+            ->setCreated(isset($params['created']) ? $params['created'] : null)
             ->setModified(isset($params['modified']) ? $params['modified'] : null)
             ->setKeywords(isset($params['keywords']) ? $params['keywords'] : '')
             ->setSubject(isset($params['subject']) ? $params['subject'] : '');
@@ -68,8 +60,6 @@ abstract class AbstractWordGenerator
 
     /**
      * Define the style.
-     * 
-     * @return static
      */
     protected function setStyle(int $h1Size = 30, int $h2Size = 18, int $h3Size = 14): static
     {
@@ -86,14 +76,10 @@ abstract class AbstractWordGenerator
 
     /**
      * Reduce a collection of entity with the _toString implemented.
-     * 
-     * @param Collection $elements
-     * 
-     * @return string
      */
     protected function reduceCollectionToString(Collection $elements): string
     {
-        $titles = array_map(fn($value): string => (string) $value, $elements->toArray());
+        $titles = array_map(fn ($value): string => (string) $value, $elements->toArray());
 
         return join(', ', $titles);
     }
@@ -108,10 +94,6 @@ abstract class AbstractWordGenerator
 
     /**
      * Save the file and return the fil info (the path and the filename).
-     * 
-     * @param string $filename
-     * 
-     * @return array
      */
     protected function saveFile(string $filename): array
     {
@@ -127,18 +109,18 @@ abstract class AbstractWordGenerator
     protected function getDefaultTableStyle(): array
     {
         return [
-            'borderColor' => '000000', 
-            'borderSize'  => 1, 
-            'cellMargin'  => Converter::cmToTwip(0.09),
-            'unit' => TblWidth::PERCENT, 
-            'width' => 100 * 50
+            'borderColor' => '000000',
+            'borderSize' => 1,
+            'cellMargin' => Converter::cmToTwip(0.09),
+            'unit' => TblWidth::PERCENT,
+            'width' => 100 * 50,
         ];
     }
 
     protected function getImageDefaultStyles(): array
     {
         return [
-            'width' =>  450, 
+            'width' => 450,
             'alignment' => Jc::CENTER,
             'wrappingStyle' => 'inline',
         ];

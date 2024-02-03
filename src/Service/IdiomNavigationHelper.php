@@ -17,7 +17,7 @@ final class IdiomNavigationHelper
             } else {
                 $navigations[$key] = [
                     'category' => $article->getCategory() ? $article->getCategory()->getTitle() : 'Sans catégorie',
-                    'articles' => [$article]
+                    'articles' => [$article],
                 ];
             }
         }

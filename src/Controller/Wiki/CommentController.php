@@ -2,21 +2,20 @@
 
 namespace App\Controller\Wiki;
 
-use DateTimeImmutable;
 use App\Entity\Article;
 use App\Entity\Comment;
-use App\Form\CommentType;
 use App\Entity\Data\SearchData;
+use App\Form\CommentType;
 use App\Form\Search\SearchType;
-use App\Security\Voter\VoterHelper;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
+use App\Security\Voter\VoterHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class CommentController extends AbstractController
 {
@@ -44,7 +43,7 @@ final class CommentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid() && null !== $user) {
-            $comment->setCreatedAt(new DateTimeImmutable());
+            $comment->setCreatedAt(new \DateTimeImmutable());
             $commentRepository->add($comment, true);
             $this->addFlash('success', 'Votre commentaire a bien été enregistré.');
 

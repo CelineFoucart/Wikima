@@ -134,6 +134,6 @@ class Log
 
     public function __toString()
     {
-        return "Log : " . $this->action;
+        return 'Log : '.$this->action;
     }
 }

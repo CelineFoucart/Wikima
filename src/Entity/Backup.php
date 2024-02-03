@@ -50,7 +50,8 @@ class Backup
 
     public function __toString()
     {
-        $date = $this->createdAt->format("d/m/Y à H:i:s");
+        $date = $this->createdAt->format('d/m/Y à H:i:s');
+
         return "Sauvegarde du {$date}";
     }
 }

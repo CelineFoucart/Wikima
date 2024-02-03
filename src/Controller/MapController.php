@@ -2,15 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\Map;
 use App\Entity\Data\SearchData;
-use App\Form\Search\SearchType;
+use App\Entity\Map;
 use App\Form\Search\AdvancedPlaceSearchType;
+use App\Form\Search\SearchType;
 use App\Repository\MapRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class MapController extends AbstractController
 {
@@ -28,7 +28,7 @@ class MapController extends AbstractController
         } else {
             $maps = $mapRepository->searchPaginated((new SearchData())->setPage($page), $perPageEven);
         }
-        
+
         return $this->render('map/index.html.twig', [
             'form' => $form->createView(),
             'maps' => $maps,

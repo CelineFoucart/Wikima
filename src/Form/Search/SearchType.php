@@ -13,7 +13,8 @@ class SearchType extends AbstractType
 {
     public function __construct(
         private UrlGeneratorInterface $urlGenerator
-    ) { }
+    ) {
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -22,8 +23,8 @@ class SearchType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'Search...',
-                    'class' => 'form-control rounded-pill'
-                ]
+                    'class' => 'form-control rounded-pill',
+                ],
             ])
         ;
     }
@@ -33,7 +34,7 @@ class SearchType extends AbstractType
         $resolver->setDefaults([
             'data_class' => SearchData::class,
             'method' => 'GET',
-            'csrf_protection' => false
+            'csrf_protection' => false,
         ]);
     }
 

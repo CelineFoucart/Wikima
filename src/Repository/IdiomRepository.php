@@ -2,10 +2,10 @@
 
 namespace App\Repository;
 
-use App\Entity\Idiom;
 use App\Entity\Data\SearchData;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\Idiom;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<Idiom>
@@ -51,36 +51,34 @@ class IdiomRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param SearchData $search
-     * 
      * @return Idiom[]
      */
     public function advancedSearch(SearchData $search): array
     {
-        if (count($search->getFields()) === 1 && in_array('tags', $search->getFields())) {
+        if (1 === count($search->getFields()) && in_array('tags', $search->getFields())) {
             return [];
         }
-        
+
         $builder = $this->createQueryBuilder('i')
             ->leftJoin('i.portals', 'p')->addSelect('p')
             ->leftJoin('p.categories', 'c')->addSelect('c')
             ->setParameter('q', '%'.$search->getQuery().'%');
 
-            if (empty($search->getFields())) {
-                $builder->andWhere('i.translatedName LIKE :q OR i.originalName LIKE :q OR i.description LIKE :q');
-            } else {
-                $where = [];
+        if (empty($search->getFields())) {
+            $builder->andWhere('i.translatedName LIKE :q OR i.originalName LIKE :q OR i.description LIKE :q');
+        } else {
+            $where = [];
 
-                if (in_array('name', $search->getFields())) {
-                    $where[] = 'i.translatedName LIKE :q OR i.originalName LIKE :q';
-                }
-
-                if (in_array('description', $search->getFields())) {
-                    $where[] = 'i.description LIKE :q';
-                }
-
-                $builder->andWhere(join(' OR ', $where));
+            if (in_array('name', $search->getFields())) {
+                $where[] = 'i.translatedName LIKE :q OR i.originalName LIKE :q';
             }
+
+            if (in_array('description', $search->getFields())) {
+                $where[] = 'i.description LIKE :q';
+            }
+
+            $builder->andWhere(join(' OR ', $where));
+        }
 
         if (!empty($search->getPortals())) {
             $builder

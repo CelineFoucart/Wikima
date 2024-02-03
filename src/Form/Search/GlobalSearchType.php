@@ -3,12 +3,12 @@
 namespace App\Form\Search;
 
 use App\Entity\Data\SearchData;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class GlobalSearchType extends AdvancedSearchType
 {
@@ -21,14 +21,14 @@ class GlobalSearchType extends AdvancedSearchType
                 'label' => false,
                 'attr' => [
                     'placeholder' => 'Search...',
-                    'class' => 'form-control'
+                    'class' => 'form-control',
                 ],
                 'constraints' => [
                     new NotBlank(),
                     new Length([
                         'min' => 3,
                     ]),
-                ]
+                ],
             ])
             ->add('fields', ChoiceType::class, [
                 'multiple' => true,
@@ -39,8 +39,8 @@ class GlobalSearchType extends AdvancedSearchType
                 'choices' => [
                     'name' => 'name',
                     'description' => 'description',
-                    'tags' => 'tags'
-                ]
+                    'tags' => 'tags',
+                ],
             ])
         ;
     }

@@ -9,20 +9,19 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * Class PagesExtension
- * 
+ * Class PagesExtension.
+ *
  * PagesExtension displays user's pages for a twig view.
- * 
+ *
  * @author Céline Foucart <celinefoucart@yahoo.fr>
  */
 class PagesExtension extends AbstractExtension
 {
-
     public function __construct(
         private PageRepository $pageRepository,
         private UrlGeneratorInterface $urlGenerator,
         private CategoryRepository $categoryRepository,
-    ) { 
+    ) {
     }
 
     public function getFunctions(): array
@@ -32,19 +31,19 @@ class PagesExtension extends AbstractExtension
             new TwigFunction('get_categories', [$this, 'getCategories'], ['is_safe' => ['html']]),
         ];
     }
-    
+
     public function getPages(): string
     {
         $pages = $this->pageRepository->findAll();
 
-        if (count($pages) === 0) {
+        if (0 === count($pages)) {
             return '';
         }
 
         $html = '<li><hr class="dropdown-divider"></li><li><h6 class="dropdown-header">Pages</h6></li>';
 
         foreach ($pages as $page) {
-            $url = $this->urlGenerator->generate('app_page', ["slug" => $page->getSlug()]);
+            $url = $this->urlGenerator->generate('app_page', ['slug' => $page->getSlug()]);
             $html .= '<li><a class="dropdown-item" href="'.$url.'">'.$page->getTitle().'</a></li>';
         }
 
@@ -56,16 +55,16 @@ class PagesExtension extends AbstractExtension
         $categories = $this->categoryRepository->findWithPortals();
         $html = '';
 
-        if (count($categories) === 0) {
+        if (0 === count($categories)) {
             return $html;
         }
 
         foreach ($categories as $category) {
-            $path =  $this->urlGenerator->generate('app_category_show', ["slug" => $category->getSlug()]);
-            $html .= '<div class="search-item"><a class="dropdown-item fw-bold" href="'.$path.'"><i class="fas fa-folder me-1"></i>' . $category . '</a></div>';
+            $path = $this->urlGenerator->generate('app_category_show', ['slug' => $category->getSlug()]);
+            $html .= '<div class="search-item"><a class="dropdown-item fw-bold" href="'.$path.'"><i class="fas fa-folder me-1"></i>'.$category.'</a></div>';
 
             foreach ($category->getPortals() as $portal) {
-                $portalPath =  $this->urlGenerator->generate('app_portal_show', ["slug" => $portal->getSlug()]);
+                $portalPath = $this->urlGenerator->generate('app_portal_show', ['slug' => $portal->getSlug()]);
                 $html .= '<div class="search-item"><a class="dropdown-item" href="'.$portalPath.'"><i class="fas fa-tag me-1"></i>'.$portal->getTitle().'</a></div>';
             }
         }

@@ -2,20 +2,20 @@
 
 namespace App\Form\Admin;
 
-use App\Entity\Place;
-use App\Entity\Portal;
 use App\Entity\Category;
-use App\Entity\PlaceType;
 use App\Entity\ImageGroup;
+use App\Entity\Place;
+use App\Entity\PlaceType;
+use App\Entity\Portal;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PlaceFormType extends AbstractType
 {
@@ -75,15 +75,15 @@ class PlaceFormType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'query_builder' => function (EntityRepository $er) use ($id) {
-                    $query = $er->createQueryBuilder('p') ->orderBy('p.title', 'ASC');
+                    $query = $er->createQueryBuilder('p')->orderBy('p.title', 'ASC');
 
-                    if ($id !== null) {
+                    if (null !== $id) {
                         $query->andWhere('p.id != :id')->setParameter('id', $id);
                     }
-                    
+
                     return $query;
                 },
             ])
@@ -93,8 +93,8 @@ class PlaceFormType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
             ->add('categories', EntityType::class, [
                 'class' => Category::class,
@@ -102,8 +102,8 @@ class PlaceFormType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
             ->add('portals', EntityType::class, [
                 'class' => Portal::class,
@@ -111,14 +111,14 @@ class PlaceFormType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
             ->add('imageGroup', EntityType::class, [
                 'class' => ImageGroup::class,
                 'choice_label' => 'title',
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'required' => false,
             ])

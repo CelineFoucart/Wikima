@@ -2,12 +2,12 @@
 
 namespace App\Repository;
 
-use App\Entity\Map;
 use App\Entity\Data\SearchData;
+use App\Entity\Map;
 use App\Service\PaginatorService;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<Map>
@@ -41,7 +41,7 @@ class MapRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    
+
     public function searchPaginated(SearchData $search, int $limit = 20): PaginationInterface
     {
         $builder = $this->createQueryBuilder('m')
@@ -49,7 +49,7 @@ class MapRepository extends ServiceEntityRepository
             ->leftJoin('m.categories', 'c');
 
         if (strlen($search->getQuery()) >= 3 and null !== $search->getQuery()) {
-            $builder ->andWhere('m.title LIKE :q')->setParameter('q', '%'.$search->getQuery().'%');
+            $builder->andWhere('m.title LIKE :q')->setParameter('q', '%'.$search->getQuery().'%');
         }
 
         if (!empty($search->getPortals())) {
@@ -65,7 +65,7 @@ class MapRepository extends ServiceEntityRepository
                 ->setParameter('categories', $search->getCategories())
             ;
         }
-        
+
         return $this->paginatorService->setLimit($limit)->paginate($builder, $search->getPage());
     }
 }

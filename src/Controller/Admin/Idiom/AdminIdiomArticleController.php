@@ -2,23 +2,22 @@
 
 namespace App\Controller\Admin\Idiom;
 
-use App\Entity\Idiom;
-use App\Entity\Image;
-use DateTimeImmutable;
-use App\Entity\IdiomArticle;
-use App\Form\Admin\ImageType;
-use App\Form\Admin\IdiomArticleType;
 use App\Entity\Data\SearchData;
-use App\Form\Search\AdvancedSearchType;
+use App\Entity\Idiom;
+use App\Entity\IdiomArticle;
+use App\Entity\Image;
+use App\Form\Admin\IdiomArticleType;
+use App\Form\Admin\ImageType;
+use App\Form\Search\AdvancedImageSearchType;
 use App\Repository\IdiomArticleRepository;
 use App\Repository\ImageRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 #[Route('/admin/idiom')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
@@ -39,9 +38,9 @@ class AdminIdiomArticleController extends AbstractController
         $article = (new IdiomArticle())->setIdiom($idiom);
         $form = $this->createForm(IdiomArticleType::class, $article);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
-            $article->setCreatedAt(new DateTimeImmutable());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $article->setCreatedAt(new \DateTimeImmutable());
             $this->idiomArticleRepository->add($article, true);
             $this->addFlash('success', "L'article a été ajouté.");
 
@@ -61,8 +60,8 @@ class AdminIdiomArticleController extends AbstractController
     {
         $form = $this->createForm(IdiomArticleType::class, $article);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $article->setUpdatedAt(new \DateTime());
             $this->idiomArticleRepository->add($article, true);
             $this->addFlash('success', "L'article a été modifié.");
@@ -85,23 +84,23 @@ class AdminIdiomArticleController extends AbstractController
         $image = (new Image())->setPortals($article->getIdiom()->getPortals());
         $formImage = $this->createForm(ImageType::class, $image);
         $formImage->handleRequest($request);
-        
-        if ($formImage->isSubmitted()) { 
+
+        if ($formImage->isSubmitted()) {
             if ($formImage->isValid()) {
                 $imageRepository->add($image, true);
                 $article->addImage($image);
                 $imageRepository->add($image, true);
                 $this->idiomArticleRepository->add($article, true);
                 $this->addFlash('success', "L'image a bien été ajoutée.");
-                return $this->redirectToRoute('admin_app_idiom_article_gallery',  ['id' => $article->getId()]);
 
+                return $this->redirectToRoute('admin_app_idiom_article_gallery', ['id' => $article->getId()]);
             } else {
-                $this->addFlash('error',  "La soumission a échoué, car le formulaire n'est pas valide.");
+                $this->addFlash('error', "La soumission a échoué, car le formulaire n'est pas valide.");
             }
         } elseif ('POST' === $request->getMethod()) {
             $this->handleGallery($request, $article, $imageRepository);
 
-            return $this->redirectToRoute('admin_app_idiom_article_gallery',  ['id' => $article->getId()]);
+            return $this->redirectToRoute('admin_app_idiom_article_gallery', ['id' => $article->getId()]);
         }
 
         $excludes = array_map(function (Image $item) {
@@ -109,15 +108,15 @@ class AdminIdiomArticleController extends AbstractController
         }, $article->getImages()->toArray());
 
         $searchData = (new SearchData())->setPage($page);
-        $form = $this->createForm(AdvancedSearchType::class, $searchData, ['allow_extra_fields' => true]);
+        $form = $this->createForm(AdvancedImageSearchType::class, $searchData, ['allow_extra_fields' => true]);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $images = $imageRepository->search($searchData, $excludes, 15);
         } else {
             $images = $imageRepository->findPaginated($page, $excludes, 15);
         }
-        
+
         return $this->render('Admin/idiom_article/gallery.html.twig', [
             'idiom' => $article->getIdiom(),
             'article' => $article,

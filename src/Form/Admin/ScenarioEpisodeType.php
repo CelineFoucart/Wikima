@@ -4,9 +4,9 @@ namespace App\Form\Admin;
 
 use App\Entity\Scenario;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ScenarioEpisodeType extends AbstractType
 {
@@ -26,7 +26,6 @@ class ScenarioEpisodeType extends AbstractType
         ;
     }
 
-    
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

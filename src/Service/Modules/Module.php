@@ -14,13 +14,11 @@ class Module
         private string $icon,
         private string $description,
         private bool $status = true
-    )  {
+    ) {
     }
 
     /**
-     * Get the value of id
-     *
-     * @return string
+     * Get the value of id.
      */
     public function getId(): string
     {
@@ -28,9 +26,7 @@ class Module
     }
 
     /**
-     * Get the value of title
-     *
-     * @return string
+     * Get the value of title.
      */
     public function getTitle(): string
     {
@@ -38,9 +34,7 @@ class Module
     }
 
     /**
-     * Get the value of icon
-     *
-     * @return string
+     * Get the value of icon.
      */
     public function getIcon(): string
     {
@@ -48,37 +42,28 @@ class Module
     }
 
     /**
-     * Get the value of description
-     *
-     * @return string
+     * Get the value of description.
      */
     public function getDescription(): string
     {
         return $this->description;
     }
 
+    /**
+     * Set the value of status.
+     */
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
 
-        /**
-         * Set the value of status
-         *
-         * @param bool $status
-         *
-         * @return self
-         */
-        public function setStatus(bool $status): self
-        {
-            $this->status = $status;
+        return $this;
+    }
 
-            return $this;
-        }
-
-        /**
-         * Get the value of status
-         *
-         * @return bool
-         */
-        public function getStatus(): bool
-        {
-            return $this->status;
-        }
+    /**
+     * Get the value of status.
+     */
+    public function getStatus(): bool
+    {
+        return $this->status;
+    }
 }

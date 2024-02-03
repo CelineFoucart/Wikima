@@ -2,20 +2,20 @@
 
 namespace App\Form\Admin;
 
-use App\Entity\Image;
-use App\Entity\Portal;
 use App\Entity\Category;
-use App\Entity\ImageTag;
+use App\Entity\Image;
 use App\Entity\ImageGroup;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
+use App\Entity\ImageTag;
+use App\Entity\Portal;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 #[UniqueEntity('slug')]
 class ImageType extends AbstractType
@@ -40,8 +40,8 @@ class ImageType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
             ->add('categories', EntityType::class, [
                 'class' => Category::class,
@@ -49,8 +49,8 @@ class ImageType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
             ->add('portals', EntityType::class, [
                 'class' => Portal::class,
@@ -58,14 +58,14 @@ class ImageType extends AbstractType
                 'multiple' => true,
                 'required' => false,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
             ->add('imageGroups', EntityType::class, [
                 'class' => ImageGroup::class,
                 'choice_label' => 'title',
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'required' => false,
                 'multiple' => true,
@@ -81,8 +81,8 @@ class ImageType extends AbstractType
                             'image/png',
                         ],
                         'mimeTypesMessage' => 'Seuls sont autorisés les fichiers jpeg, jpg, gif et png.',
-                    ])
-                ]
+                    ]),
+                ],
             ])
         ;
     }

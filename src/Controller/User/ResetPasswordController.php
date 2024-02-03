@@ -28,15 +28,15 @@ class ResetPasswordController extends AbstractController
 
     private $resetPasswordHelper;
     private $entityManager;
-    private string $contactMail; 
+    private string $contactMail;
     private string $contactName;
     private LogService $logService;
 
     public function __construct(
-        ResetPasswordHelperInterface $resetPasswordHelper, 
+        ResetPasswordHelperInterface $resetPasswordHelper,
         EntityManagerInterface $entityManager,
         LogService $logService,
-        string $contactMail, 
+        string $contactMail,
         string $contactName
     ) {
         $this->resetPasswordHelper = $resetPasswordHelper;
@@ -158,7 +158,7 @@ class ResetPasswordController extends AbstractController
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
         } catch (ResetPasswordExceptionInterface $e) {
-            $this->logService->error("ResetPassword", $e->getMessage(), 'ResetPasswordExceptionInterface');
+            $this->logService->error('ResetPassword', $e->getMessage(), 'ResetPasswordExceptionInterface');
 
             return $this->redirectToRoute('app_check_email');
         }

@@ -32,7 +32,8 @@ class StatisticsHandler
 
             return $this->formatStats($data);
         } catch (\Exception $th) {
-            $this->logService->error("Statistiques", $th->getMessage(), "Exception");
+            $this->logService->error('Statistiques', $th->getMessage(), 'Exception');
+
             return [];
         }
     }

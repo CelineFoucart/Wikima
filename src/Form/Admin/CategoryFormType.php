@@ -4,12 +4,12 @@ namespace App\Form\Admin;
 
 use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
-use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class CategoryFormType extends AbstractType
 {
@@ -30,9 +30,9 @@ class CategoryFormType extends AbstractType
                         'maxWidth' => 1320,
                         'minHeight' => 200,
                         'maxHeight' => 300,
-                    ])
+                    ]),
                 ],
-                'help' => "banner_help",
+                'help' => 'banner_help',
                 'required' => false,
             ])
         ;

@@ -4,12 +4,12 @@ namespace App\Form\Admin;
 
 use App\Entity\Template;
 use App\Entity\TemplateGroup;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class TemplateType extends AbstractType
 {
@@ -18,7 +18,7 @@ class TemplateType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('description', TextareaType::class, [
-                'required' => false
+                'required' => false,
             ])
             ->add('content', TextareaType::class)
             ->add('templateGroups', EntityType::class, [
@@ -26,7 +26,7 @@ class TemplateType extends AbstractType
                 'choice_label' => 'title',
                 'multiple' => true,
                 'attr' => ['data-choices' => 'choices'],
-                'required' => false
+                'required' => false,
             ])
         ;
     }

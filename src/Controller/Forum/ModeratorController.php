@@ -10,12 +10,12 @@ use App\Form\TopicType;
 use App\Repository\PostRepository;
 use App\Repository\ReportRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/moderator-panel')]
 class ModeratorController extends AbstractController
@@ -43,8 +43,8 @@ class ModeratorController extends AbstractController
 
         $form = $this->createForm(TopicType::class, $topic);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $topic->setUpdatedAt(new \DateTime());
             $this->em->persist($topic);
             $this->em->flush();
@@ -65,7 +65,7 @@ class ModeratorController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$topic->getId(), $request->request->get('_token'))) {
             $this->em->remove($topic);
             $this->em->flush();
-            $this->addFlash('success', "Le sujet a été supprimé avec succès.");
+            $this->addFlash('success', 'Le sujet a été supprimé avec succès.');
         }
 
         return $this->redirectToRoute('app_moderation_home');
@@ -76,8 +76,8 @@ class ModeratorController extends AbstractController
     {
         $form = $this->getAuthorForm($post);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $post->setUpdatedAt(new \DateTime());
             $this->em->persist($post);
             $this->em->flush();
@@ -91,13 +91,13 @@ class ModeratorController extends AbstractController
         ]);
     }
 
-    #[Route('/report/{id}', name: 'app_moderation_delete', methods:['POST'])]
+    #[Route('/report/{id}', name: 'app_moderation_delete', methods: ['POST'])]
     public function deleteReportAction(Report $report, Request $request): Response
     {
         if ($this->isCsrfTokenValid('delete'.$report->getId(), $request->request->get('_token'))) {
             $this->em->remove($report);
             $this->em->flush();
-            $this->addFlash('success', "Le rapport a été supprimé avec succès.");
+            $this->addFlash('success', 'Le rapport a été supprimé avec succès.');
         }
 
         return $this->redirectToRoute('app_moderation_home');
@@ -105,13 +105,11 @@ class ModeratorController extends AbstractController
 
     /**
      * @param Post|Topic $entity
-     * 
-     * @return FormInterface
      */
     private function getAuthorForm(mixed $entity): FormInterface
     {
-        return  $this->createFormBuilder($entity)
-            ->add('author', EntityType::class, ['class' => User::class,'required' => true])
+        return $this->createFormBuilder($entity)
+            ->add('author', EntityType::class, ['class' => User::class, 'required' => true])
             ->getForm()
         ;
     }

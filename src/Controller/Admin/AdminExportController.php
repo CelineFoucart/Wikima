@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use PhpZip\ZipFile;
 use App\Entity\Backup;
-use App\Entity\Portal;
 use App\Entity\Category;
-use App\Service\BackupService;
+use App\Entity\Portal;
 use App\Repository\BackupRepository;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\ExpressionLanguage\Expression;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
+use App\Service\BackupService;
+use PhpZip\ZipFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin')]
 final class AdminExportController extends AbstractController
@@ -32,7 +32,7 @@ final class AdminExportController extends AbstractController
 
         $zipFile = (new ZipFile())
             ->addFile($backupService->getBackupFolder().DIRECTORY_SEPARATOR.$backup->getFilename())
-            ->addFile($this->getParameter('kernel.project_dir') . '/.env.local');
+            ->addFile($this->getParameter('kernel.project_dir').'/.env.local');
 
         $uploadedDir = $this->getParameter('kernel.project_dir').'/public/uploads/';
         if (is_dir($uploadedDir)) {
@@ -40,7 +40,7 @@ final class AdminExportController extends AbstractController
             $finder = new Finder();
             $finder->files()->in($uploadedDir);
             foreach ($finder as $file) {
-                $zipFile->addFile($file->getRealPath(), 'images/' . $file->getFilename());
+                $zipFile->addFile($file->getRealPath(), 'images/'.$file->getFilename());
             }
         }
 
@@ -50,11 +50,11 @@ final class AdminExportController extends AbstractController
             $finderFavicon = new Finder();
             $finderFavicon->files()->in($faviconDir);
             foreach ($finderFavicon as $file) {
-                $zipFile->addFile($file->getRealPath(), 'favicons-banner/' . $file->getFilename());
+                $zipFile->addFile($file->getRealPath(), 'favicons-banner/'.$file->getFilename());
             }
         }
 
-        $zipname = ((new \DateTime())->format('Y-m-d')) . '.zip';
+        $zipname = (new \DateTime())->format('Y-m-d').'.zip';
         $zipFile->saveAsFile($zipname)->close();
 
         return $this->returnAsBinaryResponse($zipname);
@@ -116,22 +116,22 @@ final class AdminExportController extends AbstractController
 
     private function downloadGalleryEntity(object $entity, string $type): Response
     {
-        if ($entity->getImages()->isEmpty() && $entity->getBanner() === null) {
+        if ($entity->getImages()->isEmpty() && null === $entity->getBanner()) {
             $this->addFlash('error', "Il n'y a aucune image à télécharger");
 
             return $this->redirectToRoute('admin_app_'.$type.'_show', ['id' => $entity->getId()]);
         }
 
         $uploadedDir = $this->getParameter('kernel.project_dir').'/public/uploads/';
-        $zipname = $type . '-image-' . $entity->getSlug() . '.zip';
+        $zipname = $type.'-image-'.$entity->getSlug().'.zip';
 
         $zipFile = new ZipFile();
         foreach ($entity->getImages() as $image) {
-            $zipFile->addFile($uploadedDir . $image->getFilename(), $image->getFilename());
+            $zipFile->addFile($uploadedDir.$image->getFilename(), $image->getFilename());
         }
 
-        if ($entity->getBanner() !== null) {
-            $zipFile->addFile($uploadedDir . $entity->getBanner(), $entity->getBanner());
+        if (null !== $entity->getBanner()) {
+            $zipFile->addFile($uploadedDir.$entity->getBanner(), $entity->getBanner());
         }
 
         $zipFile->saveAsFile($zipname)->close();
@@ -152,7 +152,7 @@ final class AdminExportController extends AbstractController
         $finder->files()->in($directory);
 
         if (!$finder->hasResults()) {
-            $this->addFlash('error',"Il n'y a aucun éléments à télécharger.");
+            $this->addFlash('error', "Il n'y a aucun éléments à télécharger.");
 
             return false;
         }

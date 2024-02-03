@@ -5,7 +5,7 @@ namespace App\Service\Modules;
 class ModuleService
 {
     /**
-     * Available modules
+     * Available modules.
      *
      * @var Module[]
      */
@@ -20,9 +20,7 @@ class ModuleService
     }
 
     /**
-     * Get the value of modules
-     *
-     * @return array
+     * Get the value of modules.
      */
     public function getModules(): array
     {
@@ -34,7 +32,7 @@ class ModuleService
         if (!file_exists($this->configFile)) {
             return false;
         }
-        
+
         foreach (array_keys($this->modules) as $envVar) {
             $status = isset($data[$envVar]) ? 1 : 0;
             $this->persist($status, $envVar);
@@ -45,16 +43,16 @@ class ModuleService
 
     private function persist(int $status, string $key): void
     {
-        $search = $key . '=' . (int)$this->modules[$key]->getStatus();
+        $search = $key.'='.(int) $this->modules[$key]->getStatus();
 
-        if (preg_match('/'. $search . '/', file_get_contents($this->configFile))) {
+        if (preg_match('/'.$search.'/', file_get_contents($this->configFile))) {
             file_put_contents($this->configFile, str_replace(
                 $search,
-                $key . '=' . $status,
+                $key.'='.$status,
                 file_get_contents($this->configFile)
             ));
         } else {
-            file_put_contents($this->configFile, $key . '=' . $status . "\n", FILE_APPEND);
+            file_put_contents($this->configFile, $key.'='.$status."\n", FILE_APPEND);
         }
     }
 }

@@ -13,10 +13,10 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class EditPasswordType
- * 
+ * Class EditPasswordType.
+ *
  * EditPasswordType represents an form for updating password.
- * 
+ *
  * @author Céline Foucart <celinefoucart@yahoo.fr>
  */
 class EditPasswordType extends AbstractType
@@ -30,14 +30,14 @@ class EditPasswordType extends AbstractType
                     'autocomplete' => 'off',
                 ],
                 'constraints' => [
-                    new UserPassword()
-                ]
+                    new UserPassword(),
+                ],
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password'],
-                'first_options'  => ['label' => 'Password'],
+                'first_options' => ['label' => 'Password'],
                 'second_options' => ['label' => 'Repeat Password'],
                 'constraints' => [
                     new NotBlank([

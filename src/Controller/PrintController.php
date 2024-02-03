@@ -2,18 +2,18 @@
 
 namespace App\Controller;
 
-use App\Entity\Idiom;
-use App\Entity\Place;
-use App\Entity\Person;
-use App\Entity\Portal;
 use App\Entity\Article;
-use App\Entity\Scenario;
+use App\Entity\Idiom;
 use App\Entity\IdiomArticle;
+use App\Entity\Person;
+use App\Entity\Place;
+use App\Entity\Portal;
+use App\Entity\Scenario;
 use App\Service\IdiomNavigationHelper;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PrintController extends AbstractController
 {
@@ -86,7 +86,7 @@ class PrintController extends AbstractController
         }
 
         $articles = $portal->getArticles()->toArray();
-        usort($articles, function($a, $b) {
+        usort($articles, function ($a, $b) {
             return strcmp($a->getTitle(), $b->getTitle());
         });
 
@@ -109,7 +109,7 @@ class PrintController extends AbstractController
             $portals[] = $portal->getTitle();
         }
 
-        return $this->render('print/idiom.html.twig',[
+        return $this->render('print/idiom.html.twig', [
             'navigations' => IdiomNavigationHelper::generateNavigation($idiom),
             'idiom' => $idiom,
             'portals' => $portals,
@@ -133,7 +133,7 @@ class PrintController extends AbstractController
             $categories[] = $category->getTitle();
         }
 
-        return $this->render('print/scenario.html.twig',[
+        return $this->render('print/scenario.html.twig', [
             'scenario' => $scenario,
             'portals' => $portals,
             'categories' => $categories,
@@ -147,5 +147,4 @@ class PrintController extends AbstractController
             'article' => $article,
         ]);
     }
-
 }

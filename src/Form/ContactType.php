@@ -11,11 +11,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
- * Class ContactType
- * 
- * ContactType represents an contact form 
+ * Class ContactType.
+ *
+ * ContactType represents an contact form
  * with username, email, subject and content fields.
- * 
+ *
  * @author Céline Foucart <celinefoucart@yahoo.fr>
  */
 class ContactType extends AbstractType
@@ -28,8 +28,8 @@ class ContactType extends AbstractType
             ->add('subject', TextType::class)
             ->add('content', TextareaType::class, [
                 'attr' => [
-                    'style' => 'height:100px'
-                ]
+                    'style' => 'height:100px',
+                ],
             ])
         ;
     }

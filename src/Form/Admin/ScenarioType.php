@@ -2,20 +2,20 @@
 
 namespace App\Form\Admin;
 
-use App\Entity\Place;
+use App\Entity\ImageGroup;
 use App\Entity\Person;
+use App\Entity\Place;
 use App\Entity\Portal;
 use App\Entity\Scenario;
-use App\Entity\Timeline;
-use App\Entity\ImageGroup;
 use App\Entity\ScenarioCategory;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Entity\Timeline;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ScenarioType extends AbstractType
 {
@@ -25,7 +25,7 @@ class ScenarioType extends AbstractType
             ->add('title', TextType::class)
             ->add('slug', TextType::class)
             ->add('pitch', TextareaType::class, [
-                'help' => "Courte présentation du projet de moins de 3000 caractères.",
+                'help' => 'Courte présentation du projet de moins de 3000 caractères.',
                 'required' => false,
             ])
             ->add('defaultColor', TextType::class, [
@@ -33,7 +33,7 @@ class ScenarioType extends AbstractType
             ])
             ->add('comment', TextareaType::class, [
                 'required' => false,
-                'help' => "Texte explicatif affiché sur l'interface de gestion des épisodes"
+                'help' => "Texte explicatif affiché sur l'interface de gestion des épisodes",
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
@@ -43,7 +43,7 @@ class ScenarioType extends AbstractType
                 'choice_label' => 'title',
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'required' => false,
             ])
@@ -52,7 +52,7 @@ class ScenarioType extends AbstractType
                 'choice_label' => 'title',
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'required' => false,
             ])
@@ -61,7 +61,7 @@ class ScenarioType extends AbstractType
                 'choice_label' => 'title',
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'required' => false,
             ])
@@ -69,7 +69,7 @@ class ScenarioType extends AbstractType
                 'class' => ImageGroup::class,
                 'choice_label' => 'title',
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'required' => false,
             ])
@@ -78,7 +78,7 @@ class ScenarioType extends AbstractType
                 'choice_label' => 'title',
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'required' => false,
             ])
@@ -87,7 +87,7 @@ class ScenarioType extends AbstractType
                 'choice_label' => 'fullname',
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
                 'required' => false,
             ])

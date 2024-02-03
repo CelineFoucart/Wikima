@@ -2,19 +2,19 @@
 
 namespace App\Repository;
 
-use App\Entity\Person;
-use App\Entity\Portal;
 use App\Entity\Category;
+use App\Entity\Data\SearchData;
+use App\Entity\Person;
 use App\Entity\PersonType;
+use App\Entity\Portal;
+use App\Service\DataFilterService;
+use App\Service\PaginatorService;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\ORM\QueryBuilder;
-use App\Entity\Data\SearchData;
-use App\Service\PaginatorService;
-use App\Service\DataFilterService;
-use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Person|null find($id, $lockMode = null, $lockVersion = null)
@@ -70,8 +70,6 @@ class PersonRepository extends ServiceEntityRepository
      * Find a person by parent.
      *
      * @param Category|Portal $parent
-     *
-     * @return PaginationInterface
      */
     public function findByParent($parent, string $parentType = 'category', int $page = 1, int $type = 0, int $limit = 22): PaginationInterface
     {
@@ -81,7 +79,7 @@ class PersonRepository extends ServiceEntityRepository
         ->andWhere('(p.isArchived != :isArchived  OR p.isArchived IS NULL)')
         ->setParameter('isArchived', true);
 
-        if ($type  > 0) {
+        if ($type > 0) {
             $builder->andWhere('t.id IN (:type)')->setParameter('type', [$type]);
         }
 
@@ -100,8 +98,6 @@ class PersonRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param SearchData $search
-     * 
      * @return Place[]
      */
     public function advancedSearch(SearchData $search): array
@@ -111,25 +107,25 @@ class PersonRepository extends ServiceEntityRepository
             ->setParameter('isArchived', true)
             ->setParameter('q', '%'.$search->getQuery().'%');
 
-            if (empty($search->getFields())) {
-                $builder->andWhere('p.firstname LIKE :q OR p.lastname LIKE :q OR p.description LIKE :q OR t.title LIKE :q');
-            } else {
-                $where = [];
+        if (empty($search->getFields())) {
+            $builder->andWhere('p.firstname LIKE :q OR p.lastname LIKE :q OR p.description LIKE :q OR t.title LIKE :q');
+        } else {
+            $where = [];
 
-                if (in_array('name', $search->getFields())) {
-                    $where[] = 'p.firstname LIKE :q OR p.lastname LIKE :q';
-                }
-
-                if (in_array('description', $search->getFields())) {
-                    $where[] = 'p.description LIKE :q';
-                }
-
-                if (in_array('tags', $search->getFields())) {
-                    $where[] = 't.title LIKE :q';
-                }
-
-                $builder->andWhere(join(' OR ', $where));
+            if (in_array('name', $search->getFields())) {
+                $where[] = 'p.firstname LIKE :q OR p.lastname LIKE :q';
             }
+
+            if (in_array('description', $search->getFields())) {
+                $where[] = 'p.description LIKE :q';
+            }
+
+            if (in_array('tags', $search->getFields())) {
+                $where[] = 't.title LIKE :q';
+            }
+
+            $builder->andWhere(join(' OR ', $where));
+        }
 
         if (!empty($search->getPortals())) {
             $builder
@@ -208,13 +204,12 @@ class PersonRepository extends ServiceEntityRepository
         ;
     }
 
-    public function findSticky(?int $portalId = null, ?int $categoryId = null): array
+    public function findSticky(int $portalId = null, int $categoryId = null): array
     {
         $builder = $this->createQueryBuilder('p')
             ->orderBy('p.firstname', 'ASC')
             ->andWhere('p.isSticky = 1 AND p.isSticky IS NOT NULL')
             ->andWhere('(p.isArchived != :isArchived  OR p.isArchived IS NULL)')->setParameter('isArchived', true);
-        ;
 
         if ($portalId) {
             $builder
@@ -240,7 +235,7 @@ class PersonRepository extends ServiceEntityRepository
         $builder = $this->getDefaultQuery()
             ->andWhere('p.isArchived = :isArchived')
             ->setParameter('isArchived', $isArchived);
-        
+
         if (!$isArchived) {
             $builder->orWhere('p.isArchived IS NULL');
         }
@@ -261,7 +256,7 @@ class PersonRepository extends ServiceEntityRepository
                 ->orWhere('p.nationality LIKE :search')
                 ->orWhere('p.birthday LIKE :search')
                 ->orWhere('p.deathDate LIKE :search')
-                ->setParameter('search', '%' . $parameters['search']['value'] . '%');
+                ->setParameter('search', '%'.$parameters['search']['value'].'%');
         }
 
         if ($params['limit'] > 0) {
@@ -287,7 +282,7 @@ class PersonRepository extends ServiceEntityRepository
                 ->orWhere('p.nationality LIKE :search')
                 ->orWhere('p.birthday LIKE :search')
                 ->orWhere('p.deathDate LIKE :search')
-                ->setParameter('search', '%' . $parameters['search']['value'] . '%');
+                ->setParameter('search', '%'.$parameters['search']['value'].'%');
         }
 
         return $builder->getQuery()->getOneOrNullResult();

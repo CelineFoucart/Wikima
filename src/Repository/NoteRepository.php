@@ -55,8 +55,6 @@ class NoteRepository extends ServiceEntityRepository
         ;
     }
 
-    
-
     public function findForAdminList(bool $isArchived = false): array
     {
         $builder = $this->createQueryBuilder('n')
@@ -67,8 +65,8 @@ class NoteRepository extends ServiceEntityRepository
 
         if (!$isArchived) {
             $builder->orWhere('n.isArchived IS NULL');
-        } 
-            
+        }
+
         return $builder->getQuery()->getResult();
     }
 

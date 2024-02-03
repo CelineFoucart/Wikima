@@ -2,13 +2,13 @@
 
 namespace App\Form\Search;
 
-use App\Entity\Portal;
 use App\Entity\Data\SearchData;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Entity\Portal;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SearchPortalType extends AbstractType
 {
@@ -29,8 +29,8 @@ class SearchPortalType extends AbstractType
                 'class' => Portal::class,
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
         ;
     }

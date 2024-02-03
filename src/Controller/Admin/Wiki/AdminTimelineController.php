@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Wiki;
 
+use App\Controller\Admin\AbstractAdminController;
 use App\Entity\Event;
 use App\Entity\Timeline;
-use App\Repository\EventRepository;
-use App\Form\Admin\TimelineFormType;
-use App\Repository\PortalRepository;
 use App\Form\Admin\TimelineEventType;
+use App\Form\Admin\TimelineFormType;
 use App\Repository\CategoryRepository;
+use App\Repository\EventRepository;
+use App\Repository\PortalRepository;
 use App\Repository\TimelineRepository;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Controller\Admin\AbstractAdminController;
-use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/timeline')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
 final class AdminTimelineController extends AbstractAdminController
 {
-    protected string $entityName = "timeline";
+    protected string $entityName = 'timeline';
 
     public function __construct(
         private EventRepository $eventRepository,
@@ -31,7 +31,7 @@ final class AdminTimelineController extends AbstractAdminController
     ) {
     }
 
-    #[Route('/', name: 'admin_app_timeline_list', methods:['GET'])]
+    #[Route('/', name: 'admin_app_timeline_list', methods: ['GET'])]
     public function listAction(): Response
     {
         return $this->render('Admin/timeline/list.html.twig', [
@@ -39,7 +39,7 @@ final class AdminTimelineController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/create', name: 'admin_app_timeline_create', methods:['GET', 'POST'])]
+    #[Route('/create', name: 'admin_app_timeline_create', methods: ['GET', 'POST'])]
     public function createAction(Request $request, CategoryRepository $categoryRepository, PortalRepository $portalRepository): Response
     {
         $timeline = new Timeline();
@@ -59,14 +59,14 @@ final class AdminTimelineController extends AbstractAdminController
                 $timeline->addPortal($portal);
             }
         }
-        
+
         $form = $this->createForm(TimelineFormType::class, $timeline);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $timeline->setCreatedAt(new \DateTimeImmutable());
             $this->timelineRepository->add($timeline, true);
-            $this->addFlash('success', "La chronologie " . $timeline->getTitle() . " a bien été créée.");
+            $this->addFlash('success', 'La chronologie '.$timeline->getTitle().' a bien été créée.');
 
             return $this->redirectTo($request, $timeline->getId());
         }
@@ -76,7 +76,7 @@ final class AdminTimelineController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/show', name: 'admin_app_timeline_show', methods:['GET'])]
+    #[Route('/{id}/show', name: 'admin_app_timeline_show', methods: ['GET'])]
     public function showAction(Timeline $timeline): Response
     {
         return $this->render('Admin/timeline/show.html.twig', [
@@ -84,16 +84,16 @@ final class AdminTimelineController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'admin_app_timeline_edit', methods:['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'admin_app_timeline_edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Timeline $timeline): Response
     {
         $form = $this->createForm(TimelineFormType::class, $timeline);
         $form->handleRequest($request);
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $timeline->setUpdatedAt(new \DateTime());
             $this->timelineRepository->add($timeline, true);
-            $this->addFlash('success', "Le portail " . $timeline->getTitle() . " a bien été créée.");
+            $this->addFlash('success', 'Le portail '.$timeline->getTitle().' a bien été créée.');
 
             return $this->redirectTo($request, $timeline->getId());
         }
@@ -104,7 +104,7 @@ final class AdminTimelineController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/event', name: 'admin_app_timeline_event', methods:['GET', 'POST'])]
+    #[Route('/{id}/event', name: 'admin_app_timeline_event', methods: ['GET', 'POST'])]
     public function eventAction(Request $request, Timeline $timeline): Response
     {
         $event = $this->getEvent($timeline, $request->query->getInt('event'));
@@ -137,7 +137,7 @@ final class AdminTimelineController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'admin_app_timeline_delete', methods:['POST'])]
+    #[Route('/{id}/delete', name: 'admin_app_timeline_delete', methods: ['POST'])]
     public function deleteAction(Request $request, Timeline $timeline): Response
     {
         if ($this->isCsrfTokenValid('delete'.$timeline->getId(), $request->request->get('_token'))) {
@@ -176,5 +176,4 @@ final class AdminTimelineController extends AbstractAdminController
 
         return $event;
     }
-
 }

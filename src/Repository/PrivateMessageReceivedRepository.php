@@ -2,12 +2,10 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
 use App\Entity\PrivateMessageReceived;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use App\Service\PaginatorService;
-use Knp\Component\Pager\Pagination\PaginationInterface;
+use Doctrine\Persistence\ManagerRegistry;
 
 /**
  * @extends ServiceEntityRepository<PrivateMessageReceived>
@@ -74,8 +72,8 @@ class PrivateMessageReceivedRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
     /**
-     * 
      * @return PrivateMessageReceived[]
      */
     public function getReferenced(User $user): array

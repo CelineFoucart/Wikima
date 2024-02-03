@@ -4,21 +4,20 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Wiki;
 
-use DateTime;
 use App\Entity\Article;
 use App\Entity\Section;
+use App\Form\Admin\SectionConvertType;
 use App\Form\SectionType;
-use App\Security\Voter\VoterHelper;
 use App\Repository\ArticleRepository;
 use App\Repository\SectionRepository;
-use App\Form\Admin\SectionConvertType;
+use App\Security\Voter\VoterHelper;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
 #[Route('/admin/section')]
@@ -39,9 +38,9 @@ class AdminSectionController extends AbstractController
     public function showAction(Section $section, Request $request, ArticleRepository $articleRepository): Response
     {
         if ($request->isMethod('POST')) {
-            $this->denyAccessUnlessGranted(VoterHelper::EDIT, $section->getArticle(),'Access Denied.');
+            $this->denyAccessUnlessGranted(VoterHelper::EDIT, $section->getArticle(), 'Access Denied.');
             $id = $request->request->get('article');
-            $article = ($id !== null) ? $articleRepository->find($id) : null;
+            $article = (null !== $id) ? $articleRepository->find($id) : null;
 
             if ($article) {
                 $section->setArticle($article);
@@ -72,9 +71,9 @@ class AdminSectionController extends AbstractController
 
         $form = $this->createForm(SectionType::class, $section);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $section->setUpdatedAt(new \DateTime()); 
+            $section->setUpdatedAt(new \DateTime());
             $this->sectionRepository->add($section, true);
             $this->addFlash('success', 'Les modifications ont bien été enregistrées.');
 
@@ -105,17 +104,17 @@ class AdminSectionController extends AbstractController
 
         $form = $this->createForm(SectionConvertType::class, $article);
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
-            $article->setAuthor($this->getUser())->setCreatedAt(new DateTime());
+            $article->setAuthor($this->getUser())->setCreatedAt(new \DateTime());
             $articleRepository->add($article, true);
             $action = $form->get('actions')->getData();
 
-            if ($action == 0) {
+            if (0 == $action) {
                 $this->sectionRepository->remove($section, true);
-                
+
                 return $this->redirectToRoute('app_article_show', ['slug' => $article->getSlug()]);
-            } elseif ($action == 1) {
+            } elseif (1 == $action) {
                 return $this->redirectToRoute('admin_app_section_edit', ['id' => $section->getId()]);
             } else {
                 return $this->redirectToRoute('app_article_show', ['slug' => $article->getSlug()]);
@@ -132,13 +131,13 @@ class AdminSectionController extends AbstractController
     public function delete(Section $section, SectionRepository $sectionRepository, Request $request): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $section->getArticle());
-        
+
         $article = $section->getArticle();
 
-        if ($request->getMethod() === 'POST') {
+        if ('POST' === $request->getMethod()) {
             if ($this->isCsrfTokenValid('delete'.$section->getId(), $request->request->get('_token'))) {
                 $sectionRepository->remove($section, true);
-    
+
                 return $this->redirectToRoute('admin_app_article_section', ['id' => $article->getId()], Response::HTTP_SEE_OTHER);
             }
         }

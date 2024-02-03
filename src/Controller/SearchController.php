@@ -3,17 +3,17 @@
 namespace App\Controller;
 
 use App\Entity\Data\SearchData;
-use App\Repository\PlaceRepository;
-use App\Repository\PersonRepository;
 use App\Form\Search\GlobalSearchType;
 use App\Repository\ArticleRepository;
 use App\Repository\IdiomRepository;
 use App\Repository\ImageRepository;
+use App\Repository\PersonRepository;
+use App\Repository\PlaceRepository;
 use App\Repository\TimelineRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SearchController extends AbstractController
 {
@@ -39,15 +39,15 @@ class SearchController extends AbstractController
         $timelines = [];
         $images = [];
         $idioms = [];
-        
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $articles = $this->articleRepository->advancedSearch($search);
             $timelines = $this->timelineRepository->advancedSearch($search);
             $places = $this->placeRepository->advancedSearch($search);
             $persons = $this->personRepository->advancedSearch($search);
             $images = $this->imageRepository->advancedSearch($search);
 
-            if ($enableIdiom === true) {
+            if (true === $enableIdiom) {
                 $idioms = $this->idiomRepository->advancedSearch($search);
             }
         }

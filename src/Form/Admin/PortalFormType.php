@@ -2,16 +2,16 @@
 
 namespace App\Form\Admin;
 
-use App\Entity\Portal;
 use App\Entity\Category;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
+use App\Entity\Portal;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PortalFormType extends AbstractType
 {
@@ -29,8 +29,8 @@ class PortalFormType extends AbstractType
                 'choice_label' => 'title',
                 'multiple' => true,
                 'attr' => [
-                    'data-choices' => 'choices'
-                ]
+                    'data-choices' => 'choices',
+                ],
             ])
             ->add('presentation', TextareaType::class)
             ->add('imageBanner', VichImageType::class, [
@@ -40,9 +40,9 @@ class PortalFormType extends AbstractType
                         'maxWidth' => 1320,
                         'minHeight' => 200,
                         'maxHeight' => 300,
-                    ])
+                    ]),
                 ],
-                'help' => "banner_help",
+                'help' => 'banner_help',
                 'required' => false,
             ])
         ;

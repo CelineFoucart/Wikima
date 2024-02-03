@@ -3,9 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\MenuItem;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @extends ServiceEntityRepository<MenuItem>
@@ -26,8 +26,8 @@ class MenuItemRepository extends ServiceEntityRepository
     {
         try {
             $position = $this->createQueryBuilder('i')->select('MAX(i.position)')->getQuery()->getSingleScalarResult();
-            
-            return $position === null ? 0 : $position;
+
+            return null === $position ? 0 : $position;
         } catch (NoResultException $th) {
             return 0;
         }

@@ -3,14 +3,14 @@
 namespace App\Form\Admin;
 
 use App\Entity\Forum;
-use App\Entity\ForumGroup;
 use App\Entity\ForumCategory;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use App\Entity\ForumGroup;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ForumGroupType extends AbstractType
 {
@@ -20,11 +20,11 @@ class ForumGroupType extends AbstractType
 
         $builder
             ->add('title', TextType::class, [
-                'help' => "Le nom qui sera affiché aux utilisateurs"
+                'help' => 'Le nom qui sera affiché aux utilisateurs',
             ])
             ->add('roleName', TextType::class, [
-                'help' => "Le nom unique du groupe",
-                'disabled' => $isSymfonyRole
+                'help' => 'Le nom unique du groupe',
+                'disabled' => $isSymfonyRole,
             ])
             ->add('colour')
             ->add('description', TextareaType::class, [
@@ -37,7 +37,7 @@ class ForumGroupType extends AbstractType
                 'multiple' => true,
                 'choice_label' => 'title',
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
             ])
             ->add('forums', EntityType::class, [
@@ -46,7 +46,7 @@ class ForumGroupType extends AbstractType
                 'multiple' => true,
                 'choice_label' => 'title',
                 'attr' => [
-                    'data-choices' => 'choices'
+                    'data-choices' => 'choices',
                 ],
             ])
         ;

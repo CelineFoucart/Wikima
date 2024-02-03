@@ -2,11 +2,11 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\User;
 use App\Entity\Topic;
-use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\Voter\Voter;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class TopicVoter extends Voter
 {
@@ -49,6 +49,6 @@ class TopicVoter extends Voter
             return true;
         }
 
-        return $subject->isLocked() === false;
+        return false === $subject->isLocked();
     }
 }
