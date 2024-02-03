@@ -43,12 +43,15 @@ class Section
     private Collection $referencedArticles;
 
     #[ORM\ManyToMany(targetEntity: Person::class, inversedBy: 'sections')]
+    #[ORM\OrderBy(['firstname' => 'ASC'])]
     private Collection $referencedPersons;
 
     #[ORM\ManyToMany(targetEntity: Place::class, inversedBy: 'sections')]
+    #[ORM\OrderBy(['title' => 'ASC'])]
     private Collection $referencedPlaces;
 
     #[ORM\ManyToMany(targetEntity: Timeline::class, inversedBy: 'sections')]
+    #[ORM\OrderBy(['title' => 'ASC'])]
     private Collection $referencedTimelines;
 
     public function __construct()

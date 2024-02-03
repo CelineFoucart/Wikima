@@ -23,7 +23,22 @@
 				</div>
 				{{ form_start(sectionForm) }}
 					<div class="card-body">
-						{{ form_widget(sectionForm) }}
+						{{ form_row(sectionForm.title) }}
+						{{ form_row(sectionForm.content) }}
+						<div class="accordion" id="accordionExample">
+							<div class="accordion-item">
+								<h3 class="accordion-header" id="headingOne">
+									<button class="accordion-button fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+										Références de cette section
+									</button>
+								</h3>
+								<div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+									<div class="accordion-body">
+										{{ form_rest(sectionForm) }}
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="card-footer text-end">
 						<a href="{{ path('admin_app_article_section', {id: article.id}) }}" class="btn btn-default btn-sm">

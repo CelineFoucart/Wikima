@@ -36,7 +36,12 @@
             <div class="card-body pb-0">
                 {{ form_row(form.title) }}
                 {{ form_row(form.content) }}
-                {{ form_row(form.referencedArticles) }}
+                <div class="row">
+                    <div class="col-md-6">{{ form_row(form.referencedArticles) }}</div>
+                    <div class="col-md-6">{{ form_row(form.referencedTimelines) }}</div>
+                    <div class="col-md-6">{{ form_row(form.referencedPersons) }}</div>
+                    <div class="col-md-6">{{ form_row(form.referencedPlaces) }}</div>
+                </div>
             </div>
 
             {{ form_rest(form) }}

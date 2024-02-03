@@ -26,6 +26,24 @@ class SectionType extends AbstractType
                     'data-choices' => 'choices'
                 ]
             ])
+            ->add('referencedTimelines', null, [
+                'required' => false,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ]
+            ])
+            ->add('referencedPersons', null, [
+                'required' => false,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ]
+            ])
+            ->add('referencedPlaces', null, [
+                'required' => false,
+                'attr' => [
+                    'data-choices' => 'choices'
+                ]
+            ])
         ;
     }
 
