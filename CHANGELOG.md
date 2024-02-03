@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Ajouter la possibilité de lier un personnage, un lieu ou une chronologie à une section
+- Ajouter la possibilité de filtrer par type d'image dans la gestion des galeries d'éléments
 
 ### Fixed
 
