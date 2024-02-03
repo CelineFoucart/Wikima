@@ -42,7 +42,11 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Articles liés</th>
+                                <th>Contenu</th>
+                                <td>{{ section.content|raw }}</td>
+                            </tr>
+                            <tr>
+                                <th>Articles</th>
                                 <td>
                                     {% for article in section.referencedArticles %}
                                         <div><a href="{{ path('app_article_show', {slug: article.slug}) }}">{{ article.title }}</a></div>
@@ -50,8 +54,28 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th>Contenu</th>
-                                <td>{{ section.content|raw }}</td>
+                                <th>Personnages</th>
+                                <td>
+                                    {% for person in section.referencedPersons %}
+                                        <div><a href="{{ path('app_person_show', {slug: person.slug}) }}">{{ person }}</a></div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Lieux</th>
+                                <td>
+                                    {% for place in section.referencedPlaces %}
+                                        <div><a href="{{ path('app_place_show', {slug: place.slug}) }}">{{ place }}</a></div>
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Chronologies</th>
+                                <td>
+                                    {% for timeline in section.referencedTimelines %}
+                                        <div><a href="{{ path('app_timeline_show', {slug: timeline.slug}) }}">{{ timeline }}</a></div>
+                                    {% endfor %}
+                                </td>
                             </tr>
                         </tbody>
                     </table>
