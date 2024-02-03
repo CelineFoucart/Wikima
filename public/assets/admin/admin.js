@@ -275,7 +275,7 @@ $(document).ready(function () {
         // simple datatable
         $('.data-table').DataTable({
             language: {
-                url: '/assets/DataTables/i18n/fr-FR.json',
+                url: '/assets/plugins/DataTables/i18n/fr-FR.json',
             },
         });
 
@@ -285,7 +285,7 @@ $(document).ready(function () {
                 paging: false,
                 ordering:  false,
                 language: {
-                    url: '/assets/DataTables/i18n/fr-FR.json',
+                    url: '/assets/plugins/DataTables/i18n/fr-FR.json',
                 },
             });
         });
