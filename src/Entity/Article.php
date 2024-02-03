@@ -82,6 +82,7 @@ class Article
     private $images;
 
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Section::class, orphanRemoval: true)]
+    #[ORM\OrderBy(['position' => 'ASC'])]
     private $sections;
 
     #[ORM\Column(nullable: true)]
