@@ -9,12 +9,13 @@ use DateTimeImmutable;
 use App\Entity\Category;
 use App\Form\Admin\CategoryFormType;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\ExpressionLanguage\Expression;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/category')]
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
@@ -84,12 +85,35 @@ final class AdminCategoryController extends AbstractAdminController
     }
 
     #[Route('/{id}/delete', name: 'admin_app_category_delete', methods:['POST'])]
-    public function deleteAction(Request $request, Category $category): Response
+    public function deleteAction(Request $request, Category $category, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
-            $this->categoryRepository->remove($category, true);
-            $this->addFlash('success', "L'élément a été supprimé avec succès.");
+        if (!$this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
+            $this->addFlash('error', "Le token CSRF n'est pas valide!");
         }
+
+        if (
+            !$category->getPortals()->isEmpty() ||
+            !$category->getTimelines()->isEmpty() || 
+            !$category->getPeople()->isEmpty() ||
+            !$category->getPlaces()->isEmpty() || 
+            !$category->getPages()->isEmpty() ||
+            !$category->getImages()->isEmpty()
+        ) {
+            $this->addFlash('error', "La suppression a échoué, car cette catégorie contient des éléments de l'encylopédie ou des médias.");
+
+            return $this->redirectToRoute('admin_app_category_show', ['id' => $category->getId()], Response::HTTP_SEE_OTHER);
+        }
+        
+        if (!$category->getNotes()->isEmpty()) {
+            foreach ($category->getNotes() as $note) {
+                $entityManager->remove($note);
+            }
+
+            $entityManager->flush();
+        }
+
+        $this->categoryRepository->remove($category, true);
+        $this->addFlash('success', "La catégorie a été supprimée avec succès.");
 
         return $this->redirectToRoute('admin_app_category_list', [], Response::HTTP_SEE_OTHER);
     }

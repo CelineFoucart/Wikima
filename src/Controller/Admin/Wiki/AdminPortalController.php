@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Controller\Admin\AbstractAdminController;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Component\ExpressionLanguage\Expression;
 
@@ -92,12 +93,38 @@ final class AdminPortalController extends AbstractAdminController
     }
 
     #[Route('/{id}/delete', name: 'admin_app_portal_delete', methods:['POST'])]
-    public function deleteAction(Request $request, Portal $portal): Response
+    public function deleteAction(Request $request, Portal $portal, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$portal->getId(), $request->request->get('_token'))) {
-            $this->portalRepository->remove($portal, true);
-            $this->addFlash('success', "L'élément a été supprimé avec succès.");
+        if (!$this->isCsrfTokenValid('delete'.$portal->getId(), $request->request->get('_token'))) {
+            $this->addFlash('error', "Le token CSRF n'est pas valide!");
+
+            return $this->redirectToRoute('admin_app_portal_show', ['id' => $portal->getId()], Response::HTTP_SEE_OTHER);
         }
+
+        if (
+            !$portal->getArticles()->isEmpty() || 
+            !$portal->getTimelines()->isEmpty() || 
+            !$portal->getPeople()->isEmpty() ||
+            !$portal->getPlaces()->isEmpty() || 
+            !$portal->getPages()->isEmpty() ||
+            !$portal->getIdioms()->isEmpty() ||
+            !$portal->getImages()->isEmpty()
+        ) {
+            $this->addFlash('error', "La suppression a échoué, car ce portail contient des éléments de l'encylopédie ou des médias.");
+
+            return $this->redirectToRoute('admin_app_portal_show', ['id' => $portal->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        if (!$portal->getNotes()->isEmpty()) {
+            foreach ($portal->getNotes() as $note) {
+                $entityManager->remove($note);
+            }
+
+            $entityManager->flush();
+        }
+
+        $this->portalRepository->remove($portal, true);
+        $this->addFlash('success', "Le portail a été supprimé avec succès.");
 
         return $this->redirectToRoute('admin_app_portal_list', [], Response::HTTP_SEE_OTHER);
     }
