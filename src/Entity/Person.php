@@ -193,6 +193,9 @@ class Person
     #[ORM\OrderBy(['lastname' => 'ASC'])]
     private Collection $linkingPersons;
 
+    #[ORM\ManyToMany(targetEntity: Section::class, mappedBy: 'referencedPersons')]
+    private Collection $sections;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -202,6 +205,7 @@ class Person
         $this->scenarios = new ArrayCollection();
         $this->linkedPersons = new ArrayCollection();
         $this->linkingPersons = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -689,6 +693,33 @@ class Person
     {
         if ($this->linkingPersons->removeElement($linkingPerson)) {
             $linkingPerson->removeLinkedPerson($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Section>
+     */
+    public function getSections(): Collection
+    {
+        return $this->sections;
+    }
+
+    public function addSection(Section $section): static
+    {
+        if (!$this->sections->contains($section)) {
+            $this->sections->add($section);
+            $section->addReferencedPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSection(Section $section): static
+    {
+        if ($this->sections->removeElement($section)) {
+            $section->removeReferencedPerson($this);
         }
 
         return $this;

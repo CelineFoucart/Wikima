@@ -42,9 +42,21 @@ class Section
     #[ORM\OrderBy(['title' => 'ASC'])]
     private Collection $referencedArticles;
 
+    #[ORM\ManyToMany(targetEntity: Person::class, inversedBy: 'sections')]
+    private Collection $referencedPersons;
+
+    #[ORM\ManyToMany(targetEntity: Place::class, inversedBy: 'sections')]
+    private Collection $referencedPlaces;
+
+    #[ORM\ManyToMany(targetEntity: Timeline::class, inversedBy: 'sections')]
+    private Collection $referencedTimelines;
+
     public function __construct()
     {
         $this->referencedArticles = new ArrayCollection();
+        $this->referencedPersons = new ArrayCollection();
+        $this->referencedPlaces = new ArrayCollection();
+        $this->referencedTimelines = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -149,6 +161,78 @@ class Section
     public function removeReferencedArticle(Article $referencedArticle): static
     {
         $this->referencedArticles->removeElement($referencedArticle);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Person>
+     */
+    public function getReferencedPersons(): Collection
+    {
+        return $this->referencedPersons;
+    }
+
+    public function addReferencedPerson(Person $referencedPerson): static
+    {
+        if (!$this->referencedPersons->contains($referencedPerson)) {
+            $this->referencedPersons->add($referencedPerson);
+        }
+
+        return $this;
+    }
+
+    public function removeReferencedPerson(Person $referencedPerson): static
+    {
+        $this->referencedPersons->removeElement($referencedPerson);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Place>
+     */
+    public function getReferencedPlaces(): Collection
+    {
+        return $this->referencedPlaces;
+    }
+
+    public function addReferencedPlace(Place $referencedPlace): static
+    {
+        if (!$this->referencedPlaces->contains($referencedPlace)) {
+            $this->referencedPlaces->add($referencedPlace);
+        }
+
+        return $this;
+    }
+
+    public function removeReferencedPlace(Place $referencedPlace): static
+    {
+        $this->referencedPlaces->removeElement($referencedPlace);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Timeline>
+     */
+    public function getReferencedTimelines(): Collection
+    {
+        return $this->referencedTimelines;
+    }
+
+    public function addReferencedTimeline(Timeline $referencedTimeline): static
+    {
+        if (!$this->referencedTimelines->contains($referencedTimeline)) {
+            $this->referencedTimelines->add($referencedTimeline);
+        }
+
+        return $this;
+    }
+
+    public function removeReferencedTimeline(Timeline $referencedTimeline): static
+    {
+        $this->referencedTimelines->removeElement($referencedTimeline);
 
         return $this;
     }

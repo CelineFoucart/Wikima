@@ -140,6 +140,9 @@ class Place
     #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'places')]
     private Collection $scenarios;
 
+    #[ORM\ManyToMany(targetEntity: Section::class, mappedBy: 'referencedPlaces')]
+    private Collection $sections;
+
     public function __construct()
     {
         $this->localisations = new ArrayCollection();
@@ -150,6 +153,7 @@ class Place
         $this->episodes = new ArrayCollection();
         $this->mapPositions = new ArrayCollection();
         $this->scenarios = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -596,6 +600,33 @@ class Place
     {
         if ($this->scenarios->removeElement($scenario)) {
             $scenario->removePlace($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Section>
+     */
+    public function getSections(): Collection
+    {
+        return $this->sections;
+    }
+
+    public function addSection(Section $section): static
+    {
+        if (!$this->sections->contains($section)) {
+            $this->sections->add($section);
+            $section->addReferencedPlace($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSection(Section $section): static
+    {
+        if ($this->sections->removeElement($section)) {
+            $section->removeReferencedPlace($this);
         }
 
         return $this;

@@ -60,12 +60,16 @@ class Timeline
     #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'timelines')]
     private Collection $scenarios;
 
+    #[ORM\ManyToMany(targetEntity: Section::class, mappedBy: 'referencedTimelines')]
+    private Collection $sections;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
         $this->portals = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->scenarios = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -254,6 +258,33 @@ class Timeline
     {
         if ($this->scenarios->removeElement($scenario)) {
             $scenario->removeTimeline($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Section>
+     */
+    public function getSections(): Collection
+    {
+        return $this->sections;
+    }
+
+    public function addSection(Section $section): static
+    {
+        if (!$this->sections->contains($section)) {
+            $this->sections->add($section);
+            $section->addReferencedTimeline($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSection(Section $section): static
+    {
+        if ($this->sections->removeElement($section)) {
+            $section->removeReferencedTimeline($this);
         }
 
         return $this;
