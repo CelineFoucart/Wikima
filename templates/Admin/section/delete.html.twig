@@ -38,16 +38,19 @@
         <div class="card-footer bg-white">
             <form method="POST">
                 <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ section.id) }}">
-                <a href="{{ path('app_article_show', {slug: section.article.slug}) }}" class="btn btn-primary btn-sm" title="Consulter">
-                    <i class="fas fa-book-reader"></i> Retourner à l'article
+                <a href="{{ path('app_article_show', {slug: section.article.slug}) }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-book-reader"></i> 
+                    <span class="d-none d-sm-inline">Retourner à l'article</span>
                 </a>
                 <button type="submit" name="btn_delete" class="btn btn-danger btn-sm">
-                    <i class="fas fa-trash-alt " aria-hidden="true"></i> Oui, supprimer
+                    <i class="fas fa-trash-alt " aria-hidden="true"></i>
+                    <span class="d-none d-sm-inline">Oui, supprimer</span>
                 </button>
                 ou
                 <a class="btn btn-success btn-sm" href="{{ path('admin_app_section_edit', {id: section.id }) }}">
                     <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                    Éditer
+                    <span class="d-none d-sm-inline">Éditer</span>
+                    
                 </a>
             </form>
         </div>
