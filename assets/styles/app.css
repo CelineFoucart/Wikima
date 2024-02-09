@@ -169,3 +169,7 @@ a {
 .tox-tinymce {
     border-radius: 0.25rem !important;
 }
+
+.tox .tox-dialog {
+    max-width: 545px !important;
+}

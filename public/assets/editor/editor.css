@@ -7,10 +7,6 @@ table {
     border-collapse: collapse
 }
 
-table[border]:not([border="0"]):not([style*=border-width]) td,table[border]:not([border="0"]):not([style*=border-width]) th {
-    border-width: 1px
-}
-
 table[border]:not([border="0"]):not([style*=border-color]) td,table[border]:not([border="0"]):not([style*=border-color]) th {
     border-color: #ccc
 }

@@ -7,7 +7,7 @@
 {% block body %}
     <section class="mb-4 container-fluid">
         <div class="row border-bottom align-items-center py-3 bg-default-light">
-            <div class="col-md-8 col-lg-9">
+            <div class="col-12">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item">
@@ -20,32 +20,24 @@
                     </ol>
                 </nav>
             </div>
-            <div class="col-md-4 col-lg-3">
-                <div class="dropdown">
-                    <button class="border-0 w-100 text-decoration-none text-white d-inline-block bg-default rounded py-1 dropdown-toggle" type="button" id="dropdownMenuButtonType1" data-bs-toggle="dropdown" aria-expanded="false">
-                        Types d'article
-                    </button>
-                    {% set style_scroll = types|length > 9 ? 'style="overflow-y: scroll; max-height: 350px;"' : '' %}
-                    <ul class="dropdown-menu" {{ style_scroll|raw }} aria-labelledby="dropdownMenuButtonType1">
-                        <li><a class="dropdown-item" href="{{ path('app_articletype_index') }}">Tous les types</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        {% for article_type in types %}
-                            <li>
-                                <a class="dropdown-item" href="{{ path('app_articletype_show', {slug: article_type.slug}) }}">
-                                    {% if article_type.icon %}<i class="{{ article_type.icon }}" aria-hidden="true"></i>{% endif %}
-                                    {{ article_type }}
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
         </div>
 
-        <h2 class="display-6 mt-4">
-            Les articles du type &laquo;&nbsp;{{ type }}&nbsp;&raquo;
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="text-end pt-2">
+                <a href="{{ path('admin_app_articletype_edit', {id: type.id}) }}" class="btn btn-outline-secondary btn-sm" title="administrer">
+                    <i class="fas fa-pencil-alt"></i>
+                </a>
+            </div>
+        {% endif %}
+
+        <h2 class="h1 text-center my-4">
+            {% if type.icon %}<i class="{{ type.icon }}" aria-hidden="true"></i>{% endif %}
+            {{ type }}
         </h2>
-        <p class="text-muted mt-4 mb-5 mx-5">{{ type.description|nl2br }}</p>
+        <p class="text-muted fs-5 mb-5">
+            {{ type.description|nl2br }}
+        </p>
+
         <p class="mb-4">
             {% set total = articles.getTotalItemCount %}            
             {% set current = articles|length %}
@@ -72,7 +64,7 @@
                     </ul>
                 </div>
             {% else %}
-                <p class="text-muted">Aucun élément trouvé</p>
+                <p class="alert alert-danger">Ce type ne contient aucun article pour le moment.</p>
             {% endfor %}
         </div>
 

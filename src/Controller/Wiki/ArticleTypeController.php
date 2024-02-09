@@ -37,7 +37,6 @@ class ArticleTypeController extends AbstractController
             'type' => $articleType,
             'items' => $helper->formatArray($articles->getItems()),
             'articles' => $articles,
-            'types' => $this->articleTypeRepository->findBy([], ['title' => 'ASC']),
         ]);
     }
 

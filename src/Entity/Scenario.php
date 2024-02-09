@@ -282,7 +282,7 @@ class Scenario
 
     public function isPublic(): ?bool
     {
-        return $this->public;
+        return (bool) $this->public;
     }
 
     public function setPublic(?bool $public): static
@@ -366,7 +366,7 @@ class Scenario
 
     public function isArchived(): ?bool
     {
-        return $this->archived;
+        return (bool) $this->archived;
     }
 
     public function setArchived(?bool $archived): static

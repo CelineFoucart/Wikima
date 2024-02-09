@@ -88,7 +88,7 @@ class ScenarioRepository extends ServiceEntityRepository
      *
      * @param int[] $parents
      */
-    public function findByParent(array $parents, int $page = 1, int $limit = 23): PaginationInterface
+    public function findByParent(array $parents, int $page = 1, int $limit = 23, bool $isAdmin = false): PaginationInterface
     {
         $builder = $this->createQueryBuilder('s')
             ->leftJoin('s.portals', 'pt')
@@ -96,7 +96,12 @@ class ScenarioRepository extends ServiceEntityRepository
             ->andWhere('(s.archived != :isArchived OR s.archived IS NULL)')
             ->setParameter('isArchived', true)
             ->andWhere('pt IN (:parents)')
-            ->setParameter('parents', $parents);
+            ->setParameter('parents', $parents)
+        ;
+
+        if ($isAdmin === false) {
+            $builder->andWhere('(s.public = :isPublic OR s.public IS NULL)')->setParameter('isPublic', true);
+        }
 
         return $this->paginatorService->setLimit($limit)->paginate($builder, $page);
     }

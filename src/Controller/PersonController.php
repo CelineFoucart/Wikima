@@ -48,9 +48,22 @@ class PersonController extends AbstractController
     #[Route('/persons/{slug}', name: 'app_person_show')]
     public function show(#[MapEntity(expr: 'repository.findBySlug(slug)')] Person $person): Response
     {
+        $scenarios = [];
+
+        foreach ($person->getScenarios() as $scenario) {
+            if ($this->isGranted('ROLE_ADMIN')) {
+                $scenarios[] = $scenario;
+            } else {
+                if (!$scenario->isArchived() && $scenario->isPublic()) {
+                    $scenarios[] = $scenario;
+                }
+            }
+        }
+
         return $this->render('person/show.html.twig', [
             'person' => $person,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
+            'scenarios' => $scenarios,
         ]);
     }
 

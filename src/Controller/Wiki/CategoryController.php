@@ -194,7 +194,7 @@ final class CategoryController extends AbstractController
 
         return $this->render('category/category_scenario.html.twig', [
             'category' => $category,
-            'scenarios' => $scenarioRepository->findByParent($category->getPortals()->toArray(), $page, $perPageOdd),
+            'scenarios' => $scenarioRepository->findByParent($category->getPortals()->toArray(), $page, $perPageOdd, $this->isGranted('ROLE_ADMIN')),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'title' => $category->getTitle(),
             'description' => $category->getDescription(),

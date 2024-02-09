@@ -187,7 +187,7 @@ final class PortalController extends AbstractController
 
         return $this->render('portal/scenario_portal.html.twig', [
             'portal' => $portal,
-            'scenarios' => $repository->findByParent([$portal], $page, $perPageOdd),
+            'scenarios' => $repository->findByParent([$portal], $page, $perPageOdd, $this->isGranted('ROLE_ADMIN')),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'title' => $portal->getTitle(),
             'description' => $portal->getDescription(),
