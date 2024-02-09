@@ -1,4 +1,9 @@
 {% set position = 'left' %}
+
+{% if summary is not defined %}
+    {% set summary = false %}
+{% endif %}
+
 <section class="timeline">
     <ul class="timeline-list"> 
         {% for event in timeline.events %}
@@ -13,15 +18,27 @@
                 <div class="{{ class_name }}">
                     <div class="timeline-panel">
                         <div class="timeline-heading">
-                            <h3>
-                                {{ event.title }}
-                                <a href="#"><i class="fas fa-arrow-up" aria-hidden="true"></i> <span class="visually-hidden">Retourner en haut</span></a>
-                            </h3>
+                            <h3><a href="#{{ event.id }}">{{ event.title }}</a></h3>
                             <h4>{{ event.duration }}</h4>
                         </div>
                         <div class="black-divider"></div>
                         <div class="timeline-body">
                             {{ event.presentation|raw }}
+
+                            <div class="mt-2 text-end">
+                                <span class="btn-group btn-group-sm">
+                                    {% if summary %}
+                                        <a href="#offcanvasList" title="Recherche" class="btn btn-outline-secondary offcanvas-btn">
+                                            <i class="fa-solid fa-magnifying-glass fa-fw"></i>
+                                            <span class="visually-hidden">Recherche</span>
+                                        </a>
+                                    {% endif %}
+                                    <a href="#" title="Retourner en haut" class="btn btn-outline-secondary">
+                                        <i class="fas fa-arrow-up fa-fw" aria-hidden="true"></i> 
+                                        <span class="visually-hidden">Retourner en haut</span>
+                                    </a>                            
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>

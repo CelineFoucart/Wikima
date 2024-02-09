@@ -26,9 +26,12 @@
 				{{ include('includes/_search.html.twig', { route_name: 'app_timeline_index' }) }}
 			</div>
 		</div>
-		<div class="item-heading">
+		<div class="item-heading px-0">
 			<div class="row flex-md-row-reverse align-items-center g-2">
 				<div class="col-md-3 text-end">
+					<a class="btn btn-outline-secondary offcanvas-btn btn-sm" href="#offcanvasList" title="Rechercher dans la chronologie">
+						<i class="fa-solid fa-magnifying-glass fa-fw"></i>
+					</a>
 					{% if is_granted('ROLE_ADMIN') %}
 						<a href="{{ path('admin_app_timeline_edit', {id:timeline.id}) }}" class="btn btn-outline-secondary btn-sm" data-bs-toggle="tooltip" title="Editer">
 							<i class="fas fa-pencil-alt fa-fw"></i>
@@ -57,23 +60,36 @@
 					{{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show', position: 'bottom'}) }}
 				{% endfor %}
 			</aside>
+		</div>
+	</div>
+</header>
 
-			<div class="input-group w-50 ms-auto mt-4">
+<div class="my-3" id="searchable-container">
+	<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasList" aria-labelledby="offcanvasListLabel">
+		<div class="offcanvas-header">
+			<h5 class="offcanvas-title" id="offcanvasListLabel">Sommaire</h5>
+			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+		</div>
+		<div class="offcanvas-body pt-1">
+			<div class="input-group mb-3">
 				<input type="text" class="form-control" placeholder="Rechercher dans la chronologie" id="searchable-content">
 				<span class="input-group-text" id="basic-addon2">
 					<i class="fas fa-search"></i>
 					<label for="searchable-content" class="visually-hidden">Rechercher dans la chronologie</label>
 				</span>
 			</div>
+			{% for event in timeline.events %}
+				<div class="bg-light p-1 mb-1 border rounded search-item">
+					<span class="fw-bold">{{ loop.index }}.</span> <a href="#{{ event.id }}">{{ event.title }}</a>
+				</div>
+			{% endfor %}
 		</div>
 	</div>
-</header>
 
-<div class="my-3" id="searchable-container">
 	{% if timeline.events is empty %}
 		<p class="text-center">Cette chronologie est vide.</p>
 	{% else %}
-		{% include "timeline/_events-container.html.twig" %}
+		{% include "timeline/_events-container.html.twig" with {summary: true} %}
 	{% endif %}
 </div>
 
@@ -117,4 +133,21 @@
 		</div>
 	</div>
 </footer>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		document.addEventListener("DOMContentLoaded", function(){
+			const myOffcanvas = document.getElementById('offcanvasList');
+			const bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+
+			document.querySelectorAll('.offcanvas-btn').forEach(element => {
+				element.addEventListener('click',function (e){
+					e.preventDefault();
+					e.stopPropagation();
+					bsOffcanvas.toggle();
+				});
+			});
+		});
+	</script>
 {% endblock %}
