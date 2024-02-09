@@ -60,6 +60,20 @@
 					{{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show', position: 'bottom'}) }}
 				{% endfor %}
 			</aside>
+			<div class="row">
+				<div class="col">
+					{% if timeline.previous %}
+						<i class="fa-solid fa-chevron-left fa-fw" style="vertical-align: middle;"></i>
+						<a href="{{ path('app_timeline_show', {slug: timeline.previous.slug}) }}">{{ timeline.previous }}</a>
+					{% endif %}
+				</div>
+				<div class="col text-end">
+					{% if timeline.next %}
+						<a href="{{ path('app_timeline_show', {slug: timeline.next.slug}) }}">{{ timeline.next }}</a>
+						<i class="fa-solid fa-chevron-right fa-fw" style="vertical-align: middle;"></i>
+					{% endif %}
+				</div>
+			</div>
 		</div>
 	</div>
 </header>
