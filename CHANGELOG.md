@@ -13,7 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ajouter la possibilité de filtrer par type d'image dans la gestion des galeries d'éléments
 - Ajouter un sommaire à la chronologie
 - Ajouter les champs chronologie précédente et chronologie suivante à la chronologie
-- Ajouter les boutons d'édition manquant
+- Ajouter les boutons d'édition manquants
+
+### Changed
+
+- Mise à jour vers la version 6.4 de Symfony
 
 ### Fixed
 
