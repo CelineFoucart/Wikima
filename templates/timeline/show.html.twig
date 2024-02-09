@@ -104,10 +104,7 @@
 				<div class="fw-bold">Précédent</div>
 				<div>
 					{% if timeline.previous %}
-						<i class="fa-solid fa-chevron-left fa-fw"></i>
-						<a href="{{ path('app_timeline_show', {slug: timeline.previous.slug}) }}">
-							{{ timeline.previous }}
-						</a>
+						<a href="{{ path('app_timeline_show', {slug: timeline.previous.slug}) }}">{{ timeline.previous }}</a>
 					{% else %}
 						-
 					{% endif %}
@@ -121,10 +118,7 @@
 				<div class="fw-bold">Suivant</div>
 				<div>
 					{% if timeline.next %}
-						<a href="{{ path('app_timeline_show', {slug: timeline.next.slug}) }}">
-							{{ timeline.next }}
-						</a>
-						<i class="fa-solid fa-chevron-right fa-fw"></i>
+						<a href="{{ path('app_timeline_show', {slug: timeline.next.slug}) }}">{{ timeline.next }}</a>
 					{% else %}
 						-
 					{% endif %}

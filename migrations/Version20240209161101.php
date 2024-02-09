@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240209134017 extends AbstractMigration
+final class Version20240209161101 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,8 +21,8 @@ final class Version20240209134017 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE timeline ADD previous_id INT DEFAULT NULL, ADD next_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE timeline ADD CONSTRAINT FK_46FEC6662DE62210 FOREIGN KEY (previous_id) REFERENCES timeline (id)');
-        $this->addSql('ALTER TABLE timeline ADD CONSTRAINT FK_46FEC666AA23F6C8 FOREIGN KEY (next_id) REFERENCES timeline (id)');
+        $this->addSql('ALTER TABLE timeline ADD CONSTRAINT FK_46FEC6662DE62210 FOREIGN KEY (previous_id) REFERENCES timeline (id) ON DELETE SET NULL');
+        $this->addSql('ALTER TABLE timeline ADD CONSTRAINT FK_46FEC666AA23F6C8 FOREIGN KEY (next_id) REFERENCES timeline (id) ON DELETE SET NULL');
         $this->addSql('CREATE INDEX IDX_46FEC6662DE62210 ON timeline (previous_id)');
         $this->addSql('CREATE INDEX IDX_46FEC666AA23F6C8 ON timeline (next_id)');
     }

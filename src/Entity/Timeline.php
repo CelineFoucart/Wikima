@@ -64,12 +64,14 @@ class Timeline
     private Collection $sections;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'previousReferences')]
+    #[ORM\JoinColumn(onDelete:"SET NULL")]
     private ?self $previous = null;
 
     #[ORM\OneToMany(mappedBy: 'previous', targetEntity: self::class)]
     private Collection $previousReferences;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'nextReferences')]
+    #[ORM\JoinColumn(onDelete:"SET NULL")]
     private ?self $next = null;
 
     #[ORM\OneToMany(mappedBy: 'next', targetEntity: self::class)]
