@@ -63,6 +63,18 @@ class Timeline
     #[ORM\ManyToMany(targetEntity: Section::class, mappedBy: 'referencedTimelines')]
     private Collection $sections;
 
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'previousReferences')]
+    private ?self $previous = null;
+
+    #[ORM\OneToMany(mappedBy: 'previous', targetEntity: self::class)]
+    private Collection $previousReferences;
+
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'nextReferences')]
+    private ?self $next = null;
+
+    #[ORM\OneToMany(mappedBy: 'next', targetEntity: self::class)]
+    private Collection $nextReferences;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -70,6 +82,8 @@ class Timeline
         $this->events = new ArrayCollection();
         $this->scenarios = new ArrayCollection();
         $this->sections = new ArrayCollection();
+        $this->previousReferences = new ArrayCollection();
+        $this->nextReferences = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -285,6 +299,90 @@ class Timeline
     {
         if ($this->sections->removeElement($section)) {
             $section->removeReferencedTimeline($this);
+        }
+
+        return $this;
+    }
+
+    public function getPrevious(): ?self
+    {
+        return $this->previous;
+    }
+
+    public function setPrevious(?self $previous): static
+    {
+        $this->previous = $previous;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getPreviousReferences(): Collection
+    {
+        return $this->previousReferences;
+    }
+
+    public function addPreviousReference(self $previousReference): static
+    {
+        if (!$this->previousReferences->contains($previousReference)) {
+            $this->previousReferences->add($previousReference);
+            $previousReference->setPrevious($this);
+        }
+
+        return $this;
+    }
+
+    public function removePreviousReference(self $previousReference): static
+    {
+        if ($this->previousReferences->removeElement($previousReference)) {
+            // set the owning side to null (unless already changed)
+            if ($previousReference->getPrevious() === $this) {
+                $previousReference->setPrevious(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getNext(): ?self
+    {
+        return $this->next;
+    }
+
+    public function setNext(?self $next): static
+    {
+        $this->next = $next;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getNextReferences(): Collection
+    {
+        return $this->nextReferences;
+    }
+
+    public function addNextReference(self $nextReference): static
+    {
+        if (!$this->nextReferences->contains($nextReference)) {
+            $this->nextReferences->add($nextReference);
+            $nextReference->setNext($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNextReference(self $nextReference): static
+    {
+        if ($this->nextReferences->removeElement($nextReference)) {
+            // set the owning side to null (unless already changed)
+            if ($nextReference->getNext() === $this) {
+                $nextReference->setNext(null);
+            }
         }
 
         return $this;

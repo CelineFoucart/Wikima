@@ -39,6 +39,22 @@ class TimelineFormType extends AbstractType
                     'data-choices' => 'choices',
                 ],
             ])
+            ->add('previous', EntityType::class, [
+                'class' => Timeline::class,
+                'choice_label' => 'title',
+                'required' => false,
+                'attr' => [
+                    'data-choices' => 'choices',
+                ],
+            ])
+            ->add('next', EntityType::class, [
+                'class' => Timeline::class,
+                'choice_label' => 'title',
+                'required' => false,
+                'attr' => [
+                    'data-choices' => 'choices',
+                ],
+            ])
         ;
     }
 

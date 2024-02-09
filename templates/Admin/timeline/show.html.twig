@@ -45,6 +45,22 @@
                                 <td>{{ timeline.description|nl2br }}</td>
                             </tr>
                             <tr>
+                                <th>Précédent</th>
+                                <td>
+                                    {% if timeline.previous %}
+                                        <a href="{{ path('admin_app_timeline_show', {id: timeline.previous.id}) }}">{{ timeline.previous }}</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Suivant</th>
+                                <td>
+                                    {% if timeline.next %}
+                                        <a href="{{ path('admin_app_timeline_show', {id: timeline.next.id}) }}">{{ timeline.next }}</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
                                 <th>Catégories</th>
                                 <td>
                                     {% if timeline.categories is not empty %}
