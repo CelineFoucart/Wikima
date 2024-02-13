@@ -7,7 +7,7 @@ body {
 }
 
 .tox .tox-dialog {
-    max-width: 545px !important;
+    min-width: 545px !important;
 }
 
 #page-content {
