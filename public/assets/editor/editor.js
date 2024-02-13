@@ -12,7 +12,7 @@ function enableBasicEditor(textareaId) {
         skin: SKIN,
         promotion: false,
         content_css: CONTENT_CSS,
-        contextmenu: "link inserttable | cut copy paste removeformat",
+        contextmenu: "alignleft aligncenter alignright alignjustify | bold italic underline | inserttable | selectall cut copy paste removeformat",
         quickbars_selection_toolbar: 'bold italic underline bullist quicklink blockquote quickimage quicktable',
         toolbar: 'undo redo |' +
             'fontsizeinput bold italic underline align bullist numlist blockquote link quicktable emoticons | fullscreen help',

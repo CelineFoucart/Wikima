@@ -6,6 +6,10 @@ body {
     background-color: #ecf0f5;
 }
 
+.tox .tox-dialog {
+    max-width: 545px !important;
+}
+
 #page-content {
     display: flex;
     flex-direction: column;
