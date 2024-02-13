@@ -12,8 +12,9 @@ function enableBasicEditor(textareaId) {
         skin: SKIN,
         promotion: false,
         content_css: CONTENT_CSS,
+        quickbars_insert_toolbar: 'quicktable quicklink | hr pagebreak | bullist numlist',
         contextmenu: "alignleft aligncenter alignright alignjustify | bold italic underline | inserttable | selectall cut copy paste removeformat",
-        quickbars_selection_toolbar: 'bold italic underline bullist quicklink blockquote quickimage quicktable',
+        quickbars_selection_toolbar: 'bold italic underline bullist quicklink blockquote quicktable',
         toolbar: 'undo redo |' +
             'fontsizeinput bold italic underline align bullist numlist blockquote link quicktable emoticons | fullscreen help',
         menu: {
@@ -270,7 +271,8 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
         language: LANGUAGE,
         promotion: false,
         content_css: CONTENT_CSS,
-        contextmenu: "link inserttable | cut copy paste removeformat",
+        quickbars_insert_toolbar: 'quicktable quicklink | hr pagebreak | bullist numlist',
+        contextmenu: "alignleft aligncenter alignright alignjustify | bold italic underline | inserttable | selectall cut copy paste removeformat",
         quickbars_selection_toolbar: 'bold italic underline quicklink blockquote quickimage quicktable',
         toolbar: 'undo redo  | blocks | fontsizeinput |' + 
             'bold italic underline align | ' +
