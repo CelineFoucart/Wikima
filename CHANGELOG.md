@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.2] - 2024-02-18
+
+### Added
+
+- Ajout du menu de lien quand le curseur arrive sur un lien dans l'éditeur.
+
+### Fixed
+
+- Enlever le bouton des styles dans le menu format, pour réduite le temps de chargement
+
 ## [2.7.1] - 2024-02-13
 
 ### Added
