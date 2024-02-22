@@ -10,11 +10,12 @@ function enableBasicEditor(textareaId) {
         selector: `#${textareaId}`,
         language: LANGUAGE,
         skin: SKIN,
+        branding: false,
         promotion: false,
         content_css: CONTENT_CSS,
         link_context_toolbar: true,
         quickbars_insert_toolbar: 'quicktable quicklink | hr pagebreak | bullist numlist',
-        contextmenu: "alignleft aligncenter alignright alignjustify | bold italic underline | image link inserttable | selectall cut copy paste removeformat",
+        contextmenu: "alignleft aligncenter alignright alignjustify | bold italic underline | image link table | selectall cut copy paste removeformat",
         quickbars_selection_toolbar: 'bold italic underline bullist quicklink blockquote quicktable',
         toolbar: 'undo redo |' +
             'fontsizeinput bold italic underline align bullist numlist blockquote link quicktable emoticons | fullscreen help',
@@ -22,7 +23,7 @@ function enableBasicEditor(textareaId) {
             file: { title: 'File', items: 'code wordcount | visualaid visualchars visualblocks | preview fullscreen | newdocument print ' },
             edit: { title: 'Edit', items: 'undo redo | cut copy paste removeformat | selectall | searchreplace' },
             insert: { title: 'Insert', items: 'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime' },
-            format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | fontfamily fontsize align lineheight | forecolor backcolor | removeformat' },
+            format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | styles fontfamily fontsize align lineheight | forecolor backcolor | removeformat' },
             table: { title: 'Table', items: 'inserttable | cell row column | tableprops deletetable' },
         },
         menubar: 'file format edit insert table',
@@ -271,10 +272,11 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
         skin: SKIN,
         language: LANGUAGE,
         promotion: false,
+        branding: false,
         content_css: CONTENT_CSS,
         link_context_toolbar: true,
         quickbars_insert_toolbar: 'quicktable quicklink | hr pagebreak | bullist numlist',
-        contextmenu: "alignleft aligncenter alignright alignjustify | bold italic underline | link inserttable | selectall cut copy paste removeformat",
+        contextmenu: "alignleft aligncenter alignright alignjustify | bold italic underline | link table | selectall cut copy paste removeformat",
         quickbars_selection_toolbar: 'bold italic underline quicklink blockquote quickimage quicktable',
         toolbar: 'undo redo  | blocks | fontsizeinput |' + 
             'bold italic underline align | ' +
@@ -282,7 +284,7 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
             'searchreplace preview fullscreen ' + (withScript ? 'code' : ''),
         menu: {
             file: { title: 'File', items: 'code wordcount | visualaid visualchars visualblocks | selectall preview fullscreen | newdocument print ' },
-            format: { title: 'Format', items: 'bold italic underline strikethrough subscript superscript codeformat | blocks fontfamily fontsize align lineheight | forecolor backcolor | removeformat' },
+            format: { title: 'Format', items: 'bold italic underline strikethrough subscript superscript codeformat | styles fontfamily fontsize align lineheight | forecolor backcolor | removeformat' },
             insert: {title: 'Insert', items: 'image link media template searchWikiButton inserttable | charmap hr | pagebreak nonbreaking anchor emoticons | insertdatetime'},
         
         },

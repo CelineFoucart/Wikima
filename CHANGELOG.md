@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.7.3] - 2024-02-22
 
+### Added
+
+- Ajout du bloc styles dans l'éditeur et du bloc table dans le menu contextuel de l'éditeur
+
 ### Removed
 
 - Section "voir aussi" dans l'impression pdf des portail
