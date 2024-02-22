@@ -23,7 +23,7 @@ function enableBasicEditor(textareaId) {
             file: { title: 'File', items: 'code wordcount | visualaid visualchars visualblocks | preview fullscreen | newdocument print ' },
             edit: { title: 'Edit', items: 'undo redo | cut copy paste removeformat | selectall | searchreplace' },
             insert: { title: 'Insert', items: 'image link media template codesample inserttable | charmap emoticons hr | pagebreak nonbreaking anchor toc | insertdatetime' },
-            format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | styles fontfamily fontsize align lineheight | forecolor backcolor | removeformat' },
+            format: { title: 'Format', items: 'bold italic underline strikethrough superscript subscript codeformat | styleselect fontfamily fontsize align lineheight | forecolor backcolor | removeformat' },
             table: { title: 'Table', items: 'inserttable | cell row column | tableprops deletetable' },
         },
         menubar: 'file format edit insert table',
@@ -284,7 +284,7 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
             'searchreplace preview fullscreen ' + (withScript ? 'code' : ''),
         menu: {
             file: { title: 'File', items: 'code wordcount | visualaid visualchars visualblocks | selectall preview fullscreen | newdocument print ' },
-            format: { title: 'Format', items: 'bold italic underline strikethrough subscript superscript codeformat | styles fontfamily fontsize align lineheight | forecolor backcolor | removeformat' },
+            format: { title: 'Format', items: 'bold italic underline strikethrough subscript superscript codeformat | styleselect fontfamily fontsize align lineheight | forecolor backcolor | removeformat' },
             insert: {title: 'Insert', items: 'image link media template searchWikiButton inserttable | charmap hr | pagebreak nonbreaking anchor emoticons | insertdatetime'},
         
         },
