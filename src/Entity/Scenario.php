@@ -86,6 +86,9 @@ class Scenario
     #[ORM\Column(length: 30, nullable: true)]
     private ?string $defaultColor = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $notes = null;
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
@@ -384,6 +387,18 @@ class Scenario
     public function setDefaultColor(?string $defaultColor): static
     {
         $this->defaultColor = $defaultColor;
+
+        return $this;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(?string $notes): static
+    {
+        $this->notes = $notes;
 
         return $this;
     }

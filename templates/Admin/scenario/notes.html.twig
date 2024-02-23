@@ -1,0 +1,31 @@
+{% extends 'Admin/scenario/show_base.html.twig' %}
+
+{% block content %}
+<div class="card border-top-primary">
+        <div class="card-header bg-white">
+            <h2 class="card-title h5 mb-0">Notes, remarques et réflexions sur ce scénario</h2>
+        </div>
+        {{ form_start(form) }}
+            <div class="card-body">
+                <div class="visually-hidden">
+                    {{ form_label(form.notes) }}
+                </div>
+                {{ form_widget(form.notes) }}
+                {{ form_errors(form.notes) }}
+                {{ form_rest(form) }}
+                <button class="btn btn-success btn-sm mt-3" type="submit">
+                    <i class="fas fa-save" aria-hidden="true"></i>
+                    <span class="d-none d-sm-inline">Enregistrer</span>
+                </button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
+<script src="{{ asset("assets/editor/editor.js") }}"></script>
+<script>
+enableFullEditor("scenario_note_notes");
+</script>
+{% endblock %}

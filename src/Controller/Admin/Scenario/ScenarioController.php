@@ -7,6 +7,7 @@ use App\Entity\Episode;
 use App\Entity\Scenario;
 use App\Form\Admin\EpisodeShortType;
 use App\Form\Admin\ScenarioEpisodeType;
+use App\Form\Admin\ScenarioNoteType;
 use App\Form\Admin\ScenarioType;
 use App\Repository\ScenarioRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -126,6 +127,27 @@ class ScenarioController extends AbstractAdminController
             'form' => $form,
             'episode' => $episode,
             'formCollection' => $formCollection,
+        ]);
+    }
+
+    #[Route('/{id}/notes', name: 'admin_app_scenario_episode_notes', methods: ['GET', 'POST'])]
+    public function notesAction(Scenario $scenario, Request $request): Response
+    {
+        $form = $this->createForm(ScenarioNoteType::class, $scenario);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $this->entityManager->persist($scenario);
+            $this->entityManager->flush();
+            $this->addFlash('success', 'Les modifications ont bien été enregistrées.');
+
+            return $this->redirectToRoute('admin_app_scenario_episode_notes', ['id' => $scenario->getId()]);
+        }
+
+        return $this->render('Admin/scenario/notes.html.twig', [
+            'scenario' => $scenario,
+            'note_active' => true,
+            'form' => $form,
         ]);
     }
 

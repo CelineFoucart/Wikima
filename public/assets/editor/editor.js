@@ -2,6 +2,9 @@ const CONTENT_CSS = ['/assets/plugins/bootstrap/bootstrap.min.css', '/assets/edi
 const SKIN = 'tinymce-5';
 const LANGUAGE = "fr_FR";
 const HOST = location.origin;
+const CONTEXTMENU = "alignleft aligncenter alignright alignjustify | bold italic underline | forecolor backcolor fontsizes | image link table | selectall cut copy paste removeformat";
+const QUICK_INSERT_TOOLBAR = 'quicktable quicklink | hr pagebreak | bullist numlist';
+const QUICK_SELECTION_TOOLBAR = 'bold italic underline bullist quicklink blockquote quicktable';
 
 function enableBasicEditor(textareaId) {
     document.querySelector(`#${textareaId}`).removeAttribute('required');
@@ -14,9 +17,9 @@ function enableBasicEditor(textareaId) {
         promotion: false,
         content_css: CONTENT_CSS,
         link_context_toolbar: true,
-        quickbars_insert_toolbar: 'quicktable quicklink | hr pagebreak | bullist numlist',
-        contextmenu: "alignleft aligncenter alignright alignjustify | bold italic underline | image link table | selectall cut copy paste removeformat",
-        quickbars_selection_toolbar: 'bold italic underline bullist quicklink blockquote quicktable',
+        quickbars_insert_toolbar: QUICK_INSERT_TOOLBAR,
+        contextmenu: CONTEXTMENU,
+        quickbars_selection_toolbar: QUICK_SELECTION_TOOLBAR,
         toolbar: 'undo redo |' +
             'fontsizeinput bold italic underline align bullist numlist blockquote link quicktable emoticons | fullscreen help',
         menu: {
@@ -275,9 +278,9 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
         branding: false,
         content_css: CONTENT_CSS,
         link_context_toolbar: true,
-        quickbars_insert_toolbar: 'quicktable quicklink | hr pagebreak | bullist numlist',
-        contextmenu: "alignleft aligncenter alignright alignjustify | bold italic underline | link table | selectall cut copy paste removeformat",
-        quickbars_selection_toolbar: 'bold italic underline quicklink blockquote quickimage quicktable',
+        quickbars_insert_toolbar: QUICK_INSERT_TOOLBAR,
+        contextmenu: CONTEXTMENU,
+        quickbars_selection_toolbar: QUICK_SELECTION_TOOLBAR,
         toolbar: 'undo redo  | blocks | fontsizeinput |' + 
             'bold italic underline align | ' +
             'bullist numlist outdent indent | blockquote link image quicktable template searchWikiButton charmap |'  +

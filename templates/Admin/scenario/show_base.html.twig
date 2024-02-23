@@ -28,6 +28,11 @@
                 Episodes
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link {{ note_active is defined ? 'active' : '' }}" href="{{ path('admin_app_scenario_episode_notes', {id: scenario.id}) }}">
+                Notes
+            </a>
+        </li>
     </ul>
     
     {% block content %}{% endblock %}
