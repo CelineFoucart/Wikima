@@ -5,7 +5,7 @@ const HOST = location.origin;
 const CONTEXTMENU = "alignleft aligncenter alignright alignjustify | bold italic underline | forecolor backcolor fontsizes | image link table | selectall cut copy paste removeformat";
 const QUICK_INSERT_TOOLBAR = 'quicktable quicklink | hr pagebreak | bullist numlist';
 const QUICK_SELECTION_TOOLBAR = 'bold italic underline bullist quicklink blockquote quicktable';
-const DATETIME_FORMAT = ['%H:%M:%S', '%d/%m/%Y', '%d/%m/%Y H:%M:%S', '%A %d %B %Y'];
+const DATETIME_FORMAT = ['%H:%M:%S', '%d/%m/%Y', '%d/%m/%Y %H:%M:%S'];
 
 function enableBasicEditor(textareaId) {
     document.querySelector(`#${textareaId}`).removeAttribute('required');
