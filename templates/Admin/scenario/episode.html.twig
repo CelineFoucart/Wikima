@@ -3,6 +3,11 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('assets/plugins/colorpicker/coloris.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
+    <style>
+        .modal {
+            z-index: 1050;
+        }
+    </style>
 {% endblock %}
 
 
@@ -132,9 +137,7 @@
 			sortable('#episodes', url, true);
 		});
 
-        document.querySelectorAll('[data-editor="editor"]').forEach(element => {
-            enableBasicEditor(element.id);
-        });
+        enableBasicEditor('[data-editor="editor"]');
     </script>
 {% endblock %}
 

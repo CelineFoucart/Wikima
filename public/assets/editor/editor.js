@@ -7,11 +7,11 @@ const QUICK_INSERT_TOOLBAR = 'quicktable quicklink | hr pagebreak | bullist numl
 const QUICK_SELECTION_TOOLBAR = 'bold italic underline bullist quicklink blockquote quicktable';
 const DATETIME_FORMAT = ['%H:%M:%S', '%d/%m/%Y', '%d/%m/%Y %H:%M:%S'];
 
-function enableBasicEditor(textareaId) {
-    document.querySelector(`#${textareaId}`).removeAttribute('required');
+function enableBasicEditor(textareaSelector) {
+    document.querySelector(textareaSelector).removeAttribute('required');
 
     tinyMCE.init({
-        selector: `#${textareaId}`,
+        selector: textareaSelector,
         language: LANGUAGE,
         skin: SKIN,
         branding: false,
