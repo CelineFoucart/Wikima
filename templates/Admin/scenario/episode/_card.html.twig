@@ -27,23 +27,17 @@
 
         <div class="card-footer text-end">
             <div class="btn-group">
-                <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#contentModal{{ episode.id }}">
-                    <i class="fas fa-eye"></i>
-                </a>
                 {% if with_edit == true %}
                 <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#showModal{{ episode.id }}">
                     <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                 </a>
                 {% endif %}
+                <a href="#" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#contentModal{{ episode.id }}">
+                    <i class="fas fa-eye"></i>
+                </a>
 
                 <a href="{{ path('admin_app_episode_create', {id: scenario.id, episode: episode.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Dupliquer">
                     <i class="fas fa-paste" aria-hidden="true"></i>
-                </a>
-
-                
-                
-                <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Formulaire complet">
-                    <i class="fas fa-file-alt" aria-hidden="true"></i>
                 </a>
                 
                 {% include "Admin/components/_archive_modal.html.twig" with { element: episode, path: 'admin_app_episode_archive' } %}
@@ -83,7 +77,7 @@
                 </div>
                 <div class="modal-footer">
                     <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default">
-                        Modifier
+                        <i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i> Modifier
                     </a>
                 </div>
             </div>

@@ -32,7 +32,7 @@ function enableBasicEditor(textareaId) {
         menubar: 'file format edit insert table',
         plugins: [
             'advlist', 'anchor', 'autolink', 'charmap', 'fullscreen', 'help', 'image', 'importcss', 'link', 'lists', 'media', 'nonbreaking',
-            'preview', 'quickbars', 'searchreplace', 'table', 'visualblocks', 'visualchars', 'wordcount', 'emoticons'
+            'preview', 'quickbars', 'searchreplace', 'table', 'visualblocks', 'visualchars', 'wordcount', 'emoticons', 'insertdatetime'
         ],
         convert_urls: false,
     });

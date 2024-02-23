@@ -2,20 +2,20 @@
 
 namespace App\Controller\Admin\Scenario;
 
-use App\Controller\Admin\AbstractAdminController;
 use App\Entity\Episode;
 use App\Entity\Scenario;
-use App\Form\Admin\EpisodeShortType;
-use App\Form\Admin\ScenarioEpisodeType;
-use App\Form\Admin\ScenarioNoteType;
+use App\Form\Admin\EpisodeType;
 use App\Form\Admin\ScenarioType;
+use App\Form\Admin\ScenarioNoteType;
 use App\Repository\ScenarioRepository;
+use App\Form\Admin\ScenarioEpisodeType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
-use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bridge\Doctrine\Attribute\MapEntity;
+use App\Controller\Admin\AbstractAdminController;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/scenario')]
@@ -91,7 +91,7 @@ class ScenarioController extends AbstractAdminController
             $episode->addPlace($place);
         }
 
-        $form = $this->createForm(EpisodeShortType::class, $episode);
+        $form = $this->createForm(EpisodeType::class, $episode);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

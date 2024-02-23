@@ -49,20 +49,23 @@
     {% for element in formCollection.episodes %}
         {% set episode = element.vars.data %}
         <div class="modal fade" id="showModal{{ episode.id }}" tabindex="-1" aria-labelledby="showModal{{ episode.id }}Label" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="showModal{{ episode.id }}Label">{{ episode.title }}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        {{ form_widget(element) }}
+                        {% include "Admin/scenario/episode/_short_form.html.twig" with { form: element} %}
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-success btn-sm">Sauvegarder</button>
                         <a href="{{ path('admin_app_episode_edit', {id: episode.id}) }}" class="btn btn-sm btn-default">
-                            Formulaire complet
+                            <i class="fas fa-file-alt fa-fw" aria-hidden="true"></i> Formulaire complet
                         </a>
+                        <button type="submit" class="btn btn-success btn-sm">
+                            <i class="fa-solid fa-floppy-disk fa-fw" aria-hidden="true"></i>
+                            Sauvegarder
+                        </button>
                     </div>
                 </div>
             </div>
@@ -71,7 +74,7 @@
 {{ form_end(formCollection) }}
 
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="addModalLabel">Ajouter un épisode</h1>
@@ -79,17 +82,17 @@
             </div>
             {{ form_start(form) }}
                 <div class="modal-body">
-                    {{ form_widget(form) }} 
+                    {% include "Admin/scenario/episode/_short_form.html.twig" with { form: form} %}
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-success btn-sm" type="submit">
-                        <i class="fas fa-save" aria-hidden="true"></i>
-                        Enregistrer
-                    </button>
                     <a href="{{ path('admin_app_scenario_episode', {id: scenario.id}) }}" class="btn btn-default btn-sm">
                         <i class="fas fa-times" aria-hidden="true"></i>
                         Annuler
                     </a>
+                    <button class="btn btn-success btn-sm" type="submit">
+                        <i class="fas fa-save" aria-hidden="true"></i>
+                        Enregistrer
+                    </button>
                 </div>
             {{ form_end(form) }}
         </div>
@@ -101,6 +104,8 @@
     {{ parent() }}
     <script src="{{ asset('assets/plugins/colorpicker/coloris.min.js') }}"></script>
 	<script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
+    <script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
+    <script src="{{ asset("assets/editor/editor.js") }}"></script>
     <script>
         Coloris({
             el: '.color-input',
@@ -126,6 +131,10 @@
 			let url = "{{ path('api_scenario_episodes', {'id': scenario.id}) }}";
 			sortable('#episodes', url, true);
 		});
+
+        document.querySelectorAll('[data-editor="editor"]').forEach(element => {
+            enableBasicEditor(element.id);
+        });
     </script>
 {% endblock %}
 

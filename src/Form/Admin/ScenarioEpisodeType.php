@@ -3,10 +3,11 @@
 namespace App\Form\Admin;
 
 use App\Entity\Scenario;
+use App\Form\Admin\EpisodeType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class ScenarioEpisodeType extends AbstractType
 {
@@ -14,7 +15,7 @@ class ScenarioEpisodeType extends AbstractType
     {
         $builder
             ->add('episodes', CollectionType::class, [
-                'entry_type' => EpisodeShortType::class,
+                'entry_type' => EpisodeType::class,
                 'allow_add' => false,
                 'allow_delete' => false,
                 'label' => false,

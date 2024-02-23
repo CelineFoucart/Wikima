@@ -25,9 +25,15 @@ class EpisodeType extends AbstractType
             ])
             ->add('color', TextType::class, [
                 'required' => false,
+                'attr' => [
+                    'class' => 'color-input',
+                ],
             ])
             ->add('content', TextareaType::class, [
                 'required' => false,
+                'attr' => [
+                    'data-editor' => 'editor',
+                ],
             ])
             ->add('places', EntityType::class, [
                 'class' => Place::class,

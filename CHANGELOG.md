@@ -5,12 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.8.0] - 2024-02-22
+## [2.8.0] - 2024-02-23
 
 ### Added
 
 - Ajout du bloc table dans le menu contextuel de l'éditeur
 - Ajout du champ notes au scénario
+- Ajout de la possibilité de modifier le contenu de l'épisode depuis la page de gestion des épisodes
 
 ### Removed
 
