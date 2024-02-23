@@ -5,6 +5,7 @@ const HOST = location.origin;
 const CONTEXTMENU = "alignleft aligncenter alignright alignjustify | bold italic underline | forecolor backcolor fontsizes | image link table | selectall cut copy paste removeformat";
 const QUICK_INSERT_TOOLBAR = 'quicktable quicklink | hr pagebreak | bullist numlist';
 const QUICK_SELECTION_TOOLBAR = 'bold italic underline bullist quicklink blockquote quicktable';
+const DATETIME_FORMAT = ['%H:%M:%S', '%d/%m/%Y', '%d/%m/%Y H:%M:%S', '%A %d %B %Y'];
 
 function enableBasicEditor(textareaId) {
     document.querySelector(`#${textareaId}`).removeAttribute('required');
@@ -17,6 +18,7 @@ function enableBasicEditor(textareaId) {
         promotion: false,
         content_css: CONTENT_CSS,
         link_context_toolbar: true,
+        insertdatetime_formats: DATETIME_FORMAT,
         quickbars_insert_toolbar: QUICK_INSERT_TOOLBAR,
         contextmenu: CONTEXTMENU,
         quickbars_selection_toolbar: QUICK_SELECTION_TOOLBAR,
@@ -276,6 +278,7 @@ function enableFullEditor(textareaId, headings = "Titre 1=h2; Titre 2=h3; Titre 
         language: LANGUAGE,
         promotion: false,
         branding: false,
+        insertdatetime_formats: DATETIME_FORMAT,
         content_css: CONTENT_CSS,
         link_context_toolbar: true,
         quickbars_insert_toolbar: QUICK_INSERT_TOOLBAR,
