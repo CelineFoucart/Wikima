@@ -5,14 +5,16 @@
             <div class="float-end">
                 <a href="{{ path('admin_app_idiom_article', {id: idiom.id }) }}" class="btn btn-primary btn-sm btn-sm">
                     <i class="fas fa-arrow-left"></i>
-                    Retour
+                    <span class="d-none d-sm-inline">Retour</span>
                 </a>
                 {% if article.id is not null %}
                     <a href="{{ path('admin_app_idiom_article_gallery', {id: article.id}) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="Galerie">
-                        <i class="fas fa-image" aria-hidden="true"></i> Galerie
+                        <i class="fas fa-image" aria-hidden="true"></i> 
+                    <span class="d-none d-sm-inline">Galerie</span>
                     </a>
                     <a href="{{ path('app_idiom_show_article', {article: article.slug, idiom: article.idiom.slug}) }}" class="btn btn-sm btn-primary" data-bs-toggle="tooltip" title="Galerie">
-                        <i class="fas fa-book-reader" aria-hidden="true"></i> Consulter
+                        <i class="fas fa-book-reader" aria-hidden="true"></i> 
+                    <span class="d-none d-sm-inline">Consulter</span>
                     </a>
                 {% endif %}
             </div>
