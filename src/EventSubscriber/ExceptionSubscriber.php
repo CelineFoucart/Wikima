@@ -18,11 +18,6 @@ class ExceptionSubscriber implements EventSubscriberInterface
     {
         $exception = $event->getThrowable();
         $statusCode = ($exception instanceof HttpException) ? $exception->getStatusCode() : 500;
-
-        if (404 === $statusCode || 400 === $statusCode) {
-            return;
-        }
-
         $className = (new \ReflectionClass($exception))->getShortName();
         $message = $exception->getMessage();
         $this->logService->error("Erreur $statusCode", $message, $className);
