@@ -9,6 +9,7 @@ use App\Repository\BackupRepository;
 use App\Repository\NoteRepository;
 use App\Repository\PortalRepository;
 use App\Service\Statistics\DatabaseSize;
+use App\Service\Statistics\DirectorySize;
 use App\Service\Statistics\SatisticsEntity;
 use App\Service\Statistics\StatisticsHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -21,6 +22,11 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 #[Route('/admin')]
 class AdminDashboardController extends AbstractController
 {
+    public function __construct(private DirectorySize $directorySize)
+    {
+        
+    }
+
     #[Route('', name: 'admin_app_dashboard')]
     #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_EDITOR')"))]
     public function dashboardAction(StatisticsHandler $statisticsHandler, NoteRepository $noteRepository, DatabaseSize $databaseSize, PortalRepository $portalRepository, Request $request): Response
@@ -106,20 +112,12 @@ class AdminDashboardController extends AbstractController
     private function getImagesSize($precision = 2): string
     {
         try {
-            $uploadedDir = $this->getParameter('kernel.project_dir').'/public/uploads/';
-            $dirIterator = new \DirectoryIterator($uploadedDir);
-            $bytes = $dirIterator->getSize();
-
-            if (false === $bytes) {
-                return '0 KB';
-            }
-
-            $base = log($bytes, 1024);
-            $suffixes = ['', 'KB', 'MB', 'GB', 'TB'];
-
-            return round(pow(1024, $base - floor($base)), $precision).' '.$suffixes[floor($base)];
+            $this->directorySize->addDirectory('/public/uploads/')->addDirectory('/public/uploads/avatars');
+            $formated = $this->directorySize->getFormatedSize($precision);
+            $totalSize = $this->directorySize->getTotalSize();
+            return $formated . ' (' . number_format($totalSize, 0, ',', ' ') . ' octets)';
         } catch (\Exception $th) {
-            return '0 KB';
+            return DirectorySize::EMPTY_VALUE;
         }
     }
 }

@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.8.0] - 2024-02-23
+## [2.8.0] - 2024-03-01
 
 ### Added
 
@@ -17,6 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Section "voir aussi" dans l'impression pdf des portail
 - Marque de l'éditeur visuel
+
+### Fixed
+
+- Calcul de la taille du dossier image
 
 ## [2.7.2] - 2024-02-18
 
