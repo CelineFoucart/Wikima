@@ -5,23 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.9.0] - 2024-04-21
-
-### Changed
-
-- Sur les pages de détails des scénarios, personnages, lieux et images, les liens vers les catégories et les portails renvoient aux pages de ces éléments
-
-### Fixed
-
-- Correction du non affichage de la carte sur la page d'administration de son image
-
-## [2.8.0] - 2024-03-01
+## [2.8.0] - 2024-04-21
 
 ### Added
 
 - Ajout du bloc table dans le menu contextuel de l'éditeur
 - Ajout du champ notes au scénario
 - Ajout de la possibilité de modifier le contenu de l'épisode depuis la page de gestion des épisodes
+
+### Changed
+
+- Sur les pages de détails des scénarios, personnages, lieux et images, les liens vers les catégories et les portails renvoient aux pages de ces éléments
 
 ### Removed
 
@@ -31,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Calcul de la taille du dossier image
+- Correction du non affichage de la carte sur la page d'administration de son image
 
 ## [2.7.2] - 2024-02-18
 
