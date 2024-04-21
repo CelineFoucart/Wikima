@@ -56,7 +56,7 @@
 			<p class="pt-4 pt-lg-0">
 				{% for category in person.categories %}
 					<span class="mb-1 d-block d-md-inline-block">
-						<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1">
+						<a href="{{ path('app_category_persons', {slug: category.slug}) }}" class="label mx-1">
 							<i class="fas fa-folder me-1"></i>
 							{{ category.title }}
 						</a>
@@ -210,7 +210,7 @@
 							<ul class="ps-0 mb-0 list-unstyled">
 								{% for portal in person.portals %}
 									<li>
-										<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="text-decoration-none">
+										<a href="{{ path('app_portal_persons', {slug: portal.slug}) }}" class="text-decoration-none">
 											<i class="fas fa-tag small me-1"></i>
 											{{ portal }}
 										</a>

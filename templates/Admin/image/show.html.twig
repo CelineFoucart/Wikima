@@ -98,7 +98,7 @@
                                     </div>
                                     {% if image.maps is not empty %}
                                         <ul class="mb-0">
-                                            {% for map in image.map %}
+                                            {% for map in image.maps %}
                                                 <li><a href="{{ path('admin_app_map_show', {id: map.id}) }}">{{ map }}</a></li>
                                             {% endfor %}
                                         </ul>

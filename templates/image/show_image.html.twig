@@ -91,7 +91,7 @@
 						<ul class="list-unstyled">
 							{% for category in image.categories %}
 								<li>
-									<a href="{{ path('app_category_show', {slug: category.slug }) }}" class="text-decoration-none">
+									<a href="{{ path('app_category_gallery', {slug: category.slug }) }}" class="text-decoration-none">
 										<i class="fas fa-folder fa-fw"></i>
 										{{ category.title }}
 									</a>
@@ -107,7 +107,7 @@
 						<ul class="list-unstyled">
 							{% for portal in image.portals %}
 								<li>
-									<a href="{{ path('app_portal_show', {slug: portal.slug }) }}" class="text-decoration-none">
+									<a href="{{ path('app_portal_gallery', {slug: portal.slug }) }}" class="text-decoration-none">
 										<i class="fas fa-tag fa-fw"></i>
 										{{ portal.title }}
 									</a>

@@ -45,7 +45,7 @@
 			</div>
 			<p class="pt-4 pt-lg-0">
 				{% for portal in scenario.portals %}
-					<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="mb-1 d-block d-md-inline-block text-decoration-none">
+					<a href="{{ path('app_portal_scenarios', {slug: portal.slug}) }}" class="mb-1 d-block d-md-inline-block text-decoration-none">
 						<span class="label mx-1"> <i class="fas fa-tag me-1"></i> {{ portal }}</span>
 					</a>
 				{% endfor %}

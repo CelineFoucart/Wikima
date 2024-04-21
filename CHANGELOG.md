@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.9.0] - 2024-04-21
+
+### Changed
+
+- Sur les pages de détails des scénarios, personnages, lieux et images, les liens vers les catégories et les portails renvoient aux pages de ces éléments
+
+### Fixed
+
+- Correction du non affichage de la carte sur la page d'administration de son image
+
 ## [2.8.0] - 2024-03-01
 
 ### Added

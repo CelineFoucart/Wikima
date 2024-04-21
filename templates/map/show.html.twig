@@ -116,7 +116,7 @@
                 {% endfor %}
             </div>
             <p class="mb-0 text-center">
-                <a href="{{ path('admin_app_image_show', {id: map.image.id}) }}">{{ map.image.title }}</a>
+                <a href="{{ path('app_image_show', {slug: map.image.slug}) }}">{{ map.image.title }}</a>
             </p>
         {% endif %}
     </section>

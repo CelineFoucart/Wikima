@@ -53,7 +53,7 @@
 			<p class="pt-4 pt-lg-0">
 				{% for category in place.categories %}
 				<span class="mb-1 d-block d-md-inline-block">
-					<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="label mx-1">
+					<a href="{{ path('app_category_places', {slug: category.slug}) }}" class="label mx-1">
 						<i class="fas fa-folder me-1"></i>
 						{{ category.title }}
 					</a>
@@ -167,7 +167,7 @@
 							<ul class="ps-0 mb-0 list-unstyled">
 								{% for portal in place.portals %}
 									<li>
-										<a href="{{ path('app_portal_show', {slug: portal.slug}) }}" class="text-decoration-none">
+										<a href="{{ path('app_portal_places', {slug: portal.slug}) }}" class="text-decoration-none">
 											<i class="fas fa-tag small me-1"></i>
 											{{ portal }}
 										</a>
