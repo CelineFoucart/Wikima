@@ -46,7 +46,7 @@ class ScenarioController extends AbstractController
         if (true !== $scenario->isPublic() && !$this->isGranted('ROLE_EDITOR')) {
             throw $this->createAccessDeniedException();
         } elseif (true !== $scenario->isArchived() && !$this->isGranted('ROLE_EDITOR')) {
-            throw $this->createAccessDeniedException();
+            throw $this->createNotFoundException();
         }
 
         return $this->render('scenario/show.html.twig', [

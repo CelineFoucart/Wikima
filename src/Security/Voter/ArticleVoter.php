@@ -47,6 +47,6 @@ class ArticleVoter extends Voter
             return true;
         }
 
-        return true !== $article->getIsDraft() && true !== $article->getIsPrivate();
+        return true !== $article->getIsDraft() && true !== $article->getIsPrivate() && true !== $article->getIsArchived();
     }
 }

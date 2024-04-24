@@ -122,12 +122,14 @@
 						<h3 class="h6 bg-light border p-1">Articles</h3>
 						<ul class="list-unstyled">
 							{% for article in image.articles %}
-								<li>
-									<a href="{{ path('app_article_show', {slug: article.slug }) }}" class="text-decoration-none">
-										<i class="fas fa-file fa-fw"></i>
-										{{ article.title }}
-									</a>
-								</li>
+								{% if article.isArchived != true %}
+									<li>
+										<a href="{{ path('app_article_show', {slug: article.slug }) }}" class="text-decoration-none">
+											<i class="fas fa-file fa-fw"></i>
+											{{ article.title }}
+										</a>
+									</li>
+								{% endif %}
 							{% endfor %}
 						</ul>
 					</section>
@@ -138,12 +140,14 @@
 						<h3 class="h6 bg-light border p-1">Personnages</h3>
 						<ul class="list-unstyled">
 							{% for person in image.people %}
-								<li>
-									<a href="{{ path('app_person_show', {slug: person.slug }) }}" class="text-decoration-none">
-										<i class="fas fa-user fa-fw"></i>
-										{{ person.firstname }} {{ person.lastname }}
-									</a>
-								</li>
+								{% if person.isArchived != true %}
+									<li>
+										<a href="{{ path('app_person_show', {slug: person.slug }) }}" class="text-decoration-none">
+											<i class="fas fa-user fa-fw"></i>
+											{{ person.firstname }} {{ person.lastname }}
+										</a>
+									</li>
+								{% endif %}
 							{% endfor %}
 						</ul>
 					</section>
@@ -154,12 +158,14 @@
 						<h3 class="h6 bg-light border p-1">Lieux</h3>
 						<ul class="list-unstyled">
 							{% for place in image.places %}
-								<li>
-									<a href="{{ path('app_place_show', {slug: place.slug }) }}" class="text-decoration-none">
-										<i class="fas fa-building fa-fw"></i>
-										{{ place.title }}
-									</a>
-								</li>
+								{% if place.isArchived != true %}
+									<li>
+										<a href="{{ path('app_place_show', {slug: place.slug }) }}" class="text-decoration-none">
+											<i class="fas fa-building fa-fw"></i>
+											{{ place.title }}
+										</a>
+									</li>
+								{% endif %}
 							{% endfor %}
 						</ul>
 					</section>

@@ -48,6 +48,10 @@ class PersonController extends AbstractController
     #[Route('/persons/{slug}', name: 'app_person_show')]
     public function show(#[MapEntity(expr: 'repository.findBySlug(slug)')] Person $person): Response
     {
+        if ($person->getIsArchived() === true && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createNotFoundException();
+        }
+
         $scenarios = [];
 
         foreach ($person->getScenarios() as $scenario) {

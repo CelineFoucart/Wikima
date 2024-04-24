@@ -48,6 +48,10 @@ class PlaceController extends AbstractController
     #[Route('/places/{slug}', name: 'app_place_show')]
     public function show(#[MapEntity(expr: 'repository.findBySlug(slug)')] Place $place): Response
     {
+        if ($place->getIsArchived() === true && !$this->isGranted('ROLE_ADMIN')) {
+            throw $this->createNotFoundException();
+        }
+
         return $this->render('place/show.html.twig', [
             'place' => $place,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
