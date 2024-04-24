@@ -121,6 +121,8 @@
 					<section>
 						<h3 class="h6 bg-light border p-1">Articles</h3>
 						<ul class="list-unstyled">
+							{% set has_article = false %}
+
 							{% for article in image.articles %}
 								{% if article.isArchived != true %}
 									<li>
@@ -129,8 +131,13 @@
 											{{ article.title }}
 										</a>
 									</li>
+									{% set has_article = true %}
 								{% endif %}
 							{% endfor %}
+
+							{% if has_article == false %}
+								<li class="fst-italic">Aucun article</li>
+							{% endif %}
 						</ul>
 					</section>
 				{% endif %}
@@ -139,6 +146,8 @@
 					<section>
 						<h3 class="h6 bg-light border p-1">Personnages</h3>
 						<ul class="list-unstyled">
+							{% set has_person = false %}
+							
 							{% for person in image.people %}
 								{% if person.isArchived != true %}
 									<li>
@@ -147,8 +156,12 @@
 											{{ person.firstname }} {{ person.lastname }}
 										</a>
 									</li>
+									{% set has_person = true %}
 								{% endif %}
 							{% endfor %}
+							{% if has_person == false %}
+								<li class="fst-italic">Aucun personnage</li>
+							{% endif %}
 						</ul>
 					</section>
 				{% endif %}
@@ -157,6 +170,8 @@
 					<section>
 						<h3 class="h6 bg-light border p-1">Lieux</h3>
 						<ul class="list-unstyled">
+							{% set has_place = false %}
+
 							{% for place in image.places %}
 								{% if place.isArchived != true %}
 									<li>
@@ -165,8 +180,13 @@
 											{{ place.title }}
 										</a>
 									</li>
+									{% set has_place = true %}
 								{% endif %}
 							{% endfor %}
+							
+							{% if has_place == false %}
+								<li class="fst-italic">Aucun lieu</li>
+							{% endif %}
 						</ul>
 					</section>
 				{% endif %}
