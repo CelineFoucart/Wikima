@@ -106,6 +106,7 @@ class EpisodeController extends AbstractController
     public function delete(Request $request, Episode $episode): Response
     {
         $scenarioId = $episode->getScenario()->getId();
+        $isArchived = $episode->isArchived();
 
         if ($this->isCsrfTokenValid('delete'.$episode->getId(), $request->request->get('_token'))) {
             $this->entityManager->remove($episode);
@@ -113,7 +114,9 @@ class EpisodeController extends AbstractController
             $this->addFlash('success', "L'épisode a bien été supprimé.");
         }
 
-        return $this->redirectToRoute('admin_app_scenario_episode', ['id' => $scenarioId], Response::HTTP_SEE_OTHER);
+        $routeName = $isArchived ? "admin_app_scenario_episode_archives" : 'admin_app_scenario_episode';
+
+        return $this->redirectToRoute($routeName, ['id' => $scenarioId], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/{id}/archive', name: 'admin_app_episode_archive', methods: ['POST'])]
