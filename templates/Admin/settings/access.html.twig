@@ -1,18 +1,7 @@
-{% extends 'admin_layout.html.twig' %}
+{% extends 'Admin/settings/base.html.twig' %}
 
-{% block title %}Gérer les accès{% endblock %}
-
-{% block activeSetting %}active show{% endblock %}
-{% block activeAccess %}active{% endblock %}
-{% block page_title %}Gérer les accès aux pages du site{% endblock %}
-
-{% block breadcrumb %}
-	<li class="breadcrumb-item active">
-		Configuration
-	</li>
-{% endblock %}
-
-{% block body %}
+{% block content %}
+    <p>Sur cette page, vous allez pouvoir gérer les accès aux pages du site et définir les pages accessibles aux invités ou seulement aux membres du site.</p>
     <form action="" method="post">
         <div class="row">
             <div class="col-md-6">

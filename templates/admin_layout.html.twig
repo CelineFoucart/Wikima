@@ -190,22 +190,6 @@
 									</div>
 								</div>
 							{% endif %}
-							<div class="dashboard-nav-dropdown {% block activeTemplate %}{% endblock %}">
-								<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
-									<i class="fas fa-table fa-fw"></i>
-									<span>Modèles</span>
-								</a>
-								<div class="dashboard-nav-dropdown-menu">
-									<a href="{{ path('admin_app_template_list') }}" class="dashboard-nav-dropdown-item {% block activeTemplateList %}{% endblock %}">
-										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-										<span>Liste</span>
-									</a>
-									<a href="{{ path('admin_app_template_group_list') }}" class="dashboard-nav-dropdown-item {% block activeTemplateGroup %}{% endblock %}">
-										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-										<span>Groupe</span>
-									</a>
-								</div>
-							</div>
 						{% endif %}
 
 						{% if enable_scenario == 1 %}
@@ -227,49 +211,16 @@
 							</div>
 						{% endif %}
 						
-						<a href="{{ path('admin_app_note_list') }}" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
-							<i class="fas fa-sticky-note me-1 fa-fw"></i>
-							<span>Notes</span>
-						</a>
 						{% if is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPER_ADMIN') %}
-							<div class="dashboard-nav-dropdown {% block activeAdmin %}{% endblock %}">
-								<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
-									<i class="fas fa-users-cog fa-fw"></i>
-									<span>Membres</span>
-								</a>
-								<div class="dashboard-nav-dropdown-menu">
-									<a href="{{ path('admin_app_user_list') }}" class="dashboard-nav-dropdown-item {% block activeUser %}{% endblock %}">
-										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-										<span>Liste des membres</span>
-									</a>
-									{% if enable_forum == 1 %}
-										<a href="{{ path('admin_app_forum_category_list') }}" class="dashboard-nav-dropdown-item {% block activeForum %}{% endblock %}">
-											<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-											<span>Forum</span>
-										</a>
-									{% endif %}
-									{% if enable_comment == 1 %}
-										<a href="{{ path('admin_app_comment_list') }}" class="dashboard-nav-dropdown-item {% block activeComment %}{% endblock %}">
-											<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-											<span>Commentaire</span>
-										</a>
-									{% endif %}
-								</div>
-							</div>
-
 							<div class="dashboard-nav-dropdown {% block activeSetting %}{% endblock %}">
 								<a href="#!" class="dashboard-nav-item dashboard-nav-dropdown-toggle">
 									<i class="fas fa-tools fa-fw"></i>
-									<span>Configuration</span>
+									<span>Administration</span>
 								</a>
 								<div class="dashboard-nav-dropdown-menu">
 									<a href="{{ path('admin_app_settings') }}" class="dashboard-nav-dropdown-item {% block activeConfig %}{% endblock %}">
 										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-										<span>Site</span>
-									</a>
-									<a href="{{ path('admin_app_overview') }}" class="dashboard-nav-dropdown-item {% block activeAbout %}{% endblock %}">
-										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-										<span>Présentation</span>
+										<span>Configuration</span>
 									</a>
 									<a href="{{ path('admin_app_menu_item_list') }}" class="dashboard-nav-dropdown-item {% block activeMenu %}{% endblock %}">
 										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
@@ -279,36 +230,49 @@
 										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
 										<span>Page personnalisée</span>
 									</a>
-									<a href="{{ path('admin_app_access') }}" class="dashboard-nav-dropdown-item {% block activeAccess %}{% endblock %}">
+									<a href="{{ path('admin_app_template_list') }}" class="dashboard-nav-dropdown-item {% block activeTemplateList %}{% endblock %}">
 										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-										<span>Accès</span>
+										<span>Modèles</span>
 									</a>
-									{% if is_granted('ROLE_SUPER_ADMIN') %}
-										<a href="{{ path('admin_app_modules') }}" class="dashboard-nav-dropdown-item {% block activeModule %}{% endblock %}">
+									{% if enable_forum == 1 %}
+										<a href="{{ path('admin_app_forum_category_list') }}" class="dashboard-nav-dropdown-item {% block activeForum %}{% endblock %}">
 											<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
-											<span>Modules</span>
+											<span>Gestion du forum</span>
 										</a>
 									{% endif %}
+									<a href="{{ path('admin_app_user_list') }}" class="dashboard-nav-dropdown-item {% block activeUser %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Membres</span>
+									</a>
+									{% if enable_comment == 1 %}
+										<a href="{{ path('admin_app_comment_list') }}" class="dashboard-nav-dropdown-item {% block activeComment %}{% endblock %}">
+											<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+											<span>Commentaires</span>
+										</a>
+									{% endif %}
+
+									{% if is_granted('ROLE_SUPER_ADMIN') %}
+										<a href="{{ path('admin_app_backup_list') }}" class="dashboard-nav-dropdown-item {% block activeBackup %}{% endblock %}">
+											<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+											<span>Sauvegardes</span>
+										</a>
+										<a href="{{ path('admin_app_export') }}" class="dashboard-nav-dropdown-item {% block activeExport %}{% endblock %}">
+											<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+											<span>Export des données</span>
+										</a>
+									{% endif %}
+									<a href="{{ path('admin_app_log_list') }}" class="dashboard-nav-dropdown-item {% block activeLog %}{% endblock %}">
+										<i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>
+										<span>Logs</span>
+									</a>
 								</div>
 							</div>
-
-							{% if is_granted('ROLE_SUPER_ADMIN') %}
-								<a href="{{ path('admin_app_export') }}" class="dashboard-nav-item {% block activeExport %}{% endblock %}">
-									<i class="fas fa-download fa-fw" aria-hidden="true"></i>
-									<span>Exporter les données</span>
-								</a>
-
-								<a href="{{ path('admin_app_backup_list') }}" class="dashboard-nav-item {% block activeBackup %}{% endblock %}">
-									<i class="fas fa-save fa-fw" aria-hidden="true"></i>
-									<span>Sauvegardes</span>
-								</a>
-							{% endif %}
-
-							<a href="{{ path('admin_app_log_list') }}" class="dashboard-nav-item {% block activeLog %}{% endblock %}">
-								<i class="fas fa-clipboard-list fa-fw" aria-hidden="true"></i>
-								<span>Logs</span>
-							</a>
 						{% endif %}
+						
+						<a href="{{ path('admin_app_note_list') }}" class="dashboard-nav-item {% block activeNote %}{% endblock %}">
+							<i class="fas fa-sticky-note me-1 fa-fw"></i>
+							<span>Notes</span>
+						</a>
 						
 						<div class="nav-item-divider"></div>
 						<a href="{{ path('app_home') }}" class="dashboard-nav-item">

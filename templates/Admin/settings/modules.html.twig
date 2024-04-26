@@ -1,30 +1,13 @@
-{% extends 'admin_layout.html.twig' %}
+{% extends 'Admin/settings/base.html.twig' %}
 
-{% block title %}Modules{% endblock %}
-
-{% block activeSetting %}
-	active show
-{% endblock %}
-{% block activeModule %}active
-{% endblock %}
-
-{% block page_title %}Modules
-{% endblock %}
-
-{% block breadcrumb %}
-	<li class="breadcrumb-item active">
-		Gestion des modules
-	</li>
-{% endblock %}
-
-{% block body %}
+{% block content %}
 	<p>
 		Sur cette page, vous allez pouvoir activer des modules de l'application ou désactiver ceux qui ne correspondent pas à vos besoins.
         Le module <strong>Encyclopédie</strong>, module de base, n'est pas désactivable.
 	</p>
 
 	<form action="" method="post">
-        <div class="row mt-4 g-3">
+        <div class="row g-3">
             <div class="col-sm-6 col-md-4">
                 <div class="card shadow-sm border-top-primary">
                     <div class="card-body">

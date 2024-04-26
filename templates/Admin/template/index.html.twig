@@ -1,6 +1,6 @@
 {% extends 'admin_layout.html.twig' %}
 
-{% block activeTemplate %}active show{% endblock %}
+{% block activeSetting %}active show{% endblock %}
 {% block activeTemplateList %}active{% endblock %}
 
 {% block title %}Liste des modèles{% endblock %}
@@ -15,8 +15,12 @@
 
 {% block toolbar %}
     <a href="{{ path('admin_app_template_create') }}" class="btn btn-default btn-sm">
-        <i class="fas fa-plus-circle" aria-hidden="true"></i>
+        <i class="fas fa-plus-circle fa-fw" aria-hidden="true"></i>
         Ajouter
+    </a>
+    <a href="{{ path('admin_app_template_group_list') }}" class="btn btn-default btn-sm">
+        <i class="fas fa-tags fa-fw" aria-hidden="true"></i>
+        Groupes de modèle
     </a>
 {% endblock %}
 

@@ -1,0 +1,43 @@
+{% extends 'admin_layout.html.twig' %}
+
+{% block title %}Configuration{% endblock %}
+
+{% block activeSetting %}active show{% endblock %}
+{% block activeConfig %}active{% endblock %}
+{% block page_title %}Gérer la configuration{% endblock %}
+
+{% block breadcrumb %}
+	<li class="breadcrumb-item active">
+		Configuration
+	</li>
+{% endblock %}
+
+{% block body %}
+    <ul class="nav nav-custom-style nav-pills mb-4">
+        {% set current_route = app.request.attributes.get('_route') %}
+        <li class="nav-item">
+            <a class="nav-link {{ current_route == 'admin_app_settings' ? 'active' : '' }}" href="{{ path('admin_app_settings') }}">
+                Réglage du site
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ current_route == 'admin_app_overview' ? 'active' : '' }}" href="{{ path('admin_app_overview') }}">
+                Présentation
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{ current_route == 'admin_app_access' ? 'active' : '' }}" href="{{ path('admin_app_access') }}">
+                Acccès
+            </a>
+        </li>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <li class="nav-item">
+                <a class="nav-link {{ current_route == 'admin_app_modules' ? 'active' : '' }}" href="{{ path('admin_app_modules') }}">
+                    Modules
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+    
+    {% block content %}{% endblock %}
+{% endblock %}

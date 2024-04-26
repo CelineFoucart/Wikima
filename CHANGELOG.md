@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.9.0] - 2024-04-26
 
+### Changed
+
+- Améliorer le menu d'administration et regrouper ensemble les pages en lien avec l'administration et la configuration.
+
 ### Fixed
 
 - Cacher les scénarios archivés sur les pages publiques où ils apparaissaient malgré tout.
