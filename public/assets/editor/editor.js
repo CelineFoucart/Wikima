@@ -2,9 +2,9 @@ const CONTENT_CSS = ['/assets/plugins/bootstrap/bootstrap.min.css', '/assets/edi
 const SKIN = 'tinymce-5';
 const LANGUAGE = "fr_FR";
 const HOST = location.origin;
-const CONTEXTMENU = "alignleft aligncenter alignright alignjustify | bold italic underline | forecolor backcolor fontsizes | image link table | selectall cut copy paste removeformat";
+const CONTEXTMENU = "alignleft aligncenter alignright alignjustify | bold italic underline strikethrough | forecolor backcolor fontsizes | image link table | selectall cut copy paste removeformat";
 const QUICK_INSERT_TOOLBAR = 'quicktable quicklink | hr pagebreak | bullist numlist';
-const QUICK_SELECTION_TOOLBAR = 'bold italic underline bullist quicklink blockquote quicktable';
+const QUICK_SELECTION_TOOLBAR = 'bold italic underline strikethrough bullist quicklink blockquote quicktable';
 const DATETIME_FORMAT = ['%H:%M:%S', '%d/%m/%Y', '%d/%m/%Y %H:%M:%S'];
 
 function enableBasicEditor(textareaSelector) {

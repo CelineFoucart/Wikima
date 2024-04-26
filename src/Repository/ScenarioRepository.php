@@ -118,4 +118,23 @@ class ScenarioRepository extends ServiceEntityRepository
 
         return $builder->getQuery()->getResult();
     }
+
+    /**
+     * @param int $id
+     * 
+     * @return Scenario[]
+     */
+    public function findByImageGroup(int $id): array
+    {
+        return $this->createQueryBuilder('s')
+            ->leftJoin('s.imageGroup', 'g')
+            ->orderBy('s.title', 'ASC')
+            ->andWhere('(s.archived != :isArchived OR s.archived IS NULL)')
+            ->setParameter('isArchived', true)
+            ->andWhere('g.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 }

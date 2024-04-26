@@ -10,6 +10,7 @@ use App\Form\Search\SearchType;
 use App\Repository\ImageGroupRepository;
 use App\Repository\ImageRepository;
 use App\Repository\ImageTagRepository;
+use App\Repository\ScenarioRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -82,10 +83,11 @@ class ImageController extends AbstractController
     }
 
     #[Route('/image-group/{slug}', name: 'app_image_group_show')]
-    public function imageGroupShow(ImageGroup $imageGroup): Response
+    public function imageGroupShow(ImageGroup $imageGroup, ScenarioRepository $repository): Response
     {
         return $this->render('image/group_show.html.twig', [
             'image_group' => $imageGroup,
+            'scenarios' => $repository->findByImageGroup($imageGroup->getId()),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
         ]);
     }

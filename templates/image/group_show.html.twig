@@ -49,15 +49,11 @@
 
             <div class="mx-3 mt-4">{{ image_group.description|raw }}</div>
             <div class="mx-3">
-                {% if image_group.scenarios|length > 0 %}
+                {% if scenarios|length > 0 %}
                     <span class="fw-bold">Scénarios</span> |
-                    {% for scenario in image_group.scenarios %}
-                        <a href="{{ path('app_scenario_show', {slug:scenario.slug}) }}">
-                            {{ scenario }}
-                        </a>
-                        {% if not loop.last %}
-                            |
-                        {% endif %}
+                    {% for scenario in scenarios %}
+                        <a href="{{ path('app_scenario_show', {slug:scenario.slug}) }}">{{ scenario }}</a>
+                        {% if not loop.last %}|{% endif %}
                     {% endfor %}
                 {% endif %}
             </div>

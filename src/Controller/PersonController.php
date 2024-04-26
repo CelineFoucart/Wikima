@@ -55,10 +55,14 @@ class PersonController extends AbstractController
         $scenarios = [];
 
         foreach ($person->getScenarios() as $scenario) {
+            if ($scenario->isArchived() === true) {
+                continue;
+            }
+
             if ($this->isGranted('ROLE_ADMIN')) {
                 $scenarios[] = $scenario;
             } else {
-                if (!$scenario->isArchived() && $scenario->isPublic()) {
+                if ($scenario->isPublic()) {
                     $scenarios[] = $scenario;
                 }
             }
