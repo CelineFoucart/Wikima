@@ -45,7 +45,7 @@ class ScenarioController extends AbstractController
     {
         if (true !== $scenario->isPublic() && !$this->isGranted('ROLE_EDITOR')) {
             throw $this->createAccessDeniedException();
-        } elseif (true !== $scenario->isArchived() && !$this->isGranted('ROLE_EDITOR')) {
+        } elseif (true === $scenario->isArchived() && !$this->isGranted('ROLE_EDITOR')) {
             throw $this->createNotFoundException();
         }
 
