@@ -305,9 +305,14 @@
 
 				<h3 class="h5">Scénarios</h3>
 				{% for scenario in scenarios %}
-					<div class="mb-2 bg-light border p-2">
-						<p class="fw-bold mb-0"><a href="{{ path('app_scenario_show', {slug: scenario.slug})}}">{{ scenario }}</a></p>
-						<div>{{ scenario.pitch|nl2br }}</div>
+					<div class="mb-3 ps-3 border-start">
+						<p class="fw-bold mb-0">
+							<a href="{{ path('app_scenario_show', {slug: scenario.slug})}}" class="text-decoration-none">
+								<i class="fa-solid fa-book fa-fw"></i>
+								<span class="text-decoration-underline">{{ scenario }}</span>
+							</a>
+						</p>
+						<div class="fst-italic">{{ scenario.pitch|nl2br }}</div>
 					</div>
 				{% else %}
 					<div class="fst-italic">Aucun scénario</div>
