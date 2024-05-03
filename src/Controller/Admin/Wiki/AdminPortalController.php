@@ -110,7 +110,7 @@ final class AdminPortalController extends AbstractAdminController
             || !$portal->getIdioms()->isEmpty()
             || !$portal->getImages()->isEmpty()
         ) {
-            $this->addFlash('error', "La suppression a échoué, car ce portail contient des éléments de l'encylopédie ou des médias.");
+            $this->addFlash('error', "La suppression a échoué, car ce portail contient des éléments de l'encylopédie ou des médias qui peuvent être archivés.");
 
             return $this->redirectToRoute('admin_app_portal_show', ['id' => $portal->getId()], Response::HTTP_SEE_OTHER);
         }

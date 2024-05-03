@@ -130,6 +130,21 @@ final class AdminImageGroupController extends AbstractAdminController
     public function deleteAction(Request $request, ImageGroup $imageGroup, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$imageGroup->getId(), $request->request->get('_token'))) {
+            if (!$imageGroup->getScenarios()->isEmpty()) {
+                foreach ($imageGroup->getScenarios() as $scenario) {
+                    $imageGroup->removeScenario($scenario);
+                }
+            }
+
+            if (!$imageGroup->getPlaces()->isEmpty()) {
+                foreach ($imageGroup->getPlaces() as $place) {
+                    $imageGroup->removePlace($place);
+                }
+            }
+
+            $entityManager->persist($imageGroup);
+            $entityManager->flush();
+
             $entityManager->remove($imageGroup);
             $entityManager->flush();
             $this->addFlash('success', 'Le groupe a été supprimé avec succès.');

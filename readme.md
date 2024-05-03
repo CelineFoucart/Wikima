@@ -6,7 +6,7 @@ Ce repository est une version sans docker de l'application.
 
 ## Prérequis
 
-* PHP 8.0.2 minimum
+* PHP 8.1.2 minimum
 * Composer
 * Node et npm
 * MariaDB ou MySQL en base de données

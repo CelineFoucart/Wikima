@@ -68,6 +68,18 @@
                             {% endif %}
                         </td>
                     </tr>
+                    <tr>
+                        <th>Lieux</th>
+                        <td>
+                            {% if image_group.places is not empty %}
+                                <ul class="mb-0">
+                                    {% for place in image_group.places %}
+                                        <li><a href="{{ path('admin_app_place_show', {id: place.id}) }}">{{ place }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
