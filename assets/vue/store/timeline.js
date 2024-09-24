@@ -14,9 +14,45 @@ export const useTimelineStore = defineStore('timeline', {
                 this.timeline = response.data;
                 return true;
             } catch (error) {
-                console.log(error)
                 return false;
             }
         },
+
+        async sortTimelineEvents() {
+            
+        },
+
+        async addEvent(data) {
+            try {
+                const url = Routing.generate("api_timeline_event_add", {id: this.timeline.id});
+                const response = await axios.post(url, data);
+                this.timeline = response.data;
+                return true;
+            } catch (error) {
+                return false;
+            }
+        },
+
+        async editEvent(event, data) {
+            try {
+                const url = Routing.generate("api_timeline_event_edit", {id: this.timeline.id, eventId: event.id});
+                const response = await axios.put(url, data);
+                this.timeline = response.data;
+                return true;
+            } catch (error) {
+                return false;
+            }
+        },
+
+        async removeEvent(event) {
+            try {
+                const url = Routing.generate("api_timeline_event_delete", {id: this.timeline.id, eventId: event.id});
+                const response = await axios.delete(url);
+                this.timeline = response.data;
+                return true;
+            } catch (error) {
+                return false;
+            }
+        }
     }
 })
