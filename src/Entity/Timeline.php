@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TimelineRepository::class)]
 #[UniqueEntity('slug')]
@@ -16,45 +17,49 @@ class Timeline
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['timeline-admin'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 3,
-        max: 255
-    )]
+    #[Assert\Length(min: 3, max: 255)]
+    #[Groups(['timeline-admin'])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
+    #[Groups(['timeline-admin'])]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Assert\Length(
-        min: 3,
-        max: 255
-    )]
+    #[Assert\Length(min: 3, max: 255)]
+    #[Groups(['timeline-admin'])]
     private $description;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['timeline-admin'])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Groups(['timeline-admin'])]
     private $updatedAt;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'timelines')]
+    #[Groups(['timeline-admin'])]
     private $categories;
 
     #[ORM\ManyToMany(targetEntity: Portal::class, inversedBy: 'timelines')]
+    #[Groups(['timeline-admin'])]
     private $portals;
 
     #[ORM\OneToMany(mappedBy: 'timeline', targetEntity: Event::class, orphanRemoval: true)]
     #[ORM\OrderBy(['timelineOrder' => 'ASC'])]
+    #[Groups(['timeline-admin'])]
     private $events;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['timeline-admin'])]
     private ?int $position = null;
 
     #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'timelines')]
@@ -65,6 +70,7 @@ class Timeline
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'previousReferences')]
     #[ORM\JoinColumn(onDelete:"SET NULL")]
+    #[Groups(['timeline-admin'])]
     private ?self $previous = null;
 
     #[ORM\OneToMany(mappedBy: 'previous', targetEntity: self::class)]
@@ -72,6 +78,7 @@ class Timeline
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'nextReferences')]
     #[ORM\JoinColumn(onDelete:"SET NULL")]
+    #[Groups(['timeline-admin'])]
     private ?self $next = null;
 
     #[ORM\OneToMany(mappedBy: 'next', targetEntity: self::class)]

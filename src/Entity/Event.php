@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\EventRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: EventRepository::class)]
 class Event
@@ -12,38 +13,36 @@ class Event
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['timeline-admin'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 3,
-        max: 255
-    )]
+    #[Assert\Length(min: 3, max: 255)]
+    #[Groups(['timeline-admin'])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 1,
-        max: 255
-    )]
+    #[Assert\Length( min: 1, max: 255)]
+    #[Groups(['timeline-admin'])]
     private $duration;
 
     #[ORM\Column(type: 'string', length: 2500, nullable: true)]
-    #[Assert\Length(
-        min: 3,
-        max: 2500
-    )]
+    #[Assert\Length(min: 3, max: 2500)]
+    #[Groups(['timeline-admin'])]
     private $presentation;
 
     #[ORM\Column(type: 'smallint', nullable: true)]
+    #[Groups(['timeline-admin'])]
     private $timelineOrder;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['timeline-admin'])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(['timeline-admin'])]
     private $updatedAt;
 
     #[ORM\ManyToOne(targetEntity: Timeline::class, inversedBy: 'events')]

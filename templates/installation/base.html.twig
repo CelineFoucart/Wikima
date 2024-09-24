@@ -6,7 +6,7 @@
     <link href="{{ asset('assets/plugins/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
 	<link rel="stylesheet" href="{{ asset('assets/plugins/choicesjs/choices.min.css') }}"/>
 	<link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}"/>
-    {{ encore_entry_link_tags('app') }}
+    {{ encore_entry_link_tags('base') }}
     <title>{% block title %}{% endblock %} | Installation</title>
 </head>
 <body style="background-color: {{ background_color }}">
@@ -30,7 +30,7 @@
 
     <script src="{{ asset('assets/plugins/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/admin/installation.js') }}"></script>
-    {{ encore_entry_script_tags('app') }}
+    {{ encore_entry_script_tags('base') }}
     {% block javascripts %}
         
     {% endblock %}

@@ -19,7 +19,7 @@ import searchInput from './lib/search-input.js';
 import updateNote from './lib/update-note.js';
 
 // start the Stimulus application
-import './bootstrap';
+import '../bootstrap';
 
 window.onload = () => {
     // Enable tooltips

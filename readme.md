@@ -19,6 +19,7 @@ Cloner le projet avec git clone et installer les dépendances, puis créer un fi
 composer install
 npm install
 npm run build
+php bin/console assets:install --symlink public
 touch .env.local
 ```
 

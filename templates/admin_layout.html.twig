@@ -14,6 +14,7 @@
 		<script src="{{ asset('assets/plugins/DataTables/datatables.min.js') }}"></script>
 		<script src="{{ asset('assets/plugins/bootstrap/bootstrap.bundle.min.js') }}"></script>
         <link rel="stylesheet" href="{{ asset('assets/admin/admin.css') }}">
+		{{ encore_entry_link_tags('vue') }}
 		{{ favicon() }}
 		{% block stylesheets %}{% endblock %}
 		<meta name="description" content="Bienvenue sur l'espace d'administration de votre application - gérez l'encyclopédie, les espaces de discussions et la configuration">
@@ -317,9 +318,12 @@
 			</div>
 		</div>
 
+		<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+		<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
 		<script src="{{ asset('assets/plugins/choicesjs/choices.min.js') }}"></script>
 		<script src="{{ asset('assets/plugins/fslightbox.js') }}"></script>
 		<script src="{{ asset('assets/admin/admin.js') }}"></script>
+		{{ encore_entry_script_tags('vue') }}
 		{% block javascripts %}{% endblock %}
 	</body>
 </html>

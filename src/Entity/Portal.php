@@ -21,38 +21,30 @@ class Portal
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['index'])]
+    #[Groups(['index', 'timeline-admin'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 3,
-        max: 255
-    )]
-    #[Groups(['index'])]
+    #[Assert\Length( min: 3, max: 255)]
+    #[Groups(['index', 'timeline-admin'])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
-    #[Groups(['index'])]
+    #[Groups(['index', 'timeline-admin'])]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 3,
-        max: 255
-    )]
+    #[Assert\Length(min: 3, max: 255)]
     private $keywords;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 3,
-        max: 255
-    )]
+    #[Assert\Length(min: 3, max: 255)]
+    #[Groups(['timeline-admin'])]
     private $description;
 
     #[ORM\Column(type: 'datetime_immutable')]
