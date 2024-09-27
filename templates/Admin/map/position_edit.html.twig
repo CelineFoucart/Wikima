@@ -2,9 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-	{{ encore_entry_link_tags('map') }}
-    <link rel="stylesheet" href="{{ asset('assets/plugins/colorpicker/coloris.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
+	{{ encore_entry_link_tags('coloris') }}
 {% endblock %}
 
 {% block show_tab %}
@@ -33,13 +31,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/plugins/colorpicker/coloris.min.js') }}"></script>
 	{{ encore_entry_script_tags('map') }}
-    <script>
-        Coloris({
-            el: '#map_position_color',
-            swatches: ['#7952b3', '#dc3545', '#92400e', '#198754', '#3c8dbc', '#212529']
-        });
-        Coloris.setInstance('#map_position_color', { theme: 'polaroid' });
-    </script>
+	{{ encore_entry_script_tags('coloris') }}
 {% endblock %}

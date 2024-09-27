@@ -20,15 +20,17 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('base', './assets/base/base.js')
-    .addEntry('admin', './assets/admin/admin.js')
-    .addEntry('map', './assets/map/map.js')
-    .addEntry('choicejs', './assets/choicejs/choicejs.js')
+    .addEntry('base', './assets/template/base/base.js')
+    .addEntry('admin', './assets/template/admin/admin.js')
+    .addEntry('map', './assets/template/map/map.js')
+    .addEntry('choicejs', './assets/template/choicejs/choicejs.js')
+    .addEntry('sortable', './assets/template/sortable/sortableAction.js')
+    .addEntry('coloris', './assets/template/coloris/coloris.js')
     .addEntry('vue', './assets/vue/app.js')
-    .addEntry('sortable', './assets/sortable/sortableAction.js')
 
     // Alias
     .addAliases({
+        '@root': `${__dirname}/assets`,
         '@store': `${__dirname}/assets/vue/store`,
         '@components': `${__dirname}/assets/vue/components`,
         '@functions': `${__dirname}/assets/vue/functions`,

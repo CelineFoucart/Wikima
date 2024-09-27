@@ -26,7 +26,12 @@ class ForumGroupType extends AbstractType
                 'help' => 'Le nom unique du groupe',
                 'disabled' => $isSymfonyRole,
             ])
-            ->add('colour')
+            ->add('colour', TextType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'color-input',
+                ],
+            ])
             ->add('description', TextareaType::class, [
                 'help' => 'help_description',
                 'required' => false,

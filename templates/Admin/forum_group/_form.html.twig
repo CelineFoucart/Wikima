@@ -1,6 +1,5 @@
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/plugins/colorpicker/coloris.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
+    {{ encore_entry_link_tags('coloris') }}
 {% endblock %}
 
 {{ form_start(form) }}
@@ -19,20 +18,6 @@
 
 
 {% block javascripts %}
-    <script src="{{ asset('assets/plugins/colorpicker/coloris.min.js') }}"></script>
-    <script>
-        Coloris({
-            el: '#forum_group_colour',
-            swatches: [
-                '#FF9900',
-                '#9900CC',
-                '#8C2800',
-                '#008844',
-                '#CC3399',
-                '#DF2020'
-            ]
-        });
-        Coloris.setInstance('#forum_group_colour', { theme: 'polaroid' });
-    </script>
+    {{ encore_entry_script_tags('coloris') }}
 {% endblock %}
 

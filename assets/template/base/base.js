@@ -24,7 +24,7 @@ import searchInput from './lib/search-input.js';
 import updateNote from './lib/update-note.js';
 
 // start the Stimulus application
-import '../bootstrap';
+import '@root/bootstrap.js';
 
 // enable tooltip bootstrap
 window.onload = () => {

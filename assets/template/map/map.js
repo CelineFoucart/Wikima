@@ -1,4 +1,13 @@
 import './map.css';
+import * as bootstrap from 'bootstrap';
+import "choices.js/public/assets/styles/choices.css";
+import "../choicejs/choicejs.css";
+import Choices from "choices.js";
+import { createToastify } from '@functions/toastify.js';
+import "@melloware/coloris/dist/coloris.css";
+import Coloris from "@melloware/coloris";
+import '../coloris/color.css';
+Coloris.init();
 
 function dragElement(elmnt) {
     var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -218,16 +227,16 @@ class MapMarker {
                 const position = await response.json();
                 this.newPosition.dataset.id = position.id;
     
-                toastify('success', "La position a été ajoutée");
+                createToastify("La position a été ajoutée", 'success');
                 this.editModal.hide();
                 controller.abort();
                 location.reload()
             } else {
-                toastify('error', "Le formulaire n'était pas valide.");
+                createToastify("Le formulaire n'était pas valide.", 'error');
             }
 
         } catch (error) {
-            toastify('error', "Le formulaire n'était pas valide.");
+            createToastify("Le formulaire n'était pas valide.", 'error');
         }
     }
 
@@ -359,7 +368,7 @@ class MapMarker {
                 controller.abort();
                 location.reload();
             } else {
-                toastify('error', "Le formulaire n'était pas valide.");
+                createToastify("Le formulaire n'était pas valide.", 'error');
             }
 
         })
@@ -374,33 +383,35 @@ class MapMarker {
                 controller.abort();
                 location.reload();
             } else {
-                toastify('error', "La suppression a échoué.");
+                createToastify("La suppression a échoué.", 'error');
             }
         })
     }
 }
 
-const marker = new MapMarker('#map');
-marker.run();
+window.addEventListener('load', () => {
+    const marker = new MapMarker('#map');
+    marker.run();
 
-// form validation
-const btnIcon = document.querySelector('#save-btn i');
-const form = document.querySelector('.needs-validation');
+    // form validation
+    const btnIcon = document.querySelector('#save-btn i');
+    const form = document.querySelector('.needs-validation');
 
-form.addEventListener('submit', async function (event) {
-    event.preventDefault()
-    event.stopPropagation() 
-    btnIcon.classList = 'fas fa-spinner fa-spin fa-fw';
+    form.addEventListener('submit', async function (event) {
+        event.preventDefault()
+        event.stopPropagation() 
+        btnIcon.classList = 'fas fa-spinner fa-spin fa-fw';
 
-    if (!form.checkValidity()) {
-        form.classList.add('was-validated')
-    } else {
-        await marker.saveMarker(form);
-        form.classList.remove('was-validated')
-    }
+        if (!form.checkValidity()) {
+            form.classList.add('was-validated')
+        } else {
+            await marker.saveMarker(form);
+            form.classList.remove('was-validated')
+        }
 
-    btnIcon.classList = 'fas fa-save fa-fw';
-}, false)
+        btnIcon.classList = 'fas fa-save fa-fw';
+    }, false)
 
-dragElement(document.getElementById("showModal"));
-dragElement(document.getElementById("editModal"));
+    dragElement(document.getElementById("showModal"));
+    dragElement(document.getElementById("editModal"));
+})

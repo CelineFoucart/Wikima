@@ -2,9 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-        {{ encore_entry_link_tags('map') }}
-        <link rel="stylesheet" href="{{ asset('assets/plugins/colorpicker/coloris.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
+    {{ encore_entry_link_tags('map') }}
 {% endblock %}
 
 {% block show_tab %}
@@ -201,6 +199,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/plugins/colorpicker/coloris.min.js') }}"></script>
 	{{ encore_entry_script_tags('map') }}
 {% endblock %}

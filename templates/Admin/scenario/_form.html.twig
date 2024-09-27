@@ -1,6 +1,5 @@
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/plugins/colorpicker/coloris.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
+    {{ encore_entry_link_tags('coloris') }}
 {% endblock %}
 
 {{ form_start(form) }}
@@ -68,28 +67,7 @@
 {{ form_end(form) }}
 
 {% block javascripts %}
-    <script src="{{ asset('assets/plugins/colorpicker/coloris.min.js') }}"></script>
+    {{ encore_entry_script_tags('coloris') }}
     <script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
     <script src="{{ asset("assets/editor/editor.js") }}"></script>
-    <script>   
-        Coloris({
-            el: '#scenario_defaultColor',
-            swatches: [
-                '#7952b3', // violet
-                '#d946ef', // fuchsia
-                '#d63384', // pink
-                '#dc3545', // red
-                '#92400e', // brown
-                '#fd7e14', // orange
-                '#ffc107', // yellow
-                '#198754', // green
-                '#3c8dbc', // blue
-                '#93c5fd', // blue 300
-                '#6c757d', // grey
-                '#212529', // dark
-            ]
-        });
-        Coloris.setInstance('#scenario_defaultColor', { theme: 'polaroid' });
-        enableBasicEditor("#scenario_description");
-    </script>
 {% endblock %}

@@ -1,5 +1,9 @@
 @import "@fortawesome/fontawesome-free/css/all.css";
 
+:root {
+    --secondary: #3c8dbc;
+}
+
 html, body {
     height: 100vh;
 }
@@ -59,6 +63,10 @@ img {
     background: #fff;
     border-radius: 3px;
     box-shadow: 0 1px 1px rgba(0,0,0,.1);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: rgba(0, 0, 0, .55);
 }
 
 .nav-custom-style .nav-link,
@@ -478,8 +486,6 @@ h1 {
     display: inline;
 }
 
-
-
 /* sortable style */
 .handle {
     cursor: grab;
@@ -563,6 +569,7 @@ table.dataTable.table-striped>tbody>tr.odd>* {
 
 .table>:not(caption)>*>* {
     box-shadow: none !important;
+    background-color: transparent;
 }
 
 .table tr {
@@ -669,13 +676,17 @@ div.dataTables_wrapper div.dataTables_filter input {
     .table>:not(caption)>*>* {
         box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.05);
     }
-    
-    .table tr {
-        display: table-row;
+
+    .card-show > .table > tbody > tr {
         margin: 0;
+        box-shadow: none;
         border-top: none;
         border-left: none;
         border-right:none;
+    }
+
+    .table tr {
+        display: table-row;
         box-shadow: none;
     }
 

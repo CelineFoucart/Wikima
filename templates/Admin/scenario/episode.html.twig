@@ -1,17 +1,8 @@
 {% extends 'Admin/scenario/show_base.html.twig' %}
 
 {% block stylesheets %}
-	{{ encore_entry_link_tags('sortable') }}
-{% endblock %}
-
-{% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/plugins/colorpicker/coloris.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
-    <style>
-        .modal {
-            z-index: 1050;
-        }
-    </style>
+    {{ encore_entry_link_tags('sortable') }}
+    {{ encore_entry_link_tags('coloris') }}
 {% endblock %}
 
 
@@ -111,31 +102,12 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/plugins/colorpicker/coloris.min.js') }}"></script>
+    {{ encore_entry_script_tags('coloris') }}
 	<script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
     <script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
     <script src="{{ asset("assets/editor/editor.js") }}"></script>
     {{ encore_entry_script_tags('sortable') }}
     <script>
-        Coloris({
-            el: '.color-input',
-            swatches: [
-                '#7952b3', // violet
-                '#d946ef', // fuchsia
-                '#d63384', // pink
-                '#dc3545', // red
-                '#92400e', // brown
-                '#fd7e14', // orange
-                '#ffc107', // yellow
-                '#198754', // green
-                '#3c8dbc', // blue
-                '#93c5fd', // blue 300
-                '#6c757d', // grey
-                '#212529', // dark
-            ]
-        });
-
-        Coloris.setInstance('.color-input', { theme: 'polaroid' });
         enableBasicEditor('[data-editor="editor"]');
     </script>
 {% endblock %}

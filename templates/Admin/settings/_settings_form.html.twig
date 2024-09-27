@@ -1,6 +1,5 @@
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/plugins/colorpicker/coloris.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
+    {{ encore_entry_link_tags('coloris') }}
 {% endblock %}
 
 {{ form_start(form) }}
@@ -112,25 +111,5 @@
 {{ form_end(form) }}
 
 {% block javascripts %}
-    <script src="{{ asset('assets/plugins/colorpicker/coloris.min.js') }}"></script>
-    <script>
-        Coloris({
-            el: '#advanced_settings_BACKGROUND_COLOR',
-            swatches: [
-                '#212529',
-                '#6c757d',
-                '#eeeeee',
-                '#ecf0f5',
-                '#F3FAFE',
-                '#fff',
-                '#cfe2ff',
-                '#48cae4',
-                '#3c8dbc',
-                '#563d7c',
-                '#7952b3',
-                '#c29ffa'
-            ]
-        });
-        Coloris.setInstance('#advanced_settings_BACKGROUND_COLOR', { theme: 'polaroid' });
-    </script>
+    {{ encore_entry_script_tags('coloris') }}
 {% endblock %}

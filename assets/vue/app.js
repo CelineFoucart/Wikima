@@ -1,5 +1,5 @@
 import { registerVueControllerComponents } from '@symfony/ux-vue';
-import '../bootstrap.js';
+import '@root/bootstrap.js';
 import { createPinia } from 'pinia';
 import "toastify-js/src/toastify.css";
 

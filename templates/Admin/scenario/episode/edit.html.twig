@@ -1,8 +1,7 @@
 {% extends 'Admin/scenario/show_base.html.twig' %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/plugins/colorpicker/coloris.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
+    {{ encore_entry_link_tags('coloris') }}
 {% endblock %}
 
 {% block content %}
@@ -10,29 +9,10 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('assets/plugins/colorpicker/coloris.min.js') }}"></script>
+    {{ encore_entry_script_tags('coloris') }}
     <script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
     <script src="{{ asset("assets/editor/editor.js") }}"></script>
     <script>
-        Coloris({
-            el: '#episode_color',
-            swatches: [
-                '#7952b3', // violet
-                '#d946ef', // fuchsia
-                '#d63384', // pink
-                '#dc3545', // red
-                '#92400e', // brown
-                '#fd7e14', // orange
-                '#ffc107', // yellow
-                '#198754', // green
-                '#3c8dbc', // blue
-                '#93c5fd', // blue 300
-                '#6c757d', // grey
-                '#212529', // dark
-            ]
-        });
-        Coloris.setInstance('#episode_color', { theme: 'polaroid' });
-
         enableBasicEditor("#episode_content");
     </script>
 {% endblock %}

@@ -22,6 +22,9 @@ class MapPositionType extends AbstractType
             ])
             ->add('color', TextType::class, [
                 'required' => false,
+                'attr' => [
+                    'class' => 'color-input',
+                ],
             ])
             ->add('marker', TextType::class, [
                 'help' => 'help_icon',

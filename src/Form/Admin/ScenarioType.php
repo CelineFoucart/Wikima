@@ -30,6 +30,9 @@ class ScenarioType extends AbstractType
             ])
             ->add('defaultColor', TextType::class, [
                 'required' => false,
+                'attr' => [
+                    'class' => 'color-input',
+                ],
             ])
             ->add('comment', TextareaType::class, [
                 'required' => false,

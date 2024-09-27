@@ -1,10 +1,9 @@
 import * as bootstrap from 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './css/admin.css';
 import 'fslightbox';
 import "choices.js/public/assets/styles/choices.css";
 import "../choicejs/choicejs.css";
-import './css/admin.css';
-import './css/color.css';
 import Choices from "choices.js";
 import { togglePassword } from "./js/passwordAction";
 import { slugAction } from "./js/slugAction";

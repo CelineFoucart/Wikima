@@ -75,6 +75,9 @@ class AdvancedSettingsType extends AbstractType
             ->add('BACKGROUND_COLOR', TextType::class, [
                 'label' => "Couleur de l'arrière plan du site",
                 'help' => "Cette valeur définira l'arrière plan du body de la page (propriété CSS background).",
+                'attr' => [
+                    'class' => 'color-input',
+                ],
             ])
             ->add('CONTACT_EMAIL', TextType::class, [
                 'label' => 'Email de contact',
