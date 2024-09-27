@@ -29,6 +29,7 @@
         "file-loader": "^6.2.0",
         "fslightbox": "^3.4.2",
         "pinia": "^2.2.2",
+        "sortablejs": "^1.15.3",
         "toastify-js": "^1.12.0"
     }
 }

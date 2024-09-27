@@ -1,5 +1,10 @@
 {% extends 'Admin/idiom/show_base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+	{{ encore_entry_link_tags('sortable') }}
+{% endblock %}
+
 {% block show_tab %}
 <p>
     Pour modifier la position des articles dans leur catégorie, glissez-les de haut en bas.
@@ -44,6 +49,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
     {{ encore_entry_script_tags('sortable') }}
 {% endblock %}

@@ -4,6 +4,11 @@
 	{{ encore_entry_link_tags('sortable') }}
 {% endblock %}
 
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('sortable') }}
+{% endblock %}
+
 {% block title %}Ajouter des événements à "{{ timeline.title }}"{% endblock %}
 
 {% block activeWiki %}active show{% endblock %}
@@ -26,11 +31,7 @@
     {% include "Admin/timeline/_toolbar.html.twig" %}
 {% endblock %}
 
-{% block javascripts %}
-	{{ parent() }}
-	<script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
-	{{ encore_entry_script_tags('sortable') }}
-{% endblock %}
+
 
 {% block body %}
 	<div class="row">

@@ -1,3 +1,5 @@
+import Sortable from 'sortablejs';
+
 /**
  * Remove an element from the DOM.
  * 
