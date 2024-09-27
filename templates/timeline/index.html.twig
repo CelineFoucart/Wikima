@@ -1,7 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Liste des chronologies
+{% block stylesheets %}
+	{{ encore_entry_link_tags('choicejs') }}
 {% endblock %}
+
+{% block title %}Liste des chronologies{% endblock %}
 
 {% block body %}
 	<article class="mb-5 container-fluid">
@@ -52,24 +55,5 @@
 	</article>
 {% endblock %}
 {% block javascripts %}
-	{{ parent() }}
-
-	<script src="{{ asset('assets/plugins/choicesjs/choices.min.js') }}"></script>
-	<script>
-		elements = document.querySelectorAll('[data-choices]');
-		elements.forEach(element => {
-			const choices = new Choices(element, {
-				removeItems: true,
-				removeItemButton: true,
-				allowHTML: false,
-				noResultsText: 'Aucun résultat',
-				noChoicesText: 'Aucun élément à choisir',
-				itemSelectText: 'Cliquez pour choisir'
-			});
-		});
-
-		document.querySelectorAll('[name="search_terms"]').forEach(element => {
-			element.removeAttribute('name');
-		});
-	</script>
+	{{ encore_entry_script_tags('choicejs') }}
 {% endblock %}

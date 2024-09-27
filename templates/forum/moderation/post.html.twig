@@ -3,7 +3,7 @@
 {% block title %}Modérer un message | Forum de {{ app_name }}{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/plugins/choicesjs/choices.min.css') }}"/>
+	{{ encore_entry_link_tags('choicejs') }}
 {% endblock %}
 
 {% block breadcrumb %}
@@ -78,16 +78,5 @@
 {% endblock %}
 
 {% block javascripts %}
-<script src="{{ asset('assets/plugins/choicesjs/choices.min.js') }}"></script>
-<script>
-    new Choices(document.querySelector('#form_author'), {
-        removeItems: true,
-        removeItemButton: true,
-        allowHTML: false,
-        noResultsText: 'Aucun résultat',
-        noChoicesText: 'Aucun élément à choisir',
-        itemSelectText: 'Cliquez pour choisir',
-        shouldSort: false,
-    });
-</script>
+{{ encore_entry_script_tags('choicejs') }}
 {% endblock %}

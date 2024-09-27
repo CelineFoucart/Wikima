@@ -1,5 +1,9 @@
 {% extends 'admin_layout.html.twig' %}
 
+{% block stylesheets %}
+	{{ encore_entry_link_tags('sortable') }}
+{% endblock %}
+
 {% block title %}Liste des éléments de menu{% endblock %}
 {% block activeSetting %}active show{% endblock %}
 {% block activeMenu %} active {% endblock %}
@@ -37,7 +41,7 @@
                         <th data-orderable="false">Actions</th>
                     </tr>
                 </thead>
-                <tbody id="sortables">
+                <tbody id="sortables" data-sortable="sortable" data-route="{{ path('api_menu_item_sort') }}" data-reload="0">
                 {% for menu_item in menu_items %}
                     <tr class="handle" id="{{ menu_item.id }}">
                         <td data-label="Titre">
@@ -70,10 +74,5 @@
 {% block javascripts %}
 	{{ parent() }}
 	<script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
-	<script>
-		window.addEventListener('load', () => {
-			let url = "{{ path('api_menu_item_sort') }}";
-			sortable('#sortables', url);
-		});
-	</script>
+	{{ encore_entry_script_tags('sortable') }}
 {% endblock %}

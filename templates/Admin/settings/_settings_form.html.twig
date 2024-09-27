@@ -63,7 +63,7 @@
                             {{ form_label(form.SMTP_PASSWORD) }}
                             <div class="input-group mb-3">
                                 {{ form_widget(form.SMTP_PASSWORD) }}
-                                <span class="input-group-text" id="password-second" role="button" onclick="togglePassword('advanced_settings_SMTP_PASSWORD')">
+                                <span class="input-group-text" data-target="advanced_settings_SMTP_PASSWORD" id="password-second" data-password="password" role="button">
                                     <i class="fas fa-eye"></i>
                                 </span>
                             </div>

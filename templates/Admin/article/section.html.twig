@@ -1,5 +1,9 @@
 {% extends 'Admin/article/show.html.twig' %}
 
+{% block stylesheets %}
+	{{ encore_entry_link_tags('sortable') }}
+{% endblock %}
+
 {% block show_tab %}
 	<div class="row">
 		<div class="col-md-6 col-lg-8 mb-2">
@@ -72,7 +76,7 @@
 				{% else %}
 					<div class="card-body table-responsive p-0 {{ article.sections|length > 6 ? 'scroll-y' : '' }}">
 						<table class="table table-striped mb-0 table-section">
-							<tbody id="sections">
+							<tbody data-sortable="sortable" data-route="{{ path('api_article_section', {'id': article.id}) }}" data-reload="0">
 								{% for section in article.sections %}
 									<tr class="handle" id="{{ section.id }}">
 										<td>
@@ -105,11 +109,8 @@
 	<script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
 	<script src="{{ asset("assets/editor/editor.js") }}"></script>
 	<script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
+	{{ encore_entry_script_tags('sortable') }}
 	<script>
 		enableFullEditor("section_content", "Titre 1=h3; Titre 2=h4; Titre 3=h5; Titre 4=h6;");
-		window.addEventListener('load', () => {
-			let url = "{{ path('api_article_section', {'id': article.id}) }}";
-			sortable('#sections', url, false);
-		});
 	</script>
 {% endblock %}

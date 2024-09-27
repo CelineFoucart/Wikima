@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block stylesheets %}
+	{{ encore_entry_link_tags('choicejs') }}
     <link href="{{ asset('assets/plugins/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
     <style>
         .choices {
@@ -362,27 +363,10 @@
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-	<script src="{{ asset('assets/plugins/choicesjs/choices.min.js') }}"></script>
+	{{ encore_entry_script_tags('choicejs') }}
     <script src="{{ asset('assets/plugins/DataTables/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/DataTables/datatables.min.js') }}"></script>
 	<script>
-		elements = document.querySelectorAll('[data-choices]');
-		elements.forEach(element => {
-			const choices = new Choices(element, {
-				removeItems: true,
-				removeItemButton: true,
-				allowHTML: false,
-				noResultsText: 'Aucun résultat',
-				noChoicesText: 'Aucun élément à choisir',
-				itemSelectText: 'Cliquez pour choisir'
-			});
-		});
-
-		document.querySelectorAll('[name="search_terms"]').forEach(element => {
-			element.removeAttribute('name');
-		});
-
         $('.data-table').DataTable({
             language: {
                 url: '/assets/plugins/DataTables/i18n/fr-FR.json',

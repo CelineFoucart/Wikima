@@ -21,7 +21,11 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('base', './assets/base/base.js')
+    .addEntry('admin', './assets/admin/admin.js')
+    .addEntry('map', './assets/map/map.js')
+    .addEntry('choicejs', './assets/choicejs/choicejs.js')
     .addEntry('vue', './assets/vue/app.js')
+    .addEntry('sortable', './assets/sortable/sortableAction.js')
 
     // Alias
     .addAliases({

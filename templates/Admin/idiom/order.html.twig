@@ -18,7 +18,7 @@
                         <th>description</th>
                     </tr>
                 </thead>
-                <tbody class="article-sort">
+                <tbody class="article-sort" data-sortable="sortable" data-route="{{ path('api_idiom_article_order', {'id': idiom.id}) }}" data-reload="0">
                     {% for item in  navigation.articles|sort((a, b) => a.position <=> b.position) %}
                         <tr class="handle" id="{{ item.id }}">
                             <td data-label="Titre">
@@ -45,14 +45,5 @@
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
-    <script>
-        window.addEventListener('load', () => {
-            let url = "{{ path('api_idiom_article_order', {'id': idiom.id}) }}";
-            const elements = document.querySelectorAll('.article-sort');
-
-            elements.forEach(element => {
-                renderSortable(element, url);
-            });
-        });
-    </script>
+    {{ encore_entry_script_tags('sortable') }}
 {% endblock %}

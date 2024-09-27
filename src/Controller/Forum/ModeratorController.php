@@ -109,7 +109,13 @@ class ModeratorController extends AbstractController
     private function getAuthorForm(mixed $entity): FormInterface
     {
         return $this->createFormBuilder($entity)
-            ->add('author', EntityType::class, ['class' => User::class, 'required' => true])
+            ->add('author', EntityType::class, [
+                'class' => User::class, 
+                'required' => true,
+                'attr' => [
+                    'data-choices' => 'choices',
+                ],
+            ])
             ->getForm()
         ;
     }

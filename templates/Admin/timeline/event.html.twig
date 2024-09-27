@@ -1,5 +1,9 @@
 {% extends 'admin_layout.html.twig' %}
 
+{% block stylesheets %}
+	{{ encore_entry_link_tags('sortable') }}
+{% endblock %}
+
 {% block title %}Ajouter des événements à "{{ timeline.title }}"{% endblock %}
 
 {% block activeWiki %}active show{% endblock %}
@@ -25,12 +29,7 @@
 {% block javascripts %}
 	{{ parent() }}
 	<script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
-	<script>
-		window.onload = () => {
-			let url = "{{ path('api_timeline_event', {'id': timeline.id}) }}";
-			sortable('#events', url);
-		}
-	</script>
+	{{ encore_entry_script_tags('sortable') }}
 {% endblock %}
 
 {% block body %}
@@ -77,7 +76,7 @@
 						<p class="card-body">Aucun événement</p>
 					{% else %}
 						<table class="table table-section table-striped mb-0">
-							<tbody id="events">
+							<tbody id="events" data-sortable="sortable" data-route="{{ path('api_timeline_event', {'id': timeline.id}) }}" data-reload="0">
 								{% for event in timeline.events %}
 									<tr id="{{ event.id }}" class="handle">
 										<td>

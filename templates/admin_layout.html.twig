@@ -6,14 +6,10 @@
 		<title>
 			{% block title %}Administration{% endblock %}
 		</title>
-		<link href="{{ asset('assets/plugins/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
-		<link rel="stylesheet" href="{{ asset('assets/plugins/choicesjs/choices.min.css') }}"/>
-		<link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}"/>
+		{{ encore_entry_link_tags('admin') }}
 		<link href="{{ asset('assets/plugins/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
 		<script src="{{ asset('assets/plugins/DataTables/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
 		<script src="{{ asset('assets/plugins/DataTables/datatables.min.js') }}"></script>
-		<script src="{{ asset('assets/plugins/bootstrap/bootstrap.bundle.min.js') }}"></script>
-        <link rel="stylesheet" href="{{ asset('assets/admin/admin.css') }}">
 		{{ encore_entry_link_tags('vue') }}
 		{{ favicon() }}
 		{% block stylesheets %}{% endblock %}
@@ -320,9 +316,7 @@
 
 		<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
 		<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
-		<script src="{{ asset('assets/plugins/choicesjs/choices.min.js') }}"></script>
-		<script src="{{ asset('assets/plugins/fslightbox.js') }}"></script>
-		<script src="{{ asset('assets/admin/admin.js') }}"></script>
+		{{ encore_entry_script_tags('admin') }}
 		{{ encore_entry_script_tags('vue') }}
 		{% block javascripts %}{% endblock %}
 	</body>

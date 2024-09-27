@@ -1,6 +1,10 @@
 {% extends 'Admin/scenario/show_base.html.twig' %}
 
 {% block stylesheets %}
+	{{ encore_entry_link_tags('sortable') }}
+{% endblock %}
+
+{% block stylesheets %}
     <link rel="stylesheet" href="{{ asset('assets/plugins/colorpicker/coloris.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/color.css') }}">
     <style>
@@ -40,7 +44,7 @@
 </div>
 
 {# boucle card show #}
-<div class="row g-2" id="episodes">
+<div class="row g-2" id="episodes" data-sortable="sortable" data-route="{{ path('api_scenario_episodes', {'id': scenario.id}) }}" data-reload="1">
     {% for episode in scenario.episodes %}
         {% if episode.archived != true %}
             {% include "Admin/scenario/episode/_card.html.twig" with {episode: episode } %}
@@ -111,6 +115,7 @@
 	<script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
     <script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
     <script src="{{ asset("assets/editor/editor.js") }}"></script>
+    {{ encore_entry_script_tags('sortable') }}
     <script>
         Coloris({
             el: '.color-input',
@@ -131,12 +136,6 @@
         });
 
         Coloris.setInstance('.color-input', { theme: 'polaroid' });
-
-        window.addEventListener('load', () => {
-			let url = "{{ path('api_scenario_episodes', {'id': scenario.id}) }}";
-			sortable('#episodes', url, true);
-		});
-
         enableBasicEditor('[data-editor="editor"]');
     </script>
 {% endblock %}

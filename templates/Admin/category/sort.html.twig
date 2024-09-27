@@ -1,5 +1,9 @@
 {% extends 'admin_layout.html.twig' %}
 
+{% block stylesheets %}
+	{{ encore_entry_link_tags('sortable') }}
+{% endblock %}
+
 {% block title %}Ordonner les éléments de "{{ category }}"{% endblock %}
 
 {% block activeWiki %}active show{% endblock %}
@@ -38,7 +42,12 @@
                     <h2 class="card-title h5 mb-0">Portails</h2>
                 </div>
                 <div class="card-body">
-                    {{ include('Admin/components/_sortable_children.html.twig', {elements: category.portals, path:'app_portal_show', id: 'portals'}) }}
+                    {{ include('Admin/components/_sortable_children.html.twig', {
+                        elements: category.portals, 
+                        path:'app_portal_show', 
+                        id: 'portals', 
+                        sort: path('api_category_portal_order', {'id': category.id})
+                    }) }}
                 </div>
             </div>
         </div>
@@ -56,25 +65,20 @@
                     <h2 class="card-title h5 mb-0">Chronologies</h2>
                 </div>
                 <div class="card-body">
-                    {{ include('Admin/components/_sortable_children.html.twig', {elements: category.timelines, path:'app_timeline_show', id: 'timelines'}) }}
+                    {{ include('Admin/components/_sortable_children.html.twig', {
+                        elements: category.timelines, 
+                        path:'app_timeline_show', 
+                        id: 'timelines',
+                        sort: path('api_category_timeline_order', {'id': category.id})
+                    }) }}
                 </div>
             </div>
         </div>
     </div>
 {% endblock %}
 
-
 {% block javascripts %}
     {{ parent() }}
     <script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
-    <script>
-        window.addEventListener('load', () => {
-            let url = "{{ path('api_category_portal_order', {'id': category.id}) }}";
-            sortable('#portals', url);
-        });
-        window.addEventListener('load', () => {
-            let url = "{{ path('api_category_timeline_order', {'id': category.id}) }}";
-            sortable('#timelines', url);
-        });
-    </script>
+    {{ encore_entry_script_tags('sortable') }}
 {% endblock %}

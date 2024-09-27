@@ -1,5 +1,9 @@
 {% extends 'admin_layout.html.twig' %}
 
+{% block stylesheets %}
+	{{ encore_entry_link_tags('sortable') }}
+{% endblock %}
+
 {% block title %}Liste des catégories{% endblock %}
 
 {% block activeIdiom %}active show{% endblock %}
@@ -34,7 +38,7 @@
                         <th data-orderable="false">Actions</th>
                     </tr>
                 </thead>
-                <tbody id="sortables">
+                <tbody id="sortables" data-sortable="sortable" data-route="{{ path('api_idiom_category_sort') }}" data-reload="0">
                 {% for idiom_category in idiom_categories %}
                     <tr class="handle" id="{{ idiom_category.id }}">
                         <td data-label="Titre">
@@ -64,10 +68,5 @@
 {% block javascripts %}
 	{{ parent() }}
 	<script src="{{ asset('assets/plugins/sortable/Sortable.min.js') }}"></script>
-	<script>
-		window.addEventListener('load', () => {
-			let url = "{{ path('api_idiom_category_sort') }}";
-			sortable('#sortables', url);
-		});
-	</script>
+	{{ encore_entry_script_tags('sortable') }}
 {% endblock %}

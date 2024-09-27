@@ -11,9 +11,6 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="{% block description %}Bienvenue sur {{ app_name }} - {{ app_description }} {% endblock %}">
 		{{ favicon() }}
-		<link href="{{ asset('assets/plugins/bootstrap/bootstrap.min.css') }}" rel="stylesheet">
-		<link rel="stylesheet" href="{{ asset('assets/plugins/choicesjs/choices.min.css') }}">
-		<link rel="stylesheet" href="{{ asset('assets/plugins/fontawesome/css/all.min.css') }}">
 		{{ encore_entry_link_tags('base') }}
 		{% block stylesheets %}{% endblock %}
 	</head>
@@ -33,8 +30,6 @@
 
 			{{ include('includes/_footer.html.twig') }}
 		</div>
-		<script src="{{ asset('assets/plugins/bootstrap/bootstrap.bundle.min.js') }}"></script>
-		<script src="{{ asset('assets/plugins/fslightbox.js') }}"></script>
 		{{ encore_entry_script_tags('base') }}
 		{% block javascripts %}{% endblock %}
 	</body>

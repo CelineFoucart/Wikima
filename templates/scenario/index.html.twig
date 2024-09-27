@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+	{{ encore_entry_link_tags('choicejs') }}
+{% endblock %}
+
 {% block title %}Index des scénarios | {{ app_name }}{% endblock %}
 
 {% block body %}
@@ -53,24 +57,5 @@
 {% endblock %}
 
 {% block javascripts %}
-	{{ parent() }}
-
-	<script src="{{ asset('assets/plugins/choicesjs/choices.min.js') }}"></script>
-	<script>
-		const elements = document.querySelectorAll('[data-choices]');
-		elements.forEach(element => {
-			const choices = new Choices(element, {
-				removeItems: true,
-				removeItemButton: true,
-				allowHTML: false,
-				noResultsText: 'Aucun résultat',
-				noChoicesText: 'Aucun élément à choisir',
-				itemSelectText: 'Cliquez pour choisir'
-			});
-		});
-
-		document.querySelectorAll('[name="search_terms"]').forEach(element => {
-			element.removeAttribute('name');
-		});
-	</script>
+	{{ encore_entry_script_tags('choicejs') }}
 {% endblock %}
