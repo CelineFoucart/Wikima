@@ -1,8 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil | {{ app_name }}{% endblock %}
+{% block title %}Accueil de l'encyclopédie pour univers imaginaire {{ app_name }}{% endblock %}
 
 {% block body %}
+	<header class="d-flex align-items-center pt-5 px-4 pb-3 gap-4 bg-item header-home">
+		<img src="{{ asset('img/'~app_favicon) }}" alt="logo de l'application" class="logo-img">
+		<div>
+			<h1 class="mb-0 display-2 fw-normal">{{ app_name }}</h1>
+			<p class="lead">{{ app_description }}</p>
+		</div>
+	</header>
+	
 	<article class="mt-5">
 		<div class="row justify-content-between m-0">
 			<div class="col-lg-7 ps-0">

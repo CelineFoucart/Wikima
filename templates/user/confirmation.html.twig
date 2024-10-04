@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Renvoyer le mail de confirmation
-{% endblock %}
+{% block title %}Renvoyer le mail de confirmation{% endblock %}
 
 {% block body %}
 	<section class="m-5">
-		<h2 class="text-center fw-bold mx-3 h3 text-muted">Renvoyer le mail de confirmation</h2>
+		<h1 class="text-center fw-bold mx-3 h3 text-muted">Renvoyer le mail de confirmation</h1>
 		<p class="lead text-center">Voulez-vous vraiment renvoyer le mail de confirmation ?</p>
 
 		{% for message in app.flashes('success') %}

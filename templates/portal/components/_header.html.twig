@@ -137,6 +137,8 @@
 		</div>
 	</div>
 
+	<h1 class="text-center mb-4">{{ portal.title  }}</h1>
+
 	<div class="px-4">{% include "components/_flashes.html.twig" %}</div>
 
 	<nav class="tab-default mt-3">
@@ -169,7 +171,7 @@
 </header>
 
 {% if portal.banner %}
-	<img src="{{ vich_uploader_asset(portal) }}" class="img-fluid" alt="bannière de {{ portal.title }}">
+	<img src="{{ vich_uploader_asset(portal) }}" class="w-100" alt="bannière de {{ portal.title }}">
 {% endif %}
 
 <p class="text-end mb-4 mt-1">

@@ -56,8 +56,6 @@ final class CategoryController extends AbstractController
             'category' => $category,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
             'portals' => $portalRepository->findByCategory($category),
-            'title' => $category->getTitle(),
-            'description' => $category->getDescription(),
             'stickyPlaces' => $this->placeRepository->findSticky(null, $category->getId()),
             'stickyPersons' => $this->personRepository->findSticky(null, $category->getId()),
         ]);
@@ -87,8 +85,6 @@ final class CategoryController extends AbstractController
             'items' => $helper->formatArray($articles->getItems()),
             'types' => $types,
             'type' => $type,
-            'title' => $category->getTitle(),
-            'description' => $category->getDescription(),
         ]);
     }
 
@@ -115,8 +111,6 @@ final class CategoryController extends AbstractController
             'category' => $category,
             'images' => $imageRepository->findByCategory($category, $page, $perPageOdd, $typeId),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
-            'title' => $category->getTitle(),
-            'description' => $category->getDescription(),
             'types' => $types,
             'type' => $type,
             'route_name' => 'app_image_index',
@@ -149,8 +143,6 @@ final class CategoryController extends AbstractController
             'types' => $types,
             'type' => $type,
             'stickyElements' => $this->personRepository->findSticky(null, $category->getId()),
-            'title' => $category->getTitle(),
-            'description' => $category->getDescription(),
             'route_name' => 'app_person_index',
         ]);
     }
@@ -181,8 +173,6 @@ final class CategoryController extends AbstractController
             'types' => $types,
             'type' => $type,
             'stickyElements' => $this->placeRepository->findSticky(null, $category->getId()),
-            'title' => $category->getTitle(),
-            'description' => $category->getDescription(),
             'route_name' => 'app_place_index',
         ]);
     }
@@ -196,8 +186,6 @@ final class CategoryController extends AbstractController
             'category' => $category,
             'scenarios' => $scenarioRepository->findByParent($category->getPortals()->toArray(), $page, $perPageOdd, $this->isGranted('ROLE_ADMIN')),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
-            'title' => $category->getTitle(),
-            'description' => $category->getDescription(),
             'route_name' => 'app_scenario_index',
         ]);
     }
@@ -223,8 +211,6 @@ final class CategoryController extends AbstractController
         return $this->render('category/category_note.html.twig', [
             'category' => $category,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
-            'title' => $category->getTitle(),
-            'description' => $category->getDescription(),
             'noteForm' => $noteForm->createView(),
         ]);
     }

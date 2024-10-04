@@ -21,7 +21,7 @@
             </div>
         </header>
 
-		<h2 class="list-title text-center">Index des chronologies</h2>
+		<h1 class="list-title text-center">Index des chronologies</h1>
 		<p class="text-center text-muted fs-5 mb-5">Explorez l'ensemble des chronologies disponibles sur
 			{{ app_name }} ou filtrez-les.</p>
 
@@ -32,12 +32,12 @@
 			</aside>
 
 			<section class="col-md-8">
-				<h3 class="lead mb-2 mt-0 fs-4 mb-3">
+				<h2 class="lead mb-2 mt-0 fs-4 mb-3">
 					{% set current = timelines|length %}
 					Affichage de <span class="fw-bold">{{ current }}</span>
 					sur <span class="fw-bold">{{ timelines.getTotalItemCount }}</span>
 					chronologie{{ timelines.getTotalItemCount > 1 ? 's' : '' }}
-				</h3>
+				</h2>
 				<div class="row gy-3">
 					{% for timeline in timelines %}
 						<div class="col-md-6">

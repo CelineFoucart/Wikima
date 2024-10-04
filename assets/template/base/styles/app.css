@@ -52,14 +52,18 @@ a {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    z-index: 999;
+    position: relative;
+}
+
+@media (min-width: 576px) {
+    #content-page {
+        margin-top: -285px;
+    }
 }
 
 #content-main {
     flex: 1;
-}
-
-#main-footer {
-    background-color: rgb(245, 247, 250);
 }
 
 .text-default {

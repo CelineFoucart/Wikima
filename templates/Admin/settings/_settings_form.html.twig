@@ -14,6 +14,8 @@
                         Après avoir sauvegardé, si vous constatez que les modifications n'ont pas été prises en compte, 
                         videz le cache du navigateur.
                     </p>
+                    {{ form_errors(form) }}
+
                     {{ form_row(form.WIKI_NAME) }}
                     {{ form_row(form.WIKI_DESCRIPTION) }}
                     <div class="mb-3">
@@ -22,7 +24,7 @@
                         {{ form_help(form.bannerFile) }}
                         {% if bannerFile %}
                             {% set path = asset('img/'~bannerFile) %}
-                            <img src="{{ path }}" alt="Favicon" class="img-fluid mt-1" data-bs-toggle="tooltip" title="{{bannerFile}}">    
+                            <img src="{{ path }}" alt="Bannière" class="img-fluid mt-1" data-bs-toggle="tooltip" title="{{bannerFile}}">    
                             <p><a href="{{ path }}" download>Télécharger</a></p>
                         {% endif %}
                         {{ form_errors(form.bannerFile) }}

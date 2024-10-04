@@ -60,7 +60,7 @@
 			{{ include('components/utils/_tag_link.html.twig', {item: portal, path: 'app_portal_show', position: "bottom"}) }}
 		{% endfor %}
 	</p>
-	<h2 class="h1">
+	<h1 class="mb-3">
 		{{ article.title }}
 		{% if article.isDraft %}
 			<i class="fas fa-ruler" data-bs-toggle="tooltip" title="Brouillon : article en travaux (visible uniquement par son auteur et les administrateurs)"></i>
@@ -71,7 +71,7 @@
 		{% if article.isArchived %}
 			<i class="fas fa-archive me-1 fa-fw" data-bs-toggle="tooltip" aria-hidden="true" title="archivé"></i>
 		{% endif %}
-	</h2>
+	</h1>
 	{% if article.type %}
 		<div>
 			<a href="{{ path('app_articletype_show', {slug: article.type.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none me-1">

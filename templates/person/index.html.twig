@@ -23,9 +23,9 @@
                 </nav>
             </div>
         </header>
-		<h2 class="text-center list-title">
+		<h1 class="text-center list-title">
 			Index des personnages
-		</h2>
+		</h1>
 		<p class="text-center text-muted fs-5 mb-5">
 			Ici, vous pouvez voir l'ensemble des personages de
 			{{ app_name }} ou les filtrer.
@@ -37,12 +37,12 @@
 			</aside>
 
 			<section class="col-md-8">
-				<h3 class="lead mb-2 mt-0 fs-4 mb-3">
+				<h2 class="lead mb-2 mt-0 fs-4 mb-3">
 					{% set current = persons|length %}
 					Affichage de <span class="fw-bold">{{ current }}</span>
 					sur <span class="fw-bold">{{ persons.getTotalItemCount }}</span>
 					personnage{{ persons.getTotalItemCount > 1 ? 's' : '' }}
-				</h3>
+				</h2>
 				<div class="row">
 					{% for person in persons %}
 						<div class="col-md-6 my-2">

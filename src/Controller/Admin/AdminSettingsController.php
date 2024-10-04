@@ -38,6 +38,8 @@ class AdminSettingsController extends AbstractController
                 }
             }
 
+            
+
             if ($data['bannerFile'] && $data['bannerFile']) {
                 /** @var UploadedFile */
                 $file = $data['bannerFile'];

@@ -6,10 +6,10 @@
 
 {% block body %}
 	<article class="my-5 container-fluid">
-		<h2 class="list-title">
+		<h1 class="list-title mb-5">
 			Consulter les articles de
 			{{ user.username }}
-		</h2>
+		</h1>
 		{% set plural = articles.getTotalItemCount > 1 ? 's' : '' %}
 		<p class="mb-4 p-2">
 			{% set current = articles|length %}

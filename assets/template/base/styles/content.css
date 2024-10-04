@@ -1,3 +1,12 @@
+.header-home {
+    background: linear-gradient(to bottom, rgba(48, 135, 201, .2), #fff);
+    min-height: 220px;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
 .list-title {
     text-align: center;
     padding: 2rem 0 1rem;

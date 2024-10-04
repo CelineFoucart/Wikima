@@ -65,8 +65,6 @@ final class HomeController extends AbstractController
 
         return $this->render('home/page.html.twig', [
             'page' => $page,
-            'title' => $page->getTitle(),
-            'description' => $page->getDescription(),
         ]);
     }
 

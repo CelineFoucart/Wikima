@@ -3,9 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}L'encyclopédie
-				{{ app_name }}
-			{% endblock %}
+			{% block title %}L'encyclopédie{{ app_name }}{% endblock %}
 		</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,21 +13,16 @@
 		{% block stylesheets %}{% endblock %}
 	</head>
 	<body style="background-color: {{ background_color }}">
-		<div id="content-page" class="container shadow my-3 p-0 rounded-3">
-			<header class="index-header rounded-top d-print-none" {{ banner() }}>
-				{{ include('includes/_navbar.html.twig') }}
-				<div class="heading">
-					<h1 class="heading-title">{% block heading_title %}{{ title|default(app_name) }}{% endblock %}</h1>
-					<p class="lead text-center">{% block heading_description %} {{ description|default(app_description) }}{% endblock %}</p>
-				</div>
-			</header>
-
+		<div class="index-header d-print-none" {{ banner() }}>
+			{{ include('includes/_navbar.html.twig') }}
+		</div>
+		<div id="content-page" class="container shadow mb-3 p-0 rounded-3">
 			<main id="content-main" class="p-0 bg-main border-item"> 
 				{% block body %}{% endblock %}
 			</main>
-
-			{{ include('includes/_footer.html.twig') }}
 		</div>
+		{{ include('includes/_footer.html.twig') }}
+
 		{{ encore_entry_script_tags('base') }}
 		{% block javascripts %}{% endblock %}
 	</body>

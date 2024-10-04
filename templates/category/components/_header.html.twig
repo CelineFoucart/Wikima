@@ -98,6 +98,7 @@
 			{% endif %}
 		</div>
 	</div>
+	<h1 class="text-center mb-4">{{ category.title  }}</h1>
 	<nav class="tab-default mt-3">
 		<div class="item {{ portals ? 'active': '' }}">
 			<a href="{{ path('app_category_show', {slug:category.slug}) }}" data-bs-toggle="tooltip" title="Catégorie">
@@ -133,7 +134,7 @@
 </div>
 <div>
 	{% if category.banner %}
-		<img src="{{ vich_uploader_asset(category) }}" class="img-fluid" alt="bannière de {{ category.title }}">
+		<img src="{{ vich_uploader_asset(category) }}" class="w-100" alt="bannière de {{ category.title }}">
 	{% endif %}
 
 	{% if category.pages is not empty %}

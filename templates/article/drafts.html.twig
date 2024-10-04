@@ -5,7 +5,7 @@
 
 {% block body %}
 	<article class="my-5 container-fluid">
-		<h2 class="list-title">Brouillons d'article</h2>
+		<h1 class="list-title mb-5">Brouillons d'article</h1>
 		{% set plural = drafts.getTotalItemCount > 1 ? 's' : '' %}
 		<p class="mb-4 p-2">Vous avez actuellement
 			<span class="fw-bold">{{ drafts.getTotalItemCount }}</span>

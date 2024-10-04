@@ -19,8 +19,8 @@
 			</nav>
 		</div>
 		<header class="text-center">
-			<h2 class="list-title">Galerie d'image de {{ app_name }}</h2>
-			<p class="text-center text-muted fs-5 mb-4">Explorez les images chargées sur {{ app_name }} ou filtrez-les.</p>
+			<h1 class="list-title">Galerie d'image de {{ app_name }}</h1>
+			<p class="text-center text-muted fs-5 mb-5">Explorez les images chargées sur {{ app_name }} ou filtrez-les.</p>
 		</header>
 
 		<div class="row justify-content-between my-5">
@@ -29,13 +29,13 @@
 			</aside>
 
 			<section class="col-md-8">
-				<h3 class="lead mb-2 mt-0 fs-4 mb-3">
+				<h2 class="lead mb-2 mt-0 fs-4 mb-3">
 					{% set current = images|length %}
 					{% set plural = images.getTotalItemCount > 1 ? 's' : '' %}
 					Affichage de <span class="fw-bold">{{ current }}</span>
 					sur <span class="fw-bold">{{ images.getTotalItemCount }}</span>
 					image{{ plural }}
-				</h3>
+				</h2>
 				{% include "image/components/_not_paginated_list.html.twig" %}
 
 				<div class="navigation">

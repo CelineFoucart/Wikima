@@ -17,7 +17,7 @@
             </div>
         </header>
 
-        <h2 class="list-title mb-5">Messagerie privée</h2>
+        <h1 class="list-title mb-5">Messagerie privée</h1>
         {% for message in app.flashes('success') %}
 			<div class="alert alert-success alert-dismissible" role="alert">
                 {{ message }}
@@ -47,7 +47,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title h5 mb-0">{% block tab_title %}{% endblock %}</h3>
+                <h2 class="card-title h5 mb-0">{% block tab_title %}{% endblock %}</h2>
             </div>
             <div class="card-body p-0">
                 {% block content_tab %}{% endblock %}

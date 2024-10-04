@@ -1,3 +1,8 @@
+/* header */
+.logo-img {
+    width: 150px;
+}
+
 /* overview styles */
 .overview__title {
     background-color: var(--secondary);

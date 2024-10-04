@@ -31,13 +31,12 @@
 		</div>
 
         <header>
-			<h2 class="h2 mb-2">
+			<h1 class="text-center mb-5"> Rechercher dans {{ app_name }}</h1>
+            <p class="lead">
                 {% if search is not null or search|length > 0  %}
-                    Résultats pour la recherche : {{ search }}
-                {% else %}
-                    Rechercher dans {{ app_name }}
+                    Résultats pour la recherche : &laquo;&nbsp;<strong>{{ search }}</strong>&nbsp;&raquo;
                 {% endif %}
-            </h2>
+            </p>
 		</header>
 
         <aside class="bg-light p-3 pb-0 rounded-3 mb-3">

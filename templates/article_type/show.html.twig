@@ -2,8 +2,6 @@
 
 {% block title %}{{ type }} | Type d'article{% endblock %}
 
-{% set heading_title = type.icon ? "<i class='"~ type.icon ~" me-3' aria-hidden='true'></i>"~type.title : type.title %}
-
 {% block body %}
     <section class="mb-4 container-fluid">
         <div class="row border-bottom align-items-center py-3 bg-default-light">
@@ -30,10 +28,10 @@
             </div>
         {% endif %}
 
-        <h2 class="h1 text-center my-4">
+        <h1 class="h1 text-center mt-3 mb-5">
             {% if type.icon %}<i class="{{ type.icon }}" aria-hidden="true"></i>{% endif %}
             {{ type }}
-        </h2>
+        </h1>
         <p class="text-muted fs-5 mb-5">
             {{ type.description|nl2br }}
         </p>

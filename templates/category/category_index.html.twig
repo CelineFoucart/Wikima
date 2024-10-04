@@ -18,7 +18,7 @@
             </div>
         </header>
 
-		<h2 class="list-title">Les catégories</h2>
+		<h1 class="list-title">Les catégories</h1>
 		<p class="text-center text-muted fs-5 mb-5">L'encyclopédie de <strong>{{ app_name }}</strong> regroupe les catégories suivantes :</p>
 
 		<div class="row">
@@ -29,11 +29,11 @@
 							<img src="{{ vich_uploader_asset(category) }}" class="card-img-top" alt="bannière de {{ category.title }}">
 						{% endif %}
 						<div class="card-body">
-							<h3 class="card-title h5">
+							<h2 class="card-title h5">
 								<a href="{{ path('app_category_show', {slug: category.slug}) }}" class="text-decoration-none">
 									{{ category.title }}
 								</a>
-							</h3>
+							</h2>
 							<p class="card-text text-muted">{{ category.description }}</p>
 						</div>
 						{% if category.portals is not empty %}

@@ -67,8 +67,6 @@ final class PortalController extends AbstractController
             'stickyPlaces' => $this->placeRepository->findSticky($portal->getId()),
             'types' => $types,
             'type' => $type,
-            'title' => $portal->getTitle(),
-            'description' => $portal->getDescription(),
         ]);
     }
 
@@ -108,8 +106,6 @@ final class PortalController extends AbstractController
             'images' => $imageRepository->findByPortal($portal, $page, $perPageOdd, $typeId),
             'portal' => $portal,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
-            'title' => $portal->getTitle(),
-            'description' => $portal->getDescription(),
             'types' => $types,
             'type' => $type,
             'route_name' => 'app_image_index',
@@ -142,8 +138,6 @@ final class PortalController extends AbstractController
             'types' => $types,
             'type' => $type,
             'stickyElements' => $this->personRepository->findSticky($portal->getId()),
-            'title' => $portal->getTitle(),
-            'description' => $portal->getDescription(),
             'route_name' => 'app_person_index',
         ]);
     }
@@ -174,8 +168,6 @@ final class PortalController extends AbstractController
             'types' => $types,
             'type' => $type,
             'stickyElements' => $this->placeRepository->findSticky($portal->getId()),
-            'title' => $portal->getTitle(),
-            'description' => $portal->getDescription(),
             'route_name' => 'app_place_index',
         ]);
     }
@@ -189,8 +181,6 @@ final class PortalController extends AbstractController
             'portal' => $portal,
             'scenarios' => $repository->findByParent([$portal], $page, $perPageOdd, $this->isGranted('ROLE_ADMIN')),
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
-            'title' => $portal->getTitle(),
-            'description' => $portal->getDescription(),
             'route_name' => 'app_scenario_index',
         ]);
     }
@@ -214,8 +204,6 @@ final class PortalController extends AbstractController
         return $this->render('portal/note_portal.html.twig', [
             'portal' => $portal,
             'form' => $this->createForm(SearchType::class, new SearchData())->createView(),
-            'title' => $portal->getTitle(),
-            'description' => $portal->getDescription(),
             'noteForm' => $noteForm->createView(),
         ]);
     }

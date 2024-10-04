@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -62,7 +63,7 @@ class AdvancedSettingsType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new Image([
-                        'maxWidth' => 2000,
+                        'maxWidth' => 5000,
                         'minHeight' => 400,
                         'mimeTypes' => [
                             'image/png',
@@ -70,7 +71,7 @@ class AdvancedSettingsType extends AbstractType
                         ],
                     ]),
                 ],
-                'help' => 'La bannière doit faire au maximum 2000 pixels de large et au minimum 400 pixels de hauteur avec une extension en png.',
+                'help' => 'La bannière doit faire au maximum 5000 pixels de large et au minimum 400 pixels de hauteur avec une extension en png ou jpg.',
             ])
             ->add('BACKGROUND_COLOR', TextType::class, [
                 'label' => "Couleur de l'arrière plan du site",
