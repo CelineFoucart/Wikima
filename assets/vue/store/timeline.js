@@ -18,8 +18,15 @@ export const useTimelineStore = defineStore('timeline', {
             }
         },
 
-        async sortTimelineEvents() {
-            
+        async sortTimelineEvent(eventId, position) {
+            try {
+                const url = Routing.generate("api_timeline_event_position", {id: this.timeline.id, eventId: eventId});
+                const response = await axios.put(url, { position: position });
+                this.timeline = response.data;
+                return true;
+            } catch (error) {
+                return false;
+            }
         },
 
         async addEvent(data) {

@@ -102,6 +102,25 @@ class Event
         return $this;
     }
 
+    public function getPosition(): ?int
+    {
+        return $this->timelineOrder;
+    }
+
+    /**
+     * Rentre l'élément compatible avec reorder et les autres entités sortable.
+     * 
+     * @param int|null $position
+     * 
+     * @return self
+     */
+    public function setPosition(?int $position): self
+    {
+        $this->timelineOrder = $position;
+
+        return $this;
+    }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;

@@ -9,7 +9,10 @@
                     <i class="fas fa-trash-alt" aria-hidden="true"></i>
                 </button>
             </div>
-            <h4 class="h6">{{ event.title }}</h4>
+            <h4 class="h6">
+                <span class="handle"><i class="fa-solid fa-fw fa-arrows-up-down-left-right"></i></span>
+                {{ event.title }}
+            </h4>
             <p>{{ event.duration }}</p>
             <div v-if="event.presentation !== null">{{ truncate(event.presentation) }}</div>
         </div>

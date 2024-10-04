@@ -96,8 +96,8 @@
                 </template>
                 <template #title>Evénements</template>
                 <template #content>
-                    <div class="row g-3">
-                        <div class="col-md-4" v-for="event in timelineStore.timeline.events" :key="event.id">
+                    <div class="row g-3 sortable-list">
+                        <div class="col-md-4" v-for="event in timelineStore.timeline.events" :key="event.id" :data-id="event.id">
                             <event-card :event="event" />
                         </div>
                     </div>
@@ -119,6 +119,7 @@ import EventModal from '@components/admin/timeline/EventModal.vue';
 import Loading from '@components/fragments/Loading.vue';
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
+import Sortable from 'sortablejs';
 
 dayjs.locale('fr');
 
@@ -154,6 +155,25 @@ export default {
         if (!status) {
             createToastify("Cet élément n'existe pas.", 'error');
         } 
+
+        const sortList = document.querySelector('.sortable-list');
+        new Sortable(sortList, {
+            handle: '.handle',
+            group: 'shared',
+            ghostClass: 'blue-background-card',
+            animation: 150,
+            onEnd: async (evt) => {
+                this.loading = true;
+                const event = evt.item.dataset.id;
+                const position = evt.newIndex;
+                const status = await this.timelineStore.sortTimelineEvent(event, position);
+                if (!status) {
+                    createToastify("L'opération a échoué.", "error")
+                }
+                this.loading = false;
+            },
+        });
+
         this.loading = false;
     },
 

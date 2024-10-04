@@ -8,6 +8,8 @@ use App\Entity\Event;
 use App\Entity\Timeline;
 use App\Form\Admin\TimelineEventType;
 use App\Repository\EventRepository;
+use App\Service\ReorderService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +23,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
 final class TimelineController extends AbstractController
 {
+    public function __construct(private EntityManagerInterface $entityManager)
+    {
+        
+    }
+
     #[Route('/{id}', name: 'api_timeline_show', methods:['GET'])]
     public function showAction(Timeline $timeline): JsonResponse
     {
@@ -28,7 +35,7 @@ final class TimelineController extends AbstractController
     }
 
     #[Route('/{id}/events', name: 'api_timeline_event_add', methods:['POST'])]
-    public function appendEventAction(Timeline $timeline, Request $request, EventRepository $eventRepository): JsonResponse
+    public function appendEventAction(Timeline $timeline, Request $request): JsonResponse
     {
         $event = new Event();
         $event->setTimeline($timeline);
@@ -47,19 +54,17 @@ final class TimelineController extends AbstractController
             $timelineOrder = 0;
         }
         $event->setTimelineOrder($timelineOrder);
-        $eventRepository->add($event, true);
+
+        $this->entityManager->persist($event);
+        $this->entityManager->flush();
         $timeline->addEvent($event);
 
         return $this->json($timeline, Response::HTTP_CREATED, [], ['groups' => 'timeline-admin']);
     }
 
     #[Route('/{id}/events/{eventId}', name: 'api_timeline_event_edit', methods:['PUT'])]
-    public function editEventAction(
-        #[MapEntity(id: 'id')] Timeline $timeline, 
-        #[MapEntity(id: 'eventId')] Event $event,
-        Request $request, 
-        EventRepository $eventRepository
-    ): JsonResponse {
+    public function editEventAction(#[MapEntity(id: 'id')] Timeline $timeline, #[MapEntity(id: 'eventId')] Event $event, Request $request): JsonResponse
+    {
         if ($event->getTimeline()->getId() !== $timeline->getId()) {
             return $this->json("Invalid data", Response::HTTP_BAD_REQUEST);
         }
@@ -72,7 +77,27 @@ final class TimelineController extends AbstractController
         }
 
         $event->setUpdatedAt(new \DateTime());
-        $eventRepository->add($event, true);
+        $this->entityManager->persist($event);
+        $this->entityManager->flush();
+
+        return $this->json($timeline, Response::HTTP_OK, [], ['groups' => 'timeline-admin']);
+    }
+
+    #[Route('/{id}/events/{eventId}/position', name: 'api_timeline_event_position', methods:['PUT'])]
+    public function sortEventAction(
+        #[MapEntity(id: 'id')] Timeline $timeline, 
+        #[MapEntity(id: 'eventId')] Event $event,
+        ReorderService $reorderService,
+        Request $request
+    ): JsonResponse {
+        if ($event->getTimeline()->getId() !== $timeline->getId()) {
+            return $this->json("Invalid data", Response::HTTP_BAD_REQUEST);
+        }
+        
+        $data = json_decode($request->getContent(), true);
+        $position = (isset($data['position'])) ? $data['position'] : $timeline->getEvents()->count();
+        $reorderService->setElements($timeline->getEvents()->toArray())->insertToNewPosition($event->getId(), $position);
+        $this->entityManager->refresh($timeline);
 
         return $this->json($timeline, Response::HTTP_OK, [], ['groups' => 'timeline-admin']);
     }
