@@ -23,3 +23,7 @@
 {% block body %}
 	{% include "Admin/page/_form.html.twig" %}
 {% endblock %}
+
+{% block javascripts %}
+{{ encore_entry_script_tags('editor') }}
+{% endblock %}

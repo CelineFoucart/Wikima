@@ -15,6 +15,9 @@ class CommentFormType extends AbstractType
         $builder
             ->add('content', TextareaType::class, [
                 'label' => 'Comment',
+                'attr' => [
+                    'data-basiceditor' => 'basic',
+                ],
             ])
             ->add('author', null, [
                 'attr' => [

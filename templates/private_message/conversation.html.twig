@@ -1,13 +1,14 @@
 {% extends 'private_message/base.html.twig' %}
 
+
 {% block stylesheets %}
-    <style>
-        .container-conversation {
-            max-height: 500px;
-            overflow-y: scroll;
-            padding: 1rem;
-        }
-    </style>
+<style>
+    .container-conversation {
+        max-height: 500px;
+        overflow-y: scroll;
+        padding: 1rem;
+    }
+</style>
 {% endblock %}
 
 {% block title %}Conversation avec {{ addressee.username }} | {{ parent() }} {% endblock %}
@@ -47,9 +48,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
-    <script src="{{ asset("assets/editor/editor.js") }}"></script>
-    <script>
-        enableBasicEditor("#private_message_content");
-    </script>
+    {{ encore_entry_script_tags('editor') }}
 {% endblock %}

@@ -21,7 +21,11 @@ class IdiomArticleType extends AbstractType
             ->add('title', TextType::class)
             ->add('slug', TextType::class)
             ->add('description', TextareaType::class)
-            ->add('content', TextareaType::class)
+            ->add('content', TextareaType::class, [
+                'attr' => [
+                    'data-fulleditor' => 'Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;',
+                ],
+            ])
             ->add('category', EntityType::class, [
                 'class' => IdiomCategory::class,
                 'choice_label' => 'title',

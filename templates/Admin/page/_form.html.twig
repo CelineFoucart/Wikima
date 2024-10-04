@@ -56,12 +56,3 @@
         {% include "Admin/components/_form_btns.html.twig" %}
     </div>
 {{ form_end(form) }}
-
-<script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
-<script src="{{ asset("assets/editor/editor.js") }}"></script>
-<script>   
-    const headings = "Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;";
-    const withScript = true;
-
-    enableFullEditor("page_form_content", headings, withScript);
-</script>

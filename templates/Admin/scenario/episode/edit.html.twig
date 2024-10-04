@@ -1,7 +1,7 @@
 {% extends 'Admin/scenario/show_base.html.twig' %}
 
 {% block stylesheets %}
-    {{ encore_entry_link_tags('coloris') }}
+{{ encore_entry_link_tags('coloris') }}
 {% endblock %}
 
 {% block content %}
@@ -10,9 +10,5 @@
 
 {% block javascripts %}
     {{ encore_entry_script_tags('coloris') }}
-    <script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
-    <script src="{{ asset("assets/editor/editor.js") }}"></script>
-    <script>
-        enableBasicEditor("#episode_content");
-    </script>
+    {{ encore_entry_script_tags('editor') }}
 {% endblock %}

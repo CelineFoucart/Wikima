@@ -103,11 +103,7 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags('coloris') }}
-    <script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
-    <script src="{{ asset("assets/editor/editor.js") }}"></script>
     {{ encore_entry_script_tags('sortable') }}
-    <script>
-        enableBasicEditor('[data-editor="editor"]');
-    </script>
+	{{ encore_entry_script_tags('editor') }}
 {% endblock %}
 

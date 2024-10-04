@@ -12,3 +12,7 @@
 {% block body %}
     {{ include('Admin/template/_form.html.twig') }}
 {% endblock %}
+
+{% block javascripts %}
+{{ encore_entry_script_tags('editor') }}
+{% endblock %}

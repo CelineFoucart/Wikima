@@ -32,7 +32,7 @@ class EpisodeType extends AbstractType
             ->add('content', TextareaType::class, [
                 'required' => false,
                 'attr' => [
-                    'data-editor' => 'editor',
+                    'data-basiceditor' => 'basic',
                 ],
             ])
             ->add('places', EntityType::class, [

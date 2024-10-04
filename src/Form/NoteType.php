@@ -16,6 +16,9 @@ class NoteType extends AbstractType
             ->add('title')
             ->add('message', TextareaType::class, [
                 'required' => false,
+                'attr' => [
+                    'data-basiceditor' => 'basic',
+                ],
             ])
         ;
     }

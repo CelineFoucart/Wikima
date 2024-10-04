@@ -22,7 +22,11 @@ class CategoryFormType extends AbstractType
             ->add('description', TextareaType::class, [
                 'help' => 'help_description',
             ])
-            ->add('presentation', TextareaType::class)
+            ->add('presentation', TextareaType::class, [
+                'attr' => [
+                    'data-fulleditor' => 'Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;',
+                ],
+            ])
             ->add('imageBanner', VichImageType::class, [
                 'constraints' => [
                     new Image([

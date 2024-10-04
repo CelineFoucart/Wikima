@@ -32,7 +32,11 @@ class PortalFormType extends AbstractType
                     'data-choices' => 'choices',
                 ],
             ])
-            ->add('presentation', TextareaType::class)
+            ->add('presentation', TextareaType::class, [
+                'attr' => [
+                    'data-fulleditor' => 'Titre 1=h3; Titre 2=h4; Titre 3=h5; Titre 4=h6;',
+                ],
+            ])
             ->add('imageBanner', VichImageType::class, [
                 'constraints' => [
                     new Image([

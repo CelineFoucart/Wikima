@@ -17,7 +17,11 @@ class PrivateMessageType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('content', TextareaType::class)
+            ->add('content', TextareaType::class, [
+                'attr' => [
+                    'data-basiceditor' => 'basic',
+                ],
+            ])
             ->add('addressee', EntityType::class, [
                 'class' => User::class,
                 'choice_label' => 'username',

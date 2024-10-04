@@ -1,10 +1,8 @@
 {% extends 'admin_layout.html.twig' %}
 
 {% block title %}Créer un article{% endblock %}
-
 {% block activeWiki %}active show{% endblock %}
 {% block activeArticle %}active{% endblock %}
-
 {% block page_title %}Créer un article{% endblock %}
 
 {% block breadcrumb %}
@@ -24,4 +22,8 @@
 
 {% block body %}
 	{% include "Admin/article/_form.html.twig" %}
+{% endblock %}
+
+{% block javascripts %}
+{{ encore_entry_script_tags('editor') }}
 {% endblock %}

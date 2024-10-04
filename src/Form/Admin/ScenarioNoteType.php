@@ -14,6 +14,9 @@ final class ScenarioNoteType extends AbstractType
     {
         $builder->add('notes', TextareaType::class, [
             'required' => false,
+            'attr' => [
+                'data-fulleditor' => 'Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;',
+            ],
         ]);
     }
 

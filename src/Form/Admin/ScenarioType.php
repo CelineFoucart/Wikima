@@ -40,6 +40,9 @@ class ScenarioType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
+                'attr' => [
+                    'data-basiceditor' => 'basic',
+                ],
             ])
             ->add('categories', EntityType::class, [
                 'class' => ScenarioCategory::class,

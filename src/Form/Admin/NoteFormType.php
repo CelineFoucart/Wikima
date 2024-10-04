@@ -19,6 +19,9 @@ class NoteFormType extends AbstractType
             ->add('title')
             ->add('message', TextareaType::class, [
                 'required' => false,
+                'attr' => [
+                    'data-basiceditor' => 'basic',
+                ],
             ])
             ->add('portal', EntityType::class, [
                 'class' => Portal::class,

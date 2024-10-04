@@ -29,6 +29,9 @@ class ImageGroupFormType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
+                'attr' => [
+                    'data-basiceditor' => 'basic',
+                ],
             ])
         ;
     }

@@ -9,7 +9,7 @@
 {% endblock %}
 
 {% block stylesheets %}
-	<link href="{{ asset('assets/plugins/DataTables/datatables.min.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ asset('assets/plugins/DataTables/datatables.min.css') }}" rel="stylesheet">
 {% endblock %}
 
 {% block body %}
@@ -29,10 +29,8 @@
 {% block javascripts %}
 <script src="{{ asset('assets/plugins/DataTables/jQuery-3.6.0/jquery-3.6.0.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/DataTables/datatables.min.js') }}"></script>
-<script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
-<script src="{{ asset("assets/editor/editor.js") }}"></script>
+{{ encore_entry_script_tags('editor') }}
 <script>
-    enableBasicEditor("#note_message");
     $('#tableIndex').DataTable({
         language: {
             url: '/assets/plugins/DataTables/i18n/fr-FR.json',

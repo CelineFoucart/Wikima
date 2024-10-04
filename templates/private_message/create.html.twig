@@ -1,7 +1,7 @@
 {% extends 'private_message/base.html.twig' %}
 
 {% block stylesheets %}
-	{{ encore_entry_link_tags('choicejs') }}
+{{ encore_entry_link_tags('choicejs') }}
 {% endblock %}
 
 {% block title %}Nouveau message privé |  {{ parent() }} {% endblock %}
@@ -25,9 +25,5 @@
 
 {% block javascripts %}
     {{ encore_entry_script_tags('choicejs') }}
-    <script src="{{ asset("assets/plugins/tinymce/tinymce.min.js") }}"></script>
-    <script src="{{ asset("assets/editor/editor.js") }}"></script>
-    <script>   
-        enableBasicEditor("#private_message_content");
-    </script>
+    {{ encore_entry_script_tags('editor') }}
 {% endblock %}

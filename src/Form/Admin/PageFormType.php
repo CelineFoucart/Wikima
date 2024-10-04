@@ -24,6 +24,10 @@ class PageFormType extends AbstractType
             ])
             ->add('content', TextareaType::class, [
                 'help' => "Attention, cet éditeur autorise les balises scripts. Ne donnez accès à cette page qu'aux utilisateurs de confiance.",
+                'attr' => [
+                    'data-fulleditor' => 'Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;',
+                    'data-advanced' => 'advanced'
+                ],
             ])
             ->add('portals', EntityType::class, [
                 'class' => Portal::class,

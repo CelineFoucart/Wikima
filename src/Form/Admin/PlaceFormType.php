@@ -31,12 +31,21 @@ class PlaceFormType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
+                'attr' => [
+                    'data-fulleditor' => 'Titre 1=h3; Titre 2=h4; Titre 3=h5; Titre 4=h6;',
+                ],
             ])
             ->add('presentation', TextareaType::class, [
                 'required' => false,
+                'attr' => [
+                    'data-fulleditor' => 'Titre 1=h3; Titre 2=h4; Titre 3=h5; Titre 4=h6;',
+                ],
             ])
             ->add('history', TextareaType::class, [
                 'required' => false,
+                'attr' => [
+                    'data-fulleditor' => 'Titre 1=h3; Titre 2=h4; Titre 3=h5; Titre 4=h6;',
+                ],
             ])
             ->add('dominatedBy', TextType::class, [
                 'required' => false,

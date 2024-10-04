@@ -40,9 +40,23 @@ class PersonFormType extends AbstractType
                 'attr' => ['style' => 'height: 73px'],
                 'help' => 'help_description',
             ])
-            ->add('presentation', TextareaType::class)
-            ->add('biography', TextareaType::class, ['required' => false])
-            ->add('personality', TextareaType::class, ['required' => false])
+            ->add('presentation', TextareaType::class, [
+                'attr' => [
+                    'data-fulleditor' => 'Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;',
+                ],
+            ])
+            ->add('biography', TextareaType::class, [
+                'required' => false,
+                'attr' => [
+                    'data-fulleditor' => 'Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;',
+                ],
+            ])
+            ->add('personality', TextareaType::class, [
+                'required' => false,
+                'attr' => [
+                    'data-fulleditor' => 'Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;',
+                ],
+            ])
             ->add('isSticky', null, ['required' => false])
             ->add('children', TextType::class, ['required' => false])
             ->add('siblings', TextType::class, ['required' => false])
@@ -84,6 +98,9 @@ class PersonFormType extends AbstractType
             ->add('comment', TextareaType::class, [
                 'required' => false,
                 'help' => "Ce champ permet d'ajouter des informations complémentaires, comme des statistiques pour personnage de jeu de rôle",
+                'attr' => [
+                    'data-fulleditor' => 'Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;',
+                ],
             ])
         ;
     }

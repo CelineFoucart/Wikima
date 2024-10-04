@@ -20,7 +20,11 @@ class TemplateType extends AbstractType
             ->add('description', TextareaType::class, [
                 'required' => false,
             ])
-            ->add('content', TextareaType::class)
+            ->add('content', TextareaType::class, [
+                'attr' => [
+                    'data-fulleditor' => 'Titre 1=h2; Titre 2=h3; Titre 3=h4; Titre 4=h5; Titre 5=h6;',
+                ],
+            ])
             ->add('templateGroups', EntityType::class, [
                 'class' => TemplateGroup::class,
                 'choice_label' => 'title',

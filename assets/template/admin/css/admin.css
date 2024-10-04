@@ -809,3 +809,16 @@ blockquote {
 .dropdown-menu {
     z-index: 9999;
 }
+
+table[border]:not([border="0"]):not([style*="border-width"]) th,
+table[border]:not([border="0"]):not([style*="border-width"]) td {
+    border-width: 1px;
+}
+
+table[border]:not([border="0"]):not([style*=border-color]) td,table[border]:not([border="0"]):not([style*=border-color]) th {
+    border-color: #ccc
+}
+
+table:not([cellpadding]) th, table:not([cellpadding]) td {
+    padding: 0.4rem;
+}

@@ -16,3 +16,7 @@
     <h2>{{ topic.title }}</h2>
     {% include "forum/topic/_form.html.twig" %}
 {% endblock %}
+
+{% block javascripts %}
+{{ encore_entry_script_tags('editor') }}
+{% endblock %}

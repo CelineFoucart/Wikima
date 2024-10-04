@@ -15,7 +15,11 @@ class PostType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('content', TextareaType::class)
+            ->add('content', TextareaType::class, [
+                'attr' => [
+                    'data-basiceditor' => 'basic',
+                ],
+            ])
         ;
     }
 
