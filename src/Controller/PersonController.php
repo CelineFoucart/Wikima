@@ -95,17 +95,4 @@ class PersonController extends AbstractController
             return $this->redirectToRoute('app_person_show', ['slug' => $person->getSlug()]);
         }
     }
-
-    #[Route('/type/persons/{slug}', name: 'app_person_type')]
-    public function type(PersonType $personType, Request $request, int $perPageOdd, PersonTypeRepository $personTypeRepository): Response
-    {
-        $page = $request->query->getInt('page', 1);
-        $persons = $this->personRepository->findByType($personType, $page, $perPageOdd);
-
-        return $this->render('person/type.html.twig', [
-            'persons' => $persons,
-            'type' => $personType,
-            'types' => $personTypeRepository->findAll(),
-        ]);
-    }
 }

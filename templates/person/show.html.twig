@@ -228,9 +228,9 @@
 		<div id="presentation" class="article-content">
 			<div class="mb-2">
 				{% for tag in person.type %}
-					<a href="{{ path('app_person_type', {slug: tag.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none">
+					<span class="badge rounded-pill bg-secondary link-light text-decoration-none">
 						{{ tag }}
-					</a>
+					</span>
 				{% endfor %}
 			</div>
 			{{ person.presentation|raw }}

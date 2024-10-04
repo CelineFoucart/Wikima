@@ -37,10 +37,7 @@
                             <td data-label="Titre">{{personType.title }}</td>
                             <td data-label="Slug">{{personType.slug }}</td>
                             <td data-label="Actions">
-                                <div class="btn-group">
-                                    <a href="{{ path('app_person_type', {slug: personType.slug}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
-                                        <i class="fas fa-book-reader"></i>
-                                    </a>                    
+                                <div class="btn-group">         
                                     <a href="{{ path('admin_app_persontype_show', {id: personType.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
                                         <i class="fas fa-info-circle"></i>
                                     </a>

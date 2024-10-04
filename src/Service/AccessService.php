@@ -20,7 +20,6 @@ final class AccessService
     private array $accessPersons = [
         'APP_PERSON_INDEX' => 'Liste des personnages',
         'APP_PERSON_SHOW' => "Page de détail d'un personnage",
-        'APP_PERSON_TYPE' => "Page de détail d'un type de personnage",
     ];
 
     private array $accessPlaces = [
