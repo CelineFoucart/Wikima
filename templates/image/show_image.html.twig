@@ -59,6 +59,15 @@
 	</header>
 
 	<article class="my-4 container-fluid">
+		{% if image.tags|length > 0 %}
+			<div class="mb-2">
+				{% for tag in image.tags %}
+					<span class="badge rounded-pill bg-secondary link-light text-decoration-none">
+						{{ tag }}
+					</span>
+				{% endfor %}
+			</div>
+		{% endif %}
 		<div class="row g-2">
 			<div class="col-md-7">
 				{% include "image/components/_medium.html.twig" with {image:image} %}
@@ -69,21 +78,6 @@
 				<header>
 					<h2 class="h3 mb-2">Informations sur l'image</h2>
 				</header>
-
-				{% if image.tags|length > 0 %}
-					<section>
-						<h3 class="h6 bg-light border p-1">Types</h3>
-						<ul class="list-unstyled">
-							{% for tag in image.tags %}
-								<li>
-									<a href="{{ path('app_image_type', {slug: tag.slug}) }}" class="text-decoration-none">
-									<i class="fas fa-hashtag fa-fw"></i> {{ tag }}
-								</a>
-								</li>
-							{% endfor %}
-						</ul>
-					</section>
-				{% endif %}
 
 				{% if image.categories|length > 0 %}
 					<section>

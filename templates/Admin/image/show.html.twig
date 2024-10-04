@@ -58,7 +58,7 @@
                                     {% if image.tags is not empty %}
                                         <ul class="mb-0">
                                             {% for tag in image.tags %}
-                                                <li><a href="{{ path('app_image_type', {slug: tag.slug}) }}">{{ tag }}</a></li>
+                                                <li>{{ tag }}</li>
                                             {% endfor %}
                                         </ul>
                                     {% endif %}

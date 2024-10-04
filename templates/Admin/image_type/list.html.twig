@@ -38,9 +38,6 @@
                             <td data-label="Slug">{{imageType.slug }}</td>
                             <td data-label="Actions">
                                 <div class="btn-group">
-                                    <a href="{{ path('app_image_type', {slug: imageType.slug}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
-                                        <i class="fas fa-book-reader"></i>
-                                    </a>
                                     <a href="{{ path('admin_app_imagetype_show', {id: imageType.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
                                         <i class="fas fa-info-circle"></i>
                                     </a>

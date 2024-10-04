@@ -59,20 +59,6 @@ class ImageController extends AbstractController
         ]);
     }
 
-    #[Route('/type/images/{slug}', name: 'app_image_type')]
-    public function type(ImageTag $imageTag, Request $request, int $perPageOdd, ImageTagRepository $imageTagRepository): Response
-    {
-        $page = $request->query->getInt('page', 1);
-        $images = $this->imageRepository->findByType($imageTag, $page, $perPageOdd);
-
-        return $this->render('image/type.html.twig', [
-            'images' => $images,
-            'type' => $imageTag,
-            'imageType' => $imageTag,
-            'types' => $imageTagRepository->findAll(),
-        ]);
-    }
-
     #[Route('/image-group', name: 'app_image_group_index')]
     public function imageGroupIndex(ImageGroupRepository $imageGroupRepository): Response
     {
