@@ -111,3 +111,19 @@ dt {
 .translate-badge {
     transform: translate(-40%,-20%)!important;
 }
+
+.dropdown-menu-lg-end {
+    min-width: 290px;
+}
+
+@media (min-width: 450px) {
+    .dropdown-menu-lg-end {
+        min-width: 350px;
+    }
+}
+
+@media (min-width: 762px) {
+    .dropdown-menu-lg-end {
+        min-width: 410px;
+    }
+}

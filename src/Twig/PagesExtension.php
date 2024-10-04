@@ -61,11 +61,11 @@ class PagesExtension extends AbstractExtension
 
         foreach ($categories as $category) {
             $path = $this->urlGenerator->generate('app_category_show', ['slug' => $category->getSlug()]);
-            $html .= '<div class="search-item"><a class="dropdown-item fw-bold" href="'.$path.'"><i class="fas fa-folder me-1"></i>'.$category.'</a></div>';
+            $html .= '<div class="search-item"><a class="dropdown-item text-wrap fw-bold" href="'.$path.'"><i class="fas fa-folder me-1"></i>'.$category.'</a></div>';
 
             foreach ($category->getPortals() as $portal) {
                 $portalPath = $this->urlGenerator->generate('app_portal_show', ['slug' => $portal->getSlug()]);
-                $html .= '<div class="search-item"><a class="dropdown-item" href="'.$portalPath.'"><i class="fas fa-tag me-1"></i>'.$portal->getTitle().'</a></div>';
+                $html .= '<div class="search-item"><a class="dropdown-item text-wrap" href="'.$portalPath.'"><i class="fas fa-tag me-1"></i>'.$portal->getTitle().'</a></div>';
             }
         }
 
