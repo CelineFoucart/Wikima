@@ -78,17 +78,4 @@ class PlaceController extends AbstractController
             return $this->redirectToRoute('app_place_show', ['slug' => $place->getSlug()]);
         }
     }
-
-    #[Route('/type/places/{slug}', name: 'app_place_type')]
-    public function type(Request $request, PlaceType $placeType, int $perPageOdd, PlaceTypeRepository $placeTypeRepository): Response
-    {
-        $page = $request->query->getInt('page', 1);
-        $places = $this->placeRepository->findByType($placeType, $page, $perPageOdd);
-
-        return $this->render('place/type.html.twig', [
-            'places' => $places,
-            'type' => $placeType,
-            'types' => $placeTypeRepository->findAll(),
-        ]);
-    }
 }
