@@ -104,39 +104,6 @@ final class AdminTimelineController extends AbstractAdminController
         ]);
     }
 
-    #[Route('/{id}/event', name: 'admin_app_timeline_event', methods: ['GET', 'POST'])]
-    public function eventAction(Request $request, Timeline $timeline): Response
-    {
-        $event = $this->getEvent($timeline, $request->query->getInt('event'));
-        $form = $this->createForm(TimelineEventType::class, $event);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            if (null === $event->getCreatedAt()) {
-                $event->setCreatedAt(new \DateTimeImmutable());
-                $lastEvent = $timeline->getEvents()->last();
-                if ($lastEvent instanceof Event) {
-                    $timelineOrder = $lastEvent->getTimelineOrder() + 1;
-                } else {
-                    $timelineOrder = 0;
-                }
-
-                $event->setTimelineOrder($timelineOrder);
-            }
-            $event->setUpdatedAt(new \DateTime());
-
-            $this->eventRepository->add($event, true);
-            $this->addFlash('success', 'Les modifications ont bien été enregistrées.');
-
-            return $this->redirectToRoute('admin_app_timeline_event', ['id' => $timeline->getId()]);
-        }
-
-        return $this->render('Admin/timeline/event.html.twig', [
-            'timeline' => $timeline,
-            'form' => $form->createView(),
-        ]);
-    }
-
     #[Route('/{id}/delete', name: 'admin_app_timeline_delete', methods: ['POST'])]
     public function deleteAction(Request $request, Timeline $timeline): Response
     {

@@ -28,20 +28,6 @@ class AdminApiSortController extends AbstractController
     {
     }
 
-    #[Route('/api/admin/timeline/{id}/event', 'api_timeline_event', methods: ['POST'])]
-    #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
-    public function updateTimelineEvents(Timeline $timeline, Request $request): JsonResponse
-    {
-        $this->sortItems($timeline->getEvents()->toArray(), json_decode($request->getContent(), true));
-
-        return new JsonResponse(
-            $this->serializer->serialize(['id' => $timeline->getId()], 'json'),
-            Response::HTTP_OK,
-            [],
-            true
-        );
-    }
-
     #[Route('/api/admin/article/{id}/section', 'api_article_section', methods: ['POST'])]
     #[IsGranted(new Expression("is_granted('ROLE_ADMIN')"))]
     public function updateArticleSections(Article $article, Request $request): JsonResponse

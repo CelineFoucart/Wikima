@@ -103,17 +103,14 @@ final class TimelineController extends AbstractController
     }
 
     #[Route('/{id}/events/{eventId}', name: 'api_timeline_event_delete', methods:['DELETE'])]
-    public function deleteEventAction(
-        #[MapEntity(id: 'id')] Timeline $timeline, 
-        #[MapEntity(id: 'eventId')] Event $event, 
-        EventRepository $eventRepository
-    ): JsonResponse {
+    public function deleteEventAction(#[MapEntity(id: 'id')] Timeline $timeline, #[MapEntity(id: 'eventId')] Event $event): JsonResponse 
+    {
         if ($event->getTimeline()->getId() !== $timeline->getId()) {
             return $this->json("Invalid data", Response::HTTP_BAD_REQUEST);
         }
 
-        $timeline->removeEvent($event);
-        $eventRepository->remove($event, true);
+        $this->entityManager->remove($event);
+        $this->entityManager->flush();
 
         return $this->json($timeline, Response::HTTP_OK, [], ['groups' => 'timeline-admin']);
     }

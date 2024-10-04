@@ -1,7 +1,0 @@
-{% embed 'Admin/components/_toolbar.html.twig' with { prefix: 'timeline', entity: timeline, show_route: 'app_timeline_show'  } %}
-    {% block custom_action %}
-        <a href="{{ path('admin_app_timeline_event', {id: timeline.id}) }}" data-bs-toggle="tooltip" class="btn btn-sm btn-default" title="Evénements">
-            <i class="fas fa-calendar" aria-hidden="true"></i>
-        </a>  
-    {% endblock %}
-{% endembed %}

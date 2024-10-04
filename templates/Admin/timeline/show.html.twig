@@ -19,7 +19,7 @@
 {% endblock %}
 
 {% block toolbar %}
-    {% include "Admin/timeline/_toolbar.html.twig" %}
+    {% include 'Admin/components/_toolbar.html.twig' with { prefix: 'timeline', entity: timeline, show_route: 'app_timeline_show'  } %}
 {% endblock %}
 
 {% block body %}

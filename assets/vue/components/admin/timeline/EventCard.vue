@@ -22,8 +22,11 @@
 </template>
 
 <script>
+import { mapStores } from "pinia";
+import { useTimelineStore } from '@store/timeline.js';
 import DeleteModal from '@components/fragments/DeleteModal.vue';
 import EventModal from '@components/admin/timeline/EventModal.vue';
+import { createToastify } from '@functions/toastify.js';
 
 export default {
     name: 'EventCard',
@@ -45,6 +48,10 @@ export default {
         }
     },
 
+    computed: {
+        ...mapStores(useTimelineStore),
+    },
+
     methods: {
         truncate(text, limit=190) {
             if (limit <= 0 || text.length <= limit) {
@@ -60,6 +67,11 @@ export default {
 
         async deleteEvent() {
             this.loading = true;
+            const status = await this.timelineStore.removeEvent(this.event);
+            if (!status) {
+                createToastify("La suppression a échoué.", 'error');
+            }
+
             this.loading = false;
         }
     },
