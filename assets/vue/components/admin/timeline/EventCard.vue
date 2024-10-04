@@ -2,9 +2,9 @@
     <section class="card bg-light">
         <div class="card-body">
             <div class="float-end">
-                <a href="#" class="btn btn-success btn-sm me-1">
+                <button type="button" class="btn btn-success btn-sm me-1" @click="openEdit = true">
                     <i class="fas fa-edit" aria-hidden="true"></i>
-                </a>
+                </button>
                 <button type="button" class="btn btn-sm btn-danger d-inline" @click="openDelete = true">
                     <i class="fas fa-trash-alt" aria-hidden="true"></i>
                 </button>
@@ -14,6 +14,7 @@
             <div v-if="event.presentation !== null">{{ truncate(event.presentation) }}</div>
         </div>
     </section>
+    <event-modal v-if="openEdit" :event="event" @on-close="openEdit = false" />
     <delete-modal v-if="openDelete" :loading="loading" :title="event.title" @on-confirm="deleteEvent" @on-close="openDelete = false" />
 </template>
 
