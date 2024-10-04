@@ -14,17 +14,19 @@
             <div v-if="event.presentation !== null">{{ truncate(event.presentation) }}</div>
         </div>
     </section>
-    <delete-modal v-if="openDelete" :loading="loading" :title="event.title" @on-confirm="deleteEvent" @on-cancel="openDelete = false" />
+    <delete-modal v-if="openDelete" :loading="loading" :title="event.title" @on-confirm="deleteEvent" @on-close="openDelete = false" />
 </template>
 
 <script>
 import DeleteModal from '@components/fragments/DeleteModal.vue';
+import EventModal from '@components/admin/timeline/EventModal.vue';
 
 export default {
     name: 'EventCard',
 
     components: {
         'delete-modal': DeleteModal,
+        'event-modal': EventModal
     },
 
     props: {

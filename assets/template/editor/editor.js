@@ -1,6 +1,5 @@
 import { enableBasicEditor } from "./js/basiceditor";
 import { enableFullEditor } from "./js/fulleditor";
-import './css/editor.css';
 
 const forFullEditor = document.querySelectorAll('[data-fulleditor]');
 forFullEditor.forEach(element => {

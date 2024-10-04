@@ -16,11 +16,7 @@ class TimelineEventType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('duration', TextType::class)
-            ->add('presentation', TextareaType::class, [
-                'attr' => [
-                    'rows' => '3',
-                ],
-            ])
+            ->add('presentation', TextareaType::class)
         ;
     }
 
@@ -28,6 +24,7 @@ class TimelineEventType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Event::class,
+            'csrf_protection' => false,
         ]);
     }
 }

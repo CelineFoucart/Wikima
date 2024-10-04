@@ -89,9 +89,10 @@
         <div class="col-md-12">
             <card>
                 <template #actions>
-                    <a href="#" class="btn btn-success btn-sm">
+                    <button htype="button" class="btn btn-success btn-sm" @click="openAddModal = true">
                         <i class="fas fa-plus" aria-hidden="true"></i>
-                    </a>
+                    </button>
+                    <event-modal v-if="openAddModal === true" @on-close="openAddModal = false" />
                 </template>
                 <template #title>Evénements</template>
                 <template #content>
@@ -114,6 +115,7 @@ import { createToastify } from '@functions/toastify.js';
 import { convertDateFormatToJsFormat } from '@functions/dateHelper.js';
 import Card from '@components/admin/fragments/Card.vue';
 import EventCard from '@components/admin/timeline/EventCard.vue';
+import EventModal from '@components/admin/timeline/EventModal.vue';
 import Loading from '@components/fragments/Loading.vue';
 import dayjs from 'dayjs';
 import 'dayjs/locale/fr';
@@ -126,7 +128,8 @@ export default {
     components: {
         'card': Card,
         'event-card': EventCard,
-        'loading': Loading
+        'loading': Loading,
+        'event-modal': EventModal
     },
 
     props: {
@@ -136,7 +139,8 @@ export default {
 
     data() {
         return {
-            loading: false
+            loading: false,
+            openAddModal: false
         }
     },
 
