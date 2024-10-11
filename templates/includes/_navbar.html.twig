@@ -185,67 +185,101 @@
 			<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
 		</div>
 		<div class="offcanvas-body border-top">
-			<p class="text-uppercase fw-bold mb-0">Ajouter</p>
-			<nav class="nav flex-column">		
+			<nav class="nav flex-column">	
 				{% if is_granted('ROLE_ADMIN')  %}
-					<a class="nav-link" href="{{ path('admin_app_category_create') }}">
-						<i class="fas fa-folder fa-fw"></i>
-						Catégorie
-					</a>		
-					<a class="nav-link" href="{{ path('admin_app_portal_create') }}">
-						<i class="fas fa-tag fa-fw"></i>
-						Portail
-					</a>
+					{{ include('includes/_dropdown_admin.html.twig', {
+							id: 'collapseCategory',
+							label: 'Catégorie',
+							icon: 'fas fa-folder fa-fw',
+							route_prefix: 'admin_app_category'
+						}) 
+					}}
+
+					{{ include('includes/_dropdown_admin.html.twig', {
+							id: 'collapsePortal',
+							label: 'Portail',
+							icon: 'fas fa-tag fa-fw',
+							route_prefix: 'admin_app_portal'
+						}) 
+					}}
 				{% endif %}
-				<a class="nav-link" href="{{ path('admin_app_article_create') }}">
-					<i class="fas fa-file fa-fw"></i>
-					Article
-				</a>
+
+				{{ include('includes/_dropdown_admin.html.twig', {
+						id: 'collapseArticle',
+						label: 'Article',
+						icon: 'fas fa-file fa-fw',
+						route_prefix: 'admin_app_article'
+					}) 
+				}}
+
 				{% if is_granted('ROLE_ADMIN') %}
-					<a class="nav-link" href="{{ path('admin_app_person_create') }}">
-						<i class="fas fa-user fa-fw"></i>
-						Personnage
-					</a>
-					<a class="nav-link" href="{{ path('admin_app_place_create') }}">
-						<i class="fas fa-building  fa-fw"></i>
-						Lieu
-					</a>
-					<a class="nav-link" href="{{ path('admin_app_map_create') }}">
-						<i class="fas fa-map fa-fw"></i>
-						Carte
-					</a>
-					<a class="nav-link" href="{{ path('admin_app_timeline_create') }}">
-						<i class="fas fa-hourglass fa-fw"></i>
-						Chronologie
-					</a>
+					{{ include('includes/_dropdown_admin.html.twig', {
+							id: 'collapsePerson',
+							label: 'Personnage',
+							icon: 'fas fa-user fa-fw',
+							route_prefix: 'admin_app_person'
+						}) 
+					}}
+
+					{{ include('includes/_dropdown_admin.html.twig', {
+							id: 'collapsePlace',
+							label: 'Lieu',
+							icon: 'fas fa-building fa-fw',
+							route_prefix: 'admin_app_place'
+						}) 
+					}}
+
+					{{ include('includes/_dropdown_admin.html.twig', {
+							id: 'collapseMap',
+							label: 'Carte',
+							icon: 'fas fa-map fa-fw',
+							route_prefix: 'admin_app_map'
+						}) 
+					}}
+
+					{{ include('includes/_dropdown_admin.html.twig', {
+							id: 'collapseTimeline',
+							label: 'Chronologie',
+							icon: 'fas fa-hourglass fa-fw',
+							route_prefix: 'admin_app_timeline'
+						}) 
+					}}
 				{% endif %}
-				<a class="nav-link" href="{{ path('admin_app_image_create') }}">
-					<i class="fas fa-image fa-fw"></i>
-					Image
-				</a>
+
+				{{ include('includes/_dropdown_admin.html.twig', {
+						id: 'collapseImage',
+						label: 'Image',
+						icon: 'fas fa-image fa-fw',
+						route_prefix: 'admin_app_image'
+					}) 
+				}}
+				
 				{% if enable_idiom == 1 %}
-					<a class="nav-link" href="{{ path('admin_app_idiom_create') }}">
-						<i class="fas fa-language fa-fw"></i>
-						Langue
-					</a>
+					{{ include('includes/_dropdown_admin.html.twig', {
+							id: 'collapseIdiom',
+							label: 'Langue',
+							icon: 'fas fa-language fa-fw',
+							route_prefix: 'admin_app_idiom'
+						}) 
+					}}
 				{% endif %}
 				{% if enable_scenario == 1 %}
-					<a class="nav-link" href="{{ path('admin_app_scenario_create') }}">
-						<i class="fas fa-book fa-fw"></i>
-						Scénario
-					</a>
+					{{ include('includes/_dropdown_admin.html.twig', {
+							id: 'collapseScenario',
+							label: 'Scénario',
+							icon: 'fas fa-book fa-fw',
+							route_prefix: 'admin_app_scenario'
+						}) 
+					}}
 				{% endif %}
-			</nav>
-			<p class="text-uppercase fw-bold mb-0 mt-2">Notes</p>
-			<nav class="nav flex-column">
-				<a class="nav-link" href="{{ path('admin_app_note_list') }}">
-					<i class="fas fa-sticky-note fa-fw"></i>
-					Liste
-				</a>
-				<a class="nav-link" href="{{ path('admin_app_note_create') }}">
-					<i class="fas fa-plus-circle fa-fw"></i>
-					Ajouter
-				</a>
+				
+				{{ include('includes/_dropdown_admin.html.twig', {
+						id: 'collapseNote',
+						label: 'Notes',
+						icon: 'fas fa-sticky-note fa-fw',
+						route_prefix: 'admin_app_note'
+					}) 
+				}}
 			</nav>
 		</div>
 	</div>

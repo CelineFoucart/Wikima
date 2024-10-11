@@ -1,0 +1,21 @@
+<a class="nav-link ps-0" type="button" data-bs-toggle="collapse" href="#{{id }}" aria-expanded="false" aria-controls="{{ id }}">
+    <i class="{{ icon }}"></i>
+    {{ label }}
+    <i class="fa-solid fa-chevron-right float-end"></i>
+</a>
+<div class="collapse" id="{{ id }}">
+    <div class="ps-2 border-start border-3">
+        <ul class="list-unstyled">
+            <li>
+                <a class="nav-link" href="{{ path(route_prefix~'_list') }}">
+                    Liste
+                </a>
+            </li>
+            <li>
+                <a class="nav-link" href="{{ path(route_prefix~'_create') }}">
+                    Ajouter
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
