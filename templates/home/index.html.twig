@@ -3,7 +3,14 @@
 {% block title %}Accueil de l'encyclopédie pour univers imaginaire {{ app_name }}{% endblock %}
 
 {% block body %}
-	<header class="d-flex align-items-center pt-5 px-4 pb-3 gap-4 bg-item header-home">
+	<div class="row border-bottom align-items-center py-3 bg-default-light m-0">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb mb-0">
+				<li class="breadcrumb-item active" aria-current="page">Accueil</li>
+			</ol>
+		</nav>
+	</div>
+	<header class="d-flex align-items-center pt-5 px-4 pb-3 gap-4">
 		<img src="{{ asset('img/'~app_favicon) }}" alt="logo de l'application" class="logo-img">
 		<div>
 			<h1 class="mb-0 display-2 fw-normal">{{ app_name }}</h1>
