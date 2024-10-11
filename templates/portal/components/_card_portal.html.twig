@@ -2,7 +2,7 @@
     <div class="card h-100">
         {% if portal.banner %}
             <a href="{{ vich_uploader_asset(portal) }}">
-                <img src="{{ vich_uploader_asset(portal)|imagine_filter('medium_image') }}" class="card-img-top" alt="{{ portal.title }}">
+                <img src="{{ vich_uploader_asset(portal)|imagine_filter('medium_banner') }}" class="card-img-top" alt="{{ portal.title }}">
             </a>
         {% endif %}
         <div class="card-body">

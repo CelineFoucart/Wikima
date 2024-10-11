@@ -89,7 +89,7 @@ private: Privé
 Name: Nom
 Image banner: Image de la bannière
 Illustration: Illustration
-banner_help: Pour la bannière, choisissez un fichier qui fait maximum 1320px par 300px. Pour qu'il ne soit pas trop pixellisé, ne pas mettre un fichier trop petit.
+banner_help: Pour la bannière, choisissez un fichier qui fait au minimum 900px par 300px. Pour qu'il ne soit pas trop pixellisé, ne pas mettre un fichier trop petit.
 map_help: Pour la carte, choisissez un fichier qui fait maximum 300px de large.
 Banner: Bannière
 Note: Note

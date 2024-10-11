@@ -74,7 +74,8 @@
 	</h1>
 	{% if article.type %}
 		<div>
-			<a href="{{ path('app_articletype_show', {slug: article.type.slug}) }}" class="badge rounded-pill bg-secondary link-light text-decoration-none me-1">
+			{% set route = path('app_article_index', {'tags[]': article.type.id }) %}
+			<a href="{{ route }}" class="badge rounded-pill bg-secondary link-light text-decoration-none me-1">
 				{% if article.type.icon %}<i class="{{ article.type.icon }} me-1" aria-hidden="true"></i>{% endif %}
 				{{ article.type }}
 			</a>

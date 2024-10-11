@@ -185,9 +185,10 @@
 		<div id="description" class="article-content">
 			<div class="mb-2">
 				{% for tag in place.types %}
-					<span class="badge rounded-pill bg-secondary link-light text-decoration-none">
+					{% set route = path('app_place_index', {'tags[]': tag.id }) %}
+					<a href="{{ route }}" class="badge rounded-pill bg-secondary link-light text-decoration-none">
 						{{ tag }}
-					</span>
+					</a>
 				{% endfor %}
 			</div>
 			{{ place.description|raw }}

@@ -39,10 +39,7 @@
                             <td data-label="Slug">{{articleType.slug }}</td>
                             <td data-label="Icône"><i class="{{ articleType.icon }}" data-bs-toggle="tooltip" title="{{ articleType.icon }}"></i></td>
                             <td data-label="Actions">
-                                <div class="btn-group">
-                                    <a href="{{ path('app_articletype_show', {slug: articleType.slug}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Consulter">
-                                        <i class="fas fa-book-reader"></i>
-                                    </a>                    
+                                <div class="btn-group">                
                                     <a href="{{ path('admin_app_articletype_show', {id: articleType.id}) }}" class="btn btn-sm btn-default" data-bs-toggle="tooltip" title="Afficher">
                                         <i class="fas fa-info-circle"></i>
                                     </a>

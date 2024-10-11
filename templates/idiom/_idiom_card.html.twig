@@ -2,7 +2,7 @@
     <section class="card h-100">
         {% if idiom.banner %}
             <a href="{{ vich_uploader_asset(idiom) }}">
-                <img src="{{ vich_uploader_asset(idiom)|imagine_filter('medium_image') }}" class="card-img-top" alt="{{ idiom.translatedName }}">
+                <img src="{{ vich_uploader_asset(idiom)|imagine_filter('medium_banner') }}" class="card-img-top" alt="{{ idiom.translatedName }}">
             </a>
         {% endif %}
         <div class="card-body">

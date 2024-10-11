@@ -40,10 +40,8 @@ class PortalFormType extends AbstractType
             ->add('imageBanner', VichImageType::class, [
                 'constraints' => [
                     new Image([
-                        'minWidth' => 800,
-                        'maxWidth' => 1320,
-                        'minHeight' => 200,
-                        'maxHeight' => 300,
+                        'minWidth' => 900,
+                        'minHeight' => 300,
                     ]),
                 ],
                 'help' => 'banner_help',

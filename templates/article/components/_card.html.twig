@@ -1,5 +1,15 @@
 <article class="card shadow-sm h-100">
 	<div class="card-body">
+		<div class="mb-2">
+			<span class="badge rounded-pill bg-secondary me-1">
+				{% if item.type %}
+					{% if item.type.icon %}<i class="{{ item.type.icon }} me-1" aria-hidden="true"></i>{% endif %}
+					{{ item.type }}
+				{% else %}
+					Sans type
+				{% endif %}
+			</span>
+		</div>
 		<h2 class="card-title h5 mb-3">
 			{% if item.isPrivate %}
 				<i class="fas fa-lock" data-bs-toggle="tooltip" title="Privé (visible uniquement par son auteur et les administrateurs)"></i>

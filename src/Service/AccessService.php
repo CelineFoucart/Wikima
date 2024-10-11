@@ -11,8 +11,6 @@ final class AccessService
         'APP_PORTAL_SHOW' => "Page de détail d'un portail",
         'APP_ARTICLE_INDEX' => 'Liste des articles',
         'APP_ARTICLE_SHOW' => "Page de détail d'un article",
-        'APP_ARTICLETYPE_INDEX' => "Liste des types d'article",
-        'APP_ARTICLETYPE_SHOW' => "Page de détail d'un type d'article",
         'APP_TIMELINE_INDEX' => 'Liste des chronologies',
         'APP_TIMELINE_SHOW' => "Page de détail d'une chronologie",
     ];

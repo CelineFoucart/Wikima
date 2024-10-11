@@ -26,7 +26,7 @@
 				<div class="col-md-4 mb-3">
 					<div class="card shadow border-0">
 						{% if category.banner %}
-							<img src="{{ vich_uploader_asset(category) }}" class="card-img-top" alt="bannière de {{ category.title }}">
+							<img src="{{ vich_uploader_asset(category)|imagine_filter('medium_banner') }}" class="card-img-top" alt="bannière de {{ category.title }}">
 						{% endif %}
 						<div class="card-body">
 							<h2 class="card-title h5">
