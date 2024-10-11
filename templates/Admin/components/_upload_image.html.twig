@@ -31,17 +31,20 @@
         </div>
         {{ form_row(form.description) }}
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 {{ form_row(form.keywords) }}
-            </div>
-            <div class="col-md-6">
-                {{ form_row(form.tags) }}
             </div>
             <div class="col-md-6">
                 {{ form_row(form.categories) }}
             </div>
             <div class="col-md-6">
                 {{ form_row(form.portals) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.tags) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_row(form.imageGroups) }}
             </div>
         </div>
         {{ form_rest(form) }}

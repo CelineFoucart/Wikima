@@ -167,7 +167,22 @@ final class AdminPlaceController extends AbstractAdminController
             $excludes[] = $place->getIllustration()->getId();
         }
 
-        $image = (new Image())->setPortals($place->getPortals())->setCategories($place->getCategories());
+        $keywords = [];
+        foreach ($place->getTypes() as $type) {
+            $keywords[] = $type->getTitle();
+        }
+        foreach ($place->getLocalisations() as $localisation) {
+            $keywords[] = $localisation->getTitle();
+        }
+
+        $image = (new Image())
+            ->setPortals($place->getPortals())
+            ->setCategories($place->getCategories())
+            ->setTitle($place->getTitle())
+            ->setDescription($place->getTitle() . ' est un lieu.')
+            ->setSlug($place->getSlug())
+            ->setKeywords(join(', ', $keywords))
+        ;
         $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
 

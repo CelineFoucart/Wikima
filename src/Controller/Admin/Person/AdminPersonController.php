@@ -158,7 +158,20 @@ final class AdminPersonController extends AbstractAdminController
             $excludes[] = $person->getImage()->getId();
         }
 
-        $image = (new Image())->setPortals($person->getPortals())->setCategories($person->getCategories());
+        $keywords = [$person->getFullname()];
+        foreach ($person->getType() as $type) {
+            $keywords[] = $type->getTitle();
+        }
+
+        $image = (new Image())
+            ->setPortals($person->getPortals())
+            ->setCategories($person->getCategories())
+            ->setTitle(trim($person->getFirstname() . ' ' . $person->getLastname()))
+            ->setDescription($person->getDescription())
+            ->setKeywords(join(', ', $keywords))
+            ->setSlug($person->getSlug())
+        ;
+
         $form = $this->createForm(ImageType::class, $image);
         $form->handleRequest($request);
 
