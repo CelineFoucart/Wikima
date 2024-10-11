@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
@@ -19,45 +20,41 @@ class Image
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['index-media'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\Length(
-        min: 2,
-        max: 255
-    )]
+    #[Assert\Length(min: 2, max: 255)]
+    #[Groups(['index-media'])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
+    #[Groups(['index-media'])]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\Length(
-        min: 2,
-        max: 255
-    )]
+    #[Assert\Length(min: 2,max: 255)]
+    #[Groups(['index-media'])]
     private $keywords;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\Length(
-        min: 10,
-        max: 255
-    )]
+    #[Assert\Length(min: 10,max: 255)]
+    #[Groups(['index-media'])]
     private $description;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\Length(
-        min: 1,
-        max: 255
-    )]
+    #[Assert\Length(min: 1,max: 255)]
+    #[Groups(['index-media'])]
     private $filename;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'images')]
+    #[Groups(['index-media'])]
     private $categories;
 
     #[ORM\ManyToMany(targetEntity: Portal::class, inversedBy: 'images')]
+    #[Groups(['index-media'])]
     private $portals;
 
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'images')]
@@ -67,6 +64,7 @@ class Image
     private ?File $imageFile = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Groups(['index-media'])]
     private $updatedAt;
 
     #[ORM\OneToMany(mappedBy: 'image', targetEntity: Person::class)]
@@ -79,9 +77,11 @@ class Image
     private Collection $idiomArticles;
 
     #[ORM\ManyToMany(targetEntity: ImageTag::class, inversedBy: 'images')]
+    #[Groups(['index-media'])]
     private Collection $tags;
 
     #[ORM\ManyToMany(targetEntity: ImageGroup::class, mappedBy: 'images')]
+    #[Groups(['index-media'])]
     private Collection $imageGroups;
 
     #[ORM\OneToMany(mappedBy: 'image', targetEntity: Map::class)]

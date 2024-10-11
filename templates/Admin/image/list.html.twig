@@ -17,14 +17,12 @@
     <a class="btn btn-default btn-sm" href="{{ path('admin_app_image_download') }}">
         <i class="fas fa-download" aria-hidden="true"></i>Télécharger
     </a>
-    <a href="{{ path('admin_app_image_create') }}" class="btn btn-default btn-sm">
-        <i class="fas fa-plus-circle" aria-hidden="true"></i>
-        Ajouter
-    </a>
 {% endblock %}
 
 {% block body %}
-    <div class="card border-top-primary">
+    <div {{ vue_component('admin/image/ImageIndex') }}></div>
+
+    {# <div class="card border-top-primary">
         <div class="card-body p-1">
             <table class="table data-table mb-0 table-striped">
                 <thead>
@@ -70,6 +68,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div> #}
 {% endblock %}
 

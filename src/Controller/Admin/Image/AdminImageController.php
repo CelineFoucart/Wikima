@@ -113,6 +113,8 @@ final class AdminImageController extends AbstractAdminController
         if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
             $this->cacheManager->remove('/uploads/'.$image->getFilename());
 
+            // $server->deleteCache('kayaks.jpg'); => supprimer avec glide
+
             if (count($image->getPlaces()) > 0 || count($image->getPeople()) > 0) {
                 foreach ($image->getPlaces() as $place) {
                     $image->removePlace($place);

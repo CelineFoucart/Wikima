@@ -6,6 +6,7 @@ use App\Repository\ImageGroupRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ImageGroupRepository::class)]
 class ImageGroup
@@ -13,12 +14,15 @@ class ImageGroup
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['index-media'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['index-media'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['index-media'])]
     private ?string $slug = null;
 
     #[ORM\Column(length: 5000, nullable: true)]
