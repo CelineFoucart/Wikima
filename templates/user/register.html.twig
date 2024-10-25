@@ -4,16 +4,18 @@
 
 {% block body %}
     <section class="py-5 row justify-content-center">
-        {% for flash_error in app.flashes('verify_email_error') %}
-            <div class="col-12">
-                <div class="alert alert-danger mb-5" role="alert">{{ flash_error }}</div>
-            </div>
-        {% endfor %}
+        <div class="col-md-12 text-center pb-5">
+			<img src="{{ asset('img/'~app_favicon) }}" alt="logo de l'application" class="logo-img">
+		</div>
 
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
             <div class="card shadow mx-2 border-0 radius-3">
                 <div class="card-body p-5">
                     <h1 class="text-center mb-5">Inscription</h1>
+                    {% for flash_error in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger my-4" role="alert">{{ flash_error }}</div>
+                    {% endfor %}
+
                     {{ form_start(registrationForm) }}
                         {{ form_row(registrationForm.username) }}
                         {{ form_row(registrationForm.email) }}
