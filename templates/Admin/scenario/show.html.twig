@@ -146,7 +146,7 @@
                             {% for image in scenario.imageGroup.images %}
                                 <div class="image-block">
                                     <a href="{{ vich_uploader_asset(image) }}" data-fslightbox="first-lightbox">
-                                        <img data-bs-toggle="tooltip" title="{{ image.title }}" src="{{ vich_uploader_asset(image)|imagine_filter('gallery_thumbnail') }}" alt="{{ image.title }}">
+                                        <img data-bs-toggle="tooltip" title="{{ image.title }}" src="{{ path('file_thumb', {id: image.id }) }}" alt="{{ image.title }}">
                                     </a>
                                 </div>
                             {% else %}

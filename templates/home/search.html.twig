@@ -288,7 +288,7 @@
                                         <tr>
                                             <td data-label="Image">
                                                 <a href="{{ vich_uploader_asset(image) }}" data-fslightbox>
-                                                    <img src="{{ vich_uploader_asset(image)|imagine_filter('icon_image') }}" alt="{{ image.title }}">
+                                                    <img src="{{ path('file_icon', {id: image.id }) }}" alt="{{ image.title }}">
                                                 </a>
                                             </td>
                                             <td data-label="Titre">

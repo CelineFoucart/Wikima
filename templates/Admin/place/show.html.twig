@@ -184,7 +184,7 @@
                                         {% set link_map = vich_uploader_asset(place) %}
                                         <div class="image-block">
                                             <a href="{{ link_map }}">
-                                                <img src="{{ link_map|imagine_filter('gallery_thumbnail') }}" alt="{{ place.title }}">
+                                                <img src="{{ link_map }}" alt="{{ place.title }}" class="img-fluid">
                                             </a>
                                         </div>
                                     {% endif %}
@@ -220,7 +220,7 @@
                             {% for image in place.imageGroup.images %}
                                 <div class="image-block">
                                     <a href="{{ vich_uploader_asset(image) }}" data-fslightbox="first-lightbox">
-                                        <img data-bs-toggle="tooltip" title="{{ image.title }}" src="{{ vich_uploader_asset(image)|imagine_filter('gallery_thumbnail') }}" alt="{{ image.title }}">
+                                        <img data-bs-toggle="tooltip" title="{{ image.title }}" src="{{ path('file_thumb', {id: image.id }) }}" alt="{{ image.title }}">
                                     </a>
                                 </div>
                             {% else %}

@@ -1,3 +1,6 @@
-<a href="{{ vich_uploader_asset(image) }}" data-fslightbox="first-lightbox">
-    <img src="{{ vich_uploader_asset(image)|imagine_filter('medium_image') }}" class="img-fluid rounded" alt="{{ image.title }}">
+<a href="{{ path('file_show', {id: image.id }) }}" data-fslightbox="first-lightbox">
+    <img src="{{ path('file_medium', {id: image.id }) }}" class="img-fluid rounded" alt="{{ image.title }}">
 </a>
+
+
+{# vich_uploader_asset #}

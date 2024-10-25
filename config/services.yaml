@@ -13,7 +13,7 @@ parameters:
     app.tmp.folder: '%kernel.project_dir%/var/cache'
     app.per_page_odd: '%env(PER_PAGE_ODD_COLUMNS)%'
     app.per_page_even: '%env(PER_PAGE_EVEN_COLUMNS)%'
-    app.image_cache_dir: '%kernel.project_dir%/public/media/cache'
+    app.image_cache_dir: '%kernel.project_dir%/var/media/cache'
     locale: fr
 
 services:

@@ -24,7 +24,8 @@
     <div class="about-card">
 		<div class="content-card">
 			{% if map.image %}
-				<img src="{{ vich_uploader_asset(map.image)|imagine_filter('card_image') }}" alt="{{ map.image.title }}" class="about-img">
+				<img src="{{ path('file_card', {id: map.image.id }) }}" alt="{{ map.image.title }}" class="about-img">
+				
 			{% endif %}
 
 			<div class="about-content-card">

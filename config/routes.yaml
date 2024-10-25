@@ -5,6 +5,3 @@ controllers:
 kernel:
     resource: ../src/Kernel.php
     type: attribute
-
-_liip_imagine:
-    resource: "@LiipImagineBundle/Resources/config/routing.yaml"

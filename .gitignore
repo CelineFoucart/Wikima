@@ -13,6 +13,7 @@
 /vendor/
 /composer.phar
 /var/data.db
+/var/media
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###

@@ -3,7 +3,7 @@
         {% if comment.author.avatar is null %}
             {{ include('components/utils/_user-icon.html.twig') }}
         {% else %}
-            <img src="{{ vich_uploader_asset(comment.author)|imagine_filter('gallery_thumbnail') }}" 
+            <img src="{{ vich_uploader_asset(comment.author) }}" 
                 width="50"
                 class="img-fluid rounded-circle" alt="avatar de {{ comment.author.username }}">
         {% endif %}

@@ -10,8 +10,9 @@ use App\Form\Admin\ImageType;
 use App\Repository\CategoryRepository;
 use App\Repository\ImageRepository;
 use App\Repository\PortalRepository;
+use App\Service\ImageResizeHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Liip\ImagineBundle\Imagine\Cache\CacheManager;
+use League\Glide\Server;
 use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,8 +26,7 @@ final class AdminImageController extends AbstractAdminController
     protected string $entityName = 'image';
 
     public function __construct(
-        private ImageRepository $imageRepository,
-        private CacheManager $cacheManager
+        private ImageRepository $imageRepository
     ) {
     }
 
@@ -98,12 +98,10 @@ final class AdminImageController extends AbstractAdminController
     }
 
     #[Route('/{id}/delete', name: 'admin_app_image_delete', methods: ['POST'])]
-    public function deleteAction(Request $request, Image $image, EntityManagerInterface $em): Response
+    public function deleteAction(Request $request, Image $image, EntityManagerInterface $em, ImageResizeHelper $cacheHelper): Response
     {
         if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
-            $this->cacheManager->remove('/uploads/'.$image->getFilename());
-
-            // $server->deleteCache('kayaks.jpg'); => supprimer avec glide
+            $cacheHelper->removeImageCache($image); 
 
             if (count($image->getPlaces()) > 0 || count($image->getPeople()) > 0) {
                 foreach ($image->getPlaces() as $place) {

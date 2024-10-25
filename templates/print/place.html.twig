@@ -18,7 +18,7 @@
 			<h2>Présentation</h2>
 			{% if place.illustration %}
 				<div class="text-center">
-					<img src="{{ vich_uploader_asset(place.illustration)|imagine_filter('card_image') }}" alt="{{ place.illustration.title }}">
+					<img src="{{ path('file_card', {id: place.illustration.id }) }}" alt="{{ place.illustration.title }}">
 				</div>
 			{% endif %}
 			{% if place.mapFile %}

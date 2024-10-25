@@ -4,7 +4,7 @@
 			data-fslightbox="first-lightbox"
 			data-alt="{{ image.title }}"
 			data-title="{{ image.description ? image.description : 'Aucune description' }}">
-			<img src="{{ vich_uploader_asset(image)|imagine_filter('gallery_thumbnail') }}" alt="{{ image.title }}">
+			<img src="{{ path('file_thumb', {id: image.id }) }}" alt="{{ image.title }}">
 		</a>
 	</div>
 	<div class="text-end w-100">

@@ -4,15 +4,16 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin\Wiki;
 
-use App\Controller\Admin\AbstractAdminController;
 use App\Entity\Category;
+use App\Service\ImageResizeHelper;
 use App\Form\Admin\CategoryFormType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Controller\Admin\AbstractAdminController;
+use Symfony\Component\ExpressionLanguage\Expression;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/admin/category')]
@@ -83,7 +84,7 @@ final class AdminCategoryController extends AbstractAdminController
     }
 
     #[Route('/{id}/delete', name: 'admin_app_category_delete', methods: ['POST'])]
-    public function deleteAction(Request $request, Category $category, EntityManagerInterface $entityManager): Response
+    public function deleteAction(Request $request, Category $category, EntityManagerInterface $entityManager, ImageResizeHelper $cacheHelper): Response
     {
         if (!$this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
             $this->addFlash('error', "Le token CSRF n'est pas valide!");
@@ -109,6 +110,8 @@ final class AdminCategoryController extends AbstractAdminController
 
             $entityManager->flush();
         }
+
+        $cacheHelper->removeImageCache($category); 
 
         $this->categoryRepository->remove($category, true);
         $this->addFlash('success', 'La catégorie a été supprimée avec succès.');

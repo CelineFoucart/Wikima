@@ -80,7 +80,7 @@
 				<div class="text-center mb-1">
 					{% set image_path = vich_uploader_asset(place.illustration) %}
 					<a href="{{ image_path }}" data-fslightbox="first-lightbox">
-						<img src="{{ image_path|imagine_filter('card_image') }}" alt="{{ place.illustration.title }}">
+						<img src="{{ path('file_card', {id: place.illustration.id }) }}" alt="{{ place.illustration.title }}">
 					</a>
 					<div class="text-end w-100">
 						<a href="{{ path('app_image_show', {slug: place.illustration.slug}) }}" 

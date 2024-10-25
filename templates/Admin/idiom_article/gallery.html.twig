@@ -22,7 +22,7 @@
 				{% for image in article.images %}
 					<div class="image-block">
 						<a href="{{ vich_uploader_asset(image) }}" data-fslightbox="first-lightbox">
-							<img src="{{ vich_uploader_asset(image)|imagine_filter('gallery_thumbnail') }}" alt="{{ image.title }}">
+							<img src="{{ path('file_thumb', {id: image.id }) }}" alt="{{ image.title }}">
 						</a>
 						<form action="" method="post" class="text-center">
 							<input type="hidden" name="imageId" value="{{ image.id }}">

@@ -33,7 +33,7 @@
 	<div class="about-card">
 		<div class="content-card">
 			{% if place.illustration %}
-				<img src="{{ vich_uploader_asset(place.illustration)|imagine_filter('card_image') }}" alt="{{ place.illustration.title }}" class="about-img">
+				<img src="{{ path('file_card', {id: place.illustration.id }) }}" alt="{{ place.illustration.title }}" class="about-img">
 			{% endif %}
 
 			<div class="about-content-card">

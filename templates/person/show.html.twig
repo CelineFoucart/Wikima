@@ -85,7 +85,7 @@
 				<div class="text-center mb-2">
 					{% set image_path = vich_uploader_asset(person.image) %}
 					<a href="{{ image_path }}" data-fslightbox="first-lightbox">
-						<img src="{{ image_path|imagine_filter('gallery_thumbnail') }}" alt="{{ person.image.title }}">
+						<img src="{{ path('file_card', {id: person.image.id })  }}" alt="{{ person.image.title }}">
 					</a>
 					<div class="text-end w-100">
 						<a href="{{ path('app_image_show', {slug: person.image.slug}) }}" 

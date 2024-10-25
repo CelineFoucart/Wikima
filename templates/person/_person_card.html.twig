@@ -37,7 +37,7 @@
 	<div class="about-card">
 		<div class="content-card">
 			{% if person.image %}
-				<img src="{{ vich_uploader_asset(person.image)|imagine_filter('card_image') }}" alt="{{ person.image.title }}" class="about-img">
+				<img src="{{ path('file_thumb', {id: person.image.id }) }}" alt="{{ person.image.title }}" class="about-img">
 			{% endif %}
 			<div class="about-content-card">
 				<p>{{ person.presentation|striptags|raw|u.truncate(100, '...', false)|raw }}</p>
