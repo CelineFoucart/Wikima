@@ -2,7 +2,7 @@
     <section>
         <header-gallery />
         <div class="row flex-lg-row-reverse mt-3">
-            <div class="col-lg-4 border-search">
+            <div class="col-lg-4 border-search position-relative">
                 <search-form @on-search="onSearch" />
             </div>
             <div class="col-lg-8">

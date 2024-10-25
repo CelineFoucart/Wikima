@@ -28,9 +28,9 @@ final class ImageController extends AbstractController
     {
         $length = $request->query->getInt('length', $perPageEven);
         $params = [
-            'categories' => $request->get('categories[]'),
-            'portals' => $request->get('portals[]', []),
-            'tags' => $request->get('tags[]', []),
+            'categories' => $request->get('categories'),
+            'portals' => $request->get('portals', []),
+            'tags' => $request->get('tags', []),
             'query' => $request->get('query', null)
         ];
 

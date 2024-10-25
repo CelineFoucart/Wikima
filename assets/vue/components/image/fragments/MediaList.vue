@@ -1,5 +1,5 @@
 <template>
-    <div class="image-container mb-2">
+    <div class="image-container mb-2 align-items-start">
         <media-card :media="media" v-for="media in mediaStore.medias" :key="media.id"></media-card>
     </div>
 </template>
