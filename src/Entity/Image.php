@@ -85,6 +85,7 @@ class Image
     private Collection $imageGroups;
 
     #[ORM\OneToMany(mappedBy: 'image', targetEntity: Map::class)]
+    #[Groups(['index-media'])]
     private Collection $maps;
 
     public function __construct()

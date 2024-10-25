@@ -4,7 +4,7 @@
             <h2 class="card-title h5 mb-0">
                 Carte
                 {% if map.image is not null %}
-                    à partir de l'image <a href="{{ path('admin_app_image_show', {id: map.image.id}) }}">{{ map.image }}</a>
+                    à partir de l'image <a href="{{ path('admin_app_image_edit', {id: map.image.id}) }}">{{ map.image }}</a>
                 {% endif %}
             </h2>
         </div>

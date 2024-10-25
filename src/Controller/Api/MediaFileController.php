@@ -20,7 +20,7 @@ final class MediaFileController extends AbstractController
     public const RESIZE_AVAILABLE = [
         'gallery_thumbnail' => ['w' => 150, 'h' => 150, 'fit' => 'crop'],
         'card_image' => ['w' => 305,  'h' => 280, 'fit' => 'crop'],
-        'medium_image' => ['w' => 700,  'h' => 1000, 'fit' => 'crop'],
+        'medium_image' => ['w' => 700,  'h' => 1000, 'fit' => 'contain'],
         'medium_banner' => ['w' => 550,  'h' => 140, 'fit' => 'crop'],
     ];
 
@@ -43,6 +43,17 @@ final class MediaFileController extends AbstractController
         $glide->setResponseFactory(new SymfonyResponseFactory());
         $glide->setCachePathPrefix('/gallery_thumbnail');
         $response = $glide->getImageResponse($path, self::RESIZE_AVAILABLE['gallery_thumbnail']);
+
+        return $response;
+    }
+
+    #[Route('/{id}/medium', name: 'file_medium', methods:['GET'])]
+    public function mediumAction(Image $image, Server $glide): Response
+    {
+        $path = $this->vichHelper->asset($image);
+        $glide->setResponseFactory(new SymfonyResponseFactory());
+        $glide->setCachePathPrefix('/medium_image');
+        $response = $glide->getImageResponse($path, self::RESIZE_AVAILABLE['medium_image']);
 
         return $response;
     }

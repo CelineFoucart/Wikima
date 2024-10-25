@@ -113,6 +113,8 @@ export default {
             this.params.categories = [];
             this.params.portals = [];
             this.params.tags = [];
+
+            this.search();
         },
 
         search() {

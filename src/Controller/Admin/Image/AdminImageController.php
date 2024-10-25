@@ -33,9 +33,7 @@ final class AdminImageController extends AbstractAdminController
     #[Route('/', name: 'admin_app_image_list', methods: ['GET'])]
     public function listAction(): Response
     {
-        return $this->render('Admin/image/list.html.twig', [
-            'images' => $this->imageRepository->findAll(),
-        ]);
+        return $this->render('Admin/image/list.html.twig');
     }
 
     #[Route('/create', name: 'admin_app_image_create', methods: ['GET', 'POST'])]
@@ -76,14 +74,6 @@ final class AdminImageController extends AbstractAdminController
 
         return $this->render('Admin/image/create.html.twig', [
             'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/{id}/show', name: 'admin_app_image_show', methods: ['GET'])]
-    public function showAction(Image $image): Response
-    {
-        return $this->render('Admin/image/show.html.twig', [
-            'image' => $image,
         ]);
     }
 

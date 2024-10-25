@@ -11,7 +11,7 @@
                     {% if map.image is not null %}
                         <img src="{{ vich_uploader_asset(map.image) }}" class="img-thumbnail" alt="{{ map.image.title }}">
                         <p class="mb-0 text-center">
-                            <a href="{{ path('admin_app_image_show', {id: map.image.id}) }}">{{ map.image.title }}</a>
+                            <a href="{{ path('admin_app_image_edit', {id: map.image.id}) }}">{{ map.image.title }}</a>
                         </p>
                     {% else %}
                         <p class="fst-italic">Aucune image</p>

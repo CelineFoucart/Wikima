@@ -2,6 +2,8 @@ import { registerVueControllerComponents } from '@symfony/ux-vue';
 import '@root/bootstrap.js';
 import { createPinia } from 'pinia';
 import "toastify-js/src/toastify.css";
+import 'floating-vue/dist/style.css';
+import FloatingVue from 'floating-vue';
 
 registerVueControllerComponents(require.context('./views', true, /\.vue$/));
 document.addEventListener('vue:before-mount', (event) => {
@@ -14,5 +16,5 @@ document.addEventListener('vue:before-mount', (event) => {
 
     const pinia = createPinia();
 
-    app.use(pinia);
+    app.use(pinia).use(FloatingVue);
 });

@@ -2,15 +2,24 @@
     <section>
         <header-gallery />
         <div class="row flex-lg-row-reverse mt-3">
-            <div class="col-lg-4 border-search position-relative">
+            <div class="col-lg-4 col-xl-3 border-search position-relative">
                 <search-form @on-search="onSearch" />
             </div>
-            <div class="col-lg-8">
-                <media-list />
+            <div class="col-lg-8 col-xl-9">
+                <div class="image-container mb-2 align-items-start">
+                    <media-card 
+                        v-for="media in mediaStore.medias" 
+                        :media="media" 
+                        :dateFormat="dateFormat"
+                        :key="media.id" 
+                        @on-open-lightbox="openLightBox(sourceIndex[media.id] ? sourceIndex[media.id] : null)"
+                    ></media-card>
+                </div>
                 <pagination-media :pagination="mediaStore.pagination" @on-change="onPaginate" />
             </div>
         </div>
         <loading v-if="loading" />
+        <fs-lightbox :toggler="toggler" :slide="slide" :sources="sources"></fs-lightbox>
     </section>
 </template>
 
@@ -19,9 +28,10 @@ import { mapStores } from "pinia";
 import { useMediaStore } from '@store/media.js';
 import HeaderGallery from '@components/image/fragments/HeaderGallery.vue';
 import SearchForm from '@components/image/fragments/SearchForm.vue';
-import MediaList from '@components/image/fragments/MediaList.vue';
+import MediaCard from '@components/image/fragments/MediaCard.vue';
 import PaginationMedia from '@components/image/fragments/PaginationMedia.vue';
 import Loading from '@components/fragments/Loading.vue';
+import FsLightbox from "fslightbox-vue/v3";
 
 export default {
     name: 'MediaContainer',
@@ -29,9 +39,14 @@ export default {
     components: {
         'header-gallery': HeaderGallery,
         'search-form': SearchForm,
-        'media-list': MediaList,
         'pagination-media': PaginationMedia,
         'loading': Loading,
+        'media-card': MediaCard,
+        'fs-lightbox': FsLightbox,
+    },
+
+    props: {
+        dateFormat: String
     },
 
     data() {
@@ -44,7 +59,11 @@ export default {
             },
             currentPage: 1,
             currentLimit: 10,
-            loading: false
+            loading: false,
+            sources: [],
+            toggler: false,
+            slide: 1,
+            sourceIndex: {},
         }
     },
 
@@ -91,8 +110,26 @@ export default {
                 createToastify("Le chargement des médias a échoué", 'error');
             } 
             
-            // this.setSourcesForLightBox();
+            this.setSourcesForLightBox();
             this.loading = false;
+        },
+
+        setSourcesForLightBox() {
+            let index = 1;
+            this.sources = [];
+            this.mediaStore.medias.forEach(element => {
+                this.sources.push(Routing.generate('file_show', {id: element.id}));
+                this.sourceIndex[element.id] = index;
+                index++;
+            });
+        },
+
+        openLightBox(index) {
+            if (index === null || this.selectMultiple === true) {
+                return;
+            }
+            this.slide = index;
+            this.toggler = !this.toggler;
         },
     },
 }
@@ -103,5 +140,9 @@ export default {
     .border-search {
         border-left: var(--bs-border-width) var(--bs-border-style) var(--bs-border-color);
     }
+}
+
+.image-container {
+    min-height: 375px;
 }
 </style>
