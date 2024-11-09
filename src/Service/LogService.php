@@ -25,9 +25,9 @@ final class LogService
         return $this;
     }
 
-    public function error(string $action, string $message, string $object = 'Exception'): static
+    public function error(string $action, string $message, string $trace, string $object = 'Exception'): static
     {
-        $log = $this->createLog($action, $object, $message)->setLevel('ERROR');
+        $log = $this->createLog($action, $object, $message)->setLevel('ERROR')->setTrace($trace);
 
         if (!$this->entityManager->isOpen()) {
             $this->doctrine->resetManager();

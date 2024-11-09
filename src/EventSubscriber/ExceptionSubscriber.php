@@ -20,7 +20,8 @@ class ExceptionSubscriber implements EventSubscriberInterface
         $statusCode = ($exception instanceof HttpException) ? $exception->getStatusCode() : 500;
         $className = (new \ReflectionClass($exception))->getShortName();
         $message = $exception->getMessage();
-        $this->logService->error("Erreur $statusCode", $message, $className);
+        $trace = $exception->getTraceAsString();
+        $this->logService->error("Erreur $statusCode", $message, $trace, $className);
     }
 
     public static function getSubscribedEvents(): array

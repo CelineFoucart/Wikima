@@ -22,8 +22,8 @@
 {% endblock %}
 
 {% block body %}
-    <div class="card {{ log.level == 'ERROR' ? 'delete-modal' : 'border-top-primary' }}">
-        <div class="card-header bg-white">
+    <article class="card {{ log.level == 'ERROR' ? 'delete-modal' : 'border-top-primary' }}">
+        <header class="card-header bg-white">
             <h2 class="card-title h5 mb-0">
                 {% if log.level == 'ERROR' %}
                     <span class="text-danger">
@@ -35,7 +35,7 @@
                     </span>
                 {% endif %}
             </h2>
-        </div>
+        </header>
         <div class="card-body card-show">
             <table class="table table-striped mb-0">
                 <tbody>
@@ -70,5 +70,16 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </article>
+
+    {% if log.trace is not null  %}
+        <article class="card delete-modal mt-3">
+            <header class="card-header bg-white">
+                <h2 class="card-title h5 mb-0">Trace</h2>
+            </header>
+            <div class="card-body">
+                {{ log.trace|nl2br|nl2br }}
+            </div>
+        </article>
+    {% endif %}
 {% endblock %}

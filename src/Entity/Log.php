@@ -43,6 +43,14 @@ class Log
     #[Groups(['index'])]
     private ?string $message = null;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $trace = null;
+
+    public function __toString()
+    {
+        return 'Log : '.$this->action;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -131,9 +139,16 @@ class Log
 
         return $this;
     }
-
-    public function __toString()
+    
+    public function getTrace(): ?string
     {
-        return 'Log : '.$this->action;
+        return $this->trace;
+    }
+    
+    public function setTrace(?string $trace): static
+    {
+        $this->trace = $trace;
+
+        return $this;
     }
 }
