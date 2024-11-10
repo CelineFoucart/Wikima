@@ -210,39 +210,12 @@ final class AdminArticleController extends AbstractAdminController
     }
 
     #[Route('/{id}/gallery', name: 'admin_app_article_gallery', methods: ['GET', 'POST'])]
-    public function galleryAction(Article $article, Request $request): Response
+    public function galleryAction(Article $article): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
-        $image = (new Image())->setPortals($article->getPortals());
-        $formImage = $this->createForm(ImageType::class, $image);
-        $formImage->handleRequest($request);
-
-        if ($formImage->isSubmitted()) {
-            if ($formImage->isValid()) {
-                $this->imageRepository->add($image, true);
-                $article->addImage($image);
-                $this->imageRepository->add($image, true);
-                $this->articleRepository->add($article, true);
-                $this->addFlash('success', "L'image a bien été ajoutée.");
-
-                return $this->redirectToRoute('admin_app_article_gallery', ['id' => $article->getId()]);
-            } else {
-                $this->addFlash('error', "La soumission a échoué, car le formulaire n'est pas valide.");
-            }
-        } elseif ('POST' === $request->getMethod()) {
-            $this->handleGallery($request, $article);
-            $uri = $request->server->get('REQUEST_URI');
-
-            if ($uri) {
-                return $this->redirect($uri);
-            }
-
-            return $this->redirectToRoute('admin_app_article_gallery', ['id' => $article->getId()]);
-        }
 
         return $this->render('Admin/article/gallery.html.twig', [
             'article' => $article,
-            'formImage' => $formImage->createView(),
             'gallery_active' => true,
         ]);
     }

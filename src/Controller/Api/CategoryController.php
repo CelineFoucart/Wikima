@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 #[Route('/api/category')]
 class CategoryController extends AbstractController
 {
-    #[Route('', name: 'api_category_index')]
+    #[Route('', name: 'api_category_index', methods:['GET'])]
     public function index(CategoryRepository $categoryRepository): JsonResponse
     {
         return $this->json($categoryRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'index']);

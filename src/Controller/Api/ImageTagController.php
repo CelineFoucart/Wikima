@@ -18,7 +18,7 @@ final class ImageTagController extends AbstractController
     {
     }
 
-    #[Route('', name: 'api_image_type_index')]
+    #[Route('', name: 'api_image_type_index', methods:['GET'])]
     public function indexAction(ImageTagRepository $imageTagRepository): JsonResponse
     {
         return $this->json($imageTagRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'index-media']);

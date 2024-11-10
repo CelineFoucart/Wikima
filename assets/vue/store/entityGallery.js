@@ -16,7 +16,6 @@ export const useEntityGalleryStore = defineStore('entityGallery', {
                 this.medias = response.data;
                 return true;
             } catch (error) {
-                console.log(error)
                 this.medias = [];
                 return false;
             }
@@ -29,6 +28,7 @@ export const useEntityGalleryStore = defineStore('entityGallery', {
                 this.pushMedia(media);
                 return true;
             } catch (error) {
+                console.log(error)
                 return false;
             }
         },

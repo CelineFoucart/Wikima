@@ -1,48 +1,5 @@
 {% extends 'Admin/article/show_general.html.twig' %}
 
 {% block show_tab %}
-	<div class="text-end">
-		<button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#form-modal">
-			Uploader
-		</button>
-	</div>
 	<div {{ vue_component('admin/image/EntityGallery', { dateFormat: date_format, entityId: article.id, type: 'article' }) }}></div>
-
-	<div class="modal fade" id="form-modal" tabindex="-1" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">Uploader une image</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				{{ form_start(formImage) }}
-				<div class="modal-body">
-					{{ form_row(formImage.title) }}
-					<div class="mb-2">
-						{{ form_label(formImage.slug) }}
-						<div class="input-group">
-							{{ form_widget(formImage.slug) }}
-							<span 
-								class="input-group-text" 
-								data-action="slugify" 
-								data-target="#image_slug" 
-								role="btton" 
-								data-source="#image_title"
-								title="Générer"
-								data-bs-toggle="tooltip">
-								<i class="fas fa-sync-alt"></i>
-							</span>
-						</div>
-						{{ form_errors(formImage.slug) }}
-					</div>
-					{{ form_rest(formImage) }}
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Fermer</button>
-					<button type="submit" class="btn btn-primary btn-sm">Ajouter</button>
-				</div>
-				{{ form_end(formImage) }}
-			</div>
-		</div>
-	</div>
 {% endblock %}

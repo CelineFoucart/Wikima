@@ -5,7 +5,7 @@
 				<div class="btn-group">
                     <button type="button" class="btn btn-primary btn-sm" @click="openUploadModal = true">
                         <i class="fa-solid fa-upload fa-fw"></i> 
-                        <span class="ps-1 d-none d-md-inline-block">Uploader</span>
+                        <span class="ps-1 d-none d-md-inline-block">Ajouter</span>
                     </button>
                     <button type="button" class="btn btn-primary btn-sm" @click="openGalleryModal = true">
                         <i class="fa-solid fa-images fa-fw"></i> 
@@ -36,6 +36,9 @@
                     @on-append="onAppend"
                     @on-remove="onRemove"
                 ></media-card>
+                <div class="text-muted" v-if="entityGalleryStore.medias.length === 0 && loading === false">
+                    Cette galerie ne contient pas d'images.
+                </div>
             </div>
             <fs-lightbox :toggler="toggler" :slide="slide" :sources="sources"></fs-lightbox>
             <loading v-if="loading" />
@@ -98,7 +101,8 @@ export default {
 
     methods: {
         async onAppend(media) {
-            const status = await this.entityGalleryStore.pushMedia(this.type, this.entityId, media);
+            this.openUploadModal = false;
+            const status = await this.entityGalleryStore.appendMedia(this.type, this.entityId, media);
             if (!status) {
             createToastify("L'ajout a échoué.", "error");
         }

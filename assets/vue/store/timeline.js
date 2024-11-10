@@ -36,7 +36,6 @@ export const useTimelineStore = defineStore('timeline', {
                 this.timeline = response.data;
                 return true;
             } catch (error) {
-                console.log(error)
                 return false;
             }
         },

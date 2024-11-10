@@ -5,7 +5,8 @@ export const useMediaStore = defineStore('media', {
     state: () => ({
         medias: [],
         pagination: { current: 1, numItemsPerPage: 10, totalCount: 0, firstItemNumber: 0, pagesInRange: [], lastItemNumber: 0 },
-        types: []
+        types: [],
+        lastInserted: null
     }),
 
     actions: {
@@ -53,11 +54,24 @@ export const useMediaStore = defineStore('media', {
                 formData.append("description", media.description);
                 formData.append("imageFile", media.imageFile);
 
-                formData.append("tags", media.tags);
-                formData.append("categories", media.categories);
-                formData.append("portals", media.portals);
+                media.categories.forEach(category => {
+                    formData.append("categories[]", category.id);
+                });
+                
+                media.portals.forEach(portal => {
+                    formData.append("portals[]", portal.id);
+                });
+                
+                media.tags.forEach(tag => {
+                    formData.append("tags[]", tag.id);
+                });
+                
+                media.imageGroups.forEach(imageGroup => {
+                    formData.append("imageGroups[]", imageGroup.id);
+                });
 
-                await axios.post(Routing.generate("api_image_create"), formData);
+                const response = await axios.post(Routing.generate("api_image_create"), formData);
+                this.lastInserted = response.data;
                 return true;
             } catch (error) {
                 return false;

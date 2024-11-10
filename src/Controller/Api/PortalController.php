@@ -11,7 +11,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/api/portal')]
 class PortalController extends AbstractController
 {
-    #[Route('', name: 'api_portal_index')]
+    #[Route('', name: 'api_portal_index', methods:['GET'])]
     public function index(PortalRepository $portalRepository): JsonResponse
     {
         return $this->json($portalRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'index']);
