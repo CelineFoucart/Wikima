@@ -11,8 +11,10 @@
                         v-for="media in mediaStore.medias" 
                         :media="media" 
                         :dateFormat="dateFormat"
+                        :withEntity="withEntity"
                         :key="media.id" 
                         @on-open-lightbox="openLightBox(sourceIndex[media.id] ? sourceIndex[media.id] : null)"
+                        @on-append="onAppend"
                     ></media-card>
                 </div>
                 <pagination-media :pagination="mediaStore.pagination" @on-change="onPaginate" />
@@ -45,8 +47,14 @@ export default {
         'fs-lightbox': FsLightbox,
     },
 
+    emits: ['on-append'],
+
     props: {
-        dateFormat: String
+        dateFormat: String,
+        withEntity: {
+            type: Boolean,
+            default: false
+        }
     },
 
     data() {
@@ -131,6 +139,10 @@ export default {
             this.slide = index;
             this.toggler = !this.toggler;
         },
+
+        async onAppend(media) {
+            this.$emit('on-append', media);
+        }
     },
 }
 </script>

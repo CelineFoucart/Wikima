@@ -3,21 +3,41 @@
         <div v-tooltip="media.title" @click="$emit('on-open-lightbox')" role="button">
             <img :src="thumbRoute" :alt="media.title" class="thumbnail">
         </div>
-        <div class="w-100 mt-1 d-flex justify-content-between">
-            <a :href="publicShowRoute" class="btn btn-sm btn-default" v-tooltip="'Afficher publiquement'">
-                <i class="fas fa-book-reader"></i>
-            </a>                   
+        <div class="w-100 mt-1 d-flex" :class="(withEntity || withRemoveBtn) ? 'justify-content-between' : 'justify-content-end'">
+            <button type="button" v-if="withEntity" class="btn btn-sm btn-default" v-tooltip="'Ajouter'" @click="onAppend">
+                <i class="fas fa-plus fa-fw"></i>
+            </button>     
+            <button type="button" v-if="withRemoveBtn" class="btn btn-sm btn-danger" v-tooltip="'Retirer'"  @click="onRemove">
+                <i class="fa-solid fa-link-slash fa-fw"></i>
+            </button>             
 
             <div class="btn-group">
                 <button type="button" @click="openShowModal = true" class="btn btn-sm btn-default" v-tooltip="'Voir les information'">
-                    <i class="fas fa-info-circle"></i>
+                    <i class="fas fa-info-circle fa-fw"></i>
                 </button>
-                <a :href="convertMapRoute" class="btn btn-default btn-sm" v-tooltip="'convertir en carte'">
-                    <i class="fas fa-map"></i>
-                </a>
-                <a :href="editRoute" class="btn btn-sm btn-default" v-tooltip="'Éditer'">
-                    <i class="fas fa-pencil-alt" aria-hidden="true"></i>
-                </a>
+                <div class="dropdown btn-group">
+                    <button class="btn btn-sm btn-default dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-ellipsis-vertical fa-fw"></i>
+                        <span class="visually-hidden">Actions</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a class="dropdown-item" :href="convertMapRoute">
+                                <i class="fas fa-map fa-fw"></i> Convertir en carte
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" :href="editRoute">
+                                <i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i> Éditer
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" :href="publicShowRoute">
+                                <i class="fas fa-book-reader fa-fw"></i> Afficher publiquement
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -34,11 +54,16 @@ export default {
         'show-modal': ShowModal,
     },
 
-    emits: ['on-open-lightbox'],
+    emits: ['on-open-lightbox', 'on-append', 'on-remove'],
 
     props: {
         media: Object,
-        dateFormat: String
+        dateFormat: String,
+        withEntity: Boolean,
+        withRemoveBtn: {
+            type: Boolean,
+            default: false
+        }
     },
 
     data() {
@@ -62,6 +87,16 @@ export default {
 
         convertMapRoute() {
             return Routing.generate('admin_app_map_create', {image: this.media.id})
+        }
+    },
+
+    methods: {
+        onAppend() {
+            this.$emit('on-append', this.media);
+        },
+
+        onRemove() {
+            this.$emit('on-remove', this.media);
         }
     },
 }

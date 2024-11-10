@@ -213,7 +213,6 @@ final class AdminArticleController extends AbstractAdminController
     public function galleryAction(Article $article, Request $request): Response
     {
         $this->denyAccessUnlessGranted(VoterHelper::EDIT, $article);
-        $page = $request->query->getInt('page', 1);
         $image = (new Image())->setPortals($article->getPortals());
         $formImage = $this->createForm(ImageType::class, $image);
         $formImage->handleRequest($request);
@@ -241,23 +240,8 @@ final class AdminArticleController extends AbstractAdminController
             return $this->redirectToRoute('admin_app_article_gallery', ['id' => $article->getId()]);
         }
 
-        $excludes = array_map(function (Image $item) {
-            return $item->getId();
-        }, $article->getImages()->toArray());
-        $searchData = (new SearchData())->setPage($page);
-        $form = $this->createForm(AdvancedImageSearchType::class, $searchData, ['allow_extra_fields' => true]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $images = $this->imageRepository->search($searchData, $excludes, 15);
-        } else {
-            $images = $this->imageRepository->findPaginated($page, $excludes, 15);
-        }
-
         return $this->render('Admin/article/gallery.html.twig', [
             'article' => $article,
-            'images' => $images,
-            'form' => $form->createView(),
             'formImage' => $formImage->createView(),
             'gallery_active' => true,
         ]);

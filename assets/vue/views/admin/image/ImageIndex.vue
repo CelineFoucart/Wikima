@@ -4,7 +4,7 @@
             <h2 class="card-title h5 mb-0">Galerie</h2>
         </header>
         <div class="card-body">
-            <media-container :dateFormat="dateFormat" :withEntity="withEntity" @on-append-media="appendMedias"></media-container>
+            <media-container :dateFormat="dateFormat" :withEntity="false"></media-container>
         </div>
     </article>
 </template>
@@ -20,17 +20,7 @@ export default {
     },
 
     props: {
-        withEntity: {
-            type: Boolean,
-            default: false
-        },
         dateFormat: String
-    },
-
-    methods: {
-        appendMedias(payload) {
-            this.$emit('on-append-media', payload);
-        },
     },
 }
 </script>

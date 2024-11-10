@@ -43,26 +43,6 @@ class AdminApiController extends AbstractController
         );
     }
 
-    #[Route('/api/admin/articles', name: 'api_article_index', methods: ['GET'])]
-    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
-    public function articleAction(ArticleRepository $articleRepository, Request $request): JsonResponse
-    {
-        $parameters = $request->query->all();
-        $recordsFiltered = $articleRepository->countSearchTotal($parameters);
-        $recordsTotal = $articleRepository->countSearchTotal([]);
-
-        $data = $articleRepository->searchPaginatedItems($parameters);
-
-        $data = [
-            'draw' => isset($parameters['draw']) ? (int) $parameters['draw'] : 0,
-            'recordsFiltered' => isset($recordsFiltered['recordsFiltered']) ? $recordsFiltered['recordsFiltered'] : 0,
-            'data' => $data,
-            'recordsTotal' => isset($recordsTotal['recordsFiltered']) ? $recordsTotal['recordsFiltered'] : 0,
-        ];
-
-        return $this->json($data, 200, [], ['groups' => 'index']);
-    }
-
     #[Route('/api/admin/persons', name: 'api_person_index', methods: ['GET'])]
     #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
     public function personAction(PersonRepository $personRepository, Request $request): JsonResponse
