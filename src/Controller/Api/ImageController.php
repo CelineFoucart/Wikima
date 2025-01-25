@@ -7,7 +7,9 @@ namespace App\Controller\Api;
 use App\Entity\Image;
 use App\Form\Admin\ImageType;
 use App\Entity\Data\SearchData;
+use App\Service\ImageResizeHelper;
 use App\Repository\ImageRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Form\Search\AdvancedImageSearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -69,5 +71,29 @@ final class ImageController extends AbstractController
         }
 
         return $this->json('Invalid data', Response::HTTP_BAD_REQUEST);
+    }
+
+    #[Route('/{id}', name: 'api_image_delete', methods: ['DELETE'])]
+    #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
+    public function deleteAction(Image $image, EntityManagerInterface $em, ImageResizeHelper $cacheHelper): Response
+    {
+        $cacheHelper->removeImageCache($image); 
+
+        if (count($image->getPlaces()) > 0 || count($image->getPeople()) > 0) {
+            foreach ($image->getPlaces() as $place) {
+                $image->removePlace($place);
+            }
+
+            foreach ($image->getPeople() as $person) {
+                $image->removePerson($person);
+            }
+
+            $em->persist($image);
+            $em->flush();
+        }
+
+        $this->imageRepository->remove($image, true);
+
+        return $this->json('', Response::HTTP_NO_CONTENT);
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <section>
-        <header-gallery />
+        <header-gallery @on-refresh="getMedias" />
         <div class="row flex-lg-row-reverse mt-3">
             <div class="col-lg-4 col-xl-3 border-search position-relative">
                 <search-form @on-search="onSearch" />
@@ -15,6 +15,7 @@
                         :key="media.id" 
                         @on-open-lightbox="openLightBox(sourceIndex[media.id] ? sourceIndex[media.id] : null)"
                         @on-append="onAppend"
+                        @on-remove="getMedias"
                     ></media-card>
                 </div>
                 <pagination-media :pagination="mediaStore.pagination" @on-change="onPaginate" />
@@ -34,6 +35,7 @@ import MediaCard from '@components/image/fragments/MediaCard.vue';
 import PaginationMedia from '@components/image/fragments/PaginationMedia.vue';
 import Loading from '@components/fragments/Loading.vue';
 import FsLightbox from "fslightbox-vue/v3";
+import { createToastify } from '@functions/toastify.js';
 
 export default {
     name: 'MediaContainer',
@@ -47,7 +49,7 @@ export default {
         'fs-lightbox': FsLightbox,
     },
 
-    emits: ['on-append'],
+    emits: ['on-append', 'on-delete'],
 
     props: {
         dateFormat: String,

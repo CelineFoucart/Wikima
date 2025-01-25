@@ -104,8 +104,8 @@ export default {
             this.openUploadModal = false;
             const status = await this.entityGalleryStore.appendMedia(this.type, this.entityId, media);
             if (!status) {
-            createToastify("L'ajout a échoué.", "error");
-        }
+                createToastify("L'ajout a échoué.", "error");
+            }
         },
 
         async onRemove(media) {

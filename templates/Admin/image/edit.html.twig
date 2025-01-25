@@ -21,6 +21,7 @@
 {% block toolbar %}
     {% embed 'Admin/components/_toolbar.html.twig' with { prefix: 'image', entity: image, show_route: 'app_image_show' } %}
 		{% block show_action %}{% endblock %}
+		{% block delete_action %}{% endblock %}
 	{% endembed %}
 {% endblock %}
 

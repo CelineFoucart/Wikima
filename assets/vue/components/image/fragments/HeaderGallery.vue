@@ -8,28 +8,46 @@
                 </h3>
             </div>
             <div class="col-4 text-end">
-                <a :href="uploadRoute" class="btn btn-success btn-sm">
+                <button type="button" class="btn btn-success btn-sm" @click="openUploadModal = true">
                     <i class="fas fa-plus-circle fa-fw" aria-hidden="true"></i>
                     <span class="ps-1 d-none d-md-inline-block">Ajouter</span>
-                </a>
+                </button>
             </div>
         </div>
+        <upload-modal v-if="openUploadModal" @on-append="onAppend" @on-close="openUploadModal = false" />
     </header>
 </template>
 
 <script>
 import { mapStores } from "pinia";
 import { useMediaStore } from '@store/media.js';
+import { createToastify } from '@functions/toastify.js';
+import UploadModal from '@components/image/fragments/UploadModal.vue';
 
 export default {
     name: 'HeaderGallery',
 
+    components: {
+        'upload-modal': UploadModal,
+    },
+
+    emits: ['on-refresh'],
+
+    data() {
+        return {
+            openUploadModal: false
+        }
+    },
+
     computed: {
         ...mapStores(useMediaStore),
+    },
 
-        uploadRoute() {
-            return Routing.generate('admin_app_image_create');
-        }
+    methods: {
+        async onAppend() {
+            this.openUploadModal = false;
+            this.$emit('on-refresh');
+        },
     },
 }
 </script>

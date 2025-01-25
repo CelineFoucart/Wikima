@@ -5,7 +5,7 @@
             <input type="text" id="query" v-model="params.query" placeholder="Recherche..." class="form-control search-input form-control">
         </div>
         <div class="mb-3">
-            <label for="categories" class="fw-bold form-label">Par catégorie</label>
+            <div class="fw-bold form-label">Par catégorie</div>
             <vue-multiselect 
                 v-model="params.categories" 
                 :options="categoryStore.categories" 
@@ -23,7 +23,7 @@
             </vue-multiselect>
         </div>
         <div class="mb-3">
-            <label for="portals" class="fw-bold form-label">Par portails</label>
+            <div class="fw-bold form-label">Par portails</div>
             <vue-multiselect 
                 v-model="params.portals" 
                 :options="portalStore.portals" 
@@ -41,7 +41,7 @@
             </vue-multiselect>
         </div>
         <div class="mb-3">
-            <label for="tags" class="fw-bold form-label">Par types</label>
+            <div class="fw-bold form-label">Par types</div>
             <vue-multiselect 
                 v-model="params.tags" 
                 :options="mediaStore.types" 

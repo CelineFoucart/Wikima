@@ -96,30 +96,4 @@ final class AdminImageController extends AbstractAdminController
             'image' => $image,
         ]);
     }
-
-    #[Route('/{id}/delete', name: 'admin_app_image_delete', methods: ['POST'])]
-    public function deleteAction(Request $request, Image $image, EntityManagerInterface $em, ImageResizeHelper $cacheHelper): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$image->getId(), $request->request->get('_token'))) {
-            $cacheHelper->removeImageCache($image); 
-
-            if (count($image->getPlaces()) > 0 || count($image->getPeople()) > 0) {
-                foreach ($image->getPlaces() as $place) {
-                    $image->removePlace($place);
-                }
-
-                foreach ($image->getPeople() as $person) {
-                    $image->removePerson($person);
-                }
-
-                $em->persist($image);
-                $em->flush();
-            }
-
-            $this->imageRepository->remove($image, true);
-            $this->addFlash('success', "L'élément a été supprimé avec succès.");
-        }
-
-        return $this->redirectToRoute('admin_app_image_list', [], Response::HTTP_SEE_OTHER);
-    }
 }

@@ -36,22 +36,33 @@
                                 <i class="fas fa-book-reader fa-fw"></i> Afficher publiquement
                             </a>
                         </li>
+                        <li>
+                            <button class="dropdown-item text-danger fw-bold" type="button" @click="openDelete = true">
+                                <i class="fas fa-trash fa-fw"></i> Supprimer
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-    <show-modal :image="media" :dateFormat="dateFormat" v-if="openShowModal" @on-close="openShowModal = false" />
+    <show-modal v-if="openShowModal" :image="media" :dateFormat="dateFormat"  @on-close="openShowModal = false" />
+    <delete-modal v-if="openDelete" :loading="loading" :title="media.title" @on-confirm="deleteImage" @on-close="openDelete = false" />
 </template>
 
 <script>
+import { mapStores } from "pinia";
+import { useMediaStore } from '@store/media.js';
 import ShowModal from '@components/image/fragments/ShowModal.vue';
+import DeleteModal from '@components/fragments/DeleteModal.vue';
+import { createToastify } from '@functions/toastify.js';
 
 export default {
     name: 'MediaCard',
 
     components: {
         'show-modal': ShowModal,
+        'delete-modal': DeleteModal,
     },
 
     emits: ['on-open-lightbox', 'on-append', 'on-remove'],
@@ -68,11 +79,15 @@ export default {
 
     data() {
         return {
-            openShowModal: false
+            openShowModal: false,
+            openDelete: false,
+            loading: false
         }
     },
 
     computed: {
+        ...mapStores(useMediaStore),
+
         thumbRoute() {
             return Routing.generate('file_thumb', {id: this.media.id});
         },
@@ -97,6 +112,19 @@ export default {
 
         onRemove() {
             this.$emit('on-remove', this.media);
+        },
+
+        async deleteImage() {
+            this.loading = true;
+            const status = await this.mediaStore.deleteMedia(this.media.id);
+            if (!status) {
+                createToastify("La suppression a échoué.", 'error');
+            } else {
+                this.openDelete = false;
+                this.$emit('on-remove');
+            }
+
+            this.loading = false;
         }
     },
 }

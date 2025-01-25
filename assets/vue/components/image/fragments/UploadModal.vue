@@ -213,7 +213,6 @@ export default {
             if (!status) {
                 createToastify("L'opération a échoué.", "error");
             } else if(this.mediaStore.lastInserted !== null) {
-                console.log('on-append')
                 this.$emit('on-append', this.mediaStore.lastInserted);
             }
 
