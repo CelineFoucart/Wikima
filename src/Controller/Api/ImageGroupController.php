@@ -22,6 +22,6 @@ final class ImageGroupController extends AbstractController
     #[Route('', name: 'api_image_group_index', methods:['GET'])]
     public function indexAction(ImageGroupRepository $imageGroupRepository): JsonResponse
     {
-        return $this->json($imageGroupRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'index-media']);
+        return $this->json($imageGroupRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'media:index']);
     }
 }

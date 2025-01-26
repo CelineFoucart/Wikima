@@ -14,6 +14,6 @@ class PortalController extends AbstractController
     #[Route('', name: 'api_portal_index', methods:['GET'])]
     public function index(PortalRepository $portalRepository): JsonResponse
     {
-        return $this->json($portalRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'index']);
+        return $this->json($portalRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'portal:index']);
     }
 }

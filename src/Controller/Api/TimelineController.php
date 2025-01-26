@@ -29,7 +29,7 @@ final class TimelineController extends AbstractController
     #[Route('/{id}', name: 'api_timeline_show', methods: ['GET'])]
     public function showAction(Timeline $timeline): JsonResponse
     {
-        return $this->json($timeline, Response::HTTP_OK, [], ['groups' => 'timeline-admin']);
+        return $this->json($timeline, Response::HTTP_OK, [], ['groups' => 'timeline:show']);
     }
 
     #[Route('/{id}/events', name: 'api_timeline_event_add', methods: ['POST'])]
@@ -57,7 +57,7 @@ final class TimelineController extends AbstractController
         $this->entityManager->flush();
         $timeline->addEvent($event);
 
-        return $this->json($timeline, Response::HTTP_CREATED, [], ['groups' => 'timeline-admin']);
+        return $this->json($timeline, Response::HTTP_CREATED, [], ['groups' => 'timeline:show']);
     }
 
     #[Route('/{id}/events/{eventId}', name: 'api_timeline_event_edit', methods: ['PUT'])]
@@ -78,7 +78,7 @@ final class TimelineController extends AbstractController
         $this->entityManager->persist($event);
         $this->entityManager->flush();
 
-        return $this->json($timeline, Response::HTTP_OK, [], ['groups' => 'timeline-admin']);
+        return $this->json($timeline, Response::HTTP_OK, [], ['groups' => 'timeline:show']);
     }
 
     #[Route('/{id}/events/{eventId}/position', name: 'api_timeline_event_position', methods: ['PUT'])]
@@ -97,7 +97,7 @@ final class TimelineController extends AbstractController
         $reorderService->setElements($timeline->getEvents()->toArray())->insertToNewPosition($event->getId(), $position);
         $this->entityManager->refresh($timeline);
 
-        return $this->json($timeline, Response::HTTP_OK, [], ['groups' => 'timeline-admin']);
+        return $this->json($timeline, Response::HTTP_OK, [], ['groups' => 'timeline:show']);
     }
 
     #[Route('/{id}/events/{eventId}', name: 'api_timeline_event_delete', methods: ['DELETE'])]
@@ -110,6 +110,6 @@ final class TimelineController extends AbstractController
         $this->entityManager->remove($event);
         $this->entityManager->flush();
 
-        return $this->json($timeline, Response::HTTP_OK, [], ['groups' => 'timeline-admin']);
+        return $this->json($timeline, Response::HTTP_OK, [], ['groups' => 'timeline:show']);
     }
 }

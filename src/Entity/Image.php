@@ -20,41 +20,41 @@ class Image
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Length(min: 2, max: 255)]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Length(min: 2,max: 255)]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private $keywords;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Length(min: 10,max: 255)]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private $description;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\Length(min: 1,max: 255)]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private $filename;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'images')]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private $categories;
 
     #[ORM\ManyToMany(targetEntity: Portal::class, inversedBy: 'images')]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private $portals;
 
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'images')]
@@ -64,7 +64,7 @@ class Image
     private ?File $imageFile = null;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private $updatedAt;
 
     #[ORM\OneToMany(mappedBy: 'image', targetEntity: Person::class)]
@@ -77,15 +77,15 @@ class Image
     private Collection $idiomArticles;
 
     #[ORM\ManyToMany(targetEntity: ImageTag::class, inversedBy: 'images')]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private Collection $tags;
 
     #[ORM\ManyToMany(targetEntity: ImageGroup::class, mappedBy: 'images')]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private Collection $imageGroups;
 
     #[ORM\OneToMany(mappedBy: 'image', targetEntity: Map::class)]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private Collection $maps;
 
     public function __construct()

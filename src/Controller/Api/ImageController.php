@@ -50,7 +50,7 @@ final class ImageController extends AbstractController
         $images = $this->imageRepository->search($search, [], $length);
         $data = ['medias' => $images, 'pagination' => $images->getPaginationData()];
 
-        return $this->json($data, Response::HTTP_OK, [], ['groups' => 'index-media']);
+        return $this->json($data, Response::HTTP_OK, [], ['groups' => 'media:index']);
     }
 
     #[Route('', name: 'api_image_create', methods:['POST'])]
@@ -67,7 +67,7 @@ final class ImageController extends AbstractController
             $image->setUpdatedAt(new \DateTime());
             $this->imageRepository->add($image, true);
 
-            return $this->json($image, Response::HTTP_CREATED, [], ['groups' => 'index-media']);
+            return $this->json($image, Response::HTTP_CREATED, [], ['groups' => 'media:index']);
         }
 
         return $this->json('Invalid data', Response::HTTP_BAD_REQUEST);

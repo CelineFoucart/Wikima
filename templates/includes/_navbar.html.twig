@@ -246,13 +246,26 @@
 					}}
 				{% endif %}
 
-				{{ include('includes/_dropdown_admin.html.twig', {
-						id: 'collapseImage',
-						label: 'Image',
-						icon: 'fas fa-image fa-fw',
-						route_prefix: 'admin_app_image'
-					}) 
-				}}
+				<a class="nav-link ps-0" type="button" data-bs-toggle="collapse" href="#collapseImage" aria-expanded="false" aria-controls="collapseImage">
+					<i class="fas fa-image fa-fw"></i> Image
+					<i class="fa-solid fa-chevron-right float-end"></i>
+				</a>
+				<div class="collapse" id="collapseImage">
+					<div class="ps-2 border-start border-3">
+						<ul class="list-unstyled">
+							<li>
+								<a class="nav-link" href="{{ path('admin_app_image_list') }}">
+									Liste
+								</a>
+							</li>
+							<li>
+								<a class="nav-link" href="{{ path('admin_app_image_list', {create: 1}) }}">
+									Ajouter
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
 				
 				{% if enable_idiom == 1 %}
 					{{ include('includes/_dropdown_admin.html.twig', {

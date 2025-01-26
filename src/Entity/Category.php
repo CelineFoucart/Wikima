@@ -21,36 +21,39 @@ class Category
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['timeline-admin', 'index-media', 'index'])]
+    #[Groups(['timeline:show', 'media:index', 'category:index', 'portal:index'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
-    #[Groups(['timeline-admin', 'index-media', 'index'])]
+    #[Groups(['timeline:show', 'media:index', 'category:index', 'portal:index'])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
-    #[Groups(['timeline-admin', 'index-media', 'index'])]
+    #[Groups(['timeline:show', 'media:index', 'category:index', 'portal:index'])]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length( min: 3, max: 255)]
+    #[Groups(['category:index'])]
     private $keywords;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
-    #[Groups(['timeline-admin', 'index-media', 'index'])]
+    #[Groups(['timeline:show', 'media:index', 'category:index'])]
     private $description;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['category:index'])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Groups(['category:index'])]
     private $updatedAt;
 
     #[ORM\ManyToMany(targetEntity: Portal::class, mappedBy: 'categories')]
@@ -69,9 +72,11 @@ class Category
     private $people;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['category:index'])]
     private ?string $presentation = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['category:index'])]
     private ?string $banner = null;
 
     #[Vich\UploadableField(mapping: 'upload_images', fileNameProperty: 'banner')]

@@ -17,49 +17,49 @@ class Timeline
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     #[Assert\Length(min: 3, max: 255)]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $description;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $updatedAt;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'timelines')]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $categories;
 
     #[ORM\ManyToMany(targetEntity: Portal::class, inversedBy: 'timelines')]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $portals;
 
     #[ORM\OneToMany(mappedBy: 'timeline', targetEntity: Event::class, orphanRemoval: true)]
     #[ORM\OrderBy(['timelineOrder' => 'ASC'])]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $events;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private ?int $position = null;
 
     #[ORM\ManyToMany(targetEntity: Scenario::class, mappedBy: 'timelines')]
@@ -70,7 +70,7 @@ class Timeline
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'previousReferences')]
     #[ORM\JoinColumn(onDelete:"SET NULL")]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private ?self $previous = null;
 
     #[ORM\OneToMany(mappedBy: 'previous', targetEntity: self::class)]
@@ -78,7 +78,7 @@ class Timeline
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'nextReferences')]
     #[ORM\JoinColumn(onDelete:"SET NULL")]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private ?self $next = null;
 
     #[ORM\OneToMany(mappedBy: 'next', targetEntity: self::class)]

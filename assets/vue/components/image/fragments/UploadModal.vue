@@ -155,6 +155,17 @@ export default {
         'vue-multiselect': VueMultiselect
     },
 
+    props: {
+        category: {
+            type: Number,
+            default: null,
+        },
+        portal: {
+            type: Number,
+            default: null,
+        },
+    },
+
     data() {
         return {
             loading: false,
@@ -195,10 +206,28 @@ export default {
         await this.portalStore.getPortals();
         await this.categoryStore.getCategories();
         await this.imageGroupStore.getImageGroups();
+        this.setInitialValues();
+        
         this.loading = false;
     },
 
     methods: {
+        setInitialValues() {
+            if (this.category) {
+                const index = this.categoryStore.categories.findIndex(element => element.id === this.category);
+                if (index !== -1) {
+                    this.media.categories.push(this.categoryStore.categories[index]);
+                }
+            } else if (this.portal) {
+                const index = this.portalStore.portals.findIndex(element => element.id === this.portal);
+                if (index !== -1) {
+                    const portal = this.portalStore.portals[index];
+                    this.media.portals.push(portal);
+                    this.media.categories = portal.categories;
+                }
+            }
+        },
+
         async onSave() {
             this.loading = true;
             const result = await this.v$.$validate();

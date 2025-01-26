@@ -21,39 +21,43 @@ class Portal
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['index', 'timeline-admin', 'index-media', 'index'])]
+    #[Groups(['timeline:show', 'media:index', 'portal:index'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length( min: 3, max: 255)]
-    #[Groups(['index', 'timeline-admin', 'index-media', 'index'])]
+    #[Groups(['timeline:show', 'media:index', 'portal:index'])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
-    #[Groups(['index', 'timeline-admin', 'index-media', 'index'])]
+    #[Groups(['timeline:show', 'media:index', 'portal:index'])]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
+    #[Groups(['portal:index'])]
     private $keywords;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
-    #[Groups(['timeline-admin', 'index-media', 'index'])]
+    #[Groups(['timeline:show', 'media:index', 'portal:index'])]
     private $description;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    #[Groups(['portal:index'])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime', nullable: true)]
+    #[Groups(['portal:index'])]
     private $updatedAt;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'portals')]
+    #[Groups(['portal:index'])]
     private $categories;
 
     #[ORM\ManyToMany(targetEntity: Article::class, mappedBy: 'portals')]
@@ -75,6 +79,7 @@ class Portal
     private $people;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['portal:index'])]
     private ?string $presentation = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -91,6 +96,7 @@ class Portal
     private Collection $places;
 
     #[ORM\Column(nullable: true)]
+    #[Groups(['portal:index'])]
     private ?int $position = null;
 
     #[ORM\ManyToMany(targetEntity: Idiom::class, mappedBy: 'portals')]

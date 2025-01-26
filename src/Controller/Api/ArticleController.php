@@ -49,7 +49,7 @@ class ArticleController extends AbstractController
     #[IsGranted(new Expression("is_granted('ROLE_ADMIN') or is_granted('ROLE_EDITOR')"))]
     public function galleryAction(Article $article): JsonResponse
     {
-        return $this->json($article->getImages(), Response::HTTP_OK, [], ['groups' => 'index-media']);
+        return $this->json($article->getImages(), Response::HTTP_OK, [], ['groups' => 'media:index']);
     }
 
     #[Route('/{id}/gallery/{mediaId}', name: 'api_article_gallery_append', methods: ['POST'])]
@@ -61,7 +61,7 @@ class ArticleController extends AbstractController
         $this->entityManager->persist($article);
         $this->entityManager->flush();
 
-        return $this->json($media, Response::HTTP_OK, [], ['groups' => 'index-media']);
+        return $this->json($media, Response::HTTP_OK, [], ['groups' => 'media:index']);
     }
 
     #[Route('/{id}/gallery/{mediaId}', name: 'api_article_gallery_remove', methods: ['DELETE'])]

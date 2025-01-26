@@ -13,36 +13,36 @@ class Event
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length( min: 1, max: 255)]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $duration;
 
     #[ORM\Column(type: 'string', length: 2500, nullable: true)]
     #[Assert\Length(min: 3, max: 2500)]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $presentation;
 
     #[ORM\Column(type: 'smallint', nullable: true)]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $timelineOrder;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime')]
-    #[Groups(['timeline-admin'])]
+    #[Groups(['timeline:show'])]
     private $updatedAt;
 
     #[ORM\ManyToOne(targetEntity: Timeline::class, inversedBy: 'events')]

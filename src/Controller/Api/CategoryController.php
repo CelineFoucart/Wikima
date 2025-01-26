@@ -14,6 +14,6 @@ class CategoryController extends AbstractController
     #[Route('', name: 'api_category_index', methods:['GET'])]
     public function index(CategoryRepository $categoryRepository): JsonResponse
     {
-        return $this->json($categoryRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'index']);
+        return $this->json($categoryRepository->findAll(), Response::HTTP_OK, [], ['groups' => 'category:index']);
     }
 }

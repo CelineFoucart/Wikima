@@ -14,15 +14,15 @@ class ImageGroup
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private ?string $slug = null;
 
     #[ORM\Column(length: 5000, nullable: true)]

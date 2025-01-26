@@ -36,48 +36,7 @@ final class AdminImageController extends AbstractAdminController
         return $this->render('Admin/image/list.html.twig');
     }
 
-    #[Route('/create', name: 'admin_app_image_create', methods: ['GET', 'POST'])]
-    public function createAction(Request $request, CategoryRepository $categoryRepository, PortalRepository $portalRepository): Response
-    {
-        $image = new Image();
-
-        $categoryId = $request->query->getInt('category');
-        if (0 !== $categoryId) {
-            $category = $categoryRepository->find($categoryId);
-            if ($category) {
-                $image->addCategory($category);
-            }
-        }
-
-        $portalId = $request->query->getInt('portal');
-        if (0 !== $portalId) {
-            $portal = $portalRepository->find($portalId);
-            if ($portal) {
-                $image->addPortal($portal);
-
-                foreach ($portal->getCategories() as $category) {
-                    $image->addCategory($category);
-                }
-            }
-        }
-
-        $form = $this->createForm(ImageType::class, $image);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $image->setUpdatedAt(new \DateTime());
-            $this->imageRepository->add($image, true);
-            $this->addFlash('success', "L'image ".$image->getTitle().' a bien été créée.');
-
-            return $this->redirectTo($request, $image->getId());
-        }
-
-        return $this->render('Admin/image/create.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/{id}/edit', name: 'admin_app_image_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}', name: 'admin_app_image_edit', methods: ['GET', 'POST'])]
     public function editAction(Request $request, Image $image): Response
     {
         $form = $this->createForm(ImageType::class, $image);
@@ -88,7 +47,7 @@ final class AdminImageController extends AbstractAdminController
             $this->imageRepository->add($image, true);
             $this->addFlash('success', "Les informations de l'image ".$image->getTitle().' ont bien été modifiées.');
 
-            return $this->redirectTo($request, $image->getId());
+            return $this->redirectToRoute('admin_app_image_edit', ['id' => $image->getId()]);
         }
 
         return $this->render('Admin/image/edit.html.twig', [

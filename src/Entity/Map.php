@@ -17,19 +17,19 @@ class Map
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length(min: 3, max: 255)]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
-    #[Groups(['index-media'])]
+    #[Groups(['media:index'])]
     private ?string $slug = null;
 
     #[ORM\Column(length: 2500, nullable: true)]

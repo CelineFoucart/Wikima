@@ -14,14 +14,19 @@
                 </button>
             </div>
         </div>
-        <upload-modal v-if="openUploadModal" @on-append="onAppend" @on-close="openUploadModal = false" />
+        <upload-modal 
+            v-if="openUploadModal"
+            :portal="portalId" 
+            :category="categoryId"
+            @on-append="onAppend" 
+            @on-close="openUploadModal = false"
+        />
     </header>
 </template>
 
 <script>
 import { mapStores } from "pinia";
 import { useMediaStore } from '@store/media.js';
-import { createToastify } from '@functions/toastify.js';
 import UploadModal from '@components/image/fragments/UploadModal.vue';
 
 export default {
@@ -35,7 +40,9 @@ export default {
 
     data() {
         return {
-            openUploadModal: false
+            openUploadModal: false,
+            categoryId: null,
+            portalId: null,
         }
     },
 
@@ -43,7 +50,33 @@ export default {
         ...mapStores(useMediaStore),
     },
 
+    mounted () {
+        const status = this.getParamsFromUrl();
+        if (status) {
+            this.openUploadModal = true;
+        }
+    },
+
     methods: {
+        getParamsFromUrl() {
+            const url = new URL(window.location.href);
+            let openModal = false;
+            if (url.searchParams.has('category') && url.searchParams.get('category') !== null) {
+                this.categoryId = parseInt(url.searchParams.get('category'));
+                url.searchParams.delete('category');
+            } else if (url.searchParams.has('portal') && url.searchParams.get('portal') !== null) {
+                this.portalId = parseInt(url.searchParams.get('portal'));
+                url.searchParams.delete('portal');
+            } else if (url.searchParams.has('create')) {
+                openModal = true;
+                url.searchParams.delete('create');
+            }
+
+            window.history.pushState({}, document.title, url);
+
+            return this.portalId !== null || this.categoryId !== null || openModal === true;
+        },
+
         async onAppend() {
             this.openUploadModal = false;
             this.$emit('on-refresh');
