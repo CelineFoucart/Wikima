@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 #[ORM\Entity(repositoryClass: TimelineRepository::class)]
 #[UniqueEntity('slug')]
@@ -70,7 +71,6 @@ class Timeline
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'previousReferences')]
     #[ORM\JoinColumn(onDelete:"SET NULL")]
-    #[Groups(['timeline:show'])]
     private ?self $previous = null;
 
     #[ORM\OneToMany(mappedBy: 'previous', targetEntity: self::class)]
@@ -78,7 +78,6 @@ class Timeline
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'nextReferences')]
     #[ORM\JoinColumn(onDelete:"SET NULL")]
-    #[Groups(['timeline:show'])]
     private ?self $next = null;
 
     #[ORM\OneToMany(mappedBy: 'next', targetEntity: self::class)]
@@ -395,5 +394,33 @@ class Timeline
         }
 
         return $this;
+    }
+
+    #[Groups(['timeline:show'])]
+    #[SerializedName('next')]
+    public function getNextAsArray(): ?array
+    {
+        if ($this->getNext() === null) {
+            return null;
+        }
+
+        return [
+            'id' => $this->getNext()->getId(),
+            'title' => $this->getNext()->getTitle(),
+        ];
+    }
+
+    #[Groups(['timeline:show'])]
+    #[SerializedName('previous')]
+    public function getNPreviousAsArray(): ?array
+    {
+        if ($this->getPrevious() === null) {
+            return null;
+        }
+
+        return [
+            'id' => $this->getPrevious()->getId(),
+            'title' => $this->getPrevious()->getTitle(),
+        ];
     }
 }
