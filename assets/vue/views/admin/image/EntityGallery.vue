@@ -51,7 +51,7 @@ import AppGalleryModal from '@components/image/AppGalleryModal.vue';
 import UploadModal from '@components/image/fragments/UploadModal.vue';
 import Loading from '@components/fragments/Loading.vue';
 import MediaCard from '@components/image/fragments/MediaCard.vue';
-import FsLightbox from "fslightbox-vue/v3";
+import FsLightbox from "fslightbox-vue";
 import { createToastify } from '@functions/toastify.js';
 import { useEntityGalleryStore } from '@store/entityGallery.js';
 import { mapStores } from "pinia";

@@ -34,7 +34,7 @@ import SearchForm from '@components/image/fragments/SearchForm.vue';
 import MediaCard from '@components/image/fragments/MediaCard.vue';
 import PaginationMedia from '@components/image/fragments/PaginationMedia.vue';
 import Loading from '@components/fragments/Loading.vue';
-import FsLightbox from "fslightbox-vue/v3";
+import FsLightbox from "fslightbox-vue";
 import { createToastify } from '@functions/toastify.js';
 
 export default {
