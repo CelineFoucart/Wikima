@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{ timeline.title }}
-	| Chronologie
+	{{ timeline.title }} | Chronologie
 {% endblock %}
 
 {% block body %}
@@ -144,18 +143,5 @@
 {% endblock %}
 
 {% block javascripts %}
-	<script>
-		document.addEventListener("DOMContentLoaded", function(){
-			const myOffcanvas = document.getElementById('offcanvasList');
-			const bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
-
-			document.querySelectorAll('.offcanvas-btn').forEach(element => {
-				element.addEventListener('click',function (e){
-					e.preventDefault();
-					e.stopPropagation();
-					bsOffcanvas.toggle();
-				});
-			});
-		});
-	</script>
+{{ encore_entry_script_tags('timeline_show') }}
 {% endblock %}

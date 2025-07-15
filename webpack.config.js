@@ -28,6 +28,7 @@ Encore
     .addEntry('sortable', './assets/template/sortable/sortableAction.js')
     .addEntry('coloris', './assets/template/coloris/coloris.js')
     .addEntry('editor', './assets/template/editor/editor.js')
+    .addEntry('timeline_show', './assets/template/timeline/show.js')
     .addEntry('vue', './assets/vue/app.js')
 
     // Alias

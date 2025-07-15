@@ -412,7 +412,7 @@ class Timeline
 
     #[Groups(['timeline:show'])]
     #[SerializedName('previous')]
-    public function getNPreviousAsArray(): ?array
+    public function getPreviousAsArray(): ?array
     {
         if ($this->getPrevious() === null) {
             return null;
