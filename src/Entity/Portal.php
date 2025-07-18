@@ -21,19 +21,19 @@ class Portal
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['timeline:show', 'media:index', 'portal:index'])]
+    #[Groups(['timeline:show', 'media:index', 'portal:index', 'index'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Length( min: 3, max: 255)]
-    #[Groups(['timeline:show', 'media:index', 'portal:index'])]
+    #[Groups(['timeline:show', 'media:index', 'portal:index', 'index'])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
     #[Assert\Regex('/^[a-z0-9]+(?:-[a-z0-9]+)*$/')]
-    #[Groups(['timeline:show', 'media:index', 'portal:index'])]
+    #[Groups(['timeline:show', 'media:index', 'portal:index', 'index'])]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 255)]

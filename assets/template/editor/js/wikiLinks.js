@@ -1,5 +1,6 @@
 import { Modal } from "bootstrap";
 
+export const HOST = location.origin;
 export let modalElement = null;
 export let modal  = null;
 
@@ -186,7 +187,7 @@ export function enableWikiLinksPlugin(textareaId, editor) {
         paging: true,
         info: false,
         autoWidth: false,
-        ajax: '/api/admin/articles',
+        ajax: '/api/article',
         columns: [
             { data: "title", name: "a.title" },
             {

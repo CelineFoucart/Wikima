@@ -4,9 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Image;
 use App\Entity\Article;
-use PhpOffice\PhpWord\Media;
 use App\Security\Voter\VoterHelper;
-use App\Repository\PortalRepository;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;

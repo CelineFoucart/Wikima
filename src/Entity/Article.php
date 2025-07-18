@@ -54,9 +54,7 @@ class Article
 
     #[ORM\Column(type: 'text')]
     #[Assert\NotBlank]
-    #[Assert\Length(
-        min: 20
-    )]
+    #[Assert\Length(min: 20)]
     private $content;
 
     #[ORM\Column(type: 'datetime_immutable')]
