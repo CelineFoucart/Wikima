@@ -4,7 +4,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('assets/admin/map.css') }}">
+    {{ encore_entry_link_tags('map') }}
 {% endblock %}
 
 {% block body %}
@@ -109,7 +109,7 @@
                 <img src="{{ vich_uploader_asset(map.image) }}" class="img-thumbnail" alt="{{ map.image.title }}">
                 {% for position in map.mapPositions %}
                     <div class="marker {{ position.marker ? position.marker : 'fas fa-map-marker' }}"
-                        data-bs-toggle="popover" data-bs-title="{{ position.title }}" 
+                        data-bs-toggle="tooltip" data-bs-title="{{ position.title }}" 
                         data-bs-content="{{ position.description ? position.description : 'Aucune description' }}"
                         style="color: {{ position.color ? position.color : '#000' }}; top: {{ position.points[0] }}%; left: {{ position.points[1] }}%">
                     </div>
@@ -120,11 +120,4 @@
             </p>
         {% endif %}
     </section>
-{% endblock %}
-
-{% block javascripts %}
-    <script>
-        const popoverTriggerList = document.querySelectorAll('[data-bs-toggle="popover"]')
-        const popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.Popover(popoverTriggerEl))
-    </script>
 {% endblock %}

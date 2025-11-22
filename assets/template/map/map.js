@@ -414,4 +414,4 @@ window.addEventListener('load', () => {
 
     dragElement(document.getElementById("showModal"));
     dragElement(document.getElementById("editModal"));
-})
+});
