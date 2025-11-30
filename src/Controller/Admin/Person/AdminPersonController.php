@@ -167,7 +167,7 @@ final class AdminPersonController extends AbstractAdminController
             ->setPortals($person->getPortals())
             ->setCategories($person->getCategories())
             ->setTitle(trim($person->getFirstname() . ' ' . $person->getLastname()))
-            ->setDescription($person->getDescription())
+            ->setDescription($person->getDescription() ? $person->getDescription() : '')
             ->setKeywords(join(', ', $keywords))
             ->setSlug($person->getSlug())
         ;
